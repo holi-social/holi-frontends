@@ -1,4 +1,4 @@
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import type { UnistylesTheme } from 'react-native-unistyles'
 
 export const buttonBaseStyle = {

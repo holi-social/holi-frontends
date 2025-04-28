@@ -8,7 +8,7 @@ import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { SelectorCard } from 'holi-bricks/components/selectors'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import type { ContentValue } from '@holi/core/screens/onboarding/types'
 

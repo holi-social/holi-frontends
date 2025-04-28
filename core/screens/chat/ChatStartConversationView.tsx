@@ -21,7 +21,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 
 const FIND_USER_BY_NAME_LIMIT = 30

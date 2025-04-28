@@ -6,7 +6,7 @@ import { ArrowRight } from '@holi/icons/src/generated'
 import { useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
 

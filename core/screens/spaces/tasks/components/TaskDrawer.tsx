@@ -13,7 +13,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { mono } from 'holi-bricks/tokens'
+import { mono } from 'holi-bricks/foundations'
 
 export type TaskDrawerProps = {
   taskId?: string

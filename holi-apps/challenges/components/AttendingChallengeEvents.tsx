@@ -9,7 +9,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import AttendingChallengeEventsCard from '@holi-apps/challenges/components/AttendingChallengeEventsCard'
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
 const API_URL = apiUrl('/api/v1/events/userAttendingEvents')

@@ -11,7 +11,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius } from 'holi-bricks/tokens'
+import { BorderRadius } from 'holi-bricks/foundations'
 import { createStyleSheet } from 'holi-bricks/utils'
 
 interface GetStartedViewProps {

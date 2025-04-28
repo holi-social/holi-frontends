@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { SEARCH_HIT_TYPES_IN_ORDER } from '@holi/core/screens/search/types'
 import type { TypesenseDocumentType } from '@holi/core/typesense/types'
 

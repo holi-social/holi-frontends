@@ -5,7 +5,7 @@ import { Text } from 'holi-bricks/components/text'
 import { View } from 'react-native'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ExternalLink } from '@holi/icons/src/generated'
 

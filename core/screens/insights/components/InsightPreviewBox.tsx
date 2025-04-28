@@ -20,7 +20,7 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 interface Props {
   insight: Insight

@@ -7,7 +7,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 type ImagePreviewProps = {
   style?: ViewStyle

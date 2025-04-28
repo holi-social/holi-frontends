@@ -13,7 +13,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { Image } from 'holi-bricks/components/image'
 
 export interface AttendingChallengeEventsCardProps {

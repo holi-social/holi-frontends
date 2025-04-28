@@ -11,7 +11,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { VideoFilled, Lock } from '@holi/icons/src/generated'
 import { Text } from 'holi-bricks/components/text'
 import { Image } from 'holi-bricks/components/image'
-import { mono } from 'holi-bricks/tokens'
+import { mono } from 'holi-bricks/foundations'
 import ChallengeImageLoader from './ChallengeImageLoader'
 
 interface CarouselCardImageProps {

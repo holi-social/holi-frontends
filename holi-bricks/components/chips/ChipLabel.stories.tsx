@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Colors } from 'holi-bricks/tokens'
+import { Colors } from 'holi-bricks/foundations'
 import React from 'react'
 
 import { Cloud, Heart } from '@holi/icons/src/generated'

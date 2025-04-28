@@ -9,7 +9,7 @@ import { useRef, useState } from 'react'
 import { useStyles } from 'holi-bricks/hooks'
 import { useTranslation } from 'react-i18next'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 
 export interface CompactCardImageProps {

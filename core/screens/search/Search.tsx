@@ -16,7 +16,7 @@ import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hook
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSearchFilter } from '@holi/core/screens/search/hooks/useSearchFilter'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export type SearchParams = {
   query?: string

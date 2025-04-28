@@ -16,7 +16,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 const Favorites = () => {
   const { t } = useTranslation()

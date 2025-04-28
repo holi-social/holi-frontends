@@ -8,7 +8,7 @@ import { AddCircleLine, ArrowDownS, ArrowUpS, MapPin2, UserSmile } from '@holi/i
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { ProgressSteps } from '@holi/core/screens/userprofile/components/ProgressSteps'
 import GradientBackground from '@holi/core/components/GradientBackground'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'

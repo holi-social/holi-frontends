@@ -15,7 +15,7 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import type { User } from '@holi/core/domain/shared/types'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius } from 'holi-bricks/tokens'
+import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
 
 interface Props {

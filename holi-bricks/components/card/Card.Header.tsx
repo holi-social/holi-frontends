@@ -3,7 +3,7 @@ import { Text } from 'holi-bricks/components/text'
 import { HoliIcon, type HoliIconProps } from '@holi/icons/src/HoliIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export interface CardHeaderProps {
   title: string

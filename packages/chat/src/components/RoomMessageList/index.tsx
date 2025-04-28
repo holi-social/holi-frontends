@@ -11,7 +11,7 @@ import RoomMessage from './RoomMessage'
 import type { RoomMessageListProps } from './types'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
   const groupedMessages: Record<string, MessageItem[]> = {}

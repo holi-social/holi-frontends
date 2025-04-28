@@ -1,7 +1,7 @@
 import type { ScrollToggleHeightThreshold } from '@holi/core/components/Screen/useAutoPreset'
 import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
+import type { SpacingSize } from 'holi-bricks/foundations'
 import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
-import type { SpacingSize } from 'holi-bricks/tokens'
 import type { ReactNode } from 'react'
 import type { KeyboardAvoidingViewProps, ScrollViewProps, StatusBarProps, StyleProp, ViewStyle } from 'react-native'
 import type { Edges } from 'react-native-safe-area-context'

@@ -11,7 +11,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
 

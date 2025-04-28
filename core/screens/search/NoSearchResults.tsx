@@ -5,7 +5,7 @@ import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 
 interface NoSearchResultsProps {

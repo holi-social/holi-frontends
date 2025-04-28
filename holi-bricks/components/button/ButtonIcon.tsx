@@ -1,5 +1,5 @@
 import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet } from 'holi-bricks/utils'
 import type React from 'react'
 import { useCallback, useState } from 'react'

@@ -4,7 +4,7 @@ import { View } from 'react-native'
 
 import { Text, type TextSize } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet } from 'holi-bricks/utils'
 import type { UnistylesTheme } from 'react-native-unistyles'
 

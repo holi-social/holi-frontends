@@ -17,7 +17,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 const isWeb = Platform.OS === 'web'
 

@@ -16,7 +16,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { ButtonIcon } from 'holi-bricks/components/button/ButtonIcon'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useTranslation } from 'react-i18next'
 import {

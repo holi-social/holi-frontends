@@ -2,8 +2,8 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundat
 
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
-import type { Color } from 'holi-bricks/tokens'
-import { Spacing } from 'holi-bricks/tokens'
+import type { Color } from 'holi-bricks/foundations'
+import { Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { type GestureResponderEvent, Pressable } from 'react-native'

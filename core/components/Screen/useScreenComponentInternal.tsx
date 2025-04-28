@@ -6,7 +6,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 
 import tinycolor from 'tinycolor2'
-import { mono } from 'holi-bricks/tokens'
+import { mono } from 'holi-bricks/foundations'
 import GradientBackground from '@holi/core/components/GradientBackground'
 
 type UseScreenComponentInternalArgs = {

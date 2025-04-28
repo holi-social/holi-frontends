@@ -7,7 +7,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import type DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export type HoliLexicalMentionsDropdownProps = {
   optionsList: DropdownOption[]

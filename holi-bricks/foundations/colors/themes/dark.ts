@@ -2,7 +2,7 @@ import { darkAvatarTheme } from 'holi-bricks/components/avatar/avatar.theme'
 import { darkButtonTheme } from 'holi-bricks/components/button/button.theme'
 import { darkChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { darkSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
-import { blue, green, yellow, purple, mono, orange, red, transparent } from 'holi-bricks/tokens'
+import { blue, green, mono, orange, purple, red, transparent, yellow } from 'holi-bricks/foundations'
 
 export const darkTheme = {
   colors: {
