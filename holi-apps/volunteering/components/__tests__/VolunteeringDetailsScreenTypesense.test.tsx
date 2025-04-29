@@ -11,6 +11,7 @@ import { TrackEngagementViewDocument } from '@holi/api/graphql/graphql-codegen'
 import { useVolunteeringDetailsDataTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
+import * as environment from '@holi/core/helpers/environment'
 
 const engagementId = 'test-id'
 
@@ -72,6 +73,9 @@ jest.useFakeTimers()
 
 describe('VolunteeringDetailsScreenTypesense', () => {
   beforeEach(() => {
+    Object.defineProperty(environment, 'isProduction', {
+      get: () => false,
+    })
     mockTrackEngagementView.mockReturnValue({
       data: {
         appVolunteering_trackEngagementView: {
@@ -153,7 +157,29 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     expect(screen.getByText(document.description_de!)).toBeVisible()
   })
 
-  it('tracks views', async () => {
+  it('does not track views if not production', async () => {
+    const document = engagementTypesenseDocument(engagementId)
+    const data = transformTypesenseDocument(t, 'en', document)
+    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+      isLoading: false,
+      document: data,
+    })
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+      </MockedProvider>
+    )
+    await act(jest.runAllTimersAsync)
+
+    expect(mockTrackEngagementView).not.toHaveBeenCalled()
+  })
+
+  it('tracks views on production', async () => {
+    Object.defineProperty(environment, 'isProduction', {
+      get: () => true,
+    })
+
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'en', document)
     mockUseVolunteeringDetailsDataTypesense.mockReturnValue({

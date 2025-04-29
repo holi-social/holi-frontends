@@ -17,6 +17,7 @@ import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useTrackEngagementViewMutation } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
 import { VolunteeringSimilarRecosFooter } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosFooter'
+import { isProduction } from '@holi/core/helpers/environment'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
   const { t } = useTranslation()
@@ -34,7 +35,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   })
 
   useEffect(() => {
-    if (document && hasTrackedRef.current === false) {
+    if (isProduction && document && hasTrackedRef.current === false) {
       trackEngagementView({ variables: { id: engagementId } })
       hasTrackedRef.current = true
     }
