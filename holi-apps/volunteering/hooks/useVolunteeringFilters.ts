@@ -1,10 +1,10 @@
 import type { ApolloError } from '@apollo/client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import createParamHooks, {
   arrayParamConfig,
   singleParamConfig,
@@ -26,40 +26,6 @@ interface FilterHook {
 
 const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilterParams>()
 
-const useGeolocation = (locationId?: string) => {
-  const { displayError } = useErrorHandling()
-  const { t } = useTranslation()
-  const { geolocationDetails, geolocationError, loadingGeolocation } = useGeolocationDetails(locationId)
-
-  const geolocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
-    if (!locationId) {
-      return undefined
-    }
-    return (
-      geolocationDetails && {
-        ...geolocationDetails,
-        label: geolocationDetails.name,
-      }
-    )
-  }, [geolocationDetails, locationId])
-
-  useEffect(() => {
-    if (geolocationError) {
-      displayError(geolocationError, 'Failed to load geolocation details', {
-        displayMessage: t('volunteering:listing.error'),
-        location: 'VolunteeringAppHome.useEffect',
-        locationId,
-      })
-    }
-  }, [displayError, geolocationError, locationId, t])
-
-  return {
-    geolocationSelection,
-    geolocationError,
-    loadingGeolocation: loadingGeolocation || (!!locationId && !(geolocationDetails || geolocationError)),
-  }
-}
-
 const useDiscoveryV1Filters = (): FilterHook => {
   const [topicParams] = useParam('topic', arrayParamConfig)
   const [skillParams] = useParam('skill', arrayParamConfig)
@@ -67,9 +33,22 @@ const useDiscoveryV1Filters = (): FilterHook => {
   const skills = slugsToSkillsV2(skillParams)
   const [geolocationId] = useParam('geolocationId', singleParamConfig)
   const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const { geolocationSelection, ...geolocationProps } = useGeolocation(geolocationId)
 
-  const [filters, setFilters] = useState<VolunteeringFilters>({ location: geolocationSelection, topics, skills })
+  const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
+  const geolocationProps = useGeolocationDetailsWithSuggestion(geolocationId, (error) =>
+    displayError(error, 'Failed to load geolocation details', {
+      displayMessage: t('volunteering:listing.error'),
+      location: 'useDiscoveryV1Filters.useGeolocationDetailsWithSuggestion',
+      geolocationId,
+    })
+  )
+
+  const [filters, setFilters] = useState<VolunteeringFilters>({
+    location: geolocationProps.geolocationSuggestion,
+    topics,
+    skills,
+  })
   const isFiltering = !!(filters.location || filters.topics?.length || filters.skills?.length)
 
   const onFilterChange = useCallback(
