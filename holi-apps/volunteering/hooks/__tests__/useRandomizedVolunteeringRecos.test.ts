@@ -1,8 +1,8 @@
+import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useVolunteeringRecosLegacy } from '@holi-apps/volunteering/hooks/useVolunteeringRecosLegacy'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
-import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { renderHook } from '@testing-library/react-hooks'
 
@@ -26,18 +26,9 @@ jest.mock('@holi-apps/volunteering/hooks/useRandomizedRecos', () => ({
   useRandomizedRecos: jest.fn(),
 }))
 
-const createHits = (length: number): VolunteeringEngagement[] =>
-  Array.from({ length }, (_, i) => ({
-    id: i.toString(),
-    title: `Engagement ${i}`,
-    description: `Description ${i}`,
-    url: `https://example.com/${i}`,
-    source: 'Aktion Mensch',
-  }))
-
 describe('useRandomizedVolunteeringRecos', () => {
   const pageSize = 12
-  const manyHits = createHits(pageSize * 3)
+  const manyHits = makeEngagements(pageSize * 3)
   const typesenseHits = manyHits.slice(0, pageSize)
   const graphqlHits = manyHits.slice(pageSize, pageSize * 2)
   const shuffledHits = manyHits.slice(pageSize * 2, pageSize * 3)

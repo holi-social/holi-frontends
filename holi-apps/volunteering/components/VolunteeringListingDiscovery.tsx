@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-import { Pagination } from '@holi/core/pagination/Pagination'
+import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
 import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
@@ -10,13 +10,13 @@ import {
   ENGAGEMENT_PAGE_SIZE,
   VolunteeringEngagementList,
 } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
-import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import { filteredVolunteeringEngagementsQuery, volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
-import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement, VolunteeringFilters, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { VolunteeringTypesenseRecommendations } from '@holi-apps/volunteering/components/VolunteeringTypesenseRecommendations'
+import { FilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagementsTypesense'
 
 type VolunteeringListingProps = {
   filters: VolunteeringFilters
@@ -24,6 +24,37 @@ type VolunteeringListingProps = {
   clearFilters?: () => void
   loadingFilters: boolean
   loadingFiltersFailed?: boolean
+}
+
+interface VolunteeringEngagementListLegacyProps {
+  isFiltering?: boolean
+  loadingFailed?: boolean
+  clearFilters?: () => void
+  loadingFilters?: boolean
+}
+
+const VolunteeringEngagementListLegacy = ({
+  isFiltering,
+  loadingFailed,
+  clearFilters,
+  loadingFilters,
+}: VolunteeringEngagementListLegacyProps) => {
+  const {
+    loading: engagementsLoading,
+    data: engagements,
+    totalResults,
+  } = usePaginationContext<VolunteeringEngagement | VolunteeringReco>()
+
+  return (
+    <VolunteeringEngagementList
+      isFiltering={isFiltering}
+      loadingFailed={loadingFailed}
+      clearFilters={clearFilters}
+      isLoading={engagementsLoading || loadingFilters}
+      engagements={engagements}
+      totalResults={totalResults}
+    />
+  )
 }
 
 const VolunteeringRecommendations = () => {
@@ -43,11 +74,7 @@ const VolunteeringRecommendations = () => {
       loadMoreOnScroll
       scrollPlaceholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
     >
-      {loadingQueryVariables ? (
-        <VolunteeringListingSkeleton isFiltering={false} amount={ENGAGEMENT_PAGE_SIZE} />
-      ) : (
-        <VolunteeringEngagementList />
-      )}
+      <VolunteeringEngagementListLegacy loadingFilters={loadingQueryVariables} />
     </Pagination>
   )
 }
@@ -77,15 +104,12 @@ const FilteredVolunteeringEngagements = ({
       loadMoreOnScroll
       scrollPlaceholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
     >
-      {loadingFilters ? (
-        <VolunteeringListingSkeleton isFiltering={true} amount={ENGAGEMENT_PAGE_SIZE} />
-      ) : (
-        <VolunteeringEngagementList
-          clearFilters={clearFilters}
-          loadingFailed={loadingFiltersFailed}
-          isFiltering={true}
-        />
-      )}
+      <VolunteeringEngagementListLegacy
+        clearFilters={clearFilters}
+        loadingFailed={loadingFiltersFailed}
+        isFiltering={true}
+        loadingFilters={loadingFilters}
+      />
     </Pagination>
   )
 }
@@ -93,7 +117,11 @@ const FilteredVolunteeringEngagements = ({
 const VolunteeringListingDiscovery = (props: VolunteeringListingProps) => {
   const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
   if (props.isFiltering) {
-    return <FilteredVolunteeringEngagements {...props} />
+    return useTypesense ? (
+      <FilteredVolunteeringEngagementsTypesense {...props} />
+    ) : (
+      <FilteredVolunteeringEngagements {...props} />
+    )
   }
   return useTypesense ? <VolunteeringTypesenseRecommendations /> : <VolunteeringRecommendations />
 }

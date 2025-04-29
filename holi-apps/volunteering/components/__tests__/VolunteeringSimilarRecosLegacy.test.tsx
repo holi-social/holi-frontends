@@ -2,13 +2,12 @@ import '@holi/core/components/Screen/mock'
 import { act, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { makeEngagement } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import {
   SimilarVolunteeringSliderDocument,
   type SimilarVolunteeringSliderQuery,
   type SimilarVolunteeringSliderQueryVariables,
 } from '@holi/api/graphql/graphql-codegen'
-import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 import { VolunteeringSimilarRecosLegacy } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosLegacy'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
@@ -18,9 +17,6 @@ jest.mock('@holi/core/refreshing/hooks/useOnRefresh', () => ({
 }))
 
 const mockEngagementId = '123'
-
-const allTopics = ALL_TOPICS.slice(0, 3)
-const allSkills = ALL_SKILLS.slice(0, 2)
 
 const mockNoSimilarRecoQueries: MockedResponse<
   SimilarVolunteeringSliderQuery,
@@ -44,13 +40,9 @@ const mockNoSimilarRecoQueries: MockedResponse<
   },
 }
 
-const mockSimilarRecoQueriesEngagements = [
-  makeEngagement(allTopics, allSkills),
-  makeEngagement(allTopics, allSkills),
-  makeEngagement(allTopics, allSkills),
-  makeEngagement(allTopics, allSkills),
-  makeEngagement(allTopics, allSkills),
-] as SimilarVolunteeringSliderQuery['appVolunteering_similarRecommendations']['data']
+const mockSimilarRecoQueriesEngagements = makeEngagements(
+  5
+) as SimilarVolunteeringSliderQuery['appVolunteering_similarRecommendations']['data']
 
 const mockSimilarRecoQueries: MockedResponse<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables> =
   {

@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -13,7 +12,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
@@ -22,6 +20,8 @@ import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/Volu
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -29,41 +29,36 @@ interface VolunteeringEngagementListProps {
   isFiltering?: boolean
   loadingFailed?: boolean
   clearFilters?: () => void
+  engagements: readonly (VolunteeringEngagement | VolunteeringReco)[]
+  isLoading?: boolean
+  totalResults?: number
+  footerComponent?: React.ReactNode
 }
 
 export const VolunteeringEngagementList = ({
   loadingFailed = false,
   isFiltering = false,
   clearFilters,
+  engagements,
+  isLoading = false,
+  totalResults = 0,
+  footerComponent,
 }: VolunteeringEngagementListProps) => {
-  const {
-    loading: engagementsLoading,
-    data: engagements,
-    totalResults,
-  } = usePaginationContext<VolunteeringEngagement | VolunteeringReco>()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   const { imageWidth } = useWindowDimensionsWithImageScaling()
 
   const noResults = loadingFailed || engagements.length === 0
 
-  if (engagementsLoading) {
+  if (isLoading && !engagements.length) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
   return (
     <View style={[mixins.container, styles.list]}>
-      {engagements.length > 0 && (
-        <VolunteeringListingHeader
-          isFiltering={isFiltering}
-          filterSubtitle={t('volunteering:filter.result', {
-            count: totalResults,
-          })}
-        />
-      )}
+      {engagements.length > 0 && <VolunteeringListingHeader isFiltering={isFiltering} totalResults={totalResults} />}
       <HoliBox padding={[24, 0, 24, 0]}>
         {noResults && (
           <View style={mixins.container}>
@@ -93,10 +88,10 @@ export const VolunteeringEngagementList = ({
                 <HoliGridCell key={engagement.id}>
                   <HoliLinkTracked
                     href={`/volunteering/${engagement.id}`}
-                    label={engagement?.title as string}
+                    label={engagement?.title ?? ''}
                     trackingEvent={TrackingEvent.RecommendationPressed(
                       'volunteering_opportunity',
-                      engagement.id as string,
+                      engagement.id ?? '',
                       index
                     )}
                   >
@@ -116,20 +111,20 @@ export const VolunteeringEngagementList = ({
           </HoliGridWrapper>
         </View>
       </HoliBox>
+      {footerComponent}
     </View>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    list: {
-      paddingTop: dimensions.topBarHeight,
-      backgroundColor: theme.colors.background20,
-    },
-    headingRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'flex-end',
-      paddingTop: 16,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  list: {
+    paddingTop: dimensions.topBarHeight,
+    backgroundColor: theme.colors.bg.main,
+  },
+  headingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingTop: 16,
+  },
+}))

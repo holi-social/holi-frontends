@@ -38,12 +38,12 @@ export const useTypesensePaginationQuery = ({
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   // Full result in one state to control rerenderings
   const [state, setState] = useState<TypesensePaginationState>({
-    isLoading: false,
+    isLoading: !skip,
     data: [],
     totalResults: 0,
     currentPage: INITIAL_PAGE,
     canFetchMore: false,
-    parameters,
+    parameters: {},
   })
   const { client } = useTypesenseClient()
 

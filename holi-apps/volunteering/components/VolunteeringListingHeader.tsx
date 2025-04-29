@@ -13,9 +13,9 @@ import { createStyleSheet } from 'holi-bricks/utils'
 
 interface VolunteeringListingHeaderProps {
   isFiltering?: boolean
-  filterSubtitle: string
+  totalResults?: number
 }
-export const VolunteeringListingHeader = ({ isFiltering, filterSubtitle }: VolunteeringListingHeaderProps) => {
+export const VolunteeringListingHeader = ({ isFiltering, totalResults = 0 }: VolunteeringListingHeaderProps) => {
   const { t } = useTranslation()
   const subtitle = useRecosSubtitle()
   const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
@@ -37,12 +37,15 @@ export const VolunteeringListingHeader = ({ isFiltering, filterSubtitle }: Volun
         items={allPartners}
         shown={partnerModalVisible}
         onDismiss={closeModal}
+        testID={'volunteering-partner-modal'}
         i18nPrefix={'volunteering:listing.partnerModal'}
       />
       {isFiltering ? (
         <View style={styles.headingRow}>
           <Text size="md" color="support">
-            {filterSubtitle}
+            {t('volunteering:filter.result', {
+              count: totalResults,
+            })}
           </Text>
         </View>
       ) : (

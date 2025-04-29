@@ -1,17 +1,19 @@
 import { act, renderHook } from '@testing-library/react-native'
+import type { ApolloError } from '@apollo/client'
 
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
+import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
-const mockUseGeolocationDetails = jest.fn()
+const mockUseGeolocationDetailsWithSuggestion = jest.mocked(useGeolocationDetailsWithSuggestion)
 jest.mock('@holi/core/geolocation/hooks/useGeolocationDetails', () => ({
-  useGeolocationDetails: (geolocationId?: string) => mockUseGeolocationDetails(geolocationId),
+  useGeolocationDetailsWithSuggestion: jest.fn(),
 }))
 
 describe('useVolunteeringFilters', () => {
@@ -19,7 +21,9 @@ describe('useVolunteeringFilters', () => {
 
   describe('DiscoveryV1 filters', () => {
     beforeEach(() => {
-      mockUseGeolocationDetails.mockReturnValue({})
+      mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
+        loadingGeolocation: false,
+      })
       mockParameters({})
     })
     it('should update filter state on submit', () => {
@@ -93,43 +97,55 @@ describe('useVolunteeringFilters', () => {
       mockParameters({ geolocationId: 'locationId' })
       renderHook(() => useVolunteeringFilters(onSubmit))
 
-      expect(mockUseGeolocationDetails).toHaveBeenCalledWith('locationId')
+      expect(mockUseGeolocationDetailsWithSuggestion).toHaveBeenCalledWith('locationId', expect.any(Function))
     })
     it('should add geolocation selection to filters', () => {
       mockParameters({ geolocationId: 'locationId' })
-      mockUseGeolocationDetails.mockReturnValue({
-        geolocationDetails: {
+      const geolocationDetails = {
+        id: 'locationId',
+        name: 'Hamburg, Germany',
+        geolocation: {
+          place_id: '',
+          properties: {
+            formatted: '',
+            lat: 0,
+            lon: 0,
+          },
+          geometry: {
+            type: '',
+            coordinates: [],
+          },
+        },
+      }
+      mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
+        loadingGeolocation: false,
+        geolocationDetails,
+        geolocationSuggestion: {
           id: 'locationId',
-          name: 'Hamburg, Germany',
+          label: 'Hamburg, Germany',
         },
       })
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
       expect(result.current.filters.location).toEqual({
         id: 'locationId',
-        name: 'Hamburg, Germany',
         label: 'Hamburg, Germany',
       })
     })
     it('should expose geolocation loading state', () => {
       mockParameters({ geolocationId: 'locationId' })
-      mockUseGeolocationDetails.mockReturnValue({
+      mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
         loadingGeolocation: true,
       })
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
       expect(result.current.loadingGeolocation).toBeTruthy()
     })
-    it('should expose geolocation loading state if location id is given but no details were fetched yet', () => {
-      mockParameters({ geolocationId: 'locationId' })
-      const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
-
-      expect(result.current.loadingGeolocation).toBeTruthy()
-    })
     it('should expose geolocation error', () => {
-      const testError = new Error('Test')
+      const testError = new Error('Test') as ApolloError
       mockParameters({ geolocationId: 'locationId' })
-      mockUseGeolocationDetails.mockReturnValue({
+      mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
+        loadingGeolocation: false,
         geolocationError: testError,
       })
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))

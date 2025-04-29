@@ -107,7 +107,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           style={{ width: '100%', height: '100%', flex: 1 }}
           shown={modalProps.shown}
           onDismiss={modalProps.onDismiss}
-          testID={'goodnews-partner-modal'}
+          testID={'volunteering-partner-modal'}
         >
           <HoliWebView
             theme={theme}

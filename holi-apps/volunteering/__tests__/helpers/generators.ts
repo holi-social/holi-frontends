@@ -1,12 +1,18 @@
 import { faker } from '@faker-js/faker'
-import type { VolunteeringReco } from '@holi-apps/volunteering/types'
-import type { VolunteeringByIdQuery } from '@holi/api/graphql/graphql-codegen'
+import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
-export const makeEngagement = (
-  topics: string[],
-  skills: string[],
-  { location = true, organizer = true }: { location?: boolean; organizer?: boolean } = {}
-): VolunteeringByIdQuery['appVolunteering_engagement'] => {
+export const makeEngagement = ({
+  topics = ALL_TOPICS.slice(0, 3),
+  skills = ALL_SKILLS.slice(0, 2),
+  location = true,
+  organizer = true,
+}: {
+  topics?: string[]
+  skills?: string[]
+  location?: boolean
+  organizer?: boolean
+} = {}): VolunteeringEngagement => {
   return {
     id: faker.string.uuid(),
     title: faker.lorem.sentence(10),
@@ -21,22 +27,26 @@ export const makeEngagement = (
         }
       : undefined,
     location: location ? faker.location.city() : undefined,
-    latitude: location ? faker.location.latitude() : undefined,
-    longitude: location ? faker.location.longitude() : undefined,
     topicsV2: topics,
     skillsV2: skills,
-    __typename: 'AppVolunteering_Engagement',
   }
 }
 
-export const makeReco = (
-  topics: string[],
-  skills: string[],
-  { location = true, organizer = true }: { location?: boolean; organizer?: boolean } = {}
-): VolunteeringReco => ({
-  engagement: {
-    ...makeEngagement(topics, skills, { location, organizer }),
-  },
+export const makeReco = ({
+  topics = ALL_TOPICS.slice(0, 3),
+  skills = ALL_SKILLS.slice(0, 2),
+  location = true,
+  organizer = true,
+}: {
+  topics?: string[]
+  skills?: string[]
+  location?: boolean
+  organizer?: boolean
+} = {}): VolunteeringReco => ({
+  engagement: makeEngagement({ topics, skills, location, organizer }),
   matchedTopicsV2: topics,
   matchedSkillsV2: skills,
 })
+
+export const makeEngagements = (length: number): VolunteeringEngagement[] =>
+  Array.from({ length }, () => makeEngagement({ organizer: false }))
