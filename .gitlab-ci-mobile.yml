@@ -248,12 +248,15 @@ mobile_release_candidate_publish:
     - !reference [.rule_templates, only_on_production_release]
   after_script: |
     if [ $CI_JOB_STATUS == 'success' ]; then
-      curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'"$CI_COMMIT_REF_SLUG"'", "text":"The mobile release candidate \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available for testing via:\n'"$CI_ENVIRONMENT_URL"'"}' "https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER"
-
-      export NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
-      curl -X POST -H "Content-Type: application/json" \
-        --data='{"username": "${CI_COMMIT_REF_SLUG}-notification", "icon_url": "https://placehold.co/72x72/${NOTIFICATION_AVATAR_COLOR}/white?text=$(git describe --tags --abbrev=0|sed "s|release/||")", "text": "The mobile release candidate \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available for testing via:\n'"$CI_ENVIRONMENT_URL"'"}' \
-        $SLACK_RELEASE_STATUS_WEBHOOK || true
+      export SLACK_NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
+      export SLACK_NOTIFICATION_RELEASE_VERSION=$(git describe --tags --abbrev=0|sed "s|release/||")
+      export SLACK_NOTIFICATION_EAS_CHANNEL="https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/$EXPO_PUBLISH_RELEASE_CHANNEL"
+    
+      scripts/notify-slack.sh \
+        --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
+        --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
+        --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
+        --message "📱 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>"
     fi
 
 mobile_release_publish:
@@ -271,12 +274,15 @@ mobile_release_publish:
     - !reference [.rule_templates, manually_on_production_release]
   after_script: |
     if [ $CI_JOB_STATUS == 'success' ]; then
-      curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'"$CI_COMMIT_REF_SLUG"'", "text":"The mobile release \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is published to the branch specific channel. You can find it at https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/\"'"$EXPO_PUBLISH_RELEASE_CHANNEL"'\" ."}' "https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER"
-
-      export NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
-      curl -X POST -H "Content-Type: application/json" \
-        --data='{"username": "${CI_COMMIT_REF_SLUG}-notification", "icon_url": "https://placehold.co/72x72/${NOTIFICATION_AVATAR_COLOR}/white?text=$(git describe --tags --abbrev=0|sed "s|release/||")", "text": "The mobile release \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is published to the branch specific channel. You can find it at https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/\"'"$EXPO_PUBLISH_RELEASE_CHANNEL"'\"."}' \
-        $SLACK_RELEASE_STATUS_WEBHOOK || true
+      export SLACK_NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
+      export SLACK_NOTIFICATION_RELEASE_VERSION=$(git describe --tags --abbrev=0|sed "s|release/||")
+      export SLACK_NOTIFICATION_EAS_CHANNEL="https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/$EXPO_PUBLISH_RELEASE_CHANNEL"
+    
+      scripts/notify-slack.sh \
+        --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
+        --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
+        --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
+        --message "📱 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>"
     fi
 
 mobile_release_build_android:
@@ -332,12 +338,14 @@ mobile_release_submit_android:
   interruptible: false
   after_script: |
     if [ $CI_JOB_STATUS == 'success' ]; then
-      curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The Android app for the release candidate \"'$CI_COMMIT_BRANCH'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the Play Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
-
-      export NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
-      curl -X POST -H "Content-Type: application/json" \
-        --data='{"username": "${CI_COMMIT_REF_SLUG}-notification", "icon_url": "https://placehold.co/72x72/${NOTIFICATION_AVATAR_COLOR}/white?text=$(git describe --tags --abbrev=0|sed "s|release/||")", "text": "The Android app for the release candidate \"'$CI_COMMIT_BRANCH'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the Play Store."}' \
-        $SLACK_RELEASE_STATUS_WEBHOOK || true
+      export SLACK_NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
+      export SLACK_NOTIFICATION_RELEASE_VERSION=$(git describe --tags --abbrev=0|sed "s|release/||")
+    
+      scripts/notify-slack.sh \
+        --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
+        --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
+        --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
+        --message "📱 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` (Android) has been submitted to the Play Store."
     fi
 
 mobile_release_submit_ios:
@@ -357,10 +365,12 @@ mobile_release_submit_ios:
   interruptible: false
   after_script: |
     if [ $CI_JOB_STATUS == 'success' ]; then
-      curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The iOS app for the release candidate \"'$CI_COMMIT_BRANCH'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the App Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
-
-      export NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
-      curl -X POST -H "Content-Type: application/json" \
-        --data='{"username": "${CI_COMMIT_REF_SLUG}-notification", "icon_url": "https://placehold.co/72x72/${NOTIFICATION_AVATAR_COLOR}/white?text=$(git describe --tags --abbrev=0|sed "s|release/||")", "text": "The iOS app for the release candidate \"'$CI_COMMIT_BRANCH'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the App Store."}' \
-        $SLACK_RELEASE_STATUS_WEBHOOK || true
+      export SLACK_NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
+      export SLACK_NOTIFICATION_RELEASE_VERSION=$(git describe --tags --abbrev=0|sed "s|release/||")
+    
+      scripts/notify-slack.sh \
+        --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
+        --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
+        --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
+        --message "📱 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` (iOS) has been submitted to the App Store."
     fi
