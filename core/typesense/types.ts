@@ -1,4 +1,4 @@
-export type TypesenseDocumentType = 'volunteering' | 'space' | 'profile'
+export type TypesenseDocumentType = 'volunteering' | 'space' | 'profile' | 'task'
 
 export type TypesenseDocumentLinkLocatorIdOrSlug = string | number
 export interface TypesenseDocument {
