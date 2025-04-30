@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { ImageSource } from 'holi-bricks/components/image'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Image } from 'holi-bricks/components/image'
 import { View } from 'react-native'
@@ -12,7 +12,7 @@ import { View } from 'react-native'
 */
 export interface CardImageProps extends React.PropsWithChildren {
   testID?: string
-  source: ImageSource
+  source: MultiPlatformImageSource
   alt: string
 }
 

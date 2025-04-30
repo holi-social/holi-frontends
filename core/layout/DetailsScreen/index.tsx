@@ -17,7 +17,7 @@ import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
-import type { ImageSource } from 'holi-bricks/components/image'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 import { Spacing } from 'holi-bricks/foundations'
 
@@ -36,7 +36,7 @@ export type DetailsScreenChips = {
 
 export type Partner = {
   title: string
-  image?: ImageSource
+  image?: MultiPlatformImageSource
   onPress?(): void
 }
 

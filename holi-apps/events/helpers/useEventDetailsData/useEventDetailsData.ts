@@ -7,7 +7,7 @@ import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Linking } from 'react-native'
-import type { ImageSource } from 'holi-bricks/components/image'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { useRateLimit } from '@holi/ui/helper'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -120,7 +120,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
         details: [
           {
             title: partner.text as string,
-            image: partner?.logo?.src as ImageSource,
+            image: partner?.logo?.src as MultiPlatformImageSource,
             onPress: () => {
               if (partner?.url) Linking.openURL(partner?.url)
             },
@@ -131,7 +131,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
         topTitle: 'posted via Gemeinschaftswerk Nachhaltigkeit',
         title: organizationName,
         mainAvatar: {
-          source: EVENTS_SOURCE_MAPPING?.['Gemeinschaftswerk Nachhaltigkeit'].logo?.src as ImageSource,
+          source: EVENTS_SOURCE_MAPPING?.['Gemeinschaftswerk Nachhaltigkeit'].logo?.src as MultiPlatformImageSource,
           label: organizationName,
         },
       },
