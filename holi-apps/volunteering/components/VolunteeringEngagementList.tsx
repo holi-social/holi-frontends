@@ -7,7 +7,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
@@ -48,8 +47,6 @@ export const VolunteeringEngagementList = ({
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-
-  const { imageWidth } = useWindowDimensionsWithImageScaling()
 
   const noResults = loadingFailed || engagements.length === 0
 
@@ -99,8 +96,10 @@ export const VolunteeringEngagementList = ({
                       loading={false}
                       imageUri={engagement.image_url}
                       imageLabel={engagement.title}
-                      imageWidth={imageWidth}
+                      // Workaround for fallback image to be displayed correctly
+                      imageWidth={0}
                       testID="btn-to-volunteering-engagement"
+                      imageFallback={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
                     >
                       <VolunteeringCardContent engagement={engagement} key={engagement.id} />
                     </HoliCard>

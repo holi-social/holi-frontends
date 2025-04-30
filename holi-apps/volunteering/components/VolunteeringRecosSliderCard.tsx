@@ -55,6 +55,7 @@ export const VolunteeringRecosSliderCard = ({
       }
       title={title}
       imageSourceUri={engagement?.image_url}
+      imageFallback={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
       footer={
         !!engagement?.location && (
           <View style={styles.locationFooter}>

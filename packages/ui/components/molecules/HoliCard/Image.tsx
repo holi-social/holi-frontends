@@ -2,7 +2,9 @@ import * as React from 'react'
 import { StyleSheet } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
+import type { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 type CardAspectRatio = 1 | 1.5 | 1.75
 
@@ -16,6 +18,7 @@ export interface ImageProps {
   imageAspectRatio?: CardAspectRatio
   onError?: MobileImageProps['onError']
   testID?: string
+  imageFallback?: StaticImageData
 }
 
 export const Image = ({
@@ -27,7 +30,19 @@ export const Image = ({
   imageAspectRatio = 1.5,
   borderRadius = 8,
   testID,
+  imageFallback,
 }: ImageProps) => {
+  if (!imageUri && imageFallback) {
+    return (
+      <HoliLocalImage
+        imageSource={imageFallback}
+        label={imageLabel}
+        width={imageWidth}
+        height={imageHeight ?? imageWidth / imageAspectRatio}
+        style={StyleSheet.flatten([styles.image, { aspectRatio: imageAspectRatio, borderRadius }])}
+      />
+    )
+  }
   return (
     <HoliImage
       testID={`${testID}-card-image`}

@@ -1,12 +1,14 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
+import type { TrackingEvent } from '@holi/core/tracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import { useTheme } from '@holi/ui/styles/theme'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 interface RecoSliderCardProps {
   name: string
@@ -17,6 +19,7 @@ interface RecoSliderCardProps {
   footer?: string | React.ReactNode
   trackingEvent: TrackingEvent
   cardWidth: number
+  imageFallback?: StaticImageData
 }
 
 const RecoSliderCard = ({
@@ -28,6 +31,7 @@ const RecoSliderCard = ({
   footer,
   trackingEvent,
   cardWidth,
+  imageFallback,
 }: RecoSliderCardProps) => {
   const { theme } = useTheme()
   const { colors } = theme
@@ -47,6 +51,7 @@ const RecoSliderCard = ({
               imageAspectRatio={1.5}
               imageLabel={title}
               testID={testID}
+              imageFallback={imageFallback}
             />
           </HoliCardComponent.ImageContainer>
           <HoliCardComponent.ContentContainer testID={testID}>
