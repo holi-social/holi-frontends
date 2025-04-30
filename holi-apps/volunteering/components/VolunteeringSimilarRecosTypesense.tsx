@@ -14,7 +14,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
-export const VolunteeringSimilarRecosTypesense = ({ engagementId }: { engagementId: string }) => {
+export const VolunteeringSimilarRecosTypesense = ({ documentId }: { documentId: string }) => {
   const cardWidth = useCardWidth()
   const { t } = useTranslation()
   const language = useUserLanguage()
@@ -24,9 +24,9 @@ export const VolunteeringSimilarRecosTypesense = ({ engagementId }: { engagement
       filter_by: 'type:=[volunteering,task]',
       sort_by: '_vector_distance:asc',
       per_page: MAX_RECOS_COUNT,
-      vector_query: `similarity_embedding:([], id: volunteering_${engagementId})`,
+      vector_query: `similarity_embedding:([],id:${documentId})`,
     }),
-    [engagementId]
+    [documentId]
   )
 
   const { state, refetch } = useTypesensePaginationQuery({
