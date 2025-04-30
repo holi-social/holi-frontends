@@ -2,6 +2,7 @@
 import { PixelRatio, Platform } from 'react-native'
 import { isProduction } from '@holi/core/helpers/environment'
 import { isSSR } from '@holi/core/helpers/isSSR'
+import { MultiPlatformImageSource } from 'holi-bricks/components/image/type'
 
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded
@@ -37,7 +38,7 @@ const calcPixelRatioSize = (value: number | undefined): number | undefined => {
 /** @description Checks if `uri` of ImageSource is Base64 */
 const isImageSourceURIBase64 = (uri: string) => !!uri?.startsWith('data:image')
 
-export const holiImageScaling = (
+export const buildProxiedImageUrl = (
   calculatedWidth: number | undefined,
   calculatedHeight: number | undefined,
   encodedOriginalUrl: string,
@@ -46,19 +47,6 @@ export const holiImageScaling = (
   const imagesUrl = isProduction ? 'https://images.holi.social' : 'https://dev-images.holi.social'
   const width = calculatedWidth ? ':' + calculatedWidth : ':'
   const height = calculatedHeight ? ':' + calculatedHeight : ''
-  // https://docs.imgproxy.net/generating_the_url?id=crop
-  // - 'crop' section seems to be required, '0:0' means using full width/height of source
-  // https://docs.imgproxy.net/generating_the_url?id=resize
-  // - 'resize' section fills given space by width and height and crops overhanging parts
-  // - when filling, we use 'fill-down' instead of 'fill' to keep the requested aspect ratio,
-  //   even when images are smaller than the requested sizes
-  // - we use fit for a simple bounding box approach
-  // - cropping is done with centered gravity
-  // - pictures are not enlarged to requested size (to keep bandwidth lower)
-  // https://docs.imgproxy.net/generating_the_url?id=format
-  // - 'ext' section forces a file format, we use webp (better than jpg on 80% quality)
-  // https://docs.imgproxy.net/generating_the_url?id=quality
-  // - 'quality' section forces a compression quality, we use the default 80% explicitly
   if (fillDown) {
     return (
       imagesUrl + '/crop:0:0/resize:fill-down' + width + height + '/ext:webp/quality:80/plain/' + encodedOriginalUrl
@@ -74,12 +62,17 @@ export const holiImageScaling = (
 // the defined dimension is the (much) shorter side of the image.
 const MAX_IMAGE_DIMENSION = 1200
 
+const FALLBACK_IMAGE_URL =
+  Platform.OS === 'android'
+    ? 'https://ik.imagekit.io/holidev/404_square.png'
+    : 'https://ik.imagekit.io/holidev/404_square.svg'
+
 /** @description Appends the ImageKit image transformation query parameter to
  * the source URL and returns the source. */
-export const setScalingParams = (source: string | number, width: number, height: number): string | number => {
+export const transformSource = (source: MultiPlatformImageSource, width: number, height: number): string | number => {
   if (typeof source === 'number') return source
 
-  const uri = ensureUriOrFallbackUri(source)
+  const uri = source ?? FALLBACK_IMAGE_URL
   const calculatedWidth = calcPixelRatioSize(width)
   const calculatedHeight = calcPixelRatioSize(height)
 
@@ -88,16 +81,14 @@ export const setScalingParams = (source: string | number, width: number, height:
     const height = calculatedHeight ?? calcPixelRatioSize(MAX_IMAGE_DIMENSION)
     const padding = encodeURIComponent('') // add spaces, if needed to see image size
     const text = padding + (calculatedWidth ?? '∞') + '×' + (calculatedHeight ?? '∞') + padding
-    const newUri = 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
-    return newUri
+    return 'https://dummyimage.com/' + width + 'x' + height + '/000/fff.jpg?text=' + text
   } else if (!isRemoteSource(source)) {
     // we've seen imagekit requests with file urls, we should not wrap these
     // also, file uris show up after using Expos ImageManipulator in context of HoliImagePicker
     return source
   } else if (!calculatedWidth && !calculatedHeight) {
     // Due to app crashes, we don't allow fully unbounded images
-    const newUri = holiImageScaling(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION, encodeURIComponent(uri), false)
-    return newUri
+    return buildProxiedImageUrl(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION, encodeURIComponent(uri), false)
   } else if (isImageSourceURIBase64(source)) {
     return source
   } else if (uri.startsWith('https://ik.imagekit.io/')) {
@@ -118,18 +109,9 @@ export const setScalingParams = (source: string | number, width: number, height:
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {
     // backend hack to force a maximum size when no frontend image width/height is set
     // we rewrite this here with our params
-    const newUri = holiImageScaling(calculatedWidth, calculatedHeight, uri.replace(/^.+\/plain\//, ''))
-    return newUri
+    return buildProxiedImageUrl(calculatedWidth, calculatedHeight, uri.replace(/^.+\/plain\//, ''))
   } else {
     // unknown image provider, default scaling
-    const newUri = holiImageScaling(calculatedWidth, calculatedHeight, encodeURIComponent(uri))
-    return newUri
+    return buildProxiedImageUrl(calculatedWidth, calculatedHeight, encodeURIComponent(uri))
   }
-}
-
-const ensureUriOrFallbackUri = (uri?: string) => {
-  if (uri) return uri
-  return Platform.OS === 'android'
-    ? 'https://ik.imagekit.io/holidev/404_square.png'
-    : 'https://ik.imagekit.io/holidev/404_square.svg'
 }
