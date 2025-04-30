@@ -1,21 +1,13 @@
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
-import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
+import type { TypesensePaginationState } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 
-export const SEARCH_HIT_TYPES_IN_ORDER: TypesenseDocumentType[] = ['volunteering', 'space', 'profile'] as const
+export const SEARCH_FACETS_IN_ORDER = ['volunteering', 'space', 'profile'] as const
+export type SearchFacet = (typeof SEARCH_FACETS_IN_ORDER)[number]
 
 export interface SearchFilter {
-  facet: TypesenseDocumentType
+  facet: SearchFacet
   query: string
   location?: GeolocationSuggestion
 }
 
-export interface SearchResults {
-  isLoading: boolean
-  hits: SearchResponseHit<TypesenseDocument>[]
-  totalNrOfResults: number
-  totalNrOfPages: number
-  currentPage: number
-  canLoadMore: boolean
-  filter: SearchFilter
-}
+export type SearchResults = TypesensePaginationState

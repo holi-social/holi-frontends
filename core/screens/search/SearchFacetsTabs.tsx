@@ -6,15 +6,14 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
 import { Spacing } from 'holi-bricks/tokens'
-import { SEARCH_HIT_TYPES_IN_ORDER } from '@holi/core/screens/search/types'
-import type { TypesenseDocumentType } from '@holi/core/typesense/types'
+import { SEARCH_FACETS_IN_ORDER, type SearchFacet } from '@holi/core/screens/search/types'
 
 interface SearchFacetsTabsProps {
-  currentFacet: TypesenseDocumentType
-  onFacetChange: (facet: TypesenseDocumentType) => void
+  currentFacet: SearchFacet
+  onFacetChange: (facet: SearchFacet) => void
 }
 
-const FACET_ICONS: { [key in TypesenseDocumentType]: HoliTabItem['tabIcons'] } = {
+const FACET_ICONS: { [key in SearchFacet]: HoliTabItem['tabIcons'] } = {
   volunteering: [Hearts, HeartsFilled],
   space: [Spaces, SpacesFilled],
   profile: [Group, GroupFilled],
@@ -27,9 +26,9 @@ export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTa
   return (
     <HoliTabs
       activeTab={currentFacet}
-      onChange={(facet) => onFacetChange(facet as TypesenseDocumentType)}
+      onChange={(facet) => onFacetChange(facet as SearchFacet)}
       tabBarBackgroundColor={styles.tabs.backgroundColor}
-      data={SEARCH_HIT_TYPES_IN_ORDER.map((facet) => ({
+      data={SEARCH_FACETS_IN_ORDER.map((facet) => ({
         key: facet,
         tabTitle: t(`search.typesense.facets.${facet}`),
         tabIcons: FACET_ICONS[facet],

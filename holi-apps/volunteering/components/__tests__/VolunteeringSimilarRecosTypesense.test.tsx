@@ -42,8 +42,9 @@ describe('VolunteeringSimilarRecosTypesense', () => {
   const mockDocumentId = 'volunteering_123'
   const emptyState = {
     isLoading: false,
-    data: [],
+    hits: [],
     totalResults: 0,
+    totalNrOfPages: 0,
     canFetchMore: false,
     currentPage: 1,
     parameters: {},
@@ -107,8 +108,9 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       isFetchingMore: false,
       state: {
         isLoading: false,
-        data: createEngagementHits(5),
+        hits: createEngagementHits(5),
         totalResults: 5,
+        totalNrOfPages: 1,
         canFetchMore: false,
         currentPage: 1,
         parameters: {},

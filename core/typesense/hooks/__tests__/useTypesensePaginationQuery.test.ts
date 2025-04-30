@@ -40,18 +40,19 @@ describe('useTypesensePaginationQuery', () => {
     jest.useRealTimers()
   })
 
-  it('should expose loading state and data', async () => {
+  it('should expose loading state and hits', async () => {
     const { result } = renderHook(() => useTypesensePaginationQuery({ parameters }))
 
     expect(result.current.state.isLoading).toBeTruthy()
-    expect(result.current.state.data).toHaveLength(0)
+    expect(result.current.state.hits).toHaveLength(0)
 
     await act(jest.runAllTimersAsync)
 
     expect(result.current.state.isLoading).toBeFalsy()
-    expect(result.current.state.data).toHaveLength(10)
+    expect(result.current.state.hits).toHaveLength(10)
     expect(result.current.state.currentPage).toBe(1)
     expect(result.current.state.totalResults).toBe(123)
+    expect(result.current.state.totalNrOfPages).toBe(13)
   })
 
   it('should perform request with the correct parameters', async () => {
@@ -167,14 +168,14 @@ describe('useTypesensePaginationQuery', () => {
     // Await initial fetch
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(result.current.state.data).toHaveLength(10)
+    expect(result.current.state.hits).toHaveLength(10)
 
     mockSearchResults({ found: 123, page: 2, hits: allHits.slice(10) })
 
     await act(() => result.current.fetchNextPage())
 
-    expect(result.current.state.data).toHaveLength(20)
-    expect(result.current.state.data).toEqual(allHits)
+    expect(result.current.state.hits).toHaveLength(20)
+    expect(result.current.state.hits).toEqual(allHits)
     expect(mockSearch).toHaveBeenCalledTimes(2)
     expect(mockSearch).toHaveBeenCalledWith([
       {
@@ -193,14 +194,14 @@ describe('useTypesensePaginationQuery', () => {
     // Await initial fetch
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(result.current.state.data).toHaveLength(10)
+    expect(result.current.state.hits).toHaveLength(10)
 
     // Fetch second page
     mockSearchResults({ found: 123, page: 2, hits: createHits(10) })
 
     await act(() => result.current.fetchNextPage())
 
-    expect(result.current.state.data).toHaveLength(20)
+    expect(result.current.state.hits).toHaveLength(20)
 
     mockSearch.mockClear()
     mockSearchResults({ found: 123, page: 1, hits: createHits(10) })
@@ -208,7 +209,7 @@ describe('useTypesensePaginationQuery', () => {
     // Refetch: List should start with page 1 again
     await act(() => result.current.refetch())
 
-    expect(result.current.state.data).toHaveLength(10)
+    expect(result.current.state.hits).toHaveLength(10)
     expect(mockSearch).toHaveBeenCalledWith([
       {
         ...parameters,
@@ -289,7 +290,7 @@ describe('useTypesensePaginationQuery', () => {
     await act(jest.runOnlyPendingTimersAsync)
 
     expect(result.current.state.parameters).toEqual(newParameters)
-    expect(result.current.state.data).toHaveLength(3)
+    expect(result.current.state.hits).toHaveLength(3)
     expect(mockSearch).toHaveBeenCalledTimes(2)
   })
 
@@ -297,7 +298,7 @@ describe('useTypesensePaginationQuery', () => {
     const { result, rerender } = renderHook(() => useTypesensePaginationQuery({ parameters, skip: true }))
 
     expect(result.current.state.isLoading).toBeFalsy()
-    expect(result.current.state.data).toHaveLength(0)
+    expect(result.current.state.hits).toHaveLength(0)
     expect(mockSearch).not.toHaveBeenCalled()
 
     rerender({ parameters: { ...parameters, q: 'new query' } })

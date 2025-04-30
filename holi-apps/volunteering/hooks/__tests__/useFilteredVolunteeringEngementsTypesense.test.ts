@@ -39,9 +39,10 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
   const searchResult = {
     state: {
       isLoading: false,
-      data: makeTypesenseEngagementHits(10),
+      hits: makeTypesenseEngagementHits(10),
       canFetchMore: true,
       totalResults: 123,
+      totalNrOfPages: 13,
       currentPage: 1,
       parameters: {},
     },
@@ -103,7 +104,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
   })
 
   it('should expose transformed search results', () => {
-    const expectedEngagements = searchResult.state.data
+    const expectedEngagements = searchResult.state.hits
 
     const { result } = renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
 
@@ -171,8 +172,9 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       return {
         state: {
           isLoading: false,
-          data: [],
+          hits: [],
           totalResults: 0,
+          totalNrOfPages: 0,
           canFetchMore: false,
           currentPage: 1,
           parameters: {},

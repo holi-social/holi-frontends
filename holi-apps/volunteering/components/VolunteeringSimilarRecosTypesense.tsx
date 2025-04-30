@@ -39,8 +39,8 @@ export const VolunteeringSimilarRecosTypesense = ({ documentId }: { documentId: 
   })
 
   const recommendations = useMemo(
-    () => state.data.map((hit) => localizeTypesenseDocument(hit.document, language)),
-    [language, state.data]
+    () => state.hits.map((hit) => localizeTypesenseDocument(hit.document, language)),
+    [language, state.hits]
   )
 
   useOnRefresh(refetch)

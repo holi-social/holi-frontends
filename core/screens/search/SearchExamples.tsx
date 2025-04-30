@@ -9,9 +9,9 @@ import { Spacing } from 'holi-bricks/tokens'
 import { useTranslation } from 'react-i18next'
 import shuffle from 'lodash.shuffle'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import type { TypesenseDocumentType } from '@holi/core/typesense/types'
+import type { SearchFacet } from '@holi/core/screens/search/types'
 
-const EXAMPLE_COUNTS: { [key in TypesenseDocumentType]: number } = {
+const EXAMPLE_COUNTS: { [key in SearchFacet]: number } = {
   volunteering: 20,
   space: 10,
   profile: 5,
@@ -20,7 +20,7 @@ const DISPLAYED_EXAMPLE_COUNT = 5
 
 export interface SearchExamplesProps {
   onQuerySelect: (query: string) => void
-  currentFacet: TypesenseDocumentType
+  currentFacet: SearchFacet
 }
 
 export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesProps) => {

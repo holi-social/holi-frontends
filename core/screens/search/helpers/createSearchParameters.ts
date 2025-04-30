@@ -1,17 +1,15 @@
-import type { SearchFilter } from '@holi/core/screens/search/types'
-import type { TypesenseDocumentType } from '@holi/core/typesense/types'
+import type { SearchFacet, SearchFilter } from '@holi/core/screens/search/types'
 import type { SearchParams } from 'typesense/lib/Typesense/Documents'
 
-export const INITIAL_PAGE = 1
-export const PAGE_SIZE = 10
+const PAGE_SIZE = 10
 
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'embedding']
 
 const profileSearchFields = ['user_full_name']
 
-const facetConfigurations: { [key in TypesenseDocumentType]: SearchParams } = {
+const facetConfigurations: { [key in SearchFacet]: SearchParams } = {
   volunteering: {
-    filter_by: 'type:=volunteering',
+    filter_by: 'type:=[volunteering,task]',
     query_by: searchFields.join(','),
     query_by_weights: '1,1,1,1,100,10',
     vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
@@ -29,7 +27,7 @@ const facetConfigurations: { [key in TypesenseDocumentType]: SearchParams } = {
   },
 }
 
-export const createSearchParameters = ({ facet, location, query }: SearchFilter, page: number): SearchParams => {
+export const createSearchParameters = ({ facet, location, query }: SearchFilter): SearchParams => {
   const config = facetConfigurations[facet] ?? facetConfigurations.volunteering
 
   let sort_by: string | undefined = undefined
@@ -50,7 +48,6 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter,
     q: query || '*',
     filter_by,
     sort_by,
-    page,
     per_page: PAGE_SIZE,
   }
 }
