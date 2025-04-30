@@ -902,6 +902,7 @@
   "search.typesense.facets.volunteering": "Ehrenamt",
   "search.typesense.hit.type.profile": "Person",
   "search.typesense.hit.type.space": "Space",
+  "search.typesense.hit.type.task": "Ehrenamt",
   "search.typesense.hit.type.volunteering": "Ehrenamt",
   "search.typesense.input.clear": "Eingabe zurücksetzen",
   "search.typesense.input.label": "Durchsuche holi",
