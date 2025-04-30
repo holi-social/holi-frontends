@@ -5,7 +5,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { PROGRESS_BAR_HEIGHT, ProgressBar } from '@holi/ui/components/organisms/HoliStepperV2/ProgressBar'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import NavigationButtons, { BUTTON_RECT, type NavigationButtonsProps } from './NavigationButtons'
 
 const ONBOARDING_HEADER_OFFSET = PROGRESS_BAR_HEIGHT + Spacing.xxs

@@ -6,7 +6,7 @@ import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMi
 import type { SpaceSection } from '@holi/core/screens/spaces/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
 

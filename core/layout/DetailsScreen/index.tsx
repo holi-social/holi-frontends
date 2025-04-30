@@ -19,7 +19,7 @@ import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import type { ImageSource } from 'holi-bricks/components/image'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export type DetailsScreenInfoList = {
   title: string

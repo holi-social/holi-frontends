@@ -8,7 +8,7 @@ import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/Ho
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Button } from 'holi-bricks/components/button'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 interface Props extends HoliModalProps {
   actionButtonVisible: boolean

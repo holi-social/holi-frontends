@@ -1,7 +1,7 @@
 import type { ScreenPadding } from '@holi/core/components/Screen/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { makePadding } from 'holi-bricks/foundations/dimensions/spacing'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Platform } from 'react-native'
 
 export const stylesheet = createStyleSheet(() => {

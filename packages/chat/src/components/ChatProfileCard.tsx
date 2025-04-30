@@ -14,7 +14,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
 
 interface Props {

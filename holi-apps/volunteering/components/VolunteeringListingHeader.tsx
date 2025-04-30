@@ -8,8 +8,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { Text } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 interface VolunteeringListingHeaderProps {
   isFiltering?: boolean

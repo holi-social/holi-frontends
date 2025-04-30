@@ -5,8 +5,7 @@ import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfini
 import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Platform, View } from 'react-native'
@@ -16,7 +15,7 @@ import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hook
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSearchFilter } from '@holi/core/screens/search/hooks/useSearchFilter'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export type SearchParams = {
   query?: string

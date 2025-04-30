@@ -28,7 +28,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export enum Tab {
   MINE = 'mine',

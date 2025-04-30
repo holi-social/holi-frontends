@@ -20,8 +20,7 @@ import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/Volu
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 

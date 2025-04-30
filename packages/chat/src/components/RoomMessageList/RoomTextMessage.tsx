@@ -13,9 +13,8 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { Avatar } from 'holi-bricks/components/avatar'
 import type { User } from '@holi/core/domain/shared/types'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius } from 'holi-bricks/tokens'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
 
 interface Props {

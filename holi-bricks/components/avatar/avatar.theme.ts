@@ -1,4 +1,4 @@
-import { blue, green, mono, purple } from 'holi-bricks/tokens'
+import { blue, green, mono, purple } from 'holi-bricks/foundations'
 
 const sharedColors = {
   bg: {

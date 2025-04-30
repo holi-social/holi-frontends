@@ -1,4 +1,4 @@
-import { mono, red, yellow } from 'holi-bricks/tokens'
+import { mono, red, yellow } from 'holi-bricks/foundations'
 
 export const darkButtonTheme = {
   primary: {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { useStyles } from 'holi-bricks/hooks'
+import { useStyles } from 'holi-bricks/styles'
 import { stylesheet } from '@holi/core/components/Screen/styles'
 import type { ScreenProps, ScrollScreenProps } from '@holi/core/components/Screen/types'
 import { useScreenComponentInternal } from './useScreenComponentInternal'

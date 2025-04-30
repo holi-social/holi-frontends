@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "eas-build-pre-install": "corepack enable",
-    "web": "storybook dev -p 6006 -c storybook --debug-webpack",
+    "web": "storybook dev -p 6006 -c storybook",
     "build": "storybook build -c storybook",
     "storybook-generate": "sb-rn-get-stories --config-path ondevice",
     "storybook": "cross-env STORYBOOK_ENABLED='true' expo start -c storybook",

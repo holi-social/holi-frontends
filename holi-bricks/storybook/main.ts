@@ -1,3 +1,4 @@
+import type { StorybookConfig } from '@storybook/react-webpack5'
 import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
@@ -10,8 +11,7 @@ export const stories = [
   '../foundations/**/*.stories.@(js|jsx|ts|tsx)',
 ]
 
-/** @type{import('@storybook/react-webpack5').StorybookConfig} */
-module.exports = {
+const config: StorybookConfig = {
   stories,
 
   addons: [
@@ -62,6 +62,8 @@ module.exports = {
   docs: {},
 }
 
-function getAbsolutePath(value: string): unknown {
+function getAbsolutePath(value: string): string {
   return dirname(require.resolve(join(value, 'package.json')))
 }
+
+export default config

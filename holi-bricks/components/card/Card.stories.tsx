@@ -5,7 +5,7 @@ import { Card } from './Card'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import * as Icons from '@holi/icons/src/generated'
 import { controlWithLabel, toIconName } from 'holi-bricks/storybook/icons-to-story'
-import { buildCompoundPreview } from 'holi-bricks/storybook/build-component-preview'
+import { buildCompoundPreview } from 'holi-bricks/storybook/buildCompoundPreview'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
 

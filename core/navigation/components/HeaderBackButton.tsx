@@ -6,7 +6,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 
 export interface HeaderBackButtonProps {

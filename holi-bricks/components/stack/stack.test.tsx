@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react-native'
 import { Stack } from './'
-import { Spacing, BorderRadius } from 'holi-bricks/tokens'
+import { Spacing, BorderRadius } from 'holi-bricks/foundations'
 
 describe('Stack Component', () => {
   it('renders children when shouldRender is true', () => {
