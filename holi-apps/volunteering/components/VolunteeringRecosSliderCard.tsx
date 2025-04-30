@@ -35,7 +35,7 @@ export const VolunteeringRecosSliderCard = ({
         organization: engagement.organizer?.name,
         interpolation: { escapeValue: false },
       })
-    : (engagement.title as string)
+    : (engagement.title ?? '')
 
   const hasTopics = isReco
     ? engagementOrReco.matchedTopicsV2 && engagementOrReco.matchedTopicsV2?.length > 0
@@ -71,7 +71,7 @@ export const VolunteeringRecosSliderCard = ({
           </View>
         )
       }
-      trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement?.id as string, index)}
+      trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement?.id ?? '', index)}
       cardWidth={cardWidth}
     />
   )

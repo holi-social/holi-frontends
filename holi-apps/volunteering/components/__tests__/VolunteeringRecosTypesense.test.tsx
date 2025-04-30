@@ -1,22 +1,13 @@
 import React from 'react'
 import VolunteeringRecosTypesense from '@holi-apps/volunteering/components/VolunteeringRecosTypesense'
 import { render, screen } from '@testing-library/react-native'
-import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
 const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
   useVolunteeringRecosTypesense: jest.fn(),
 }))
-
-const createEngagements = (length: number): VolunteeringEngagement[] =>
-  Array.from({ length }, (_, i) => ({
-    id: i.toString(),
-    title: `Titel ${i}`,
-    description: '',
-    url: `https://example.com/engagement${i}`,
-    source: 'Aktion Mensch',
-  }))
 
 describe('VolunteeringRecosTypesense', () => {
   it('should render nothing while loading', () => {
@@ -32,7 +23,7 @@ describe('VolunteeringRecosTypesense', () => {
   })
 
   it('should correctly render engagements', () => {
-    const engagements = createEngagements(5)
+    const engagements = makeEngagements(5)
     mockUseVolunteeringRecosTypesense.mockReturnValue({
       isLoading: false,
       engagements,

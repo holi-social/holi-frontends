@@ -93,6 +93,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
           shown={partnerModalState.visible}
           onDismiss={partnerModalState.hide}
           i18nPrefix={'goodnews:listing.partnerModal'}
+          testID="goodnews-partner-modal"
         />
         <HoliText size="small" style={styles.source}>
           {article.source}

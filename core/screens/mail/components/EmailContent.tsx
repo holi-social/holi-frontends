@@ -37,6 +37,8 @@ export const EmailContent: React.FC<EmailContentProps> = ({
     case 'welcome':
       fullSeriesName = t('email.unsubscribe.welcomeSeries')
       break
+    case 'feedback-interview':
+      fullSeriesName = t('email.unsubscribe.feedbackInterview')
   }
 
   return (
