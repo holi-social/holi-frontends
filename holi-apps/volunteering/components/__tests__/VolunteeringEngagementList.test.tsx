@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
-import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import { Text } from 'holi-bricks/components/text'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
@@ -12,7 +12,7 @@ jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
 }))
 
 describe('VolunteeringEngagementList', () => {
-  const engagements = makeEngagements(10)
+  const engagements = makeVolunteeringDocuments(10)
 
   beforeEach(() => {
     jest.useFakeTimers()
@@ -69,7 +69,7 @@ describe('VolunteeringEngagementList', () => {
 
     await user.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.id}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
   })
 
   it('should track pressing cards', async () => {

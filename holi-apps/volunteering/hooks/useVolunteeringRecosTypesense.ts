@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
-import { transformTypesenseDocumentToEngagement } from '@holi-apps/volunteering/helpers/transformTypesenseDocumentToEngagement'
 import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 
 interface UseVolunteeringRecosTypesenseProps {
   pageSize?: number
@@ -43,7 +43,7 @@ export const useVolunteeringRecosTypesense = ({
   })
 
   const engagements = useMemo(
-    () => state.data.map((engagement) => transformTypesenseDocumentToEngagement(engagement, language)),
+    () => state.data.map((hit) => localizeTypesenseDocument(hit.document, language)),
     [language, state.data]
   )
 

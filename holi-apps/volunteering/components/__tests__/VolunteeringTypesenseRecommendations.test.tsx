@@ -4,7 +4,7 @@ import { render, screen, userEvent } from '@testing-library/react-native'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { TrackingEvent } from '@holi/core/tracking'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
-import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
 const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
@@ -19,7 +19,7 @@ jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
 describe('VolunteeringTypesenseRecommendations', () => {
   const results = {
     isLoading: false,
-    engagements: makeEngagements(10),
+    engagements: makeVolunteeringDocuments(10),
     canFetchMore: true,
     fetchNextPage: jest.fn(),
   }
@@ -96,7 +96,7 @@ describe('VolunteeringTypesenseRecommendations', () => {
 
     await user.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.id}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
   })
 
   it('should track pressing cards', async () => {

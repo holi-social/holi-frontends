@@ -31,3 +31,11 @@ export interface TypesenseDocument {
   organizer_image_url?: string
   external_url?: string
 }
+
+export type LocalizedTypesenseDocument = Omit<
+  TypesenseDocument,
+  'title_de' | 'title_en' | 'description_de' | 'description_en'
+> & {
+  title: string
+  description: string
+}

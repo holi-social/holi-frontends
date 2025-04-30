@@ -6,13 +6,14 @@ import {
   VOLUNTEERING_IMG_SOURCES_MAPPING,
   type VolunteeringDetailsScreenData,
 } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
-import { getDescription, getTitle } from '@holi-apps/volunteering/helpers/transformTypesenseDocumentToEngagement'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 
 export const transformTypesenseDocument = (
   t: TFunction,
   language: string,
   document: TypesenseDocument
 ): VolunteeringDetailsScreenData => {
+  const engagement = localizeTypesenseDocument(document, language)
   const partner = document.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[document.source] : undefined
 
   const skills =
@@ -57,8 +58,8 @@ export const transformTypesenseDocument = (
   const infoList = [locationType].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
 
   return {
-    title: getTitle(language, document),
-    description: getDescription(language, document),
+    title: engagement.title,
+    description: engagement.description,
     chips: [...topics, ...skills],
     visibility: 'public',
     infoList,

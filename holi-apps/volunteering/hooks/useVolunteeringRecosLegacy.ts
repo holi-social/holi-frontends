@@ -4,6 +4,10 @@ import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hook
 import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
+import { transformEngagementToTypesenseDocument } from '@holi-apps/volunteering/helpers/transformEngagementToTypesenseDocument'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 
 interface UseVolunteeringRecosLegacy {
   pageSize?: number
@@ -12,6 +16,7 @@ interface UseVolunteeringRecosLegacy {
 
 export const useVolunteeringRecosLegacy = ({ pageSize, skip }: UseVolunteeringRecosLegacy) => {
   const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
+  const language = useUserLanguage()
 
   const { data, loading, refetch } = useQuery(volunteeringRecosQuery, {
     variables: {
@@ -33,8 +38,12 @@ export const useVolunteeringRecosLegacy = ({ pageSize, skip }: UseVolunteeringRe
   })
 
   const engagements = useMemo(() => {
-    return data?.appVolunteering_engagementRecosV2?.data || []
-  }, [data?.appVolunteering_engagementRecosV2?.data])
+    return (
+      data?.appVolunteering_engagementRecosV2?.data.map((engagement: VolunteeringReco) =>
+        localizeTypesenseDocument(transformEngagementToTypesenseDocument(engagement), language)
+      ) || []
+    )
+  }, [data?.appVolunteering_engagementRecosV2?.data, language])
 
   return {
     isLoading: loading || loadingQueryVariables,

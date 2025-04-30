@@ -1,7 +1,6 @@
 import VolunteeringSimilarRecosSlider, {
   MAX_RECOS_COUNT,
 } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
-import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +11,8 @@ import { Platform } from 'react-native'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { logError } from '@holi/core/errors/helpers'
-import { transformTypesenseDocumentToEngagement } from '@holi-apps/volunteering/helpers/transformTypesenseDocumentToEngagement'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 export const VolunteeringSimilarRecosTypesense = ({ engagementId }: { engagementId: string }) => {
   const cardWidth = useCardWidth()
@@ -21,7 +21,7 @@ export const VolunteeringSimilarRecosTypesense = ({ engagementId }: { engagement
 
   const parameters = useMemo(
     () => ({
-      filter_by: 'type:volunteering',
+      filter_by: 'type:=[volunteering,task]',
       sort_by: '_vector_distance:asc',
       per_page: MAX_RECOS_COUNT,
       vector_query: `similarity_embedding:([], id: volunteering_${engagementId})`,
@@ -39,7 +39,7 @@ export const VolunteeringSimilarRecosTypesense = ({ engagementId }: { engagement
   })
 
   const recommendations = useMemo(
-    () => state.data.map((engagement) => transformTypesenseDocumentToEngagement(engagement, language)),
+    () => state.data.map((hit) => localizeTypesenseDocument(hit.document, language)),
     [language, state.data]
   )
 
@@ -54,7 +54,7 @@ export const VolunteeringSimilarRecosTypesense = ({ engagementId }: { engagement
       margin={{ bottom: '3xl' }}
     >
       <Text size="xxl">{t('recommendation.slider.title')}</Text>
-      <VolunteeringSimilarRecosSlider cardWidth={cardWidth} recos={recommendations as VolunteeringEngagement[]} />
+      <VolunteeringSimilarRecosSlider cardWidth={cardWidth} recos={recommendations as LocalizedTypesenseDocument[]} />
     </Stack>
   )
 }

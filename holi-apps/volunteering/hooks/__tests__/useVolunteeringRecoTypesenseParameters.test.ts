@@ -50,7 +50,7 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
 
     expect(result.current.isLoadingParameters).toBeFalsy()
     expect(result.current.parameters).toEqual({
-      filter_by: 'type:volunteering',
+      filter_by: 'type:=[volunteering,task]',
       sort_by: '_vector_distance:asc',
       vector_query:
         'topics_skills_embedding_v2:([0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],k:100,alpha:0.9,distance_threshold:1)',
@@ -81,7 +81,7 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
 
     expect(result.current.isLoadingParameters).toBeFalsy()
     expect(result.current.parameters).toEqual({
-      filter_by: 'type:volunteering',
+      filter_by: 'type:=[volunteering,task]',
       sort_by: 'location_lat_lng(1, 2):asc,_vector_distance:asc',
       vector_query:
         'topics_skills_embedding_v2:([0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],k:100,alpha:0.9,distance_threshold:1)',
@@ -94,7 +94,7 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
 
     expect(result.current.isLoadingParameters).toBeFalsy()
     expect(result.current.parameters).toEqual({
-      filter_by: 'type:volunteering',
+      filter_by: 'type:=[volunteering,task]',
       sort_by: '_vector_distance:asc',
       per_page: 5,
       vector_query:

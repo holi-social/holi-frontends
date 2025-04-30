@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 export const makeEngagement = ({
   topics = ALL_TOPICS.slice(0, 3),
@@ -48,5 +49,39 @@ export const makeReco = ({
   matchedSkillsV2: skills,
 })
 
+export const makeVolunteeringDocument = ({
+  topics = ALL_TOPICS.slice(0, 3),
+  skills = ALL_SKILLS.slice(0, 2),
+  location = true,
+  organizer = true,
+}: {
+  topics?: string[]
+  skills?: string[]
+  location?: boolean
+  organizer?: boolean
+} = {}): LocalizedTypesenseDocument => {
+  const id = faker.string.uuid()
+  return {
+    id: `volunteering_${id}`,
+    type: 'volunteering',
+    title: faker.lorem.sentence(10),
+    description: faker.lorem.paragraph(10),
+    external_url: faker.internet.url(),
+    image_url: faker.image.url(),
+    source: faker.lorem.word(),
+    organizer_name: organizer ? faker.person.fullName() : undefined,
+    organizer_image_url: organizer ? faker.image.url() : undefined,
+    location: location ? faker.location.city() : undefined,
+    topics_v2: topics,
+    skills_v2: skills,
+    link_locators: {
+      volunteering: id,
+    },
+  }
+}
+
 export const makeEngagements = (length: number): VolunteeringEngagement[] =>
   Array.from({ length }, () => makeEngagement({ organizer: false }))
+
+export const makeVolunteeringDocuments = (length: number): LocalizedTypesenseDocument[] =>
+  Array.from({ length }, () => makeVolunteeringDocument({ organizer: false }))

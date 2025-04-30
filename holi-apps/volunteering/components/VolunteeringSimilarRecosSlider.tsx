@@ -1,5 +1,5 @@
 import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
-import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { withProfiler } from '@sentry/react'
 import type React from 'react'
 import { FlatList } from 'react-native'
@@ -8,7 +8,7 @@ export const MAX_RECOS_COUNT = 4
 
 type VolunteeringSimilarRecosProps = {
   cardWidth: number
-  recos: VolunteeringEngagement[]
+  recos: LocalizedTypesenseDocument[]
 }
 
 const VolunteeringSimilarRecosSlider: React.FC<VolunteeringSimilarRecosProps> = ({

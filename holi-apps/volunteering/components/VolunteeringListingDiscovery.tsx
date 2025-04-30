@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -17,6 +17,9 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { VolunteeringTypesenseRecommendations } from '@holi-apps/volunteering/components/VolunteeringTypesenseRecommendations'
 import { FilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagementsTypesense'
+import { transformEngagementToTypesenseDocument } from '@holi-apps/volunteering/helpers/transformEngagementToTypesenseDocument'
+import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 
 type VolunteeringListingProps = {
   filters: VolunteeringFilters
@@ -41,9 +44,16 @@ const VolunteeringEngagementListLegacy = ({
 }: VolunteeringEngagementListLegacyProps) => {
   const {
     loading: engagementsLoading,
-    data: engagements,
+    data,
     totalResults,
   } = usePaginationContext<VolunteeringEngagement | VolunteeringReco>()
+  const language = useUserLanguage()
+
+  const engagements = useMemo(
+    () =>
+      data.map((engagement) => localizeTypesenseDocument(transformEngagementToTypesenseDocument(engagement), language)),
+    [data, language]
+  )
 
   return (
     <VolunteeringEngagementList
