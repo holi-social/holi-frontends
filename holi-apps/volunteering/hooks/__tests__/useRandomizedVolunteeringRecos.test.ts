@@ -1,4 +1,4 @@
-import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useVolunteeringRecosLegacy } from '@holi-apps/volunteering/hooks/useVolunteeringRecosLegacy'
@@ -28,7 +28,7 @@ jest.mock('@holi-apps/volunteering/hooks/useRandomizedRecos', () => ({
 
 describe('useRandomizedVolunteeringRecos', () => {
   const pageSize = 12
-  const manyHits = makeEngagements(pageSize * 3)
+  const manyHits = makeVolunteeringDocuments(pageSize * 3)
   const typesenseHits = manyHits.slice(0, pageSize)
   const graphqlHits = manyHits.slice(pageSize, pageSize * 2)
   const shuffledHits = manyHits.slice(pageSize * 2, pageSize * 3)

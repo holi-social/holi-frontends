@@ -28,7 +28,6 @@ import { simpleColumnSortingByIndex } from '@holi/core/screens/homeFeed/helpers'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
@@ -38,6 +37,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { SURVEY_URL } from '@holi/core/constants/urls'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 const FeedListItem = memo(
   ({
@@ -49,7 +49,7 @@ const FeedListItem = memo(
     loadMoreRef,
   }: {
     item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle } & {
-      volunteeringReco?: VolunteeringReco | VolunteeringEngagement
+      volunteeringReco?: LocalizedTypesenseDocument
     }
     index: number
     columnIndex: number
@@ -65,10 +65,6 @@ const FeedListItem = memo(
       },
       threshold: 0.5,
     })
-    const engagement =
-      item.volunteeringReco && 'engagement' in item.volunteeringReco
-        ? item.volunteeringReco.engagement
-        : item.volunteeringReco
 
     return (
       <div ref={ref}>
@@ -76,7 +72,7 @@ const FeedListItem = memo(
           key={
             item.feedPost?.id ||
             item.goodNewsArticle?.id ||
-            engagement?.id ||
+            item.volunteeringReco?.id ||
             item.insight?.id ||
             `${index}-${columnIndex}`
           }
@@ -87,7 +83,9 @@ const FeedListItem = memo(
             <InsightCard key={item.insight.id} insight={item.insight} creators={insightsCreators} />
           )}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />}
-          {item.volunteeringReco && <VolunteeringCard key={engagement?.id} engagementOrReco={item.volunteeringReco} />}
+          {item.volunteeringReco && (
+            <VolunteeringCard key={item.volunteeringReco?.id} engagement={item.volunteeringReco} />
+          )}
           {item.loader && loadMoreRef && (
             <div ref={loadMoreRef}>
               <View testID="load-more-ref" style={styles.skeleton} key={`${item.loader}-${columnIndex}-${index}`}>

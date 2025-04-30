@@ -28,7 +28,6 @@ import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/track
 import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
@@ -37,6 +36,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { SURVEY_URL } from '@holi/core/constants/urls'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -61,20 +61,16 @@ const HomeFeed = () => {
     (
       item: FeedItem & {
         goodNewsArticle?: GoodNewsArticle
-        volunteeringReco?: VolunteeringReco | VolunteeringEngagement
+        volunteeringReco?: LocalizedTypesenseDocument
       },
       index: number
     ) => {
-      const engagement =
-        item.volunteeringReco && 'engagement' in item.volunteeringReco
-          ? item.volunteeringReco.engagement
-          : item.volunteeringReco
       return (
         item.feedPost?.id ||
         item.spacePost?.id ||
         item.insight?.id ||
         item.goodNewsArticle?.id ||
-        engagement?.id ||
+        item.volunteeringReco?.id ||
         index.toString()
       )
     },
@@ -87,7 +83,7 @@ const HomeFeed = () => {
     }: {
       item: FeedItem & {
         goodNewsArticle?: GoodNewsArticle
-        volunteeringReco?: VolunteeringReco
+        volunteeringReco?: LocalizedTypesenseDocument
       }
       index: number
     }) => {
@@ -97,7 +93,7 @@ const HomeFeed = () => {
           {item.spacePost && <GenericPostCard post={item.spacePost} />}
           {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
-          {item.volunteeringReco && <VolunteeringCard engagementOrReco={item.volunteeringReco} />}
+          {item.volunteeringReco && <VolunteeringCard engagement={item.volunteeringReco} />}
         </>
       )
     },
@@ -143,19 +139,15 @@ const HomeFeed = () => {
   const listItemIdentifier: ListItemIdentifier<
     FeedItem & {
       goodNewsArticle?: GoodNewsArticle
-      volunteeringReco?: VolunteeringReco
+      volunteeringReco?: LocalizedTypesenseDocument
     }
   > = (item) => {
-    const engagement =
-      item.volunteeringReco && 'engagement' in item.volunteeringReco
-        ? item.volunteeringReco.engagement
-        : item.volunteeringReco
     return (
       item.feedPost?.id ||
       item.spacePost?.id ||
       item.insight?.id ||
       item.goodNewsArticle?.id ||
-      engagement?.id ||
+      item.volunteeringReco?.id ||
       Math.random().toString()
     )
   }

@@ -8,13 +8,20 @@ import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage
 import { transformEngagementToTypesenseDocument } from '@holi-apps/volunteering/helpers/transformEngagementToTypesenseDocument'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 interface UseVolunteeringRecosLegacy {
   pageSize?: number
   skip?: boolean
 }
 
-export const useVolunteeringRecosLegacy = ({ pageSize, skip }: UseVolunteeringRecosLegacy) => {
+export const useVolunteeringRecosLegacy = ({
+  pageSize,
+  skip,
+}: UseVolunteeringRecosLegacy): {
+  isLoading?: boolean
+  engagements: LocalizedTypesenseDocument[]
+} => {
   const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
   const language = useUserLanguage()
 

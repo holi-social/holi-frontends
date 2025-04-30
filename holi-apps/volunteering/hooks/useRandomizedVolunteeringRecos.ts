@@ -3,6 +3,7 @@ import { useVolunteeringRecosLegacy } from '@holi-apps/volunteering/hooks/useVol
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 interface UseRandomizedVolunteeringRecos {
   pageSize?: number
@@ -18,7 +19,10 @@ export const useRandomizedVolunteeringRecos = ({ pageSize }: UseRandomizedVolunt
     skip: useTypesense == undefined || !!useTypesense,
   })
 
-  const randomizedEngagements = useRandomizedRecos(useTypesense ? typesenseEngagements : legacyEngagements, pageSize)
+  const randomizedEngagements = useRandomizedRecos<LocalizedTypesenseDocument>(
+    useTypesense ? typesenseEngagements : legacyEngagements,
+    pageSize
+  )
 
   return randomizedEngagements
 }
