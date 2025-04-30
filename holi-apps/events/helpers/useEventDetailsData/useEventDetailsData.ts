@@ -51,7 +51,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
   const { t, i18n } = useTranslation()
 
   const event = data?.appEvents_event?.data
-  const formattedDates = getFormattedEventDates(event?.startDate, event?.endDate, i18n.language) as string
+  const formattedDates = getFormattedEventDates(i18n.language, event?.startDate, event?.endDate) as string
   const [, shareLink] = useShareLink({
     link: `/events/${eventId}`,
     linkType: LinkType.UNIVERSAL,
