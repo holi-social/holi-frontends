@@ -1,7 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/styles'
 import React from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 

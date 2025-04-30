@@ -1,5 +1,4 @@
-import { useStyles } from 'holi-bricks/styles'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'

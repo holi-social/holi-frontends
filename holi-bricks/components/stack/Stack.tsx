@@ -1,7 +1,6 @@
 import type React from 'react'
-import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { Pressable, View, type AccessibilityRole, type DimensionValue, type FlexStyle } from 'react-native'
 import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'

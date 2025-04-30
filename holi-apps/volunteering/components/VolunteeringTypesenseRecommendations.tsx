@@ -3,8 +3,7 @@ import React, { useMemo } from 'react'
 import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { useStyles } from 'holi-bricks/styles'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
 
 export const VolunteeringTypesenseRecommendations = () => {

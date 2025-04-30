@@ -1,7 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useCallback, useState } from 'react'

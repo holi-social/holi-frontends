@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/styles'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { View } from 'react-native'
 import { Search } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'

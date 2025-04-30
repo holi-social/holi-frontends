@@ -2,8 +2,7 @@ import type React from 'react'
 import { Platform, View } from 'react-native'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
-import { useStyles } from 'holi-bricks/styles'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 
 interface CoverImageProps {

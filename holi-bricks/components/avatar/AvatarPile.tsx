@@ -3,8 +3,7 @@ import { View } from 'react-native'
 
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
-import { useStyles } from 'holi-bricks/styles'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 type Avatars = Pick<AvatarProps, 'initials' | 'label' | 'source' | 'imgPlaceholder'>
 interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'imgPlaceholder'> {

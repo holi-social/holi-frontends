@@ -17,8 +17,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Stack } from 'holi-bricks/components/stack'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 export type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
 export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
