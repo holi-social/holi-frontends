@@ -87,7 +87,7 @@ export const VolunteeringEngagementList = ({
                     href={link}
                     label={engagement?.title}
                     trackingEvent={TrackingEvent.RecommendationPressed(
-                      'volunteering_opportunity',
+                      engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
                       engagement.id,
                       index
                     )}

@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
-import { makeVolunteeringDocument } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeTaskDocument, makeVolunteeringDocument } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const topics = ALL_TOPICS.slice(0, 2)
 const skills = ALL_SKILLS.slice(0, 3)
@@ -45,5 +46,25 @@ describe('VolunteeringRecosSliderCard', () => {
     expect(screen.queryByTestId('volunteering-reco-slider-card-location-icon')).toBeTruthy()
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(screen.queryByText(reco.location!)).toBeTruthy()
+  })
+  it('tracks press on volunteering recommendation', async () => {
+    const user = userEvent.setup()
+    const reco = makeVolunteeringDocument()
+
+    render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={13} />)
+
+    await user.press(screen.getByRole('link'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.RecommendationPressed('volunteering_opportunity', reco.id, 13))
+  })
+  it('tracks press on task recommendation', async () => {
+    const user = userEvent.setup()
+    const reco = makeTaskDocument()
+
+    render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={13} />)
+
+    await user.press(screen.getByRole('link'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.RecommendationPressed('space_task', reco.id, 13))
   })
 })

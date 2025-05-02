@@ -64,7 +64,11 @@ export const VolunteeringRecosSliderCard = ({
           </View>
         )
       }
-      trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement?.id ?? '', index)}
+      trackingEvent={TrackingEvent.RecommendationPressed(
+        engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+        engagement?.id ?? '',
+        index
+      )}
       cardWidth={cardWidth}
     />
   )

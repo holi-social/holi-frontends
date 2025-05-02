@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
-import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeTaskDocument, makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import { Text } from 'holi-bricks/components/text'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
@@ -72,16 +72,30 @@ describe('VolunteeringEngagementList', () => {
     expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
   })
 
-  it('should track pressing cards', async () => {
+  it('should track pressing volunteering cards', async () => {
     const user = userEvent.setup()
-    const engagement = engagements[0]
+    const engagement = engagements[3]
 
     render(<VolunteeringEngagementList engagements={engagements} />)
 
     await user.press(screen.getByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0)
+      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 3)
+    )
+  })
+
+  it('should track pressing task cards', async () => {
+    const user = userEvent.setup()
+    const task = makeTaskDocument()
+    const engagementsWithTask = [...engagements, task]
+
+    render(<VolunteeringEngagementList engagements={engagementsWithTask} />)
+
+    await user.press(screen.getAllByLabelText(task.title)[0])
+
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.RecommendationPressed('space_task', task.id, engagements.length)
     )
   })
 
