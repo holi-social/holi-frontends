@@ -6,7 +6,7 @@ import FormWrapper from '@holi/core/components/FormWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar, useProgressBarAnimation } from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliWizardContext from '@holi/ui/components/organisms/HoliWizard/HoliWizardContext'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HoliWizardProps {
@@ -46,11 +46,11 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
         }
       } else {
         setFinished(true)
-        await onSubmit().catch((error) => {
-          setFinished(false)
-          throw error
-        })
         setSaveButtonLoading(true)
+        await onSubmit().catch(() => {
+          setFinished(false)
+          setSaveButtonLoading(false)
+        })
       }
     }
 

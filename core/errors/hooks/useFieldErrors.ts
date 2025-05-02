@@ -1,8 +1,8 @@
-import { ApolloError } from '@apollo/client'
+import type { ApolloError } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { FieldErrors, extractFieldErrors } from '@holi/core/errors/helpers/apolloUtils'
+import { type FieldErrors, extractFieldErrors } from '@holi/core/errors/helpers/apolloUtils'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type TranslatedFieldErrors = { [key: string]: string[] }
@@ -57,7 +57,7 @@ export const useFieldErrors = ({
         })
         return translatedErrors
       }
-      openToast(error?.message || t('global.technicalError'), HoliToastType.ERROR)
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
       return {}
     },
     [handledFieldErrors, openToast, t, translateFieldErrors]

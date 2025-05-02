@@ -107,6 +107,8 @@ const CreateSpace = () => {
       } else {
         setFieldErrors(handleGraphQLError(error))
       }
+      // Throw error to re-enable wizard save button
+      throw error
     },
     refetchQueries: [{ query: mySpaceQuery }],
   })

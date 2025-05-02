@@ -106,12 +106,13 @@ describe('useFieldErrors', () => {
 
   it('displays toast for generic error if no field errors could be extracted', () => {
     const { result } = renderHook(() => useFieldErrors())
-    result.current.handleGraphQLError({
+    const fieldErrors = result.current.handleGraphQLError({
       graphQLErrors: [],
       message: 'Internal server error',
     })
 
+    expect(fieldErrors).toEqual({})
     expect(global.mockOpenToast).toHaveBeenCalledTimes(1)
-    expect(global.mockOpenToast).toHaveBeenCalledWith('Internal server error', HoliToastType.ERROR)
+    expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR)
   })
 })
