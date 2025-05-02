@@ -13,6 +13,7 @@ import {
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { createSearchParameters } from '@holi/core/screens/search/helpers/createSearchParameters'
 
 const mockUseSearchResults = jest.mocked(useSearchResults)
 jest.mock('@holi/core/screens/search/hooks/useSearchResults', () => ({
@@ -39,28 +40,28 @@ describe('SearchHitInfiniteList', () => {
   const searchResults: SearchResults = {
     isLoading: false,
     hits,
-    totalNrOfResults: 4,
+    totalResults: 4,
     totalNrOfPages: 2,
     currentPage: 1,
-    canLoadMore: true,
-    filter,
+    canFetchMore: true,
+    parameters: createSearchParameters(filter),
   }
   const emptySearchResults: SearchResults = {
     isLoading: false,
     hits: [],
-    totalNrOfResults: 0,
+    totalResults: 0,
     totalNrOfPages: 0,
     currentPage: 1,
-    canLoadMore: false,
-    filter,
+    canFetchMore: false,
+    parameters: createSearchParameters(filter),
   }
 
   beforeEach(() => {
     jest.useFakeTimers()
     mockUseSearchResults.mockReturnValue({
       searchResults,
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
   })
 
@@ -103,8 +104,8 @@ describe('SearchHitInfiniteList', () => {
         ...emptySearchResults,
         isLoading: true,
       },
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
 
     render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
@@ -116,8 +117,8 @@ describe('SearchHitInfiniteList', () => {
   it('should render loader when results are empty and loading parameters', async () => {
     mockUseSearchResults.mockReturnValue({
       searchResults: emptySearchResults,
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
 
     render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} loadingParameters />)
@@ -128,9 +129,9 @@ describe('SearchHitInfiniteList', () => {
 
   it('should render search examples when results and filter are empty', async () => {
     mockUseSearchResults.mockReturnValue({
-      searchResults: { ...emptySearchResults, filter: emptyFilter },
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      searchResults: { ...emptySearchResults },
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
 
     render(<SearchHitInfiniteList filter={emptyFilter} onQuerySelect={jest.fn()} />)
@@ -141,8 +142,8 @@ describe('SearchHitInfiniteList', () => {
   it('should display text for empty search results', async () => {
     mockUseSearchResults.mockReturnValue({
       searchResults: emptySearchResults,
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
     render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
@@ -161,10 +162,10 @@ describe('SearchHitInfiniteList', () => {
       searchResults: {
         ...searchResults,
         isLoading: true,
-        canLoadMore: false,
+        canFetchMore: false,
       },
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
   })
 
@@ -204,13 +205,13 @@ describe('SearchHitInfiniteList', () => {
   it('fetches more data on scroll and fires another searchResultsRendered tracking event', async () => {
     const page1 = hits
     const page2 = [toSearchResponseHit(hit4)]
-    const loadMore = jest.fn()
+    const fetchNextPage = jest.fn()
 
     // Mock more hits to be returned when scrolling
     mockUseSearchResults.mockReturnValueOnce({
       searchResults,
-      loadMore,
-      refresh: jest.fn(),
+      fetchNextPage,
+      refetch: jest.fn(),
     })
     mockUseSearchResults.mockReturnValue({
       searchResults: {
@@ -218,8 +219,8 @@ describe('SearchHitInfiniteList', () => {
         currentPage: 2,
         hits: [...page1, ...page2],
       },
-      loadMore,
-      refresh: jest.fn(),
+      fetchNextPage,
+      refetch: jest.fn(),
     })
 
     const { rerender } = render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
@@ -229,10 +230,10 @@ describe('SearchHitInfiniteList', () => {
 
     // Trigger onEndReached by scrolling to the bottom
     const flatList = screen.getByTestId('search-results-list')
-    fireEvent(flatList, 'onEndReached') // Triggers loadMore to fetch new items
+    fireEvent(flatList, 'onEndReached') // Triggers fetchNextPage to fetch new items
 
-    // Check if `loadMore` was called to fetch additional data
-    expect(loadMore).toHaveBeenCalled()
+    // Check if `fetchNextPage` was called to fetch additional data
+    expect(fetchNextPage).toHaveBeenCalled()
 
     rerender(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
@@ -257,12 +258,12 @@ describe('SearchHitInfiniteList', () => {
     })
   })
 
-  it('should refresh on pull-to-refresh', () => {
-    const refresh = jest.fn()
+  it('should refetch on pull-to-refresh', () => {
+    const refetch = jest.fn()
     mockUseSearchResults.mockReturnValueOnce({
       searchResults,
-      loadMore: jest.fn(),
-      refresh,
+      fetchNextPage: jest.fn(),
+      refetch,
     })
 
     render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
@@ -271,6 +272,6 @@ describe('SearchHitInfiniteList', () => {
     const flatList = screen.getByTestId('search-results-list')
     fireEvent(flatList, 'onRefresh')
 
-    expect(refresh).toHaveBeenCalled()
+    expect(refetch).toHaveBeenCalled()
   })
 })

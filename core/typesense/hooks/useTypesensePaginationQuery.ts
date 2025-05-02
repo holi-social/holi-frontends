@@ -14,9 +14,10 @@ export interface UseTypesensePaginationQueryOptions {
   skip?: boolean
 }
 
-interface TypesensePaginationState {
+export interface TypesensePaginationState {
   isLoading: boolean
-  data: SearchResponseHit<TypesenseDocument>[]
+  hits: SearchResponseHit<TypesenseDocument>[]
+  totalNrOfPages: number
   totalResults: number
   canFetchMore: boolean
   currentPage: number
@@ -39,8 +40,9 @@ export const useTypesensePaginationQuery = ({
   // Full result in one state to control rerenderings
   const [state, setState] = useState<TypesensePaginationState>({
     isLoading: !skip,
-    data: [],
+    hits: [],
     totalResults: 0,
+    totalNrOfPages: 0,
     currentPage: INITIAL_PAGE,
     canFetchMore: false,
     parameters: {},
@@ -76,13 +78,15 @@ export const useTypesensePaginationQuery = ({
               return previousResults
             }
             const results = multiSearchResults.results[0]
-            const previousData = results.page > INITIAL_PAGE ? previousResults.data : []
+            const previousHits = results.page > INITIAL_PAGE ? previousResults.hits : []
+            const totalNrOfPages = Math.ceil(results.found / (parameters.per_page ?? DEFAULT_PAGE_SIZE))
             return {
               isLoading: false,
-              data: [...previousData, ...(results.hits ?? [])],
+              hits: [...previousHits, ...(results.hits ?? [])],
               totalResults: results.found,
+              totalNrOfPages,
               currentPage: results.page,
-              canFetchMore: results.page < Math.ceil(results.found / (parameters.per_page ?? DEFAULT_PAGE_SIZE)),
+              canFetchMore: results.page < totalNrOfPages,
               parameters,
             }
           })

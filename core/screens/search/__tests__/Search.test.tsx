@@ -54,14 +54,14 @@ describe('Search', () => {
       searchResults: {
         isLoading: false,
         hits: [],
-        totalNrOfResults: 0,
+        totalResults: 0,
         totalNrOfPages: 0,
         currentPage: 0,
-        canLoadMore: false,
-        filter,
+        canFetchMore: false,
+        parameters: {},
       },
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
+      fetchNextPage: jest.fn(),
+      refetch: jest.fn(),
     })
   })
 

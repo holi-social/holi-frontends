@@ -7,7 +7,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
@@ -17,9 +16,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
@@ -28,7 +28,7 @@ interface VolunteeringEngagementListProps {
   isFiltering?: boolean
   loadingFailed?: boolean
   clearFilters?: () => void
-  engagements: readonly (VolunteeringEngagement | VolunteeringReco)[]
+  engagements: LocalizedTypesenseDocument[]
   isLoading?: boolean
   totalResults?: number
   footerComponent?: React.ReactNode
@@ -46,8 +46,6 @@ export const VolunteeringEngagementList = ({
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-
-  const { imageWidth } = useWindowDimensionsWithImageScaling()
 
   const noResults = loadingFailed || engagements.length === 0
 
@@ -80,28 +78,29 @@ export const VolunteeringEngagementList = ({
         )}
         <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
           <HoliGridWrapper>
-            {engagements.map((engagementOrReco, index) => {
-              const isReco = 'engagement' in engagementOrReco
-              const engagement = isReco ? engagementOrReco.engagement : engagementOrReco
+            {engagements.map((engagement, index) => {
+              const link = linkFromLocator(engagement.type, engagement.link_locators)
               return (
                 <HoliGridCell key={engagement.id}>
                   <HoliLinkTracked
-                    href={`/volunteering/${engagement.id}`}
-                    label={engagement?.title ?? ''}
+                    href={link}
+                    label={engagement?.title}
                     trackingEvent={TrackingEvent.RecommendationPressed(
-                      'volunteering_opportunity',
-                      engagement.id ?? '',
+                      engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+                      engagement.id,
                       index
                     )}
                   >
                     <HoliCard
                       loading={false}
-                      imageUri={engagement.imageUrl}
-                      imageLabel={engagement.title ?? ''}
-                      imageWidth={imageWidth}
+                      imageUri={engagement.image_url}
+                      imageLabel={engagement.title}
+                      // Workaround for fallback image to be displayed correctly
+                      imageWidth={0}
                       testID="btn-to-volunteering-engagement"
+                      imageFallback={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
                     >
-                      <VolunteeringCardContent engagementOrReco={engagementOrReco} key={engagement.id} />
+                      <VolunteeringCardContent engagement={engagement} key={engagement.id} />
                     </HoliCard>
                   </HoliLinkTracked>
                 </HoliGridCell>

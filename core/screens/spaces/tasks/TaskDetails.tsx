@@ -11,6 +11,7 @@ import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
+import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
 
 const isIos = Platform.OS === 'ios'
 
@@ -21,6 +22,7 @@ export type TaskDetailsParams = {
 const TaskDetailsContainer = () => {
   const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
+  const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
 
   const renderActionDrawer = useCallback(
     (tintColor?: string) => <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />,
@@ -69,7 +71,10 @@ const TaskDetailsContainer = () => {
         </Stack>
       }
     >
-      <DetailsScreen {...data} />
+      <DetailsScreen
+        {...data}
+        _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
+      />
     </Screen>
   )
 }

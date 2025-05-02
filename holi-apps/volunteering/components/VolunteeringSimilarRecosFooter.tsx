@@ -7,7 +7,7 @@ import { VolunteeringSimilarRecosLegacy } from '@holi-apps/volunteering/componen
 export const VolunteeringSimilarRecosFooter = ({ engagementId }: { engagementId: string }) => {
   const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
   return useTypesense ? (
-    <VolunteeringSimilarRecosTypesense engagementId={engagementId} />
+    <VolunteeringSimilarRecosTypesense documentId={`volunteering_${engagementId}`} />
   ) : (
     <VolunteeringSimilarRecosLegacy engagementId={engagementId} />
   )

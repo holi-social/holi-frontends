@@ -9,60 +9,53 @@ import { Globe } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Text } from 'holi-bricks/components/text'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 
 export type VolunteeringRecosSliderCardProps = {
-  item: VolunteeringReco | VolunteeringEngagement
+  item: LocalizedTypesenseDocument
   /**  the index of this card in the slider */
   index: number
   cardWidth: number
 }
 
 export const VolunteeringRecosSliderCard = ({
-  item: engagementOrReco,
+  item: engagement,
   index,
   cardWidth,
 }: VolunteeringRecosSliderCardProps) => {
   const { t } = useTranslation()
 
-  const isReco = 'engagement' in engagementOrReco
-  const engagement = isReco ? engagementOrReco.engagement : engagementOrReco
-
-  const title = engagement?.organizer?.name
+  const title = engagement?.organizer_name
     ? t('volunteering:engagement.title', {
         title: engagement.title,
-        organization: engagement.organizer?.name,
+        organization: engagement.organizer_name,
         interpolation: { escapeValue: false },
       })
     : (engagement.title ?? '')
 
-  const hasTopics = isReco
-    ? engagementOrReco.matchedTopicsV2 && engagementOrReco.matchedTopicsV2?.length > 0
-    : engagement?.topicsV2 && engagement?.topicsV2?.length > 0
-
-  const hasSkills = isReco
-    ? engagementOrReco.matchedSkillsV2 && engagementOrReco.matchedSkillsV2?.length > 0
-    : engagement?.skillsV2 && engagement?.skillsV2?.length > 0
+  const link = linkFromLocator(engagement.type, engagement.link_locators)
 
   return (
     <RecoSliderCard
       name="volunteering"
-      to={`/volunteering/${engagement?.id}`}
+      to={link}
       labels={
-        (hasTopics || hasSkills) && (
+        (engagement?.topics_v2?.length || engagement?.skills_v2?.length) && (
           <>
             <VolunteeringLabels
               displayAll={false}
-              topicSlugs={isReco ? engagementOrReco.matchedTopicsV2 : engagement?.topicsV2}
-              skillSlugs={isReco ? engagementOrReco.matchedSkillsV2 : engagement?.skillsV2}
+              topicSlugs={engagement?.topics_v2}
+              skillSlugs={engagement?.skills_v2}
             />
             <HoliGap size={'xs'} />
           </>
         )
       }
       title={title}
-      imageSourceUri={engagement?.imageUrl}
+      imageSourceUri={engagement?.image_url}
+      imageFallback={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
       footer={
         !!engagement?.location && (
           <View style={styles.locationFooter}>
@@ -71,7 +64,11 @@ export const VolunteeringRecosSliderCard = ({
           </View>
         )
       }
-      trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement?.id ?? '', index)}
+      trackingEvent={TrackingEvent.RecommendationPressed(
+        engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+        engagement?.id ?? '',
+        index
+      )}
       cardWidth={cardWidth}
     />
   )

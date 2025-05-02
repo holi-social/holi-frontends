@@ -22,13 +22,13 @@ import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 const isWeb = Platform.OS === 'web'
 
-const resultsToTrackingEventResults = (searchResults: SearchResults) => {
+const resultsToTrackingEventResults = (searchResults: SearchResults, filter: SearchFilter) => {
   return {
-    query: searchResults.filter.query,
-    totalNrOfResults: searchResults.totalNrOfResults,
+    query: filter.query,
+    totalNrOfResults: searchResults.totalResults,
     totalNrOfPages: searchResults.totalNrOfPages,
     currentPage: searchResults.currentPage,
-    selectedFacets: [searchResults.filter.facet],
+    selectedFacets: [filter.facet],
     renderedResults: searchResults.hits.map(({ document }) => hitToTrackingDoc(document)),
   }
 }
@@ -42,16 +42,16 @@ interface SearchHitInfiniteListProps {
 export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
-  const { searchResults, loadMore, refresh } = useSearchResults(filter)
+  const { searchResults, fetchNextPage, refetch } = useSearchResults(filter)
   const isLoading = loadingParameters || searchResults.isLoading
 
-  const fullRefresh = useOnRefresh(refresh)
+  const fullRefresh = useOnRefresh(refetch)
 
   // using debounce as the best approximation to "results have been rendered" that we could find. tried alternatives:
   // a) observing items updates (too frequent with in between empty states)
   // b) observing render state of FlatList (gets complex quickly, tricky to get right)
   const trackResultsViewed = useDebounce(() => {
-    track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(searchResults)))
+    track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(searchResults, filter)))
   }, 1000)
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
   }, [searchResults.hits, trackResultsViewed])
 
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
-  const emptyFilter = isEmptyFilter(searchResults.filter)
+  const emptyFilter = isEmptyFilter(filter)
 
   return (
     <FlashList
@@ -75,11 +75,11 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
         ) : emptyFilter ? (
           <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
-          <NoSearchResults filter={searchResults.filter} />
+          <NoSearchResults filter={filter} />
         )
       }
       ListFooterComponent={() => {
-        if (searchResults.hits.length > 0 && searchResults.canLoadMore) {
+        if (searchResults.hits.length > 0 && searchResults.canFetchMore) {
           return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
@@ -87,8 +87,8 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (searchResults.canLoadMore && !isLoading) {
-          loadMore()
+        if (searchResults.canFetchMore && !isLoading) {
+          fetchNextPage()
         }
       }}
       onEndReachedThreshold={0.5}
@@ -104,7 +104,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
                 itemPressedType: hit.type,
                 itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
                 itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
-                searchResult: resultsToTrackingEventResults(searchResults),
+                searchResult: resultsToTrackingEventResults(searchResults, filter),
               })}
             />
           </ErrorBoundary>

@@ -1,14 +1,9 @@
 import { useCallback, useMemo } from 'react'
 import { TrackingEvent } from '@holi/core/tracking'
-import type { FeedItem } from '@holi/core/screens/homeFeed/types'
-import type { VolunteeringReco } from '@holi-apps/volunteering/types'
-import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 
 export const useFeedStats = (
-  combinedFeedData: (FeedItem & {
-    goodNewsArticle?: GoodNewsArticle
-    volunteeringReco?: VolunteeringReco
-  })[],
+  combinedFeedData: CombinedFeedItem[],
   lastViewedIndex: number,
   track: (event: TrackingEvent) => void
 ) => {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
 import { render, screen, userEvent } from '@testing-library/react-native'
-import { SEARCH_HIT_TYPES_IN_ORDER } from '@holi/core/screens/search/types'
+import { SEARCH_FACETS_IN_ORDER } from '@holi/core/screens/search/types'
 
 describe('SearchExamples', () => {
-  describe.each(SEARCH_HIT_TYPES_IN_ORDER)('for facet %s', (facet) => {
+  describe.each(SEARCH_FACETS_IN_ORDER)('for facet %s', (facet) => {
     it('should display 5 examples', async () => {
       render(<SearchExamples onQuerySelect={jest.fn()} currentFacet={facet} />)
 

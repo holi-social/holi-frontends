@@ -10,39 +10,22 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 type VolunteeringCardContentProps = {
-  engagementOrReco: VolunteeringEngagement | VolunteeringReco
+  engagement: LocalizedTypesenseDocument
 }
 
-const hasTopics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
-  'engagement' in engagementOrReco
-    ? engagementOrReco.matchedTopicsV2 && engagementOrReco.matchedTopicsV2?.length > 0
-    : engagementOrReco.topicsV2 && engagementOrReco.topicsV2?.length > 0
-
-const topics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
-  'engagement' in engagementOrReco ? engagementOrReco.matchedTopicsV2 : engagementOrReco.topicsV2
-
-const hasSkills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
-  'engagement' in engagementOrReco
-    ? engagementOrReco.matchedSkillsV2 && engagementOrReco.matchedSkillsV2?.length > 0
-    : engagementOrReco.skillsV2 && engagementOrReco.skillsV2?.length > 0
-
-const skills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
-  'engagement' in engagementOrReco ? engagementOrReco.matchedSkillsV2 : engagementOrReco.skillsV2
-
-const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagementOrReco }) => {
+const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagement }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const engagement = 'engagement' in engagementOrReco ? engagementOrReco.engagement : engagementOrReco
 
-  const title = engagement.organizer?.name
+  const title = engagement.organizer_name
     ? t('volunteering:engagement.title', {
         title: engagement.title,
-        organization: engagement.organizer?.name,
+        organization: engagement.organizer_name,
         interpolation: { escapeValue: false },
       })
     : engagement.title
@@ -51,13 +34,9 @@ const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engag
   const country = t('volunteering:engagement.country')
   return (
     <View testID="volunteering-list-item">
-      {(hasTopics(engagementOrReco) || hasSkills(engagementOrReco)) && (
+      {(engagement.topics_v2?.length || engagement.skills_v2?.length) && (
         <>
-          <VolunteeringLabels
-            displayAll={false}
-            topicSlugs={topics(engagementOrReco)}
-            skillSlugs={skills(engagementOrReco)}
-          />
+          <VolunteeringLabels displayAll={false} topicSlugs={engagement.topics_v2} skillSlugs={engagement.skills_v2} />
           <HoliGap size={'xs'} />
         </>
       )}

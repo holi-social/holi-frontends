@@ -1,4 +1,4 @@
-export type TypesenseDocumentType = 'volunteering' | 'space' | 'profile'
+export type TypesenseDocumentType = 'volunteering' | 'space' | 'profile' | 'task'
 
 export type TypesenseDocumentLinkLocatorIdOrSlug = string | number
 export interface TypesenseDocument {
@@ -30,4 +30,12 @@ export interface TypesenseDocument {
   organizer_name?: string
   organizer_image_url?: string
   external_url?: string
+}
+
+export type LocalizedTypesenseDocument = Omit<
+  TypesenseDocument,
+  'title_de' | 'title_en' | 'description_de' | 'description_en'
+> & {
+  title: string
+  description: string
 }

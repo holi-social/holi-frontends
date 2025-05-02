@@ -27,7 +27,7 @@ export const useVolunteeringRecoTypesenseParameters = ({
     const userEmbedding = buildTopicsAndSkillsEmbedding({ topics, skills })
 
     return {
-      filter_by: 'type:volunteering',
+      filter_by: 'type:=[volunteering,task]',
       sort_by: sort_by_location + '_vector_distance:asc',
       per_page: pageSize,
       vector_query: `topics_skills_embedding_v2:(${JSON.stringify(userEmbedding)},k:100,alpha:0.9,distance_threshold:1)`,

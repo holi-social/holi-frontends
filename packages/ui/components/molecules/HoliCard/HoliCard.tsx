@@ -1,16 +1,16 @@
 import type { PropsWithChildren } from 'react'
-import * as React from 'react'
-import { ViewStyle } from 'react-native'
+import type * as React from 'react'
+import type { ViewStyle } from 'react-native'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
 
 import { CardContainer, type CardContainerProps } from './CardContainer'
 import { ContentContainer } from './ContentContainer'
 import { Image, type ImageProps } from './Image'
 import { ImageCaption, type ImageCaptionProps } from './ImageCaption'
 import { ImageContainer, type ImageContainerProps } from './ImageContainer'
-import { BorderRadius } from './utils'
+import type { BorderRadius } from './utils'
 
 export interface HoliCardProps extends CardContainerProps, ImageContainerProps, Omit<ImageProps, 'borderRadius'> {
   imageBorderRadius?: BorderRadius
@@ -26,6 +26,7 @@ const HoliCard = ({
   imageWidth,
   imageHeight,
   imageAspectRatio = 1.5,
+  imageFallback,
   caption,
   captionPosition: position = 'bottom',
   loading,
@@ -72,6 +73,7 @@ const HoliCard = ({
             imageHeight={imageHeight}
             imageWidth={imageWidth}
             imageAspectRatio={imageAspectRatio}
+            imageFallback={imageFallback}
             testID={testID}
           />
         )}

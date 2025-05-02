@@ -56,8 +56,9 @@ describe('useVolunteeringRecosTypesense', () => {
   }
   const results = {
     isLoading: false,
-    data: createHits(10),
+    hits: createHits(10),
     totalResults: 123,
+    totalNrOfPages: 13,
     canFetchMore: true,
     currentPage: 1,
     parameters,
@@ -92,8 +93,9 @@ describe('useVolunteeringRecosTypesense', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       state: {
         isLoading: false,
-        data: [],
+        hits: [],
         totalResults: 0,
+        totalNrOfPages: 0,
         canFetchMore: false,
         currentPage: 1,
         parameters: {},
@@ -137,8 +139,9 @@ describe('useVolunteeringRecosTypesense', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       state: {
         isLoading: true,
-        data: [],
+        hits: [],
         totalResults: 0,
+        totalNrOfPages: 0,
         canFetchMore: false,
         currentPage: 1,
         parameters,
@@ -208,8 +211,9 @@ describe('useVolunteeringRecosTypesense', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       state: {
         isLoading: false,
-        data: createHits(3),
+        hits: createHits(3),
         totalResults: 3,
+        totalNrOfPages: 0,
         canFetchMore: false,
         currentPage: 1,
         parameters,
@@ -282,8 +286,9 @@ describe('useVolunteeringRecosTypesense', () => {
       return {
         state: {
           isLoading: false,
-          data: [],
+          hits: [],
           totalResults: 0,
+          totalNrOfPages: 0,
           canFetchMore: false,
           currentPage: 1,
           parameters,
@@ -330,8 +335,9 @@ describe('useVolunteeringRecosTypesense', () => {
       return {
         state: {
           isLoading: false,
-          data: [],
+          hits: [],
           totalResults: 0,
+          totalNrOfPages: 0,
           canFetchMore: false,
           currentPage: 1,
           parameters,

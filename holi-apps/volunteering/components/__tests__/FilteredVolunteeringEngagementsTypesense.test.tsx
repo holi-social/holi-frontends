@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
-import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useFilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagementsTypesense'
 import { FilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagementsTypesense'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
@@ -18,7 +18,7 @@ jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagementsType
 describe('FilteredVolunteeringEngagementsTypesense', () => {
   const results = {
     isLoading: false,
-    engagements: makeEngagements(10),
+    engagements: makeVolunteeringDocuments(10),
     canFetchMore: true,
     fetchNextPage: jest.fn(),
     totalResults: 123,
@@ -121,7 +121,7 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
 
     await user.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.id}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
   })
 
   it('should track pressing cards', async () => {

@@ -84,7 +84,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
       isFetchingMore: false,
       state: {
         isLoading: false,
-        data: [
+        hits: [
           {
             document: {
               id: 'reco1',
@@ -95,6 +95,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
           },
         ],
         totalResults: 5,
+        totalNrOfPages: 1,
         canFetchMore: false,
         currentPage: 1,
         parameters: {},

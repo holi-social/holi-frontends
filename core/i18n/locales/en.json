@@ -906,6 +906,7 @@
   "search.typesense.facets.volunteering": "Volunteering",
   "search.typesense.hit.type.profile": "People",
   "search.typesense.hit.type.space": "Space",
+  "search.typesense.hit.type.task": "Volunteering",
   "search.typesense.hit.type.volunteering": "Volunteering",
   "search.typesense.input.clear": "Clear input",
   "search.typesense.input.label": "Search holi",

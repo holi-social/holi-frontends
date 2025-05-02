@@ -7,29 +7,24 @@ import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/track
 import { HeartsFilled } from '@holi/icons/src/generated'
 
 import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 type VolunteeringRecosSliderProps = {
-  recos: VolunteeringReco[] | VolunteeringEngagement[]
+  recos: LocalizedTypesenseDocument[]
   cardWidth: number
 }
 
-const VolunteeringRecosSlider: React.FC<VolunteeringRecosSliderProps> = ({ recos, cardWidth }) => {
+const VolunteeringRecosSlider = ({ recos, cardWidth }: VolunteeringRecosSliderProps) => {
   const { t } = useTranslation()
 
-  const listItemTrackingEvent: ListItemTrackingEvent<VolunteeringReco | VolunteeringEngagement> = (item) => {
-    const engagement = 'engagement' in item ? item.engagement : item
+  const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
     return TrackingEvent.RecommendationViewed('volunteering_opportunity', {
-      title: engagement?.title as string,
-      id: engagement?.id as string,
+      title: item?.title,
+      id: item?.id,
     })
   }
 
-  const listItemIdentifier: ListItemIdentifier<VolunteeringReco | VolunteeringEngagement> = (item) => {
-    const engagement = 'engagement' in item ? item.engagement : item
-
-    return engagement.id as string
-  }
+  const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = (item) => item.id
 
   return (
     <RecoSlider

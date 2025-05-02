@@ -39,11 +39,12 @@ const createEngagementHits = (length: number): SearchResponseHit<TypesenseDocume
   )
 
 describe('VolunteeringSimilarRecosTypesense', () => {
-  const mockEngagementId = '123'
+  const mockDocumentId = 'volunteering_123'
   const emptyState = {
     isLoading: false,
-    data: [],
+    hits: [],
     totalResults: 0,
+    totalNrOfPages: 0,
     canFetchMore: false,
     currentPage: 1,
     parameters: {},
@@ -57,14 +58,14 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringSimilarRecosTypesense engagementId={mockEngagementId} />)
+    render(<VolunteeringSimilarRecosTypesense documentId={mockDocumentId} />)
 
     expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
       parameters: {
-        filter_by: 'type:volunteering',
+        filter_by: 'type:=[volunteering,task]',
         sort_by: '_vector_distance:asc',
         per_page: 4,
-        vector_query: 'similarity_embedding:([], id: volunteering_123)',
+        vector_query: 'similarity_embedding:([],id:volunteering_123)',
       },
       onError: expect.any(Function),
     })
@@ -82,7 +83,7 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       }
     })
 
-    render(<VolunteeringSimilarRecosTypesense engagementId={mockEngagementId} />)
+    render(<VolunteeringSimilarRecosTypesense documentId={mockDocumentId} />)
 
     expect(mockLogError).toHaveBeenCalledWith(testError, 'Error retrieving similar recommendations', {
       location: 'VolunteeringSimilarRecosTypesense.useTypesensePaginationQuery',
@@ -97,7 +98,7 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringSimilarRecosTypesense engagementId={mockEngagementId} />)
+    render(<VolunteeringSimilarRecosTypesense documentId={mockDocumentId} />)
 
     expect(screen.queryByText('recommendation.slider.title')).not.toBeOnTheScreen()
   })
@@ -107,8 +108,9 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       isFetchingMore: false,
       state: {
         isLoading: false,
-        data: createEngagementHits(5),
+        hits: createEngagementHits(5),
         totalResults: 5,
+        totalNrOfPages: 1,
         canFetchMore: false,
         currentPage: 1,
         parameters: {},
@@ -117,7 +119,7 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringSimilarRecosTypesense engagementId={mockEngagementId} />)
+    render(<VolunteeringSimilarRecosTypesense documentId={mockDocumentId} />)
 
     expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
     expect(screen.queryAllByTestId('volunteering-reco-slider-card')).toHaveLength(4)
@@ -132,7 +134,7 @@ describe('VolunteeringSimilarRecosTypesense', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringSimilarRecosTypesense engagementId={mockEngagementId} />)
+    render(<VolunteeringSimilarRecosTypesense documentId={mockDocumentId} />)
 
     expect(mockUseOnRefresh).toHaveBeenCalledWith(refetch)
   })
