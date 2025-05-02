@@ -50,10 +50,12 @@ describe('createServerSideProps', () => {
   const loggedOutUserProps = {
     isLoggedOut: true,
     guestMode: false,
+    isBlockedBot: false,
   }
   const guestUserProps = {
     isLoggedOut: true,
     guestMode: true,
+    isBlockedBot: false,
   }
   const expectedProps = minimalProps.with({
     translations: mockedTranslations,
@@ -88,7 +90,7 @@ describe('createServerSideProps', () => {
     },
   }
 
-  type UserType = 'loggedIn' | 'incompleteAccount' | 'guest' | 'newUser' | 'bot'
+  type UserType = 'loggedIn' | 'incompleteAccount' | 'guest' | 'newUser' | 'bot' | 'aibot'
   const setupAndCreateContextForUser = (
     userContextType: UserType,
     requestOverrides = {}
@@ -105,7 +107,12 @@ describe('createServerSideProps', () => {
       })
     }
     const cookies = userContextType === 'guest' ? { [GUEST_MODE_COOKIE_NAME]: 'true' } : {}
-    const headers = userContextType === 'bot' ? { 'user-agent': 'Googlebot/2.1' } : {}
+    const headers =
+      userContextType === 'bot'
+        ? { 'user-agent': 'Googlebot/2.1' }
+        : userContextType === 'aibot'
+          ? { 'user-agent': 'GPTBot' }
+          : {}
 
     return {
       ...context,
@@ -326,7 +333,7 @@ describe('createServerSideProps', () => {
       expect(new HoliPageProps(props).user).toEqual(guestUserProps)
     })
 
-    it('should add guest user props if user is a bot', async () => {
+    it('should add guest user props if user is an allowed bot', async () => {
       const botContext = setupAndCreateContextForUser('bot')
 
       const props = await createServerSideProps(botContext)
@@ -371,6 +378,10 @@ describe('createServerSideProps', () => {
         {
           userType: 'bot',
           expectedRedirect: false,
+        },
+        {
+          userType: 'aibot',
+          expectedRedirect: true,
         },
       ]
       it.each(testData)(

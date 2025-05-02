@@ -15,17 +15,13 @@ import { GUEST_MODE_COOKIE_NAME } from '@holi/core/screens/onboarding/helpers/gu
 import { isAccountComplete } from '@holi/core/screens/onboarding/helpers/isAccountComplete'
 import type { User } from '@holi/core/domain/shared/types'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
+import { isAllowedBot, isBlockedBot } from '@holi/web/helpers/bots'
 
 interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
 }
 
 type PageContextRequest = GetServerSidePropsContext['req']
-
-// List of user agents substrings used by search engine crawlers and link preview bots (python-requests is used by Okuna)
-const botUserAgents = ['bot', 'crawl', 'slurp', 'spider', 'facebookexternalhit', 'whatsapp', 'python-requests']
-const isBot = (headers: PageContextRequest['headers'] = {}) =>
-  botUserAgents.some((userAgent) => headers['user-agent']?.toLowerCase().includes(userAgent))
 
 const isGuestUser = (cookies: NextApiRequestCookies = {}) => !!cookies[GUEST_MODE_COOKIE_NAME]
 
@@ -37,9 +33,11 @@ const createUserPageProps = (user: User | undefined, req: PageContextRequest): U
       accountCompleted: isAccountComplete(user),
     }
   }
+  const userAgent = (req?.headers || {})['user-agent']
   return {
     isLoggedOut: true,
-    guestMode: isGuestUser(req?.cookies) || isBot(req?.headers),
+    guestMode: isGuestUser(req?.cookies) || isAllowedBot(userAgent),
+    isBlockedBot: isBlockedBot(userAgent),
   }
 }
 
@@ -119,6 +117,9 @@ export const createServerSideProps = async (
 }
 
 const handleOnboardingStateDependentRedirect = (user: UserPageProps, customProps?: Partial<CustomProps>) => {
+  if (user.isBlockedBot) {
+    return '/onboarding'
+  }
   if (!user.isLoggedOut && !user.accountCompleted) {
     return '/onboarding'
   }
