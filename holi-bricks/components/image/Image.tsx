@@ -3,10 +3,9 @@ import { useState } from 'react'
 import { Image as RNImage } from 'react-native'
 import { Image as ExpoImage } from 'expo-image'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import type { ImageProps } from 'holi-bricks/components/image/type'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
-import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
+import type { MultiPlatformImage } from 'holi-bricks/components/image/type'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { isRemoteSource, transformSource } from 'holi-bricks/components/image/helpers'
 import { WithLocalSvg } from 'react-native-svg/css'
 
 const isLocalSvg = (source: number) => {
@@ -20,7 +19,7 @@ const isLocalSvg = (source: number) => {
   }
 }
 
-export const Image: React.FC<ImageProps> = ({
+export const Image: React.FC<MultiPlatformImage> = ({
   source,
   width,
   height,
@@ -36,10 +35,13 @@ export const Image: React.FC<ImageProps> = ({
 }) => {
   const [hasError, setHasError] = useState(false)
   const { styles } = useStyles(stylesheet)
-  const isRemote = isRemoteSource(source)
-  const localSvg = typeof source === 'number' && isLocalSvg(source)
 
   if (!source) return undefined
+
+  const isRemote = isRemoteSource(source)
+  const localSvg = typeof source === 'number' && isLocalSvg(source)
+  const transformedSource =
+    typeof width === 'number' && typeof height === 'number' ? transformSource(source, width, height) : undefined
 
   if (localSvg) {
     return (
@@ -58,8 +60,6 @@ export const Image: React.FC<ImageProps> = ({
     )
   }
 
-  const transformedSource =
-    typeof width === 'number' && typeof height === 'number' ? setScalingParams(source, width, height) : undefined
   return (
     <>
       <ExpoImage
@@ -70,7 +70,7 @@ export const Image: React.FC<ImageProps> = ({
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
         accessible={otherProps?.['aria-hidden'] === true}
         placeholder={isRemote ? blurhash : undefined}
-        style={[styles.imageSize(width, height), styles.aspectRatio(aspectRatio), styles.stretch(stretch)]}
+        style={{ width, height }}
         contentFit={resizeMode}
         onError={() => {
           setHasError(true)

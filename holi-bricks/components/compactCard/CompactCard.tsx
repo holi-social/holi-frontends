@@ -3,7 +3,7 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import type { AvatarProps } from 'holi-bricks/components/avatar'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import type { ButtonVariant } from 'holi-bricks/components/button/helpers'
-import type { ImageSource } from 'holi-bricks/components/image'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
@@ -20,7 +20,7 @@ export interface CompactCardProps {
   subtitle?: string
   topLabel?: string
   topLabelIcon?: HoliIconType
-  imageSrc?: ImageSource
+  imageSrc?: MultiPlatformImageSource
   date?: string
   maxWidth?: DimensionValue
   fixedWidth?: DimensionValue

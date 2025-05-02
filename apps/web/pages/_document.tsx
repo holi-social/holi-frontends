@@ -1,7 +1,7 @@
 import { getApolloContext } from '@apollo/client'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
-import 'holi-bricks/libs/init'
+import 'holi-bricks/styles/init'
 import type { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { type DocumentContext, type DocumentProps, Head, Html, Main, NextScript } from 'next/document'
 import type { Router } from 'next/router'

@@ -1,8 +1,7 @@
-import type { ImageProps } from 'holi-bricks/components/image'
-import { setScalingParams } from 'holi-bricks/components/image/helpers'
+import type { MultiPlatformImage } from 'holi-bricks/components/image'
+import { transformSource } from 'holi-bricks/components/image/helpers'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import NextImage from 'next/image'
 import type React from 'react'
 import { useState } from 'react'
@@ -11,7 +10,7 @@ export const isRemoteSource = (source: string): source is string => {
   return /^(https?:)?\/\//i.test(source)
 }
 
-export const Image: React.FC<ImageProps> = ({
+export const Image: React.FC<MultiPlatformImage> = ({
   source,
   alt,
   width,
@@ -30,7 +29,7 @@ export const Image: React.FC<ImageProps> = ({
   const isRemote = isRemoteSource(source as string)
   const transformedSource = (
     isRemote && typeof width === 'number' && typeof height === 'number'
-      ? setScalingParams(source as string, width, height)
+      ? transformSource(source as string, width, height)
       : source
   ) as string
 
@@ -61,7 +60,7 @@ export const Image: React.FC<ImageProps> = ({
 }
 
 const stylesheet = createStyleSheet({
-  objectFit: (resize?: ImageProps['resizeMode']) => ({
+  objectFit: (resize?: MultiPlatformImage['resizeMode']) => ({
     objectFit: resize,
   }),
   aspectRatio: (n?: string | number) => ({

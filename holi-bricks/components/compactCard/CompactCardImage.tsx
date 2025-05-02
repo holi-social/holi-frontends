@@ -3,17 +3,16 @@ import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { Platform, View } from 'react-native'
-import { Image, type ImageSource } from 'holi-bricks/components/image'
+import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { useRef, useState } from 'react'
-import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { useTranslation } from 'react-i18next'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 
 export interface CompactCardImageProps {
-  imageSrc?: ImageSource
+  imageSrc?: MultiPlatformImageSource
   date?: Date
   topIcon?: HoliIconType
   bottomIcon?: HoliIconType

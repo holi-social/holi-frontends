@@ -8,9 +8,8 @@ import PlacesAutocomplete, {
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { ArrowLeft, Edit2 } from '@holi/icons/src/generated'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Spacing } from 'holi-bricks/foundations'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 

@@ -1,4 +1,4 @@
-import { mono } from 'holi-bricks/tokens'
+import { mono } from 'holi-bricks/foundations'
 
 export const darkSelectorTheme = {
   backgroundColor: mono[700],

@@ -202,8 +202,6 @@ describe('FilteredSpaces', () => {
   it('filters spaces by topic', async () => {
     renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicsV2 })], { topic: topicsV2 })
 
-    screen.debug()
-
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { CoverImageSkeleton } from '@holi/core/components/CoverImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Stack } from 'holi-bricks/components/stack'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 
 export const DetailsScreenSkeleton = () => {
   return (

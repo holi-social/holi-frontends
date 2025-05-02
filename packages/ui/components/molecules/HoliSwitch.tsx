@@ -5,7 +5,7 @@ import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close } from '@holi/icons/src/generated'
 import { useTheme } from '@holi/ui/styles/theme'
-import { BorderRadius } from 'holi-bricks/tokens'
+import { BorderRadius } from 'holi-bricks/foundations'
 
 export const HoliSwitchSizes = ['small', 'medium', 'large'] as const
 export type HoliSwitchSize = (typeof HoliSwitchSizes)[number]

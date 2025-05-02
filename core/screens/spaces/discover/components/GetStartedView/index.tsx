@@ -10,9 +10,8 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius } from 'holi-bricks/tokens'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { BorderRadius } from 'holi-bricks/foundations'
 
 interface GetStartedViewProps {
   user?: User

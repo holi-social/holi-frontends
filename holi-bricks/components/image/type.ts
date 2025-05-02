@@ -1,15 +1,17 @@
 import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
-export type ImageSource = string | number
+export type WebImageSource = string
+export type MobileLocalImageSource = number
+export type MultiPlatformImageSource = WebImageSource | MobileLocalImageSource
 
-export interface ImageProps extends AccessibilityProps {
-  source: ImageSource
+export interface MultiPlatformImage extends AccessibilityProps {
+  source: MultiPlatformImageSource
   width: number
   height: number
   resizeMode?: 'cover' | 'contain' | 'fill' | 'scale-down'
   onError?: () => void
   onLoadEnd?: () => void
-  fallbackSource?: string | number
+  fallbackSource?: MultiPlatformImageSource
   blurhash?: string
   alt: string
   stretch?: boolean

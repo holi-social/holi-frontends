@@ -1,2 +1,2 @@
 export { Image } from './Image'
-export type { ImageProps, ImageSource } from './type'
+export type { MultiPlatformImage, MultiPlatformImageSource } from './type'

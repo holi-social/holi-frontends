@@ -15,7 +15,7 @@ import {
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'

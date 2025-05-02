@@ -1,6 +1,5 @@
-import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'

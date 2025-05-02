@@ -9,9 +9,8 @@ import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import RoomMessage from './RoomMessage'
 import type { RoomMessageListProps } from './types'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Spacing } from 'holi-bricks/foundations'
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
   const groupedMessages: Record<string, MessageItem[]> = {}

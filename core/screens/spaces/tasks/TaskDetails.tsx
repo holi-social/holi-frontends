@@ -6,7 +6,7 @@ import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetai
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import { Platform } from 'react-native'
-import { white } from 'holi-bricks/tokens'
+import { white } from 'holi-bricks/foundations'
 import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'

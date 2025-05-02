@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 

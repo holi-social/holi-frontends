@@ -46,7 +46,7 @@ test.describe('@Spaces', () => {
     await testDisplaysSpaceDetails(guest)
   })
 
-  test.only('user can create, edit and share space', async ({ browserName }) => {
+  test('user can create, edit and share space', async ({ browserName }) => {
     await testCreatingEditingSpace(user)
     await testShareSpace(user, browserName)
   })

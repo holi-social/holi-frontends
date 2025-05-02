@@ -8,7 +8,7 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { Stack } from 'holi-bricks/components/stack'
 
 export type EventFilters = {

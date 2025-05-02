@@ -4,7 +4,7 @@ import { createNativeStackNavigator, type NativeStackNavigationOptions } from '@
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { EventList } from '@holi-apps/events/screens/EventList'
 import { type EventDetailsParams, EventDetailsScreen } from '@holi-apps/events/screens/EventDetails'
-import { mono } from 'holi-bricks/tokens'
+import { mono } from 'holi-bricks/foundations'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
 

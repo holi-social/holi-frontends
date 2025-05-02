@@ -6,7 +6,7 @@ import type { DocType } from '@holi/core/documents/DocType'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { ScrollView } from 'react-native'
 
 interface Props extends Pick<HoliModalProps, 'shown' | 'onDismiss'> {

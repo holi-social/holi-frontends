@@ -1,12 +1,11 @@
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
-import { Spacing } from 'holi-bricks/tokens'
 import { SEARCH_FACETS_IN_ORDER, type SearchFacet } from '@holi/core/screens/search/types'
+import { Spacing } from 'holi-bricks/foundations'
 
 interface SearchFacetsTabsProps {
   currentFacet: SearchFacet

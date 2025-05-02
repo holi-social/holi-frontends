@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import { Text, type TextSize } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import type { UnistylesTheme } from 'react-native-unistyles'
 
 type CalendarIconSize = 'sm' | 'md' | 'lg'

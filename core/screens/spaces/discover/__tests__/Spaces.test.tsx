@@ -93,7 +93,7 @@ const MOCKS_WITHOUT_MY_SPACES = [
   defaultTopicsMock,
 ]
 
-describe.only('Spaces screen', () => {
+describe('Spaces screen', () => {
   beforeEach(() => {
     jest.useFakeTimers()
     jest.clearAllMocks()

@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { HoliProgressBar, useProgressBarAnimation } from '@holi/ui/components/molecules/HoliProgressBar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
 
 export const PROGRESS_BAR_HEIGHT = 43

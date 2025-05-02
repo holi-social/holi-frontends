@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { View, StatusBar, Platform, type ScrollView, type LayoutChangeEvent } from 'react-native'
-import { useStyles } from 'holi-bricks/hooks'
+import { useStyles } from 'holi-bricks/styles'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
 import { useScrollToTop } from '@react-navigation/native'

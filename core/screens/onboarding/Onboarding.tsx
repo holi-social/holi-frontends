@@ -10,7 +10,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { HoliStepper, type StepperButtonType } from '@holi/ui/components/organisms/HoliStepperV2'
-import { Spacing, mono } from 'holi-bricks/tokens'
+import { Spacing, mono } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
