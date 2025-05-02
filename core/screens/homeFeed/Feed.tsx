@@ -22,11 +22,10 @@ import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/use
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Text } from 'holi-bricks/components/text'
-import type { FeedItem } from '@holi/core/screens/homeFeed/types'
+import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
-import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
@@ -36,7 +35,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { SURVEY_URL } from '@holi/core/constants/urls'
-import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -57,34 +55,23 @@ const HomeFeed = () => {
   const navigation = useNavigation()
   const ref = useRef(null)
 
-  const keyExtractor = useCallback(
-    (
-      item: FeedItem & {
-        goodNewsArticle?: GoodNewsArticle
-        volunteeringReco?: LocalizedTypesenseDocument
-      },
-      index: number
-    ) => {
-      return (
-        item.feedPost?.id ||
-        item.spacePost?.id ||
-        item.insight?.id ||
-        item.goodNewsArticle?.id ||
-        item.volunteeringReco?.id ||
-        index.toString()
-      )
-    },
-    []
-  )
+  const keyExtractor = useCallback((item: CombinedFeedItem, index: number) => {
+    return (
+      item.feedPost?.id ||
+      item.spacePost?.id ||
+      item.insight?.id ||
+      item.goodNewsArticle?.id ||
+      item.volunteeringReco?.id ||
+      index.toString()
+    )
+  }, [])
 
   const renderItem = useCallback(
     ({
       item,
+      index,
     }: {
-      item: FeedItem & {
-        goodNewsArticle?: GoodNewsArticle
-        volunteeringReco?: LocalizedTypesenseDocument
-      }
+      item: CombinedFeedItem
       index: number
     }) => {
       return (
@@ -93,7 +80,7 @@ const HomeFeed = () => {
           {item.spacePost && <GenericPostCard post={item.spacePost} />}
           {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
-          {item.volunteeringReco && <VolunteeringCard engagement={item.volunteeringReco} />}
+          {item.volunteeringReco && <VolunteeringCard engagement={item.volunteeringReco} index={index} />}
         </>
       )
     },
@@ -125,23 +112,28 @@ const HomeFeed = () => {
     [refreshControlProps.refreshing]
   )
 
-  const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {
+  const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {
     if (item.feedPost) {
       return TrackingEvent.FeedPosts.read(item.feedPost.id)
     } else if (item.spacePost) {
       return TrackingEvent.SpacePosts.read(item.spacePost.id)
     } else if (item.insight) {
       return TrackingEvent.InsightCard.CardViewed(item.insight.id)
+    } else if (item.volunteeringReco) {
+      return TrackingEvent.RecommendationViewed(
+        item.volunteeringReco.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+        { id: item.volunteeringReco.id, title: item.volunteeringReco.title }
+      )
+    } else if (item.goodNewsArticle) {
+      return TrackingEvent.RecommendationViewed('goodnews', {
+        id: item.goodNewsArticle.id,
+        title: item.goodNewsArticle.headline,
+      })
     }
     return Unknown
   }
 
-  const listItemIdentifier: ListItemIdentifier<
-    FeedItem & {
-      goodNewsArticle?: GoodNewsArticle
-      volunteeringReco?: LocalizedTypesenseDocument
-    }
-  > = (item) => {
+  const listItemIdentifier: ListItemIdentifier<CombinedFeedItem> = (item) => {
     return (
       item.feedPost?.id ||
       item.spacePost?.id ||

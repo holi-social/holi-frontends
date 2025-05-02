@@ -13,13 +13,16 @@ import { VolunteeringLabels } from '@holi-apps/volunteering/components/Volunteer
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { Image } from 'holi-bricks/components/image'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 type VolunteeringCardProps = {
   engagement: LocalizedTypesenseDocument
   style?: StyleProp<ViewStyle>
+  index: number
 }
 
-const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style }: VolunteeringCardProps) => {
+const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, index }: VolunteeringCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -38,7 +41,15 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style }
           </View>
         </View>
       </HoliLink>
-      <HoliLink label={engagement.title} href={link}>
+      <HoliLinkTracked
+        label={engagement.title}
+        href={link}
+        trackingEvent={TrackingEvent.RecommendationPressed(
+          engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+          engagement.id,
+          index
+        )}
+      >
         <View style={styles.content}>
           {engagement.image_url ? (
             <ImagePreview currentImage={engagement.image_url} />
@@ -65,7 +76,7 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style }
             </Text>
           </View>
         </View>
-      </HoliLink>
+      </HoliLinkTracked>
     </View>
   )
 }

@@ -25,8 +25,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Text } from 'holi-bricks/components/text'
 import { simpleColumnSortingByIndex } from '@holi/core/screens/homeFeed/helpers'
-import type { FeedItem } from '@holi/core/screens/homeFeed/types'
-import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
@@ -37,7 +36,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { SURVEY_URL } from '@holi/core/constants/urls'
-import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 const FeedListItem = memo(
   ({
@@ -48,9 +46,7 @@ const FeedListItem = memo(
     onItemView,
     loadMoreRef,
   }: {
-    item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle } & {
-      volunteeringReco?: LocalizedTypesenseDocument
-    }
+    item: CombinedFeedItem & { loader?: boolean }
     index: number
     columnIndex: number
     insightsCreators: User[]
@@ -84,7 +80,7 @@ const FeedListItem = memo(
           )}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />}
           {item.volunteeringReco && (
-            <VolunteeringCard key={item.volunteeringReco?.id} engagement={item.volunteeringReco} />
+            <VolunteeringCard key={item.volunteeringReco?.id} engagement={item.volunteeringReco} index={index} />
           )}
           {item.loader && loadMoreRef && (
             <div ref={loadMoreRef}>

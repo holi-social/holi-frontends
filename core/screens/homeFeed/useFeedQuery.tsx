@@ -4,7 +4,7 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { logError } from '@holi/core/errors/helpers'
-import type { FeedItem } from '@holi/core/screens/homeFeed/types'
+import type { CombinedFeedItem, FeedItem } from '@holi/core/screens/homeFeed/types'
 import { feedInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
@@ -61,7 +61,7 @@ export const useFeedQuery = () => {
   // Get randomized engagements
   const randomizedEngagements = useRandomizedVolunteeringRecos({ pageSize: PAGE_SIZE_EXTERNAL_DATA })
 
-  const combinedFeedData = useMemo(() => {
+  const combinedFeedData = useMemo<CombinedFeedItem[]>(() => {
     const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const insights = dataInsights?.feedInsights?.data || []
@@ -69,7 +69,7 @@ export const useFeedQuery = () => {
     // Pre-calculate total length to avoid array resizing
     const totalExternalItems = Math.floor(feedData.length / POST_FREQUENCY) * 3
     const resultLength = feedData.length + totalExternalItems
-    const result = new Array(resultLength)
+    const result = new Array<CombinedFeedItem>(resultLength)
 
     // Copy feed data first
     let resultIndex = 0
@@ -126,11 +126,11 @@ export const useFeedQuery = () => {
           if (!fetchMoreResult?.feed?.data) return prev
 
           const existingIds = new Set(
-            prev.feed.data.map((post: FeedItem) => post.feedPost?.id || post.spacePost?.id || post.insight?.id)
+            prev.feed.data.map((post: FeedItem) => post.feedPost?.id || post.spacePost?.id || post.post?.id)
           )
 
           const newPosts = fetchMoreResult.feed.data.filter((newItem: FeedItem) => {
-            const newId = newItem.feedPost?.id || newItem.spacePost?.id || newItem.insight?.id
+            const newId = newItem.feedPost?.id || newItem.spacePost?.id || newItem.post?.id
             return !existingIds.has(newId)
           })
 
