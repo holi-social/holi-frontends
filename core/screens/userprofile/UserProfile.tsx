@@ -10,7 +10,7 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import { type UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
-import { isNotFoundError } from '@holi/core/errors/helpers'
+import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -19,7 +19,12 @@ import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequir
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType, ContentType3K } from '@holi/core/queries'
+import {
+  ContentType,
+  ContentType3K,
+  type InsightsByUserIdResponse,
+  insightsByUserIdTotalResultsQuery,
+} from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -90,6 +95,20 @@ const UserProfile = () => {
 
   const [isBlockingUser, blockUser] = useBlockUser()
 
+  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
+    variables: { userId: user?.id ?? userId },
+    skip: !userId,
+    errorPolicy: 'ignore',
+    onError: (error) => {
+      logError(error, 'Failed to load insights for user', {
+        location: 'UserProfile.insightsByUserIdTotalResultsQuery',
+      })
+    },
+  })
+
+  const totalInsights = dataInsights?.insightsByUserId?.totalResults ?? 0
+  const hasInsights = totalInsights > 0
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('profile.title'),
@@ -147,7 +166,7 @@ const UserProfile = () => {
   const hasSkills = !!user.skillsV2?.length
   const hasInfo = user.engagementLevel || hasInterests || hasSkills
 
-  const tabsData = [
+  const tabs = [
     {
       key: 'posts',
       tabTitle: t('individuals.post.name'),
@@ -183,11 +202,7 @@ const UserProfile = () => {
         </View>
       ),
     },
-    {
-      key: 'insights',
-      tabTitle: t('profile.tabs.insight'),
-      content: () => <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
-    },
+
     {
       key: 'spaces',
       tabTitle: t('profile.tabs.spaces'),
@@ -200,8 +215,16 @@ const UserProfile = () => {
     },
   ]
 
+  if (hasInsights) {
+    tabs.splice(1, 0, {
+      key: 'insights',
+      tabTitle: t('profile.tabs.insight'),
+      content: () => <InsightsTab userId={user.id} />,
+    })
+  }
+
   if (loginState.isLoggedIn) {
-    tabsData.push({
+    tabs.push({
       key: 'connections',
       tabTitle: t('profile.tabs.connections'),
       content: () => <ConnectionsTab emptyText={t('user.profile.connections.title.empty')} userId={user.id} />,
@@ -217,7 +240,7 @@ const UserProfile = () => {
       <HoliTabs
         activeTab={activeTab}
         onChange={setActiveTab}
-        data={tabsData}
+        data={tabs}
         keyExtractor={(item) => item.key}
         renderTabContent={({ item }) => item.content()}
         backgroundColor={colors.background20}
