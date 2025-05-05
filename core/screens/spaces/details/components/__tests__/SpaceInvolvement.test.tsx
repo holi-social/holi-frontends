@@ -16,16 +16,19 @@ describe('SpaceInvolvement', () => {
     jest.useFakeTimers()
     mockUseFeatureFlag.mockReturnValue(['on', undefined])
   })
+
   afterEach(async () => {
     await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
+
   it('renders correctly for the public', () => {
     render(
       <MockedProvider>
         <SpaceInvolvement space={space} />
       </MockedProvider>
     )
+
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -34,12 +37,13 @@ describe('SpaceInvolvement', () => {
       ...space,
       connectionStatusToMyself: [SpaceConnectionType.MEMBER],
     }
+
     render(
       <MockedProvider>
         <SpaceInvolvement space={spaceForMember} />
       </MockedProvider>
     )
-    await waitFor(() => screen.findByText('spaces.storage.title'))
-    expect(screen.toJSON()).toHaveTextContent('spaces.storage.title')
+
+    await waitFor(() => screen.findByTestId('btn-right-space-tasks-card'))
   })
 })

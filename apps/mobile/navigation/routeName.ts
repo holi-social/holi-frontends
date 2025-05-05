@@ -24,7 +24,6 @@ export enum RouteName {
   ExploreSpaces = 'ExploreSpaces',
   EditSpace = 'EditSpace',
   CreateDigitalTool = 'CreateDigitalTool',
-  SpaceStorage = 'SpaceStorage',
   SpaceVideoCallList = 'SpaceVideoCallList',
   LinkHub = 'LinkHub',
   EditDigitalTool = 'EditDigitalTool',

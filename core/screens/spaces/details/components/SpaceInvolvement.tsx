@@ -17,7 +17,6 @@ import AppointmentsWidget from '@holi/core/screens/spaces/appointments/component
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
-import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
 import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -107,7 +106,6 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         )}
 
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
-        {isCollaborator && <StorageWidget space={space} style={styles.card} />}
 
         <TaskCollaborationCard
           isAdmin={isAdmin}

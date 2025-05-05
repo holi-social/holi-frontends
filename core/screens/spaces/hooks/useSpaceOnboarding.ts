@@ -5,7 +5,6 @@ import { useLoginState } from '@holi/core/auth/loginState'
 
 export enum SpaceOnboardings {
   JoinOnboarding = 'space_join_is_onboarded',
-  StorageOnboarding = 'space_storage_is_onboarded',
 }
 
 export const useSpaceOnboarding = (onboarding: SpaceOnboardings) => {
