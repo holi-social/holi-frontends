@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import CommentInputPage, { type CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { type PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import SpaceStorage, { type SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
 import AboutSpaces from '@holi/core/screens/spaces/about/AboutSpaces'
 import AppointmentDetails, {
   type AppointmentDetailsParams,
@@ -68,7 +67,6 @@ export type SpacesScreens = {
   [RouteName.EditUpdate]: CreateUpdateParams
   [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
   [RouteName.SpaceUpdateCommentInputPage]: CommentInputPageParams
-  [RouteName.SpaceStorage]: SpaceStorageParams
   [RouteName.SpaceVideoCallList]: SpaceVideoCallListParams
   [RouteName.LinkHub]: LinkHubParams
   [RouteName.EditDigitalTool]: EditDigitalToolParams
@@ -106,7 +104,6 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.ExploreSpaces} component={DiscoverSpaces} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
-      <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
       <SpacesStack.Screen name={RouteName.SpaceVideoCallList} component={SpaceVideoCallList} />
       <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
