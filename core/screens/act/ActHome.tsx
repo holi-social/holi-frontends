@@ -13,6 +13,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 type ActHomeParams = {
   section: string
@@ -20,14 +22,15 @@ type ActHomeParams = {
 
 const { useParam } = createParamHooks<ActHomeParams>()
 
-export const orderedSections = (selectedContentType?: string) => {
-  const sections = [
+export const orderedSections = (includeTasks: boolean, selectedContentType?: string) => {
+  const allSections = [
     ActSectionType.VOLUNTEERING,
     ActSectionType.EVENTS,
     ActSectionType.CHALLENGES,
     ActSectionType.TASKS,
     ActSectionType.DONATIONS,
   ]
+  const sections = includeTasks ? allSections : allSections.filter((section) => section != ActSectionType.TASKS)
 
   if (selectedContentType) {
     const index = sections.findIndex((item) => item === selectedContentType)
@@ -62,7 +65,8 @@ const ActHome = () => {
     })
   }, [title, setScreenOptions])
 
-  const sections = orderedSections(selectedContentType)
+  const includeTasks = !useFeatureFlagToggle(FeatureFlagKey.TYPESENSE_RECOS)
+  const sections = orderedSections(includeTasks, selectedContentType)
 
   return (
     <ScrollViewRefreshable style={styles.layout}>
