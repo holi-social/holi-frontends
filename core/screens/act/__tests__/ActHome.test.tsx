@@ -20,6 +20,11 @@ jest.mock('@holi/core/screens/act/ActSection', () => {
   }
 })
 
+const mockUseFeatureFlagToggle = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlagToggle', () => ({
+  useFeatureFlagToggle: () => mockUseFeatureFlagToggle(),
+}))
+
 const cases = [
   { section: undefined, order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
   { section: 'SPACE', order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
@@ -31,7 +36,8 @@ const cases = [
 
 describe('ActHome Section', () => {
   it.each(cases)('query parameter section=$section gives order: $order', ({ section, order }) => {
-    const orderedSect = orderedSections(section)
+    mockUseFeatureFlagToggle.mockReturnValue(false)
+    const orderedSect = orderedSections(true, section)
     expect(orderedSect).toStrictEqual(order)
     mockParameters({ section })
 
