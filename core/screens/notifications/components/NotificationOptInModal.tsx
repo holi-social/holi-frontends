@@ -114,17 +114,14 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
           <View style={styles.buttonContainer}>
             {onConfirm && (
               <Button
-                inline
                 label={confirmText || t('notifications.permission.button.confirm')}
                 onPress={onConfirm}
                 variant="primary"
-                // style={[styles.button, { backgroundColor: theme.colors.brandColorA20 }]}
                 testID={`${testID}-confirm`}
               />
             )}
             {onDismiss && (
               <Button
-                inline
                 variant="secondary"
                 label={dismissText || t('notifications.permission.button.dismiss')}
                 onPress={onDismiss}
@@ -132,13 +129,9 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
               />
             )}
             {dismissModal && (
-              <Button
-                inline
-                variant="secondary"
-                label={dismissText || t('notifications.permission.button.dismiss')}
-                onPress={onDismiss}
-                testID={`${testID}-dismiss`}
-              />
+              <Pressable onPress={onDismiss} testID={`${testID}-dismiss`} style={styles.dismiss}>
+                <HoliText size="extrasmall">{t('notifications.permission.dismiss.label')}</HoliText>
+              </Pressable>
             )}
           </View>
         </View>
