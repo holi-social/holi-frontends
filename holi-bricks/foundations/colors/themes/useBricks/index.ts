@@ -10,7 +10,7 @@ import { createBricksManager } from './createBricksManager'
  * @returns {Object} The functions for managing the library (e.g., setting and getting the active theme).
  *
  * @example
- * const { setActiveTheme, getActiveTheme } = useBricks();
+ * const { setActiveTheme, getActiveThemeName } = useBricks();
  * setActiveTheme('dark');
  * console.log(getActiveTheme()); // Outputs: 'dark'
  */
