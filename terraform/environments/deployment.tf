@@ -98,10 +98,6 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
         env {
-          name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
-          value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
-        }
-        env {
           name  = "TYPESENSE_HOST"
           value = local.environment == "production" ? "search.holi.social" : "dev-search.holi.social"
         }

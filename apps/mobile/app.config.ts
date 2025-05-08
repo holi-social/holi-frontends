@@ -238,9 +238,6 @@ const config: ExpoConfig = {
     sentry: {
       dsn: requiredEnvVar('SENTRY_DSN'),
     },
-    owncloud: {
-      url: requiredEnvVar('OWNCLOUD_BASE_URL'),
-    },
     jitsi: {
       url: requiredEnvVar('JITSI_URL'),
     },

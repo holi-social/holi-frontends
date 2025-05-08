@@ -24,10 +24,6 @@ export interface HoliSentryConfig {
   dsn: string
 }
 
-export interface HoliOwnCloudConfig {
-  url: string
-}
-
 export interface HoliJitsiConfig {
   url: string
 }
@@ -66,7 +62,6 @@ export interface HoliConfig {
   holi_nextjs_api: HoliNextJsApiConfig
   environment: string
   sentry: HoliSentryConfig
-  owncloud: HoliOwnCloudConfig
   jitsi: HoliJitsiConfig
   eas: HoliEASConfig
   e2e: HoliE2EConfig
@@ -99,9 +94,6 @@ export const config: HoliConfig = {
   environment: Constants.expoConfig?.extra?.environment,
   sentry: {
     dsn: Constants.expoConfig?.extra?.sentry.dsn,
-  },
-  owncloud: {
-    url: Constants.expoConfig?.extra?.owncloud.url,
   },
   jitsi: {
     url: Constants.expoConfig?.extra?.jitsi.url,
