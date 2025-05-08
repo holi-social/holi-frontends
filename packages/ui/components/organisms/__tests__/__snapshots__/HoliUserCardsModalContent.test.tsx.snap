@@ -221,6 +221,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -251,6 +263,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}
@@ -412,6 +435,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -442,6 +477,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}
@@ -589,6 +635,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -619,6 +677,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}
@@ -780,6 +849,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -810,6 +891,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}
@@ -957,6 +1049,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -987,6 +1091,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}
@@ -1148,6 +1263,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -1178,6 +1305,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}
@@ -1327,6 +1465,18 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "value": {},
                         }
                       }
+                      jestInlineStyle={
+                        {
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "lineHeight": 22.4,
+                          "marginVertical": 8,
+                          "textAlign": "center",
+                          "userSelect": "auto",
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -1357,6 +1507,17 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         jestAnimatedStyle={
                           {
                             "value": {},
+                          }
+                        }
+                        jestInlineStyle={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "textAlign": "center",
+                            "userSelect": "auto",
                           }
                         }
                         selectable={true}

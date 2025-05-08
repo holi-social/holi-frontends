@@ -8,7 +8,7 @@ import type {
 } from 'expo-notifications'
 import * as Notifications from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
-import { TaskManagerTaskBody } from 'expo-task-manager'
+import type { TaskManagerTaskBody } from 'expo-task-manager'
 import { Platform } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
@@ -17,7 +17,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
 import { isChatNotification, maybeScheduleChatNotification } from '@holi/mobile/notifications/chatNotifications'
-import { NotificationData } from '@holi/mobile/notifications/index'
+import type { NotificationData } from '@holi/mobile/notifications/index'
 
 const logger = getLogger('Notifications')
 
@@ -77,7 +77,7 @@ const parseNotificationPayload = (request: Partial<NotificationRequest>): Notifi
 const handleNotification = async (notification: Notification): Promise<NotificationBehavior> => {
   // defensive programming, since types don't show all null-possibilities
   const request: Partial<NotificationRequest> = notification.request
-  if (request.trigger?.type === 'push') {
+  if ((request.trigger as PushNotificationTrigger)?.type === 'push') {
     const data = parseNotificationPayload(request)
     // Only chat notifications may be displayed in the foreground
     // It's a product decision, that Novu notifications are not shown while the App is active

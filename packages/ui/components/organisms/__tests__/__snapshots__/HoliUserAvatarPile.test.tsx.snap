@@ -107,6 +107,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "value": {},
         }
       }
+      jestInlineStyle={
+        {
+          "color": "#fff",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 10.8,
+          "fontWeight": "bold",
+          "lineHeight": 12.96,
+          "textTransform": "uppercase",
+          "userSelect": "auto",
+        }
+      }
       role="img"
       selectable={true}
       style={
@@ -215,6 +226,17 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       jestAnimatedStyle={
         {
           "value": {},
+        }
+      }
+      jestInlineStyle={
+        {
+          "color": "#000",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 10.8,
+          "fontWeight": "bold",
+          "lineHeight": 12.96,
+          "textTransform": "uppercase",
+          "userSelect": "auto",
         }
       }
       role="img"

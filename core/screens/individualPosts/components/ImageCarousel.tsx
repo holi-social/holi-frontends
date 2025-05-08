@@ -1,10 +1,10 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
-import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native'
+import { type LayoutChangeEvent, StyleSheet, View, type ViewStyle } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
+import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -40,8 +40,9 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
           data={images}
           onSnapToItem={(index: number) => setCurrentIndex(index)}
           snapEnabled={true}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
+          onConfigurePanGesture={(gesture) => {
+            'worklet'
+            gesture.activeOffsetX([-10, 10])
           }}
           scrollAnimationDuration={200} // default is 500
           renderItem={({ index, item }: { index: number; item: FeedPostImage }) => (

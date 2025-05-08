@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle, type TextStyle } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type FilterType = 'generic' | 'topic' | 'skill' | 'location' | 'planned'
 
@@ -29,7 +29,7 @@ export const FilterPill = ({ loading, label, filterType, style, small }: PropsWi
         loading={true}
         size={small ? 'small' : undefined}
         numberOfLines={1}
-        style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style])}
+        style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style]) as StyleProp<TextStyle>}
         skeletonOptions={{ borderRadius: BORDER_RADIUS, width: '100%', paddingVertical }}
       />
     )

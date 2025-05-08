@@ -1,40 +1,82 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@holi/mobile/*": ["apps/mobile/*"],
-      "@holi/storybook/*": ["apps/storybook/*"],
-      "@holi/web/*": ["apps/web/*"],
-      "@holi/ui/*": ["packages/ui/*"],
-      "@holi/icons/*": ["packages/icons/*"],
-      "@holi/api/*": ["packages/api/*"],
-      "@holi/chat/*": ["packages/chat/*"],
-      "@holi/core/*": ["core/*"],
-      "@holi-apps/donations/*": ["holi-apps/donations/*"],
-      "@holi-apps/goodnews/*": ["holi-apps/goodnews/*"],
-      "@holi-apps/volunteering/*": ["holi-apps/volunteering/*"],
-      "@holi-apps/challenges/*": ["holi-apps/challenges/*"],
-      "@holi-apps/events/*": ["holi-apps/events/*"],
-      "@holi/e2e-mobile/*": ["e2e/mobile/*"],
-      "@holi/e2e-web/*": ["e2e/web/*"],
-      "holi-bricks/*": ["holi-bricks/*"]
-    },
-    "jsx": "preserve",
-    "strict": true,
     "allowJs": true,
+    "baseUrl": "./",
     "esModuleInterop": true,
-    "lib": ["DOM", "ESNext", "dom.iterable"],
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": [
+      "DOM",
+      "dom.iterable",
+      "ESNext"
+    ],
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
+    "paths": {
+      "@holi-apps/challenges/*": [
+        "holi-apps/challenges/*"
+      ],
+      "@holi-apps/donations/*": [
+        "holi-apps/donations/*"
+      ],
+      "@holi-apps/events/*": [
+        "holi-apps/events/*"
+      ],
+      "@holi-apps/goodnews/*": [
+        "holi-apps/goodnews/*"
+      ],
+      "@holi-apps/volunteering/*": [
+        "holi-apps/volunteering/*"
+      ],
+      "@holi/api/*": [
+        "packages/api/*"
+      ],
+      "@holi/chat/*": [
+        "packages/chat/*"
+      ],
+      "@holi/core/*": [
+        "core/*"
+      ],
+      "@holi/e2e-mobile/*": [
+        "e2e/mobile/*"
+      ],
+      "@holi/e2e-web/*": [
+        "e2e/web/*"
+      ],
+      "@holi/icons/*": [
+        "packages/icons/*"
+      ],
+      "@holi/mobile/*": [
+        "apps/mobile/*"
+      ],
+      "@holi/storybook/*": [
+        "apps/storybook/*"
+      ],
+      "@holi/ui/*": [
+        "packages/ui/*"
+      ],
+      "@holi/web/*": [
+        "apps/web/*"
+      ],
+      "holi-bricks/*": [
+        "holi-bricks/*"
+      ]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "ESNext",
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "isolatedModules": true,
-    "incremental": true
+    "strict": true,
+    "target": "ESNext"
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "typeRoots": ["./@types", "packages/ui/@types", "./node_modules/@types"],
-  "extends": "expo/tsconfig.base"
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "typeRoots": [
+    "./@types",
+    "./node_modules/@types",
+    "packages/ui/@types"
+  ]
 }

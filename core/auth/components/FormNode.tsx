@@ -2,7 +2,7 @@
 import type { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native'
 
 import FormInputField, { type InputProps } from '@holi/core/auth/components/FormInputField'
 import {
@@ -47,7 +47,7 @@ const FormNode = (props: Props) => {
   if (oryNodeIsText(node.attributes)) {
     const metaText = props.node.meta.label?.text ? `${props.node.meta.label?.text} ` : ''
     const text = `${metaText} ${node.attributes.text.text}`
-    return <HoliText style={[props.style || {}]}>{text}</HoliText>
+    return <HoliText style={[props.style || {}] as StyleProp<TextStyle>}>{text}</HoliText>
   }
 
   if (oryNodeIsInput(node.attributes)) {
@@ -59,7 +59,7 @@ const FormNode = (props: Props) => {
         translationPrefix={props.translationPrefix}
         onEnterPress={props.onSubmitPress}
         {...mobileInputFieldScrollIntoViewProps}
-        style={props.style}
+        style={props.style as StyleProp<TextStyle>}
       />
     )
   }

@@ -1,6 +1,14 @@
 import * as React from 'react'
 // eslint-disable-next-line no-restricted-imports
-import { Platform, type StyleProp, StyleSheet, type TextProps, type TextStyle, View } from 'react-native'
+import {
+  Platform,
+  type StyleProp,
+  StyleSheet,
+  type TextProps,
+  type TextStyle,
+  View,
+  type ViewStyle,
+} from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -53,7 +61,7 @@ const HoliText = ({
 
   if (loading) {
     return (
-      <View style={props?.style}>
+      <View style={props?.style as StyleProp<ViewStyle>}>
         <HoliSkeleton {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, styles[size].lineHeight, '60%')} />
       </View>
     )

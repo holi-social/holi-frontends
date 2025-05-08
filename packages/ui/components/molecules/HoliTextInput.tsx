@@ -236,7 +236,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               value={value ?? ''}
               style={[
                 styles.input,
-                inputStyle,
+                inputStyle as StyleProp<TextStyle>,
                 inline ? styles.inline : styles.block,
                 fontStyle,
                 { borderColor: inputBorderColor },

@@ -32,6 +32,18 @@ exports[`SpacePendingRequestsList renders correctly if there are no pending requ
           "value": {},
         }
       }
+      jestInlineStyle={
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 14,
+          "fontWeight": "400",
+          "lineHeight": 19.599999999999998,
+          "marginTop": 24,
+          "textAlign": "center",
+          "userSelect": "auto",
+        }
+      }
       selectable={true}
       style={
         {
@@ -54,6 +66,18 @@ exports[`SpacePendingRequestsList renders correctly if there are no pending requ
       jestAnimatedStyle={
         {
           "value": {},
+        }
+      }
+      jestInlineStyle={
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 21,
+          "fontWeight": "400",
+          "lineHeight": 29.4,
+          "marginTop": 8,
+          "textAlign": "center",
+          "userSelect": "auto",
         }
       }
       selectable={true}
@@ -200,6 +224,16 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -648,6 +682,16 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1094,6 +1138,16 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             jestAnimatedStyle={
               {
                 "value": {},
+              }
+            }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
               }
             }
             numberOfLines={1}

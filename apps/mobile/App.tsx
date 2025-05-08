@@ -72,7 +72,12 @@ const App = () => {
         <NavigationProvider>
           <RootProvider apolloClient={apolloClient}>
             <KeyboardProvider>
-              <OnboardingAwaitingNavigator onReady={SplashScreen.hideAsync} />
+              <OnboardingAwaitingNavigator
+                onReady={async () => {
+                  await SplashScreen.hideAsync()
+                  return true
+                }}
+              />
             </KeyboardProvider>
           </RootProvider>
         </NavigationProvider>

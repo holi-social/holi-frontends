@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client'
-import { GraphQLErrors } from '@apollo/client/errors'
+import type { GraphQLErrors } from '@apollo/client/errors'
 import { MockedProvider } from '@apollo/client/testing'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import React from 'react'
@@ -99,6 +99,8 @@ describe('useSpace', () => {
     await act(async () => {
       await result.current.refetch()
     })
+
+    await waitFor(() => expect(result.current.loading).toBeFalsy())
   })
 
   it('should redirect if space was not found', async () => {

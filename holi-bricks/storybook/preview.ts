@@ -13,7 +13,7 @@ const preview: Preview = {
   globalTypes: {
     ...storybookThemeConfig,
   },
-  tags: ['autodocs'],
+
   decorators: [withTheme],
 }
 

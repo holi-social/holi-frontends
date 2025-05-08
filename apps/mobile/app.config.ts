@@ -52,6 +52,7 @@ const config: ExpoConfig = {
   orientation: 'portrait',
   icon: './assets/icon.png',
   jsEngine: 'hermes',
+  newArchEnabled: true,
   scheme: 'holi',
   splash: {
     image: './assets/splash.png',

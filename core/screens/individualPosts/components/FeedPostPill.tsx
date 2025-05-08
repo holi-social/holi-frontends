@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type TextStyle, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Pencil } from '@holi/icons/src/generated'
@@ -63,7 +63,7 @@ const FeedPostPill: React.FC<PropsWithSkeleton<Props>> = ({
       <HoliText
         loading={true}
         numberOfLines={1}
-        style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style])}
+        style={StyleSheet.flatten([styles.buttonContent, styles.loadingContent, style]) as StyleProp<TextStyle>}
         skeletonOptions={{ borderRadius: BORDER_RADIUS, width: '100%', paddingVertical }}
         testID={testID + '-loading'}
       />

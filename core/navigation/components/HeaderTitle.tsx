@@ -1,11 +1,11 @@
 import type React from 'react'
-import { type StyleProp, View, type ViewStyle, useWindowDimensions } from 'react-native'
+import { type StyleProp, type TextStyle, View, useWindowDimensions } from 'react-native'
 
 import HoliText, { type HoliTextColor, type HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HeaderTitleProps extends Partial<HoliTextProps> {
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<TextStyle>
   tintColor?: string
   color?: HoliTextColor
   widthOfScreen?: number
@@ -27,7 +27,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({ children, tintColor, widthOfS
         size={size}
         {...props}
         numberOfLines={1}
-        style={[{ color: tintColor || colors.foreground30 }, style]}
+        style={[{ color: tintColor || colors.foreground30 }, style] as StyleProp<TextStyle>}
       >
         {children}
       </HoliText>

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { ScrollView, ScrollViewProps } from 'react-native'
+import { ScrollView, type ScrollViewProps } from 'react-native'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import {
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type {
   RefreshableScrollHeaderLayoutProps,
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
@@ -18,13 +18,10 @@ const isHoliModalOpen = () => document.querySelector('[aria-modal="true"]') !== 
 
 // DISCLAIMER: When changing anything here, also test horizontal scrolling on iOS Safari!
 export function withRefreshControl<P extends LayoutProps, T>(
-  ScrollComponent: (props: RefreshableScrollViewProps<P>) => React.ReactNode
+  ScrollComponent: React.ComponentType<RefreshableScrollViewProps<P>>
 ) {
-  const WithRefreshControl = React.forwardRef(
-    (
-      { headerOverlap, webWrapperStyle, ...scrollViewProps }: RefreshableScrollHeaderLayoutProps<P>,
-      ref: React.ForwardedRef<T>
-    ) => {
+  const WithRefreshControl = React.forwardRef<T, RefreshableScrollHeaderLayoutProps<P>>(
+    ({ headerOverlap, webWrapperStyle, ...scrollViewProps }, ref) => {
       const startPointRef = useRef(0)
       // For better perfomance of the `useEffect` use non-reactive `pullChange` ref to keep track of the pull length in event handlers
       const pullChange = useRef(0)
@@ -115,7 +112,11 @@ export function withRefreshControl<P extends LayoutProps, T>(
             <HoliLoader />
           </div>
 
-          <ScrollComponent {...scrollViewProps} headerOverlap={headerOverlap} ref={ref} />
+          <ScrollComponent
+            {...(scrollViewProps as RefreshableScrollViewProps<P>)}
+            headerOverlap={headerOverlap}
+            ref={ref}
+          />
         </div>
       )
     }

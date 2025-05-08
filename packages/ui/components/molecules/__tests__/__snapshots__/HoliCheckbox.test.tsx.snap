@@ -79,6 +79,18 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
             "value": {},
           }
         }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "userSelect": "none",
+          }
+        }
         selectable={false}
         style={
           {
@@ -178,6 +190,19 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "opacity": 0.6,
+            "userSelect": "none",
           }
         }
         selectable={false}
@@ -337,6 +362,18 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
             "value": {},
           }
         }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "userSelect": "none",
+          }
+        }
         selectable={false}
         style={
           {
@@ -492,6 +529,19 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "opacity": 0.6,
+            "userSelect": "none",
           }
         }
         selectable={false}
@@ -651,6 +701,18 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
             "value": {},
           }
         }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "userSelect": "none",
+          }
+        }
         selectable={false}
         style={
           {
@@ -806,6 +868,19 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "opacity": 0.6,
+            "userSelect": "none",
           }
         }
         selectable={false}
@@ -965,6 +1040,18 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
             "value": {},
           }
         }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "flexShrink": 1,
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 12,
+            "userSelect": "none",
+          }
+        }
         selectable={false}
         style={
           {
@@ -989,6 +1076,17 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
     jestAnimatedStyle={
       {
         "value": {},
+      }
+    }
+    jestInlineStyle={
+      {
+        "color": "#cc1820",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 12,
+        "fontWeight": "400",
+        "lineHeight": 16.799999999999997,
+        "marginTop": 6,
+        "userSelect": "auto",
       }
     }
     selectable={true}
