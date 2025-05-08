@@ -105,6 +105,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -175,6 +185,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       "value": {},
                     }
                   }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -204,6 +224,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   jestAnimatedStyle={
                     {
                       "value": {},
+                    }
+                  }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                   selectable={true}
@@ -271,6 +301,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}
@@ -583,6 +623,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -653,6 +703,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       "value": {},
                     }
                   }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -682,6 +742,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   jestAnimatedStyle={
                     {
                       "value": {},
+                    }
+                  }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                   selectable={true}
@@ -749,6 +819,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}
@@ -930,6 +1010,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -1000,6 +1090,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       "value": {},
                     }
                   }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -1029,6 +1129,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   jestAnimatedStyle={
                     {
                       "value": {},
+                    }
+                  }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                   selectable={true}
@@ -1093,6 +1203,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}
@@ -1385,6 +1505,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1566,6 +1696,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -1636,6 +1776,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       "value": {},
                     }
                   }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -1665,6 +1815,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                   jestAnimatedStyle={
                     {
                       "value": {},
+                    }
+                  }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                   selectable={true}
@@ -1732,6 +1892,16 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}
@@ -1883,49 +2053,43 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
     entering={
       FadeIn {
         "build": [Function],
-        "callbackV": undefined,
-        "dampingRatioV": undefined,
-        "dampingV": undefined,
         "delayV": 0,
-        "durationV": undefined,
-        "easingV": undefined,
-        "initialValues": undefined,
-        "massV": undefined,
-        "overshootClampingV": undefined,
         "randomizeDelay": false,
         "reduceMotionV": "system",
-        "restDisplacementThresholdV": undefined,
-        "restSpeedThresholdV": undefined,
-        "rotateV": undefined,
-        "stiffnessV": undefined,
-        "type": undefined,
       }
     }
     exiting={
       FadeOut {
         "build": [Function],
-        "callbackV": undefined,
-        "dampingRatioV": undefined,
-        "dampingV": undefined,
-        "delayV": undefined,
-        "durationV": undefined,
-        "easingV": undefined,
-        "initialValues": undefined,
-        "massV": undefined,
-        "overshootClampingV": undefined,
         "randomizeDelay": false,
         "reduceMotionV": "system",
-        "restDisplacementThresholdV": undefined,
-        "restSpeedThresholdV": undefined,
-        "rotateV": undefined,
-        "stiffnessV": undefined,
-        "type": undefined,
       }
     }
     jestAnimatedStyle={
       {
         "value": {},
       }
+    }
+    jestInlineStyle={
+      [
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "bottom": 0,
+            "justifyContent": "center",
+            "left": 0,
+            "paddingHorizontal": 16,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          undefined,
+        ],
+        {
+          "zIndex": 9999,
+        },
+      ]
     }
     style={
       {
@@ -2004,6 +2168,18 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
         "value": {},
       }
     }
+    jestInlineStyle={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "marginVertical": 16,
+        "textAlign": "center",
+        "userSelect": "auto",
+      }
+    }
     selectable={true}
     style={
       {
@@ -2026,6 +2202,18 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
     jestAnimatedStyle={
       {
         "value": {},
+      }
+    }
+    jestInlineStyle={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 21,
+        "fontWeight": "400",
+        "lineHeight": 29.4,
+        "maxWidth": 768,
+        "textAlign": "center",
+        "userSelect": "auto",
       }
     }
     selectable={true}
@@ -2097,49 +2285,43 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
           entering={
             FadeIn {
               "build": [Function],
-              "callbackV": undefined,
-              "dampingRatioV": undefined,
-              "dampingV": undefined,
               "delayV": 0,
-              "durationV": undefined,
-              "easingV": undefined,
-              "initialValues": undefined,
-              "massV": undefined,
-              "overshootClampingV": undefined,
               "randomizeDelay": false,
               "reduceMotionV": "system",
-              "restDisplacementThresholdV": undefined,
-              "restSpeedThresholdV": undefined,
-              "rotateV": undefined,
-              "stiffnessV": undefined,
-              "type": undefined,
             }
           }
           exiting={
             FadeOut {
               "build": [Function],
-              "callbackV": undefined,
-              "dampingRatioV": undefined,
-              "dampingV": undefined,
-              "delayV": undefined,
-              "durationV": undefined,
-              "easingV": undefined,
-              "initialValues": undefined,
-              "massV": undefined,
-              "overshootClampingV": undefined,
               "randomizeDelay": false,
               "reduceMotionV": "system",
-              "restDisplacementThresholdV": undefined,
-              "restSpeedThresholdV": undefined,
-              "rotateV": undefined,
-              "stiffnessV": undefined,
-              "type": undefined,
             }
           }
           jestAnimatedStyle={
             {
               "value": {},
             }
+          }
+          jestInlineStyle={
+            [
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "bottom": 0,
+                  "justifyContent": "center",
+                  "left": 0,
+                  "paddingHorizontal": 16,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                },
+                undefined,
+              ],
+              {
+                "zIndex": 9999,
+              },
+            ]
           }
           style={
             {
@@ -2265,6 +2447,16 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -2335,6 +2527,16 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                       "value": {},
                     }
                   }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -2364,6 +2566,16 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                   jestAnimatedStyle={
                     {
                       "value": {},
+                    }
+                  }
+                  jestInlineStyle={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
                     }
                   }
                   selectable={true}
@@ -2431,6 +2643,16 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}

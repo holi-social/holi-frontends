@@ -134,7 +134,7 @@ const HoliRichTextOutput = ({
 
   if (loading) {
     return (
-      <View style={props?.style}>
+      <View style={props?.style as StyleProp<ViewStyle>}>
         <HoliSkeleton
           {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, sizesToSkeletonHeight[size], '60%')}
         />

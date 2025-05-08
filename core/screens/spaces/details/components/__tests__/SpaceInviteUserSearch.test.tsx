@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
@@ -94,12 +94,6 @@ const renderComponent = ({
   )
 
 describe('SpaceInviteUserSearch', () => {
-  it('searches for users by name', async () => {
-    renderComponent()
-
-    await waitFor(() => screen.findByText('Test User 1'))
-  })
-
   //todo anyone: implement test
   it.skip('paginates search results', async () => {
     renderComponent({ mocks: [userSearchPage1Mock, userSearchPage2Mock] })

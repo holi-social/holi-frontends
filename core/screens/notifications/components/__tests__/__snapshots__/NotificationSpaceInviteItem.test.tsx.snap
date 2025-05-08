@@ -116,6 +116,16 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              }
+            }
             selectable={true}
             style={
               {
@@ -134,6 +144,16 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}
@@ -155,6 +175,17 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             jestAnimatedStyle={
               {
                 "value": {},
+              }
+            }
+            jestInlineStyle={
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
               }
             }
             selectable={true}
@@ -558,6 +589,18 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "alignContent": "flex-start",
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "justifyContent": "center",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={3}
             onTextLayout={[Function]}
             selectable={true}
@@ -580,6 +623,18 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "marginBottom": 4,
+                  "marginTop": 16,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}
@@ -606,6 +661,17 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             jestAnimatedStyle={
               {
                 "value": {},
+              }
+            }
+            jestInlineStyle={
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
               }
             }
             selectable={true}

@@ -81,7 +81,7 @@ const BottomTabsNavigator = () => {
               <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} colorOverride={unistyles.icon(focused).color} />
             )
           },
-          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.home')} focused={focused} />,
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.home', 'Home')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-home-view',
         }}
@@ -96,7 +96,7 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} colorOverride={unistyles.icon(focused).color} />
           ),
-          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act')} focused={focused} />,
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act', 'Act')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-act',
         }}

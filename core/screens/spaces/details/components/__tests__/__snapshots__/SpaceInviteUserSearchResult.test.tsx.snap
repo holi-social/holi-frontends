@@ -6,49 +6,46 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
   entering={
     FadeIn {
       "build": [Function],
-      "callbackV": undefined,
-      "dampingRatioV": undefined,
-      "dampingV": undefined,
       "delayV": 0,
-      "durationV": undefined,
-      "easingV": undefined,
-      "initialValues": undefined,
-      "massV": undefined,
-      "overshootClampingV": undefined,
       "randomizeDelay": false,
       "reduceMotionV": "system",
-      "restDisplacementThresholdV": undefined,
-      "restSpeedThresholdV": undefined,
-      "rotateV": undefined,
-      "stiffnessV": undefined,
-      "type": undefined,
     }
   }
   exiting={
     FadeOut {
       "build": [Function],
-      "callbackV": undefined,
-      "dampingRatioV": undefined,
-      "dampingV": undefined,
-      "delayV": undefined,
-      "durationV": undefined,
-      "easingV": undefined,
-      "initialValues": undefined,
-      "massV": undefined,
-      "overshootClampingV": undefined,
       "randomizeDelay": false,
       "reduceMotionV": "system",
-      "restDisplacementThresholdV": undefined,
-      "restSpeedThresholdV": undefined,
-      "rotateV": undefined,
-      "stiffnessV": undefined,
-      "type": undefined,
     }
   }
   jestAnimatedStyle={
     {
       "value": {},
     }
+  }
+  jestInlineStyle={
+    [
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "justifyContent": "center",
+          "left": 0,
+          "paddingHorizontal": 16,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "marginVertical": 24,
+          "position": "relative",
+        },
+      ],
+      {
+        "zIndex": 9999,
+      },
+    ]
   }
   style={
     {
@@ -112,6 +109,16 @@ exports[`SpaceInviteUserSearchResult displays text if no results where found 1`]
   jestAnimatedStyle={
     {
       "value": {},
+    }
+  }
+  jestInlineStyle={
+    {
+      "color": "#262424",
+      "fontFamily": "InstrumentSans-Regular",
+      "fontSize": 16,
+      "fontWeight": "400",
+      "lineHeight": 22.4,
+      "userSelect": "auto",
     }
   }
   selectable={true}
@@ -270,6 +277,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             jestAnimatedStyle={
               {
                 "value": {},
+              }
+            }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 24,
+                "userSelect": "auto",
               }
             }
             numberOfLines={1}
@@ -561,6 +578,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 24,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -590,6 +617,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}
@@ -873,6 +910,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 24,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -904,6 +951,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -926,6 +983,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "value": {},
                 }
               }
+              jestInlineStyle={
+                {
+                  "color": "#6267e7",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 16,
+                  "fontWeight": "500",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                }
+              }
               selectable={true}
               style={
                 {
@@ -946,6 +1013,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}
@@ -1101,6 +1178,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 24,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1130,6 +1217,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}
@@ -1413,6 +1510,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 24,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1442,6 +1549,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}
@@ -1597,6 +1714,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "value": {},
               }
             }
+            jestInlineStyle={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 24,
+                "userSelect": "auto",
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1626,6 +1753,16 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               jestAnimatedStyle={
                 {
                   "value": {},
+                }
+              }
+              jestInlineStyle={
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "userSelect": "auto",
                 }
               }
               selectable={true}

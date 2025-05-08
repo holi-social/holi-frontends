@@ -7,7 +7,6 @@ import 'intl'
 import 'intl/locale-data/jsonp/de'
 import 'intl/locale-data/jsonp/en'
 import 'react-native-gesture-handler'
-import 'react-native-url-polyfill/auto'
 import 'react-native-get-random-values' // Polyfill for uuid
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'

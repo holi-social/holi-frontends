@@ -2,6 +2,7 @@
 const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
+const { withExpo } = require('@expo/next-adapter')
 const { locales } = require('../../core/i18n/locales.cjs')
 const webpack = require('webpack')
 
@@ -38,6 +39,17 @@ const nextConfig = {
     config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', '.web.jsx', ...config.resolve.extensions]
     // Global __DEV__ only set by react-native on mobile
     config.plugins.push(new webpack.DefinePlugin({ __DEV__: process.env.NODE_ENV !== 'production' }))
+    config.module.rules.push({
+      test: /\.[jt]sx?$/,
+      include: /node_modules\/(expo|expo-modules-core)/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['next/babel', '@babel/preset-typescript'],
+          plugins: ['react-native-reanimated/plugin'],
+        },
+      },
+    })
     return config
   },
   sassOptions: {
@@ -134,11 +146,12 @@ const nextConfig = {
     'react-native-web',
     'react-native-webview',
     'recyclerlistview',
+    'expo',
+    'expo-modules-core',
     'expo-camera',
     'expo-constants',
     'expo-device',
     'expo-image-manipulator',
-    'expo-modules-core',
     'expo-notifications',
     'react-native-keyboard-controller',
     'expo-status-bar',
@@ -173,4 +186,4 @@ const sentryOptions = {
   hideSourceMaps: true,
 }
 
-module.exports = withSentryConfig(withHtml(nextConfig), sentryWebpackPluginOptions, sentryOptions)
+module.exports = withExpo(withSentryConfig(withHtml(nextConfig), sentryWebpackPluginOptions, sentryOptions))

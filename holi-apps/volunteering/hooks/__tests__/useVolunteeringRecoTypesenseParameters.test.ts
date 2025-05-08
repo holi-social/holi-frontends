@@ -114,7 +114,8 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
       extraInfo: undefined,
     }
     mockUseGeolocationDetails.mockImplementation((id, onError) => {
-      onError?.(error)
+      /* eslint-disable  @typescript-eslint/no-explicit-any */
+      onError?.(error as any)
       return {
         loadingGeolocation: false,
       }
