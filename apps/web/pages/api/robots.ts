@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { environmentId } from '@holi/web/environment'
+import { blockedBots } from '@holi/web/helpers/bots'
 
 // Make sure that we don't parse JSON bodies on this route:
 export const config = {
@@ -13,7 +14,14 @@ export const config = {
 const robotsTxtDevelopment = `User-agent: *
 Disallow: /`
 
-const robotsTxtProduction = `User-agent: *
+const entryForBlockedBot = (userAgent: string) => `
+User-agent: ${userAgent}
+Disallow: /`
+
+const robotsTxtProduction = `
+${blockedBots.map(entryForBlockedBot).join('\n')}
+
+User-agent: *
 
 Sitemap: https://app.holi.social/sitemap.xml`
 
