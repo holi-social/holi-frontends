@@ -230,6 +230,7 @@ const HomeFeed = () => {
               ItemSeparatorComponent={() => <View style={{ height: Spacing.sm }} />}
               minimumViewTime={1000}
               showsVerticalScrollIndicator={false}
+              disableVirtualization={true}
               trackOnce={true}
               withFlashList={false}
               estimatedItemSize={260}
