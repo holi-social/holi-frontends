@@ -95,10 +95,16 @@ const HomeFeed = () => {
           <HoliSkeleton height={260} width="100%" borderRadius={16} />
           <HoliSkeleton height={260} width="100%" borderRadius={16} />
         </View>
+      ) : initialLoading ? (
+        <View style={[styles.screenLoader, { backgroundColor: colors.white200 }]}>
+          <HoliSkeleton height={180} width="100%" borderRadius={16} />
+          <HoliSkeleton height={180} width="100%" borderRadius={16} />
+          <HoliSkeleton height={180} width="100%" borderRadius={16} />
+        </View>
       ) : (
         <></>
       ),
-    [canLoadMore]
+    [canLoadMore, initialLoading, colors.white200]
   )
 
   const renderHeader = useMemo(
@@ -193,18 +199,6 @@ const HomeFeed = () => {
     }
   }, [navigation, getFeedStats])
 
-  if (initialLoading && !combinedFeedData?.length)
-    return (
-      <View style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
-        <View style={styles.screenLoader}>
-          <HoliSkeleton height={60} width={220} borderRadius={16} />
-          <HoliSkeleton height={180} width="100%" borderRadius={16} />
-          <HoliSkeleton height={180} width="100%" borderRadius={16} />
-          <HoliSkeleton height={180} width="100%" borderRadius={16} />
-        </View>
-      </View>
-    )
-
   return (
     <>
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
@@ -260,7 +254,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listHeader: {
-    paddingBottom: Spacing.md,
     gap: Spacing.sm,
     flex: 1,
   },
@@ -270,7 +263,6 @@ const styles = StyleSheet.create({
   screenLoader: {
     paddingTop: Spacing.sm,
     gap: Spacing.sm,
-    paddingHorizontal: Spacing.sm,
   },
   loaderFooter: {
     marginVertical: Spacing.sm,

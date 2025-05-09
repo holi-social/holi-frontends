@@ -7,17 +7,16 @@ import { FlatList, type ListRenderItem, Pressable, StyleSheet, View } from 'reac
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatList.shared'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Challenges } from '@holi/icons/src/generated'
+
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import ExploreMoreCard from '@holi-apps/challenges/components/feed/ExploreMoreCard'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 
 type ChallengesSliderProps = {
   heading: string
-  subline: string
   challenges: readonly ChallengeTeaser[]
   renderItem: ListRenderItem<ChallengeTeaser>
   seeAllPath?: string
@@ -29,7 +28,6 @@ type ChallengesSliderProps = {
 
 const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
   heading,
-  subline,
   challenges,
   renderItem,
   seeAllPath,
@@ -41,7 +39,6 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
 
   const handleHeaderTitlePress = () => {
@@ -55,10 +52,11 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
     style: styles.itemsContainer,
     data: challenges,
     renderItem,
+    ItemSeparatorComponent: () => <HoliGap size="sm" />,
     testID: 'challenges-slider-list',
     ListFooterComponent:
       labelSeeMore && seeAllPath ? (
-        <View style={styles.seeMoreButton}>
+        <View style={styles.learnMoreButton}>
           <ExploreMoreCard
             role="link"
             label={labelSeeMore}
@@ -82,20 +80,14 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
       <View style={styles.container} testID={testID || 'challenges-slider'}>
         <Pressable style={styles.header} testID="challenges-slider-heading" onPress={handleHeaderTitlePress}>
           <View style={styles.headerTitle}>
-            <HoliIcon icon={Challenges} size={20} colorOverride={colors.black300} />
-            <View style={{ gap: 2 }}>
-              <Text size="xl" headingLevel="3">
-                {heading}
-              </Text>
-              <Text size="sm" color="support" numberOfLines={1}>
-                {subline}
-              </Text>
-            </View>
+            <Text size="xl" headingLevel="3">
+              {heading}
+            </Text>
           </View>
           {seeAllPath && (
             <View style={styles.seeAllButton}>
-              <TextLink size="sm" role="none">
-                {t('global.seeAll')}
+              <TextLink size="md" role="none">
+                {t('global.learnMore')}
               </TextLink>
             </View>
           )}
@@ -125,16 +117,14 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       flexDirection: 'row',
       gap: Spacing['3xs'],
       maxWidth: '75%',
+      marginBottom: Spacing['4xs'],
     },
     itemsContainer: {
       paddingBottom: 0,
-      marginHorizontal: -Spacing.sm,
-      paddingLeft: 18,
       flex: 1,
     },
-    seeMoreButton: {
+    learnMoreButton: {
       flex: 1,
-      marginRight: 44,
       width: cardWidth,
     },
     seeAllButton: {
