@@ -16,7 +16,7 @@ export function SearchTextInput({ currentQuery, onQueryChange }: SearchBoxProps)
   const { t } = useTranslation()
   const [inputValue, setInputValue] = useState(currentQuery)
   const debouncedQueryUpdate = useDebounce((query) => onQueryChange(query), 300)
-  const debouncedMetaTracking = useDebounce((query) => metaSdk.trackEvent('Search', { searchParams: query }), 300)
+  const debouncedMetaTracking = useDebounce((query) => metaSdk.trackEvent('Search', { searchParams: query }), 3000)
 
   const setQuery = useCallback(
     (newQuery: string) => {
