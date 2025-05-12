@@ -11,7 +11,7 @@ export class FacebookSdkWeb implements FacebookSdkCrossPlatform {
   private readonly logger = getLogger('FacebookSdk')
   private readonly PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID
   private initialized = false
-  private debug = true
+  private debug = false
 
   private connectionScript = async (): Promise<void> => {
     await metaPixelScript()
