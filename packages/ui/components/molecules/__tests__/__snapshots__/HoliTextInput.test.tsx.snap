@@ -46,6 +46,16 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             "value": {},
           }
         }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -153,6 +163,16 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "value": {},
             }
           }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -217,6 +237,16 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
         style={
@@ -326,6 +356,16 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "value": {},
             }
           }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -390,6 +430,16 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
         style={
@@ -499,6 +549,16 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "value": {},
             }
           }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -563,6 +623,16 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
         style={
@@ -681,6 +751,16 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "value": {},
             }
           }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -745,6 +825,16 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
         style={
@@ -929,6 +1019,16 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "value": {},
             }
           }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -993,6 +1093,16 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         jestAnimatedStyle={
           {
             "value": {},
+          }
+        }
+        jestInlineStyle={
+          {
+            "color": "#262424",
+            "fontFamily": null,
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
           }
         }
         style={
@@ -1101,6 +1211,16 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           jestAnimatedStyle={
             {
               "value": {},
+            }
+          }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
             }
           }
           style={
@@ -1240,6 +1360,16 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           jestAnimatedStyle={
             {
               "value": {},
+            }
+          }
+          jestInlineStyle={
+            {
+              "color": "#787777",
+              "fontFamily": null,
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
             }
           }
           style={

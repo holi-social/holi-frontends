@@ -1,6 +1,6 @@
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
-import { Linking, Platform, Share } from 'react-native'
+import { KeyboardAvoidingView, Linking, Platform, Share } from 'react-native'
 import type { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
@@ -117,26 +117,28 @@ const ChallengesAppHome = () => {
   return (
     <>
       <NotificationSettingsPrompt prompt={showOptInModal} onPromptChanged={setShowOptInModal} />
-      <HoliWebView
-        webViewRef={webViewRef}
-        allowsBackForwardNavigationGesturesMultiOS={true}
-        webViewProps={{
-          setSupportMultipleWindows: false,
-          allowsBackForwardNavigationGestures: true,
-          allowsInlineMediaPlayback: true,
-          mediaCapturePermissionGrantType: 'grant',
-          sharedCookiesEnabled: true,
-          onMessage: handleMessageFromBackend,
-          source: {
-            uri,
-            headers: {
-              ...headers,
-              'X-Require-Camera-Permission': `${requireCameraPermission}`,
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <HoliWebView
+          webViewRef={webViewRef}
+          allowsBackForwardNavigationGesturesMultiOS={true}
+          webViewProps={{
+            setSupportMultipleWindows: false,
+            allowsBackForwardNavigationGestures: true,
+            allowsInlineMediaPlayback: true,
+            mediaCapturePermissionGrantType: 'grant',
+            sharedCookiesEnabled: true,
+            onMessage: handleMessageFromBackend,
+            source: {
+              uri,
+              headers: {
+                ...headers,
+                'X-Require-Camera-Permission': `${requireCameraPermission}`,
+              },
             },
-          },
-        }}
-        theme={theme}
-      />
+          }}
+          theme={theme}
+        />
+      </KeyboardAvoidingView>
     </>
   )
 }

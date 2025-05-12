@@ -5,7 +5,12 @@ import { StyleSheet } from 'react-native'
 import type { GradientBackgroundProps } from './types'
 
 const GradientBackground = ({ colors, start, end }: GradientBackgroundProps) => (
-  <LinearGradient colors={colors} start={start} end={end} style={StyleSheet.absoluteFill} />
+  <LinearGradient
+    colors={colors as [string, string, ...string[]]}
+    start={start}
+    end={end}
+    style={StyleSheet.absoluteFill}
+  />
 )
 
 export default GradientBackground

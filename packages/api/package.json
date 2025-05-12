@@ -8,18 +8,20 @@
     "clean:all": "npx rimraf node_modules"
   },
   "dependencies": {
-    "@apollo/client": "3.10.8",
+    "@apollo/client": "^3.13.8",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "apollo-link-timeout": "^4.0.0",
     "apollo-upload-client": "^18.0.1",
     "cross-fetch": "^3.1.5",
+    "extract-files": "^13.0.0",
     "ramda": "^0.29.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
-    "@types/apollo-upload-client": "^18.0.0",
+    "@types/apollo-upload-client": "^18",
+    "@types/extract-files": "^13.0.1",
     "@types/ramda": "^0.29.1",
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",

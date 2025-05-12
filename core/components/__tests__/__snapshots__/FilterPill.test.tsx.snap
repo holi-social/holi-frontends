@@ -28,6 +28,16 @@ exports[`FilterPill renders correctly 1`] = `
         "value": {},
       }
     }
+    jestInlineStyle={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
     numberOfLines={1}
     selectable={true}
     style={
@@ -72,6 +82,16 @@ exports[`FilterPill renders correctly 2`] = `
     jestAnimatedStyle={
       {
         "value": {},
+      }
+    }
+    jestInlineStyle={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
       }
     }
     numberOfLines={1}
@@ -120,6 +140,16 @@ exports[`FilterPill renders correctly 3`] = `
         "value": {},
       }
     }
+    jestInlineStyle={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
     numberOfLines={1}
     selectable={true}
     style={
@@ -164,6 +194,16 @@ exports[`FilterPill renders correctly 4`] = `
     jestAnimatedStyle={
       {
         "value": {},
+      }
+    }
+    jestInlineStyle={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
       }
     }
     numberOfLines={1}

@@ -21,14 +21,6 @@ export const chatServerLoginUrl = '/api/chatlogin'
 
 export const chatAdminName = process.env.HOLI_CHAT_ADMIN_NAME || ''
 
-export const owncloudUrl = (() => {
-  const baseUrl =
-    environment === EnvironmentId.PRODUCTION
-      ? 'https://production.cloud.holi.social'
-      : 'https://development.cloud.holi.social'
-  return process.env.NEXT_PUBLIC_OWNCLOUD_BASE_URL || baseUrl
-})()
-
 export const jitsiUrl = (() => {
   const baseUrl =
     environment === EnvironmentId.PRODUCTION ? 'https://meet.holi.social' : 'https://development.meet.holi.social'

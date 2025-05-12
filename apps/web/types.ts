@@ -27,6 +27,8 @@ export interface UserPageProps {
   guestMode?: boolean
   /** User is logged in but the account is not complete yet */
   accountCompleted?: boolean
+  /** User agent is recognized to be an unwelcome bot */
+  isBlockedBot?: boolean
 }
 
 export interface NextJSPageProps extends Ni18nServerState, Record<string, unknown> {

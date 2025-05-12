@@ -52,6 +52,7 @@ const config: ExpoConfig = {
   orientation: 'portrait',
   icon: './assets/icon.png',
   jsEngine: 'hermes',
+  newArchEnabled: true,
   scheme: 'holi',
   splash: {
     image: './assets/splash.png',
@@ -236,9 +237,6 @@ const config: ExpoConfig = {
     environment: requiredEnvVar('ENVIRONMENT_ID'),
     sentry: {
       dsn: requiredEnvVar('SENTRY_DSN'),
-    },
-    owncloud: {
-      url: requiredEnvVar('OWNCLOUD_BASE_URL'),
     },
     jitsi: {
       url: requiredEnvVar('JITSI_URL'),

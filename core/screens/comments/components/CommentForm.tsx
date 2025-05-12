@@ -112,7 +112,7 @@ const CommentForm = ({
       const { status } = await Notifications.getPermissionsAsync()
       const shouldShowModal = status !== 'granted' && isEligible
 
-      if (!shouldShowModal) {
+      if (Platform.OS === 'web' || !shouldShowModal) {
         handleNavigation()
       } else {
         setModalVisible(true)

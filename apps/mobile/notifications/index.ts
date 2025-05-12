@@ -1,13 +1,13 @@
-import type { NotificationResponse } from 'expo-notifications'
+import type { NotificationResponse, PushNotificationTrigger } from 'expo-notifications'
 
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import {
+import type {
   CommentReactionPushNotification,
   PostReactionPushNotification,
 } from '@holi/mobile/notifications/reactionPushNotifications'
-import {
+import type {
   PostCommentPushNotification,
   SpaceMembershipPushNotification,
   SpacePostPushNotification,
@@ -26,10 +26,11 @@ const extractDataFromNotificationResponse = (
   // * Android - all cases
   if (request?.content?.data) {
     return request?.content?.data
-  } else if (request?.trigger?.type === 'push') {
+  } else if ((request?.trigger as PushNotificationTrigger)?.type === 'push') {
     // iOS - background or closed app push
     // IMHO, expo-notifications should copy this into `request.content.data` but doesn't, so take it from original message
-    if (request.trigger.payload) return request.trigger.payload
+    if ((request.trigger as PushNotificationTrigger)?.payload)
+      return (request.trigger as PushNotificationTrigger).payload
   }
   return undefined
 }

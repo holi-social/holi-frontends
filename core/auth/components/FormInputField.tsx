@@ -1,20 +1,21 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Input.tsx
-import { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
+import type { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { UseTranslationResponse } from 'react-i18next'
-import {
+import type {
   NativeSyntheticEvent,
   StyleProp,
   TextInputKeyPressEventData,
   TextInputProps,
   View,
+  TextStyle,
   ViewStyle,
 } from 'react-native'
 
 import { getNodeId, getNodeTranslationKey, oryNodeIsInput } from '@holi/core/auth/helpers/form'
-import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
+import type { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
+import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,7 +35,7 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
   autofocus: boolean
   translationPrefix: string
   isSignin?: boolean
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<TextStyle>
 }
 
 // https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
@@ -179,7 +180,7 @@ const FormInputField = React.forwardRef<View, Props>(
               { textContentType: 'password' }
             : {}),
         }}
-        style={style}
+        style={style as StyleProp<ViewStyle>}
         testID={`ory-${fieldName.replace(/\./gi, '-')}`}
         role={role}
         {...restProps}

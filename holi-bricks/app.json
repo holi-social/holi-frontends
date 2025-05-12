@@ -3,7 +3,7 @@
     "name": "holi-bricks",
     "slug": "holi-bricks",
     "version": "0.0.1",
-    "sdkVersion": "51.0.0",
+    "sdkVersion": "52.0.0",
     "platforms": [
       "ios",
       "android",

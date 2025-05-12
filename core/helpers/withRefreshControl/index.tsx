@@ -12,17 +12,17 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { KeyboardAwareScrollView, type KeyboardAwareScrollViewProps } from 'react-native-keyboard-controller'
 
 export function withRefreshControl<P extends LayoutProps, T>(
-  ScrollComponent: (props: RefreshableScrollViewProps<P>) => React.ReactNode
+  ScrollComponent: React.ComponentType<RefreshableScrollViewProps<P>>
 ) {
-  const WithRefreshControl = React.forwardRef(
+  const WithRefreshControl = React.forwardRef<T, RefreshableScrollHeaderLayoutProps<P>>(
     (
       {
         headerOverlap,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         webWrapperStyle,
         ...scrollViewProps
-      }: RefreshableScrollHeaderLayoutProps<P>,
-      ref: React.ForwardedRef<T>
+      },
+      ref
     ) => {
       const { top: safeAreaTop } = useSafeAreaInsets()
       const additionalOffset = headerOverlap ? safeAreaTop + dimensions.topBarHeight : 0
@@ -30,7 +30,12 @@ export function withRefreshControl<P extends LayoutProps, T>(
 
       const refreshControl = <RefreshControl {...refreshControlProps} progressViewOffset={additionalOffset} />
       return (
-        <ScrollComponent {...scrollViewProps} refreshControl={refreshControl} headerOverlap={headerOverlap} ref={ref} />
+        <ScrollComponent
+          {...(scrollViewProps as RefreshableScrollViewProps<P>)}
+          refreshControl={refreshControl}
+          headerOverlap={headerOverlap}
+          ref={ref}
+        />
       )
     }
   )

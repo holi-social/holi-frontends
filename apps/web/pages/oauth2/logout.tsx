@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         logoutChallenge,
       })
       // Response does not specify a redirect destination
-      return serverSideRedirect(process.env.NEXT_PUBLIC_OWNCLOUD_BASE_URL || '')
+      return serverSideRedirect('')
     } catch (error) {
       logger.error({
         message: 'Error rejecting logout request',

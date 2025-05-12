@@ -59,6 +59,16 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "value": {},
         }
       }
+      jestInlineStyle={
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontSize": 21,
+          "fontWeight": "500",
+          "lineHeight": 29.4,
+          "userSelect": "none",
+        }
+      }
       selectable={false}
       style={
         {
@@ -134,6 +144,16 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       jestAnimatedStyle={
         {
           "value": {},
+        }
+      }
+      jestInlineStyle={
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontSize": 21,
+          "fontWeight": "500",
+          "lineHeight": 29.4,
+          "userSelect": "none",
         }
       }
       selectable={false}
@@ -213,6 +233,16 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "value": {},
         }
       }
+      jestInlineStyle={
+        {
+          "color": "#787777",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontSize": 21,
+          "fontWeight": "500",
+          "lineHeight": 29.4,
+          "userSelect": "none",
+        }
+      }
       selectable={false}
       style={
         {
@@ -288,6 +318,16 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       jestAnimatedStyle={
         {
           "value": {},
+        }
+      }
+      jestInlineStyle={
+        {
+          "color": "#787777",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontSize": 21,
+          "fontWeight": "500",
+          "lineHeight": 29.4,
+          "userSelect": "none",
         }
       }
       selectable={false}

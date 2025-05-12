@@ -200,6 +200,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
                 numberOfLines={2}
                 selectable={true}
                 style={
@@ -394,6 +404,17 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "marginRight": 8,
+                    "userSelect": "auto",
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -522,6 +543,17 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "marginRight": 8,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}
@@ -906,6 +938,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
                 numberOfLines={2}
                 selectable={true}
                 style={
@@ -1100,6 +1142,17 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "marginRight": 8,
+                    "userSelect": "auto",
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1228,6 +1281,17 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "marginRight": 8,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}
@@ -1612,6 +1676,16 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
                 numberOfLines={2}
                 selectable={true}
                 style={
@@ -1806,6 +1880,17 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "value": {},
                   }
                 }
+                jestInlineStyle={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "marginRight": 8,
+                    "userSelect": "auto",
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1934,6 +2019,17 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 jestAnimatedStyle={
                   {
                     "value": {},
+                  }
+                }
+                jestInlineStyle={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "marginRight": 8,
+                    "userSelect": "auto",
                   }
                 }
                 selectable={true}

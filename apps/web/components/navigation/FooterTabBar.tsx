@@ -1,7 +1,7 @@
 import { TextLink } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { useRouter } from 'next/router'
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -33,6 +33,12 @@ const FooterTabBar = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { styles: unistyles } = useStyles(stylesheet)
+  const [mounted, setMounted] = useState(false)
+
+  // This is a workaround to prevent the footer from being rendered before the translations are loaded and to avoid the hydration error
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const isHome = pathname === '/'
   const isSpaces = pathname.startsWith('/spaces')
@@ -41,6 +47,10 @@ const FooterTabBar = () => {
   const isProfileLoginRegistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <View
@@ -51,7 +61,7 @@ const FooterTabBar = () => {
     >
       <HoliContainer flexDirection={'row'} justifyContent={'space-between'}>
         <HoliButton
-          label={t('navigation.home')}
+          label={t('navigation.home', 'Home')}
           inline
           transparent
           onPress={() => navigate('/')}
@@ -61,12 +71,12 @@ const FooterTabBar = () => {
           <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} colorOverride={unistyles.icon(isHome).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isHome ? 'main' : 'default'} role="none">
-            {t('navigation.home')}
+            {t('navigation.home', 'Home')}
           </TextLink>
         </HoliButton>
 
         <HoliButton
-          label={t('navigation.act')}
+          label={t('navigation.act', 'Act')}
           inline
           transparent
           onPress={() => navigate('/act')}
@@ -76,7 +86,7 @@ const FooterTabBar = () => {
           <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} colorOverride={unistyles.icon(isAct).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isAct ? 'main' : 'default'} role="none">
-            {t('navigation.act')}
+            {t('navigation.act', 'Act')}
           </TextLink>
         </HoliButton>
 

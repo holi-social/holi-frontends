@@ -1,8 +1,15 @@
 import React, { useCallback, useState } from 'react'
-import { FlatListProps, LayoutChangeEvent, LayoutRectangle, Platform, ViewStyle } from 'react-native'
+import {
+  type FlatListProps,
+  type LayoutChangeEvent,
+  type LayoutRectangle,
+  Platform,
+  type ViewStyle,
+} from 'react-native'
 import { View } from 'react-native'
 import Animated, {
   scrollTo,
+  type SharedValue,
   useAnimatedRef,
   useAnimatedStyle,
   useDerivedValue,
@@ -10,7 +17,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
-import { HoliTabsProps } from './types'
+import type { HoliTabsProps } from './types'
 
 const isWeb = Platform.OS === 'web'
 
@@ -102,7 +109,7 @@ const TabContentList = <D,>({
       getItemLayout={(_, index) => ({ length: componentWidth, offset: componentWidth * index, index })}
       style={[flatListSnapToIntervalStyle, flatListHeightStyle]}
       testID={testID}
-      initialScrollIndex={activeTabIndexSharedValue}
+      initialScrollIndex={activeTabIndexSharedValue as SharedValue<number | null | undefined>}
       onScrollToIndexFailed={(error) => {
         setTimeout(() => scrollTo(contentScrollViewRef, error.index * componentWidth, 0, true), 300)
       }}

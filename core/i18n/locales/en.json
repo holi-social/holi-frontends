@@ -254,6 +254,7 @@
   "global.imagepicker.failure": "Oops! A technical error occurred while loading the selected image! If you used a very big image on an older device, please try again with a smaller image.",
   "global.imagePreview.image": "Image to change or remove",
   "global.journalist": "Journalist",
+  "global.learnMore": "Learn more",
   "global.leavePage.confirmation.confirm": "Yes, leave",
   "global.leavePage.confirmation.description": "Do you really want to leave this page? All unsaved data will be lost.",
   "global.leavePage.confirmation.dismiss": "No, go back",

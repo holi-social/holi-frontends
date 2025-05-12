@@ -53,7 +53,7 @@ export const AuthError = () => {
     <Screen
       headerOptions={{
         headerTitle: () => (
-          <HoliLink href="/" label={t('navigation.home')}>
+          <HoliLink href="/" label={t('navigation.home', 'Home')}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
               isSvg

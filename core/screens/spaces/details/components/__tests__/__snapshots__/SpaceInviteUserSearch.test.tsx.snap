@@ -6,49 +6,46 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
   entering={
     FadeIn {
       "build": [Function],
-      "callbackV": undefined,
-      "dampingRatioV": undefined,
-      "dampingV": undefined,
       "delayV": 0,
-      "durationV": undefined,
-      "easingV": undefined,
-      "initialValues": undefined,
-      "massV": undefined,
-      "overshootClampingV": undefined,
       "randomizeDelay": false,
       "reduceMotionV": "system",
-      "restDisplacementThresholdV": undefined,
-      "restSpeedThresholdV": undefined,
-      "rotateV": undefined,
-      "stiffnessV": undefined,
-      "type": undefined,
     }
   }
   exiting={
     FadeOut {
       "build": [Function],
-      "callbackV": undefined,
-      "dampingRatioV": undefined,
-      "dampingV": undefined,
-      "delayV": undefined,
-      "durationV": undefined,
-      "easingV": undefined,
-      "initialValues": undefined,
-      "massV": undefined,
-      "overshootClampingV": undefined,
       "randomizeDelay": false,
       "reduceMotionV": "system",
-      "restDisplacementThresholdV": undefined,
-      "restSpeedThresholdV": undefined,
-      "rotateV": undefined,
-      "stiffnessV": undefined,
-      "type": undefined,
     }
   }
   jestAnimatedStyle={
     {
       "value": {},
     }
+  }
+  jestInlineStyle={
+    [
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "justifyContent": "center",
+          "left": 0,
+          "paddingHorizontal": 16,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "marginVertical": 24,
+          "position": "relative",
+        },
+      ],
+      {
+        "zIndex": 9999,
+      },
+    ]
   }
   style={
     {

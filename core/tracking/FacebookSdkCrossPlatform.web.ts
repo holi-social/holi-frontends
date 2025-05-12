@@ -1,33 +1,29 @@
-import { Consent, type ConsentState, TrackingPurpose, type FacebookSdkCrossPlatform } from '@holi/core/tracking/types'
+import { Consent, TrackingPurpose, type FacebookSdkCrossPlatform } from '@holi/core/tracking/types'
 import { getLogger } from '@holi/core/helpers/logging'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { metaPixelScript } from '@holi/core/tracking/metaPixelScript'
 
+const DEBUG = false
+
 export type MetaStandardEvent = 'PageView' | 'ViewContent' | 'Search' | 'CompleteRegistration' | 'SignUp'
-export const doMetaPixelBaseCodeInitialize = (): void => {}
 
 export class FacebookSdkWeb implements FacebookSdkCrossPlatform {
   private readonly logger = getLogger('FacebookSdk')
   private readonly PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID
   private initialized = false
-  private debug = false
-
-  private connectionScript = async (): Promise<void> => {
-    await metaPixelScript()
-  }
 
   async enabled(): Promise<boolean> {
-    const trackingConsent = await this.getTrackingPermissionStatus()
-
+    const trackingConsent = getConsentState()
+    if (DEBUG) this.logger.debug('getTrackingPermissionStatus AD_PARTNERS', getConsentState().AD_PARTNERS)
     return trackingConsent[TrackingPurpose.AdPartners] === Consent.Given
   }
 
   async initialize(user?: AuthenticatedUser): Promise<void> {
     try {
-      const trackingConsent = await this.getTrackingPermissionStatus()
-      if (trackingConsent[TrackingPurpose.AdPartners] === Consent.Given) {
+      if (await this.enabled()) {
         await this.optIn(user)
+        await this.trackEvent('PageView')
       } else {
         await this.optOut()
       }
@@ -38,9 +34,8 @@ export class FacebookSdkWeb implements FacebookSdkCrossPlatform {
 
   async optIn(user?: AuthenticatedUser): Promise<void> {
     if (this.initialized) return
-    this.initialized = true
 
-    await this.connectionScript()
+    await metaPixelScript()
 
     // Wait until fbq is real (not stub only)
     const waitForRealFbq = (): Promise<void> =>
@@ -68,54 +63,49 @@ export class FacebookSdkWeb implements FacebookSdkCrossPlatform {
       })
     }
 
-    if (this.debug) this.logger.debug('[PIXEL_TRACKING]', 'fbq is initialized.')
+    this.initialized = true
+    if (DEBUG) this.logger.debug('[PIXEL_TRACKING]', 'fbq is initialized.')
 
     await this.trackEvent('PageView')
   }
 
   async trackEvent(eventName: MetaStandardEvent, data?: Record<string, unknown>): Promise<void> {
+    if (!this.isScriptLoaded()) {
+      this.logger.debug('trackEvent', 'Skipping tracking event because script is not loaded ', eventName)
+      return
+    }
+
     if (!this.initialized) {
-      this.logger.debug('trackEvent', 'Skipping because SDK is not initialized')
+      this.logger.debug('trackEvent', 'Skipping tracking event because SDK is not initialized', eventName)
       return
     }
 
-    const isEnabled = await this.enabled()
-    if (!isEnabled) {
-      this.logger.debug('trackEvent', 'Skipping because consent not given')
+    if (!(await this.enabled())) {
+      this.logger.debug('trackEvent', 'Skipping tracking event because consent not given', eventName)
       return
     }
 
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', eventName, data || {})
-      if (this.debug) {
-        // eslint-disable-next-line no-console
-        this.logger.debug('[PIXEL_TRACKING] Event tracked:', eventName, data || {})
-      }
-    } else {
-      if (this.debug) {
-        // eslint-disable-next-line no-console
-        this.logger.debug('[PIXEL_TRACKING] fbq not available, event not tracked:', eventName)
-      }
-    }
+    window.fbq('track', eventName, data || {})
+
+    if (DEBUG) this.logger.debug('trackEvent', 'Event tracked:', eventName, data)
   }
 
   async optOut(): Promise<void> {
-    if (typeof window !== 'undefined' && window.fbq) {
+    if (this.isScriptLoaded()) {
       window.fbq('consent', 'revoke')
+      delete window.fbq
       this.initialized = false
     }
   }
 
   async trackSignUp(): Promise<void> {
-    if (!(await this.enabled())) {
-      return
+    if (await this.enabled()) {
+      await this.trackEvent('SignUp')
     }
-    this.trackEvent('SignUp')
   }
 
-  private async getTrackingPermissionStatus(): Promise<ConsentState> {
-    if (this.debug) this.logger.debug('getTrackingPermissionStatus', 'getting tracking permission status')
-    return getConsentState()
+  private isScriptLoaded() {
+    return typeof window !== 'undefined' && Object.hasOwn(window, 'fbq')
   }
 }
 
