@@ -3,7 +3,6 @@ import { Configuration, FrontendApi } from '@ory/kratos-client'
 import axiosFactory from 'axios'
 
 import { resilience } from '@holi/core/auth/helpers/axios'
-import { oryUrl } from '@holi/core/auth/helpers/config'
 
 const baseOptions = {
   // setting `withCredentials: true` is crucial. if set, the GET request that initializes the login flow will be
@@ -21,9 +20,8 @@ export const newKratosSdk = () => {
     new Configuration({
       ...edgeConfig,
       ...baseOptions,
-      basePath: oryUrl,
     }),
-    oryUrl,
+    edgeConfig.basePath,
     // Ensure that we are using the axios client with retry.
     axios
   )
