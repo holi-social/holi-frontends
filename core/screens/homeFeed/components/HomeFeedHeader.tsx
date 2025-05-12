@@ -62,7 +62,6 @@ export default withProfiler(HomeFeedHeader, { name: 'HomeFeedHeader' })
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
   },
 })
