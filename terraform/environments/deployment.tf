@@ -68,6 +68,10 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
+          name  = "NEXT_PUBLIC_FACEBOOK_PIXEL_ID"
+          value = "485599177685285"
+        }
+        env {
           name = "POSTHOG_KEY"
           value_from {
             secret_key_ref {
