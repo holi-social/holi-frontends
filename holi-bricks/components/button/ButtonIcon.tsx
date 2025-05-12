@@ -18,10 +18,12 @@ import {
   getButtonTextVariantStyle,
   getButtonVariantStyle,
 } from './helpers'
+import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
   variant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
+  color?: FillColors
 }
 
 export const ButtonIcon: React.FC<ButtonIconProps> = ({
@@ -35,6 +37,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   selected = false,
   icon,
   testID,
+  color,
 }: ButtonIconProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
@@ -79,14 +82,15 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
       disabled={isDisabled}
       testID={testID}
     >
-      <View style={styles.content}>
+      <View style={!transparent && styles.content}>
         {isSpinning ? (
           <View testID={`${testID}-spinner`}>
             <SpinningIconContainer spinning={isSpinning}>
               <HoliIcon
                 icon={Loader}
                 size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
-                colorOverride={styles.text(disabled, selected, iconVariant).color}
+                color={color}
+                colorOverride={!color ? styles.text(disabled, selected, iconVariant).color : undefined}
               />
             </SpinningIconContainer>
           </View>
@@ -94,7 +98,8 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
           <HoliIcon
             icon={icon}
             size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
-            colorOverride={styles.text(disabled, selected, iconVariant).color}
+            color={color}
+            colorOverride={!color ? styles.text(disabled, selected, iconVariant).color : undefined}
           />
         )}
       </View>

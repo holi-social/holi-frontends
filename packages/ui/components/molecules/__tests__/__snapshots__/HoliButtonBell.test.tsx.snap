@@ -50,15 +50,7 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
     testID="bell-button"
   >
     <View
-      style={
-        {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "gap": 4,
-          "justifyContent": "center",
-        }
-      }
+      style={false}
     >
       <View>
         <RNSVGSvgView
@@ -191,15 +183,7 @@ exports[`React tree renders without new notifications badge 1`] = `
     testID="bell-button"
   >
     <View
-      style={
-        {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "gap": 4,
-          "justifyContent": "center",
-        }
-      }
+      style={false}
     >
       <View>
         <RNSVGSvgView
