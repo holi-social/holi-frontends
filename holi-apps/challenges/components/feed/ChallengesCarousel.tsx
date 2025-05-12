@@ -49,7 +49,8 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
         }
 
         const data = await response.json()
-        setChallenges(data)
+        const shuffledData = [...data].sort(() => Math.random() - 0.5)
+        setChallenges(shuffledData)
       } catch (error) {
         logError(error, 'Error fetching challenges', {
           location: 'RecommendedChallenges.fetchChallenges',
@@ -88,9 +89,15 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
   if (isInitialLoading) {
     return (
       <Stack direction="column" gap="3xs">
-        <HoliSkeleton height={Spacing.xl} width={180} borderRadius={16} />
+        <HoliSkeleton height={Spacing.sm} width={180} borderRadius={16} />
         <Stack direction="row" gap="3xs">
-          <HoliSkeleton height={172} width={'100%'} borderRadius={16} />
+          {[...Array(4)].map((_, index) => (
+            <Stack direction="column" gap="3xs" key={index}>
+              <HoliSkeleton height={CARD_WIDTH} width={CARD_WIDTH} borderRadius={16} />
+              <HoliSkeleton height={Spacing.xs} width={CARD_WIDTH - Spacing.xs} borderRadius={16} />
+              <HoliSkeleton height={Spacing.xs} width={CARD_WIDTH - Spacing.md} borderRadius={16} />
+            </Stack>
+          ))}
         </Stack>
         <HoliGap size="l" />
       </Stack>
@@ -117,7 +124,6 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
         />
       )}
       heading={t('challenges:feed.carousel.title')}
-      subline={t('challenges:feed.carousel.subline')}
       seeAllPath={createInAppChallengesPath('/')}
       labelSeeMore={t('challenges:carousel.seeMore')}
       cardWidth={CARD_WIDTH}
