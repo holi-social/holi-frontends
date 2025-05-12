@@ -108,6 +108,23 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
         <body>
           <Main />
           <NextScript />
+          {/* Inject facebook stub, DO NOT REMOVE IT, it is needed for the meta pixel
+          it doesn't track the user it's just a stub that will be filled when user 
+          consent to tracking.  If you remove it the meta pixel will not.
+          Why? Next.js seems to not be loading it correctly if we inject the whole script dynamically.
+          */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];}
+                (window, document,'script');
+              `,
+            }}
+          />
         </body>
       </Html>
     )
