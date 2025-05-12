@@ -137,6 +137,10 @@ const config: ExpoConfig = {
             scheme: 'https',
             host: 'app.holi.social',
           },
+          {
+            scheme: 'https',
+            host: 'staging.dev.holi.social',
+          },
         ],
         category: ['BROWSABLE', 'DEFAULT'],
       },

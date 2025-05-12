@@ -1,9 +1,10 @@
 import * as WebBrowser from 'expo-web-browser'
-import React, { useEffect } from 'react'
+import React, { useCallback } from 'react'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { View } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useFocusEffect } from '@react-navigation/native'
 
 const LOGIN_REDIRECT_TIMEOUT = 2000
 
@@ -16,8 +17,7 @@ export const LoginCallback = () => {
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
 
-  useEffect(() => {
-    // Completes sign in with OIDC account
+  const tryToCompleteLogin = useCallback(() => {
     const result = WebBrowser.maybeCompleteAuthSession({
       skipRedirectCheck: false,
     })
@@ -33,6 +33,8 @@ export const LoginCallback = () => {
       return () => clearTimeout(timer)
     }
   }, [displayError, navigate])
+
+  useFocusEffect(tryToCompleteLogin)
 
   return (
     <View style={{ flex: 1 }}>

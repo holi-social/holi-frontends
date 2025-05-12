@@ -2,6 +2,7 @@ import * as Linking from 'expo-linking'
 import * as Notifications from 'expo-notifications'
 import { StatusBar } from 'expo-status-bar'
 import type React from 'react'
+import * as WebBrowser from 'expo-web-browser'
 
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
@@ -36,6 +37,8 @@ const syncPathname = (url: string) => {
   }
 }
 
+const shouldOpenUrlInBrowser = (url: string) => url.includes('/api/.ory')
+
 // linking is done to configure deep linking (e.g. to get https://staging.dev.holi.social/profiles/dieter
 // or holi://profiles/dieter to open the corresponding screen on the app). See
 // https://reactnavigation.org/docs/deep-linking and https://reactnavigation.org/docs/configuring-links for details
@@ -56,6 +59,11 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     const url = await Linking.getInitialURL()
     if (url != null) {
+      if (shouldOpenUrlInBrowser(url)) {
+        logger.debug('LinkingOptions.getInitialURL', 'opening link in browser', url)
+        WebBrowser.openBrowserAsync(url)
+        return
+      }
       logger.debug('LinkingOptions.getInitialURL', 'opening direct deep link', url)
       syncPathname(url)
       return url
@@ -79,6 +87,11 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   subscribe: (listener) => {
     // listen to incoming links from deep linking, while app is active or in background
     const eventListenerSubscription = Linking.addEventListener('url', ({ url }: { url: string }) => {
+      if (shouldOpenUrlInBrowser(url)) {
+        logger.debug('LinkingOptions.subscribe', 'received url, opening in browser', url)
+        WebBrowser.openBrowserAsync(url)
+        return
+      }
       logger.debug('LinkingOptions.subscribe', 'received url from deeplinking', url)
       syncPathname(url)
       listener(url)
