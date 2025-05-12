@@ -47,10 +47,12 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   }
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', () => {
+    const handleRouteChange = () => {
       metaSdk.trackEvent('PageView')
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => router.events.off('routeChangeComplete', handleRouteChange)
   }, [router.events])
 
   useEffect(() => {
