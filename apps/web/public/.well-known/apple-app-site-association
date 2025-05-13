@@ -3,26 +3,15 @@
     "apps": [],
     "details": [
       {
-        "appIDs": [
-          "Y7F8XQ5286.social.holi",
-          "Y7F8XQ5286.social.holi.dev"
-        ],
-        "paths": [
-          "*"
-        ]
+        "appIDs": ["Y7F8XQ5286.social.holi", "Y7F8XQ5286.social.holi.dev"],
+        "paths": ["NOT /api/.ory/*", "NOT /api/.ory/self-service/methods/oidc/callback/*", "*"]
       }
     ]
   },
   "activitycontinuation": {
-    "apps": [
-      "Y7F8XQ5286.social.holi",
-      "Y7F8XQ5286.social.holi.dev"
-    ]
+    "apps": ["Y7F8XQ5286.social.holi", "Y7F8XQ5286.social.holi.dev"]
   },
   "webcredentials": {
-    "apps": [
-      "Y7F8XQ5286.social.holi",
-      "Y7F8XQ5286.social.holi.dev"
-    ]
+    "apps": ["Y7F8XQ5286.social.holi", "Y7F8XQ5286.social.holi.dev"]
   }
 }
