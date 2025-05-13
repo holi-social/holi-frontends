@@ -56,8 +56,8 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
         style={
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#bdbcbc",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
@@ -71,42 +71,61 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
           }
         }
       />
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -184,44 +203,61 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
           }
         }
       />
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "opacity": 0.6,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "opacity": 0.6,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#bdbcbc",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -284,7 +320,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           {
             "alignItems": "center",
             "backgroundColor": "#262424",
-            "borderColor": "#ebebeb",
+            "borderColor": "#bdbcbc",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
@@ -303,7 +339,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
             align="xMidYMid"
             bbHeight={20}
             bbWidth={20}
-            color="#fff"
+            color="#ffffff"
             fill="none"
             focusable={false}
             height={20}
@@ -323,7 +359,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 },
               ]
             }
-            tintColor="#fff"
+            tintColor="#ffffff"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -354,42 +390,61 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           </RNSVGSvgView>
         </View>
       </View>
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -472,7 +527,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
             align="xMidYMid"
             bbHeight={20}
             bbWidth={20}
-            color="#787777"
+            color="#bdbcbc"
             fill="none"
             focusable={false}
             height={20}
@@ -492,7 +547,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 },
               ]
             }
-            tintColor="#787777"
+            tintColor="#bdbcbc"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -523,44 +578,61 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           </RNSVGSvgView>
         </View>
       </View>
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "opacity": 0.6,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "opacity": 0.6,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#bdbcbc",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -623,7 +695,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
           {
             "alignItems": "center",
             "backgroundColor": "#262424",
-            "borderColor": "#ebebeb",
+            "borderColor": "#bdbcbc",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
@@ -642,7 +714,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
             align="xMidYMid"
             bbHeight={20}
             bbWidth={20}
-            color="#fff"
+            color="#ffffff"
             fill="none"
             focusable={false}
             height={20}
@@ -662,7 +734,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
                 },
               ]
             }
-            tintColor="#fff"
+            tintColor="#ffffff"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -693,42 +765,61 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
           </RNSVGSvgView>
         </View>
       </View>
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -811,7 +902,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
             align="xMidYMid"
             bbHeight={20}
             bbWidth={20}
-            color="#787777"
+            color="#bdbcbc"
             fill="none"
             focusable={false}
             height={20}
@@ -831,7 +922,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
                 },
               ]
             }
-            tintColor="#787777"
+            tintColor="#bdbcbc"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -862,44 +953,61 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
           </RNSVGSvgView>
         </View>
       </View>
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "opacity": 0.6,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "opacity": 0.6,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#bdbcbc",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
 </View>
@@ -961,7 +1069,7 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
         style={
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
+            "backgroundColor": "#ffffff",
             "borderColor": "#cc1820",
             "borderRadius": 5,
             "borderWidth": 2,
@@ -1032,77 +1140,117 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
           </RNSVGSvgView>
         </View>
       </View>
-      <Text
-        accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#262424",
-            "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
-            "marginLeft": 12,
-            "userSelect": "none",
-          }
-        }
-        selectable={false}
+      <View
+        accessibilityRole="none"
         style={
           {
-            "color": "#262424",
+            "alignContent": "flex-start",
+            "alignItems": undefined,
+            "alignSelf": undefined,
+            "aspectRatio": undefined,
+            "backgroundColor": undefined,
+            "borderColor": undefined,
+            "borderStyle": undefined,
+            "borderWidth": 0,
+            "display": "flex",
+            "flex": undefined,
+            "flexDirection": "column",
             "flexShrink": 1,
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 14,
-            "fontWeight": "400",
-            "lineHeight": 19.599999999999998,
+            "flexWrap": undefined,
+            "gap": 0,
+            "height": undefined,
+            "justifyContent": "flex-start",
             "marginLeft": 12,
-            "userSelect": "none",
+            "maxHeight": undefined,
+            "maxWidth": undefined,
+            "minHeight": undefined,
+            "minWidth": undefined,
+            "overflow": undefined,
+            "textAlign": "left",
+            "width": undefined,
           }
         }
       >
-        Test
-      </Text>
+        <Text
+          accessible={false}
+          role="none"
+          selectable={false}
+          style={
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
+              "userSelect": "none",
+            }
+          }
+        >
+          Test
+        </Text>
+      </View>
     </View>
   </View>
-  <Text
-    accessible={false}
-    collapsable={false}
-    jestAnimatedStyle={
-      {
-        "value": {},
-      }
-    }
-    jestInlineStyle={
-      {
-        "color": "#cc1820",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 12,
-        "fontWeight": "400",
-        "lineHeight": 16.799999999999997,
-        "marginTop": 6,
-        "userSelect": "auto",
-      }
-    }
-    selectable={true}
+  <View
+    accessibilityRole="none"
     style={
       {
-        "color": "#cc1820",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 12,
-        "fontWeight": "400",
-        "lineHeight": 16.799999999999997,
-        "marginTop": 6,
-        "userSelect": "auto",
+        "alignContent": "flex-start",
+        "alignItems": undefined,
+        "alignSelf": undefined,
+        "aspectRatio": undefined,
+        "backgroundColor": undefined,
+        "borderColor": undefined,
+        "borderStyle": undefined,
+        "borderWidth": 0,
+        "display": "flex",
+        "flex": undefined,
+        "flexDirection": "column",
+        "flexShrink": undefined,
+        "flexWrap": undefined,
+        "gap": 0,
+        "height": undefined,
+        "justifyContent": "flex-start",
+        "marginTop": 8,
+        "maxHeight": undefined,
+        "maxWidth": undefined,
+        "minHeight": undefined,
+        "minWidth": undefined,
+        "overflow": undefined,
+        "textAlign": "left",
+        "width": undefined,
       }
     }
   >
-    Test error
-  </Text>
+    <Text
+      accessible={false}
+      role="none"
+      selectable={true}
+      style={
+        {
+          "color": "#cc1820",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 13,
+          "fontVariant": [
+            "lining-nums",
+            "tabular-nums",
+          ],
+          "fontWeight": "400",
+          "letterSpacing": 0.104,
+          "lineHeight": 15.6,
+          "textAlign": undefined,
+          "userSelect": "auto",
+        }
+      }
+    >
+      Test error
+    </Text>
+  </View>
 </View>
 `;

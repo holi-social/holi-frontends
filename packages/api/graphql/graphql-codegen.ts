@@ -567,6 +567,8 @@ export type CreateTaskInput = {
   description: Scalars['String']['input']
   duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
+  interactionSignupLink?: InputMaybe<Scalars['String']['input']>
+  interactionType?: InputMaybe<InteractionType>
   location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
   name: Scalars['String']['input']
@@ -887,6 +889,12 @@ export type InspirationPostCategory = {
   title: Scalars['String']['output']
 }
 
+export enum InteractionType {
+  Chat = 'CHAT',
+  Link = 'LINK',
+  Ready = 'READY',
+}
+
 /** LinkPreview(id, requested_url, url, title, description, type, image, site_name, icon, fetched_at) */
 export type LinkPreview = {
   __typename?: 'LinkPreview'
@@ -961,11 +969,6 @@ export type Moderation_ReportSubmission = {
   contentType: Moderation_ContentType
   details: Scalars['String']['input']
   reason?: InputMaybe<Moderation_Reason>
-}
-
-export type Moderation_Success = {
-  __typename?: 'Moderation_Success'
-  success: Scalars['Boolean']['output']
 }
 
 export type Mutation = {
@@ -2175,7 +2178,7 @@ export enum StatusType {
   Upcoming = 'UPCOMING',
 }
 
-/** Task(id, name, description, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
+/** Task(id, interaction_signup_link, name, description, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, interaction_type, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']
@@ -2186,6 +2189,8 @@ export type Task = {
   duration?: Maybe<Duration>
   geolocation?: Maybe<GeolocationPoint>
   id: Scalars['UUID']['output']
+  interactionSignupLink?: Maybe<Scalars['String']['output']>
+  interactionType?: Maybe<InteractionType>
   location?: Maybe<Scalars['String']['output']>
   locationType: LocationType
   name: Scalars['String']['output']
@@ -2345,6 +2350,8 @@ export type UpdateTaskInput = {
   description: Scalars['String']['input']
   duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
+  interactionSignupLink?: InputMaybe<Scalars['String']['input']>
+  interactionType?: InputMaybe<InteractionType>
   location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
   name: Scalars['String']['input']
@@ -2487,6 +2494,65 @@ export enum VisibilityType {
   Public = 'PUBLIC',
 }
 
+export type TaskFragment = {
+  __typename?: 'Task'
+  id: string
+  name: string
+  description: string
+  thumbnail?: string
+  thumbnailBlurhash?: string
+  location?: string
+  locationType: LocationType
+  interactionType?: InteractionType
+  regularity: Regularity
+  skillsV2: Array<string>
+  interactionSignupLink?: string
+  space: {
+    __typename?: 'Space'
+    id: string
+    title: string
+    name: string
+    avatar?: string
+    avatarBlurhash?: string
+    avatarDefaultColor: string
+  }
+}
+
+export type RecommendedTasksQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>
+}>
+
+export type RecommendedTasksQuery = {
+  __typename?: 'Query'
+  recommendedTasks: {
+    __typename?: 'TaskPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'Task'
+      id: string
+      name: string
+      description: string
+      thumbnail?: string
+      thumbnailBlurhash?: string
+      location?: string
+      locationType: LocationType
+      interactionType?: InteractionType
+      regularity: Regularity
+      skillsV2: Array<string>
+      interactionSignupLink?: string
+      space: {
+        __typename?: 'Space'
+        id: string
+        title: string
+        name: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarDefaultColor: string
+      }
+    }>
+  }
+}
+
 export type SpaceRecommendationQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>
 }>
@@ -2570,12 +2636,14 @@ export type TaskByIdQuery = {
     timeframeEndDate?: any
     visibility: VisibilityType
     locationType: LocationType
+    interactionType?: InteractionType
     contactEmail: string
     contactPhone?: string
     thumbnail?: string
     thumbnailBlurhash?: string
     created: any
     skillsV2: Array<string>
+    interactionSignupLink?: string
     creator: { __typename?: 'User'; id: string; avatar?: string; avatarBlurhash?: string; fullName: string }
     space: {
       __typename?: 'Space'
@@ -2610,6 +2678,8 @@ export type CreateTaskMutation = {
     location?: string
     contactEmail: string
     contactPhone?: string
+    interactionType?: InteractionType
+    interactionSignupLink?: string
   }
 }
 
@@ -2634,6 +2704,8 @@ export type UpdateTaskMutation = {
     contactEmail: string
     contactPhone?: string
     thumbnail?: string
+    interactionType?: InteractionType
+    interactionSignupLink?: string
   }
 }
 
@@ -2871,6 +2943,29 @@ export type TrackEngagementViewMutation = {
   appVolunteering_trackEngagementView: { __typename?: 'AppVolunteering_TrackEngagementViewResponse'; id?: string }
 }
 
+export const TaskFragmentDoc = gql`
+    fragment Task on Task {
+  id
+  name
+  description
+  space {
+    id
+    title
+    name
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+  }
+  thumbnail
+  thumbnailBlurhash
+  location
+  locationType
+  interactionType
+  regularity
+  skillsV2
+  interactionSignupLink
+}
+    `
 export const SpaceCardFragmentDoc = gql`
     fragment SpaceCard on Space {
   title
@@ -2938,6 +3033,60 @@ export const FullEventFragmentDoc = gql`
   }
 }
     `
+export const RecommendedTasksDocument = gql`
+    query RecommendedTasks($limit: Int) {
+  recommendedTasks(limit: $limit) {
+    data {
+      ...Task
+    }
+    totalResults
+  }
+}
+    ${TaskFragmentDoc}`
+
+/**
+ * __useRecommendedTasksQuery__
+ *
+ * To run a query within a React component, call `useRecommendedTasksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecommendedTasksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecommendedTasksQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useRecommendedTasksQuery(
+  baseOptions?: Apollo.QueryHookOptions<RecommendedTasksQuery, RecommendedTasksQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<RecommendedTasksQuery, RecommendedTasksQueryVariables>(RecommendedTasksDocument, options)
+}
+export function useRecommendedTasksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RecommendedTasksQuery, RecommendedTasksQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<RecommendedTasksQuery, RecommendedTasksQueryVariables>(RecommendedTasksDocument, options)
+}
+export function useRecommendedTasksSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<RecommendedTasksQuery, RecommendedTasksQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<RecommendedTasksQuery, RecommendedTasksQueryVariables>(
+    RecommendedTasksDocument,
+    options
+  )
+}
+export type RecommendedTasksQueryHookResult = ReturnType<typeof useRecommendedTasksQuery>
+export type RecommendedTasksLazyQueryHookResult = ReturnType<typeof useRecommendedTasksLazyQuery>
+export type RecommendedTasksSuspenseQueryHookResult = ReturnType<typeof useRecommendedTasksSuspenseQuery>
+export type RecommendedTasksQueryResult = Apollo.QueryResult<RecommendedTasksQuery, RecommendedTasksQueryVariables>
 export const SpaceRecommendationDocument = gql`
     query SpaceRecommendation($limit: Int) {
   recommendedSpaces(limit: $limit) {
@@ -3016,6 +3165,7 @@ export const TaskByIdDocument = gql`
     timeframeEndDate
     visibility
     locationType
+    interactionType
     contactEmail
     contactPhone
     thumbnail
@@ -3037,6 +3187,7 @@ export const TaskByIdDocument = gql`
       topicsV2
     }
     skillsV2
+    interactionSignupLink
   }
 }
     `
@@ -3093,6 +3244,8 @@ export const CreateTaskDocument = gql`
     location
     contactEmail
     contactPhone
+    interactionType
+    interactionSignupLink
   }
 }
     `
@@ -3140,6 +3293,8 @@ export const UpdateTaskDocument = gql`
     contactEmail
     contactPhone
     thumbnail
+    interactionType
+    interactionSignupLink
   }
 }
     `

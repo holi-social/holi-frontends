@@ -6,6 +6,7 @@ export const CreateTaskSchema = z.object({
   name: z.string().min(2).max(128).optional(),
   description: z.string().trim().max(1200).optional(),
   locationType: z.string() /* LocationType */,
+  interactionType: z.string() /* InteractionType */,
   regularity: z.string() /* Regularity */,
   duration: z.string(),
   timeframeStartDate: z.date().optional(),
@@ -23,6 +24,7 @@ export const CreateTaskSchema = z.object({
   slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
   skillsV2: z.array(z.string()).optional(),
+  interactionSignupLink: z.string().optional(),
 })
 
 export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
@@ -34,6 +36,7 @@ export const UpdateTaskSchema = z.object({
   name: z.string().min(2).max(128).optional(),
   description: z.string().trim().max(1200).optional(),
   locationType: z.string() /* LocationType */,
+  interactionType: z.string() /* InteractionType */,
   regularity: z.string() /* Regularity */,
   duration: z.string(),
   timeframeStartDate: z.date().optional(),
@@ -51,6 +54,7 @@ export const UpdateTaskSchema = z.object({
   slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
   skillsV2: z.array(z.string()).optional(),
+  interactionSignupLink: z.string().optional(),
 })
 
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>

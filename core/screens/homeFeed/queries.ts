@@ -56,40 +56,6 @@ export type CheckAppVersionResponse = {
   checkAppVersion: NeedUpdate
 }
 
-const taskFragment = gql`
-  fragment TaskFragment on Task {
-    id
-    name
-    description
-    space {
-      id
-      title
-      name
-      avatar
-      avatarBlurhash
-      avatarDefaultColor
-    }
-    thumbnail
-    thumbnailBlurhash
-    location
-    locationType
-    regularity
-    skillsV2
-  }
-`
-
-export const recommendedTasksQuery = gql`
-  ${taskFragment}
-  query RecommendedTasks($limit: Int) {
-    recommendedTasks(limit: $limit) {
-      data {
-        ...TaskFragment
-      }
-      totalResults
-    }
-  }
-`
-
 export type RecommendedTasksQueryResponse = {
   recommendedTasks: Paged<Task>
 }

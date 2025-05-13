@@ -2,7 +2,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import type { AppointmentInput } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
-import { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
+import type { Duration, InteractionType, Regularity } from '@holi/api/graphql/graphql-codegen'
 
 export interface SpaceMember {
   data: unknown
@@ -154,6 +154,7 @@ export interface Task {
   slotsTaken: number
   location: string
   locationType: LocationType
+  interactionType: InteractionType
   regularity: Regularity
   duration: Duration
   timeframe_start_date: string
@@ -161,6 +162,7 @@ export interface Task {
   skillsV2: string[]
   visibility: VisibilityType
   contactEmail: string
+  interactionSignupLink: string
   contactPhone?: string
   geolocation?: GeolocationPoint
   thumbnail?: string
@@ -178,6 +180,12 @@ export enum LocationType {
   REMOTE = 'REMOTE',
   ONSITE = 'ONSITE',
 }
+
+// export enum InteractionType {
+//   CHAT = 'CHAT',
+//   LINK = 'LINK',
+//   READY = 'READY',
+// }
 
 export enum SpaceConnectionType {
   FOLLOWER = 'FOLLOWER',

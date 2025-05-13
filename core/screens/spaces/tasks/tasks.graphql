@@ -12,6 +12,7 @@ query taskById($id: UUID!) {
     timeframeEndDate
     visibility
     locationType
+    interactionType
     contactEmail
     contactPhone
     thumbnail
@@ -33,6 +34,7 @@ query taskById($id: UUID!) {
       topicsV2
     }
     skillsV2
+    interactionSignupLink
   }
 }
 
@@ -50,6 +52,8 @@ mutation CreateTask($input: CreateTaskInput!) {
     location
     contactEmail
     contactPhone
+    interactionType
+    interactionSignupLink
   }
 }
 
@@ -68,6 +72,8 @@ mutation UpdateTask($input: UpdateTaskInput!) {
     contactEmail
     contactPhone
     thumbnail
+    interactionType
+    interactionSignupLink
   }
 }
 

@@ -113,13 +113,21 @@ export namespace TrackingEvent {
     },
   }
 
-  export const TaskContactOrganization = {
+  export const TaskCTA = {
     contactedOrganization: {
       name: 'task_contactOrganisationButton_pressed',
       ...versionOne,
     },
     startedConversationFromTask: {
       name: 'task_startConversationButton_pressed',
+      ...versionOne,
+    },
+    signupButton: {
+      name: 'task_signupButton_pressed',
+      ...versionOne,
+    },
+    illDoItCTA: {
+      name: 'task_illDoItButton_pressed',
       ...versionOne,
     },
   }

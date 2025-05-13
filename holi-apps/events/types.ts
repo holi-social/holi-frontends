@@ -7,7 +7,6 @@ export type EventLocation = {
 
 export type EventDetails = {
   description: string
-  meetingLink?: string
   externalLink?: string
 }
 

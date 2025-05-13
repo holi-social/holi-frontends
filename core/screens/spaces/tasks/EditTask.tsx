@@ -16,11 +16,18 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { GeolocationPoint } from '@holi/core/types'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { LocationType, type Task, useUpdateTaskMutation, type VisibilityType } from '@holi/api/graphql/graphql-codegen'
+import { Text } from 'holi-bricks/components/text'
+import {
+  type InteractionType as CGInteractionType,
+  InteractionType,
+  LocationType,
+  type Task,
+  useUpdateTaskMutation,
+  type VisibilityType,
+} from '@holi/api/graphql/graphql-codegen'
 
 import TaskInputForm from './components/TaskInputForm'
 import { UpdateTaskSchema } from './taskSchema'
@@ -49,7 +56,9 @@ const EditTask = () => {
   const [description, setDescription] = useState('')
   const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
   const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
+  const [interactionType, setInteractionType] = useState<HoliModalSelectOption<InteractionType> | undefined>()
   const [contactEmail, setContactEmail] = useState('')
+  const [interactionSignupLink, setInteractionSignupLink] = useState<string | undefined>('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [thumbnailBlurhash, setThumbnailBlurhash] = useState<string | undefined>()
@@ -117,6 +126,7 @@ const EditTask = () => {
           description,
           visibility: visibility?.id as VisibilityType,
           locationType: locationType?.id as LocationType,
+          interactionType: interactionType?.id as CGInteractionType,
           regularity: timingSectionProps.regularity,
           duration: timingSectionProps.duration,
           timeframeStartDate: timeFrameSectionProps.timeFrame.anytime
@@ -126,6 +136,7 @@ const EditTask = () => {
             ? undefined
             : timeFrameSectionProps.timeFrame.end.toISOString().split('T')[0],
           contactEmail,
+          interactionSignupLink,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
           skillsV2: skills,
@@ -167,10 +178,12 @@ const EditTask = () => {
       duration: timingSectionProps.duration,
       timeframeStartDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.start,
       timeframeEndDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.end,
+      interactionType: interactionType?.id,
       skillsV2: skills,
       name,
       description,
       contactEmail,
+      interactionSignupLink,
       contactPhone,
       slotsAvailable,
     })
@@ -188,7 +201,9 @@ const EditTask = () => {
     description,
     visibility,
     locationType,
+    interactionType,
     contactEmail,
+    interactionSignupLink,
     slotsAvailable,
     thumbnail,
     skills,
@@ -216,7 +231,13 @@ const EditTask = () => {
         title: t(`spaces.input.task.locationType.${task.locationType}.title`),
         description: t(`spaces.input.task.locationType.${task.locationType}.description`),
       })
+      setInteractionType({
+        id: task.interactionType ?? InteractionType.Chat,
+        title: t(`spaces.input.task.interactionType.${task.interactionType}.title`),
+        description: t(`spaces.input.task.interactionType.${task.interactionType}.description`),
+      })
       setContactEmail(task.contactEmail)
+      setInteractionSignupLink(task.interactionSignupLink)
       setSlotsAvailable(task.slotsAvailable)
       setCurrentThumbnail(task.thumbnail)
       setThumbnailBlurhash(task.thumbnailBlurhash)
@@ -240,9 +261,9 @@ const EditTask = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <Text headingLevel="1" size="lg">
           {t('spaces.tasks.edit.title')}
-        </HoliHeading>
+        </Text>
       ),
       headerTitleAlign: 'center',
       headerBackVisible: isMember ? false : true,
@@ -259,6 +280,7 @@ const EditTask = () => {
       description.length > 0 &&
       !!visibility &&
       !!locationType &&
+      !!interactionType &&
       !!contactEmail &&
       !!timingSectionProps.duration &&
       !!timingSectionProps.regularity &&
@@ -271,7 +293,9 @@ const EditTask = () => {
     description,
     visibility,
     locationType,
+    interactionType,
     contactEmail,
+    interactionSignupLink,
     inputValid,
     timingSectionProps.duration,
     timingSectionProps.regularity,
@@ -306,7 +330,9 @@ const EditTask = () => {
           description={description}
           visibility={visibility}
           locationType={locationType}
+          interactionType={interactionType}
           contactEmail={contactEmail}
+          interactionSignupLink={interactionSignupLink}
           slotsAvailable={slotsAvailable}
           thumbnail={thumbnail}
           thumbnailBlurhash={thumbnailBlurhash}
@@ -321,7 +347,9 @@ const EditTask = () => {
           onChangeDescription={setDescription}
           onChangeVisibility={setVisibility}
           onChangeLocationType={setLocationType}
+          onChangeInteractionType={setInteractionType}
           onChangeContactEmail={setContactEmail}
+          onChangeInteractionSignupLink={setInteractionSignupLink}
           onChangeSlotsAvailable={setSlotsAvailable}
           onChangeThumbnail={setThumbnail}
           onChangeSkills={setSkills}

@@ -100,7 +100,7 @@ const ButtonWrapper = ({ spaceIdOrName, drawerButtonLabel }: ButtonWrapperProps)
 
   return (
     <ButtonTracked
-      trackingEvent={TrackingEvent.TaskContactOrganization.startedConversationFromTask}
+      trackingEvent={TrackingEvent.TaskCTA.startedConversationFromTask}
       loading={isLoading}
       disabled={isLoading}
       onPress={start}
@@ -124,7 +124,7 @@ export const StartSpaceChatButton = ({
     <HoliActionDrawer.Drawer
       renderCustomButton={(onPress, testID) => (
         <ButtonTracked
-          trackingEvent={TrackingEvent.TaskContactOrganization.contactedOrganization}
+          trackingEvent={TrackingEvent.TaskCTA.contactedOrganization}
           onPress={onPress}
           variant="primary"
           size="lg"

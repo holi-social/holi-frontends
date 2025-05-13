@@ -136,8 +136,8 @@ exports[`PollSelection renders poll selection correctly 1`] = `
                   style={
                     {
                       "alignItems": "center",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#ebebeb",
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#bdbcbc",
                       "borderRadius": 24,
                       "borderWidth": 1,
                       "height": 24,
@@ -325,8 +325,8 @@ exports[`PollSelection renders poll selection correctly 1`] = `
                   style={
                     {
                       "alignItems": "center",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#ebebeb",
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#bdbcbc",
                       "borderRadius": 24,
                       "borderWidth": 1,
                       "height": 24,
@@ -520,8 +520,8 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
                 style={
                   {
                     "alignItems": "center",
-                    "backgroundColor": "#fff",
-                    "borderColor": "#ebebeb",
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#bdbcbc",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,

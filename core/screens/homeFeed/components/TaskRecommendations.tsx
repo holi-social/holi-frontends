@@ -6,13 +6,12 @@ import { StyleSheet, View } from 'react-native'
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import { type RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import TaskRecommendation from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/TaskRecommendation'
 import type { Task } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import CheckboxFilled from '@holi/icons/src/generated/CheckboxFilled'
-import { useQuery } from '@apollo/client'
+import { useRecommendedTasksQuery } from '@holi/api/graphql/graphql-codegen'
 
 type TaskRecommendationsProps = {
   cardWidth: number
@@ -27,7 +26,7 @@ const TaskRecommendations = ({ cardWidth }: TaskRecommendationsProps) => {
     loading: isLoadingTasks,
     error: tasksError,
     refetch,
-  } = useQuery<RecommendedTasksQueryResponse>(recommendedTasksQuery, {
+  } = useRecommendedTasksQuery({
     variables: { limit: 5 },
     onError: (error) => logError(error, 'Failed to load recommendedTasks', { location: 'TaskRecommendations' }),
   })
