@@ -122,7 +122,7 @@ const CreateTask = () => {
             : timeFrameSectionProps.timeFrame.end.toISOString().split('T')[0],
           interactionType: interactionType?.id as CGInteractionType,
           contactEmail,
-          interactionSignupLink,
+          interactionSignupLink: interactionSignupLink || undefined,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
           skillsV2: skills,
