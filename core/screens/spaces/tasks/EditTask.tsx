@@ -136,7 +136,7 @@ const EditTask = () => {
             ? undefined
             : timeFrameSectionProps.timeFrame.end.toISOString().split('T')[0],
           contactEmail,
-          interactionSignupLink,
+          interactionSignupLink: interactionSignupLink || undefined,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
           skillsV2: skills,
