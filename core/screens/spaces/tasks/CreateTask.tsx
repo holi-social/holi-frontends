@@ -163,7 +163,7 @@ const CreateTask = () => {
       regularity: timingSectionProps.regularity,
       timeframeStartDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.start,
       timeframeEndDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.end,
-      interactionType: interactionType,
+      interactionType: interactionType?.id,
       slotsAvailable: slotsAvailable,
       skillsV2: skills,
       ...(name ? { name } : {}),
