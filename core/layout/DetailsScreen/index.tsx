@@ -58,6 +58,7 @@ export type DetailsScreenData = {
     details: Partner[]
   }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
+  descriptionTitle?: string
 }
 
 type DetailsScreenProps = DetailsScreenData
@@ -75,7 +76,7 @@ const DescriptionRenderer = ({ description }: { description?: string }) => {
     return isHtml(description) ? (
       <HtmlRenderer content={description} />
     ) : (
-      <HoliRichTextOutput text={description as string} />
+      <HoliRichTextOutput text={description as string} color="main" />
     )
   }
 
@@ -95,6 +96,7 @@ export const DetailsScreen = ({
   seoDescription,
   partners,
   _footer = null,
+  descriptionTitle,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
   const hasData = title && description
@@ -195,7 +197,10 @@ export const DetailsScreen = ({
             </Stack>
 
             {/* description */}
-            <DescriptionRenderer description={description} />
+            <Stack gap="3xs">
+              {descriptionTitle && <Text size="xl">{descriptionTitle}</Text>}
+              <DescriptionRenderer description={description} />
+            </Stack>
             {author && <AuthorBanner {...author} />}
             {partners && (
               <Stack direction="column" gap="xxs">

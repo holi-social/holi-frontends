@@ -7,11 +7,11 @@ import React from 'react'
 import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
-import { recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import { DEFAULT_RECO_TOPICS_V2 } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { RecommendedTasksDocument } from '@holi/api/graphql/graphql-codegen'
 
 export const user: User = {
   id: '123',
@@ -36,7 +36,7 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 
 const tasksRequest = {
   request: {
-    query: recommendedTasksQuery,
+    query: RecommendedTasksDocument,
     variables: { limit: 5 },
   },
   result: {

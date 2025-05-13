@@ -15,11 +15,16 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { GeolocationPoint } from '@holi/core/types'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { LocationType, useCreateTaskMutation, type VisibilityType } from '@holi/api/graphql/graphql-codegen'
+import { Text } from 'holi-bricks/components/text'
+import {
+  type InteractionType as CGInteractionType,
+  LocationType,
+  useCreateTaskMutation,
+  type VisibilityType,
+} from '@holi/api/graphql/graphql-codegen'
 
 import { CreateTaskSchema } from './taskSchema'
 import TaskInputForm from './components/TaskInputForm'
@@ -46,7 +51,9 @@ const CreateTask = () => {
   const [description, setDescription] = useState('')
   const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
   const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
+  const [interactionType, setInteractionType] = useState<HoliModalSelectOption<CGInteractionType> | undefined>()
   const [contactEmail, setContactEmail] = useState('')
+  const [interactionSignupLink, setInteractionSignupLink] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [skills, setSkills] = useState<string[]>([])
@@ -113,7 +120,9 @@ const CreateTask = () => {
           timeframeEndDate: timeFrameSectionProps.timeFrame.anytime
             ? undefined
             : timeFrameSectionProps.timeFrame.end.toISOString().split('T')[0],
+          interactionType: interactionType?.id as CGInteractionType,
           contactEmail,
+          interactionSignupLink,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
           skillsV2: skills,
@@ -154,11 +163,13 @@ const CreateTask = () => {
       regularity: timingSectionProps.regularity,
       timeframeStartDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.start,
       timeframeEndDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.end,
+      interactionType: interactionType,
       slotsAvailable: slotsAvailable,
       skillsV2: skills,
       ...(name ? { name } : {}),
       ...(description ? { description } : {}),
       ...(contactEmail ? { contactEmail } : {}),
+      ...(interactionSignupLink ? { interactionSignupLink } : {}),
       ...(contactPhone ? { contactPhone } : {}),
     })
     setInputValid(resultSchema.success)
@@ -174,7 +185,9 @@ const CreateTask = () => {
     description,
     visibility,
     locationType,
+    interactionType,
     contactEmail,
+    interactionSignupLink,
     slotsAvailable,
     thumbnail,
     skills,
@@ -192,9 +205,9 @@ const CreateTask = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <Text headingLevel="1" size="lg">
           {t('spaces.tasks.add.title')}
-        </HoliHeading>
+        </Text>
       ),
       headerBackVisible: isMember ? false : true,
       headerTitleAlign: 'center',
@@ -211,6 +224,7 @@ const CreateTask = () => {
       description.length > 0 &&
       !!visibility &&
       !!locationType &&
+      !!interactionType &&
       !!contactEmail &&
       !!timingSectionProps.duration &&
       !!timingSectionProps.regularity &&
@@ -222,6 +236,7 @@ const CreateTask = () => {
     description,
     visibility,
     locationType,
+    interactionType,
     contactEmail,
     inputValid,
     timingSectionProps.duration,
@@ -250,7 +265,9 @@ const CreateTask = () => {
           description={description}
           visibility={visibility}
           locationType={locationType}
+          interactionType={interactionType}
           contactEmail={contactEmail}
+          interactionSignupLink={interactionSignupLink}
           slotsAvailable={slotsAvailable}
           thumbnail={thumbnail}
           skills={skills}
@@ -263,7 +280,9 @@ const CreateTask = () => {
           onChangeDescription={setDescription}
           onChangeVisibility={setVisibility}
           onChangeLocationType={setLocationType}
+          onChangeInteractionType={setInteractionType}
           onChangeContactEmail={setContactEmail}
+          onChangeInteractionSignupLink={setInteractionSignupLink}
           onChangeSlotsAvailable={setSlotsAvailable}
           onChangeThumbnail={setThumbnail}
           onChangeSkills={setSkills}

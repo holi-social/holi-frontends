@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import {
   type AccessibilityProps,
   Animated,
@@ -8,7 +8,6 @@ import {
   Pressable,
   type Role,
   type StyleProp,
-  StyleSheet,
   type TargetedEvent,
   View,
   type ViewStyle,
@@ -17,8 +16,9 @@ import {
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Subtract } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
+import { Stack } from 'holi-bricks/components/stack'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxValue = boolean | 'mixed'
@@ -58,8 +58,7 @@ const HoliCheckbox = ({
   const checkboxRef = useRef<View>(null)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   useEffect(() => {
     if (autofocus) checkboxRef?.current?.focus()
@@ -91,12 +90,10 @@ const HoliCheckbox = ({
     }).start()
   }
 
-  let checkMarkColor = styles.icon.color
-  if (disabled) {
-    checkMarkColor = styles.iconDisabled.color
-  }
-  if (hasError) {
-    checkMarkColor = styles.iconError.color
+  const iconColorOverride = () => {
+    if (disabled) return styles.iconDisabled.color
+    if (hasError) return styles.iconError.color
+    return styles.icon.color
   }
 
   return (
@@ -125,22 +122,32 @@ const HoliCheckbox = ({
             ]}
           >
             {checked && (
-              <HoliIcon icon={checked === 'mixed' ? Subtract : Check} size={20} colorOverride={checkMarkColor} />
+              <HoliIcon icon={checked === 'mixed' ? Subtract : Check} size={20} colorOverride={iconColorOverride()} />
             )}
           </Animated.View>
 
           {!children && !!label && (
-            <HoliText size="small" selectable={false} style={[styles.label, disabled && styles.labelDisabled]}>
-              {label}
-            </HoliText>
+            <Stack margin={{ left: 'xxs' }} flexShrink={1}>
+              <Text size="sm" selectable={false} color={disabled ? 'muted' : 'main'}>
+                {label}
+              </Text>
+            </Stack>
           )}
         </Pressable>
-        {children && <View style={styles.label}>{children}</View>}
+
+        {children && (
+          <Stack margin={{ left: 'xxs' }} flexShrink={1}>
+            {children}
+          </Stack>
+        )}
       </View>
+
       {!!errorMessage && (
-        <HoliText size="extrasmall" style={styles.errorMessage}>
-          {errorMessage}
-        </HoliText>
+        <Stack margin={{ top: '3xs' }}>
+          <Text size="xs" color="danger">
+            {errorMessage}
+          </Text>
+        </Stack>
       )}
     </View>
   )
@@ -148,60 +155,52 @@ const HoliCheckbox = ({
 
 export default HoliCheckbox
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    checkboxContainer: {
-      alignItems: 'center',
-      flexWrap: 'nowrap',
-      flexDirection: 'row',
-    },
-    checkbox: {
-      width: 24,
-      height: 24,
-      borderRadius: 5,
-      borderWidth: 1,
-      backgroundColor: theme.dark ? theme.colors.foreground30 : theme.colors.background10,
-      borderColor: theme.dark ? theme.colors.foreground10 : theme.colors.background30,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    checkboxSelected: {
-      backgroundColor: theme.colors.foreground30,
-    },
-    checkboxDisabled: {
-      borderColor: theme.colors.background30,
-      backgroundColor: theme.colors.background30,
-      opacity: 0.6,
-    },
-    checkboxFocused: {
-      borderColor: theme.colors.brandColorB30,
-    },
-    checkboxError: {
-      borderWidth: 2,
-      borderColor: theme.colors.error30,
-      backgroundColor: theme.colors.background10,
-    },
-    shapeRound: {
-      borderRadius: 24,
-    },
-    icon: {
-      color: theme.colors.background10,
-    },
-    iconDisabled: {
-      color: theme.colors.foreground20,
-    },
-    iconError: {
-      color: theme.colors.foreground30,
-    },
-    label: {
-      marginLeft: 12,
-      flexShrink: 1,
-    },
-    labelDisabled: {
-      opacity: 0.6,
-    },
-    errorMessage: {
-      marginTop: 6,
-      color: theme.colors.error30,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  checkboxContainer: {
+    alignItems: 'center',
+    flexWrap: 'nowrap',
+    flexDirection: 'row',
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 5,
+    borderWidth: 1,
+    backgroundColor: theme.colors.bg.support,
+    borderColor: theme.colors.border.support,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxSelected: {
+    backgroundColor: theme.colors.bg.selected,
+  },
+  checkboxDisabled: {
+    borderColor: theme.colors.border.default,
+    backgroundColor: theme.colors.bg.muted,
+    opacity: 0.6,
+  },
+  checkboxFocused: {
+    borderColor: '#6267e7',
+  },
+  checkboxError: {
+    borderWidth: 2,
+    borderColor: theme.colors.fill.danger,
+    backgroundColor: theme.colors.bg.support,
+  },
+  shapeRound: {
+    borderRadius: 24,
+  },
+  icon: {
+    color: theme.colors.fill.selected,
+  },
+  iconDisabled: {
+    color: theme.colors.fill.muted,
+  },
+  iconError: {
+    color: theme.colors.fill.main,
+  },
+  errorMessage: {
+    marginTop: 6,
+    color: theme.colors.fill.danger,
+  },
+}))

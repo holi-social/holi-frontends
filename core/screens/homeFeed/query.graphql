@@ -1,0 +1,30 @@
+fragment Task on Task {
+  id
+  name
+  description
+  space {
+    id
+    title
+    name
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+  }
+  thumbnail
+  thumbnailBlurhash
+  location
+  locationType
+  interactionType
+  regularity
+  skillsV2
+  interactionSignupLink
+}
+
+query RecommendedTasks($limit: Int) {
+  recommendedTasks(limit: $limit) {
+    data {
+      ...Task
+    }
+    totalResults
+  }
+}

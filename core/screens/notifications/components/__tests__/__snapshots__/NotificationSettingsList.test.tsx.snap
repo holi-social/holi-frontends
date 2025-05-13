@@ -393,8 +393,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       style={
                         {
                           "alignItems": "center",
-                          "backgroundColor": "#fff",
-                          "borderColor": "#ebebeb",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -478,7 +478,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                         {
                           "alignItems": "center",
                           "backgroundColor": "#262424",
-                          "borderColor": "#ebebeb",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -497,7 +497,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                           align="xMidYMid"
                           bbHeight={20}
                           bbWidth={20}
-                          color="#fff"
+                          color="#ffffff"
                           fill="none"
                           focusable={false}
                           height={20}
@@ -517,7 +517,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#fff"
+                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -911,8 +911,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       style={
                         {
                           "alignItems": "center",
-                          "backgroundColor": "#fff",
-                          "borderColor": "#ebebeb",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -1295,8 +1295,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       style={
                         {
                           "alignItems": "center",
-                          "backgroundColor": "#fff",
-                          "borderColor": "#ebebeb",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -1380,7 +1380,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                         {
                           "alignItems": "center",
                           "backgroundColor": "#262424",
-                          "borderColor": "#ebebeb",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -1399,7 +1399,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                           align="xMidYMid"
                           bbHeight={20}
                           bbWidth={20}
-                          color="#fff"
+                          color="#ffffff"
                           fill="none"
                           focusable={false}
                           height={20}
@@ -1419,7 +1419,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#fff"
+                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -1595,8 +1595,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       style={
                         {
                           "alignItems": "center",
-                          "backgroundColor": "#fff",
-                          "borderColor": "#ebebeb",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -1984,8 +1984,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       style={
                         {
                           "alignItems": "center",
-                          "backgroundColor": "#fff",
-                          "borderColor": "#ebebeb",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -2735,8 +2735,8 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                       style={
                         {
                           "alignItems": "center",
-                          "backgroundColor": "#fff",
-                          "borderColor": "#ebebeb",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -2820,7 +2820,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                         {
                           "alignItems": "center",
                           "backgroundColor": "#262424",
-                          "borderColor": "#ebebeb",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -2839,7 +2839,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                           align="xMidYMid"
                           bbHeight={20}
                           bbWidth={20}
-                          color="#fff"
+                          color="#ffffff"
                           fill="none"
                           focusable={false}
                           height={20}
@@ -2859,7 +2859,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                               },
                             ]
                           }
-                          tintColor="#fff"
+                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}

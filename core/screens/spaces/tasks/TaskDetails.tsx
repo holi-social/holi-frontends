@@ -12,6 +12,7 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
+import { useTranslation } from 'react-i18next'
 
 const isIos = Platform.OS === 'ios'
 
@@ -20,7 +21,9 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetailsContainer = () => {
-  const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle } = useTaskDetailsData()
+  const { t } = useTranslation()
+  const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle, interactionSignupLink, interactionType } =
+    useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
   const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
 
@@ -66,6 +69,8 @@ const TaskDetailsContainer = () => {
               taskId={id}
               spaceTitle={spaceTitle}
               spaceId={spaceId}
+              interactionType={interactionType}
+              interactionSignupLink={interactionSignupLink}
             />
           )}
         </Stack>
@@ -73,6 +78,7 @@ const TaskDetailsContainer = () => {
     >
       <DetailsScreen
         {...data}
+        descriptionTitle={t('spaces.tasks.description.title')}
         _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
       />
     </Screen>

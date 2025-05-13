@@ -1,6 +1,6 @@
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
-import { ChatSmile2 } from '@holi/icons/src/generated'
+import { Chat3 } from '@holi/icons/src/generated'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
@@ -29,14 +29,14 @@ export const ContactOrganizationActionButton = ({ onPress, testID, loading }: Pr
       testID={testID}
     >
       <ButtonTracked
-        trackingEvent={TrackingEvent.TaskContactOrganization.startedConversationFromTask}
+        trackingEvent={TrackingEvent.TaskCTA.startedConversationFromTask}
         onPress={onPress}
         loading={loading}
         disabled={loading}
         variant="primary"
-        icon={ChatSmile2}
+        icon={Chat3}
         size="lg"
-        label={t('spaces.tasks.contactOrganization')}
+        label={t('spaces.tasks.contactOrganization.cta.chat')}
       />
     </View>
   )

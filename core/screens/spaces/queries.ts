@@ -66,6 +66,7 @@ export const FullTaskFragment = gql`
     location
     visibility
     locationType
+    interactionType
     contactEmail
     contactPhone
     thumbnail
@@ -78,6 +79,7 @@ export const FullTaskFragment = gql`
       ...UserAvatar
     }
     skillsV2
+    interactionSignupLink
   }
 `
 

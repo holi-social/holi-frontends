@@ -3,7 +3,12 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { SpaceUserConnectionType, VisibilityType, useTaskByIdQuery } from '@holi/api/graphql/graphql-codegen'
+import {
+  type InteractionType,
+  SpaceUserConnectionType,
+  VisibilityType,
+  useTaskByIdQuery,
+} from '@holi/api/graphql/graphql-codegen'
 import { CalendarEventLine, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -24,6 +29,8 @@ export type UseTaskDetailsData = {
   refetch(): Promise<void>
   spaceId?: string
   spaceTitle?: string
+  interactionType?: InteractionType
+  interactionSignupLink?: string
 }
 
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
@@ -91,15 +98,23 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         }
       : undefined
 
+  const duration = data?.taskById?.duration
+    ? t(`spaces.input.task.section.timing.duration.value.${data?.taskById?.duration}`)
+    : t('spaces.input.task.section.timing.duration.value.INDETERMINATE')
+
   const regularity = data?.taskById?.regularity
-    ? {
-        icon: Time,
-        title:
-          data?.taskById?.regularity && t(`task.commitment.${data?.taskById?.regularity}`)
-            ? t(`spaces.input.task.section.timing.regularity.value.${data?.taskById?.regularity}`)
-            : t('spaces.input.task.section.timing.regularity.value.NEGOTIABLE'),
+    ? t(`spaces.input.task.section.timing.regularity.value.${data?.taskById?.regularity}`)
+    : t('spaces.input.task.section.timing.regularity.value.NEGOTIABLE')
+
+  const regularityAndDuration = {
+    icon: Time,
+    title: (() => {
+      if (regularity && duration) {
+        return `${regularity} ${t('spaces.input.task.section.timing.duration.forHowLong')} ${duration}`
       }
-    : undefined
+      return regularity || duration || ''
+    })(),
+  }
 
   const hasTimeFrame = !!(data?.taskById?.timeframeEndDate && data?.taskById?.timeframeStartDate)
   const timeFrameStartDate = data?.taskById?.timeframeStartDate
@@ -114,7 +129,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     : undefined
 
-  const infoList = [locationType, slots, timeFrame, regularity].filter(
+  const infoList = [locationType, slots, timeFrame, regularityAndDuration].filter(
     (detail) => detail !== undefined
   ) as DetailsScreenInfoList[]
 
@@ -157,5 +172,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     },
     spaceId: data?.taskById?.space?.id,
     spaceTitle: data?.taskById?.space?.title,
+    interactionType: data?.taskById?.interactionType,
+    interactionSignupLink: data?.taskById?.interactionSignupLink,
   }
 }
