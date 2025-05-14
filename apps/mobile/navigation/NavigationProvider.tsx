@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications'
 import { StatusBar } from 'expo-status-bar'
 import type React from 'react'
 import * as WebBrowser from 'expo-web-browser'
+import * as AuthSession from 'expo-auth-session'
 
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
@@ -15,6 +16,7 @@ import { screenUrlFromNotificationResponse } from '@holi/mobile/notifications'
 import { navigationIntegration } from '@holi/mobile/tracing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
+import { Platform } from 'react-native'
 
 const logger = getLogger('NavigationProvider')
 
@@ -40,10 +42,16 @@ const syncPathname = (url: string) => {
 const isOryUrl = (url: string) => url.includes('/api/.ory')
 
 const handleAuthFlow = async (url: string) => {
-  logger.debug('NavigationProvider.finishOryLogin', 'handle auth session in browser', url)
-  WebBrowser.dismissAuthSession()
-  await WebBrowser.openAuthSessionAsync(url)
-  return null
+  if (Platform.OS === 'ios') {
+    logger.debug('NavigationProvider.handleAuthFlow', 'ignoring auth url on ios', url)
+    return
+  }
+  const redirect = AuthSession.makeRedirectUri({
+    preferLocalhost: true,
+    path: 'login/callback',
+  })
+  logger.debug('NavigationProvider.handleAuthFlow', `handle auth session in browser with redirect ${redirect}`, url)
+  await WebBrowser.openAuthSessionAsync(url, redirect)
 }
 
 // linking is done to configure deep linking (e.g. to get https://staging.dev.holi.social/profiles/dieter
@@ -67,7 +75,8 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     const url = await Linking.getInitialURL()
     if (url != null) {
       if (isOryUrl(url)) {
-        return handleAuthFlow(url)
+        await handleAuthFlow(url)
+        return
       }
       logger.debug('NavigationProvider.getInitialURL', 'opening direct deep link', url)
       syncPathname(url)
@@ -93,7 +102,8 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     // listen to incoming links from deep linking, while app is active or in background
     const eventListenerSubscription = Linking.addEventListener('url', async ({ url }: { url: string }) => {
       if (isOryUrl(url)) {
-        return handleAuthFlow(url)
+        await handleAuthFlow(url)
+        return
       }
       logger.debug('NavigationProvider.subscribe', 'received url from deeplinking', url)
       syncPathname(url)
