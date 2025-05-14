@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import HoliModal, { HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type OnboardSpaceParams = {
   onboarding: string
@@ -26,7 +26,7 @@ const onboardingContentList: Array<OnboardingCard> = [
   {
     image: require('@holi/ui/assets/img/illustrations/illustration_space_join_onboarding_step_1.png'),
     description: 'spaces.join.onboarding.slide1.description',
-    instruction: 'spaces.edit.onboarding.instruction',
+    instruction: '',
     width: 279,
     height: 200,
   },
