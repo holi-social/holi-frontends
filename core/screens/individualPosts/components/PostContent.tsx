@@ -17,6 +17,7 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import PollComponent from '@holi/core/screens/polls/PollComponent'
 
 type PostContentProps = {
   post: FeedPost
@@ -36,6 +37,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const [title, setTitle] = useState(post.title)
 
   const isTranslatable = post.language && post.language !== i18n.language
+  const isPoll = !!post?.poll
 
   return (
     <>
@@ -71,26 +73,28 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
             </View>
           ))}
         </View>
-        <View style={styles.contentSection}>
-          <HoliHeading
-            level="1"
-            size="m"
-            numberOfLines={3}
-            loading={loadingTranslation}
-            skeletonOptions={{ numberOfLines: 1 }}
-          >
-            {title}
-          </HoliHeading>
-          <HoliRichTextOutput
-            text={description}
-            allowAllLinks
-            users={post.mentionedUsers || []}
-            loading={loadingTranslation}
-            skeletonOptions={{ numberOfLines: 3 }}
-            style={styles.description}
-          />
-        </View>
-        {isTranslatable && (
+        {!isPoll && (
+          <View style={styles.contentSection}>
+            <HoliHeading
+              level="1"
+              size="m"
+              numberOfLines={3}
+              loading={loadingTranslation}
+              skeletonOptions={{ numberOfLines: 1 }}
+            >
+              {title}
+            </HoliHeading>
+            <HoliRichTextOutput
+              text={description}
+              allowAllLinks
+              users={post.mentionedUsers || []}
+              loading={loadingTranslation}
+              skeletonOptions={{ numberOfLines: 3 }}
+              style={styles.description}
+            />
+          </View>
+        )}
+        {!isPoll && isTranslatable && (
           <HoliTranslate
             primaryText={{ text: description, setText: setDescription }}
             secondaryText={{ text: title, setText: setTitle }}
@@ -99,12 +103,13 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
             trackingEvent={TrackingEvent.ContentTranslated('feed_post', post.id)}
           />
         )}
-        {!!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
-        {!!post.linkPreview && (
+        {!isPoll && !!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
+        {!isPoll && !!post.linkPreview && (
           <View style={styles.blockContainer}>
             <HoliLinkPreview previewData={post.linkPreview} />
           </View>
         )}
+        {isPoll && <PollComponent poll={post.poll!} bordered={false} />}
       </View>
     </>
   )

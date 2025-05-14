@@ -39,6 +39,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import SpaceFeedFollow from '@holi/core/screens/spaces/details/components/SpaceFeedFollow'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import PollComponent from '@holi/core/screens/polls/PollComponent'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -81,6 +82,8 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const showTopics = feedPost.topicsV2 && feedPost.topicsV2?.length > 0
     const showCategory = feedPost.category
     const showPills = showTopics || showCategory
+
+    const isPoll = !!feedPost.poll
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
@@ -138,67 +141,79 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
                 )}
               </View>
             )}
-            <View style={styles.contentSection}>
-              <HoliHeading
-                level="2"
-                size="s"
-                numberOfLines={3}
-                skeletonOptions={{ numberOfLines: 1 }}
-                loading={loadingTranslation}
-              >
-                {title}
-              </HoliHeading>
-            </View>
+            {!isPoll && (
+              <View style={styles.contentSection}>
+                <HoliHeading
+                  level="2"
+                  size="s"
+                  numberOfLines={3}
+                  skeletonOptions={{ numberOfLines: 1 }}
+                  loading={loadingTranslation}
+                >
+                  {title}
+                </HoliHeading>
+              </View>
+            )}
           </View>
         </HoliButton>
 
-        <View style={styles.description}>
-          <HoliReadMore
-            numberOfLines={NUMBER_OF_LINES}
-            color="gray300"
-            bold={false}
-            onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
-            loading={loadingTranslation}
-            skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
-            style={styles.readMore}
-          >
-            <HoliRichTextOutput
-              text={description}
-              allowAllLinks
-              onPressText={() => {
-                goToDetailView()
-              }}
-              color="support"
-              users={feedPost.mentionedUsers}
-            />
-          </HoliReadMore>
-          {showTranslation && (
-            <HoliTranslate
-              primaryText={{ text: description, setText: setDescription }}
-              secondaryText={{ text: title, setText: setTitle }}
-              loading={loadingTranslation}
-              setLoading={setLoadingTranslation}
-              trackingEvent={TrackingEvent.ContentTranslated('feed_post', feedPost.id)}
-            />
-          )}
-        </View>
+        {isPoll && (
+          <View style={{ marginTop: Spacing.xs }}>
+            <PollComponent poll={feedPost.poll!} onPress={goToDetailView} bordered={false} />
+          </View>
+        )}
 
-        {!!feedPost.images && !!feedPost.images.length && (
+        {!isPoll && (
+          <View style={styles.description}>
+            <HoliReadMore
+              numberOfLines={NUMBER_OF_LINES}
+              color="gray300"
+              bold={false}
+              onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
+              loading={loadingTranslation}
+              skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
+              style={styles.readMore}
+            >
+              <HoliRichTextOutput
+                text={description}
+                allowAllLinks
+                onPressText={() => {
+                  goToDetailView()
+                }}
+                color="support"
+                users={feedPost.mentionedUsers}
+              />
+            </HoliReadMore>
+            {showTranslation && (
+              <HoliTranslate
+                primaryText={{ text: description, setText: setDescription }}
+                secondaryText={{ text: title, setText: setTitle }}
+                loading={loadingTranslation}
+                setLoading={setLoadingTranslation}
+                trackingEvent={TrackingEvent.ContentTranslated('feed_post', feedPost.id)}
+              />
+            )}
+          </View>
+        )}
+
+        {!isPoll && !!feedPost.images && !!feedPost.images.length && (
           <ImageCarousel images={feedPost.images} style={styles.imageCarousel} onPressItem={goToDetailView} />
         )}
 
-        {!feedPost.imageUrl && !!feedPost.linkPreview && (
+        {!isPoll && !feedPost.imageUrl && !!feedPost.linkPreview && (
           <HoliLinkPreview
             style={styles.linkPreview}
             previewData={feedPost.linkPreview}
             onPress={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
           />
         )}
-        {!!feedPost.location && (
+
+        {!isPoll && !!feedPost.location && (
           <View style={styles.locationCard}>
             <PostLocationCard location={feedPost.location} geolocation={feedPost.geolocation} />
           </View>
         )}
+
         <View style={styles.reactionsBar}>
           <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
             {feedPost.totalComments > 0 ? (

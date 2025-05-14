@@ -2,11 +2,13 @@ import { gql } from '@apollo/client'
 
 import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
+import { PollFragment } from '@holi/core/screens/polls/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 
 export const FeedPostDetailsFragment = gql`
   ${FullUserAvatarFragment}
   ${LinkFragment}
+  ${PollFragment}
 
   fragment FeedPostFull on FeedPost {
     __typename
@@ -59,6 +61,9 @@ export const FeedPostDetailsFragment = gql`
     geolocation {
       latitude
       longitude
+    }
+    poll {
+      ...PollFragment
     }
   }
 `

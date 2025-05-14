@@ -25,18 +25,21 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 const MIN_VOTES_RESULTS_REVEAL = 5
 
 export type PollComponentProps = {
   poll: Poll
+  bordered?: boolean
+  onPress?: () => void
 }
 
-const PollComponent = ({ poll }: PollComponentProps) => {
+const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) => {
   const { track } = useTracking()
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, bordered), [theme, bordered])
   const choices = poll?.choices
   const { width: screenWidth } = useClientWindowDimensions()
   const { openSignupModal } = useSignupModal()
@@ -116,11 +119,13 @@ const PollComponent = ({ poll }: PollComponentProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.pollTitle}>
-        <HoliHeading level="3" size="s">
-          {poll.questionText}
-        </HoliHeading>
-      </View>
+      <HoliButton transparent label={poll.questionText} onPress={onPress} inline>
+        <View style={styles.pollTitle}>
+          <HoliHeading level="3" size="s">
+            {poll.questionText}
+          </HoliHeading>
+        </View>
+      </HoliButton>
 
       {!userHasVoted?.userHasVotedByPollId && !!choices ? (
         // if not voted yet
@@ -166,13 +171,13 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, bordered: boolean) =>
   StyleSheet.create({
     container: {
-      padding: 16,
-      borderWidth: 1,
-      borderColor: theme.colors.black300,
-      borderRadius: 12,
+      padding: bordered ? 16 : 0,
+      borderWidth: bordered ? 1 : 0,
+      borderColor: bordered ? theme.colors.black300 : 'transparent',
+      borderRadius: bordered ? 12 : 0,
       backgroundColor: theme.colors.background10,
     },
     pollTitle: {
