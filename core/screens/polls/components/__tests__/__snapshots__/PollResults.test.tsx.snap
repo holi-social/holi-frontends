@@ -21,6 +21,7 @@ exports[`PollResults renders correctly as expected 1`] = `
         "flex": 1,
         "flexDirection": "row",
         "gap": 32,
+        "justifyContent": "space-between",
         "marginBottom": 5,
       }
     }

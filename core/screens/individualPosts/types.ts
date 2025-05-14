@@ -1,4 +1,5 @@
 import type { User } from '@holi/core/domain/shared/types'
+import { Poll } from '@holi/core/screens/polls/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {
@@ -82,4 +83,5 @@ export interface FeedPost {
   commenters: Paged<User>
   mentionedUsers?: User[]
   language?: string
+  poll?: Poll
 }

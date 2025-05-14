@@ -65,6 +65,7 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       marginBottom: 5,
       gap: Spacing['lg'],
+      justifyContent: 'space-between',
     },
     optionsTextStyle: {
       flexWrap: 'wrap',
