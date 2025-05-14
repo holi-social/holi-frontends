@@ -1,21 +1,21 @@
 repos:
--   repo: local
+  - repo: local
     hooks:
-    -   id: gitleaks
-        name: gitleaks
-        language: system
-        entry: gitleaks protect --staged -v -c ../.gitleaks.toml
-        pass_filenames: false
-        always_run: true
-    -   id: format:check
+      - id: format:check
         name: format:check
         language: system
         entry: corepack yarn format:check
         pass_filenames: false
         always_run: true
-    -   id: lint
+      - id: lint
         name: lint
         language: system
         entry: corepack yarn lint
         pass_filenames: false
         always_run: true
+  - repo: git@gitlab.holi.team:app/holi-meta.git
+    rev: 345e2cab6704f708a946c08a9eaa1ba769c455fb
+    hooks:
+      - id: scan-comments
+      - id: security-checks
+      - id: gitleaks
