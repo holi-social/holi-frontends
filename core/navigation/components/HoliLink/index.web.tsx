@@ -38,7 +38,7 @@ export const HoliLink = ({
       target={external ? '_blank' : undefined}
       onClick={onLinkPress}
       data-testid={testID}
-      style={{ flex: isFullHeight ? 1 : 'auto' }}
+      style={isFullHeight ? { flex: 1, display: 'flex' } : { flex: 'auto' }}
     >
       {children}
     </Link>
