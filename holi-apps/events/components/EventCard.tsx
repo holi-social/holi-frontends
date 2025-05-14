@@ -22,6 +22,7 @@ const EventCard = ({ event, maxCardWidth: cardWidth }: EventProps) => {
       href={`/events/${event.id}`}
       label={event.title}
       trackingEvent={TrackingEvent.Events.selected(event.id)}
+      isFullHeight
     >
       <CompactCard
         title={event.title}
