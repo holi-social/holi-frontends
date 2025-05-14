@@ -310,6 +310,12 @@ const InsightDetailPage = () => {
               <HoliRichTextOutput testID="insight-description" text={insight.description} allowAllLinks />
             </View>
             <HoliGap size="s" />
+            {polls.length > 0 &&
+              polls.map((poll) => (
+                <View key={poll.id} style={styles.section}>
+                  <PollComponent poll={poll} />
+                </View>
+              ))}
             {recommendations.length > 0 && (
               <InsightCarouselSection
                 heading={recommendationsTitle}
@@ -360,13 +366,9 @@ const InsightDetailPage = () => {
                 />
               </InsightCarouselSection>
             )}
-            {(polls.length > 0 || discussions.length > 0) && (
+
+            {discussions.length > 0 && (
               <DiscussionsSection>
-                {polls.map((poll) => (
-                  <View key={poll.id} style={[styles.section, styles.pollContainer]}>
-                    <PollComponent poll={poll} />
-                  </View>
-                ))}
                 {discussions.map((d) => (
                   <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
                 ))}
@@ -558,9 +560,6 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       ...(screenWidth < dimensions.breakpointL && {
         paddingHorizontal: Spacing.xs,
       }),
-    },
-    pollContainer: {
-      marginBottom: 0,
     },
     postCard: {
       width: 304,
