@@ -50,7 +50,7 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight, creators, style }: I
         transparent
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
-        trackingEvent={TrackingEvent.InsightCard.CardPressed(insight.id)}
+        trackingEvent={TrackingEvent.InsightCard.CardPressed(insight.id, insight.title)}
       >
         <View style={styles.content}>
           <View style={styles.creators}>

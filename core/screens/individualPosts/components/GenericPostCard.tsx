@@ -169,7 +169,15 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
               numberOfLines={NUMBER_OF_LINES}
               color="gray300"
               bold={false}
-              onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
+              onReadMoreSideEffect={() =>
+                track(
+                  TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title, {
+                    id: feedPost.author.id,
+                    name: feedPost.author.fullName,
+                    role: feedPost.author.role,
+                  })
+                )
+              }
               loading={loadingTranslation}
               skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
               style={styles.readMore}
@@ -204,7 +212,15 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           <HoliLinkPreview
             style={styles.linkPreview}
             previewData={feedPost.linkPreview}
-            onPress={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
+            onPress={() =>
+              track(
+                TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title, {
+                  id: feedPost.author.id,
+                  name: feedPost.author.fullName,
+                  role: feedPost.author.role,
+                })
+              )
+            }
           />
         )}
 
@@ -332,7 +348,9 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
             numberOfLines={NUMBER_OF_LINES}
             color="gray300"
             bold={false}
-            onReadMoreSideEffect={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.space?.id))}
+            onReadMoreSideEffect={() =>
+              track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.title, spacePost.space?.id))
+            }
             loading={loadingTranslation}
             skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
             style={styles.readMore}
@@ -377,7 +395,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           <HoliLinkPreview
             style={styles.linkPreview}
             previewData={spacePost.links?.[0]}
-            onPress={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.space?.id))}
+            onPress={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.title, spacePost.space?.id))}
           />
         )}
         {spacePost.location && (

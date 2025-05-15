@@ -150,7 +150,14 @@ const PostDetailsPage = () => {
     theme.colors.black300,
   ])
 
-  useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
+  useTrackOnce(
+    post &&
+      TrackingEvent.FeedPosts.read(post.id, post.title, {
+        id: post.author.id,
+        name: post.author.fullName,
+        role: post.author.role,
+      })
+  )
 
   const onPressCreateComment = () =>
     navigateWithAuth(`/feed-posts/${idOrSlug}/comment`, {

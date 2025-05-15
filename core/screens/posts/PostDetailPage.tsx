@@ -120,7 +120,7 @@ const PostDetailPage = () => {
     [fallbackRoute, setScreenOptions, title]
   )
 
-  useTrackOnce(post && space && TrackingEvent.SpacePosts.read(post.id, space.id))
+  useTrackOnce(post && space && TrackingEvent.SpacePosts.read(post.id, post.title, space.id))
 
   const scrollIntoView = useCallback(
     (event: LayoutChangeEvent) => {
