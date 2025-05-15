@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { getOrCreatePrivateRoom, toMatrixIdentity } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -15,12 +14,12 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { Button, type ButtonProps } from 'holi-bricks/components/button'
 
 interface Props extends ButtonProps {
-  user: User | null
+  chatPartnerIdentity: string
   label: string
   doReplaceRoute?: boolean
 }
 
-export function StartChatButton({ label, doReplaceRoute, user: chatPartnerUser, ...rest }: Props) {
+export function StartChatButton({ label, doReplaceRoute, chatPartnerIdentity, ...rest }: Props) {
   const { t } = useTranslation()
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()
@@ -39,16 +38,15 @@ export function StartChatButton({ label, doReplaceRoute, user: chatPartnerUser, 
       })
     }
 
-    if (!chatPartnerUser) {
-      logError(new HoliError('Can not create a chat without chat partner user'), 'Failed to open chat', {
+    if (!chatPartnerIdentity) {
+      logError(new HoliError('Can not create a chat without chat partner identity'), 'Failed to open chat', {
         location: 'StartChatButton.handleChat',
       })
       return
     }
 
     try {
-      // TODO: the correct Matrix identity should come from Okuna
-      const chatMemberMatrixId = toMatrixIdentity(chatPartnerUser.identity)
+      const chatMemberMatrixId = toMatrixIdentity(chatPartnerIdentity)
       const { room_id } = await getOrCreatePrivateRoom([chatMemberMatrixId])
 
       if (!room_id) {
@@ -67,7 +65,7 @@ export function StartChatButton({ label, doReplaceRoute, user: chatPartnerUser, 
 
   return (
     <Button
-      disabled={!chatFeatureFlag.isOn || !isChatInitialized || !chatPartnerUser}
+      disabled={!chatFeatureFlag.isOn || !isChatInitialized || !chatPartnerIdentity}
       label={label}
       onPress={handleChat}
       testID="user-profile-open-chat"

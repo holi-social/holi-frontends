@@ -127,7 +127,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
     <>
       <View style={{ backgroundColor: colors.background10 }}>
         <HoliContainer>
-          <UserProfileView user={user} contactPossible={false} />
+          <UserProfileView user={user} showContactFeatures={false} />
           <ProfileCompletionCard
             onPressEdit={() => toggleEditMode('profile')}
             style={styles.profileCard}
