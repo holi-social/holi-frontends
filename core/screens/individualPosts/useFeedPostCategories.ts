@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { FeedPostCategoriesQueryResult, feedPostCategoriesQuery } from '@holi/core/screens/individualPosts/queries'
+import { type FeedPostCategoriesQueryResult, feedPostCategoriesQuery } from '@holi/core/screens/individualPosts/queries'
 
 export type FeedPostCategories = {
   id: string
@@ -67,22 +67,34 @@ const useFeedPostCategories = () => {
       description: t('individuals.post.category.name.foundersUpdate'),
       image: require('@holi/ui/assets/img/posts/category-founders-update-illustrations.svg'),
     },
+    'good-deed': {
+      idx: 6,
+      name: t('individuals.post.category.name.goodDeed'),
+      label: t('individuals.post.category.name.goodDeed'),
+      description: t('individuals.post.category.name.goodDeed'),
+      image: require('@holi/ui/assets/img/posts/category-good-deed-illustrations.svg'),
+    },
   }
 
   const presentableCategories = data?.feedPostCategories.data.reduce<FeedPostCategories>((acc, category) => {
     const categoryPresentation = categoryPresentationBySlug[category.slug]
-    if (categoryPresentation) {
-      if (user?.role === 'CO_FOUNDER' || categoryPresentation.idx !== 5 || category.slug !== 'founder-update') {
-        acc.push({
-          idx: categoryPresentation.idx,
-          id: category.id,
-          name: categoryPresentation.name,
-          label: categoryPresentation.label,
-          description: categoryPresentation.description,
-          image: categoryPresentation.image,
-        })
-      }
-    }
+    if (!categoryPresentation) return acc
+
+    const isGoodDeed = category.slug === 'good-deed'
+    const isFounderUpdate = category.slug === 'founder-update'
+    const canSeeGoodDeed = user?.role === 'HOLI_REDAKTION' || user?.role === 'COMMUNITY'
+    const canSeeFounderUpdate = user?.role === 'CO_FOUNDER'
+
+    if ((isGoodDeed && !canSeeGoodDeed) || (isFounderUpdate && !canSeeFounderUpdate)) return acc
+
+    acc.push({
+      idx: categoryPresentation.idx,
+      id: category.id,
+      name: categoryPresentation.name,
+      label: categoryPresentation.label,
+      description: categoryPresentation.description,
+      image: categoryPresentation.image,
+    })
     return acc
   }, [])
 
