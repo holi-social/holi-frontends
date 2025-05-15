@@ -12,4 +12,5 @@ export default createApiHandler({
   apiBaseUrlOverride: oryUrl,
   forceCookieSecure: environmentId !== 'development',
   dontUseTldForCookieDomain: true,
+  forwardAdditionalHeaders: ['x-forwarded-host'],
 })
