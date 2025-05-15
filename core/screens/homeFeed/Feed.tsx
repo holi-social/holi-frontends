@@ -35,6 +35,8 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { SURVEY_URL } from '@holi/core/constants/urls'
+import { FeedPost } from '@holi/core/screens/individualPosts/types'
+import { Post } from '@holi/core/screens/posts/types'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -120,7 +122,14 @@ const HomeFeed = () => {
 
   const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {
     if (item.feedPost) {
-      return TrackingEvent.FeedPosts.read(item.feedPost.id, item.feedPost.title)
+      const author =
+        item.feedPost.__typename === 'FeedPost' ? (item.feedPost as FeedPost).author : (item.feedPost as Post).creator
+
+      return TrackingEvent.FeedPosts.read(item.feedPost.id, item.feedPost.title, {
+        id: author.id,
+        name: author.fullName,
+        role: author.role,
+      })
     } else if (item.spacePost) {
       return TrackingEvent.SpacePosts.read(item.spacePost.id, item.spacePost.title)
     } else if (item.insight) {

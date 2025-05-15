@@ -169,7 +169,15 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
               numberOfLines={NUMBER_OF_LINES}
               color="gray300"
               bold={false}
-              onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title))}
+              onReadMoreSideEffect={() =>
+                track(
+                  TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title, {
+                    id: feedPost.author.id,
+                    name: feedPost.author.fullName,
+                    role: feedPost.author.role,
+                  })
+                )
+              }
               loading={loadingTranslation}
               skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
               style={styles.readMore}
@@ -204,7 +212,15 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           <HoliLinkPreview
             style={styles.linkPreview}
             previewData={feedPost.linkPreview}
-            onPress={() => track(TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title))}
+            onPress={() =>
+              track(
+                TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title, {
+                  id: feedPost.author.id,
+                  name: feedPost.author.fullName,
+                  role: feedPost.author.role,
+                })
+              )
+            }
           />
         )}
 

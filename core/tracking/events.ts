@@ -202,19 +202,21 @@ export namespace TrackingEvent {
   }
 
   export const FeedPosts = {
-    read: (postId: string, title: string): TrackingEvent => ({
+    read: (postId: string, title: string, author: { id: string; name: string; role?: string }): TrackingEvent => ({
       name: 'readFeedPost',
       properties: {
         postId,
         title,
+        author,
       },
       ...versionOne,
     }),
-    shared: (postId: string, title: string): TrackingEvent => ({
+    shared: (postId: string, title: string, author: { id: string; name: string; role?: string }): TrackingEvent => ({
       name: 'sharedFeedPost',
       properties: {
         postId,
         title,
+        author,
       },
       ...versionOne,
     }),
