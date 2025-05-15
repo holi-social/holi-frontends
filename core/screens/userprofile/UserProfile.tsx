@@ -234,7 +234,7 @@ const UserProfile = () => {
   return (
     <ScrollViewRefreshable style={styles.layout} contentContainerStyle={styles.content}>
       <View style={[mixins.container, styles.container]}>
-        <UserProfileView user={user} />
+        <UserProfileView user={user} showContactFeatures={true} />
       </View>
 
       <HoliTabs

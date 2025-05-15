@@ -23,6 +23,7 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { Spacing } from 'holi-bricks/foundations'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Button } from 'holi-bricks/components/button'
 
 const FIND_USER_BY_NAME_LIMIT = 30
 const MIN_USER_NAME_CHARACTERS = 2
@@ -180,7 +181,15 @@ const ChatStartConversationView = () => {
         )}
 
         <View style={[mixins.container, styles.overlayButtonWrapper]}>
-          <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
+          {selectedUser?.id ? (
+            <StartChatButton
+              chatPartnerIdentity={selectedUser.id}
+              label={t('chat.start.button.label')}
+              doReplaceRoute={true}
+            />
+          ) : (
+            <Button disabled={true} label={t('chat.start.button.label')} testID="user-profile-open-chat" />
+          )}
         </View>
       </KeyboardAvoidingView>
     </PermissionsGuard>

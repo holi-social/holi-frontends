@@ -29,16 +29,16 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 interface UserProfileViewProps {
   user: User
-  contactPossible?: boolean
+  showContactFeatures?: boolean
 }
 
-const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps) => {
+const UserProfileView = ({ user, showContactFeatures }: UserProfileViewProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { user: loggedInUser } = useLoggedInUser()
+  const { user: loggedInUser, isLoggedIn } = useLoggedInUser()
   const [pickedAvatar, setPickedAvatar] = useState<HoliImageInfo>()
   const [updateAvatar, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const { openToast } = useToast()
@@ -156,10 +156,17 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
           <HoliReadMore>{user.aboutMe}</HoliReadMore>
         </HoliBox>
       )}
-      {contactPossible && (
+      {showContactFeatures && (
         <View style={styles.profileButtonWrapper}>
           <UserConnectionButtons user={user} style={styles.connectionButton} />
-          <StartChatButton user={user} label={t('user.profileView.message')} variant="secondary" inline />
+          {isLoggedIn && (
+            <StartChatButton
+              chatPartnerIdentity={user.identity}
+              label={t('user.profileView.message')}
+              variant="secondary"
+              inline
+            />
+          )}
         </View>
       )}
     </View>
