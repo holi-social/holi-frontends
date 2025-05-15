@@ -202,17 +202,19 @@ export namespace TrackingEvent {
   }
 
   export const FeedPosts = {
-    read: (postId: string): TrackingEvent => ({
+    read: (postId: string, title: string): TrackingEvent => ({
       name: 'readFeedPost',
       properties: {
         postId,
+        title,
       },
       ...versionOne,
     }),
-    shared: (postId: string): TrackingEvent => ({
+    shared: (postId: string, title: string): TrackingEvent => ({
       name: 'sharedFeedPost',
       properties: {
         postId,
+        title,
       },
       ...versionOne,
     }),
@@ -387,11 +389,12 @@ export namespace TrackingEvent {
   }
 
   export const SpacePosts = {
-    read: (postId: string, spaceId?: string): TrackingEvent => ({
+    read: (postId: string, title: string, spaceId?: string): TrackingEvent => ({
       name: 'readSpacePost',
       properties: {
         spaceId,
         postId,
+        title,
       },
       ...versionOne,
     }),
@@ -479,17 +482,19 @@ export namespace TrackingEvent {
   })
 
   export namespace InsightCard {
-    export const CardPressed = (insightId: string): TrackingEvent => ({
+    export const CardPressed = (insightId: string, title: string): TrackingEvent => ({
       name: 'insightCard_pressed',
       properties: {
-        insightId: insightId,
+        insightId,
+        title,
       },
       ...versionOne,
     })
-    export const CardViewed = (insightId: string): TrackingEvent => ({
+    export const CardViewed = (insightId: string, title: string): TrackingEvent => ({
       name: 'insightCard_viewed',
       properties: {
-        insightId: insightId,
+        insightId,
+        title,
       },
       ...versionOne,
     })

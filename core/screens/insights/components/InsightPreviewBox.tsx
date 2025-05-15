@@ -62,7 +62,7 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
         transparent
         onPress={() => navigate(`/insights/${insight.id}`)}
         testID="feed-insight-image-link"
-        trackingEvent={TrackingEvent.InsightCard.CardPressed(insight.id)}
+        trackingEvent={TrackingEvent.InsightCard.CardPressed(insight.id, insight.title)}
       >
         <HoliCard
           imageLabel={insight.title}

@@ -228,7 +228,9 @@ const PostPreview = ({
             style={styles.readMore}
             loading={loadingTranslation}
             skeletonOptions={{ numberOfLines: 3 }}
-            onReadMoreSideEffect={() => post.space && track(TrackingEvent.SpacePosts.read(post.id, post.space?.id))}
+            onReadMoreSideEffect={() =>
+              post.space && track(TrackingEvent.SpacePosts.read(post.id, post.title, post.space?.id))
+            }
           >
             <HoliRichTextOutput
               text={text || ''}

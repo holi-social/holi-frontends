@@ -120,11 +120,11 @@ const HomeFeed = () => {
 
   const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {
     if (item.feedPost) {
-      return TrackingEvent.FeedPosts.read(item.feedPost.id)
+      return TrackingEvent.FeedPosts.read(item.feedPost.id, item.feedPost.title)
     } else if (item.spacePost) {
-      return TrackingEvent.SpacePosts.read(item.spacePost.id)
+      return TrackingEvent.SpacePosts.read(item.spacePost.id, item.spacePost.title)
     } else if (item.insight) {
-      return TrackingEvent.InsightCard.CardViewed(item.insight.id)
+      return TrackingEvent.InsightCard.CardViewed(item.insight.id, item.insight.title)
     } else if (item.volunteeringReco) {
       return TrackingEvent.RecommendationViewed(
         item.volunteeringReco.type === 'task' ? 'space_task' : 'volunteering_opportunity',

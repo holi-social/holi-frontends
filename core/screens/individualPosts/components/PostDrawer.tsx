@@ -72,7 +72,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
 
   const onShare = async () => {
     if ((await shareLink()) === 'shared') {
-      track(TrackingEvent.FeedPosts.shared(post.id))
+      track(TrackingEvent.FeedPosts.shared(post.id, post.title))
     }
   }
 

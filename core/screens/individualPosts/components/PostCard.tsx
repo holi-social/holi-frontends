@@ -103,7 +103,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           numberOfLines={NUMBER_OF_LINES}
           color="gray300"
           bold={false}
-          onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(post.id))}
+          onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(post.id, post.title))}
         >
           <HoliRichTextOutput
             text={post.description}
@@ -133,7 +133,10 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
         </HoliButton>
       )}
       {!post.imageUrl && !!post.linkPreview && (
-        <HoliLinkPreview previewData={post.linkPreview} onPress={() => track(TrackingEvent.FeedPosts.read(post.id))} />
+        <HoliLinkPreview
+          previewData={post.linkPreview}
+          onPress={() => track(TrackingEvent.FeedPosts.read(post.id, post.title))}
+        />
       )}
 
       <View style={styles.reactionsBar}>
