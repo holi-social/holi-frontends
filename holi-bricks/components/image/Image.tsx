@@ -19,6 +19,19 @@ const isLocalSvg = (source: number) => {
   }
 }
 
+const getSVGPreserveAspectRatio = (resizeMode: MultiPlatformImage['resizeMode']) => {
+  switch (resizeMode) {
+    case 'cover':
+      return 'xMidYMid slice'
+    case 'contain':
+      return 'xMidYMid meet'
+    case 'fill':
+      return 'none'
+    default:
+      return 'xMidYMid meet'
+  }
+}
+
 export const Image: React.FC<MultiPlatformImage> = ({
   source,
   width,
@@ -51,6 +64,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         asset={source}
         width={width}
         height={height}
+        preserveAspectRatio={getSVGPreserveAspectRatio(resizeMode)}
         accessibilityLabel={alt}
         accessible={otherProps?.['aria-hidden'] === true}
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
