@@ -1,7 +1,5 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, ScrollView, StyleSheet } from 'react-native'
-
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -12,17 +10,12 @@ import { Pagination } from '@holi/core/pagination/Pagination'
 import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import FavoritesList from '@holi/core/screens/favorites/components/FavoritesList'
 import { favoritesQuery } from '@holi/core/screens/favorites/queries'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
-import { Spacing } from 'holi-bricks/foundations'
+import { Screen } from '@holi/core/components/Screen'
 
 const Favorites = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -47,38 +40,20 @@ const Favorites = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
       <LoginProtection>
-        <ScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
-          <HoliBox padding={[0, 0]}>
-            <HoliContainer>
-              <Pagination
-                query={favoritesQuery}
-                queryOptions={{
-                  ...queryOptions,
-                }}
-                loadMoreOnScroll
-              >
-                <FavoritesList />
-              </Pagination>
-            </HoliContainer>
-          </HoliBox>
-        </ScrollView>
+        <Screen padding={{ bottom: 'sm', left: 'sm', right: 'sm', top: 'md' }}>
+          <Pagination
+            query={favoritesQuery}
+            queryOptions={{
+              ...queryOptions,
+            }}
+            loadMoreOnScroll
+          >
+            <FavoritesList />
+          </Pagination>
+        </Screen>
       </LoginProtection>
     </PermissionsGuard>
   )
 }
-
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      padding: 16,
-      paddingBottom: 0,
-    },
-    defaultLayout: {
-      marginTop: Platform.OS === 'web' ? 10 : 0,
-      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
-      backgroundColor: theme.colors.background20,
-      paddingTop: Spacing.xs,
-    },
-  })
 
 export default Favorites
