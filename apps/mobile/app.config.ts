@@ -200,6 +200,13 @@ const config: ExpoConfig = {
         ],
       },
     ],
+    [
+      '@react-native-google-signin/google-signin',
+      {
+        // TODO(SF) different id for prod
+        iosUrlScheme: 'com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg',
+      },
+    ],
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {

@@ -6,10 +6,12 @@ import type {
   SettingsFlow,
   UiText,
   UpdateLoginFlowBody,
+  UpdateLoginFlowWithOidcMethod,
   VerificationFlow,
 } from '@ory/kratos-client'
 import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
+import { GoogleSignin, isErrorWithCode, statusCodes } from '@react-native-google-signin/google-signin'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -87,13 +89,80 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 }
 
-export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
-  newKratosSdk()
+export const submitLoginFlow = async (
+  flow: LoginFlow,
+  payload: UpdateLoginFlowBody,
+  provider?: string,
+  sessionToken?: string
+) => {
+  if (provider === 'Google' && payload.method === 'oidc') {
+    return doGoogleLogin(flow, payload)
+  }
+  return newKratosSdk()
     .updateLoginFlow(
       { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
       { withCredentials: false }
     )
     .catch(handleKratosSdkError('updateLoginFlow'))
+}
+
+const doGoogleLogin = async (flow: LoginFlow, payload: UpdateLoginFlowWithOidcMethod) => {
+  try {
+    GoogleSignin.configure({
+      webClientId: '984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com',
+      scopes: ['email', 'profile'],
+      iosClientId: '984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com',
+    })
+    await GoogleSignin.hasPlayServices()
+    const response = await GoogleSignin.signIn()
+    // eslint-disable-next-line no-console
+    console.log('doGoogleLogin', 'payload', payload)
+    // eslint-disable-next-line no-console
+    console.log('doGoogleLogin', 'response', response)
+    if (response.type === 'success') {
+      const idToken = response.data.idToken
+      if (!idToken) {
+        // TOD(SF) handle error
+        // eslint-disable-next-line no-console
+        console.log('doGoogleLogin', 'id token missing', response)
+        return
+      }
+      return newKratosSdk()
+        .updateLoginFlow(
+          {
+            flow: flow.id,
+            updateLoginFlowBody: {
+              ...payload,
+              method: 'oidc',
+              id_token: idToken,
+            },
+          },
+          { withCredentials: false }
+        )
+        .catch(handleKratosSdkError('updateLoginFlow'))
+    } else {
+      // sign in was cancelled by user
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('doGoogleLogin', 'error', error)
+    if (isErrorWithCode(error)) {
+      switch (error.code) {
+        case statusCodes.IN_PROGRESS:
+          // operation (eg. sign in) already in progress
+          break
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          // Android only, play services not available or outdated
+          break
+        default:
+        // some other error happened
+      }
+    } else {
+      // an error that's not related to google sign in occurred
+    }
+  }
+  return { data: undefined }
+}
 
 /**
  *

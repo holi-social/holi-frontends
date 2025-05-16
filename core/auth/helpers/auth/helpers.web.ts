@@ -100,7 +100,14 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 }
 
-export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): AxiosPromise<SuccessfulNativeLogin> =>
+export const submitLoginFlow = (
+  flow: LoginFlow,
+  payload: UpdateLoginFlowBody,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  provider?: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  sessionToken?: string
+): AxiosPromise<SuccessfulNativeLogin> =>
   newKratosSdk()
     .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: payload }, { withCredentials: true })
     .catch(handleKratosSdkError('updateLoginFlow'))

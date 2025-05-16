@@ -5767,6 +5767,7 @@ __metadata:
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/datetimepicker": "npm:8.2.0"
     "@react-native-community/netinfo": "npm:11.4.1"
+    "@react-native-google-signin/google-signin": "npm:^14.0.1"
     "@react-native-masked-view/masked-view": "npm:0.3.2"
     "@react-navigation/bottom-tabs": "npm:^6.4.0"
     "@react-navigation/native": "npm:^6.0.13"
@@ -8266,6 +8267,23 @@ __metadata:
   version: 4.5.5
   resolution: "@react-native-community/slider@npm:4.5.5"
   checksum: 10c0/78c3364c072bbc82300612a625bced682b666145dce229e7beb87f93dde5f66a955e1cca4848f662f1a9d2246f26d4717ece5d4f86cd350a295db184c024002b
+  languageName: node
+  linkType: hard
+
+"@react-native-google-signin/google-signin@npm:^14.0.1":
+  version: 14.0.1
+  resolution: "@react-native-google-signin/google-signin@npm:14.0.1"
+  peerDependencies:
+    expo: ">=52.0.40"
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/fe816f80608b031401e423628f4584d525acbf4ef71b6d97ee6397545969d21d8eafe6ff0e6529c60cca1245863bcead9495a074563488b3f0137449c16bb9e7
   languageName: node
   linkType: hard
 
