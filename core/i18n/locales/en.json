@@ -234,6 +234,8 @@
   "eventDetails.partnersTitle": "Opportunity provided via",
   "favorites.noResults.description": "Tap the bookmark icon on content you like to add them to your favourites.",
   "favorites.noResults.title": "No favourites saved yet",
+  "favorites.noResults.browse": "Browse volunteering",
+  "favorites.noResults.link": "or read insights",
   "favorites.remove.favorite.button": "Remove from favourites",
   "favorites.seeAll.button": "See all favourites",
   "filePicker.error.maxFileSize": "The file you uploaded is bigger than {{size}}MB",

@@ -1,14 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import FavoriteCard from '@holi/core/screens/favorites/components/FavoriteCard'
-import { Favorites } from '@holi/core/screens/favorites/types'
+import type { Favorites } from '@holi/core/screens/favorites/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text, TextLink } from 'holi-bricks/components/text'
+import { Button } from 'holi-bricks/components/button'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const FavoritesList = () => {
   const { data: favorites, loading } = usePaginationContext<Favorites>()
@@ -30,13 +32,19 @@ const FavoritesList = () => {
 
 const EmptyFavorites = () => {
   const { t } = useTranslation()
-  const imageWidth = 251
-
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const imageWidth = 250
+  const { navigate } = useRouting()
 
   return (
-    <View style={styles.noFavoritesContainer} testID={'favorites-empty'}>
+    <Stack
+      justifyContent="center"
+      alignItems="center"
+      backgroundColor="support"
+      padding="lg"
+      borderRadius="md"
+      gap="md"
+      testID={'favorites-empty'}
+    >
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_favorites.svg')}
         width={imageWidth}
@@ -44,32 +52,26 @@ const EmptyFavorites = () => {
         label="no-favorites"
         isSvg={true}
         resizeMode="stretch"
-        style={styles.illustration}
       />
-      <HoliText size="small">{t('favorites.noResults.title')}</HoliText>
-      <HoliText size="large" style={styles.noFavoritesDescription}>
-        {t('favorites.noResults.description')}
-      </HoliText>
-    </View>
+      <Stack alignItems="center" justifyContent="center" gap="3xs">
+        <Text size="sm">{t('favorites.noResults.title')}</Text>
+        <Stack maxWidth="xs">
+          <Text textAlign="center" size="xxl">
+            {t('favorites.noResults.description')}
+          </Text>
+        </Stack>
+      </Stack>
+      <Button
+        inline
+        label={t('favorites.noResults.browse')}
+        onPress={() => navigate('/volunteering')}
+        variant="primary"
+      />
+      <TextLink size="md" onPress={() => navigate('/insights')}>
+        {t('favorites.noResults.link')}
+      </TextLink>
+    </Stack>
   )
 }
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    noFavoritesContainer: {
-      marginTop: 10,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: theme.colors.background30,
-      backgroundColor: theme.colors.background10,
-      margin: 24,
-      padding: 24,
-      alignItems: 'center',
-    },
-    illustration: {
-      marginTop: 32,
-      marginBottom: 24,
-    },
-    noFavoritesDescription: { textAlign: 'center', marginTop: 8, color: theme.colors.foreground30 },
-  })
 
 export default FavoritesList
