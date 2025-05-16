@@ -37,14 +37,7 @@ const syncPathname = (url: string) => {
   }
 }
 
-const isOryUrl = (url: string) => url.includes('/api/.ory')
-
-const handleAuthFlow = async (url: string) => {
-  logger.debug('NavigationProvider.finishOryLogin', 'handle auth session in browser', url)
-  WebBrowser.dismissAuthSession()
-  await WebBrowser.openAuthSessionAsync(url)
-  return null
-}
+const shouldOpenUrlInBrowser = (url: string) => url.includes('/api/.ory')
 
 // linking is done to configure deep linking (e.g. to get https://staging.dev.holi.social/profiles/dieter
 // or holi://profiles/dieter to open the corresponding screen on the app). See
@@ -66,10 +59,12 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 
     const url = await Linking.getInitialURL()
     if (url != null) {
-      if (isOryUrl(url)) {
-        return handleAuthFlow(url)
+      if (shouldOpenUrlInBrowser(url)) {
+        logger.debug('LinkingOptions.getInitialURL', 'opening link in browser', url)
+        WebBrowser.openBrowserAsync(url)
+        return
       }
-      logger.debug('NavigationProvider.getInitialURL', 'opening direct deep link', url)
+      logger.debug('LinkingOptions.getInitialURL', 'opening direct deep link', url)
       syncPathname(url)
       return url
     }
@@ -91,11 +86,13 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
   },
   subscribe: (listener) => {
     // listen to incoming links from deep linking, while app is active or in background
-    const eventListenerSubscription = Linking.addEventListener('url', async ({ url }: { url: string }) => {
-      if (isOryUrl(url)) {
-        return handleAuthFlow(url)
+    const eventListenerSubscription = Linking.addEventListener('url', ({ url }: { url: string }) => {
+      if (shouldOpenUrlInBrowser(url)) {
+        logger.debug('LinkingOptions.subscribe', 'received url, opening in browser', url)
+        WebBrowser.openBrowserAsync(url)
+        return
       }
-      logger.debug('NavigationProvider.subscribe', 'received url from deeplinking', url)
+      logger.debug('LinkingOptions.subscribe', 'received url from deeplinking', url)
       syncPathname(url)
       listener(url)
     })
