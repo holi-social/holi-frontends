@@ -37,8 +37,9 @@ const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
 
 const t: TFunction = ((k: string) => k) as TFunction
 
-const imageProxyPrefixed = (url: string): string =>
-  'https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/' + encodeURIComponent(url)
+const imageProxyPrefixed = (url: string, width = 96, height = 96): string =>
+  `https://dev-images.holi.social/crop:0:0/resize:fill-down:${width}:${height}/ext:webp/quality:80/plain/` +
+  encodeURIComponent(url)
 
 const mockUseVolunteeringDetailsDataTypesense = jest.mocked(useVolunteeringDetailsDataTypesense)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringDetailsData', () => ({
@@ -124,11 +125,11 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     )
     await act(jest.runAllTimersAsync)
 
-    expect(screen.getByTestId('holi-image-background').props.source.uri).toBe(document.image_url)
+    expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1424, 780))
     expect(screen.getByText(document.title_en!)).toBeVisible()
     expect(screen.getByText(document.description_en!)).toBeVisible()
     expect(screen.getByText(document.organizer_name!)).toBeVisible()
-    expect(screen.getByRole('img').props.source).toBe(imageProxyPrefixed(document.organizer_image_url!))
+    expect(screen.getAllByRole('img').at(1).props.source).toBe(imageProxyPrefixed(document.organizer_image_url!))
     expect(screen.getByText(document.location!)).toBeVisible()
     document.topics_v2?.forEach((topic) => expect(screen.getByText(`topic.${topic}`)).toBeVisible())
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())

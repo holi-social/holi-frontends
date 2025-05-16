@@ -301,6 +301,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     style={
                       [
                         {
+                          "display": "flex",
                           "flex": 1,
                         },
                       ]
@@ -418,6 +419,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           [
                             {
+                              "display": "flex",
                               "flex": 1,
                             },
                           ]
@@ -894,6 +896,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       style={
                         [
                           {
+                            "display": "flex",
                             "flex": 1,
                           },
                         ]
@@ -1039,6 +1042,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     style={
                       [
                         {
+                          "display": "flex",
                           "flex": 1,
                         },
                       ]
@@ -1156,6 +1160,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           [
                             {
+                              "display": "flex",
                               "flex": 1,
                             },
                           ]
@@ -1632,6 +1637,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       style={
                         [
                           {
+                            "display": "flex",
                             "flex": 1,
                           },
                         ]
