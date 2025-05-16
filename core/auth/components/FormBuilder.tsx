@@ -135,11 +135,10 @@ const FormBuilder = <
       const messageKey = `auth.login.message.${message.id}`
       const someGeneralText = t('auth.login.message.default')
       const messageText = i18n.exists(messageKey) ? t(messageKey) : someGeneralText
-      if (!i18n.exists(messageKey) && message.text === 'error') {
+      if (!i18n.exists(messageKey)) {
         logError(new Error('Auth message without translation'), 'login flow message', {
           location: 'FormBuilder.useEffect',
           errorId: message.id,
-          errorMessage: message.id === 4000001 ? message.text : undefined,
           messageKey,
         })
       }
