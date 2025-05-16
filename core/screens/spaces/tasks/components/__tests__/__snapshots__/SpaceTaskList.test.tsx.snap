@@ -156,6 +156,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             style={
               [
                 {
+                  "display": "flex",
                   "flex": 1,
                 },
               ]
@@ -273,6 +274,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   [
                     {
+                      "display": "flex",
                       "flex": 1,
                     },
                   ]
@@ -749,6 +751,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 [
                   {
+                    "display": "flex",
                     "flex": 1,
                   },
                 ]
@@ -894,6 +897,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             style={
               [
                 {
+                  "display": "flex",
                   "flex": 1,
                 },
               ]
@@ -1011,6 +1015,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   [
                     {
+                      "display": "flex",
                       "flex": 1,
                     },
                   ]
@@ -1487,6 +1492,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 [
                   {
+                    "display": "flex",
                     "flex": 1,
                   },
                 ]
@@ -1632,6 +1638,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             style={
               [
                 {
+                  "display": "flex",
                   "flex": 1,
                 },
               ]
@@ -1749,6 +1756,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 style={
                   [
                     {
+                      "display": "flex",
                       "flex": 1,
                     },
                   ]
@@ -2225,6 +2233,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               style={
                 [
                   {
+                    "display": "flex",
                     "flex": 1,
                   },
                 ]

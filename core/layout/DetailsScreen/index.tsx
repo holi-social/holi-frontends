@@ -1,4 +1,3 @@
-import { CoverImage } from '@holi/core/components/CoverImage'
 import HoliHead from '@holi/core/components/HoliHead'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
@@ -8,7 +7,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type { ChipColor } from 'holi-bricks/components/chips/ChipLabel'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import React, { type ReactNode } from 'react'
+import React, { useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -17,9 +16,16 @@ import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
-import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
+import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 import { Spacing } from 'holi-bricks/foundations'
+
+const placeholderImages = [
+  require('@holi/ui/assets/img/events/cover-green.svg'),
+  require('@holi/ui/assets/img/events/cover-blue.svg'),
+  require('@holi/ui/assets/img/events/cover-purple.svg'),
+  require('@holi/ui/assets/img/events/cover-yellow.svg'),
+]
 
 export type DetailsScreenInfoList = {
   title: string
@@ -101,6 +107,9 @@ export const DetailsScreen = ({
   const { t } = useTranslation()
   const hasData = title && description
 
+  const [imageFailed, setImageFailed] = useState(false)
+  const randomPlaceholderImage = useRef(placeholderImages[Math.floor(Math.random() * placeholderImages.length)]).current
+
   if (loading && !hasData) {
     return <DetailsScreenSkeleton />
   }
@@ -118,7 +127,15 @@ export const DetailsScreen = ({
       <Stack direction="column" flex={1} padding={{ bottom: '4xl' }}>
         {/* image */}
         <Stack>
-          <CoverImage coverImage={coverImage} />
+          <Image
+            source={!imageFailed && coverImage ? coverImage.uri : randomPlaceholderImage}
+            width={712}
+            height={390}
+            alt={t('act.events.thumbnail.label')}
+            onError={() => setImageFailed(true)}
+            resizeMode="cover"
+            stretch
+          />
           {date && (
             <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>
               <CalendarIcon

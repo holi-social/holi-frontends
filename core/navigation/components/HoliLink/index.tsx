@@ -33,5 +33,6 @@ export const HoliLink = ({
 const styles = StyleSheet.create({
   fullHeight: {
     flex: 1,
+    display: 'flex',
   },
 })
