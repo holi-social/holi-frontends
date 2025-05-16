@@ -20,6 +20,54 @@ import * as WebBrowser from 'expo-web-browser'
 
 const userSessionName = 'user_session'
 
+/**
+ * Decodes a JWT token without verification
+ * @param token The JWT token string to decode
+ * @returns An object containing the decoded header and payload
+ */
+function decodeJWT(token: string): { header: unknown; payload: unknown } {
+  try {
+    // Split the token into its three parts
+    const parts = token.split('.')
+
+    if (parts.length !== 3) {
+      throw new Error('Invalid JWT format')
+    }
+
+    // Base64Url decode and parse the header (first part)
+    const header = JSON.parse(base64UrlDecode(parts[0]))
+
+    // Base64Url decode and parse the payload (second part)
+    const payload = JSON.parse(base64UrlDecode(parts[1]))
+
+    return { header, payload }
+  } catch (error) {
+    throw new Error(`Failed to decode JWT: ${error}`)
+  }
+}
+
+/**
+ * Decodes a base64url encoded string
+ * @param input The base64url encoded string
+ * @returns The decoded string
+ */
+function base64UrlDecode(input: string): string {
+  // Replace characters for base64url to standard base64
+  const base64 = input.replace(/-/g, '+').replace(/_/g, '/')
+
+  // Add padding if needed
+  const padding = base64.length % 4
+  const paddedBase64 = padding ? base64 + '='.repeat(4 - padding) : base64
+
+  // Decode the base64 string and convert to UTF-8
+  return decodeURIComponent(
+    atob(paddedBase64)
+      .split('')
+      .map((char) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
+      .join('')
+  )
+}
+
 export const syncUserSessionFromOrySession = async () => {
   // nothing to do on mobile
   return null
@@ -95,18 +143,23 @@ export const submitLoginFlow = async (
   provider?: string,
   sessionToken?: string
 ) => {
+  let updateLoginFlowBody: UpdateLoginFlowBody | undefined = payload
   if (provider === 'Google' && payload.method === 'oidc') {
-    return doGoogleLogin(flow, payload)
+    updateLoginFlowBody = await doGoogleLogin(flow, payload)
+  }
+  if (!updateLoginFlowBody) {
+    // TODO(SF) handle error
+    return
   }
   return newKratosSdk()
-    .updateLoginFlow(
-      { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
-      { withCredentials: false }
-    )
+    .updateLoginFlow({ flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody }, { withCredentials: false })
     .catch(handleKratosSdkError('updateLoginFlow'))
 }
 
-const doGoogleLogin = async (flow: LoginFlow, payload: UpdateLoginFlowWithOidcMethod) => {
+const doGoogleLogin = async (
+  flow: LoginFlow,
+  payload: UpdateLoginFlowWithOidcMethod
+): Promise<UpdateLoginFlowBody | undefined> => {
   try {
     GoogleSignin.configure({
       webClientId: '984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com',
@@ -115,37 +168,30 @@ const doGoogleLogin = async (flow: LoginFlow, payload: UpdateLoginFlowWithOidcMe
     })
     await GoogleSignin.hasPlayServices()
     const response = await GoogleSignin.signIn()
-    // eslint-disable-next-line no-console
-    console.log('doGoogleLogin', 'payload', payload)
-    // eslint-disable-next-line no-console
-    console.log('doGoogleLogin', 'response', response)
+    // console.log('doGoogleLogin', 'payload', payload)
+    // console.log('doGoogleLogin', 'response', response)
+
     if (response.type === 'success') {
       const idToken = response.data.idToken
       if (!idToken) {
         // TOD(SF) handle error
-        // eslint-disable-next-line no-console
-        console.log('doGoogleLogin', 'id token missing', response)
+        // console.log('doGoogleLogin', 'id token missing', response)
         return
       }
-      return newKratosSdk()
-        .updateLoginFlow(
-          {
-            flow: flow.id,
-            updateLoginFlowBody: {
-              ...payload,
-              method: 'oidc',
-              id_token: idToken,
-            },
-          },
-          { withCredentials: false }
-        )
-        .catch(handleKratosSdkError('updateLoginFlow'))
+      const { payload: idTokenPayload } = decodeJWT(idToken)
+      // console.log('doGoogleLogin', 'id token payload', idTokenPayload)
+      return {
+        ...payload,
+        method: 'oidc',
+        id_token: idToken,
+        // @ts-ignore
+        id_token_nonce: 'nonce' in idTokenPayload ? idTokenPayload.nonce : undefined,
+      }
     } else {
       // sign in was cancelled by user
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('doGoogleLogin', 'error', error)
+    // console.error('doGoogleLogin', 'error', error)
     if (isErrorWithCode(error)) {
       switch (error.code) {
         case statusCodes.IN_PROGRESS:
@@ -161,7 +207,6 @@ const doGoogleLogin = async (flow: LoginFlow, payload: UpdateLoginFlowWithOidcMe
       // an error that's not related to google sign in occurred
     }
   }
-  return { data: undefined }
 }
 
 /**
