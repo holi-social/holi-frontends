@@ -203,8 +203,7 @@ const config: ExpoConfig = {
     [
       '@react-native-google-signin/google-signin',
       {
-        // TODO(SF) different id for prod
-        iosUrlScheme: 'com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg',
+        iosUrlScheme: requiredEnvVar('GOOGLE_IOS_CLIENT_URL_SCHEME'),
       },
     ],
   ],
@@ -273,6 +272,10 @@ const config: ExpoConfig = {
       protocol: requiredEnvVar('TYPESENSE_PROTOCOL'),
       apiKey: requiredEnvVar('TYPESENSE_API_KEY'),
       collection: requiredEnvVar('TYPESENSE_COLLECTION'),
+    },
+    socialLogin: {
+      googleIosClientId: requiredEnvVar('GOOGLE_IOS_CLIENT_ID'),
+      googleWebClientId: requiredEnvVar('GOOGLE_WEB_CLIENT_ID'),
     },
   },
 }

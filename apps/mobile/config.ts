@@ -54,6 +54,11 @@ export interface HoliTypesenseConfig {
   collection: string
 }
 
+export interface HoliSocialLoginConfig {
+  googleIosClientId: string
+  googleWebClientId: string
+}
+
 export interface HoliConfig {
   novu: HoliNovuConfig
   chat: HoliChatConfig
@@ -66,6 +71,7 @@ export interface HoliConfig {
   eas: HoliEASConfig
   e2e: HoliE2EConfig
   typesense: HoliTypesenseConfig
+  socialLogin: HoliSocialLoginConfig
 }
 
 export const config: HoliConfig = {
@@ -113,5 +119,9 @@ export const config: HoliConfig = {
     protocol: Constants.expoConfig?.extra?.typesense.protocol,
     apiKey: Constants.expoConfig?.extra?.typesense.apiKey,
     collection: Constants.expoConfig?.extra?.typesense.collection,
+  },
+  socialLogin: {
+    googleIosClientId: Constants.expoConfig?.extra?.socialLogin.googleIosClientId,
+    googleWebClientId: Constants.expoConfig?.extra?.socialLogin.googleWebClientId,
   },
 }
