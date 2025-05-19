@@ -7,6 +7,7 @@ import type {
   SuccessfulNativeLogin,
   UiText,
   UpdateLoginFlowBody,
+  UpdateRegistrationFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
@@ -99,6 +100,13 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     })
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 }
+
+// Special logic for OIDC on mobile only
+export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
+  payload: T,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  provider?: string
+): Promise<T> => payload
 
 export const submitLoginFlow = (
   flow: LoginFlow,

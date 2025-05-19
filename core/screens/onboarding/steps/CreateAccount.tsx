@@ -11,6 +11,7 @@ import {
   doLogin,
   getVerificationFlowFromRegistration,
   initRegistrationFlow,
+  retrieveSubmitFlowBody,
 } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -96,9 +97,10 @@ export const CreateAccount = ({
       Keyboard.dismiss()
 
       try {
+        const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
         const { data } = await newKratosSdk().updateRegistrationFlow({
           flow: flow.id,
-          updateRegistrationFlowBody: payload,
+          updateRegistrationFlowBody,
         })
         // ORY Kratos can be configured in such a way that it requires a login after
         // registration. You could handle that case by navigating to the Login screen

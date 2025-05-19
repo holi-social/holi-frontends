@@ -7,66 +7,27 @@ import type {
   UiText,
   UpdateLoginFlowBody,
   UpdateLoginFlowWithOidcMethod,
+  UpdateRegistrationFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
 import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
-import { GoogleSignin, isErrorWithCode, statusCodes } from '@react-native-google-signin/google-signin'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { jwtDecode, type JwtPayload } from 'jwt-decode'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import * as AuthSession from 'expo-auth-session'
 import * as WebBrowser from 'expo-web-browser'
+import { getLogger } from '@holi/core/helpers/logging'
+import { config } from '@holi/mobile/config'
+
+type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
+type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
+
+const logger = getLogger('AuthHelper')
 
 const userSessionName = 'user_session'
-
-/**
- * Decodes a JWT token without verification
- * @param token The JWT token string to decode
- * @returns An object containing the decoded header and payload
- */
-function decodeJWT(token: string): { header: unknown; payload: unknown } {
-  try {
-    // Split the token into its three parts
-    const parts = token.split('.')
-
-    if (parts.length !== 3) {
-      throw new Error('Invalid JWT format')
-    }
-
-    // Base64Url decode and parse the header (first part)
-    const header = JSON.parse(base64UrlDecode(parts[0]))
-
-    // Base64Url decode and parse the payload (second part)
-    const payload = JSON.parse(base64UrlDecode(parts[1]))
-
-    return { header, payload }
-  } catch (error) {
-    throw new Error(`Failed to decode JWT: ${error}`)
-  }
-}
-
-/**
- * Decodes a base64url encoded string
- * @param input The base64url encoded string
- * @returns The decoded string
- */
-function base64UrlDecode(input: string): string {
-  // Replace characters for base64url to standard base64
-  const base64 = input.replace(/-/g, '+').replace(/_/g, '/')
-
-  // Add padding if needed
-  const padding = base64.length % 4
-  const paddedBase64 = padding ? base64 + '='.repeat(4 - padding) : base64
-
-  // Decode the base64 string and convert to UTF-8
-  return decodeURIComponent(
-    atob(paddedBase64)
-      .split('')
-      .map((char) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
-      .join('')
-  )
-}
 
 export const syncUserSessionFromOrySession = async () => {
   // nothing to do on mobile
@@ -137,76 +98,65 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 }
 
+const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
+  try {
+    // TODO(SF) move somewhere else? ideally only execute once
+    GoogleSignin.configure({
+      webClientId: config.socialLogin.googleWebClientId,
+      scopes: ['email', 'profile'],
+      iosClientId: config.socialLogin.googleIosClientId,
+    })
+    const hasPlayServices = await GoogleSignin.hasPlayServices()
+    if (!hasPlayServices) {
+      throw new Error('Can not sign in with google: Play services not available')
+    }
+    const response = await GoogleSignin.signIn()
+    logger.debug('doGoogleLogin', 'GoogleSignin response', response)
+
+    if (response.type === 'success') {
+      const idToken = response.data.idToken
+      if (!idToken) {
+        throw new Error('ID token missing from Google sign in response')
+      }
+      const idTokenPayload = jwtDecode<JwtPayloadWithNonce>(idToken)
+      logger.debug('doGoogleLogin', 'GoogleSignin response id token payload', idTokenPayload)
+      return {
+        id_token: idToken,
+        id_token_nonce: idTokenPayload.nonce,
+      }
+    } else {
+      throw Error('Google Sign-In was cancelled by the user')
+    }
+  } catch (error) {
+    logger.debug('doGoogleLogin', 'GoogleSignin error', error)
+    throw Error(`Google Sign-In failed ${error}`)
+  }
+}
+
+export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
+  payload: T,
+  provider?: string
+): Promise<T> => {
+  if (provider === 'Google' && payload.method === 'oidc') {
+    const partialBody = await doGoogleLogin()
+    return {
+      ...payload,
+      ...partialBody,
+    }
+  }
+  return payload
+}
+
 export const submitLoginFlow = async (
   flow: LoginFlow,
   payload: UpdateLoginFlowBody,
   provider?: string,
   sessionToken?: string
 ) => {
-  let updateLoginFlowBody: UpdateLoginFlowBody | undefined = payload
-  if (provider === 'Google' && payload.method === 'oidc') {
-    updateLoginFlowBody = await doGoogleLogin(flow, payload)
-  }
-  if (!updateLoginFlowBody) {
-    // TODO(SF) handle error
-    return
-  }
+  const updateLoginFlowBody = await retrieveSubmitFlowBody(payload, provider)
   return newKratosSdk()
     .updateLoginFlow({ flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody }, { withCredentials: false })
     .catch(handleKratosSdkError('updateLoginFlow'))
-}
-
-const doGoogleLogin = async (
-  flow: LoginFlow,
-  payload: UpdateLoginFlowWithOidcMethod
-): Promise<UpdateLoginFlowBody | undefined> => {
-  try {
-    GoogleSignin.configure({
-      webClientId: '984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com',
-      scopes: ['email', 'profile'],
-      iosClientId: '984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com',
-    })
-    await GoogleSignin.hasPlayServices()
-    const response = await GoogleSignin.signIn()
-    // console.log('doGoogleLogin', 'payload', payload)
-    // console.log('doGoogleLogin', 'response', response)
-
-    if (response.type === 'success') {
-      const idToken = response.data.idToken
-      if (!idToken) {
-        // TOD(SF) handle error
-        // console.log('doGoogleLogin', 'id token missing', response)
-        return
-      }
-      const { payload: idTokenPayload } = decodeJWT(idToken)
-      // console.log('doGoogleLogin', 'id token payload', idTokenPayload)
-      return {
-        ...payload,
-        method: 'oidc',
-        id_token: idToken,
-        // @ts-ignore
-        id_token_nonce: 'nonce' in idTokenPayload ? idTokenPayload.nonce : undefined,
-      }
-    } else {
-      // sign in was cancelled by user
-    }
-  } catch (error) {
-    // console.error('doGoogleLogin', 'error', error)
-    if (isErrorWithCode(error)) {
-      switch (error.code) {
-        case statusCodes.IN_PROGRESS:
-          // operation (eg. sign in) already in progress
-          break
-        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-          // Android only, play services not available or outdated
-          break
-        default:
-        // some other error happened
-      }
-    } else {
-      // an error that's not related to google sign in occurred
-    }
-  }
 }
 
 /**
@@ -246,6 +196,9 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
 
 // Logout
 export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {
+  // TODO(SF) google logout if mobile & oidc?
+  // await GoogleSignin.signOut();
+
   if (payload.session_token) {
     return newKratosSdk()
       .performNativeLogout({ performNativeLogoutBody: payload })

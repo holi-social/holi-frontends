@@ -98,9 +98,6 @@ const Login = () => {
 
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, provider, undefined)
-      if (!data) {
-        return
-      }
       await doLogin(client, data)
       storeOnboardingState('finished')
       redirect(true)

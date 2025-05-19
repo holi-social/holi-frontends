@@ -5816,6 +5816,7 @@ __metadata:
     intl: "npm:^1.2.5"
     jest-each: "npm:^29.6.3"
     jest-mock-extended: "npm:^3.0.5"
+    jwt-decode: "npm:^4.0.0"
     lodash.at: "npm:^4.6.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
