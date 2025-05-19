@@ -170,7 +170,7 @@ exports[`PollSelection renders poll selection correctly 1`] = `
             selectable={true}
             style={
               {
-                "color": "#676565",
+                "color": "#262424",
                 "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 15,
                 "fontVariant": [
@@ -359,7 +359,7 @@ exports[`PollSelection renders poll selection correctly 1`] = `
             selectable={true}
             style={
               {
-                "color": "#676565",
+                "color": "#262424",
                 "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 15,
                 "fontVariant": [
@@ -554,7 +554,7 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
           selectable={true}
           style={
             {
-              "color": "#676565",
+              "color": "#262424",
               "fontFamily": "InstrumentSans-Regular",
               "fontSize": 15,
               "fontVariant": [

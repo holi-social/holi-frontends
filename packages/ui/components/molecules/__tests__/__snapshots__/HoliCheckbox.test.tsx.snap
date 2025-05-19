@@ -320,7 +320,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           {
             "alignItems": "center",
             "backgroundColor": "#262424",
-            "borderColor": "#bdbcbc",
+            "borderColor": "#262424",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
@@ -695,7 +695,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
           {
             "alignItems": "center",
             "backgroundColor": "#262424",
-            "borderColor": "#bdbcbc",
+            "borderColor": "#262424",
             "borderRadius": 5,
             "borderWidth": 1,
             "height": 24,
