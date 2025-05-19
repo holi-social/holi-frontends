@@ -79,7 +79,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
   if (post.__typename === 'FeedPost') {
     const feedPost = post as FeedPost
 
-    const showTopics = feedPost.topicsV2 && feedPost.topicsV2?.length > 0
+    const showTopics = feedPost.topicsV2 && feedPost.topicsV2.length > 0
     const showCategory = feedPost.category
     const showPills = showTopics || showCategory
 
@@ -133,7 +133,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
                     {feedPost.category?.label}
                   </ChipLabel>
                 )}
-                {feedPost.topicsV2 && (
+                {feedPost.topicsV2 && feedPost.topicsV2?.length > 0 && (
                   <ChipLabel size="sm" color="green">
                     {t(`topic.${feedPost.topicsV2[0]}`) +
                       (feedPost.topicsV2.length > 1 ? ` +${feedPost.topicsV2.length - 1}` : '')}
