@@ -184,7 +184,7 @@ describe('OAuth2Login', () => {
     it('should submit the form', async () => {
       await submitForm()
 
-      expect(mockSubmitLoginFlow).toHaveBeenCalledWith(mockFlow, formValues, undefined)
+      expect(mockSubmitLoginFlow).toHaveBeenCalledWith(mockFlow, formValues, undefined, undefined)
     })
 
     it('should track login', async () => {
