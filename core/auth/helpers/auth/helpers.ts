@@ -1,7 +1,6 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
 import type {
   LoginFlow,
-  PerformNativeLogoutBody,
   RecoveryFlow,
   SettingsFlow,
   UiText,
@@ -25,9 +24,17 @@ import { config } from '@holi/mobile/config'
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
 
-const logger = getLogger('AuthHelper')
+const logger = getLogger('Auth')
 
 const userSessionName = 'user_session'
+
+export const initSocialLogin = () => {
+  GoogleSignin.configure({
+    webClientId: config.socialLogin.googleWebClientId,
+    scopes: ['email', 'profile'],
+    iosClientId: config.socialLogin.googleIosClientId,
+  })
+}
 
 export const syncUserSessionFromOrySession = async () => {
   // nothing to do on mobile
@@ -100,12 +107,6 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
 
 const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
   try {
-    // TODO(SF) move somewhere else? ideally only execute once
-    GoogleSignin.configure({
-      webClientId: config.socialLogin.googleWebClientId,
-      scopes: ['email', 'profile'],
-      iosClientId: config.socialLogin.googleIosClientId,
-    })
     const hasPlayServices = await GoogleSignin.hasPlayServices()
     if (!hasPlayServices) {
       throw new Error('Can not sign in with google: Play services not available')
@@ -195,13 +196,18 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
 }
 
 // Logout
-export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {
-  // TODO(SF) google logout if mobile & oidc?
-  // await GoogleSignin.signOut();
-
-  if (payload.session_token) {
+export const submitLogoutFlow = async ({ sessionToken, isOidc }: { sessionToken?: string; isOidc?: boolean }) => {
+  if (isOidc) {
+    // Currently Google is the only supported OIDC provider
+    await GoogleSignin.signOut()
+  }
+  if (sessionToken) {
     return newKratosSdk()
-      .performNativeLogout({ performNativeLogoutBody: payload })
+      .performNativeLogout({
+        performNativeLogoutBody: {
+          session_token: sessionToken ?? '',
+        },
+      })
       .catch(handleKratosSdkError('performNativeLogout'))
   }
 }

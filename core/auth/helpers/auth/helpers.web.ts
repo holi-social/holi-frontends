@@ -19,6 +19,9 @@ import { holiNextJSApiUrl } from '@holi/api/config'
 
 const userSessionName = 'user_session'
 
+// Only needed on mobile
+export const initSocialLogin = () => {}
+
 export const syncUserSessionFromOrySession = async () => {
   try {
     const session = await newKratosSdk().toSession()
