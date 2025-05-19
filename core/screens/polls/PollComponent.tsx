@@ -7,10 +7,9 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import PollCompletionMessage from '@holi/core/screens/polls/components/PollCompletionMessage'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
-import { type UpdatePollResponse, updateVotesMutation } from '@holi/core/screens/polls/mutations'
+import { voteOnPollMutation } from '@holi/core/screens/polls/mutations'
 import { userHasVotedByPollId } from '@holi/core/screens/polls/queries'
 import type { Choice, Poll } from '@holi/core/screens/polls/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -26,8 +25,6 @@ import { Button } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-
-const MIN_VOTES_RESULTS_REVEAL = 5
 
 export type PollComponentProps = {
   poll: Poll
@@ -46,7 +43,7 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
   const { isLoading: loadingUser, user } = useLoggedInUser()
 
   const [loading, setLoading] = useState(true)
-  const [selectedAnswerOption, setSelectedAnswerOption] = useState<Choice | null>()
+  const [selectedAnswerOptions, setSelectedAnswerOptions] = useState<Choice[]>([])
   const [votesSum, setVotesSum] = useState<number>(() => {
     return choices.reduce((acc, choice) => acc + choice.votes, 0)
   })
@@ -75,18 +72,19 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
     }
   }, [loadingUser, loadingVote])
 
-  const [updateVotes] = useMutation<UpdatePollResponse>(updateVotesMutation, {
+  const [voteOnPoll] = useMutation(voteOnPollMutation, {
     onError: (error) =>
-      logError(error, 'Failed to update votes of poll', {
-        location: 'PollComponent.updateVotes',
+      logError(error, 'Failed to vote on poll', {
+        location: 'PollComponent.voteOnPoll',
       }),
   })
 
   const sendVote = async () => {
-    if (selectedAnswerOption) {
-      await updateVotes({
+    if (selectedAnswerOptions.length > 0) {
+      await voteOnPoll({
         variables: {
-          id: selectedAnswerOption.id,
+          pollId: poll.id,
+          choiceIds: selectedAnswerOptions.map((option) => option.id),
         },
       })
       refetch()
@@ -95,14 +93,14 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
     }
   }
 
-  const handleSelected = (selectedChoice: Choice | null) => {
+  const handleSelected = (selectedAnswers: Choice[] | null) => {
     if (!user) {
       return openSignupModal({
         description: t('insight.poll.reaction.loginRedirect.text'),
         trackTrigger: 'POLL_ANSWER_INSIGHT',
       })
     }
-    setSelectedAnswerOption(selectedChoice)
+    setSelectedAnswerOptions(selectedAnswers || [])
   }
 
   if (loading) {
@@ -111,10 +109,6 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
         <HoliLoader />
       </View>
     )
-  }
-
-  if (userHasVoted?.userHasVotedByPollId && votesSum < MIN_VOTES_RESULTS_REVEAL) {
-    return <PollCompletionMessage />
   }
 
   return (
@@ -129,7 +123,12 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
 
       {!userHasVoted?.userHasVotedByPollId && !!choices ? (
         // if not voted yet
-        <PollSelection answerOptions={choices} onSelected={handleSelected} />
+        <PollSelection
+          answerOptions={choices}
+          onSelected={handleSelected}
+          isMultiSelect={poll.isMultiSelect}
+          maxChoices={poll.maxChoices}
+        />
       ) : (
         // else, show results
         choices.map((choice: Choice) => {
@@ -138,7 +137,7 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
               key={choice.id}
               choice={choice}
               votesSum={votesSum}
-              selected={selectedAnswerOption ? choice.id == selectedAnswerOption.id : false}
+              selected={selectedAnswerOptions.some((option) => option.id === choice.id)}
             />
           )
         })
@@ -159,7 +158,7 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
             <View style={screenWidth < dimensions.breakpointS && styles.button}>
               <Button
                 inline={screenWidth > dimensions.breakpointS}
-                disabled={!selectedAnswerOption}
+                disabled={selectedAnswerOptions.length === 0}
                 label={t('homeFeed.pollComponent.sendAnswer')}
                 onPress={sendVote}
               />

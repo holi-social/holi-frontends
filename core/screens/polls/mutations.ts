@@ -1,15 +1,9 @@
 import { gql } from '@apollo/client/core'
 
-import { Poll } from '@holi/core/screens/polls/types'
-
-export const updateVotesMutation = gql`
-  mutation UpdateVotes($id: UUID!) {
-    updateVotes(id: $id) {
-      id
+export const voteOnPollMutation = gql`
+  mutation VoteOnPoll($pollId: UUID!, $choiceIds: [UUID!]!) {
+    voteOnPoll(pollId: $pollId, choiceIds: $choiceIds) {
+      success
     }
   }
 `
-
-export type UpdatePollResponse = {
-  updatePoll: Poll
-}
