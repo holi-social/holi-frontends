@@ -649,9 +649,9 @@ export namespace TrackingEvent {
     ...versionOne,
   })
 
-  export const PollVoteSubmitted = (pollId: string): TrackingEvent => ({
+  export const PollVoteSubmitted = (pollId: string, type: 'regular' | 'good_deed'): TrackingEvent => ({
     name: 'pollVoteSubmitted',
-    properties: { pollId },
+    properties: { pollId, type },
     ...versionOne,
   })
 

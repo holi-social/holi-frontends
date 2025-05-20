@@ -84,6 +84,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const showPills = showTopics || showCategory
 
     const isPoll = !!feedPost.poll
+    const type = feedPost.category?.slug === 'good-deed' ? 'good_deed' : 'regular'
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
@@ -159,7 +160,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
 
         {isPoll && (
           <View style={{ marginTop: Spacing.xs }}>
-            <PollComponent poll={feedPost.poll!} onPress={goToDetailView} bordered={false} />
+            <PollComponent poll={feedPost.poll!} type={type} onPress={goToDetailView} bordered={false} />
           </View>
         )}
 
