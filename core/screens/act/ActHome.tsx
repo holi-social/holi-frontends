@@ -1,20 +1,18 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
-import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { Stack } from 'holi-bricks/components/stack'
+import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
+import { Screen } from '@holi/core/components/Screen'
+import { Spacing } from 'holi-bricks/foundations'
 
 type ActHomeParams = {
   section: string
@@ -44,53 +42,41 @@ export const orderedSections = (includeTasks: boolean, selectedContentType?: str
 
 const ActHome = () => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
-  const setScreenOptions = useSetScreenOptions()
   const title = t('act.title')
   const [selectedContentType] = useParam('section')
-
-  useIsomorphicLayoutEffect(() => {
-    setScreenOptions({
-      title,
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTitle: '',
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" tintColor={tintColor}>
-          {title}
-        </HeaderTitle>
-      ),
-      headerRight: () => <NotificationAndSearchHeader />,
-    })
-  }, [title, setScreenOptions])
 
   const includeTasks = !useFeatureFlagToggle(FeatureFlagKey.TYPESENSE_RECOS)
   const sections = orderedSections(includeTasks, selectedContentType)
 
   return (
-    <ScrollViewRefreshable style={styles.layout}>
-      <View style={styles.container} testID="act-home">
-        <AttendingChallengeEventsLegacy />
-        {sections.map((sectionName) => (
-          <ActSection type={sectionName} key={sectionName} />
-        ))}
-      </View>
-    </ScrollViewRefreshable>
+    <Screen
+      preset="scroll"
+      contentContainerPadding={{ bottom: '3xl' }}
+      scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
+      headerOptions={{
+        title,
+        headerBackTitleVisible: true,
+        headerBackVisible: true,
+        headerTitle: '',
+        headerLeft: ({ tintColor }) => (
+          <HeaderTitle size="large" tintColor={tintColor}>
+            {title}
+          </HeaderTitle>
+        ),
+        headerRight: () => <NotificationAndSearchHeader />,
+      }}
+    >
+      <Stack direction="column" gap="xs" testID="act-home">
+        <ActNavBar />
+        <Stack gap="xxl" direction="column">
+          <AttendingChallengeEventsLegacy />
+          {sections.map((sectionName) => (
+            <ActSection type={sectionName} key={sectionName} />
+          ))}
+        </Stack>
+      </Stack>
+    </Screen>
   )
 }
-
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      gap: dimensions.spacingL,
-      backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.spacingM,
-      paddingBottom: dimensions.spacingL,
-    },
-    layout: {
-      backgroundColor: theme.colors.background20,
-    },
-  })
 
 export default withProfiler(memo(ActHome), { name: 'ActHome' })
