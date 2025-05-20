@@ -15,15 +15,14 @@ import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useSpaceAdmi
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 
 import { StartChatButton } from './StartChatButton'
-import { ContactOrganizationActionButton } from './ContactOrganizationActionButton'
 import { TrackingEvent } from '@holi/core/tracking'
-import { ExternalLink, HandHeartFilled } from '@holi/icons/src/generated'
+import { Chat3, ExternalLink, HandHeartFilled } from '@holi/icons/src/generated'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
 import { ButtonTracked } from '@holi/core/components/Trackable'
-import { InteractionType } from '@holi/api/graphql/graphql-codegen'
+import { InteractionType, type Duration, type Regularity } from '@holi/api/graphql/graphql-codegen'
 
 interface Props {
   spaceIdOrName?: string
@@ -34,6 +33,8 @@ interface Props {
   alreadyStarted?: boolean
   interactionType?: InteractionType
   interactionSignupLink?: string
+  taskDuration?: Duration
+  taskRegularity?: Regularity
 }
 
 const CloseButtonInsideDrawer = () => {
@@ -56,6 +57,8 @@ export const ContactOrganization = ({
   taskName,
   interactionType,
   interactionSignupLink,
+  taskDuration,
+  taskRegularity,
 }: Props) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
@@ -101,7 +104,14 @@ export const ContactOrganization = ({
   const existingRoomId = findExistingRoomId()
 
   const isSpaceAdmin = adminUsers?.some((admin) => admin.id === loggedInUser?.id)
-  if (!spaceIdOrName || isSpaceAdmin) return null
+  if (!spaceIdOrName || !taskId || isSpaceAdmin) return null
+
+  const taskProps = {
+    taskId,
+    taskName,
+    regularity: taskRegularity,
+    duration: taskDuration,
+  }
 
   if (existingRoomId) {
     return (
@@ -125,11 +135,25 @@ export const ContactOrganization = ({
     return (
       <HoliActionDrawer.Drawer
         renderCustomButton={(onPress, testID) => (
-          <ContactOrganizationActionButton
-            loading={loggedInUser && (!isChatInitialized || adminUsersLoading)}
+          <View
+            style={[
+              styles.ctaWrapper,
+              Platform.OS === 'web' && {
+                position: 'fixed',
+              },
+            ]}
             testID={testID}
-            onPress={onPress}
-          />
+          >
+            <Button
+              onPress={onPress}
+              loading={loggedInUser && (!isChatInitialized || adminUsersLoading)}
+              disabled={loggedInUser && (!isChatInitialized || adminUsersLoading)}
+              variant="primary"
+              icon={Chat3}
+              size="lg"
+              label={t('spaces.tasks.contactOrganization.cta.chat')}
+            />
+          </View>
         )}
         label={t('global.options')}
         testID="contact-organization-drawer"
@@ -157,7 +181,7 @@ export const ContactOrganization = ({
           <Stack padding={{ top: 'xxs' }}>
             <StartChatButton
               chatPartners={adminUsers}
-              trackingEvent={TrackingEvent.TaskCTA.contactedOrganization}
+              trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
               // icon={ChatSmile2}
               label={t('spaces.tasks.contactOrganization.cta.chat.open')}
               getRoomId={getOrCreateRoom}
@@ -176,7 +200,7 @@ export const ContactOrganization = ({
         onPress={() => {
           if (interactionSignupLink) Linking.openURL(interactionSignupLink)
         }}
-        trackingEvent={TrackingEvent.TaskCTA.signupButton}
+        trackingEvent={TrackingEvent.Task.CTAButton.signedUp(taskProps)}
       />
     )
   }
@@ -191,7 +215,7 @@ export const ContactOrganization = ({
           onPress={onPress}
           icon={HandHeartFilled}
           label={t('spaces.tasks.contactOrganization.cta.ready')}
-          trackingEvent={TrackingEvent.TaskCTA.illDoItCTA}
+          trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
         />
       )}
       label={t('global.options')}
