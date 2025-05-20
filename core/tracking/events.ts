@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
+import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
 
@@ -113,22 +114,38 @@ export namespace TrackingEvent {
     },
   }
 
-  export const TaskCTA = {
-    contactedOrganization: {
-      name: 'task_contactOrganisationButton_pressed',
-      ...versionOne,
+  interface TaskProperties {
+    taskId: string
+    taskName: string
+    regularity?: Regularity
+    duration?: Duration
+  }
+
+  export const Task = {
+    detailPage: {
+      visited: (props: TaskProperties) => ({
+        name: 'task_detail_page_visited',
+        properties: { ...props },
+        ...versionOne,
+      }),
     },
-    startedConversationFromTask: {
-      name: 'task_startConversationButton_pressed',
-      ...versionOne,
-    },
-    signupButton: {
-      name: 'task_signupButton_pressed',
-      ...versionOne,
-    },
-    illDoItCTA: {
-      name: 'task_illDoItButton_pressed',
-      ...versionOne,
+
+    CTAButton: {
+      startedConversation: (props: TaskProperties) => ({
+        name: 'task_cta_startConversation_pressed',
+        properties: { ...props },
+        ...versionOne,
+      }),
+      signedUp: (props: TaskProperties) => ({
+        name: 'task_cta_signUp_pressed',
+        properties: { ...props },
+        ...versionOne,
+      }),
+      illDoIt: (props: TaskProperties) => ({
+        name: 'task_cta_illDoIt_pressed',
+        properties: { ...props },
+        ...versionOne,
+      }),
     },
   }
 

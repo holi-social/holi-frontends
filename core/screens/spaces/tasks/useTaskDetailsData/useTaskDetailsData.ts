@@ -8,6 +8,8 @@ import {
   SpaceUserConnectionType,
   VisibilityType,
   useTaskByIdQuery,
+  type Duration,
+  type Regularity,
 } from '@holi/api/graphql/graphql-codegen'
 import { CalendarEventLine, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
@@ -31,6 +33,8 @@ export type UseTaskDetailsData = {
   spaceTitle?: string
   interactionType?: InteractionType
   interactionSignupLink?: string
+  taskDuration?: Duration
+  taskRegularity?: Regularity
 }
 
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
@@ -174,5 +178,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     spaceTitle: data?.taskById?.space?.title,
     interactionType: data?.taskById?.interactionType,
     interactionSignupLink: data?.taskById?.interactionSignupLink,
+    taskDuration: data?.taskById?.duration,
+    taskRegularity: data?.taskById?.regularity,
   }
 }

@@ -13,6 +13,8 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
 import { useTranslation } from 'react-i18next'
+import { TrackingEvent } from '@holi/core/tracking/events'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 
 const isIos = Platform.OS === 'ios'
 
@@ -22,14 +24,36 @@ export type TaskDetailsParams = {
 
 const TaskDetailsContainer = () => {
   const { t } = useTranslation()
-  const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle, interactionSignupLink, interactionType } =
-    useTaskDetailsData()
+  const {
+    data,
+    isOwner,
+    spaceName,
+    id,
+    refetch,
+    spaceId,
+    spaceTitle,
+    interactionSignupLink,
+    interactionType,
+    taskDuration,
+    taskRegularity,
+  } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
   const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
 
   const renderActionDrawer = useCallback(
     (tintColor?: string) => <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />,
     [id, isOwner, spaceName]
+  )
+
+  useTrackOnce(
+    id
+      ? TrackingEvent.Task.detailPage.visited({
+          taskId: id,
+          taskName: data?.title,
+          regularity: taskRegularity,
+          duration: taskDuration,
+        })
+      : undefined
   )
 
   return (
@@ -71,6 +95,8 @@ const TaskDetailsContainer = () => {
               spaceId={spaceId}
               interactionType={interactionType}
               interactionSignupLink={interactionSignupLink}
+              taskDuration={taskDuration}
+              taskRegularity={taskRegularity}
             />
           )}
         </Stack>
