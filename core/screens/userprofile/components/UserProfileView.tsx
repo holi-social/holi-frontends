@@ -49,7 +49,7 @@ const UserProfileView = ({ user, showContactFeatures }: UserProfileViewProps) =>
     EDITOR: 'user.profileView.role.editor',
     JOURNALIST: 'user.profileView.role.journalist',
     CO_FOUNDER: 'user.profileView.role.co_founder',
-    COMMUNITY_MANAGER: 'user.profileView.role.community_manager',
+    COMMUNITY_TEAM: 'user.profileView.role.community_team',
   }
 
   const badge = user.role !== 'JOURNALIST' ? VerifiedInternal : VerifiedExternal

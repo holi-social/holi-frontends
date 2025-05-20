@@ -1697,7 +1697,7 @@
   "user.profileView.report.confirmation.title": "Report {{name}}",
   "user.profileView.report.title": "Report {{name}}",
   "user.profileView.role.co_founder": "Co-founder",
-  "user.profileView.role.community_manager": "Community Manager",
+  "user.profileView.role.community_team": "Community Team",
   "user.profileView.role.editor": "Editor",
   "user.profileView.role.journalist": "Partner journalist",
   "user.skills.form.headline": "Find volunteering that matches your skills",
