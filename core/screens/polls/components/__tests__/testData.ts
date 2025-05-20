@@ -1,4 +1,4 @@
-import { Choice, Poll } from '@holi/core/screens/polls/types'
+import type { Choice, Poll } from '@holi/core/screens/polls/types'
 
 export const choice1: Choice = {
   id: '1',
@@ -25,4 +25,6 @@ export const poll: Poll = {
     identity: '',
   },
   choices: [choice1, choice2],
+  isMultiSelect: false,
+  maxChoices: 1,
 }
