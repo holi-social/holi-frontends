@@ -173,7 +173,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   checkboxSelected: {
     backgroundColor: theme.colors.bg.selected,
-    borderColor: theme.colors.border.main,
   },
   checkboxDisabled: {
     borderColor: theme.colors.border.default,
