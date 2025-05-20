@@ -478,7 +478,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                         {
                           "alignItems": "center",
                           "backgroundColor": "#262424",
-                          "borderColor": "#262424",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -1380,7 +1380,7 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                         {
                           "alignItems": "center",
                           "backgroundColor": "#262424",
-                          "borderColor": "#262424",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
@@ -2820,7 +2820,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                         {
                           "alignItems": "center",
                           "backgroundColor": "#262424",
-                          "borderColor": "#262424",
+                          "borderColor": "#bdbcbc",
                           "borderRadius": 5,
                           "borderWidth": 1,
                           "height": 24,
