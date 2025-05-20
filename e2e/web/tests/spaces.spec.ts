@@ -329,13 +329,18 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // then location type is visible
   page.getByText('On-site')
 
-  // open regularity dropdown
+  // set action start type
+  await page.waitForSelector(byTestId('btn-task-interactionType'))
+  await clickElementByTestId(page, 'btn-task-interactionType')
+  await clickElementByTestId(page, 'item-task-interactionType-CHAT')
+
+  // set regularty
   await page.waitForSelector(byTestId('btn-task-regularity-input'))
   await clickElementByTestId(page, 'btn-task-regularity-input')
   await clickElementByTestId(page, 'item-task-regularity-input-ONE_TIME')
   await clickElementByTestId(page, 'task-regularity-input-save-button')
 
-  // open duration dropdown
+  // set duration
   await page.waitForSelector(byTestId('btn-task-duration-input'))
   await clickElementByTestId(page, 'btn-task-duration-input')
   await clickElementByTestId(page, 'item-task-duration-input-MINUTES_30to60')
