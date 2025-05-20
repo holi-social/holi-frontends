@@ -5,6 +5,16 @@ import { lightSelectorTheme } from 'holi-bricks/components/selectors/selector.th
 import { blue, green, mono, orange, purple, red, transparent, yellow } from 'holi-bricks/foundations'
 
 export const lightTheme = {
+  shadows: {
+    200: {
+      shadowColor: 'rgba(38, 36, 36, 0.12)',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      elevation: 2,
+      boxShadow: '0px 2px 0px rgba(38, 36, 36, 0.12)',
+    },
+  },
   colors: {
     focus: `${mono[200]} 0px 0px 0px 1.5px, ${blue[400]} 0px 0px 0px 3px`,
     bg: {

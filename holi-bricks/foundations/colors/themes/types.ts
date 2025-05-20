@@ -34,3 +34,5 @@ export type DecorativeColors = keyof VerifiedDecorative
 export type BorderColors = keyof VerifiedBorder
 export type FocusColors = keyof VerifiedFocus
 export type BackgroundColors = keyof VerifiedBg
+
+export type ElevationLevel = 200 // we will add more | 100| 300 | 400 and so on

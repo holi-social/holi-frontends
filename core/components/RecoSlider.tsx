@@ -1,22 +1,19 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, type GestureResponderEvent, type ListRenderItem, StyleSheet, View } from 'react-native'
-
+import { FlatList, type GestureResponderEvent, type ListRenderItem, Platform, View } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatList.shared'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { TextLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { Stack } from 'holi-bricks/components/stack'
+import { Spacing } from 'holi-bricks/foundations'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 type RecoSliderProps = {
   name: string
@@ -57,10 +54,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { theme } = useTheme()
   const { track } = useTracking()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
+  const { styles } = useStyles(stylesheet)
 
   const handleHeaderTitlePress = () => {
     if (seeAllPath) {
@@ -84,13 +79,16 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
   const listProps = {
     horizontal: true,
-    ListHeaderComponentStyle: styles.listHeader,
-    style: styles.itemsContainer,
+    contentContainerStyle: {
+      paddingLeft: Spacing.xs,
+      paddingRight: Spacing.xs,
+      paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+    },
     data,
     renderItem,
     ListFooterComponent:
       labelSeeMore && (seeAllPath || onPressSeeMore) ? (
-        <View style={styles.seeMoreButton}>
+        <View style={styles.seeMoreButton(cardWidth)}>
           <HoliMoreCard
             role="link"
             label={labelSeeMore}
@@ -114,93 +112,61 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   )
 
   return (
-    <HoliContainer>
-      <View style={styles.container} testID={testID || `${name}-reco-slider`}>
-        <HoliButton
-          inline
-          label={heading}
-          style={styles.headerContainer}
-          transparent
-          onPress={handleHeaderTitlePress}
-          testID={`${name}-reco-slider-heading-button`}
+    <Stack gap="sm" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
+      <Stack onPress={handleHeaderTitlePress} testID={`${name}-reco-slider-heading-button`}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          padding={{ left: 'xs', right: 'xs' }}
+          testID={`${name}-reco-slider-heading`}
         >
-          <View style={styles.header} testID={`${name}-reco-slider-heading`}>
-            <View style={styles.headerTitle}>
-              <View style={styles.iconContainer}>
-                <HoliIcon icon={icon} size={20} colorOverride={colors.black300} />
-              </View>
-              <View style={{ gap: 4 }}>
-                <Text size="xxl" headingLevel="3">
-                  {heading}
-                </Text>
-                <Text size="sm" color="support">
-                  {subline}
-                </Text>
-              </View>
-            </View>
-            {seeAllPath &&
-              (seeMoreTrackingEvent ? (
-                <TextLinkTracked size="sm" role="none" trackingEvent={seeMoreTrackingEvent}>
-                  {t('global.seeAll')}
-                </TextLinkTracked>
-              ) : (
-                <TextLink size="sm" role="none">
-                  {t('global.seeAll')}
-                </TextLink>
-              ))}
-          </View>
-        </HoliButton>
+          <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
+            <Stack
+              elevation={200}
+              borderRadius="lg"
+              borderColor="muted"
+              borderWidth="sm"
+              backgroundColor="support"
+              padding="xxs"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <HoliIcon icon={icon} size={24} />
+            </Stack>
+            <Stack direction="column">
+              <Text size="xxl" headingLevel="3">
+                {heading}
+              </Text>
+              <Text size="sm" color="support">
+                {subline}
+              </Text>
+            </Stack>
+          </Stack>
+          {seeAllPath &&
+            (seeMoreTrackingEvent ? (
+              <TextLinkTracked size="sm" role="none" trackingEvent={seeMoreTrackingEvent}>
+                {t('global.seeAll')}
+              </TextLinkTracked>
+            ) : (
+              <TextLink size="sm" role="none">
+                {t('global.seeAll')}
+              </TextLink>
+            ))}
+        </Stack>
+      </Stack>
 
-        {ListComponent}
-      </View>
-    </HoliContainer>
+      {ListComponent}
+    </Stack>
   )
 }
+
 export default RecoSlider
 
-const getStyles = (theme: HoliTheme, cardWidth: number) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      minHeight: 'auto',
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      alignSelf: 'flex-start',
-      gap: 12,
-      width: '100%',
-      justifyContent: 'space-between',
-    },
-    headerTitle: {
-      flexDirection: 'row',
-      gap: 12,
-    },
-    headerContainer: {
-      alignSelf: 'flex-start',
-      paddingBottom: 24,
-      width: '100%',
-    },
-    iconContainer: {
-      padding: 13,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: theme.colors.foreground10,
-      backgroundColor: theme.colors.background10,
-    },
-    itemsContainer: {
-      paddingBottom: 0,
-      marginHorizontal: -20,
-      paddingLeft: 24,
-      flex: 1,
-    },
-    seeMoreButton: {
-      flex: 1,
-      marginRight: 44,
-      width: cardWidth,
-    },
-    listHeader: {
-      paddingTop: dimensions.topBarHeight + 24,
-      paddingBottom: 32,
-    },
-  })
+const stylesheet = createStyleSheet(() => ({
+  seeMoreButton: (cardWidth: number) => ({
+    flex: 1,
+    marginRight: Spacing.xxl,
+    width: cardWidth,
+  }),
+}))

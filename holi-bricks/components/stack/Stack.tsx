@@ -5,7 +5,7 @@ import { Pressable, View, type AccessibilityRole, type DimensionValue, type Flex
 import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
 import { makeBorderWidth, type BorderSizeToEdge } from 'holi-bricks/foundations/dimensions/borderWidth'
-import type { BackgroundColors, BorderColors } from 'holi-bricks/foundations/colors/themes/types'
+import type { BackgroundColors, BorderColors, ElevationLevel } from 'holi-bricks/foundations/colors/themes/types'
 
 type FlexAlignments = 'flex-end' | 'flex-start' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
 interface StackProps extends React.PropsWithChildren {
@@ -40,6 +40,7 @@ interface StackProps extends React.PropsWithChildren {
   flexShrink?: FlexStyle['flexShrink']
   overflow?: 'hidden' | 'visible'
   aspectRatio?: number | string
+  elevation?: ElevationLevel
 }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
@@ -89,6 +90,7 @@ const containerStylesheet = createStyleSheet((theme) => ({
     ...makeMargin(props?.margin),
     ...makeRadius(props?.borderRadius),
     ...makeBorderWidth(props?.borderWidth),
+    ...(props.elevation && theme.shadows[props.elevation]),
   }),
 }))
 Stack.displayName = 'Stack'
