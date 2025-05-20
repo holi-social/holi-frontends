@@ -28,11 +28,12 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type PollComponentProps = {
   poll: Poll
+  type?: 'regular' | 'good_deed'
   bordered?: boolean
   onPress?: () => void
 }
 
-const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) => {
+const PollComponent = ({ poll, type = 'regular', onPress, bordered = true }: PollComponentProps) => {
   const { track } = useTracking()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -89,7 +90,7 @@ const PollComponent = ({ poll, onPress, bordered = true }: PollComponentProps) =
       })
       refetch()
       setVotesSum(votesSum + 1)
-      track(TrackingEvent.PollVoteSubmitted(poll.id))
+      track(TrackingEvent.PollVoteSubmitted(poll.id, type))
     }
   }
 
