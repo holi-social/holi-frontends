@@ -18,6 +18,8 @@ export const PollFragment = gql`
       votes
       choiceText
     }
+    isMultiSelect
+    maxChoices
   }
 `
 

@@ -6,6 +6,8 @@ export interface Poll {
   questionText: string
   creator: User
   choices: Choice[]
+  isMultiSelect: boolean
+  maxChoices: number
 }
 
 export interface Choice {

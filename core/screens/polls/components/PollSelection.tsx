@@ -9,25 +9,41 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PollSelectionProps = {
+  isMultiSelect: boolean
+  maxChoices: number
   answerOptions: Choice[]
-  onSelected?: (selectedAnswer: Choice | null) => void
+  onSelected?: (selectedAnswers: Choice[] | null) => void
 }
 
-const PollSelection = ({ answerOptions, onSelected }: PollSelectionProps) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<Choice | null>(null)
+const PollSelection = ({ answerOptions, onSelected, isMultiSelect, maxChoices }: PollSelectionProps) => {
+  const [selectedAnswers, setSelectedAnswers] = useState<Choice[]>([])
   const { theme } = useTheme()
   const gap = Platform.OS !== 'web' ? 12 : 16
   const styles = useMemo(() => getStyles(gap, theme), [gap, theme])
 
   const onAnswerSelect = useCallback(
     (answerOption: Choice) => {
-      setSelectedAnswer((prevSelectedAnswer) => {
-        const newSelectedAnswer = answerOption.id !== prevSelectedAnswer?.id ? answerOption : null
-        if (onSelected) onSelected(newSelectedAnswer)
-        return newSelectedAnswer
+      setSelectedAnswers((prevSelectedAnswers) => {
+        let newSelectedAnswers: Choice[]
+
+        if (isMultiSelect) {
+          // Allow unselecting even if at max choices
+          if (prevSelectedAnswers.includes(answerOption)) {
+            newSelectedAnswers = prevSelectedAnswers.filter((answer) => answer.id !== answerOption.id)
+          } else if (prevSelectedAnswers.length < maxChoices) {
+            newSelectedAnswers = [...prevSelectedAnswers, answerOption]
+          } else {
+            return prevSelectedAnswers
+          }
+        } else {
+          newSelectedAnswers = prevSelectedAnswers.includes(answerOption) ? [] : [answerOption]
+        }
+
+        if (onSelected) onSelected(newSelectedAnswers)
+        return newSelectedAnswers
       })
     },
-    [onSelected]
+    [onSelected, isMultiSelect, maxChoices]
   )
 
   return answerOptions.map((answer) => {
@@ -37,19 +53,19 @@ const PollSelection = ({ answerOptions, onSelected }: PollSelectionProps) => {
           transparent={true}
           onPress={() => onAnswerSelect(answer)}
           label={answer.choiceText}
-          contentStyle={[styles.answerOptionItem, answer.id == selectedAnswer?.id ? styles.selected : null]}
+          contentStyle={[styles.answerOptionItem, selectedAnswers.includes(answer) ? styles.selected : null]}
         >
           <HoliBox padding={[0, gap, 0, 0]}>
             <HoliCheckbox
               shape="round"
-              checked={answer.id === selectedAnswer?.id}
+              checked={selectedAnswers.includes(answer)}
               autofocus={false}
               aria-label={answer.choiceText}
               onSelect={() => onAnswerSelect(answer)}
             />
           </HoliBox>
           <View style={[styles.userItemContent]}>
-            <HoliRichTextOutput text={answer.choiceText} users={[]} links={[]} allowAllLinks size="sm" />
+            <HoliRichTextOutput color="main" text={answer.choiceText} users={[]} links={[]} allowAllLinks size="sm" />
           </View>
         </HoliButton>
       </View>
