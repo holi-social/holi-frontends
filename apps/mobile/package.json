@@ -140,6 +140,7 @@
       "reactNativeDirectoryCheck": {
         "exclude": [
           "i18next",
+          "jwt-decode",
           "react-native-animated-pagination-dot",
           "react-native-animated-pagination-dot",
           "react-native-controlled-mentions",
