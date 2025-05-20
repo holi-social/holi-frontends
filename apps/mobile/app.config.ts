@@ -203,7 +203,7 @@ const config: ExpoConfig = {
     [
       '@react-native-google-signin/google-signin',
       {
-        iosUrlScheme: requiredEnvVar('GOOGLE_IOS_CLIENT_URL_SCHEME'),
+        iosUrlScheme: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME'),
       },
     ],
   ],
@@ -274,8 +274,8 @@ const config: ExpoConfig = {
       collection: requiredEnvVar('TYPESENSE_COLLECTION'),
     },
     socialLogin: {
-      googleIosClientId: requiredEnvVar('GOOGLE_IOS_CLIENT_ID'),
-      googleWebClientId: requiredEnvVar('GOOGLE_WEB_CLIENT_ID'),
+      googleIosClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID'),
+      googleWebClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID'),
     },
   },
 }
