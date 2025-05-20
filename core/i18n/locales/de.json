@@ -1685,7 +1685,7 @@
   "user.profileView.report.confirmation.title": "{{name}} melden",
   "user.profileView.report.title": "{{name}} melden",
   "user.profileView.role.co_founder": "Mitgründer:in",
-  "user.profileView.role.community_manager": "Community Manager:in",
+  "user.profileView.role.community_team": "Community Team",
   "user.profileView.role.editor": "Redakteur:in",
   "user.profileView.role.journalist": "Partnerjournalist:in",
   "user.skills.form.headline": "Finde ein Ehrenamt, das deinen Fähigkeiten entspricht",
