@@ -17,6 +17,7 @@ const roleMapping: { [key: string]: string } = {
   JOURNALIST: 'user.profileView.role.journalist',
   CO_FOUNDER: 'user.profileView.role.co_founder',
   COMMUNITY_TEAM: 'user.profileView.role.community_team',
+  COMMUNITY_MANAGER: 'user.profileView.role.community_team', // TODO: for backward compatibility and avoiding downtime, we keep the old role name
 }
 
 interface Props {
