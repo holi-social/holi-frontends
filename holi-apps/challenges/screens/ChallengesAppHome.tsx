@@ -128,6 +128,7 @@ const ChallengesAppHome = () => {
             mediaCapturePermissionGrantType: 'grant',
             sharedCookiesEnabled: true,
             onMessage: handleMessageFromBackend,
+            decelerationRate: 'normal',
             source: {
               uri,
               headers: {
