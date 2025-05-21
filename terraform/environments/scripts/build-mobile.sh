@@ -32,10 +32,10 @@ if [ "$CHECK_VERSION_RELEASED" = "true" ]; then
   fi
 fi
 
-# eas build --platform "$BUILD_PLATFORM" --profile "$BUILD_PROFILE" --non-interactive
-# ARTIFACT_URL=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform "$BUILD_PLATFORM" --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+eas build --platform "$BUILD_PLATFORM" --profile "$BUILD_PROFILE" --non-interactive
+ARTIFACT_URL=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform "$BUILD_PLATFORM" --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
 
-# if [ "$KEEP_ARTIFACTS" = "true" ]; then
-#   mkdir -p artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"
-#   curl -o artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"/"$(basename "$ARTIFACT_URL")" "$ARTIFACT_URL"
-# fi
+if [ "$KEEP_ARTIFACTS" = "true" ]; then
+  mkdir -p artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"
+  curl -o artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"/"$(basename "$ARTIFACT_URL")" "$ARTIFACT_URL"
+fi
