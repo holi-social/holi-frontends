@@ -7,6 +7,7 @@ import type {
   SuccessfulNativeLogin,
   UiText,
   UpdateLoginFlowBody,
+  UpdateRegistrationFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
 import AsyncStore from '@react-native-async-storage/async-storage'
@@ -17,6 +18,9 @@ import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sd
 import { holiNextJSApiUrl } from '@holi/api/config'
 
 const userSessionName = 'user_session'
+
+// Only needed on mobile
+export const initSocialLogin = () => {}
 
 export const syncUserSessionFromOrySession = async () => {
   try {
@@ -100,7 +104,21 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 }
 
-export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): AxiosPromise<SuccessfulNativeLogin> =>
+// Special logic for OIDC on mobile only
+export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
+  payload: T,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  provider?: string
+): Promise<T> => payload
+
+export const submitLoginFlow = (
+  flow: LoginFlow,
+  payload: UpdateLoginFlowBody,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  provider?: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  sessionToken?: string
+): AxiosPromise<SuccessfulNativeLogin> =>
   newKratosSdk()
     .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: payload }, { withCredentials: true })
     .catch(handleKratosSdkError('updateLoginFlow'))
