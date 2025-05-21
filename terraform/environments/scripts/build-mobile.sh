@@ -25,17 +25,17 @@ if [ "$CHECK_VERSION_RELEASED" = "true" ]; then
       * ) echo "unknown build platform $BUILD_PLATFORM"; exit 1;;
   esac
   CURRENT_VERSION=$(yarn run expo config --json 2>/dev/null | jq -r $VERSION_SELECTOR)
-  LAST_STATUS=$(yarn run eas build:list --json --non-interactive --platform "$BUILD_PLATFORM" --buildProfile "$BUILD_PROFILE" --limit=1 --app-build-version="$CURRENT_VERSION" 2>/dev/null | jq -r '.[0].status')
+  LAST_STATUS=$(eas build:list --json --non-interactive --platform "$BUILD_PLATFORM" --buildProfile "$BUILD_PROFILE" --limit=1 --app-build-version="$CURRENT_VERSION" 2>/dev/null | jq -r '.[0].status')
   if [ "$LAST_STATUS" != "null" ] && [ "$LAST_STATUS" != "ERRORED" ] && [ "$LAST_STATUS" != "CANCELED" ]; then
     echo "$BUILD_PLATFORM app build version \"$CURRENT_VERSION\" is/was already built (status $LAST_STATUS). Did you forget to increment app versions?"
     exit 1
   fi
 fi
 
-yarn run eas build --platform "$BUILD_PLATFORM" --profile "$BUILD_PROFILE" --non-interactive
-ARTIFACT_URL=$(yarn run eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform "$BUILD_PLATFORM" --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
+# eas build --platform "$BUILD_PLATFORM" --profile "$BUILD_PROFILE" --non-interactive
+# ARTIFACT_URL=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform "$BUILD_PLATFORM" --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
 
-if [ "$KEEP_ARTIFACTS" = "true" ]; then
-  mkdir -p artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"
-  curl -o artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"/"$(basename "$ARTIFACT_URL")" "$ARTIFACT_URL"
-fi
+# if [ "$KEEP_ARTIFACTS" = "true" ]; then
+#   mkdir -p artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"
+#   curl -o artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"/"$(basename "$ARTIFACT_URL")" "$ARTIFACT_URL"
+# fi
