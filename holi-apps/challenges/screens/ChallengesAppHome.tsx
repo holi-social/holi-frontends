@@ -17,7 +17,6 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { createExternalChallengesPath, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import type { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
-import NotificationSettingsPrompt from '@holi-apps/challenges/screens/NotificationSettingsPrompt'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
@@ -30,7 +29,6 @@ const ChallengesAppHome = () => {
   const { goBack } = useNavigation()
   const { displayError } = useErrorHandling()
 
-  const [showOptInModal, setShowOptInModal] = useState(false)
 
   const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
@@ -94,9 +92,6 @@ const ChallengesAppHome = () => {
         break
       case 'share':
         await share(message.message, message.path)
-        break
-      case 'video-submitted':
-        setTimeout(() => setShowOptInModal(true), 3000)
         break
       case 'open-settings':
         Linking.openSettings()
