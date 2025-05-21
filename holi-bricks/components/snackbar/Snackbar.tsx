@@ -9,7 +9,7 @@ import type React from 'react'
 import { Pressable, View } from 'react-native'
 import { Spacing } from 'holi-bricks/foundations'
 import { ButtonIcon } from 'holi-bricks/components/button'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface SnackbarProps {
   label: string
@@ -20,97 +20,117 @@ interface SnackbarProps {
   showDismiss?: boolean
   persistent?: boolean
   duration?: 'short' | 'medium' | 'long'
+  positionTowardsParent?: 'above' | 'below'
+  show?: boolean
+  onDismiss?: () => void
 }
 
 export const Snackbar = ({
   label,
-  variant,
+  variant = 'success',
   icon,
   actionLabel,
   onPress,
   showDismiss,
   persistent = false,
   duration = 'medium',
+  positionTowardsParent: position = 'below',
+  show = true,
+  onDismiss,
 }: SnackbarProps) => {
   const { styles } = useStyles(stylesheet)
-  const iconColor = variant === 'error' ? 'danger' : variant === 'warning' ? 'warning' : 'positive'
-  const iconColorOverride =
-    variant === 'error'
-      ? styles.icon('redDefault').color
-      : variant === 'warning'
-        ? styles.icon('orangeDefault').color
-        : styles.icon('greenDefault').color
 
-  const [snackbarClosed, setSnackbarClosed] = useState<boolean>(false)
-  const [timer, setTimer] = useState<NodeJS.Timeout>()
-  const snackbarDuration = duration === 'long' ? 5000 : duration === 'medium' ? 3000 : 1500
+  const iconColor = {
+    error: 'danger' as const,
+    warning: 'warning' as const,
+    success: 'positive' as const,
+  }[variant]
+
+  const iconColorOverride = {
+    error: styles.icon('redDefault').color,
+    warning: styles.icon('orangeDefault').color,
+    success: styles.icon('greenDefault').color,
+  }[variant]
+
+  const snackbarDuration = {
+    short: 1500,
+    medium: 3000,
+    long: 5000,
+  }[duration]
+
+  const [visible, setVisible] = useState<boolean>(show)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const closeSnackbar = useCallback(() => {
-    setSnackbarClosed(true)
-  }, [])
+    if (onDismiss) onDismiss()
+    setVisible(false)
+  }, [onDismiss])
 
-  useEffect(() => {
-    if (persistent) return
-    const newtimer = setTimeout(closeSnackbar, snackbarDuration)
-    setTimer(newtimer)
-
-    return () => {
-      clearTimeout(newtimer) // Clear the timer when the component unmounts or when persistent changes
+  const startTimer = useCallback(() => {
+    if (!persistent && visible) {
+      if (timerRef.current) clearTimeout(timerRef.current) // Clear any existing timer before starting a new one
+      timerRef.current = setTimeout(closeSnackbar, snackbarDuration) // start a new timer to close snackbar
     }
-  }, [closeSnackbar, snackbarDuration, persistent])
+  }, [visible, closeSnackbar, snackbarDuration, persistent])
 
-  const resumeTimer = () => {
-    if (!persistent) {
-      clearTimeout(timer) // Clear any existing timer before starting a new one
-      const newTimer = setTimeout(closeSnackbar, snackbarDuration) // start a new timer to close snackbar
-      setTimer(newTimer) // Update the timer
-    }
+  const pauseTimer = () => {
+    if (timerRef.current) clearTimeout(timerRef.current)
   }
 
+  useEffect(() => {
+    setVisible(show)
+    if (show) {
+      startTimer()
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [show, startTimer])
+
+  if (!visible) return null
   return (
-    !snackbarClosed && (
-      <Pressable
-        style={styles.snackbar}
-        onHoverIn={() => clearTimeout(timer)} // dont close snackbar while hovering
-        onHoverOut={resumeTimer} // reset timer to close snackbar
+    <Pressable
+      style={styles.snackbar(position)}
+      onHoverIn={pauseTimer} // dont close snackbar while hovering
+      onHoverOut={startTimer} // reset timer to close snackbar
+    >
+      <Stack
+        backgroundColor="selected"
+        borderRadius="md"
+        direction="row"
+        justifyContent="space-between"
+        padding="xxs"
+        width={351}
+        alignItems="center"
       >
-        <Stack
-          backgroundColor="selected"
-          borderRadius="md"
-          direction="row"
-          justifyContent="space-between"
-          padding="xxs"
-          width={351}
-          alignItems="center"
-        >
-          <Stack direction="row" gap="3xs" flexShrink={1} alignItems="center">
-            {icon && <HoliIcon icon={icon} color={iconColor} colorOverride={iconColorOverride} />}
-            <Text size="sm" color="selected">
-              {label}
-            </Text>
-          </Stack>
-          <Stack direction="row" gap="3xs" alignItems="center">
-            {actionLabel && (
-              <View style={{ maxWidth: Spacing['4xl'] }}>
-                <TextLink size="sm" color="selected" onPress={onPress} numberOfLines={1}>
-                  {actionLabel}
-                </TextLink>
-              </View>
-            )}
-            {showDismiss && (
-              <ButtonIcon
-                icon={Close}
-                onPress={closeSnackbar}
-                label="close button"
-                transparent
-                color="selected"
-                size="lg"
-              />
-            )}
-          </Stack>
+        <Stack direction="row" gap="3xs" flexShrink={1} alignItems="center">
+          {icon && <HoliIcon icon={icon} color={iconColor} colorOverride={iconColorOverride} />}
+          <Text size="sm" color="selected">
+            {label}
+          </Text>
         </Stack>
-      </Pressable>
-    )
+        <Stack direction="row" gap="3xs" alignItems="center">
+          {actionLabel && (
+            <View style={{ maxWidth: Spacing['4xl'] }}>
+              <TextLink size="sm" color="selected" onPress={onPress} numberOfLines={1}>
+                {actionLabel}
+              </TextLink>
+            </View>
+          )}
+          {showDismiss && (
+            <ButtonIcon
+              icon={Close}
+              onPress={closeSnackbar}
+              label="close button"
+              transparent
+              color="selected"
+              size="lg"
+            />
+          )}
+        </Stack>
+      </Stack>
+    </Pressable>
   )
 }
 
@@ -120,13 +140,13 @@ const stylesheet = createStyleSheet((theme) => ({
       color: theme.colors.decorative[colorVariant],
     }
   },
-  snackbar: {
+  snackbar: (position) => ({
     position: 'absolute',
-    top: 0,
+    top: position === 'above' ? -Spacing['4xl'] : 0,
     left: 0,
     right: 0,
     alignItems: 'center',
-    padding: Spacing.xl,
+    padding: position === 'above' ? 0 : Spacing.xl,
     zIndex: 1000,
-  },
+  }),
 }))

@@ -7,7 +7,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import { Platform } from 'react-native'
 import { white } from 'holi-bricks/foundations'
-import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
+import { TaskDetailsCTA } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
@@ -87,7 +87,7 @@ const TaskDetailsContainer = () => {
           width="100%"
         >
           {displayCta && (
-            <ContactOrganization
+            <TaskDetailsCTA
               spaceIdOrName={spaceName}
               taskName={data?.title}
               taskId={id}

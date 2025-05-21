@@ -46,6 +46,7 @@ export const Drawer = ({
   buttonElement,
   buttonProps,
   renderCustomButton,
+  onHide,
 }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
@@ -53,8 +54,13 @@ export const Drawer = ({
   const { theme } = useTheme()
   const { colors } = theme
 
+  const handleHide = () => {
+    hideModal()
+    if (onHide) onHide()
+  }
+
   const contextValue = {
-    hideDrawer: hideModal,
+    hideDrawer: handleHide,
   }
 
   return (
@@ -74,6 +80,7 @@ export const Drawer = ({
         testID="more-options-modal"
         label={t('global.moreOptions')}
         style={StyleSheet.flatten([{ paddingBottom: safeAreaBottom || 18 }])}
+        onDismiss={handleHide}
       >
         <HoliContainer>{children}</HoliContainer>
       </HoliModal>
