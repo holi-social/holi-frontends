@@ -196,6 +196,12 @@ const config: ExpoConfig = {
         ],
       },
     ],
+    [
+      '@react-native-google-signin/google-signin',
+      {
+        iosUrlScheme: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME'),
+      },
+    ],
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {
@@ -262,6 +268,10 @@ const config: ExpoConfig = {
       protocol: requiredEnvVar('TYPESENSE_PROTOCOL'),
       apiKey: requiredEnvVar('TYPESENSE_API_KEY'),
       collection: requiredEnvVar('TYPESENSE_COLLECTION'),
+    },
+    socialLogin: {
+      googleIosClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID'),
+      googleWebClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID'),
     },
   },
 }

@@ -40,7 +40,10 @@
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
-        "TYPESENSE_COLLECTION": "holi_search_staging"
+        "TYPESENSE_COLLECTION": "holi_search_staging",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
       }
     },
     "development-simulator": {
@@ -74,7 +77,10 @@
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
-        "TYPESENSE_COLLECTION": "holi_search_staging"
+        "TYPESENSE_COLLECTION": "holi_search_staging",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
       },
       "ios": {
         "simulator": true
@@ -111,7 +117,10 @@
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
-        "TYPESENSE_COLLECTION": "holi_search_staging"
+        "TYPESENSE_COLLECTION": "holi_search_staging",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
       },
       "ios": {
         "image": "macos-sonoma-14.6-xcode-16.1"
@@ -146,7 +155,10 @@
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "jtOdwRfhEFW7UmCpDKjnQaS71uU28YOq",
-        "TYPESENSE_COLLECTION": "holi_search_production"
+        "TYPESENSE_COLLECTION": "holi_search_production",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-chl3h9fc4s87vlu9e2d2j5ibogr3fbeh",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-chl3h9fc4s87vlu9e2d2j5ibogr3fbeh.apps.googleusercontent.com",
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-jjgj6dt5dbmofgu50u4bc12fcrd9qbar.apps.googleusercontent.com"
       },
       "ios": {
         "image": "macos-sonoma-14.6-xcode-16.1"
@@ -188,7 +200,10 @@
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
-        "TYPESENSE_COLLECTION": "holi_search_staging"
+        "TYPESENSE_COLLECTION": "holi_search_staging",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
+        "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
       },
       "ios": {
         "simulator": true

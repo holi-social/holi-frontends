@@ -88,7 +88,7 @@ export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWeb
     showLoader()
 
     try {
-      const { data } = (await submitLoginFlow(flow, payload, undefined)) as { data: OrySessionContext }
+      const { data } = (await submitLoginFlow(flow, payload, provider, undefined)) as { data: OrySessionContext }
       await doLogin(client, data)
       confirmOAuth2Login()
       window.location.href = returnTo

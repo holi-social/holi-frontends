@@ -1,5 +1,5 @@
-import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
-import { OrySessionContext, OrySessionToken, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { getSessionFromStorage, initSocialLogin } from '@holi/core/auth/helpers/auth'
+import { type OrySessionContext, type OrySessionToken, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setLoginStateLoggedIn, setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 
@@ -42,4 +42,5 @@ export const onSessionLoadedFromStorage = async (sessionFromStorage: OrySessionC
 export const initAuth = async () => {
   const session = await getSessionFromStorage()
   await onSessionLoadedFromStorage(session)
+  initSocialLogin()
 }

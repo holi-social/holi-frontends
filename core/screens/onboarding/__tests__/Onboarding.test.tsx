@@ -25,6 +25,7 @@ import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import type { UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import { act } from '@testing-library/react-hooks'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
@@ -88,6 +89,7 @@ jest.mock('@holi/core/auth/helpers/auth', () => ({
   submitVerificationFlow: jest.fn(),
   hasIdentifier: jest.fn(),
   doLogin: jest.fn(),
+  retrieveSubmitFlowBody: (payload: UpdateRegistrationFlowBody) => Promise.resolve(payload),
 }))
 
 const mockNewKratosSdk = newKratosSdk as jest.Mock
