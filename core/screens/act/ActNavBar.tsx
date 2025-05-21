@@ -1,5 +1,6 @@
 import React from 'react'
 import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { TouchableOpacity, View } from 'react-native'
@@ -16,20 +17,25 @@ import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigat
 
 const NavBarButton = ({ icon, onPress, label }: { icon: HoliIconType; onPress: () => void; label: string }) => {
   return (
-    <TouchableOpacity aria-label={label} onPress={onPress}>
-      <Stack
-        elevation={200}
-        borderRadius="lg"
-        borderColor="muted"
-        borderWidth="sm"
-        backgroundColor="support"
-        padding="xs"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <HoliIcon icon={icon} size={24} />
-      </Stack>
-    </TouchableOpacity>
+    <Stack direction="column" gap="xxs" alignItems="center" justifyContent="center">
+      <TouchableOpacity aria-label={label} onPress={onPress}>
+        <Stack
+          width={60}
+          height={60}
+          elevation={200}
+          borderRadius="lg"
+          borderColor="muted"
+          borderWidth="sm"
+          backgroundColor="support"
+          padding="xs"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <HoliIcon icon={icon} size={24} />
+        </Stack>
+      </TouchableOpacity>
+      <Text size="xs">{label}</Text>
+    </Stack>
   )
 }
 
@@ -41,8 +47,9 @@ export const ActNavBar = () => {
       <Stack
         direction="row"
         justifyContent="space-between"
-        gap="xs"
-        margin={{ left: 'xs', right: 'xs', top: 'sm', bottom: 'md' }}
+        alignItems={'center'}
+        width="100%"
+        padding={{ left: 'xs', right: 'xs', top: 'sm', bottom: 'md' }}
       >
         <NavBarButton
           icon={HeartsFilled}
