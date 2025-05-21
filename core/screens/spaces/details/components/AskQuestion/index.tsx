@@ -1,7 +1,7 @@
 import { toMatrixIdentity, getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import { AskQuestionActionButton } from '@holi/core/screens/spaces/details/components/AskQuestion/AskQuestionActionButton'
 import { useRepresentative } from '@holi/core/screens/spaces/hooks/useRepresentative'
-import { StartChatButton } from '@holi/core/screens/spaces/tasks/components/ContactOrganization/StartChatButton'
+import { StartChatButton } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA/StartChatButton'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
