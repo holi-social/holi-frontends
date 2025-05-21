@@ -116,7 +116,6 @@ const ChallengesAppHome = () => {
 
   return (
     <>
-      <NotificationSettingsPrompt prompt={showOptInModal} onPromptChanged={setShowOptInModal} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <HoliWebView
           webViewRef={webViewRef}
