@@ -12,6 +12,7 @@ export const favoritesQuery = gql`
         favoritableId
         favoritableType
         favoritable {
+          __typename
           ... on Insight {
             id
             title

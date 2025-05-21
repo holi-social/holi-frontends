@@ -516,10 +516,12 @@ export type CreateCommentInput = {
 }
 
 export type CreateFeedPostInput = {
+  aspectRatio?: InputMaybe<AspectRatio>
   categoryId?: InputMaybe<Scalars['UUID']['input']>
   description: Scalars['String']['input']
   geolocation?: InputMaybe<GeolocationPointInput>
   image?: InputMaybe<Scalars['Upload']['input']>
+  imageUrls?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   images?: InputMaybe<Array<InputMaybe<FeedPostImageInput>>>
   language?: InputMaybe<Scalars['String']['input']>
   location?: InputMaybe<Scalars['String']['input']>
@@ -660,9 +662,10 @@ export type FeedItemPaged = {
   totalResults: Scalars['Int']['output']
 }
 
-/** FeedPost(id, title, slug, description, visibility, topics_v2, category, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration) */
+/** FeedPost(id, title, slug, description, visibility, topics_v2, category, poll, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration, image_urls, aspect_ratio) */
 export type FeedPost = {
   __typename?: 'FeedPost'
+  aspectRatio?: Maybe<AspectRatio>
   category?: Maybe<FeedPostCategory>
   commenters: UserPaged
   createdAt: Scalars['String']['output']
@@ -672,12 +675,14 @@ export type FeedPost = {
   id: Scalars['UUID']['output']
   image?: Maybe<Scalars['String']['output']>
   imageBlurhash?: Maybe<Scalars['String']['output']>
+  imageUrls?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   images?: Maybe<Array<Maybe<FeedPostImage>>>
   language?: Maybe<Scalars['String']['output']>
   linkPreview?: Maybe<LinkPreview>
   location?: Maybe<Scalars['String']['output']>
   mentions?: Maybe<Array<Maybe<User>>>
   myReaction: ReactionCounts
+  poll?: Maybe<Poll>
   reactions: ReactionCounts
   slug: Scalars['String']['output']
   title?: Maybe<Scalars['String']['output']>
@@ -687,7 +692,7 @@ export type FeedPost = {
   visibility: VisibilityLevel
 }
 
-/** FeedPost(id, title, slug, description, visibility, topics_v2, category, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration) */
+/** FeedPost(id, title, slug, description, visibility, topics_v2, category, poll, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration, image_urls, aspect_ratio) */
 export type FeedPostCommentersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -787,6 +792,14 @@ export type GeolocationPoint = {
 export type GeolocationPointInput = {
   latitude: Scalars['Float']['input']
   longitude: Scalars['Float']['input']
+}
+
+export type ImageKitAuthParams = {
+  __typename?: 'ImageKitAuthParams'
+  expire: Scalars['String']['output']
+  publicKey: Scalars['String']['output']
+  signature: Scalars['String']['output']
+  token: Scalars['String']['output']
 }
 
 /** Initiative(id, insight, category, link, link_preview, comment) */
@@ -971,6 +984,11 @@ export type Moderation_ReportSubmission = {
   reason?: InputMaybe<Moderation_Reason>
 }
 
+export type Moderation_Success = {
+  __typename?: 'Moderation_Success'
+  success: Scalars['Boolean']['output']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   addCollaborationTool: CollaborationTool
@@ -1005,6 +1023,7 @@ export type Mutation = {
   deleteTask: Result
   favorite: Result
   generateAppointmentIcsFile: Scalars['String']['output']
+  getImagekitAuthParams: ImageKitAuthParams
   inviteToSpaceByEmail: Result
   lastSeenNotification: NewNotificationsResponse
   moderation_createReport: Moderation_ReportConfirmation
@@ -1532,17 +1551,23 @@ export type Query = {
   appEvents_events: AppEvents_EventsResponse
   appEvents_nearbyEvents: AppEvents_NearbyEventsResponse
   appGoodNews_articles?: Maybe<AppGoodNews_GoodNewsArticlesQueryResponse>
+  /** @deprecated Query engagements using typesense instead. (since v1.55) */
   appVolunteering_engagement?: Maybe<AppVolunteering_Engagement>
   /**
    * Retrieves a list of recommendations based on the request parameters "topics", "skills" and "geoLocationId" (using deprecated topics & skills V2). "topics" contains slugs of the "Topic" type, "skills" contains slugs of the "Skill" type, "geoLocationId" contains the ID of a location as returned by the "geo_*" queries.
    * @deprecated Use engagementRecosV2 instead. (since v1.51)
    */
   appVolunteering_engagementRecos: AppVolunteering_EngagementRecosResponse
-  /** Retrieves a list of recommendations based on the request parameters "topics", "skills" and "geoLocationId" (using topics & skills V2). "topics" contains slugs of the "Topic" type, "skills" contains slugs of the "Skill" type, "geoLocationId" contains the ID of a location as returned by the "geo_*" queries. */
+  /**
+   * Retrieves a list of recommendations based on the request parameters "topics", "skills" and "geoLocationId" (using topics & skills V2). "topics" contains slugs of the "Topic" type, "skills" contains slugs of the "Skill" type, "geoLocationId" contains the ID of a location as returned by the "geo_*" queries.
+   * @deprecated Query engagements using typesense instead. (since v1.55)
+   */
   appVolunteering_engagementRecosV2: AppVolunteering_EngagementRecosResponse
   /** @deprecated Use filteredEngagementsV2 instead. (since v1.51) */
   appVolunteering_filteredEngagements: AppVolunteering_EngagementsResponse
+  /** @deprecated Query engagements using typesense instead. (since v1.55) */
   appVolunteering_filteredEngagementsV2: AppVolunteering_EngagementsResponse
+  /** @deprecated Query engagements using typesense instead. (since v1.55) */
   appVolunteering_similarRecommendations: AppVolunteering_EngagementsResponse
   appointment: Appointment
   appointments: AppointmentPaged
@@ -2303,11 +2328,13 @@ export type UpdateExternalLinkInput = {
 }
 
 export type UpdateFeedPostInput = {
+  aspectRatio?: InputMaybe<AspectRatio>
   categoryId?: InputMaybe<Scalars['UUID']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   existingImages?: InputMaybe<Array<InputMaybe<FeedPostImageMetadata>>>
   geolocation?: InputMaybe<GeolocationPointInput>
   image?: InputMaybe<Scalars['Upload']['input']>
+  imageUrls?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   language?: InputMaybe<Scalars['String']['input']>
   location?: InputMaybe<Scalars['String']['input']>
   newImages?: InputMaybe<Array<InputMaybe<FeedPostImageInput>>>
@@ -2493,6 +2520,50 @@ export enum VisibilityType {
   Members = 'MEMBERS',
   Public = 'PUBLIC',
 }
+
+export type FavoritesQueryVariables = Exact<{
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type FavoritesQuery = {
+  __typename?: 'Query'
+  favorites: {
+    __typename?: 'UserFavoritePaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'UserFavorite'
+      id: string
+      favoritableId: string
+      favoritableType: string
+      favoritable: {
+        __typename?: 'Insight'
+        id: string
+        title: string
+        description: string
+        datePublished: any
+        headerImage?: string
+        headerImageBlurhash?: string
+        initiatives: Array<{ __typename?: 'Initiative'; link: string }>
+        creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+      }
+    }>
+  }
+}
+
+export type FavoriteMutationVariables = Exact<{
+  favoritableId: Scalars['UUID']['input']
+  favoritableType: FavoritableType
+}>
+
+export type FavoriteMutation = { __typename?: 'Mutation'; favorite: { __typename?: 'Result'; success: boolean } }
+
+export type UnfavoriteMutationVariables = Exact<{
+  favoritableId: Scalars['UUID']['input']
+  favoritableType: FavoritableType
+}>
+
+export type UnfavoriteMutation = { __typename?: 'Mutation'; unfavorite: { __typename?: 'Result'; success: boolean } }
 
 export type TaskFragment = {
   __typename?: 'Task'
@@ -3033,6 +3104,145 @@ export const FullEventFragmentDoc = gql`
   }
 }
     `
+export const FavoritesDocument = gql`
+    query Favorites($offset: Int! = 0, $limit: Int! = 10) {
+  favorites(offset: $offset, limit: $limit) {
+    data {
+      id
+      favoritableId
+      favoritableType
+      favoritable {
+        ... on Insight {
+          id
+          title
+          description
+          datePublished
+          initiatives {
+            link
+          }
+          creator {
+            fullName
+            avatar
+          }
+          headerImage
+          headerImageBlurhash
+        }
+      }
+    }
+    totalResults
+  }
+}
+    `
+
+/**
+ * __useFavoritesQuery__
+ *
+ * To run a query within a React component, call `useFavoritesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoritesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoritesQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useFavoritesQuery(baseOptions?: Apollo.QueryHookOptions<FavoritesQuery, FavoritesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+}
+export function useFavoritesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+}
+export function useFavoritesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+}
+export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>
+export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>
+export type FavoritesSuspenseQueryHookResult = ReturnType<typeof useFavoritesSuspenseQuery>
+export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>
+export const FavoriteDocument = gql`
+    mutation Favorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
+  favorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+    `
+export type FavoriteMutationFn = Apollo.MutationFunction<FavoriteMutation, FavoriteMutationVariables>
+
+/**
+ * __useFavoriteMutation__
+ *
+ * To run a mutation, you first call `useFavoriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [favoriteMutation, { data, loading, error }] = useFavoriteMutation({
+ *   variables: {
+ *      favoritableId: // value for 'favoritableId'
+ *      favoritableType: // value for 'favoritableType'
+ *   },
+ * });
+ */
+export function useFavoriteMutation(
+  baseOptions?: Apollo.MutationHookOptions<FavoriteMutation, FavoriteMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<FavoriteMutation, FavoriteMutationVariables>(FavoriteDocument, options)
+}
+export type FavoriteMutationHookResult = ReturnType<typeof useFavoriteMutation>
+export type FavoriteMutationResult = Apollo.MutationResult<FavoriteMutation>
+export type FavoriteMutationOptions = Apollo.BaseMutationOptions<FavoriteMutation, FavoriteMutationVariables>
+export const UnfavoriteDocument = gql`
+    mutation Unfavorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
+  unfavorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+    `
+export type UnfavoriteMutationFn = Apollo.MutationFunction<UnfavoriteMutation, UnfavoriteMutationVariables>
+
+/**
+ * __useUnfavoriteMutation__
+ *
+ * To run a mutation, you first call `useUnfavoriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfavoriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfavoriteMutation, { data, loading, error }] = useUnfavoriteMutation({
+ *   variables: {
+ *      favoritableId: // value for 'favoritableId'
+ *      favoritableType: // value for 'favoritableType'
+ *   },
+ * });
+ */
+export function useUnfavoriteMutation(
+  baseOptions?: Apollo.MutationHookOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UnfavoriteMutation, UnfavoriteMutationVariables>(UnfavoriteDocument, options)
+}
+export type UnfavoriteMutationHookResult = ReturnType<typeof useUnfavoriteMutation>
+export type UnfavoriteMutationResult = Apollo.MutationResult<UnfavoriteMutation>
+export type UnfavoriteMutationOptions = Apollo.BaseMutationOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
 export const RecommendedTasksDocument = gql`
     query RecommendedTasks($limit: Int) {
   recommendedTasks(limit: $limit) {

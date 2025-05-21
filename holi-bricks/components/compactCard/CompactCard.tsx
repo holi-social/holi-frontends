@@ -27,6 +27,7 @@ export interface CompactCardProps {
   topIcon?: HoliIconType
   bottomIcon?: HoliIconType
   buttonIcon?: HoliIconType
+  topLabelRightIcon?: HoliIconType
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
   buttonIconVariant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
   minHeight?: number
@@ -38,6 +39,7 @@ export const CompactCard = (({
   topLabel,
   subtitle,
   topLabelIcon,
+  topLabelRightIcon,
   imageSrc,
   date: startDate,
   maxWidth,
@@ -81,11 +83,14 @@ export const CompactCard = (({
           <Stack gap="3xs" padding={{ right: '4xs', left: '4xs' }}>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
               {/* top row including label and buttonIcon */}
-              <Stack direction="row" gap="4xs">
-                {topLabelIcon && <HoliIcon icon={topLabelIcon} color="support" size={16} />}
-                <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support">
-                  {topLabel}
-                </Text>
+              <Stack direction="row" gap="4xs" justifyContent="space-between" flex={1}>
+                <Stack direction="row" gap="4xs">
+                  {topLabelIcon && <HoliIcon icon={topLabelIcon} color="support" size={16} />}
+                  <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support">
+                    {topLabel}
+                  </Text>
+                </Stack>
+                {topLabelRightIcon && <HoliIcon icon={topLabelRightIcon} size={16} />}
               </Stack>
               {buttonIcon && (
                 <ButtonIcon icon={buttonIcon} label="buttonIconLabel" size="sm" variant={buttonIconVariant} />

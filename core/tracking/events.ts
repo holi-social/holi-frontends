@@ -102,6 +102,17 @@ export namespace TrackingEvent {
     },
   })
 
+  export const Favorites = {
+    navigateToFavorited: ({ type, id }: { type: string; id: string }) => ({
+      name: 'favorites_navigateToFavorited',
+      properties: {
+        type,
+        id,
+      },
+      ...versionOne,
+    }),
+  }
+
   export const SpaceAskQuestion = {
     askedQuestion: {
       name: 'space_askQuestionButton_pressed',
