@@ -3,12 +3,13 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
+import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { Platform } from 'react-native'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 const logger = getLogger('Auth')
 
@@ -25,7 +26,7 @@ interface LogoutOptions {
 export const isLoggingOutVar = makeVar(false)
 
 export const useLogout = () => {
-  const loginState = useLoginState()
+  const { isLoggedOut, user } = useLoggedInUser()
   const isLoggingOut = useReactiveVar(isLoggingOutVar)
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -51,7 +52,7 @@ export const useLogout = () => {
         }
       }
 
-      if (isLoggingOut || loginState.isLoggedOut) {
+      if (isLoggingOut || isLoggedOut) {
         if (!skipRedirect) {
           redirect()
         }
@@ -62,7 +63,7 @@ export const useLogout = () => {
       try {
         if (!skipLogoutFlow) {
           const session = await getSessionFromStorage()
-          await submitLogoutFlow({ session_token: session?.session_token || '' })
+          await submitLogoutFlow({ sessionToken: session?.session_token, isOidc: user?.isOidc })
         }
         clearOnboardingState()
         await setLoginStateLoggedOut()
@@ -89,7 +90,7 @@ export const useLogout = () => {
         }
       }
     },
-    [isLoggingOut, loginState, navigate, client, openToast, t]
+    [isLoggingOut, isLoggedOut, navigate, client, openToast, t, user?.isOidc]
   )
 
   return {

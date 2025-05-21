@@ -5767,6 +5767,7 @@ __metadata:
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/datetimepicker": "npm:8.2.0"
     "@react-native-community/netinfo": "npm:11.4.1"
+    "@react-native-google-signin/google-signin": "npm:^14.0.1"
     "@react-native-masked-view/masked-view": "npm:0.3.2"
     "@react-navigation/bottom-tabs": "npm:^6.4.0"
     "@react-navigation/native": "npm:^6.0.13"
@@ -5815,6 +5816,7 @@ __metadata:
     intl: "npm:^1.2.5"
     jest-each: "npm:^29.6.3"
     jest-mock-extended: "npm:^3.0.5"
+    jwt-decode: "npm:^4.0.0"
     lodash.at: "npm:^4.6.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
@@ -8266,6 +8268,23 @@ __metadata:
   version: 4.5.5
   resolution: "@react-native-community/slider@npm:4.5.5"
   checksum: 10c0/78c3364c072bbc82300612a625bced682b666145dce229e7beb87f93dde5f66a955e1cca4848f662f1a9d2246f26d4717ece5d4f86cd350a295db184c024002b
+  languageName: node
+  linkType: hard
+
+"@react-native-google-signin/google-signin@npm:^14.0.1":
+  version: 14.0.1
+  resolution: "@react-native-google-signin/google-signin@npm:14.0.1"
+  peerDependencies:
+    expo: ">=52.0.40"
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/fe816f80608b031401e423628f4584d525acbf4ef71b6d97ee6397545969d21d8eafe6ff0e6529c60cca1245863bcead9495a074563488b3f0137449c16bb9e7
   languageName: node
   linkType: hard
 
@@ -14621,24 +14640,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001646":
-  version: 1.0.30001660
-  resolution: "caniuse-lite@npm:1.0.30001660"
-  checksum: 10c0/d28900b56c597176d515c3175ca75c454f2d30cb2c09a44d7bdb009bb0c4d8a2557905adb77642889bbe9feb85fbfe9d974c8b8e53521fb4b50ee16ab246104e
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001663":
-  version: 1.0.30001668
-  resolution: "caniuse-lite@npm:1.0.30001668"
-  checksum: 10c0/247b3200aeec55038f3a11f3e6ab66f656c54d30df7b01d8d447efaba9af96ad3e17128da2ddd42ddc9cb6c286bac65b634a20955b3cc6619be7ca4601fddc8e
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001688":
-  version: 1.0.30001700
-  resolution: "caniuse-lite@npm:1.0.30001700"
-  checksum: 10c0/3d391bcdd193208166d3ad759de240b9c18ac3759dbd57195770f0fcd2eedcd47d5e853609aba1eee5a2def44b0a14eee457796bdb3451a27de0c8b27355017c
+"caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001646, caniuse-lite@npm:^1.0.30001663, caniuse-lite@npm:^1.0.30001688":
+  version: 1.0.30001718
+  resolution: "caniuse-lite@npm:1.0.30001718"
+  checksum: 10c0/67f9ad09bc16443e28d14f265d6e468480cd8dc1900d0d8b982222de80c699c4f2306599c3da8a3fa7139f110d4b30d49dbac78f215470f479abb6ffe141d5d3
   languageName: node
   linkType: hard
 

@@ -3,9 +3,9 @@ module.exports = {
   preset: 'jest-expo',
   testTimeout: 30000,
   transform: {
-    '^.+\\.jsx$': 'babel-jest',
-    '^.+\\.tsx?$': 'babel-jest',
-    '^.+\\.mjs$': 'babel-jest',
+    '^.+\\.jsx$': ['babel-jest', { caller: { preserveEnvVars: true, platform: 'ios' } }],
+    '^.+\\.tsx?$': ['babel-jest', { caller: { preserveEnvVars: true, platform: 'ios' } }],
+    '^.+\\.mjs$': ['babel-jest', { caller: { preserveEnvVars: true, platform: 'ios' } }],
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/jestFileTransformer.cjs',
   },
@@ -25,6 +25,7 @@ module.exports = {
     '<rootDir>/jest.setup.chat.ts',
     '<rootDir>/node_modules/jest-offline',
     '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js',
+    '<rootDir>/node_modules/@react-native-google-signin/google-signin/jest/build/jest/setup.js',
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   transformIgnorePatterns: [

@@ -1,22 +1,40 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
 import type {
   LoginFlow,
-  PerformNativeLogoutBody,
   RecoveryFlow,
   SettingsFlow,
   UiText,
   UpdateLoginFlowBody,
+  UpdateLoginFlowWithOidcMethod,
+  UpdateRegistrationFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
 import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { jwtDecode, type JwtPayload } from 'jwt-decode'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import * as AuthSession from 'expo-auth-session'
 import * as WebBrowser from 'expo-web-browser'
+import { getLogger } from '@holi/core/helpers/logging'
+import { config } from '@holi/mobile/config'
+
+type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
+type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
+
+const logger = getLogger('Auth')
 
 const userSessionName = 'user_session'
+
+export const initSocialLogin = () => {
+  GoogleSignin.configure({
+    webClientId: config.socialLogin.googleWebClientId,
+    scopes: ['email', 'profile'],
+    iosClientId: config.socialLogin.googleIosClientId,
+  })
+}
 
 export const syncUserSessionFromOrySession = async () => {
   // nothing to do on mobile
@@ -87,13 +105,60 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 }
 
-export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
-  newKratosSdk()
-    .updateLoginFlow(
-      { flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody: payload },
-      { withCredentials: false }
-    )
+const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
+  try {
+    const hasPlayServices = await GoogleSignin.hasPlayServices()
+    if (!hasPlayServices) {
+      throw new Error('Can not sign in with google: Play services not available')
+    }
+    const response = await GoogleSignin.signIn()
+    logger.debug('doGoogleLogin', 'GoogleSignin response', response)
+
+    if (response.type === 'success') {
+      const idToken = response.data.idToken
+      if (!idToken) {
+        throw new Error('ID token missing from Google sign in response')
+      }
+      const idTokenPayload = jwtDecode<JwtPayloadWithNonce>(idToken)
+      logger.debug('doGoogleLogin', 'GoogleSignin response id token payload', idTokenPayload)
+      return {
+        id_token: idToken,
+        id_token_nonce: idTokenPayload.nonce,
+      }
+    } else {
+      throw Error('Google Sign-In was cancelled by the user')
+    }
+  } catch (error) {
+    logger.debug('doGoogleLogin', 'GoogleSignin error', error)
+    throw Error(`Google Sign-In failed ${error}`)
+  }
+}
+
+export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
+  payload: T,
+  provider?: string
+): Promise<T> => {
+  if (provider === 'Google' && payload.method === 'oidc') {
+    const partialBody = await doGoogleLogin()
+    return {
+      ...payload,
+      ...partialBody,
+    }
+  }
+  return payload
+}
+
+export const submitLoginFlow = async (
+  flow: LoginFlow,
+  payload: UpdateLoginFlowBody,
+  provider?: string,
+  sessionToken?: string
+) => {
+  const updateLoginFlowBody = await retrieveSubmitFlowBody(payload, provider)
+  return newKratosSdk()
+    .updateLoginFlow({ flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody }, { withCredentials: false })
     .catch(handleKratosSdkError('updateLoginFlow'))
+}
 
 /**
  *
@@ -131,10 +196,18 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
 }
 
 // Logout
-export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {
-  if (payload.session_token) {
+export const submitLogoutFlow = async ({ sessionToken, isOidc }: { sessionToken?: string; isOidc?: boolean }) => {
+  if (isOidc) {
+    // Currently Google is the only supported OIDC provider
+    await GoogleSignin.signOut()
+  }
+  if (sessionToken) {
     return newKratosSdk()
-      .performNativeLogout({ performNativeLogoutBody: payload })
+      .performNativeLogout({
+        performNativeLogoutBody: {
+          session_token: sessionToken ?? '',
+        },
+      })
       .catch(handleKratosSdkError('performNativeLogout'))
   }
 }

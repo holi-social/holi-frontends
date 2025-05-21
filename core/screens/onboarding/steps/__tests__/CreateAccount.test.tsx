@@ -18,6 +18,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ApolloClient } from '@apollo/client'
+import type { UpdateRegistrationFlowBody } from '@ory/kratos-client'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -46,6 +47,7 @@ jest.mock('@holi/core/auth/helpers/auth', () => ({
   getVerificationFlowFromRegistration: jest.fn(),
   doBrowserLogin: jest.fn(),
   doLogin: jest.fn(),
+  retrieveSubmitFlowBody: (payload: UpdateRegistrationFlowBody) => Promise.resolve(payload),
 }))
 
 const mockSetVerificationFlowData = setVerificationFlowData as unknown as jest.Mock
