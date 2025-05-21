@@ -241,6 +241,8 @@
   "favorites.noResults.title": "No keine Favoriten gespeichert",
   "favorites.noResults.browse": "Ehrenämter ansehen",
   "favorites.noResults.link": "oder Insights lesen",
+  "favorites.noResults.imageAlt": "Illustration eines mit Lesezeichen markierten Dokuments mit Sternen – symbolisiert gespeicherte Favoriten.",
+  "profile.settings.favorites.insights.title": "Insights",
   "favorites.remove.favorite.button": "Aus Favoriten entfernen",
   "favorites.seeAll.button": "Alle Favoriten einsehen",
   "filePicker.error.maxFileSize": "Die hochgeladene Datei ist größer als {{size}}MB",
