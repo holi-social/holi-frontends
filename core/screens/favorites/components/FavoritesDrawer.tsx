@@ -7,15 +7,14 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { UnfavoriteResponse, unfavoriteMutation } from '@holi/core/screens/favorites/mutation'
 import { favoritesQuery } from '@holi/core/screens/favorites/queries'
-import { Favorites } from '@holi/core/screens/favorites/types'
 import { insightById } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
 import { Bookmark2Line, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
+import { Insight, UserFavorite } from '@holi/api/graphql/graphql-codegen'
 
 type FavoriteDrawerProps = {
-  item: Favorites
+  item: UserFavorite
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
 }

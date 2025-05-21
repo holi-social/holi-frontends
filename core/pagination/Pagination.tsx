@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import usePaginationQuery, { type PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import type { Favorites } from '@holi/core/screens/favorites/types'
 import { Button, type ButtonProps } from 'holi-bricks/components/button'
 import { View, type ViewStyle } from 'react-native'
 import type { StyleProp } from 'react-native'
@@ -49,7 +48,7 @@ export function Pagination({
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
 
-  const { loading, data, error, totalResults, fetchNextPage, canFetchMore, refetch } = usePaginationQuery<Favorites>(
+  const { loading, data, error, totalResults, fetchNextPage, canFetchMore, refetch } = usePaginationQuery(
     query,
     queryOptions
   )
