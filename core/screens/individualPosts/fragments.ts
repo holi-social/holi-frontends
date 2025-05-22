@@ -22,6 +22,7 @@ export const FeedPostDetailsFragment = gql`
       id
       title
       label
+      slug
     }
     createdAt
     imageUrl: image
