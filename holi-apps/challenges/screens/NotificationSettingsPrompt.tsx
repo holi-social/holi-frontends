@@ -15,7 +15,7 @@ type NotificationSettingsPromptProps = {
   onPromptChanged: (show: boolean) => void
 }
 
-const NotificationSettingsPrompt = async ({ prompt, onPromptChanged }: NotificationSettingsPromptProps) => {
+const NotificationSettingsPrompt = ({ prompt, onPromptChanged }: NotificationSettingsPromptProps) => {
   const { isEligible } = useNotificationEligibility()
   const [modalVisible, setModalVisible] = useState(false)
   const { t } = useTranslation()
