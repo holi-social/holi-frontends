@@ -24,7 +24,7 @@ if [ "$CHECK_VERSION_RELEASED" = "true" ]; then
       android ) VERSION_SELECTOR='.android.versionCode';;
       * ) echo "unknown build platform $BUILD_PLATFORM"; exit 1;;
   esac
-  CURRENT_VERSION=$(expo config --json 2>/dev/null | jq -r $VERSION_SELECTOR)
+  CURRENT_VERSION=$(yarn run expo config --json 2>/dev/null | jq -r $VERSION_SELECTOR)
   LAST_STATUS=$(eas build:list --json --non-interactive --platform "$BUILD_PLATFORM" --buildProfile "$BUILD_PROFILE" --limit=1 --app-build-version="$CURRENT_VERSION" 2>/dev/null | jq -r '.[0].status')
   if [ "$LAST_STATUS" != "null" ] && [ "$LAST_STATUS" != "ERRORED" ] && [ "$LAST_STATUS" != "CANCELED" ]; then
     echo "$BUILD_PLATFORM app build version \"$CURRENT_VERSION\" is/was already built (status $LAST_STATUS). Did you forget to increment app versions?"
