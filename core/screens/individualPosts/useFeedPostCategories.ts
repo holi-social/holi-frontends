@@ -82,7 +82,8 @@ const useFeedPostCategories = () => {
 
     const isGoodDeed = category.slug === 'good-deed'
     const isFounderUpdate = category.slug === 'founder-update'
-    const canSeeGoodDeed = user?.role === 'COMMUNITY_MANAGER' || user?.role === 'EDITOR'
+    const canSeeGoodDeed =
+      user?.role === 'COMMUNITY_MANAGER' || user?.role === 'EDITOR' || user?.role === 'COMMUNITY_TEAM'
     const canSeeFounderUpdate = user?.role === 'CO_FOUNDER'
 
     if ((isGoodDeed && !canSeeGoodDeed) || (isFounderUpdate && !canSeeFounderUpdate)) return acc
