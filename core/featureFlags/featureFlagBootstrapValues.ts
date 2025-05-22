@@ -31,7 +31,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.EVENTS]: false,
     [FeatureFlagKey.CHALLENGES_CAROUSEL]: false,
     [FeatureFlagKey.TYPESENSE_RECOS]: false,
-    [FeatureFlagKey.SOCIAL_LOGIN]: false,
+    [FeatureFlagKey.SOCIAL_LOGIN]: true,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
