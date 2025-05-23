@@ -15,6 +15,7 @@ export const FeedPostSchema = z.object({
   visibility: z.string() /* VisibilityLevel */,
   image: z.instanceof(Object).optional().nullable(),
   images: z.array(z.instanceof(Object)).max(10).optional().nullable(),
+  imageUrls: z.array(z.string()).max(10).optional().nullable(),
   existingImages: z.array(z.string()).max(10).optional().nullable(),
   newImages: z.array(z.instanceof(Object)).max(10).optional().nullable(),
   postId: z.string().optional(), // for edit post

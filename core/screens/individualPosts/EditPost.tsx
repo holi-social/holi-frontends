@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +13,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { type UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import {
@@ -22,13 +21,12 @@ import {
   myPostsQuery,
   postQuery,
 } from '@holi/core/screens/individualPosts/queries'
-import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
+import { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -54,14 +52,12 @@ const EditPost = () => {
   const { openToast } = useToast()
 
   const { loading: categoriesLoading, categories } = useFeedPostCategories()
-
+  const [imageUrls, setImageUrls] = useState<string[]>([])
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
   const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio.SIXTEEN_NINE)
   const [description, setDescription] = useState<string>()
   const [title, setTitle] = useState<string>('')
-  const [images, setImages] = useState<HoliImageInfo[] | null>([])
-  const [currentImages, setCurrentImages] = useState<FeedPostImage[]>()
   const [selectedTopics, setSelectedTopics] = useState<string[] | []>()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -91,11 +87,9 @@ const EditPost = () => {
 
     refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
-  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
   const editPost = async () => {
     setSubmitting(true)
-    const { data } = await detectLanguage({ variables: { text: description } })
 
     updateFeedPost({
       variables: {
@@ -105,22 +99,9 @@ const EditPost = () => {
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
           postId: post?.id,
-          existingImages: (currentImages || []).map((image, index) => ({
-            id: image.id,
-            order: index,
-            altText: typeof image.altText === 'string' ? image.altText : '',
-            aspectRatio: aspectRatio,
-          })),
-          newImages:
-            images !== null
-              ? images.map((_image, index) => ({
-                  image: _image.blob,
-                  order: index + (currentImages?.length || 0),
-                  aspectRatio: aspectRatio,
-                }))
-              : images,
+          imageUrls,
           topicsV2: selectedTopics,
-          language: data?.detectedLanguage,
+
           location: selectedLocation?.label || '',
           geolocation: {
             latitude: selectedLocation?.coordinates?.latitude || 0,
@@ -146,7 +127,7 @@ const EditPost = () => {
     if (post) {
       setTitle(post.title)
       setDescription(post.description)
-      setCurrentImages(post.images)
+      setImageUrls(post.imageUrls || [])
       setSelectedCategoryId(post.category?.id || null)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topicsV2)
@@ -192,10 +173,8 @@ const EditPost = () => {
             onChangeTitle={setTitle}
             description={description || post?.description}
             onChangeDescription={setDescription}
-            images={images || []}
-            currentImages={currentImages}
-            onChangeImages={setImages}
-            onChangeCurrentImages={setCurrentImages}
+            imageUrls={imageUrls}
+            onChangeImageUrls={setImageUrls}
             mentions={post?.mentionedUsers}
             selectedCategoryId={selectedCategoryId}
             onChangeSelectedCategoryId={setSelectedCategoryId}

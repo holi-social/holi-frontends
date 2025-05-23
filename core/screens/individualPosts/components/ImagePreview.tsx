@@ -13,11 +13,12 @@ type ImagePreviewProps = {
   style?: ViewStyle
   image?: HoliImageInfo | null
   currentImage?: string // used for edit mode - when we only have a uri and no HoliImageInfo
+  imageUrl?: string // used for uploaded images from ImageKit
   blurhash?: string
   aspectRatio?: number
 }
 
-const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 / 9 }: ImagePreviewProps) => {
+const ImagePreview = ({ style, image, currentImage, imageUrl, blurhash, aspectRatio = 16 / 9 }: ImagePreviewProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const [imageError, setImageError] = React.useState(false)
@@ -31,7 +32,7 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
           <HoliSkeleton width={'100%'} height={'100%'} borderRadius={Spacing['3xs']} />
         </View>
       )}
-      {(image || currentImage) && (
+      {(image || currentImage || imageUrl) && (
         <View style={[styles.container, style]}>
           {!imageError && image && (
             <HoliImage
@@ -48,6 +49,17 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
             <HoliImage
               label={t('global.imagePreview.image')}
               source={{ uri: currentImage }}
+              resizeMode="cover"
+              style={styles.image}
+              blurhash={blurhash}
+              onError={() => setImageError(true)}
+              onLoadEnd={() => setIsLoading(false)}
+            />
+          )}
+          {!imageError && !image && !currentImage && imageUrl && (
+            <HoliImage
+              label={t('global.imagePreview.image')}
+              source={{ uri: imageUrl }}
               resizeMode="cover"
               style={styles.image}
               blurhash={blurhash}

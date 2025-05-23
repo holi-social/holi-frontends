@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
-import { Insight } from '@holi/core/screens/insights/types'
-import { Paged } from '@holi/core/types'
+import type { Insight } from '@holi/core/screens/insights/types'
+import type { Paged } from '@holi/core/types'
 
 // Report Content query
 export enum ContentType {

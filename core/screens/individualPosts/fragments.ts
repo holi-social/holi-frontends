@@ -27,6 +27,8 @@ export const FeedPostDetailsFragment = gql`
     createdAt
     imageUrl: image
     imageBlurhash
+    imageUrls
+    aspectRatio
     images {
       id
       image

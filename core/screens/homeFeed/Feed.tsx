@@ -35,8 +35,8 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { SURVEY_URL } from '@holi/core/constants/urls'
-import { FeedPost } from '@holi/core/screens/individualPosts/types'
-import { Post } from '@holi/core/screens/posts/types'
+import type { FeedPost } from '@holi/core/screens/individualPosts/types'
+import type { Post } from '@holi/core/screens/posts/types'
 
 const HomeFeed = () => {
   const { t } = useTranslation()

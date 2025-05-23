@@ -1,4 +1,5 @@
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
+import type { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import type { Space } from '@holi/core/screens/spaces/types'
 import type { Paged } from '@holi/core/types'
 
@@ -46,6 +47,8 @@ export interface Post {
   commentsEnabled?: boolean
   publicReactions?: boolean
   isEdited?: boolean
+  imageUrls?: string[]
+  aspectRatio?: ImageAspectRatio
   isClosed?: boolean
   isDeleted?: boolean
   location?: string

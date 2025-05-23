@@ -1,5 +1,5 @@
 import type { User } from '@holi/core/domain/shared/types'
-import { Poll } from '@holi/core/screens/polls/types'
+import type { Poll } from '@holi/core/screens/polls/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {
@@ -67,6 +67,8 @@ export interface FeedPost {
   title: string
   description: string
   imageUrl?: string
+  imageUrls?: string[]
+  aspectRatio?: ImageAspectRatio
   images?: FeedPostImage[]
   visibility: VisibilityLevel
   location?: string
