@@ -16,21 +16,23 @@ export const SubmitPostBar = ({
   onSubmit,
   showLocationModal,
   showEditImagesModal,
+  loadingImageUpload,
   submitting,
   isSubmittable,
   isEdit,
-  images,
-  setImages,
+  handleImageUpload,
   currentImages,
+  imageUrls = [],
 }: {
   onSubmit: () => void
   showLocationModal: () => void
   showEditImagesModal: () => void
+  loadingImageUpload?: boolean
   submitting: boolean
   isSubmittable: boolean
   isEdit: boolean
-  images: HoliImageInfo[]
-  setImages: (images: HoliImageInfo[]) => void
+  imageUrls: string[]
+  handleImageUpload: (images: HoliImageInfo[]) => void
   currentImages?: FeedPostImage[]
 }) => {
   const { t } = useTranslation()
@@ -42,8 +44,8 @@ export const SubmitPostBar = ({
     <View style={styles.menuContainer}>
       <View style={styles.items}>
         <View style={styles.iconContainer}>
-          {[...images, ...(currentImages || [])].length === 0 && (
-            <HoliImagePicker // todo: use buttonIcon instead of Button with empty label
+          {[...imageUrls, ...(currentImages || [])].length === 0 && (
+            <HoliImagePicker
               allowsMultipleSelection
               fileSizeLimitation={{
                 type: 'resize',
@@ -55,20 +57,22 @@ export const SubmitPostBar = ({
                 label: t('individuals.post.images.add'),
                 icon: ImageAdd,
                 size: 'lg',
+                loading: loadingImageUpload,
               }}
               buttonIconOnly
-              onPickImages={setImages}
+              onPickImages={handleImageUpload}
             />
           )}
-          {[...images, ...(currentImages || [])].length > 0 && (
+          {!loadingImageUpload && [...imageUrls, ...(currentImages || [])].length > 0 && (
             <ButtonIcon
               transparent
               onPress={showEditImagesModal}
-              label={t('individuals.post.input.location.title')}
+              label={t('individuals.post.images.add')}
               icon={ImageEdit}
               size="lg"
             />
           )}
+
           <ButtonIcon
             transparent
             onPress={showLocationModal}
@@ -84,7 +88,7 @@ export const SubmitPostBar = ({
           size="sm"
           onPress={onSubmit}
           loading={submitting}
-          disabled={!isSubmittable || submitting}
+          disabled={!isSubmittable || submitting || loadingImageUpload}
         />
       </View>
     </View>

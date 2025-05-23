@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,6 @@ import type { GeolocationSuggestion } from '@holi/core/geolocation/components/Pl
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { type CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
@@ -20,7 +19,6 @@ import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardMod
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
@@ -49,7 +47,7 @@ const CreatePost = () => {
   const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio.SIXTEEN_NINE)
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
-  const [images, setImages] = useState<HoliImageInfo[]>([])
+  const [imageUrls, setImageUrls] = useState<string[]>([])
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
@@ -67,11 +65,9 @@ const CreatePost = () => {
     refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }, { query: feedQuery }],
   })
 
-  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
-
   const createPost = async () => {
     setSubmitting(true)
-    const { data } = await detectLanguage({ variables: { text: description } })
+
     createFeedPost({
       variables: {
         input: {
@@ -80,11 +76,9 @@ const CreatePost = () => {
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
           topicsV2: selectedTopics,
-          language: data?.detectedLanguage,
           location: selectedLocation?.label,
-          images: images.map((_image, index) => {
-            return { image: _image.blob, order: index, aspectRatio }
-          }),
+          aspectRatio,
+          imageUrls,
           geolocation: selectedLocation
             ? {
                 latitude: selectedLocation.coordinates?.latitude,
@@ -138,11 +132,11 @@ const CreatePost = () => {
         <>
           <PostInputForm
             title={title}
+            imageUrls={imageUrls}
+            onChangeImageUrls={setImageUrls}
             onChangeTitle={setTitle}
             description={description}
             onChangeDescription={setDescription}
-            images={images}
-            onChangeImages={setImages}
             selectedCategoryId={selectedCategoryId}
             onChangeSelectedCategoryId={setSelectedCategoryId}
             selectedVisibility={selectedVisibility}

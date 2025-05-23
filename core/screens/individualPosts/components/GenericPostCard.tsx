@@ -208,6 +208,20 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
         {!isPoll && !!feedPost.images && !!feedPost.images.length && (
           <ImageCarousel images={feedPost.images} style={styles.imageCarousel} onPressItem={goToDetailView} />
         )}
+        {!!feedPost.imageUrls && !!feedPost.imageUrls.length && (
+          <ImageCarousel
+            images={feedPost.imageUrls.map((imageUrl) => ({
+              id: imageUrl,
+              image: imageUrl,
+              imageBlurhash: '',
+              order: 0,
+              altText: '',
+              aspectRatio: feedPost?.aspectRatio,
+            }))}
+            style={styles.imageCarousel}
+            onPressItem={goToDetailView}
+          />
+        )}
 
         {!isPoll && !feedPost.imageUrl && !!feedPost.linkPreview && (
           <HoliLinkPreview

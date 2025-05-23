@@ -9,6 +9,7 @@ import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import type { User } from '@holi/core/domain/shared/types'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { useImageKit } from '@holi/core/hooks/useImageKit'
 import { CategorySelectionModal } from '@holi/core/screens/individualPosts/components/CategorySelectionModal'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
@@ -36,6 +37,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -52,8 +54,7 @@ export enum Visibility {
 export interface PostInputFormProps {
   title: string
   description?: string
-  images: HoliImageInfo[]
-  currentImages?: FeedPostImage[]
+  imageUrls: string[]
   selectedVisibility: Visibility
   selectedCategoryId: string | null
   selectedTopics?: string[]
@@ -61,7 +62,7 @@ export interface PostInputFormProps {
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
-  onChangeImages: (_: HoliImageInfo[]) => void
+  onChangeImageUrls: (_: string[]) => void
   onChangeCurrentImages?: (images: FeedPostImage[]) => void
   onChangeSelectedTopics: (_: string[]) => void
   onChangeSelectedCategoryId: (_: string) => void
@@ -80,8 +81,7 @@ export interface PostInputFormProps {
 const PostInputForm: React.FC<PostInputFormProps> = ({
   title,
   description,
-  images,
-  currentImages,
+  imageUrls,
   mentions = [],
   selectedVisibility,
   selectedCategoryId,
@@ -90,8 +90,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
-  onChangeImages,
-  onChangeCurrentImages,
+  onChangeImageUrls,
   aspectRatio,
   onChangeAspectRatio,
   onChangeSelectedTopics,
@@ -104,7 +103,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
-
+  const { uploadImage } = useImageKit()
+  const [loadingImageUpload, setLoadingImageUpload] = useState(false)
+  const { openToast } = useToast()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
@@ -124,6 +125,24 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     })
     setIsSubmittable(formDataParseResult.success)
   }, [title, description, selectedVisibility, selectedCategoryId])
+
+  const handleImageUpload = async (newImages: HoliImageInfo[]) => {
+    setLoadingImageUpload(true)
+    try {
+      const uploadedUrls = await Promise.all(
+        newImages.map(async (image) => {
+          const fileName = `post-image-${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`
+          return uploadImage(image, fileName)
+        })
+      )
+      onChangeImageUrls([...imageUrls, ...uploadedUrls])
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      openToast(t('individuals.post.input.error'), HoliToastType.ERROR)
+    } finally {
+      setLoadingImageUpload(false)
+    }
+  }
 
   const visibilityOptions: HoliModalSelectOption<Visibility>[] = [
     {
@@ -165,15 +184,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         hasSuggestions
         bottomBar={
           <SubmitPostBar
+            loadingImageUpload={loadingImageUpload}
             onSubmit={onSubmit}
             showLocationModal={showLocationModal}
             showEditImagesModal={showEditImagesModal}
             submitting={submitting}
             isSubmittable={isSubmittable}
             isEdit={isEdit}
-            images={images}
-            currentImages={currentImages}
-            setImages={onChangeImages}
+            handleImageUpload={handleImageUpload}
+            imageUrls={imageUrls}
           />
         }
       >
@@ -236,62 +255,48 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               </View>
             )}
 
-            {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
+            {(imageUrls?.length || 0) > 0 && (
               <View style={styles.imageContainer}>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  label={t('global.edit')}
-                  inline
-                  onPress={showEditImagesModal}
-                  icon={Edit2}
-                />
+                <View style={styles.editButtonContainer}>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    label={t('global.edit')}
+                    inline
+                    onPress={showEditImagesModal}
+                    icon={Edit2}
+                  />
+                </View>
                 {Platform.OS !== 'web' && (
                   <HoliCarousel
                     marginHorizontal={Spacing.sm}
                     style={styles.imageCarousel}
-                    slides={[...(currentImages || []), ...images].map((image, index) => {
-                      // differentiate types between FeedPostImage and HoliImageInfo
-                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
-                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
-                      return {
+                    slides={[
+                      ...imageUrls.map((url, index) => ({
                         children: (
                           <ImagePreview
-                            key={index}
-                            image={imageInfo}
-                            currentImage={feedPostImage?.image}
+                            key={`uploaded-${index}`}
+                            imageUrl={url}
                             aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
                           />
                         ),
-                      }
-                    })}
+                      })),
+                    ]}
                   />
                 )}
 
                 {Platform.OS === 'web' && (
-                  <View
-                    style={[
-                      styles.imageGrid,
-                      [...(currentImages || []), ...images].length < 2 ? { justifyContent: 'flex-end' } : {},
-                    ]}
-                  >
-                    {[...(currentImages || []), ...images].map((image, index) => {
-                      // differentiate types between FeedPostImage and HoliImageInfo
-                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
-                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
-                      return (
-                        <View key={index} style={styles.imageGridItemWrapper}>
-                          <View style={styles.imageGridItem}>
-                            <ImagePreview
-                              key={index}
-                              image={imageInfo}
-                              currentImage={feedPostImage?.image}
-                              aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
-                            />
-                          </View>
+                  <View style={[styles.imageGrid, [...imageUrls].length < 2 ? { justifyContent: 'flex-end' } : {}]}>
+                    {imageUrls.map((url, index) => (
+                      <View key={`uploaded-${index}`} style={styles.imageGridItemWrapper}>
+                        <View style={styles.imageGridItem}>
+                          <ImagePreview
+                            imageUrl={url}
+                            aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                          />
                         </View>
-                      )
-                    })}
+                      </View>
+                    ))}
                   </View>
                 )}
               </View>
@@ -380,13 +385,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         testID="post-location-input"
       >
         <EditUploadedImages
-          images={images}
-          currentImages={currentImages}
-          setImages={onChangeImages}
-          setCurrentImages={onChangeCurrentImages}
+          imageUrls={imageUrls}
+          setImageUrls={onChangeImageUrls}
           onActionButtonPress={hideEditImagesModal}
           setAspectRatio={onChangeAspectRatio}
           aspectRatio={aspectRatio}
+          onPickImages={handleImageUpload}
         />
       </HoliModal>
       <CategorySelectionModal
@@ -424,6 +428,9 @@ const getStyles = (theme: HoliTheme) =>
     imageContainer: {
       paddingTop: Spacing.sm,
       alignItems: 'flex-end',
+    },
+    editButtonContainer: {
+      alignSelf: 'flex-end',
     },
     buttonIcon: {
       marginLeft: Spacing['4xs'],
