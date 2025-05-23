@@ -104,6 +104,18 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           />
         )}
         {!isPoll && !!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
+        {!!post.imageUrls?.length && (
+          <ImageCarousel
+            images={post.imageUrls.map((imageUrl) => ({
+              id: imageUrl,
+              image: imageUrl,
+              imageBlurhash: '',
+              order: 0,
+              altText: '',
+            }))}
+            style={styles.carousel}
+          />
+        )}
         {!isPoll && !!post.linkPreview && (
           <View style={styles.blockContainer}>
             <HoliLinkPreview previewData={post.linkPreview} />
