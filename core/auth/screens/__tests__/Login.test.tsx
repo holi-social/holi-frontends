@@ -14,6 +14,7 @@ import { type ApolloClient, useApolloClient } from '@apollo/client'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import type { SuccessfulNativeLogin } from '@ory/kratos-client'
 import type { AxiosResponse } from 'axios'
+import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -289,6 +290,14 @@ describe('Login', () => {
         displayMessage: 'auth.login.error.login',
         location: 'Login.doBrowserLogin',
       })
+    })
+
+    it('should not display an error when social login is cancelled', async () => {
+      mockSubmitLoginFlow.mockRejectedValue(new HoliLoginCancelledError('Test'))
+
+      await submitForm()
+
+      expect(displayError).not.toHaveBeenCalled()
     })
 
     it('should perform login on successful browser login', async () => {
