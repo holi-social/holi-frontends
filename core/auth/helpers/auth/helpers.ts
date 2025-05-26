@@ -20,6 +20,7 @@ import * as AuthSession from 'expo-auth-session'
 import * as WebBrowser from 'expo-web-browser'
 import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
+import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
@@ -126,9 +127,12 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
         id_token_nonce: idTokenPayload.nonce,
       }
     } else {
-      throw Error('Google Sign-In was cancelled by the user')
+      throw new HoliLoginCancelledError('Google Sign-In was cancelled by the user')
     }
   } catch (error) {
+    if (error instanceof HoliLoginCancelledError) {
+      throw error
+    }
     logger.debug('doGoogleLogin', 'GoogleSignin error', error)
     throw Error(`Google Sign-In failed ${error}`)
   }
