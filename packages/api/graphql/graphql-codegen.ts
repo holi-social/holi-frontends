@@ -28,6 +28,7 @@ export type Scalars = {
   GeoJSON: { input: any; output: any }
   GeoJSONInput: { input: any; output: any }
   Geo_GeoJSON: { input: any; output: any }
+  JSON: { input: any; output: any }
   JSONObject: { input: any; output: any }
   UUID: { input: string; output: string }
   Upload: { input: any; output: any }
@@ -375,13 +376,6 @@ export type AuthenticatedUserConnectionStatusToSpaceArgs = {
   spaceId: Scalars['UUID']['input']
 }
 
-export enum BookmarkType {
-  Initiative = 'INITIATIVE',
-  Insight = 'INSIGHT',
-  Quote = 'QUOTE',
-  Recommendation = 'RECOMMENDATION',
-}
-
 /** Choice(id, poll, choice_text, votes, _order) */
 export type Choice = {
   __typename?: 'Choice'
@@ -569,6 +563,7 @@ export type CreateTaskInput = {
   description: Scalars['String']['input']
   duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
+  impact?: InputMaybe<Scalars['String']['input']>
   interactionSignupLink?: InputMaybe<Scalars['String']['input']>
   interactionType?: InputMaybe<InteractionType>
   location?: InputMaybe<Scalars['String']['input']>
@@ -828,8 +823,6 @@ export type Insight = {
   initiatives: Array<Initiative>
   /** A list of all users involved interacting with the insight (excluding the insight creator). Includes authors of all the posts and all commenters of any posts and discussions */
   involvedUsers: UserPaged
-  /** @deprecated This type has been renamed. Keep for backwards compatibility. Versions 1.14.XX */
-  isBookmarked: Scalars['Boolean']['output']
   isFavorite: Scalars['Boolean']['output']
   numberOfPosts: Scalars['Int']['output']
   polls: Array<Poll>
@@ -892,8 +885,6 @@ export type InsightPreviewPaged = {
   /** Total number of items in the filtered dataset. */
   totalResults: Scalars['Int']['output']
 }
-
-export type InsightQuoteRecommendationInitiative = Initiative | Insight | Quote | Recommendation
 
 export type InspirationPostCategory = {
   __typename?: 'InspirationPostCategory'
@@ -998,10 +989,6 @@ export type Mutation = {
   anonCount?: Maybe<Scalars['Void']['output']>
   appVolunteering_trackEngagementView: AppVolunteering_TrackEngagementViewResponse
   blockUser: Result
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmark: Result
-  /** @deprecated Use 'favorite' mutation instead. Keep for version <=1.14.5 */
-  bookmarkInsight: Result
   createAppointment: Appointment
   createFeedPost: FeedPost
   createPoll: Poll
@@ -1029,12 +1016,8 @@ export type Mutation = {
   moderation_createReport: Moderation_ReportConfirmation
   notifications_updatePreferences: Array<Maybe<Notifications_WorkflowPreferences>>
   registerDevice: Result
-  /** @deprecated Use 'unfavorite' mutation instead. Keep for version <=1.14.5 */
-  removeInsightBookmark: Result
   removeReactionFromComment: Comment
   reportContent: Result
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  unbookmark: Result
   unfavorite: Result
   unsubscribeFromNewsletter: Result
   updateAppointment: Appointment
@@ -1059,8 +1042,10 @@ export type Mutation = {
   /** When no userId is provided, the logged in user is used instead. */
   updateSpaceUserConnection: Space
   updateTask: Task
+  /** @deprecated Use vote_on_poll instead. */
   updateVotes: Choice
   validateSpace: Result
+  voteOnPoll: Result
 }
 
 export type MutationAddCollaborationToolArgs = {
@@ -1089,15 +1074,6 @@ export type MutationAppVolunteering_TrackEngagementViewArgs = {
 
 export type MutationBlockUserArgs = {
   userId: Scalars['UUID']['input']
-}
-
-export type MutationBookmarkArgs = {
-  bookmarkId: Scalars['UUID']['input']
-  bookmarkType: BookmarkType
-}
-
-export type MutationBookmarkInsightArgs = {
-  insightId: Scalars['UUID']['input']
 }
 
 export type MutationCreateAppointmentArgs = {
@@ -1194,10 +1170,6 @@ export type MutationRegisterDeviceArgs = {
   input: RegisterDeviceInput
 }
 
-export type MutationRemoveInsightBookmarkArgs = {
-  insightId: Scalars['UUID']['input']
-}
-
 export type MutationRemoveReactionFromCommentArgs = {
   input: CommentReactionInput
 }
@@ -1206,11 +1178,6 @@ export type MutationReportContentArgs = {
   contentType: ContentType
   description?: InputMaybe<Scalars['String']['input']>
   objectId: Scalars['UUID']['input']
-}
-
-export type MutationUnbookmarkArgs = {
-  bookmarkId: Scalars['UUID']['input']
-  bookmarkType: BookmarkType
 }
 
 export type MutationUnfavoriteArgs = {
@@ -1316,6 +1283,11 @@ export type MutationUpdateVotesArgs = {
 
 export type MutationValidateSpaceArgs = {
   input: ValidateSpaceInput
+}
+
+export type MutationVoteOnPollArgs = {
+  choiceIds: Array<Scalars['UUID']['input']>
+  pollId: Scalars['UUID']['input']
 }
 
 export type MySpaces = {
@@ -1456,14 +1428,16 @@ export enum PermissionType {
   Participants = 'PARTICIPANTS',
 }
 
-/** Poll(id, question_text, created, modified, creator, is_edited, is_closed, is_deleted, status, is_public) */
+/** Poll(id, question_text, created, modified, creator, is_edited, is_closed, is_deleted, status, is_public, is_multi_select, max_choices) */
 export type Poll = {
   __typename?: 'Poll'
   choices: Array<Choice>
   created: Scalars['DateTime']['output']
   creator: User
   id: Scalars['UUID']['output']
+  isMultiSelect: Scalars['Boolean']['output']
   isPublic: Scalars['Boolean']['output']
+  maxChoices: Scalars['Int']['output']
   modified: Scalars['DateTime']['output']
   questionText: Scalars['String']['output']
 }
@@ -1622,6 +1596,8 @@ export type Query = {
   topics: TopicPaged
   translation_detectLanguage: Scalars['String']['output']
   translation_translate: Scalars['String']['output']
+  typesense_documentById?: Maybe<Typesense_SearchResponse>
+  typesense_multiSearch?: Maybe<Typesense_MultiSearchResponse>
   userById?: Maybe<User>
   userByName: UserPaged
   userHasVotedByPollId: Scalars['Boolean']['output']
@@ -1924,6 +1900,15 @@ export type QueryTranslation_TranslateArgs = {
   text: Scalars['String']['input']
 }
 
+export type QueryTypesense_DocumentByIdArgs = {
+  documentType: Scalars['String']['input']
+  id: Scalars['String']['input']
+}
+
+export type QueryTypesense_MultiSearchArgs = {
+  input?: InputMaybe<Typesense_MultiSearchRequest_Input>
+}
+
 export type QueryUserByIdArgs = {
   id: Scalars['UUID']['input']
 }
@@ -2203,7 +2188,7 @@ export enum StatusType {
   Upcoming = 'UPCOMING',
 }
 
-/** Task(id, interaction_signup_link, name, description, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, interaction_type, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
+/** Task(id, interaction_signup_link, name, description, impact, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, interaction_type, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']
@@ -2214,6 +2199,7 @@ export type Task = {
   duration?: Maybe<Duration>
   geolocation?: Maybe<GeolocationPoint>
   id: Scalars['UUID']['output']
+  impact?: Maybe<Scalars['String']['output']>
   interactionSignupLink?: Maybe<Scalars['String']['output']>
   interactionType?: Maybe<InteractionType>
   location?: Maybe<Scalars['String']['output']>
@@ -2259,6 +2245,273 @@ export type TopicPaged = {
   data: Array<Maybe<Topic>>
   /** Total number of items in the filtered dataset. */
   totalResults: Scalars['Int']['output']
+}
+
+export type Typesense_Document = {
+  __typename?: 'Typesense_Document'
+  description_de?: Maybe<Scalars['String']['output']>
+  description_en?: Maybe<Scalars['String']['output']>
+  external_url?: Maybe<Scalars['String']['output']>
+  id: Scalars['String']['output']
+  image_url?: Maybe<Scalars['String']['output']>
+  link_locators?: Maybe<Typesense_DocumentLinkLocators>
+  location?: Maybe<Scalars['String']['output']>
+  location_lat_lng?: Maybe<Array<Maybe<Scalars['Float']['output']>>>
+  organizer_image_url?: Maybe<Scalars['String']['output']>
+  organizer_name?: Maybe<Scalars['String']['output']>
+  skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  source?: Maybe<Scalars['String']['output']>
+  title_de?: Maybe<Scalars['String']['output']>
+  title_en?: Maybe<Scalars['String']['output']>
+  topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  type: Typesense_DocumentType
+  user_full_name?: Maybe<Scalars['String']['output']>
+}
+
+export type Typesense_DocumentLinkLocators = {
+  __typename?: 'Typesense_DocumentLinkLocators'
+  profile?: Maybe<Scalars['String']['output']>
+  space?: Maybe<Scalars['String']['output']>
+  task?: Maybe<Scalars['String']['output']>
+  volunteering?: Maybe<Scalars['String']['output']>
+}
+
+export enum Typesense_DocumentType {
+  Profile = 'profile',
+  Space = 'space',
+  Task = 'task',
+  Volunteering = 'volunteering',
+}
+
+export enum Typesense_HttpMethod {
+  Connect = 'CONNECT',
+  Delete = 'DELETE',
+  Get = 'GET',
+  Head = 'HEAD',
+  Options = 'OPTIONS',
+  Patch = 'PATCH',
+  Post = 'POST',
+  Put = 'PUT',
+  Trace = 'TRACE',
+}
+
+export enum Typesense_MultiSearchRequestParamsDropTokensMode {
+  BothSides_3 = 'both_sides_3',
+  LeftToRight = 'left_to_right',
+  RightToLeft = 'right_to_left',
+}
+
+export enum Typesense_MultiSearchRequestParamsFacetStrategy {
+  Automatic = 'automatic',
+  Exhaustive = 'exhaustive',
+  TopValues = 'top_values',
+}
+
+export enum Typesense_MultiSearchRequestParamsTextMatchType {
+  MaxScore = 'max_score',
+  MaxWeight = 'max_weight',
+}
+
+/** JSON Schema for Typesense MultiSearchRequest */
+export type Typesense_MultiSearchRequest_Input = {
+  searches?: InputMaybe<Array<InputMaybe<Typesense_SearchParams_Input>>>
+}
+
+/** JSON Schema for Typesense SearchResponse */
+export type Typesense_MultiSearchResponse = {
+  __typename?: 'Typesense_MultiSearchResponse'
+  results: Array<Maybe<Typesense_SearchResponse>>
+}
+
+export enum Typesense_OperationMode {
+  Always = 'always',
+  Fallback = 'fallback',
+  Off = 'off',
+}
+
+/** JSON Schema for Typesense SearchParams */
+export type Typesense_SearchParams_Input = {
+  collection?: InputMaybe<Scalars['String']['input']>
+  conversation?: InputMaybe<Scalars['Boolean']['input']>
+  conversation_id?: InputMaybe<Scalars['String']['input']>
+  conversation_model_id?: InputMaybe<Scalars['String']['input']>
+  drop_tokens_mode?: InputMaybe<Typesense_MultiSearchRequestParamsDropTokensMode>
+  drop_tokens_threshold?: InputMaybe<Scalars['Float']['input']>
+  enable_analytics?: InputMaybe<Scalars['Boolean']['input']>
+  enable_highlight_v1?: InputMaybe<Scalars['Boolean']['input']>
+  enable_lazy_filter?: InputMaybe<Scalars['Boolean']['input']>
+  enable_overrides?: InputMaybe<Scalars['Boolean']['input']>
+  enable_synonyms?: InputMaybe<Scalars['Boolean']['input']>
+  exclude_fields?: InputMaybe<Scalars['String']['input']>
+  exhaustive_search?: InputMaybe<Scalars['Boolean']['input']>
+  facet_by?: InputMaybe<Scalars['String']['input']>
+  facet_query?: InputMaybe<Scalars['String']['input']>
+  facet_query_num_typos?: InputMaybe<Scalars['Int']['input']>
+  facet_return_parent?: InputMaybe<Scalars['String']['input']>
+  facet_sample_percent?: InputMaybe<Scalars['Float']['input']>
+  facet_sample_threshold?: InputMaybe<Scalars['Int']['input']>
+  facet_strategy?: InputMaybe<Typesense_MultiSearchRequestParamsFacetStrategy>
+  filter_by?: InputMaybe<Scalars['String']['input']>
+  filter_curated_hits?: InputMaybe<Scalars['Boolean']['input']>
+  group_by?: InputMaybe<Scalars['String']['input']>
+  group_limit?: InputMaybe<Scalars['Int']['input']>
+  group_missing_values?: InputMaybe<Scalars['Boolean']['input']>
+  hidden_hits?: InputMaybe<Scalars['String']['input']>
+  highlight_affix_num_tokens?: InputMaybe<Scalars['Int']['input']>
+  highlight_end_tag?: InputMaybe<Scalars['String']['input']>
+  highlight_fields?: InputMaybe<Scalars['String']['input']>
+  highlight_full_fields?: InputMaybe<Scalars['String']['input']>
+  highlight_start_tag?: InputMaybe<Scalars['String']['input']>
+  include_fields?: InputMaybe<Scalars['String']['input']>
+  infix?: InputMaybe<Typesense_OperationMode>
+  limit?: InputMaybe<Scalars['Int']['input']>
+  limit_hits?: InputMaybe<Scalars['Int']['input']>
+  max_candidates?: InputMaybe<Scalars['Int']['input']>
+  max_facet_values?: InputMaybe<Scalars['Int']['input']>
+  max_filter_by_candidates?: InputMaybe<Scalars['Int']['input']>
+  min_len_1typo?: InputMaybe<Scalars['Int']['input']>
+  min_len_2typo?: InputMaybe<Scalars['Int']['input']>
+  num_typos?: InputMaybe<Scalars['String']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  override_tags?: InputMaybe<Scalars['String']['input']>
+  page?: InputMaybe<Scalars['Int']['input']>
+  per_page?: InputMaybe<Scalars['Int']['input']>
+  pinned_hits?: InputMaybe<Scalars['String']['input']>
+  pre_segmented_query?: InputMaybe<Scalars['Boolean']['input']>
+  prefix?: InputMaybe<Scalars['String']['input']>
+  preset?: InputMaybe<Scalars['String']['input']>
+  prioritize_exact_match?: InputMaybe<Scalars['Boolean']['input']>
+  prioritize_num_matching_fields?: InputMaybe<Scalars['Boolean']['input']>
+  prioritize_token_position?: InputMaybe<Scalars['Boolean']['input']>
+  q?: InputMaybe<Scalars['String']['input']>
+  query_by?: InputMaybe<Scalars['String']['input']>
+  query_by_weights?: InputMaybe<Scalars['String']['input']>
+  rerank_hybrid_matches?: InputMaybe<Scalars['Boolean']['input']>
+  search_cutoff_ms?: InputMaybe<Scalars['Int']['input']>
+  snippet_threshold?: InputMaybe<Scalars['Float']['input']>
+  sort_by?: InputMaybe<Scalars['String']['input']>
+  split_join_tokens?: InputMaybe<Typesense_OperationMode>
+  stopwords?: InputMaybe<Scalars['String']['input']>
+  text_match_type?: InputMaybe<Typesense_MultiSearchRequestParamsTextMatchType>
+  typo_tokens_threshold?: InputMaybe<Scalars['Float']['input']>
+  use_cache?: InputMaybe<Scalars['Boolean']['input']>
+  vector_query?: InputMaybe<Scalars['String']['input']>
+  voice_query?: InputMaybe<Scalars['String']['input']>
+  x_typesense_api_key?: InputMaybe<Scalars['String']['input']>
+  x_typesense_user_id?: InputMaybe<Scalars['String']['input']>
+}
+
+/** JSON Schema for Typesense SearchResponse */
+export type Typesense_SearchResponse = Typesense_SearchResponseError | Typesense_SearchResponseSuccess
+
+export type Typesense_SearchResponseConversation = {
+  __typename?: 'Typesense_SearchResponseConversation'
+  answer: Scalars['String']['output']
+  conversation_history: Typesense_SearchResponseConversationHistory
+  conversation_id: Scalars['String']['output']
+  query: Scalars['String']['output']
+}
+
+export type Typesense_SearchResponseConversationHistory = {
+  __typename?: 'Typesense_SearchResponseConversationHistory'
+  conversation: Array<Maybe<Scalars['JSON']['output']>>
+  id: Scalars['String']['output']
+  last_updated: Scalars['Int']['output']
+  ttl: Scalars['Int']['output']
+}
+
+export type Typesense_SearchResponseError = {
+  __typename?: 'Typesense_SearchResponseError'
+  code: Scalars['Int']['output']
+  error: Scalars['String']['output']
+}
+
+export type Typesense_SearchResponseFacetCounts = {
+  __typename?: 'Typesense_SearchResponseFacetCounts'
+  counts: Array<Maybe<Typesense_SearchResponseFacetCountsItemCounts>>
+  field_name: Scalars['String']['output']
+  stats?: Maybe<Typesense_SearchResponseFacetCountsItemStats>
+}
+
+export type Typesense_SearchResponseFacetCountsItemCounts = {
+  __typename?: 'Typesense_SearchResponseFacetCountsItemCounts'
+  count: Scalars['Int']['output']
+  highlighted: Scalars['String']['output']
+  value: Scalars['String']['output']
+}
+
+export type Typesense_SearchResponseFacetCountsItemStats = {
+  __typename?: 'Typesense_SearchResponseFacetCountsItemStats'
+  avg?: Maybe<Scalars['Float']['output']>
+  max?: Maybe<Scalars['Float']['output']>
+  min?: Maybe<Scalars['Float']['output']>
+  sum?: Maybe<Scalars['Float']['output']>
+}
+
+export type Typesense_SearchResponseGroupedHit = {
+  __typename?: 'Typesense_SearchResponseGroupedHit'
+  found?: Maybe<Scalars['Int']['output']>
+  group_key: Array<Maybe<Scalars['String']['output']>>
+  hits: Array<Maybe<Typesense_SearchResponseHit>>
+}
+
+export type Typesense_SearchResponseHit = {
+  __typename?: 'Typesense_SearchResponseHit'
+  curated?: Maybe<Scalars['Boolean']['output']>
+  document: Typesense_Document
+  highlight: Scalars['JSON']['output']
+  highlights?: Maybe<Array<Maybe<Typesense_SearchResponseHitHighlight>>>
+  text_match?: Maybe<Scalars['Float']['output']>
+  text_match_info?: Maybe<Typesense_SearchResponseTextMatchInfo>
+}
+
+export type Typesense_SearchResponseHitHighlight = {
+  __typename?: 'Typesense_SearchResponseHitHighlight'
+  field: Scalars['String']['output']
+  indices?: Maybe<Array<Maybe<Scalars['Int']['output']>>>
+  matched_tokens: Array<Maybe<Scalars['String']['output']>>
+  snippet?: Maybe<Scalars['String']['output']>
+  snippets?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  value?: Maybe<Scalars['String']['output']>
+}
+
+export type Typesense_SearchResponseRequestParams = {
+  __typename?: 'Typesense_SearchResponseRequestParams'
+  collection_name?: Maybe<Scalars['String']['output']>
+  first_q?: Maybe<Scalars['String']['output']>
+  page?: Maybe<Scalars['Int']['output']>
+  per_page?: Maybe<Scalars['Int']['output']>
+  q?: Maybe<Scalars['String']['output']>
+  voice_query?: Maybe<Typesense_SearchResponseRequestParamsVoiceQuery>
+}
+
+export type Typesense_SearchResponseRequestParamsVoiceQuery = {
+  __typename?: 'Typesense_SearchResponseRequestParamsVoiceQuery'
+  transcribed_query?: Maybe<Scalars['String']['output']>
+}
+
+export type Typesense_SearchResponseSuccess = {
+  __typename?: 'Typesense_SearchResponseSuccess'
+  conversation?: Maybe<Typesense_SearchResponseConversation>
+  facet_counts?: Maybe<Array<Maybe<Typesense_SearchResponseFacetCounts>>>
+  found: Scalars['Int']['output']
+  found_docs?: Maybe<Scalars['Int']['output']>
+  grouped_hits?: Maybe<Array<Maybe<Typesense_SearchResponseGroupedHit>>>
+  hits?: Maybe<Array<Maybe<Typesense_SearchResponseHit>>>
+  out_of: Scalars['Int']['output']
+  page: Scalars['Int']['output']
+  request_params: Typesense_SearchResponseRequestParams
+  search_cutoff?: Maybe<Scalars['Boolean']['output']>
+  search_time_ms: Scalars['Int']['output']
+}
+
+export type Typesense_SearchResponseTextMatchInfo = {
+  __typename?: 'Typesense_SearchResponseTextMatchInfo'
+  best_field_score: Scalars['Float']['output']
+  best_field_weight: Scalars['Float']['output']
+  fields_matched: Scalars['Int']['output']
+  score: Scalars['Float']['output']
+  tokens_matched: Scalars['Int']['output']
 }
 
 export type UpdateAppointmentInput = {
@@ -2377,6 +2630,7 @@ export type UpdateTaskInput = {
   description: Scalars['String']['input']
   duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
+  impact?: InputMaybe<Scalars['String']['input']>
   interactionSignupLink?: InputMaybe<Scalars['String']['input']>
   interactionType?: InputMaybe<InteractionType>
   location?: InputMaybe<Scalars['String']['input']>
@@ -2449,12 +2703,6 @@ export enum UserConnectionStatus {
 /** UserFavorite(id, user, favoritable_id, favoritable_type, created_at) */
 export type UserFavorite = {
   __typename?: 'UserFavorite'
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmarkId: Scalars['String']['output']
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmarkItem: InsightQuoteRecommendationInitiative
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmarkType: Scalars['String']['output']
   favoritable: Insight
   favoritableId: Scalars['UUID']['output']
   favoritableType: Scalars['String']['output']
@@ -2478,7 +2726,7 @@ export type UserPaged = {
 }
 
 export enum UserRole {
-  CommunityManager = 'COMMUNITY_MANAGER',
+  CommunityTeam = 'COMMUNITY_TEAM',
   CoFounder = 'CO_FOUNDER',
   Editor = 'EDITOR',
   Internal = 'INTERNAL',
@@ -2537,7 +2785,7 @@ export type FavoritesQuery = {
       favoritableId: string
       favoritableType: string
       favoritable: {
-        __typename?: 'Insight'
+        __typename: 'Insight'
         id: string
         title: string
         description: string
@@ -2835,6 +3083,124 @@ export type AuthenticatedUserQuery = {
   }
 }
 
+export type FullTypesenseDocumentFragment = {
+  __typename?: 'Typesense_Document'
+  type: Typesense_DocumentType
+  id: string
+  title_de?: string
+  title_en?: string
+  description_de?: string
+  description_en?: string
+  location?: string
+  location_lat_lng?: Array<number>
+  image_url?: string
+  user_full_name?: string
+  topics_v2?: Array<string>
+  skills_v2?: Array<string>
+  source?: string
+  organizer_name?: string
+  organizer_image_url?: string
+  external_url?: string
+  link_locators?: {
+    __typename?: 'Typesense_DocumentLinkLocators'
+    volunteering?: string
+    space?: string
+    task?: string
+    profile?: string
+  }
+}
+
+export type Typesense_DocumentByIdQueryVariables = Exact<{
+  id: Scalars['String']['input']
+  documentType: Scalars['String']['input']
+}>
+
+export type Typesense_DocumentByIdQuery = {
+  __typename?: 'Query'
+  typesense_documentById?:
+    | { __typename?: 'Typesense_SearchResponseError'; error: string; code: number }
+    | {
+        __typename?: 'Typesense_SearchResponseSuccess'
+        hits?: Array<{
+          __typename?: 'Typesense_SearchResponseHit'
+          document: {
+            __typename?: 'Typesense_Document'
+            type: Typesense_DocumentType
+            id: string
+            title_de?: string
+            title_en?: string
+            description_de?: string
+            description_en?: string
+            location?: string
+            location_lat_lng?: Array<number>
+            image_url?: string
+            user_full_name?: string
+            topics_v2?: Array<string>
+            skills_v2?: Array<string>
+            source?: string
+            organizer_name?: string
+            organizer_image_url?: string
+            external_url?: string
+            link_locators?: {
+              __typename?: 'Typesense_DocumentLinkLocators'
+              volunteering?: string
+              space?: string
+              task?: string
+              profile?: string
+            }
+          }
+        }>
+      }
+}
+
+export type Typesense_MultiSearchQueryVariables = Exact<{
+  input: Typesense_MultiSearchRequest_Input
+}>
+
+export type Typesense_MultiSearchQuery = {
+  __typename?: 'Query'
+  typesense_multiSearch?: {
+    __typename?: 'Typesense_MultiSearchResponse'
+    results: Array<
+      | { __typename?: 'Typesense_SearchResponseError'; error: string; code: number }
+      | {
+          __typename?: 'Typesense_SearchResponseSuccess'
+          found: number
+          page: number
+          hits?: Array<{
+            __typename?: 'Typesense_SearchResponseHit'
+            document: {
+              __typename?: 'Typesense_Document'
+              type: Typesense_DocumentType
+              id: string
+              title_de?: string
+              title_en?: string
+              description_de?: string
+              description_en?: string
+              location?: string
+              location_lat_lng?: Array<number>
+              image_url?: string
+              user_full_name?: string
+              topics_v2?: Array<string>
+              skills_v2?: Array<string>
+              source?: string
+              organizer_name?: string
+              organizer_image_url?: string
+              external_url?: string
+              link_locators?: {
+                __typename?: 'Typesense_DocumentLinkLocators'
+                volunteering?: string
+                space?: string
+                task?: string
+                profile?: string
+              }
+            }
+          }>
+        }
+    >
+  }
+}
+
 export type GetEventByIdQueryVariables = Exact<{
   id: Scalars['String']['input']
 }>
@@ -3082,6 +3448,32 @@ export const FullUserFragmentDoc = gql`
   connectionStatusToMyself
 }
     `
+export const FullTypesenseDocumentFragmentDoc = gql`
+    fragment FullTypesenseDocument on Typesense_Document {
+  type
+  id
+  title_de
+  title_en
+  description_de
+  description_en
+  location
+  location_lat_lng
+  image_url
+  user_full_name
+  link_locators {
+    volunteering
+    space
+    task
+    profile
+  }
+  topics_v2
+  skills_v2
+  source
+  organizer_name
+  organizer_image_url
+  external_url
+}
+    `
 export const FullEventFragmentDoc = gql`
     fragment FullEvent on AppEvents_Event {
   id
@@ -3113,6 +3505,7 @@ export const FavoritesDocument = gql`
       favoritableType
       favoritable {
         ... on Insight {
+          __typename
           id
           title
           description
@@ -3624,6 +4017,153 @@ export type AuthenticatedUserQueryHookResult = ReturnType<typeof useAuthenticate
 export type AuthenticatedUserLazyQueryHookResult = ReturnType<typeof useAuthenticatedUserLazyQuery>
 export type AuthenticatedUserSuspenseQueryHookResult = ReturnType<typeof useAuthenticatedUserSuspenseQuery>
 export type AuthenticatedUserQueryResult = Apollo.QueryResult<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>
+export const Typesense_DocumentByIdDocument = gql`
+    query typesense_documentById($id: String!, $documentType: String!) {
+  typesense_documentById(id: $id, documentType: $documentType) {
+    ... on Typesense_SearchResponseSuccess {
+      hits {
+        document {
+          ...FullTypesenseDocument
+        }
+      }
+    }
+    ... on Typesense_SearchResponseError {
+      error
+      code
+    }
+  }
+}
+    ${FullTypesenseDocumentFragmentDoc}`
+
+/**
+ * __useTypesense_DocumentByIdQuery__
+ *
+ * To run a query within a React component, call `useTypesense_DocumentByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTypesense_DocumentByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTypesense_DocumentByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      documentType: // value for 'documentType'
+ *   },
+ * });
+ */
+export function useTypesense_DocumentByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables> &
+    ({ variables: Typesense_DocumentByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
+    Typesense_DocumentByIdDocument,
+    options
+  )
+}
+export function useTypesense_DocumentByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
+    Typesense_DocumentByIdDocument,
+    options
+  )
+}
+export function useTypesense_DocumentByIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
+    Typesense_DocumentByIdDocument,
+    options
+  )
+}
+export type Typesense_DocumentByIdQueryHookResult = ReturnType<typeof useTypesense_DocumentByIdQuery>
+export type Typesense_DocumentByIdLazyQueryHookResult = ReturnType<typeof useTypesense_DocumentByIdLazyQuery>
+export type Typesense_DocumentByIdSuspenseQueryHookResult = ReturnType<typeof useTypesense_DocumentByIdSuspenseQuery>
+export type Typesense_DocumentByIdQueryResult = Apollo.QueryResult<
+  Typesense_DocumentByIdQuery,
+  Typesense_DocumentByIdQueryVariables
+>
+export const Typesense_MultiSearchDocument = gql`
+    query typesense_multiSearch($input: Typesense_MultiSearchRequest_Input!) {
+  typesense_multiSearch(input: $input) {
+    results {
+      ... on Typesense_SearchResponseSuccess {
+        found
+        page
+        hits {
+          document {
+            ...FullTypesenseDocument
+          }
+        }
+      }
+      ... on Typesense_SearchResponseError {
+        error
+        code
+      }
+    }
+  }
+}
+    ${FullTypesenseDocumentFragmentDoc}`
+
+/**
+ * __useTypesense_MultiSearchQuery__
+ *
+ * To run a query within a React component, call `useTypesense_MultiSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTypesense_MultiSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTypesense_MultiSearchQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useTypesense_MultiSearchQuery(
+  baseOptions: Apollo.QueryHookOptions<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables> &
+    ({ variables: Typesense_MultiSearchQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
+    Typesense_MultiSearchDocument,
+    options
+  )
+}
+export function useTypesense_MultiSearchLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
+    Typesense_MultiSearchDocument,
+    options
+  )
+}
+export function useTypesense_MultiSearchSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
+    Typesense_MultiSearchDocument,
+    options
+  )
+}
+export type Typesense_MultiSearchQueryHookResult = ReturnType<typeof useTypesense_MultiSearchQuery>
+export type Typesense_MultiSearchLazyQueryHookResult = ReturnType<typeof useTypesense_MultiSearchLazyQuery>
+export type Typesense_MultiSearchSuspenseQueryHookResult = ReturnType<typeof useTypesense_MultiSearchSuspenseQuery>
+export type Typesense_MultiSearchQueryResult = Apollo.QueryResult<
+  Typesense_MultiSearchQuery,
+  Typesense_MultiSearchQueryVariables
+>
 export const GetEventByIdDocument = gql`
     query getEventById($id: String!) {
   appEvents_event(id: $id) {

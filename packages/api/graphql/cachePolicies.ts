@@ -1,6 +1,13 @@
-import { FieldFunctionOptions, FieldPolicy, Reference } from '@apollo/client/cache'
+import type { FieldFunctionOptions, FieldPolicy, Reference } from '@apollo/client/cache'
+import type { KeyArgsFunction } from '@apollo/client/cache/inmemory/policies'
+import type {
+  Typesense_MultiSearchQueryVariables,
+  Typesense_SearchResponse,
+  Typesense_SearchResponseHit,
+  Typesense_SearchResponseSuccess,
+} from '@holi/api/graphql/graphql-codegen'
 
-import { Paged } from '@holi/core/types'
+import type { Paged } from '@holi/core/types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type KeyArgs = FieldPolicy<any>['keyArgs']
@@ -15,12 +22,17 @@ export const alwaysReplacePolicy: FieldPolicy = {
   merge: (existing, incoming) => incoming,
 }
 
-export function mergeIndexAwareOffsetLimitArray<T = Reference>(
-  existing: readonly T[] | undefined,
-  incoming: readonly T[],
-  options: Partial<FieldFunctionOptions> = {}
-): readonly T[] {
-  const { offset = 0, limit = 0 } = options?.args || {}
+export function mergeArraysByLimitAndOffset<T = Reference>({
+  existing,
+  incoming,
+  offset = 0,
+  limit = 0,
+}: {
+  existing: readonly T[] | undefined
+  incoming: readonly T[]
+  offset?: number
+  limit?: number
+}): readonly T[] {
   if (!existing) {
     // empty cache
     return incoming
@@ -42,10 +54,35 @@ export function mergeIndexAwareOffsetLimitArray<T = Reference>(
   }
 }
 
+function mergeIndexAwareOffsetLimitArray<T = Reference>(
+  existing: readonly T[] | undefined,
+  incoming: readonly T[],
+  options: Partial<FieldFunctionOptions> = {}
+): readonly T[] {
+  const { offset = 0, limit = 0 } = options?.args || {}
+  return mergeArraysByLimitAndOffset({ existing, incoming, offset, limit })
+}
+
 export const keyArgsWithoutLimitAndOffset = (args: Record<string, unknown> | null) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { limit, offset, ...otherArgs } = args || {}
   return JSON.stringify(otherArgs)
+}
+
+export const keyArgsWithoutMultiSearchPageInfo = (
+  args: Record<string, unknown> | null,
+  context: Parameters<KeyArgsFunction>[1]
+) => {
+  const { searches } = context.variables?.input || {}
+  if (!Array.isArray(searches)) {
+    return JSON.stringify([])
+  }
+  const filteredSearches = searches.map((searchParams) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page, per_page, ...otherArgs } = searchParams
+    return otherArgs
+  })
+  return JSON.stringify(filteredSearches)
 }
 
 /**
@@ -89,6 +126,70 @@ export function pagedPolicy<T = Reference>(keyArgs: KeyArgs = keyArgsWithoutLimi
       } else {
         return existing
       }
+    },
+  }
+}
+
+export function multiSearchPagedPolicy(
+  keyArgs: KeyArgs = keyArgsWithoutMultiSearchPageInfo
+): FieldPolicy<(Typesense_SearchResponse | undefined)[]> {
+  return {
+    keyArgs,
+    merge: (existing, incoming, options) => {
+      const searches: NonNullable<Typesense_MultiSearchQueryVariables['input']['searches']> =
+        options?.variables?.input?.searches ?? []
+      if (!existing || existing.length < searches.length) {
+        return incoming
+      }
+      return searches.map((params, index) => {
+        const { page = 1, per_page = 0 } = params
+        const offset = Math.max((page - 1) * per_page, 0)
+        const limit = page * per_page
+        const existingForSearch: Typesense_SearchResponse | undefined = existing[index]
+        const incomingForSearch = incoming[index]
+        if (!incomingForSearch || !('hits' in incomingForSearch)) {
+          return existingForSearch
+        }
+        if (!existingForSearch || !('hits' in existingForSearch)) {
+          return incomingForSearch
+        }
+        return {
+          ...incomingForSearch,
+          hits: mergeArraysByLimitAndOffset({
+            existing: existingForSearch.hits,
+            incoming: incomingForSearch.hits as readonly Typesense_SearchResponseHit[],
+            offset,
+            limit,
+          }) as Typesense_SearchResponseHit[],
+        }
+      })
+    },
+    read: (existing, options) => {
+      const searches: NonNullable<Typesense_MultiSearchQueryVariables['input']['searches']> =
+        options?.variables?.input?.searches ?? []
+      if (!existing || existing.length < searches?.length) {
+        return undefined
+      }
+      const results: (Typesense_SearchResponse | undefined)[] = searches.map<Typesense_SearchResponse | undefined>(
+        (params, index) => {
+          const { page = 1, per_page = 0 } = params
+          const expectedResults = page * per_page
+          const existingForSearch = existing[index]
+          if (
+            !existingForSearch ||
+            !('hits' in existingForSearch) ||
+            ((existingForSearch?.hits?.length ?? 0) < expectedResults && expectedResults <= existingForSearch?.found)
+          ) {
+            // cache miss if cache empty, error response or existing contains fewer entries than requested and in total
+            return undefined
+          }
+          return existingForSearch
+        }
+      )
+      if (!results || results.some((result) => !result)) {
+        return undefined
+      }
+      return results as Typesense_SearchResponseSuccess[]
     },
   }
 }

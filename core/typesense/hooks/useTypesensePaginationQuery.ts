@@ -1,9 +1,9 @@
+import { useQuery } from '@apollo/client'
+import { Typesense_MultiSearchDocument } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { SearchParams, SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import isEqual from 'lodash/isEqual'
-import { useTypesenseClient } from '@holi/core/typesense/provider/TypesenseClientProvider'
 
 const INITIAL_PAGE = 1
 const DEFAULT_PAGE_SIZE = 10
@@ -22,6 +22,7 @@ export interface TypesensePaginationState {
   canFetchMore: boolean
   currentPage: number
   parameters: SearchParams
+  error?: Error
 }
 
 export interface UseTypesensePaginationQueryHook {
@@ -31,96 +32,141 @@ export interface UseTypesensePaginationQueryHook {
   refetch: () => Promise<void>
 }
 
+const emptyState: Omit<TypesensePaginationState, 'parameters'> = {
+  isLoading: false,
+  hits: [],
+  totalNrOfPages: 0,
+  totalResults: 0,
+  currentPage: 0,
+  canFetchMore: false,
+}
+
 export const useTypesensePaginationQuery = ({
   parameters,
   onError,
   skip,
 }: UseTypesensePaginationQueryOptions): UseTypesensePaginationQueryHook => {
   const [isFetchingMore, setIsFetchingMore] = useState(false)
-  // Full result in one state to control rerenderings
-  const [state, setState] = useState<TypesensePaginationState>({
-    isLoading: !skip,
-    hits: [],
-    totalResults: 0,
-    totalNrOfPages: 0,
-    currentPage: INITIAL_PAGE,
-    canFetchMore: false,
-    parameters: {},
-  })
-  const { client } = useTypesenseClient()
-
-  const fetchPage = useCallback(
-    async (pageNumber: number) => {
-      const sameParametersAsBefore = isEqual(state.parameters, parameters)
-
-      if ((state.isLoading && sameParametersAsBefore) || skip) {
-        return
-      }
-      setState((previousResults) => ({
-        ...previousResults,
-        isLoading: true,
-        parameters,
-      }))
-      return client
-        .multiSearch([
-          {
-            q: '*',
-            per_page: DEFAULT_PAGE_SIZE,
-            exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
-            ...parameters,
-            page: pageNumber,
-          },
-        ])
-        .then((multiSearchResults) => {
-          setState((previousResults) => {
-            const sameParametersAsBefore = isEqual(previousResults.parameters, parameters)
-            if (!sameParametersAsBefore || !multiSearchResults.results.length) {
-              return previousResults
-            }
-            const results = multiSearchResults.results[0]
-            const previousHits = results.page > INITIAL_PAGE ? previousResults.hits : []
-            const totalNrOfPages = Math.ceil(results.found / (parameters.per_page ?? DEFAULT_PAGE_SIZE))
-            return {
-              isLoading: false,
-              hits: [...previousHits, ...(results.hits ?? [])],
-              totalResults: results.found,
-              totalNrOfPages,
-              currentPage: results.page,
-              canFetchMore: results.page < totalNrOfPages,
-              parameters,
-            }
-          })
-        })
-        .catch((error) => {
-          if (onError) {
-            onError(error)
-          } else {
-            logError(error, 'Failed to fetch documents', {
-              location: 'useTypesensePaginationQuery',
-            })
-          }
-          setState((previousResults) => ({
-            ...previousResults,
-            isLoading: false,
-          }))
-        })
-    },
-    [client, onError, parameters, state.isLoading, state.parameters, skip]
+  const searchParams = useMemo(
+    () => ({
+      q: '*',
+      per_page: DEFAULT_PAGE_SIZE,
+      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
+      ...parameters,
+      page: INITIAL_PAGE,
+    }),
+    [parameters]
   )
-  const fetchNextPage = useCallback(async () => {
-    setIsFetchingMore(true)
-    return fetchPage(state.currentPage + 1).finally(() => setIsFetchingMore(false))
-  }, [fetchPage, state.currentPage])
+  const {
+    loading: isLoading,
+    data,
+    refetch: refetchResults,
+    fetchMore,
+    error,
+  } = useQuery(Typesense_MultiSearchDocument, {
+    variables: {
+      input: {
+        searches: [searchParams],
+      },
+    },
+    skip,
+  })
 
-  const refetch = useCallback(() => {
-    return fetchPage(INITIAL_PAGE)
-  }, [fetchPage])
+  // Full result in one state to control rerenderings
+  const state = useMemo(() => {
+    const resultList = data?.typesense_multiSearch?.results
+    if (!resultList?.length) {
+      if (skip || !error) {
+        // Initial loading state
+        return {
+          ...emptyState,
+          isLoading: !skip,
+          parameters,
+        }
+      }
+      return {
+        ...emptyState,
+        error: error ?? new Error('Error fetching results'),
+        parameters,
+      }
+    } else {
+      const results = resultList[0]
+      if ('error' in results) {
+        return {
+          ...emptyState,
+          error: results.error,
+          parameters,
+        }
+      } else {
+        const pageSize = parameters.per_page ?? DEFAULT_PAGE_SIZE
+        const totalNrOfPages = Math.ceil(results.found / pageSize)
+        const canFetchMore = results.found > pageSize * results.page
+
+        return {
+          isLoading,
+          hits: results.hits,
+          totalResults: results.found,
+          totalNrOfPages,
+          currentPage: results.page,
+          canFetchMore,
+          parameters,
+        }
+      }
+    }
+  }, [data?.typesense_multiSearch?.results, error, skip, parameters, isLoading])
+
+  const fetchNextPage = useCallback(async () => {
+    if (isFetchingMore) {
+      return
+    }
+    setIsFetchingMore(true)
+    await fetchMore({
+      variables: {
+        input: {
+          searches: [
+            {
+              ...searchParams,
+              page: state.currentPage + 1,
+            },
+          ],
+        },
+      },
+    })
+      .catch((error) =>
+        logError(error, 'Failed to fetch more', {
+          location: 'useTypesensePaginationQuery.fetchNextPage',
+        })
+      )
+      .finally(() => setIsFetchingMore(false))
+  }, [fetchMore, isFetchingMore, searchParams, state.currentPage])
+
+  const refetch = useCallback(async () => {
+    if (skip) {
+      return
+    }
+    await refetchResults({
+      input: {
+        searches: [
+          {
+            ...searchParams,
+            page: INITIAL_PAGE,
+          },
+        ],
+      },
+    })
+  }, [refetchResults, searchParams, skip])
 
   useEffect(() => {
-    refetch()
-    // Only trigger if parameters or skip flag change
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parameters, skip])
+    if ('error' in state && state.error) {
+      if (onError) {
+        onError(state.error)
+      } else {
+        logError(state.error, 'Failed to fetch documents', {
+          location: 'useTypesensePaginationQuery',
+        })
+      }
+    }
+  }, [onError, state])
 
   return {
     state,
