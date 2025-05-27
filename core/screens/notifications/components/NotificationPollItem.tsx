@@ -6,22 +6,23 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
-import { NotificationPolls, NotificationProps } from '@holi/core/screens/notifications/components/types'
+import type { NotificationPolls, NotificationProps } from '@holi/core/screens/notifications/components/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const NotificationPollUpdatesItem = ({ notification }: NotificationProps<NotificationPolls>) => {
+const NotificationPollItem = ({ notification }: NotificationProps<NotificationPolls>) => {
   const { i18n } = useTranslation()
   const { created, read, content } = notification
   const { poll } = notification.options
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const link = poll.insightId ? `/insights/${poll.insightId}` : `/feed-posts/${poll.feedPostId}`
 
   return (
     <View>
-      <HoliLink href={`/insights/${poll.insightId}`} label={poll.title}>
+      <HoliLink href={link} label={poll.title}>
         <View style={styles.link}>
           <View style={styles.image}>
             <HoliLocalImage
@@ -83,4 +84,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default NotificationPollUpdatesItem
+export default NotificationPollItem

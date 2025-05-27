@@ -163,11 +163,11 @@ export interface NotificationChallenges extends NotificationBase {
 }
 
 export interface PollData {
-  poll: { id: string; title: string; insightId: string }
+  poll: { id: string; title: string; insightId?: string; feedPostId?: string }
 }
 
 export interface NotificationPolls extends NotificationBase {
-  notificationType: NovuNotificationType.POLL_UPDATES
+  notificationType: NovuNotificationType.POLL_UPDATES | NovuNotificationType.POLL_CLOSURE
   options: PollData
 }
 // this type is UNION, so extend it with "NotificationConnection | NotificationPostComment | ..."
