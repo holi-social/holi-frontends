@@ -1,10 +1,7 @@
 import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
-import type breakpoints from 'holi-bricks/foundations/dimensions/breakpoints'
+import type { BreakpointsSize } from 'holi-bricks/foundations/dimensions/breakpoints'
 import type { Role } from 'react-native'
-
-type Breakpoints = typeof breakpoints & {
-  readonly zero: 0
-}
+import type { AccessibilityProps } from 'react-native'
 
 type AccessibilityRoleWeb = Role | 'menuitemcheckbox' | 'menuitemradio'
 
@@ -28,6 +25,8 @@ type Themes = {
 }
 
 declare module 'react-native-unistyles' {
-  export interface UnistylesBreakpoints extends Breakpoints {} // eslint-disable-line
-  export interface UnistylesThemes extends Themes {} // eslint-disable-line
+  // eslint-disable-next-line
+  export interface UnistylesBreakpoints extends BreakpointsSize {}
+  // eslint-disable-next-line
+  export interface UnistylesThemes extends Themes {}
 }
