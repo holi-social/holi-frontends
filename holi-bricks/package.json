@@ -84,12 +84,6 @@
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.8.3"
   },
-  "resolutions": {
-    "react-docgen-typescript": "2.2.2"
-  },
-  "overrides": {
-    "react-docgen-typescript": "2.2.2"
-  },
   "dependencies": {
     "@holi/icons": "*",
     "@holi/ui": "*",
