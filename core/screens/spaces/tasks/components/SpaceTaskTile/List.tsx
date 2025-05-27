@@ -37,8 +37,6 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
     </View>
   )
 
-  const isTaskOwner = loginState.isLoggedIn && isCollaborator && loginState.user.id === task.creator.id
-
   return (
     <HoliCardComponent.CardContainer hasBorder borderColor="foreground30at12Percent" borderRadius={16}>
       <Image
@@ -66,7 +64,11 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
           </View>
 
           {hiddenLink}
-          <TaskDrawer isOwner={isTaskOwner} taskId={task.id} spaceName={space.name} />
+          <TaskDrawer
+            isCollaborator={loginState.isLoggedIn && isCollaborator}
+            taskId={task.id}
+            spaceName={space.name}
+          />
         </View>
 
         <Content task={task} />

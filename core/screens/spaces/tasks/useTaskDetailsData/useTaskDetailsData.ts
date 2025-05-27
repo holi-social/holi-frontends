@@ -27,7 +27,7 @@ export type UseTaskDetailsData = {
   data: DetailsScreenData
   id?: string
   spaceName?: string
-  isOwner?: boolean
+  isCollaborator?: boolean
   refetch(): Promise<void>
   spaceId?: string
   spaceTitle?: string
@@ -64,8 +64,9 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     },
   })
   const refetchData = useRateLimit(() => refetch({ id: taskId }))
+  const isMember = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
   const isAdmin = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
-  const isOwner = loginState.isLoggedIn && isAdmin
+  const isCollaborator = loginState.isLoggedIn && (isAdmin || isMember)
 
   const skills =
     data?.taskById?.skillsV2?.map<DetailsScreenChips>((skill) => {
@@ -145,7 +146,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       await refetchData()
     },
     id: data?.taskById?.id,
-    isOwner,
+    isCollaborator: isCollaborator,
     data: {
       loading,
       title: data?.taskById?.name || '',
