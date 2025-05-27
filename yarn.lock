@@ -20731,7 +20731,7 @@ __metadata:
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:4.12.0"
     react-native-svg: "npm:15.8.0"
-    react-native-unistyles: "npm:^2.11.0"
+    react-native-unistyles: "npm:^3.0.0-rc.3"
     react-native-web: "npm:^0.19.12"
     storybook: "npm:^8.5.8"
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
@@ -20745,7 +20745,7 @@ __metadata:
     react-native: 0.76.9
     react-native-render-html: ^6.3.4
     react-native-svg: 15.8.0
-    react-native-unistyles: ^2.11.0
+    react-native-unistyles: ^3.0.0-rc.3
     react-native-web: ^0.19.12
   languageName: unknown
   linkType: soft
@@ -27860,6 +27860,23 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: 10c0/01d27e42fdaa08ff382ec8e77f11e8a08c1b43141fd3f69e7a94c14efc19475b72d37270993640e16d92ac0ad672ba2c4135872b927119971d4b4d80352f66dd
+  languageName: node
+  linkType: hard
+
+"react-native-unistyles@npm:^3.0.0-rc.3":
+  version: 3.0.0-rc.4
+  resolution: "react-native-unistyles@npm:3.0.0-rc.4"
+  peerDependencies:
+    "@react-native/normalize-colors": "*"
+    react: "*"
+    react-native: ">=0.76.0"
+    react-native-edge-to-edge: "*"
+    react-native-nitro-modules: "*"
+    react-native-reanimated: "*"
+  peerDependenciesMeta:
+    react-native-reanimated:
+      optional: true
+  checksum: 10c0/50d69618396262b3e074d6d162b03cc7d69934ff405be96aca47062290e1954be32a4ab3d8d02eb610d576c9500bad3ac19368093425c89cb92856aa4df5785f
   languageName: node
   linkType: hard
 
