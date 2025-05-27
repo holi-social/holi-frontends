@@ -134,6 +134,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     : undefined
 
+  const coverImage = data?.taskById?.thumbnail
+    ? {
+        uri: data.taskById.thumbnail,
+      }
+    : undefined
+
   const infoList = [locationType, slots, timeFrame, regularityAndDuration].filter(
     (detail) => detail !== undefined
   ) as DetailsScreenInfoList[]
@@ -155,9 +161,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       visibility:
         data?.taskById?.visibility === VisibilityType.Members ? 'private' : ('public' as 'private' | 'public'),
       infoList,
-      coverImage: {
-        uri: data?.taskById?.thumbnail,
-      },
+      coverImage,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',
