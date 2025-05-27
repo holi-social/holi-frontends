@@ -22,12 +22,7 @@ export type TaskDrawerProps = {
   tintColor?: string
 }
 
-export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({
-  tintColor,
-  taskId,
-  spaceName,
-  isOwner: isAdmin,
-}) => {
+export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ tintColor, taskId, spaceName, isOwner }) => {
   const { navigate } = useRouting()
   const route = usePathname()
   const { navigateWithAuth } = useAuthRequiredNavigation()
@@ -53,7 +48,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({
       testID="btn-task-more-options"
       variant="default"
     >
-      {isAdmin ? (
+      {isOwner ? (
         <>
           <HoliActionDrawer.Action
             icon={Edit2}
