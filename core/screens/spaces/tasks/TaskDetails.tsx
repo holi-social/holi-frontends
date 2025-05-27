@@ -26,7 +26,7 @@ const TaskDetailsContainer = () => {
   const { t } = useTranslation()
   const {
     data,
-    isCollaborator,
+    isOwner,
     spaceName,
     id,
     refetch,
@@ -41,10 +41,8 @@ const TaskDetailsContainer = () => {
   const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
 
   const renderActionDrawer = useCallback(
-    (tintColor?: string) => (
-      <TaskDrawer tintColor={tintColor} isCollaborator={isCollaborator} spaceName={spaceName} taskId={id} />
-    ),
-    [id, isCollaborator, spaceName]
+    (tintColor?: string) => <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />,
+    [id, isOwner, spaceName]
   )
 
   useTrackOnce(

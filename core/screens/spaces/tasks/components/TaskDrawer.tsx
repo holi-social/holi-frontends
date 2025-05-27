@@ -18,7 +18,7 @@ import { mono } from 'holi-bricks/foundations'
 export type TaskDrawerProps = {
   taskId?: string
   spaceName?: string
-  isCollaborator?: boolean
+  isOwner?: boolean
   tintColor?: string
 }
 
@@ -26,7 +26,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({
   tintColor,
   taskId,
   spaceName,
-  isCollaborator,
+  isOwner: isAdmin,
 }) => {
   const { navigate } = useRouting()
   const route = usePathname()
@@ -53,7 +53,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({
       testID="btn-task-more-options"
       variant="default"
     >
-      {isCollaborator ? (
+      {isAdmin ? (
         <>
           <HoliActionDrawer.Action
             icon={Edit2}
