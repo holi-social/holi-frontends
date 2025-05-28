@@ -1,4 +1,4 @@
-import { UnistylesRuntime } from 'react-native-unistyles'
+import { UnistylesRuntime, useUnistyles } from 'react-native-unistyles'
 import { createBricksManager } from './createBricksManager'
 
 /**
@@ -14,4 +14,13 @@ import { createBricksManager } from './createBricksManager'
  * setActiveTheme('dark');
  * console.log(getActiveTheme()); // Outputs: 'dark'
  */
-export const useBricks = () => createBricksManager(UnistylesRuntime)
+export const useBricks = () => {
+  const { theme } = useUnistyles()
+  return {
+    ...createBricksManager({
+      setTheme: UnistylesRuntime.setTheme,
+      themeName: UnistylesRuntime.themeName || 'light',
+    }),
+    theme,
+  }
+}
