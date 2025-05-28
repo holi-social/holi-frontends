@@ -739,7 +739,6 @@
   "profile.settings.notifications.workflow.COMMENT_REACTION": "Reactions to your comment",
   "profile.settings.notifications.workflow.GLOBAL": "All notifications",
   "profile.settings.notifications.workflow.POLL_UPDATES": "Updates for poll results",
-  "profile.settings.notifications.workflow.POLL_CLOSURE": "Poll closed",
   "profile.settings.notifications.workflow.POST_COMMENT_AUTHOR": "Comments on your post",
   "profile.settings.notifications.workflow.POST_COMMENT_MENTION": "Someone mentions you",
   "profile.settings.notifications.workflow.POST_REACTION": "Reactions to your post",

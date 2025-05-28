@@ -740,7 +740,6 @@
   "profile.settings.notifications.workflow.COMMENT_REACTION": "Reaktionen auf deine Kommentare",
   "profile.settings.notifications.workflow.GLOBAL": "Alle Mitteilungen",
   "profile.settings.notifications.workflow.POLL_UPDATES": "Neuigkeiten zu Umfrageergebnissen",
-  "profile.settings.notifications.workflow.POLL_CLOSURE": "Umfrage geschlossen",
   "profile.settings.notifications.workflow.POST_COMMENT_AUTHOR": "Kommentare zu deinem Beitrag",
   "profile.settings.notifications.workflow.POST_COMMENT_MENTION": "Jemand erwähnt dich",
   "profile.settings.notifications.workflow.POST_REACTION": "Reaktionen auf deine Posts",
