@@ -1,9 +1,8 @@
-import React from 'react'
+import type React from 'react'
 
 import { NotificationChallengesItem } from '@holi/core/screens/notifications/components/NotificationChallengesItem'
 import NotificationCommentReactionItem from '@holi/core/screens/notifications/components/NotificationCommentReactionItem'
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
-import NotificationPollUpdatesItem from '@holi/core/screens/notifications/components/NotificationPollUpdatesItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
 import NotificationPostReactionItem from '@holi/core/screens/notifications/components/NotificationPostReactionItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
@@ -15,7 +14,8 @@ import NotificationSpaceItem from '@holi/core/screens/notifications/components/N
 import NotificationSpacePermissionsItem from '@holi/core/screens/notifications/components/NotificationSpacePermissionsItem'
 import NotificationSpacePostItem from '@holi/core/screens/notifications/components/NotificationSpacePostItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
+import { type NotificationProps, NotificationType } from '@holi/core/screens/notifications/components/types'
+import NotificationPollItem from '@holi/core/screens/notifications/components/NotificationPollItem'
 
 /**
  * This const is used to distinct displayed and
@@ -62,6 +62,7 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.POLL_UPDATES,
   NovuNotificationType.POST_REACTION,
   NovuNotificationType.COMMENT_REACTION,
+  NovuNotificationType.POLL_CLOSURE,
 ]
 
 const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props }) => {
@@ -115,7 +116,8 @@ const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props 
     case NovuNotificationType.CHALLENGE_EVENT_SUMMARY:
       return <NotificationChallengesItem notification={notification} {...props} />
     case NovuNotificationType.POLL_UPDATES:
-      return <NotificationPollUpdatesItem notification={notification} {...props} />
+    case NovuNotificationType.POLL_CLOSURE:
+      return <NotificationPollItem notification={notification} {...props} />
     case NovuNotificationType.POST_REACTION:
       return <NotificationPostReactionItem notification={notification} {...props} />
     case NovuNotificationType.COMMENT_REACTION:
