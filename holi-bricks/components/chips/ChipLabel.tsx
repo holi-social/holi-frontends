@@ -33,7 +33,6 @@ export const ChipLabel = ({
 }: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? 12 : 16
-
   return (
     <View {...accessibilityProps(rest)} style={styles.chip(color)} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={theme.components.chipLabel.text} />}
