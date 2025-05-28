@@ -559,6 +559,15 @@ export namespace TrackingEvent {
       },
       ...versionOne,
     })
+
+    export const AllChallengesVisited = (screen: string, component: string): TrackingEvent => ({
+      name: 'allChallengesVisited',
+      properties: {
+        screen,
+        component,
+      },
+      ...versionOne,
+    })
   }
 
   export const OnboardingStepCompleted = (
