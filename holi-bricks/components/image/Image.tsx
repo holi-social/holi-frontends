@@ -84,7 +84,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
         accessible={otherProps?.['aria-hidden'] === true}
         placeholder={isRemote ? blurhash : undefined}
-        style={{ width, height }}
+        style={styles.imageSize(width, height)}
         contentFit={resizeMode}
         onError={() => {
           setHasError(true)
