@@ -39,6 +39,8 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...(config.resolve.alias || {}),
         'next/image': require.resolve('./nextImageMock.jsx'),
+        './image/Image.tsx': './image/Image.web.tsx',
+        'react-native-svg': 'react-native-svg-web',
       }
     }
 
