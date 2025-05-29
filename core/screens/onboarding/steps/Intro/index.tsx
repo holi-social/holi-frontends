@@ -1,16 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Stack } from 'holi-bricks/components/stack'
+import { Spacing } from 'holi-bricks/foundations'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
-import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
-import { useBreakpointMatcher } from '@holi/core/helpers'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
 import { TrackingEvent } from '@holi/core/tracking/events'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { Button } from 'holi-bricks/components/button'
@@ -22,46 +20,37 @@ interface Props {
 
 export const Intro = ({ onContinue }: Props) => {
   const { t } = useTranslation()
-  const mdStyle = useBreakpointMatcher([[dimensions.breakpointM, true]])
-  const { height: screenHeight } = useClientWindowDimensions()
+  const { styles } = useStyles(stylesheet)
 
   usePreventBackNavigation(true)
 
   return (
-    <View style={styles.wrapper}>
-      <View>
+    <Stack flex={1} justifyContent="space-between">
+      <Stack alignItems="center">
         <AnimatedIntro />
-        <View
-          style={[
-            styles.ctasContainer,
-            {
-              gap: mdStyle ? Spacing.md : Spacing.xs,
-              marginTop: screenHeight > SMALL_DEVICE_HEIGHT ? Spacing.xxl : Spacing.xxs,
-            },
-          ]}
-        >
-          <Button label={t('onboarding.welcome.forward')} onPress={onContinue} testID="btn-to-onboarding" />
+        <View style={styles.ctasContainer}>
+          <Button label={t('onboarding.welcome.forward')} size="lg" onPress={onContinue} testID="btn-to-onboarding" />
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
-        <HoliGap size="l" />
-      </View>
+      </Stack>
 
       <DocumentsFooter displayImprint={true} />
-    </View>
+    </Stack>
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-
+const stylesheet = createStyleSheet({
   ctasContainer: {
     width: '100%',
+    maxWidth: 600,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: Spacing.xs,
+    marginTop: { xs: Spacing.xs, md: Spacing.lg },
+    marginBottom: Spacing.xl,
+    gap: {
+      xs: Spacing.xs,
+      md: Spacing.md,
+    },
   },
 })

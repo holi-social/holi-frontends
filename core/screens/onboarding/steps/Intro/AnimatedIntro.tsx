@@ -3,12 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
-import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import Spacing from '@holi/ui/foundations/Spacing'
 import { Text } from 'holi-bricks/components/text'
 import { Image } from 'holi-bricks/components/image'
+import { Stack } from 'holi-bricks/components/stack'
 
 const calendarIcon = {
   source: require('@holi/ui/assets/img/onboarding/calendar-icon/calendar-icon.png'),
@@ -34,7 +32,6 @@ const AnimatedIntro = () => {
   const textPosition = useSharedValue(-50)
   const textScale = useSharedValue(1.1)
   const textOpacity = useSharedValue(0)
-  const { height: screenHeight } = useClientWindowDimensions()
 
   const containerStyle = useAnimatedStyle(() => {
     return {
@@ -93,12 +90,12 @@ const AnimatedIntro = () => {
   })
 
   return (
-    <Animated.View style={[styles.container, { gap: screenHeight < SMALL_DEVICE_HEIGHT ? Spacing.xxs : Spacing.xxl }]}>
+    <Animated.View>
       <Animated.View style={[styles.imagesContainer, containerStyle]}>
         <Image
           source={require('@holi/ui/assets/img/onboarding/hero.png')}
-          width={600}
-          height={480}
+          width={560}
+          height={448}
           alt={t('onboarding.welcome.hero')}
           resizeMode="contain"
         />
@@ -130,14 +127,13 @@ const AnimatedIntro = () => {
           />
         </Animated.View>
       </Animated.View>
-      <View>
-        <Text size="3xl" textAlign="center">
-          {t('onboarding.welcome.title')}
-        </Text>
-        <Text size="3xl" textAlign="center">
-          {t('onboarding.welcome.text')}
-        </Text>
-      </View>
+      <Stack alignItems="center">
+        <View style={styles.heroImageAlignment}>
+          <Text size="4xl" headingLevel="1" numberOfLines={2}>
+            {t('onboarding.welcome.title')}
+          </Text>
+        </View>
+      </Stack>
     </Animated.View>
   )
 }
@@ -145,11 +141,12 @@ const AnimatedIntro = () => {
 const styles = StyleSheet.create({
   imagesContainer: {
     position: 'relative',
-    marginHorizontal: '-22%',
     display: 'flex',
     alignItems: 'center',
   },
-  container: {},
+  heroImageAlignment: {
+    width: 380,
+  },
   calendar: {
     position: 'absolute',
     width: 50,
