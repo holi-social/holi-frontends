@@ -1,8 +1,7 @@
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import type { SearchParams, SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { renderHook } from '@testing-library/react-native'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
@@ -33,7 +32,7 @@ jest.mock('@holi/core/errors/helpers', () => ({
   logError: jest.fn(),
 }))
 
-const createHits = (length: number): SearchResponseHit<TypesenseDocument>[] =>
+const createHits = (length: number): SearchResponseHit[] =>
   Array.from(
     { length },
     (_, i) =>
@@ -43,7 +42,7 @@ const createHits = (length: number): SearchResponseHit<TypesenseDocument>[] =>
           type: 'volunteering',
           title_de: `Titel ${i}`,
         },
-      }) as SearchResponseHit<TypesenseDocument>
+      }) as SearchResponseHit
   )
 
 describe('useVolunteeringRecosTypesense', () => {

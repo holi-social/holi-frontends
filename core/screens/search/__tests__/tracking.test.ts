@@ -1,10 +1,10 @@
 import { hitToTrackingDoc } from '@holi/core/screens/search/tracking'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 
 describe('Search tracking', () => {
   it('should remove denied props', () => {
     const searchHit: TypesenseDocument = {
-      type: 'volunteering',
+      type: TypesenseDocumentType.Volunteering,
       id: '123',
     }
     const searchHitWithDeniedProps = {

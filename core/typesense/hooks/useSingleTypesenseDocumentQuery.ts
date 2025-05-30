@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client'
 import { Typesense_DocumentByIdDocument } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import type { TypesenseDocumentType } from '@holi/core/typesense/types'
+import type { TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
 import { useEffect, useMemo } from 'react'
 
 export const useSingleTypesenseDocumentQuery = (
   id: string,
-  documentType: TypesenseDocumentType,
+  documentType: TypesenseDocumentTypeEnum,
   { onError, onNotFound }: { onError?: (error: Error) => void; onNotFound?: () => void } = {}
 ) => {
   const {

@@ -1,5 +1,5 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 import { MapPin2 } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 
@@ -12,7 +12,7 @@ jest.mock('react-i18next', () => ({
 describe('transformDocument', () => {
   // Test data setup
   const baseDocument: TypesenseDocument = {
-    type: 'volunteering',
+    type: TypesenseDocumentType.Volunteering,
     id: 'test-id-123',
     title_de: 'Deutscher Titel',
     title_en: 'English Title',
@@ -83,7 +83,7 @@ describe('transformDocument', () => {
 
   it('should handle missing optional fields gracefully', () => {
     const minimalDocument: TypesenseDocument = {
-      type: 'volunteering',
+      type: TypesenseDocumentType.Volunteering,
       id: 'minimal-id',
       source: 'GoVolunteer',
     }

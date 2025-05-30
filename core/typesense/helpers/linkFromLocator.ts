@@ -1,8 +1,8 @@
-import type { TypesenseDocumentLinkLocatorIdOrSlug, TypesenseDocumentType } from '@holi/core/typesense/types'
+import type { TypesenseDocument, TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
 
 export const linkFromLocator = (
-  type: TypesenseDocumentType,
-  locs: Partial<Record<TypesenseDocumentType, TypesenseDocumentLinkLocatorIdOrSlug>> = {}
+  type: TypesenseDocumentTypeEnum,
+  locs: TypesenseDocument['link_locators'] = {}
 ): string => {
   switch (type) {
     case 'volunteering':

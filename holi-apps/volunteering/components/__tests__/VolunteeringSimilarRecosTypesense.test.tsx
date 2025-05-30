@@ -1,8 +1,7 @@
 import React from 'react'
 import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
 import { render, screen } from '@testing-library/react-native'
-import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { SearchResponseHit } from '@holi/core/typesense/types'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { logError } from '@holi/core/errors/helpers'
@@ -22,7 +21,7 @@ jest.mock('@holi/core/refreshing/hooks/useOnRefresh', () => ({
   useOnRefresh: jest.fn(),
 }))
 
-const createEngagementHits = (length: number): SearchResponseHit<TypesenseDocument>[] =>
+const createEngagementHits = (length: number): SearchResponseHit[] =>
   Array.from(
     { length },
     (_, i) =>
@@ -35,7 +34,7 @@ const createEngagementHits = (length: number): SearchResponseHit<TypesenseDocume
           external_url: `https://example.com/engagement${i}`,
           source: 'Aktion Mensch',
         },
-      }) as SearchResponseHit<TypesenseDocument>
+      }) as SearchResponseHit
   )
 
 describe('VolunteeringSimilarRecosTypesense', () => {

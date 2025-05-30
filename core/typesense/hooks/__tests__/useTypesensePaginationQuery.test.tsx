@@ -13,8 +13,8 @@ import {
   type UseTypesensePaginationQueryOptions,
 } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
-import type { SearchParams } from 'typesense/lib/Typesense/Documents'
 import { createCache } from '@holi/api/graphql/client'
+import type { SearchParams } from '@holi/core/typesense/types'
 
 const testParameters: SearchParams = {
   filter_by: 'type:volunteering',

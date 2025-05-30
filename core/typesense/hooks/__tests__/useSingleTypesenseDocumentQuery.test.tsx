@@ -11,9 +11,10 @@ import {
 import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
 import { act, renderHook } from '@testing-library/react-native'
 import { createCache } from '@holi/api/graphql/client'
+import { TypesenseDocumentType } from '@holi/core/typesense/types'
 
 const testId = '123'
-const documentType = 'volunteering'
+const documentType = TypesenseDocumentType.Volunteering
 
 const createDocument = (id = testId): Typesense_Document => ({
   __typename: 'Typesense_Document',
@@ -179,7 +180,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
       ),
     ]
     const { result, rerender } = renderHook(
-      (props: typeof initialProps) => useSingleTypesenseDocumentQuery(props.id, 'volunteering'),
+      (props: typeof initialProps) => useSingleTypesenseDocumentQuery(props.id, documentType),
       {
         wrapper: ({ children }) => <MockedProvider mocks={mocks}>{children}</MockedProvider>,
         initialProps,

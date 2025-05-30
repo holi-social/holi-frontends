@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import { Typesense_MultiSearchDocument } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { SearchParams, SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
 const INITIAL_PAGE = 1
 const DEFAULT_PAGE_SIZE = 10
@@ -16,7 +15,7 @@ export interface UseTypesensePaginationQueryOptions {
 
 export interface TypesensePaginationState {
   isLoading: boolean
-  hits: SearchResponseHit<TypesenseDocument>[]
+  hits: SearchResponseHit[]
   totalNrOfPages: number
   totalResults: number
   canFetchMore: boolean

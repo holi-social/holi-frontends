@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
-import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 export const makeEngagement = ({
   topics = ALL_TOPICS.slice(0, 3),
@@ -63,7 +63,7 @@ export const makeVolunteeringDocument = ({
   const id = faker.string.uuid()
   return {
     id: `volunteering_${id}`,
-    type: 'volunteering',
+    type: TypesenseDocumentType.Volunteering,
     title: faker.lorem.sentence(10),
     description: faker.lorem.paragraph(10),
     external_url: faker.internet.url(),
@@ -92,7 +92,7 @@ export const makeTaskDocument = ({
   const id = faker.string.uuid()
   return {
     id: `task_${id}`,
-    type: 'task',
+    type: TypesenseDocumentType.Task,
     title: faker.lorem.sentence(10),
     description: faker.lorem.paragraph(10),
     image_url: faker.image.url(),
