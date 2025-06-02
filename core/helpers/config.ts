@@ -15,3 +15,5 @@ export const typesenseProtocol = Constants.expoConfig?.extra?.typesense.protocol
 export const typesenseApiKey = Constants.expoConfig?.extra?.typesense.apiKey
 export const typesenseCollection = Constants.expoConfig?.extra?.typesense.collection
 export const challengeAppBaseUrl = Constants.expoConfig?.extra?.challengesApp
+export const appcuesAccountId = Constants.expoConfig?.extra?.appcues?.accountId
+export const appcuesAppId = Constants.expoConfig?.extra?.appcues?.appId

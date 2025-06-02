@@ -247,6 +247,10 @@ const config: ExpoConfig = {
     jitsi: {
       url: requiredEnvVar('JITSI_URL'),
     },
+    appcues: {
+      accountId: requiredEnvVar('APPCUES_ACCOUNT_ID'),
+      appId: requiredEnvVar('APPCUES_APP_ID'),
+    },
     eas: {
       projectId: process.env.EXPO_PROJECT_ID,
       // see https://docs.expo.dev/build-reference/variables/#built-in-environment-variables
