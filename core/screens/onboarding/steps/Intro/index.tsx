@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { View, type ViewStyle } from 'react-native'
 
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Stack } from 'holi-bricks/components/stack'
@@ -28,7 +28,7 @@ export const Intro = ({ onContinue }: Props) => {
     <Stack flex={1} justifyContent="space-between">
       <Stack alignItems="center">
         <AnimatedIntro />
-        <View style={styles.ctasContainer}>
+        <View style={styles.ctasContainer as unknown as ViewStyle}>
           <Button label={t('onboarding.welcome.forward')} size="lg" onPress={onContinue} testID="btn-to-onboarding" />
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
