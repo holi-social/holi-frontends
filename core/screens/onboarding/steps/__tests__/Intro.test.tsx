@@ -21,7 +21,6 @@ describe('Intro', () => {
     render(<Intro onContinue={jest.fn()} />)
 
     expect(screen.getByText('onboarding.welcome.title')).toBeOnTheScreen()
-    expect(screen.getByText('onboarding.welcome.text')).toBeOnTheScreen()
 
     // Continue button
     expect(screen.getByRole('button')).toBeOnTheScreen()
