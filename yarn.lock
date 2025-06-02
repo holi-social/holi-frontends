@@ -82,6 +82,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@appcues/expo-config@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@appcues/expo-config@npm:4.0.1"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/92349281d443d9277a918f32526e3d6a9f903b0cc58286afc53f00f4ba69af02fc673bf4bee1a8c88ea97d45b8b4971d1d6309e13970f62e7efa395547f8b9d9
+  languageName: node
+  linkType: hard
+
 "@appcues/react-native@npm:^4.4.3":
   version: 4.4.3
   resolution: "@appcues/react-native@npm:4.4.3"
@@ -5759,6 +5770,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@holi/mobile@workspace:apps/mobile"
   dependencies:
+    "@appcues/expo-config": "npm:^4.0.1"
     "@appcues/react-native": "npm:^4.4.3"
     "@babel/core": "npm:^7.24.0"
     "@babel/runtime": "npm:^7.26.0"

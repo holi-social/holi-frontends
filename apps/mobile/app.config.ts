@@ -202,6 +202,7 @@ const config: ExpoConfig = {
         iosUrlScheme: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME'),
       },
     ],
+    '@appcues/expo-config',
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@appcues/expo-config": "^4.0.1",
     "@appcues/react-native": "^4.4.3",
     "@babel/runtime": "^7.26.0",
     "@expo/config-plugins": "~9.0.0",
