@@ -8,7 +8,6 @@ import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatL
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
-import { TextLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Stack } from 'holi-bricks/components/stack'
@@ -143,16 +142,11 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
               </Text>
             </Stack>
           </Stack>
-          {seeAllPath &&
-            (seeMoreTrackingEvent ? (
-              <TextLinkTracked size="sm" role="none" trackingEvent={seeMoreTrackingEvent}>
-                {t('global.seeAll')}
-              </TextLinkTracked>
-            ) : (
-              <TextLink size="sm" role="none">
-                {t('global.seeAll')}
-              </TextLink>
-            ))}
+          {seeAllPath && (
+            <TextLink size="sm" role="none">
+              {t('global.seeAll')}
+            </TextLink>
+          )}
         </Stack>
       </Stack>
 

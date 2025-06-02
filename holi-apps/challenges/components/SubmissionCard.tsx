@@ -1,7 +1,6 @@
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { Image } from 'holi-bricks/components/image'
@@ -9,6 +8,8 @@ import { Image } from 'holi-bricks/components/image'
 import type { Submission } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { Avatar } from 'holi-bricks/components/avatar'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 
 const IMAGE_HEIGHT = 195
 
@@ -23,13 +24,17 @@ export const SubmissionCard = ({ challengeTitle, submission, width, trackingEven
   const label = `${challengeTitle} | ${submission.submitter.username}`
   const initials = submission.submitter.username.slice(0, 2)
   const imageHeight = Platform.OS === 'web' ? 248 : IMAGE_HEIGHT
+  const { track } = useTracking()
 
   return (
     <View style={styles.container}>
-      <HoliLinkTracked
+      <HoliLink
         label={label}
         href={createInAppChallengesPath(submission.playerPath)}
-        trackingEvent={trackingEvent}
+        onPress={(ev) => {
+          track(trackingEvent)
+          ev.stopPropagation()
+        }}
       >
         <View style={styles.imageContainer}>
           <Image source={submission.imageUrl} alt={label} width={width} height={imageHeight} />
@@ -43,7 +48,7 @@ export const SubmissionCard = ({ challengeTitle, submission, width, trackingEven
             initials={initials}
           />
         </View>
-      </HoliLinkTracked>
+      </HoliLink>
     </View>
   )
 }

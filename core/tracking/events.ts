@@ -1,7 +1,7 @@
+import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
+import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
-import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
-import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
 
@@ -531,12 +531,13 @@ export namespace TrackingEvent {
   }
 
   export namespace ChallengeCard {
-    export const CardPressed = (challengeId: string, title: string, index: number): TrackingEvent => ({
+    export const CardPressed = (challengeId: string, title: string, index: number, screen: string): TrackingEvent => ({
       name: 'challengeCard_pressed',
       properties: {
-        title: title,
-        challengeId: challengeId,
-        index: index,
+        title,
+        challengeId,
+        index,
+        screen,
       },
       ...versionOne,
     })
@@ -545,14 +546,25 @@ export namespace TrackingEvent {
       challengeId: string,
       title: string,
       submissionId: string,
-      submissionIndex: number
+      submissionIndex: number,
+      screen: string
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
       properties: {
-        challengeId: challengeId,
-        title: title,
-        submissionId: submissionId,
-        submissionIndex: submissionIndex,
+        challengeId,
+        title,
+        submissionId,
+        submissionIndex,
+        screen,
+      },
+      ...versionOne,
+    })
+
+    export const AllChallengesVisited = (screen: string, component: string): TrackingEvent => ({
+      name: 'allChallengesVisited',
+      properties: {
+        screen,
+        component,
       },
       ...versionOne,
     })

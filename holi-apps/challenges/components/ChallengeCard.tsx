@@ -70,7 +70,8 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
                 challenge.id,
                 challenge.title,
                 submission.id,
-                index
+                index,
+                'act'
               )}
             />
           ))}
