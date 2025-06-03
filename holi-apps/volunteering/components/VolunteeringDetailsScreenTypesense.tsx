@@ -93,7 +93,7 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
         title={document?.title ?? ''}
         infoList={document?.infoList}
         visibility="public"
-        description={document?.description}
+        bodyContent={document?.bodyContent}
         author={document?.author}
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop

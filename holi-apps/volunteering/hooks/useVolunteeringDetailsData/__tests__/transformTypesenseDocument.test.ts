@@ -32,7 +32,7 @@ describe('transformDocument', () => {
 
     expect(result).toEqual({
       title: 'English Title',
-      description: 'English Description',
+      bodyContent: { content: 'English Description' },
       chips: [
         { title: 'topic.animal-welfare', color: 'green' },
         { title: 'topic.gender-equality', color: 'green' },
@@ -64,7 +64,9 @@ describe('transformDocument', () => {
     const result = transformTypesenseDocument(t, 'de', baseDocument)
 
     expect(result.title).toBe('Deutscher Titel')
-    expect(result.description).toBe('Deutsche Beschreibung')
+    expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
+      'Deutsche Beschreibung'
+    )
   })
 
   it('should fall back to English when German is not available', () => {
@@ -78,7 +80,9 @@ describe('transformDocument', () => {
     const result = transformTypesenseDocument(t, 'de', docWithoutGerman)
 
     expect(result.title).toBe('English Title')
-    expect(result.description).toBe('English Description')
+    expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
+      'English Description'
+    )
   })
 
   it('should handle missing optional fields gracefully', () => {
@@ -93,7 +97,7 @@ describe('transformDocument', () => {
 
     expect(result).toEqual({
       title: '',
-      description: '',
+      bodyContent: { content: '' },
       chips: [],
       visibility: 'public',
       infoList: [],
