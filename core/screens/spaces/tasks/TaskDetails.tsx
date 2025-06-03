@@ -12,7 +12,6 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
-import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 
@@ -23,7 +22,6 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetailsContainer = () => {
-  const { t } = useTranslation()
   const {
     data,
     isOwner,
@@ -104,7 +102,6 @@ const TaskDetailsContainer = () => {
     >
       <DetailsScreen
         {...data}
-        descriptionTitle={t('spaces.tasks.description.title')}
         _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
       />
     </Screen>

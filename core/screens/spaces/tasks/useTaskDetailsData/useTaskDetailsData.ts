@@ -155,7 +155,10 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     data: {
       loading,
       title: data?.taskById?.name || '',
-      description: data?.taskById?.description,
+      bodyContent: [
+        { title: t('spaces.tasks.impact.title'), content: data?.taskById?.impact ?? '' },
+        { title: t('spaces.tasks.description.title'), content: data?.taskById?.description ?? '' },
+      ].filter((item) => item.content),
       chips: [...topics, ...skills],
       visibility:
         data?.taskById?.visibility === VisibilityType.Members ? 'private' : ('public' as 'private' | 'public'),
