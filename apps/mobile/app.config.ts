@@ -206,6 +206,7 @@ const config: ExpoConfig = {
         resizeMode: 'contain',
       },
     ],
+    '@appcues/expo-config',
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {
@@ -250,6 +251,10 @@ const config: ExpoConfig = {
     },
     jitsi: {
       url: requiredEnvVar('JITSI_URL'),
+    },
+    appcues: {
+      accountId: requiredEnvVar('APPCUES_ACCOUNT_ID'),
+      appId: requiredEnvVar('APPCUES_APP_ID'),
     },
     eas: {
       projectId: process.env.EXPO_PROJECT_ID,
