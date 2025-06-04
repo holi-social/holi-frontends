@@ -7,7 +7,7 @@ import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
-import { type DimensionValue, View } from 'react-native'
+import { type DimensionValue, Platform, View } from 'react-native'
 import { CompactCardImage } from 'holi-bricks/components/compactCard/CompactCardImage'
 import { FooterChips } from 'holi-bricks/components/compactCard/footer/FooterChips'
 import { FooterDate } from 'holi-bricks/components/compactCard/footer/FooterDate'
@@ -32,6 +32,7 @@ export interface CompactCardProps {
   buttonIconVariant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
   minHeight?: number
   children?: React.ReactNode
+  fullHeight?: boolean
 }
 
 export const CompactCard = (({
@@ -51,12 +52,14 @@ export const CompactCard = (({
   buttonIconVariant = 'tertiary',
   minHeight,
   children,
+  fullHeight,
 }: CompactCardProps) => {
   const date = startDate ? new Date(startDate) : undefined
   const { styles } = useStyles(stylesheet)
+  const hasTopLabel = topLabel || topLabelIcon || topLabelRightIcon || buttonIcon
 
   return (
-    <View style={styles.cardContainer(maxWidth, fixedWidth)}>
+    <View style={styles.cardContainer(maxWidth, fixedWidth, fullHeight)}>
       <Stack
         direction="row"
         padding="3xs"
@@ -79,23 +82,30 @@ export const CompactCard = (({
         />
 
         {/* Card Body */}
-        <Stack gap="3xs" padding={{ bottom: '3xs' }} flexShrink={1} justifyContent="space-between">
+        <Stack gap="3xs" padding={{ bottom: '3xs' }} flexShrink={1} justifyContent="space-between" width="100%">
           <Stack gap="3xs" padding={{ right: '4xs', left: '4xs' }}>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
-              {/* top row including label and buttonIcon */}
-              <Stack direction="row" gap="4xs" justifyContent="space-between" flex={1}>
-                <Stack direction="row" gap="4xs">
-                  {topLabelIcon && <HoliIcon icon={topLabelIcon} color="support" size={16} />}
-                  <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support">
-                    {topLabel}
-                  </Text>
+            {hasTopLabel && (
+              <Stack direction="row" alignItems="center" justifyContent="space-between">
+                {/* top row including label and buttonIcon */}
+                <Stack direction="row" gap="4xs" justifyContent="space-between" flex={1}>
+                  <Stack
+                    direction="row"
+                    gap="4xs"
+                    flex={1}
+                    margin={Platform.OS === 'web' ? undefined : { right: 'xs' }}
+                  >
+                    {topLabelIcon && <HoliIcon icon={topLabelIcon} color="support" size={16} />}
+                    <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
+                      {topLabel}
+                    </Text>
+                  </Stack>
+                  {topLabelRightIcon && <HoliIcon icon={topLabelRightIcon} size={16} />}
                 </Stack>
-                {topLabelRightIcon && <HoliIcon icon={topLabelRightIcon} size={16} />}
+                {buttonIcon && (
+                  <ButtonIcon icon={buttonIcon} label="buttonIconLabel" size="sm" variant={buttonIconVariant} />
+                )}
               </Stack>
-              {buttonIcon && (
-                <ButtonIcon icon={buttonIcon} label="buttonIconLabel" size="sm" variant={buttonIconVariant} />
-              )}
-            </Stack>
+            )}
             {/* titles */}
             <Stack gap="4xs">
               <TextLink ellipsizeMode="tail" size="sm" numberOfLines={2}>
@@ -123,8 +133,9 @@ CompactCard.FooterDate = FooterDate
 CompactCard.FooterProgressBar = FooterProgressBar
 
 const stylesheet = createStyleSheet(() => ({
-  cardContainer: (maxWidth?: DimensionValue, width?: DimensionValue) => ({
+  cardContainer: (maxWidth?: DimensionValue, width?: DimensionValue, fullHeight?: boolean) => ({
     maxWidth: maxWidth ?? '100%',
     width: width ?? undefined,
+    height: fullHeight ? '100%' : undefined,
   }),
 }))

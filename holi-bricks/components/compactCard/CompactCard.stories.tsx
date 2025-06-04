@@ -31,8 +31,8 @@ const meta: Meta<typeof CompactCard> = {
   },
   args: {
     title: 'Title can be this amount of lines, and will be truncated if it grows too much',
-    topLabel: 'Top label',
-    subtitle: 'by Name of the Org in one line or it’ll get truncated',
+    topLabel: 'Top label will be truncated if it gets too long',
+    subtitle: "by Name of the Org in one line or it'll get truncated",
     fixedWidth: 360,
     topIcon: Chat3,
     bottomIcon: Chat3,
@@ -79,6 +79,23 @@ export const WithImage: Story = {
     return (
       <View style={{ gap: 6, flexDirection: 'row' }}>
         <CompactCard {...args} imageSrc={'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg'} />
+      </View>
+    )
+  },
+}
+
+export const WithoutTopLabel: Story = {
+  render: function Render(args) {
+    return (
+      <View style={{ gap: 6, flexDirection: 'row' }}>
+        <CompactCard
+          {...args}
+          topLabelIcon={undefined}
+          topLabelRightIcon={undefined}
+          topLabel={undefined}
+          buttonIcon={undefined}
+          imageSrc={'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg'}
+        />
       </View>
     )
   },
