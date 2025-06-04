@@ -3,6 +3,7 @@ query taskById($id: UUID!) {
     id
     name
     description
+    impact
     slotsAvailable
     slotsTaken
     location
@@ -43,6 +44,7 @@ mutation CreateTask($input: CreateTaskInput!) {
     id
     name
     description
+    impact
     visibility
     regularity
     duration
@@ -62,6 +64,7 @@ mutation UpdateTask($input: UpdateTaskInput!) {
     id
     name
     description
+    impact
     visibility
     regularity
     duration

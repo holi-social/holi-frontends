@@ -59,7 +59,7 @@ export const transformTypesenseDocument = (
 
   return {
     title: engagement.title,
-    description: engagement.description,
+    bodyContent: { content: engagement.description },
     chips: [...topics, ...skills],
     visibility: 'public',
     infoList,

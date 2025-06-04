@@ -375,13 +375,6 @@ export type AuthenticatedUserConnectionStatusToSpaceArgs = {
   spaceId: Scalars['UUID']['input']
 }
 
-export enum BookmarkType {
-  Initiative = 'INITIATIVE',
-  Insight = 'INSIGHT',
-  Quote = 'QUOTE',
-  Recommendation = 'RECOMMENDATION',
-}
-
 /** Choice(id, poll, choice_text, votes, _order) */
 export type Choice = {
   __typename?: 'Choice'
@@ -569,6 +562,7 @@ export type CreateTaskInput = {
   description: Scalars['String']['input']
   duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
+  impact?: InputMaybe<Scalars['String']['input']>
   interactionSignupLink?: InputMaybe<Scalars['String']['input']>
   interactionType?: InputMaybe<InteractionType>
   location?: InputMaybe<Scalars['String']['input']>
@@ -828,8 +822,6 @@ export type Insight = {
   initiatives: Array<Initiative>
   /** A list of all users involved interacting with the insight (excluding the insight creator). Includes authors of all the posts and all commenters of any posts and discussions */
   involvedUsers: UserPaged
-  /** @deprecated This type has been renamed. Keep for backwards compatibility. Versions 1.14.XX */
-  isBookmarked: Scalars['Boolean']['output']
   isFavorite: Scalars['Boolean']['output']
   numberOfPosts: Scalars['Int']['output']
   polls: Array<Poll>
@@ -892,8 +884,6 @@ export type InsightPreviewPaged = {
   /** Total number of items in the filtered dataset. */
   totalResults: Scalars['Int']['output']
 }
-
-export type InsightQuoteRecommendationInitiative = Initiative | Insight | Quote | Recommendation
 
 export type InspirationPostCategory = {
   __typename?: 'InspirationPostCategory'
@@ -984,11 +974,6 @@ export type Moderation_ReportSubmission = {
   reason?: InputMaybe<Moderation_Reason>
 }
 
-export type Moderation_Success = {
-  __typename?: 'Moderation_Success'
-  success: Scalars['Boolean']['output']
-}
-
 export type Mutation = {
   __typename?: 'Mutation'
   addCollaborationTool: CollaborationTool
@@ -998,10 +983,6 @@ export type Mutation = {
   anonCount?: Maybe<Scalars['Void']['output']>
   appVolunteering_trackEngagementView: AppVolunteering_TrackEngagementViewResponse
   blockUser: Result
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmark: Result
-  /** @deprecated Use 'favorite' mutation instead. Keep for version <=1.14.5 */
-  bookmarkInsight: Result
   createAppointment: Appointment
   createFeedPost: FeedPost
   createPoll: Poll
@@ -1029,12 +1010,8 @@ export type Mutation = {
   moderation_createReport: Moderation_ReportConfirmation
   notifications_updatePreferences: Array<Maybe<Notifications_WorkflowPreferences>>
   registerDevice: Result
-  /** @deprecated Use 'unfavorite' mutation instead. Keep for version <=1.14.5 */
-  removeInsightBookmark: Result
   removeReactionFromComment: Comment
   reportContent: Result
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  unbookmark: Result
   unfavorite: Result
   unsubscribeFromNewsletter: Result
   updateAppointment: Appointment
@@ -1059,8 +1036,10 @@ export type Mutation = {
   /** When no userId is provided, the logged in user is used instead. */
   updateSpaceUserConnection: Space
   updateTask: Task
+  /** @deprecated Use vote_on_poll instead. */
   updateVotes: Choice
   validateSpace: Result
+  voteOnPoll: Result
 }
 
 export type MutationAddCollaborationToolArgs = {
@@ -1089,15 +1068,6 @@ export type MutationAppVolunteering_TrackEngagementViewArgs = {
 
 export type MutationBlockUserArgs = {
   userId: Scalars['UUID']['input']
-}
-
-export type MutationBookmarkArgs = {
-  bookmarkId: Scalars['UUID']['input']
-  bookmarkType: BookmarkType
-}
-
-export type MutationBookmarkInsightArgs = {
-  insightId: Scalars['UUID']['input']
 }
 
 export type MutationCreateAppointmentArgs = {
@@ -1194,10 +1164,6 @@ export type MutationRegisterDeviceArgs = {
   input: RegisterDeviceInput
 }
 
-export type MutationRemoveInsightBookmarkArgs = {
-  insightId: Scalars['UUID']['input']
-}
-
 export type MutationRemoveReactionFromCommentArgs = {
   input: CommentReactionInput
 }
@@ -1206,11 +1172,6 @@ export type MutationReportContentArgs = {
   contentType: ContentType
   description?: InputMaybe<Scalars['String']['input']>
   objectId: Scalars['UUID']['input']
-}
-
-export type MutationUnbookmarkArgs = {
-  bookmarkId: Scalars['UUID']['input']
-  bookmarkType: BookmarkType
 }
 
 export type MutationUnfavoriteArgs = {
@@ -1316,6 +1277,11 @@ export type MutationUpdateVotesArgs = {
 
 export type MutationValidateSpaceArgs = {
   input: ValidateSpaceInput
+}
+
+export type MutationVoteOnPollArgs = {
+  choiceIds: Array<Scalars['UUID']['input']>
+  pollId: Scalars['UUID']['input']
 }
 
 export type MySpaces = {
@@ -1456,14 +1422,16 @@ export enum PermissionType {
   Participants = 'PARTICIPANTS',
 }
 
-/** Poll(id, question_text, created, modified, creator, is_edited, is_closed, is_deleted, status, is_public) */
+/** Poll(id, question_text, created, modified, creator, is_edited, is_closed, is_deleted, status, is_public, is_multi_select, max_choices) */
 export type Poll = {
   __typename?: 'Poll'
   choices: Array<Choice>
   created: Scalars['DateTime']['output']
   creator: User
   id: Scalars['UUID']['output']
+  isMultiSelect: Scalars['Boolean']['output']
   isPublic: Scalars['Boolean']['output']
+  maxChoices: Scalars['Int']['output']
   modified: Scalars['DateTime']['output']
   questionText: Scalars['String']['output']
 }
@@ -2203,7 +2171,7 @@ export enum StatusType {
   Upcoming = 'UPCOMING',
 }
 
-/** Task(id, interaction_signup_link, name, description, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, interaction_type, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
+/** Task(id, interaction_signup_link, name, description, impact, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, interaction_type, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']
@@ -2214,6 +2182,7 @@ export type Task = {
   duration?: Maybe<Duration>
   geolocation?: Maybe<GeolocationPoint>
   id: Scalars['UUID']['output']
+  impact?: Maybe<Scalars['String']['output']>
   interactionSignupLink?: Maybe<Scalars['String']['output']>
   interactionType?: Maybe<InteractionType>
   location?: Maybe<Scalars['String']['output']>
@@ -2377,6 +2346,7 @@ export type UpdateTaskInput = {
   description: Scalars['String']['input']
   duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
+  impact?: InputMaybe<Scalars['String']['input']>
   interactionSignupLink?: InputMaybe<Scalars['String']['input']>
   interactionType?: InputMaybe<InteractionType>
   location?: InputMaybe<Scalars['String']['input']>
@@ -2449,12 +2419,6 @@ export enum UserConnectionStatus {
 /** UserFavorite(id, user, favoritable_id, favoritable_type, created_at) */
 export type UserFavorite = {
   __typename?: 'UserFavorite'
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmarkId: Scalars['String']['output']
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmarkItem: InsightQuoteRecommendationInitiative
-  /** @deprecated This has been renamed. Keep for <= 1.14.5 */
-  bookmarkType: Scalars['String']['output']
   favoritable: Insight
   favoritableId: Scalars['UUID']['output']
   favoritableType: Scalars['String']['output']
@@ -2478,7 +2442,7 @@ export type UserPaged = {
 }
 
 export enum UserRole {
-  CommunityManager = 'COMMUNITY_MANAGER',
+  CommunityTeam = 'COMMUNITY_TEAM',
   CoFounder = 'CO_FOUNDER',
   Editor = 'EDITOR',
   Internal = 'INTERNAL',
@@ -2537,7 +2501,7 @@ export type FavoritesQuery = {
       favoritableId: string
       favoritableType: string
       favoritable: {
-        __typename?: 'Insight'
+        __typename: 'Insight'
         id: string
         title: string
         description: string
@@ -2698,6 +2662,7 @@ export type TaskByIdQuery = {
     id: string
     name: string
     description: string
+    impact?: string
     slotsAvailable: number
     slotsTaken: number
     location?: string
@@ -2740,6 +2705,7 @@ export type CreateTaskMutation = {
     id: string
     name: string
     description: string
+    impact?: string
     visibility: VisibilityType
     regularity: Regularity
     duration?: Duration
@@ -2765,6 +2731,7 @@ export type UpdateTaskMutation = {
     id: string
     name: string
     description: string
+    impact?: string
     visibility: VisibilityType
     regularity: Regularity
     duration?: Duration
@@ -3113,6 +3080,7 @@ export const FavoritesDocument = gql`
       favoritableType
       favoritable {
         ... on Insight {
+          __typename
           id
           title
           description
@@ -3366,6 +3334,7 @@ export const TaskByIdDocument = gql`
     id
     name
     description
+    impact
     slotsAvailable
     slotsTaken
     location
@@ -3445,6 +3414,7 @@ export const CreateTaskDocument = gql`
     id
     name
     description
+    impact
     visibility
     regularity
     duration
@@ -3493,6 +3463,7 @@ export const UpdateTaskDocument = gql`
     id
     name
     description
+    impact
     visibility
     regularity
     duration

@@ -111,7 +111,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
       visibility: 'public',
       loading: loading,
       title: event?.title ?? '',
-      description: event?.eventDetails.description || '',
+      bodyContent: event?.eventDetails.description ? { content: event?.eventDetails.description } : undefined,
       infoList,
       coverImage: { uri: event?.imageUrl },
       date: event?.startDate ? event?.startDate : undefined,

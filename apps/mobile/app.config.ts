@@ -54,11 +54,6 @@ const config: ExpoConfig = {
   jsEngine: 'hermes',
   newArchEnabled: false,
   scheme: 'holi',
-  splash: {
-    image: './assets/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#F5F5F5',
-  },
   updates: {
     url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
     fallbackToCacheTimeout: 3000,
@@ -200,6 +195,15 @@ const config: ExpoConfig = {
       '@react-native-google-signin/google-signin',
       {
         iosUrlScheme: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME'),
+      },
+    ],
+    [
+      'expo-splash-screen',
+      {
+        backgroundColor: '#F5F5F5',
+        image: './assets/splash.png',
+        imageWidth: 220,
+        resizeMode: 'contain',
       },
     ],
     '@appcues/expo-config',

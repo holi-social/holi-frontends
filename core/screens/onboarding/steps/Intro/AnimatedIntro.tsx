@@ -1,30 +1,22 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
-import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import Spacing from '@holi/ui/foundations/Spacing'
 import { Text } from 'holi-bricks/components/text'
+import { Image } from 'holi-bricks/components/image'
 
-const peopleImage = {
-  source: require('@holi/ui/assets/img/onboarding/welcome-image/welcome-image.png'),
-  width: 260,
-  height: 366,
+const sparkles = {
+  source: require('@holi/ui/assets/img/onboarding/sparkles.svg'),
+  width: 56,
+  height: 56,
 }
-const calendarIcon = {
-  source: require('@holi/ui/assets/img/onboarding/calendar-icon/calendar-icon.png'),
-  width: 36,
-  height: 36,
+const highFive = {
+  source: require('@holi/ui/assets/img/onboarding/high-five.svg'),
+  width: 56,
+  height: 56,
 }
-const sparkleIcon = {
-  source: require('@holi/ui/assets/img/onboarding/sparkle-icon/sparkle-icon.png'),
-  width: 72,
-  height: 72,
-}
-const worldIcon = { source: require('@holi/ui/assets/img/onboarding/world-icon/world-icon.png'), width: 72, height: 72 }
+const conversation = { source: require('@holi/ui/assets/img/onboarding/conversation.svg'), width: 62, height: 61 }
 const initialAnimationDelay = 100
 
 const AnimatedIntro = () => {
@@ -38,7 +30,6 @@ const AnimatedIntro = () => {
   const textPosition = useSharedValue(-50)
   const textScale = useSharedValue(1.1)
   const textOpacity = useSharedValue(0)
-  const { height: screenHeight } = useClientWindowDimensions()
 
   const containerStyle = useAnimatedStyle(() => {
     return {
@@ -50,13 +41,6 @@ const AnimatedIntro = () => {
     return {
       opacity: iconsOpacity.value,
       transform: [{ rotate: `${iconsRotation.value}deg` }, { scale: iconsScale.value }],
-    }
-  })
-
-  const textStyle = useAnimatedStyle(() => {
-    return {
-      opacity: textOpacity.value,
-      transform: [{ translateY: textPosition.value }, { scale: textScale.value }],
     }
   })
 
@@ -104,85 +88,65 @@ const AnimatedIntro = () => {
   })
 
   return (
-    <Animated.View style={[styles.container, { gap: screenHeight < SMALL_DEVICE_HEIGHT ? Spacing.xxs : Spacing.xxl }]}>
+    <>
       <Animated.View style={[styles.imagesContainer, containerStyle]}>
-        <HoliLocalImage
-          label={t('onboarding.welcome.peopleImage')}
-          imageSource={peopleImage.source}
-          width={peopleImage.width}
-          height={peopleImage.height}
-          resizeMode={'contain'}
+        <Image
+          source={require('@holi/ui/assets/img/onboarding/hero.png')}
+          width={560}
+          height={448}
+          alt={t('onboarding.welcome.hero')}
+          resizeMode="contain"
         />
-        <Animated.View style={[styles.calendar, iconsStyle]}>
-          <HoliLocalImage
-            label={t('onboarding.welcome.calendarIcon')}
-            imageSource={calendarIcon.source}
-            width={calendarIcon.width}
-            height={calendarIcon.height}
-            resizeMode={'contain'}
+        <Animated.View style={[styles.sparkles, iconsStyle]}>
+          <Image alt="" source={sparkles.source} width={sparkles.width} height={sparkles.height} resizeMode="contain" />
+        </Animated.View>
+        <Animated.View style={[styles.conversation, iconsStyle]}>
+          <Image
+            alt=""
+            source={conversation.source}
+            width={conversation.width}
+            height={conversation.height}
+            resizeMode="contain"
           />
         </Animated.View>
-        <Animated.View style={[styles.world, iconsStyle]}>
-          <HoliLocalImage
-            label={t('onboarding.welcome.worldIcon')}
-            imageSource={worldIcon.source}
-            width={worldIcon.width}
-            height={worldIcon.height}
-            resizeMode={'contain'}
-          />
-        </Animated.View>
-        <Animated.View style={[styles.sparkle, iconsStyle]}>
-          <HoliLocalImage
-            label={t('onboarding.welcome.sparkleIcon')}
-            imageSource={sparkleIcon.source}
-            width={sparkleIcon.width}
-            height={sparkleIcon.height}
-            resizeMode={'contain'}
-          />
+        <Animated.View style={[styles.highFive, iconsStyle]}>
+          <Image alt="" source={highFive.source} width={highFive.width} height={highFive.height} resizeMode="contain" />
         </Animated.View>
       </Animated.View>
-      <Animated.View style={[styles.textContainer, textStyle]}>
-        <Text size="3xl" textAlign="center">
+      <View style={styles.heroImageAlignment}>
+        <Text size="4xl" headingLevel="1" numberOfLines={2}>
           {t('onboarding.welcome.title')}
         </Text>
-        <Text size="3xl" textAlign="center">
-          {t('onboarding.welcome.text')}
-        </Text>
-      </Animated.View>
-    </Animated.View>
+      </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  textContainer: {
-    zIndex: 0,
-  },
   imagesContainer: {
     position: 'relative',
-    justifyContent: 'center',
+    display: 'flex',
     alignItems: 'center',
-    zIndex: 1,
+    marginHorizontal: -64,
   },
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  heroImageAlignment: {
+    width: '100%',
+    maxWidth: 600,
   },
-  calendar: {
+  sparkles: {
     position: 'absolute',
-    width: 50,
-    height: 50,
-    top: 30,
-    left: 82,
+    top: 26,
+    left: 230,
   },
-  world: {
+  conversation: {
     position: 'absolute',
-    bottom: 88,
-    left: -28,
+    bottom: 50,
+    left: 96,
   },
-  sparkle: {
+  highFive: {
     position: 'absolute',
-    bottom: 30,
-    right: -30,
+    top: 148,
+    right: 140,
   },
 })
 

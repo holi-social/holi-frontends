@@ -48,9 +48,14 @@ export type Partner = {
 
 export type DetailsScreenAuthor = AuthorBannerProps
 
+type BodyContent = {
+  title?: string
+  content: string
+}
+
 export type DetailsScreenData = {
   date?: Date | string
-  description?: string
+  bodyContent?: BodyContent | BodyContent[]
   author?: DetailsScreenAuthor
   chips?: DetailsScreenChips[]
   seoDescription?: string
@@ -64,25 +69,24 @@ export type DetailsScreenData = {
     details: Partner[]
   }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
-  descriptionTitle?: string
 }
 
 type DetailsScreenProps = DetailsScreenData
 
 const isHtml = (str: string) => /<\/?[a-z][\s\S]*>/i.test(str)
 
-const DescriptionRenderer = ({ description }: { description?: string }) => {
-  if (!description) return null
+const BodyContentRenderer = ({ content }: { content?: string }) => {
+  if (!content) return null
 
-  if (React.isValidElement(description)) {
-    return description
+  if (React.isValidElement(content)) {
+    return content
   }
 
-  if (typeof description === 'string') {
-    return isHtml(description) ? (
-      <HtmlRenderer content={description} />
+  if (typeof content === 'string') {
+    return isHtml(content) ? (
+      <HtmlRenderer content={content} />
     ) : (
-      <HoliRichTextOutput text={description as string} color="main" />
+      <HoliRichTextOutput text={content as string} color="main" />
     )
   }
 
@@ -90,7 +94,7 @@ const DescriptionRenderer = ({ description }: { description?: string }) => {
 }
 
 export const DetailsScreen = ({
-  description,
+  bodyContent,
   coverImage,
   chips = [],
   visibility,
@@ -102,19 +106,18 @@ export const DetailsScreen = ({
   seoDescription,
   partners,
   _footer = null,
-  descriptionTitle,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
-  const hasData = title && description
 
   const [imageFailed, setImageFailed] = useState(false)
   const randomPlaceholderImage = useRef(placeholderImages[Math.floor(Math.random() * placeholderImages.length)]).current
 
-  if (loading && !hasData) {
+  if (loading) {
     return <DetailsScreenSkeleton />
   }
 
-  const _seoDescription = seoDescription || (typeof description === 'string' ? description : '')
+  const _seoDescription = seoDescription || (!Array.isArray(bodyContent) ? bodyContent!.content : '')
+
   return (
     <>
       <HoliHead
@@ -213,12 +216,18 @@ export const DetailsScreen = ({
               })}
             </Stack>
 
-            {/* description */}
-            <Stack gap="3xs">
-              {descriptionTitle && <Text size="xl">{descriptionTitle}</Text>}
-              <DescriptionRenderer description={description} />
-            </Stack>
+            {/* body content */}
+            {(Array.isArray(bodyContent) ? bodyContent : [bodyContent]).map((bodyContentItem, idx) =>
+              bodyContentItem ? (
+                <Stack gap="3xs" key={`description-${idx}`}>
+                  {bodyContentItem.title && <Text size="xl">{bodyContentItem.title}</Text>}
+                  <BodyContentRenderer content={bodyContentItem.content} />
+                </Stack>
+              ) : undefined
+            )}
+
             {author && <AuthorBanner {...author} />}
+
             {partners && (
               <Stack direction="column" gap="xxs">
                 <Text size="sm" color="support">

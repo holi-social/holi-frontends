@@ -54,6 +54,7 @@ const EditTask = () => {
   // input fields
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+  const [impact, setImpact] = useState('')
   const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
   const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
   const [interactionType, setInteractionType] = useState<HoliModalSelectOption<InteractionType> | undefined>()
@@ -124,6 +125,7 @@ const EditTask = () => {
           spaceId: space?.id,
           name,
           description,
+          impact,
           visibility: visibility?.id as VisibilityType,
           locationType: locationType?.id as LocationType,
           interactionType: interactionType?.id as CGInteractionType,
@@ -328,6 +330,7 @@ const EditTask = () => {
         <TaskInputForm
           name={name}
           description={description}
+          impact={impact}
           visibility={visibility}
           locationType={locationType}
           interactionType={interactionType}
@@ -345,6 +348,7 @@ const EditTask = () => {
           timeFrameSectionProps={timeFrameSectionProps}
           onChangeName={setName}
           onChangeDescription={setDescription}
+          onChangeImpact={setImpact}
           onChangeVisibility={setVisibility}
           onChangeLocationType={setLocationType}
           onChangeInteractionType={setInteractionType}

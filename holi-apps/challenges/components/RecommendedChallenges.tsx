@@ -88,7 +88,7 @@ const RecommendedChallenges = () => {
       renderItem={({ item, index }: { item: Challenge; index: number }) => (
         <ChallengeCard
           challenge={item}
-          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, item.title, index)}
+          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, item.title, index, 'act')}
         />
       )}
       data={challenges.slice(0, MAX_ITEMS_TO_DISPLAY)}
@@ -97,6 +97,7 @@ const RecommendedChallenges = () => {
       subline={t('challenges:recommendations.subline')}
       seeAllPath={createInAppChallengesPath()}
       onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
+      seeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'all')}
       labelSeeMore={t('global.seeMore')}
       loading={isLoading}
       cardWidth={cardWidth}
