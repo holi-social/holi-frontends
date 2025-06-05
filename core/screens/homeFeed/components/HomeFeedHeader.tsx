@@ -16,6 +16,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
 import Spacing from '@holi/ui/foundations/Spacing'
+import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
 
 interface HomeFeedHeaderProps {
   refreshing?: boolean
@@ -50,6 +51,7 @@ const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
       )}
 
       <HoliBox padding={[Spacing.sm, 0, 0, 0]} layout={styles.container} testID="home-feed-insights-heading">
+        <MarketingBanner key="home-feed-marketing-banner" />
         {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
         {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
         <ProfileCompletionCard page="home_feed" />
