@@ -20,9 +20,11 @@ const VolunteeringRecosSlider = ({ recos }: VolunteeringRecosSliderProps) => {
   const cardWidth = useCardWidth()
 
   const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
-    return TrackingEvent.RecommendationViewed('volunteering_opportunity', {
+    return TrackingEvent.RecommendationViewed(item.type === 'task' ? 'space_task' : 'volunteering_opportunity', {
       title: item?.title,
       id: item?.id,
+      commitmentType: item.commitment_label,
+      locationType: item.location_type,
     })
   }
 

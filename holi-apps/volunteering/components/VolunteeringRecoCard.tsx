@@ -52,7 +52,8 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
       trackingEvent={TrackingEvent.RecommendationPressed(
         engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
         engagement.id,
-        index
+        index,
+        { commitmentType: engagement.commitment_label, locationType: engagement.location_type }
       )}
       isFullHeight={!!fixedWidth}
       testID="volunteering-reco-card"

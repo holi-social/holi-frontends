@@ -133,7 +133,10 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
     await user.press(screen.getByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0)
+      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0, {
+        commitmentType: 'recurring',
+        locationType: 'onsite',
+      })
     )
   })
 

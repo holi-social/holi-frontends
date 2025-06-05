@@ -75,23 +75,35 @@ describe('VolunteeringRecoCard', () => {
 
   it('tracks press on volunteering recommendation', async () => {
     const user = userEvent.setup()
-    const reco = makeVolunteeringDocument()
+    const reco = makeVolunteeringDocument({
+      commitment_label: 'negotiable',
+    })
 
     render(<VolunteeringRecoCard engagement={reco} index={13} />)
 
     await user.press(screen.getByRole('link'))
 
-    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.RecommendationPressed('volunteering_opportunity', reco.id, 13))
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.RecommendationPressed('volunteering_opportunity', reco.id, 13, {
+        commitmentType: 'negotiable',
+        locationType: 'onsite',
+      })
+    )
   })
 
   it('tracks press on task recommendation', async () => {
     const user = userEvent.setup()
-    const reco = makeTaskDocument()
+    const reco = makeTaskDocument({ commitment_label: 'one-time' })
 
     render(<VolunteeringRecoCard engagement={reco} index={13} />)
 
     await user.press(screen.getByRole('link'))
 
-    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.RecommendationPressed('space_task', reco.id, 13))
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.RecommendationPressed('space_task', reco.id, 13, {
+        commitmentType: 'one-time',
+        locationType: 'onsite',
+      })
+    )
   })
 })

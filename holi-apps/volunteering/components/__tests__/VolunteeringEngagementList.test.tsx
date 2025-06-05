@@ -81,13 +81,16 @@ describe('VolunteeringEngagementList', () => {
     await user.press(screen.getByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 3)
+      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 3, {
+        commitmentType: 'recurring',
+        locationType: 'onsite',
+      })
     )
   })
 
   it('should track pressing task cards', async () => {
     const user = userEvent.setup()
-    const task = makeTaskDocument()
+    const task = makeTaskDocument({ commitment_label: 'one-time' })
     const engagementsWithTask = [...engagements, task]
 
     render(<VolunteeringEngagementList engagements={engagementsWithTask} />)
@@ -95,7 +98,10 @@ describe('VolunteeringEngagementList', () => {
     await user.press(screen.getByText(task.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.RecommendationPressed('space_task', task.id, engagements.length)
+      TrackingEvent.RecommendationPressed('space_task', task.id, engagements.length, {
+        commitmentType: 'one-time',
+        locationType: 'onsite',
+      })
     )
   })
 

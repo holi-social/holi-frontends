@@ -69,7 +69,10 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
           width="100%"
         >
           <ButtonTracked
-            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
+            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
+              commitmentType: document?.commitmentType,
+              locationType: document?.locationType,
+            })}
             icon={ExternalLink}
             label={t('volunteering:engagementDetail.getInTouch')}
             onPress={() => {

@@ -13,6 +13,7 @@ export const makeEngagement = ({
   skills?: string[]
   location?: boolean
   organizer?: boolean
+  commitmentLabel?: string
 } = {}): VolunteeringEngagement => {
   return {
     id: faker.string.uuid(),
@@ -122,4 +123,4 @@ export const makeEngagements = (length: number): VolunteeringEngagement[] =>
   Array.from({ length }, () => makeEngagement({ organizer: false }))
 
 export const makeVolunteeringDocuments = (length: number): LocalizedTypesenseDocument[] =>
-  Array.from({ length }, () => makeVolunteeringDocument({ organizer: false }))
+  Array.from({ length }, () => makeVolunteeringDocument({ organizer: false, commitment_label: 'recurring' }))
