@@ -40,6 +40,7 @@ const meta: Meta<typeof CompactCard> = {
     buttonIconVariant: 'tertiary',
     topLabelIcon: Chat3,
     date: new Date().toISOString(),
+    imageLabel: 'Image label',
   },
 }
 

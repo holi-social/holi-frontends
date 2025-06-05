@@ -33,6 +33,7 @@ export interface CompactCardProps {
   minHeight?: number
   children?: React.ReactNode
   fullHeight?: boolean
+  imageLabel: string
 }
 
 export const CompactCard = (({
@@ -53,6 +54,7 @@ export const CompactCard = (({
   minHeight,
   children,
   fullHeight,
+  imageLabel,
 }: CompactCardProps) => {
   const date = startDate ? new Date(startDate) : undefined
   const { styles } = useStyles(stylesheet)
@@ -79,6 +81,7 @@ export const CompactCard = (({
           bottomIcon={bottomIcon}
           avatar={avatar}
           minHeight={minHeight}
+          imageLabel={imageLabel}
         />
 
         {/* Card Body */}
@@ -108,7 +111,7 @@ export const CompactCard = (({
             )}
             {/* titles */}
             <Stack gap="4xs">
-              <TextLink ellipsizeMode="tail" size="sm" numberOfLines={2}>
+              <TextLink ellipsizeMode="tail" size="sm" numberOfLines={2} role="presentation">
                 {title}
               </TextLink>
 
