@@ -78,7 +78,6 @@ export const VolunteeringEngagementList = ({
             {engagements.map((engagement, index) => {
               return (
                 <HoliGridCell key={engagement.id}>
-                  {/* TODO(SF) fix tests testID="btn-to-volunteering-engagement" */}
                   <VolunteeringRecoCard engagement={engagement} index={index} fixedWidth="100%" />
                 </HoliGridCell>
               )

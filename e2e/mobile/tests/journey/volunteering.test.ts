@@ -35,7 +35,7 @@ describe('@Volunteering', () => {
 })
 
 const assertListItemExisting = async () => {
-  await waitForElementWithTestId('btn-to-volunteering-engagement')
+  await waitForElementWithTestId('volunteering-reco-card')
 }
 
 const assertFilteringWorks = async () => {
@@ -65,7 +65,7 @@ const assertFilteringWorks = async () => {
 }
 
 const navigateToDetailview = async () => {
-  await tapOnElementWithTestId('btn-to-volunteering-engagement')
+  await tapOnElementWithTestId('volunteering-reco-card')
   await waitForElementWithTestId('volunteering-detailview-container', 40000)
 
   // go back to items listing

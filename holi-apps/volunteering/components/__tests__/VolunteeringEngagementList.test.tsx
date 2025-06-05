@@ -92,7 +92,7 @@ describe('VolunteeringEngagementList', () => {
 
     render(<VolunteeringEngagementList engagements={engagementsWithTask} />)
 
-    await user.press(screen.getAllByLabelText(task.title)[0])
+    await user.press(screen.getByText(task.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('space_task', task.id, engagements.length)
