@@ -85,7 +85,6 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
   StyleSheet.create({
     container: {
       width: cardWidth,
-      marginRight: Spacing['3xs'],
       flexDirection: 'column',
       padding: Spacing['3xs'],
       borderWidth: 1,

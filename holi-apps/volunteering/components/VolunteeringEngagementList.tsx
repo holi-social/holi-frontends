@@ -2,25 +2,22 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 
 import { Button } from 'holi-bricks/components/button'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
+import { Spacing } from 'holi-bricks/foundations'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -77,32 +74,12 @@ export const VolunteeringEngagementList = ({
           </View>
         )}
         <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
-          <HoliGridWrapper>
+          <HoliGridWrapper gap={Spacing['3xs']}>
             {engagements.map((engagement, index) => {
-              const link = linkFromLocator(engagement.type, engagement.link_locators)
               return (
                 <HoliGridCell key={engagement.id}>
-                  <HoliLinkTracked
-                    href={link}
-                    label={engagement?.title}
-                    trackingEvent={TrackingEvent.RecommendationPressed(
-                      engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
-                      engagement.id,
-                      index
-                    )}
-                  >
-                    <HoliCard
-                      loading={false}
-                      imageUri={engagement.image_url}
-                      imageLabel={engagement.title}
-                      // Workaround for fallback image to be displayed correctly
-                      imageWidth={0}
-                      testID="btn-to-volunteering-engagement"
-                      imageFallback={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
-                    >
-                      <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-                    </HoliCard>
-                  </HoliLinkTracked>
+                  {/* TODO(SF) fix tests testID="btn-to-volunteering-engagement" */}
+                  <VolunteeringRecoCard engagement={engagement} index={index} fixedWidth="100%" />
                 </HoliGridCell>
               )
             })}
