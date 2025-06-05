@@ -33,6 +33,8 @@ const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
   organizer_name: 'Test Organization',
   organizer_image_url: 'https://example.com/volunteering/organizer_' + engagementId + '.jpg',
   external_url: 'https://example.com/volunteering/' + engagementId,
+  location_type: 'onsite',
+  commitment_label: 'negotiable',
 })
 
 const t: TFunction = ((k: string) => k) as TFunction
@@ -134,6 +136,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     document.topics_v2?.forEach((topic) => expect(screen.getByText(`topic.${topic}`)).toBeVisible())
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
     expect(screen.getByText('privacy.visibility.public')).toBeVisible()
+    expect(screen.getByText('volunteering:engagement.commitment_label.negotiable')).toBeVisible()
   })
 
   it('should render correctly (de)', async () => {
