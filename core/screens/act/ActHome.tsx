@@ -51,7 +51,6 @@ const ActHome = () => {
   return (
     <Screen
       preset="scroll"
-      contentContainerPadding={{ bottom: '3xl' }}
       scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
       headerOptions={{
         title,

@@ -137,7 +137,13 @@ const HomeFeed = () => {
     } else if (item.volunteeringReco) {
       return TrackingEvent.RecommendationViewed(
         item.volunteeringReco.type === 'task' ? 'space_task' : 'volunteering_opportunity',
-        { id: item.volunteeringReco.id, title: item.volunteeringReco.title }
+        {
+          id: item.volunteeringReco.id,
+          title: item.volunteeringReco.title,
+          commitmentType: item.volunteeringReco.commitment_label,
+          locationType: item.volunteeringReco.location_type,
+          source: item.volunteeringReco.source,
+        }
       )
     } else if (item.goodNewsArticle) {
       return TrackingEvent.RecommendationViewed('goodnews', {

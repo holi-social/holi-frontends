@@ -38,7 +38,7 @@ describe('VolunteeringRecosTypesense', () => {
     expect(screen.getByText('app.subline')).toBeOnTheScreen()
 
     // Results
-    expect(screen.getAllByRole('link')).toHaveLength(6) // 5 cards + 1 see all button
+    expect(screen.getAllByRole('link')).toHaveLength(5)
     engagements.forEach((engagement) => {
       expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     })

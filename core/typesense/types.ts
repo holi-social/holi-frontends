@@ -30,6 +30,9 @@ export interface TypesenseDocument {
   organizer_name?: string
   organizer_image_url?: string
   external_url?: string
+  location_type?: string
+  commitment_label?: string
+  commitment_duration?: string
 }
 
 export type LocalizedTypesenseDocument = Omit<

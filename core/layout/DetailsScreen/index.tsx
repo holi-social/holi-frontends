@@ -69,6 +69,7 @@ export type DetailsScreenData = {
     details: Partner[]
   }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
+  descriptionTitle?: string
 }
 
 type DetailsScreenProps = DetailsScreenData

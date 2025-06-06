@@ -88,7 +88,6 @@ const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     container: {
       width: cardWidth,
-      marginRight: 12,
     },
     labelRow: {
       flexDirection: 'row',

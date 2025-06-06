@@ -411,9 +411,12 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (engagementId: string): TrackingEvent => ({
+    pressed: (
+      engagementId: string,
+      otherProperties: Record<string, string | number | undefined> = {}
+    ): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
-      properties: { engagementId },
+      properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
   }
@@ -489,19 +492,34 @@ export namespace TrackingEvent {
     },
   })
 
-  export const RecommendationPressed = (type: RecommendationType, itemId: string, index: number): TrackingEvent => ({
+  type RecommendationProperties = {
+    title?: string
+    name?: string
+    id?: string | number
+    commitmentType?: string
+    locationType?: string
+    source?: string
+  }
+
+  export const RecommendationPressed = (
+    type: RecommendationType,
+    itemId: string,
+    index: number,
+    otherProperties: RecommendationProperties = {}
+  ): TrackingEvent => ({
     name: 'recommendation_pressed',
     ...versionOne,
     properties: {
       type: type,
       itemId: itemId,
       index: index,
+      ...otherProperties,
     },
   })
 
   export const RecommendationViewed = (
     type: RecommendationType | 'challenge',
-    otherProperties: Record<string, string | number>
+    otherProperties: RecommendationProperties = {}
   ): TrackingEvent => ({
     ...versionOne,
     name: 'recommendation_viewed',
