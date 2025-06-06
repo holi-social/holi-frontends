@@ -6,10 +6,10 @@ import { useEffect } from 'react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 type MarketingBannerProps = {
-  frameId?: string // !important: do not use the same frameId for multiple instances of the component
+  frameId: 'home-feed-banner' | 'act-home-banner' // !important: do not use the same frameId for multiple instances of the component
 }
 
-const MarketingBanner: React.FC<MarketingBannerProps> = ({ frameId = 'marketingBanner' }) => {
+const MarketingBanner: React.FC<MarketingBannerProps> = ({ frameId }) => {
   const { user } = useLoggedInUser()
 
   useEffect(() => {

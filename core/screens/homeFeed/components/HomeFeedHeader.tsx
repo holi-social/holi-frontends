@@ -47,7 +47,7 @@ const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
         </>
       )}
 
-      <MarketingBanner frameId="secondaryMarketingBanner" />
+      <MarketingBanner frameId="home-feed-banner" />
 
       {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
       {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}

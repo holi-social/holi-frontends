@@ -72,7 +72,7 @@ const ActHome = () => {
         <ActNavBar />
         <Stack gap="xxl" direction="column">
           <HoliContainer>
-            <MarketingBanner />
+            <MarketingBanner frameId="act-home-banner" />
           </HoliContainer>
           <AttendingChallengeEventsLegacy />
           {sections.map((sectionName) => (
