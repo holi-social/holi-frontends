@@ -60,7 +60,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
         }
       )}
       isFullHeight={!!fixedWidth}
-      testID="volunteering-reco-card"
+      testID={`${engagement.type}-reco-card`}
     >
       <CompactCard
         title={engagement.title}
