@@ -70,8 +70,6 @@ export type DetailsScreenData = {
   }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
   descriptionTitle?: string
-  commitmentType?: string
-  locationType?: string
 }
 
 type DetailsScreenProps = DetailsScreenData

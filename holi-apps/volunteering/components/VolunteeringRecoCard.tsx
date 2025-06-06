@@ -53,7 +53,11 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
         engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
         engagement.id,
         index,
-        { commitmentType: engagement.commitment_label, locationType: engagement.location_type }
+        {
+          commitmentType: engagement.commitment_label,
+          locationType: engagement.location_type,
+          source: engagement.source,
+        }
       )}
       isFullHeight={!!fixedWidth}
       testID="volunteering-reco-card"

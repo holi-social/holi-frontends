@@ -1,7 +1,12 @@
 import type { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import type { DetailsScreenData } from '@holi/core/layout/DetailsScreen'
 
-export type VolunteeringDetailsScreenData = DetailsScreenData & { externalUrl?: string }
+export type VolunteeringDetailsScreenData = DetailsScreenData & {
+  externalUrl?: string
+  commitmentType?: string
+  locationType?: string
+  source?: string
+}
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   [name: string]: InfoModalItemProps

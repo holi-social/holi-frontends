@@ -80,5 +80,6 @@ export const transformTypesenseDocument = (
     externalUrl: document.external_url,
     commitmentType: document.commitment_label,
     locationType: document.location_type,
+    source: document.source,
   }
 }

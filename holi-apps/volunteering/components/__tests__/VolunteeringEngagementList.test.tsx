@@ -84,6 +84,7 @@ describe('VolunteeringEngagementList', () => {
       TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 3, {
         commitmentType: 'recurring',
         locationType: 'onsite',
+        source: engagement.source,
       })
     )
   })

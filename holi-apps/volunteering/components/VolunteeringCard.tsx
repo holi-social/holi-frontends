@@ -48,7 +48,11 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
           engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
           engagement.id,
           index,
-          { commitmentType: engagement.commitment_label, locationType: engagement.location_type }
+          {
+            commitmentType: engagement.commitment_label,
+            locationType: engagement.location_type,
+            source: engagement.source,
+          }
         )}
       >
         <View style={styles.content}>

@@ -64,6 +64,7 @@ describe('transformDocument', () => {
       externalUrl: 'https://example.com/volunteering',
       locationType: 'onsite',
       commitmentType: 'recurring',
+      source: 'Voltastics',
     })
   })
 
@@ -119,6 +120,7 @@ describe('transformDocument', () => {
         },
       },
       externalUrl: undefined,
+      source: 'GoVolunteer',
     })
   })
 

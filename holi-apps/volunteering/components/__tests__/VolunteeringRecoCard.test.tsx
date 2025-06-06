@@ -87,6 +87,7 @@ describe('VolunteeringRecoCard', () => {
       TrackingEvent.RecommendationPressed('volunteering_opportunity', reco.id, 13, {
         commitmentType: 'negotiable',
         locationType: 'onsite',
+        source: reco.source,
       })
     )
   })
@@ -103,6 +104,7 @@ describe('VolunteeringRecoCard', () => {
       TrackingEvent.RecommendationPressed('space_task', reco.id, 13, {
         commitmentType: 'one-time',
         locationType: 'onsite',
+        source: reco.source,
       })
     )
   })

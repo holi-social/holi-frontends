@@ -142,6 +142,7 @@ const HomeFeed = () => {
           title: item.volunteeringReco.title,
           commitmentType: item.volunteeringReco.commitment_label,
           locationType: item.volunteeringReco.location_type,
+          source: item.volunteeringReco.source,
         }
       )
     } else if (item.goodNewsArticle) {
