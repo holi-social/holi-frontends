@@ -2,11 +2,9 @@ import { withProfiler } from '@sentry/react'
 import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
 
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
@@ -15,7 +13,6 @@ import ProfileCompletionCard from '@holi/core/screens/userprofile/components/Pro
 import { Stack } from 'holi-bricks/components/stack'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
-import Spacing from '@holi/ui/foundations/Spacing'
 import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
 
 interface HomeFeedHeaderProps {
@@ -30,7 +27,7 @@ const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
 
   return (
-    <Stack gap="md" margin={{ bottom: '3xs' }}>
+    <Stack gap="sm" margin={{ bottom: '3xs', top: 'md' }} testID="home-feed-insights-heading">
       {new Date() < bannerShowCutoff && (
         <>
           <HoliGap size="s" />
@@ -50,20 +47,13 @@ const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
         </>
       )}
 
-      <HoliBox padding={[Spacing.sm, 0, 0, 0]} layout={styles.container} testID="home-feed-insights-heading">
-        <MarketingBanner key="home-feed-marketing-banner" />
-        {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
-        {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
-        <ProfileCompletionCard page="home_feed" />
-      </HoliBox>
+      <MarketingBanner frameId="secondaryMarketingBanner" />
+
+      {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
+      {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
+      <ProfileCompletionCard page="home_feed" />
     </Stack>
   )
 }
 
 export default withProfiler(HomeFeedHeader, { name: 'HomeFeedHeader' })
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-  },
-})

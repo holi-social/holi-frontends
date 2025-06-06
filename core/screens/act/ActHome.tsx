@@ -14,6 +14,7 @@ import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
 import { Screen } from '@holi/core/components/Screen'
 import { Spacing } from 'holi-bricks/foundations'
 import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 type ActHomeParams = {
   section: string
@@ -70,7 +71,9 @@ const ActHome = () => {
       <Stack direction="column" gap="xs" testID="act-home">
         <ActNavBar />
         <Stack gap="xxl" direction="column">
-          <MarketingBanner key="act-home-marketing-banner" />
+          <HoliContainer>
+            <MarketingBanner />
+          </HoliContainer>
           <AttendingChallengeEventsLegacy />
           {sections.map((sectionName) => (
             <ActSection type={sectionName} key={sectionName} />
