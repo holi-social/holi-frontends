@@ -25,7 +25,7 @@ const VolunteeringRecosSlider = ({ recos }: VolunteeringRecosSliderProps) => {
       id: item?.id,
       commitmentType: item.commitment_label,
       locationType: item.location_type,
-      souce: item.source,
+      source: item.source,
     })
   }
 
