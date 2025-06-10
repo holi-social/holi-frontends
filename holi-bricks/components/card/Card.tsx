@@ -26,9 +26,10 @@ export interface CardProps {
   testID?: string
   children: AllowedCardChildren | AllowedCardChildren[]
   onPress?(): void
+  fullHeight?: boolean
 }
 
-const CardWrapper = ({ children, testID, onPress }: CardProps) => {
+const CardWrapper = ({ children, testID, onPress, fullHeight }: CardProps) => {
   if (isDev) {
     React.Children.forEach(children, (child) => {
       if (!React.isValidElement(child)) return
@@ -53,6 +54,7 @@ const CardWrapper = ({ children, testID, onPress }: CardProps) => {
       width="100%"
       minWidth={340}
       onPress={onPress}
+      height={fullHeight ? '100%' : undefined}
     >
       {children}
     </Stack>

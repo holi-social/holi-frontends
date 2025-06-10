@@ -1,13 +1,13 @@
-import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
+import { pickByHash } from 'holi-bricks/components/image/helpers'
 
-describe('getAvatarColorBg', () => {
+describe('getDeterministicElementByKey for avatar background colors', () => {
   const colors = ['#FF5733', '#33FF57', '#3357FF']
 
   it('should consistently return the same color for given initials', () => {
     const initials = 'JD'
 
-    const color1 = getAvatarColorBg(colors, initials)
-    const color2 = getAvatarColorBg(colors, initials)
+    const color1 = pickByHash(colors, initials)
+    const color2 = pickByHash(colors, initials)
 
     expect(color1).toBe(color2)
   })
@@ -15,7 +15,7 @@ describe('getAvatarColorBg', () => {
   it('should return a color from the provided colors array', () => {
     const initials = 'AB'
 
-    const color = getAvatarColorBg(colors, initials)
+    const color = pickByHash(colors, initials)
 
     expect(colors).toContain(color)
   })
@@ -23,7 +23,7 @@ describe('getAvatarColorBg', () => {
   it('should handle empty initials and return a color from the provided colors array', () => {
     const initials = ''
 
-    const color = getAvatarColorBg(colors, initials)
+    const color = pickByHash(colors, initials)
 
     expect(colors).toContain(color)
   })
@@ -31,7 +31,7 @@ describe('getAvatarColorBg', () => {
   it('should handle non-ascii characters in initials', () => {
     const initials = 'LéM'
 
-    const color = getAvatarColorBg(colors, initials)
+    const color = pickByHash(colors, initials)
 
     expect(colors).toContain(color)
   })
@@ -40,7 +40,7 @@ describe('getAvatarColorBg', () => {
     const colors = ['#FF5733']
     const initials = 'JD'
 
-    const color = getAvatarColorBg(colors, initials)
+    const color = pickByHash(colors, initials)
 
     expect(color).toBe('#FF5733')
   })
@@ -49,6 +49,6 @@ describe('getAvatarColorBg', () => {
     const colors: string[] = []
     const initials = 'JD'
 
-    expect(() => getAvatarColorBg(colors, initials)).toThrow()
+    expect(() => pickByHash(colors, initials)).toThrow()
   })
 })

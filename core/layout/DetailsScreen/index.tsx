@@ -7,7 +7,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type { ChipColor } from 'holi-bricks/components/chips/ChipLabel'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import React, { useRef, useState, type ReactNode } from 'react'
+import React, { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -19,13 +19,7 @@ import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 import { Spacing } from 'holi-bricks/foundations'
-
-const placeholderImages = [
-  require('@holi/ui/assets/img/events/cover-green.svg'),
-  require('@holi/ui/assets/img/events/cover-blue.svg'),
-  require('@holi/ui/assets/img/events/cover-purple.svg'),
-  require('@holi/ui/assets/img/events/cover-yellow.svg'),
-]
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -69,6 +63,7 @@ export type DetailsScreenData = {
     details: Partner[]
   }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
+  placeholderImage?: MultiPlatformImageSource
   descriptionTitle?: string
 }
 
@@ -107,11 +102,12 @@ export const DetailsScreen = ({
   seoDescription,
   partners,
   _footer = null,
+  placeholderImage,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
 
   const [imageFailed, setImageFailed] = useState(false)
-  const randomPlaceholderImage = useRef(placeholderImages[Math.floor(Math.random() * placeholderImages.length)]).current
+  const randomPlaceholderImage = placeholderImage ?? getPlaceholderImage(title)
 
   if (loading) {
     return <DetailsScreenSkeleton />
@@ -132,7 +128,7 @@ export const DetailsScreen = ({
         {/* image */}
         <Stack>
           <Image
-            source={!imageFailed && coverImage ? coverImage.uri : randomPlaceholderImage}
+            source={!imageFailed && coverImage?.uri ? coverImage.uri : randomPlaceholderImage}
             width={712}
             height={390}
             alt={t('act.events.thumbnail.label')}

@@ -14,6 +14,7 @@ import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 const isIos = Platform.OS === 'ios'
 
@@ -103,6 +104,7 @@ const TaskDetailsContainer = () => {
       <DetailsScreen
         {...data}
         _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
+        placeholderImage={id ? getPlaceholderImage(id) : undefined}
       />
     </Screen>
   )

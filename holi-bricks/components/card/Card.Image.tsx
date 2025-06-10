@@ -1,10 +1,10 @@
 import type React from 'react'
-import { useMemo } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Image } from 'holi-bricks/components/image'
 import { View } from 'react-native'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 /*
   Card image, use it if you want to have a cover image in the card, just pass the url or the require.
@@ -16,49 +16,10 @@ export interface CardImageProps extends React.PropsWithChildren {
   alt: string
 }
 
-const loadRandomImagePlaceholder = (colors: string[] = []) => {
-  const randomImage = Math.floor(Math.random() * 4)
-  const randomColor = Math.floor(Math.random() * colors.length)
-  const color = colors[randomColor]
-  switch (randomImage) {
-    case 1:
-      return {
-        placeHolder: require('./placeholder-images/placeholder-1.svg'),
-        color,
-      }
-    case 2:
-      return {
-        placeHolder: require('./placeholder-images/placeholder-2.svg'),
-        color,
-      }
-    case 3:
-      return {
-        placeHolder: require('./placeholder-images/placeholder-3.svg'),
-        color,
-      }
-    case 4:
-      return {
-        placeHolder: require('./placeholder-images/placeholder-4.svg'),
-        color,
-      }
-  }
-}
-
 export const _CardImage = ({ source, alt, testID }: CardImageProps) => {
-  const { theme, styles } = useStyles(cardImageStyle)
-  const placeholderImage = useMemo(
-    () =>
-      loadRandomImagePlaceholder([
-        theme.colors.decorative.yellowDefault,
-        theme.colors.decorative.greenDefault,
-        theme.colors.decorative.purpleDefault,
-        theme.colors.decorative.blueLight,
-      ]),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const { styles } = useStyles(cardImageStyle)
   return (
-    <View testID={testID} style={[styles.imageWrapper, styles.imageBackground(!!source, placeholderImage?.color)]}>
+    <View testID={testID} style={[styles.imageWrapper, styles.imageBackground(!!source)]}>
       <Image
         resizeMode="fill"
         width={296}
@@ -66,7 +27,7 @@ export const _CardImage = ({ source, alt, testID }: CardImageProps) => {
         stretch
         alt={alt}
         source={source}
-        fallbackSource={placeholderImage?.placeHolder}
+        fallbackSource={getPlaceholderImage(alt)}
       />
     </View>
   )
@@ -78,8 +39,8 @@ const cardImageStyle = createStyleSheet((theme) => ({
     aspectRatio: 1.83,
     overflow: 'hidden',
   },
-  imageBackground: (hasSource: boolean, bgColor?: string) => ({
-    backgroundColor: hasSource ? undefined : bgColor || theme.colors.decorative.yellowDefault,
+  imageBackground: (hasSource: boolean) => ({
+    backgroundColor: hasSource ? undefined : theme.colors.decorative.yellowDefault,
   }),
 }))
 _CardImage.displayName = 'CardImage'

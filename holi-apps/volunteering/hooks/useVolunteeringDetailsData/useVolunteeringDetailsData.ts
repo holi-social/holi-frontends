@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 export const useVolunteeringDetailsData = (volunteeringId: string) => {
   const { replaceRoute } = useRouting()
@@ -87,6 +88,7 @@ export const useVolunteeringDetailsData = (volunteeringId: string) => {
       coverImage,
       author,
       externalUrl: volunteering?.url,
+      placeholderImage: volunteering?.id ? getPlaceholderImage(volunteering?.id) : undefined,
     },
   }
 }

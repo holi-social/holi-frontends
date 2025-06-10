@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 export type EventDetailsParams = {
   eventId: string
@@ -79,7 +80,7 @@ export const EventDetailsScreen = () => {
         </Stack>
       }
     >
-      <DetailsScreen {...data} />
+      <DetailsScreen {...data} placeholderImage={eventId ? getPlaceholderImage(eventId) : undefined} />
     </Screen>
   )
 }
