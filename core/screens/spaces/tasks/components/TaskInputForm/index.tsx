@@ -42,6 +42,7 @@ import type { InteractionType as CGInteractionType, InteractionType } from '@hol
 export interface TaskInputFormProps {
   name: string
   description: string
+  impact?: string
   contactEmail: string
   interactionSignupLink?: string
   skills: string[]
@@ -59,6 +60,7 @@ export interface TaskInputFormProps {
   timeFrameSectionProps: UseTimeFrameReturnValue
   onChangeName: (_: string) => void
   onChangeDescription: (_: string) => void
+  onChangeImpact?: (_: string) => void
   onChangeVisibility: (_: HoliModalSelectOption) => void
   onChangeLocationType: (_: HoliModalSelectOption) => void
   onChangeInteractionType: (_: HoliModalSelectOption<CGInteractionType>) => void
@@ -78,6 +80,7 @@ export interface TaskInputFormProps {
 const TaskInputForm: React.FC<TaskInputFormProps> = ({
   name,
   description,
+  impact,
   visibility,
   locationType,
   interactionType,
@@ -92,6 +95,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   timingSectionProps,
   onChangeName,
   onChangeDescription,
+  onChangeImpact,
   onChangeVisibility,
   onChangeLocationType,
   onChangeInteractionType,
@@ -111,6 +115,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
     useState<HoliModalSelectOption<InteractionType>[]>(INTERACTION_TYPE_OPTIONS)
 
   const [hasInteractedWithEmail, setHasInteractedWithEmail] = useState(false)
+  const [hasInteractedWithSignupLink, setHasInteractedWithSignupLink] = useState(false)
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showLocationType, hide: hideLocationType, visible: visibleLocationType } = useModalState()
@@ -129,7 +134,10 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const contactPhoneError = fieldErrors?.contactPhone?.length ? fieldErrors.contactPhone[0] : undefined
   const contactEmailError =
     hasInteractedWithEmail && fieldErrors?.contactEmail?.length ? t('global.validation.email.invalid') : undefined
-  const interactionSignupLinkError = fieldErrors?.signupLink?.length ? fieldErrors.signupLink[0] : undefined
+  const interactionSignupLinkError =
+    hasInteractedWithSignupLink && fieldErrors.interactionSignupLink?.length
+      ? t('global.validation.url.invalid')
+      : undefined
 
   // set options translations
   useEffect(() => {
@@ -262,6 +270,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         <Text size="lg" testID="task-input-label-name">
           {t('spaces.input.task.section.about')}
         </Text>
+
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
           inputLabel={t('spaces.input.task.name.label')}
@@ -275,6 +284,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           showCharacterCount
           maxNoOfCharacters={128}
         />
+
         <HoliTextInput
           placeholder={t('spaces.input.task.description.placeholder')}
           inputLabel={t('spaces.input.task.description.label')}
@@ -285,6 +295,20 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           validationErrorText={descriptionError}
           testID="task-description"
           isRequired
+          showCharacterCount
+          noOfVisibleLines={4}
+          maxNoOfVisibleLines={8}
+          maxNoOfCharacters={1200}
+        />
+
+        <HoliTextInput
+          placeholder={t('spaces.input.task.impact.placeholder')}
+          inputLabel={t('spaces.input.task.impact.label')}
+          value={impact}
+          onChange={onChangeImpact}
+          style={styles.marginSeparator}
+          aria-label={t('spaces.input.task.impact.label')}
+          testID="task-impact"
           showCharacterCount
           noOfVisibleLines={4}
           maxNoOfVisibleLines={8}
@@ -383,6 +407,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
             aria-label={t('spaces.input.task.interactionSignupLink.label')}
             testID="task-interactionSignupLink"
             maxNoOfCharacters={1200}
+            onBlur={() => setHasInteractedWithSignupLink(true)}
           />
         </Stack>
       )}

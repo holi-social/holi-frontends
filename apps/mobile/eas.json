@@ -38,7 +38,9 @@
         "POSTHOG_HOST": "https://eu.posthog.com",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
-        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com",
+        "APPCUES_ACCOUNT_ID": "b0ac2183-6ac8-4377-8147-44971a37586e",
+        "APPCUES_APP_ID": "220783"
       }
     },
     "development-simulator": {
@@ -70,7 +72,9 @@
         "POSTHOG_HOST": "https://eu.posthog.com",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
-        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com",
+        "APPCUES_ACCOUNT_ID": "b0ac2183-6ac8-4377-8147-44971a37586e",
+        "APPCUES_APP_ID": "220783"
       },
       "ios": {
         "simulator": true
@@ -105,7 +109,9 @@
         "POSTHOG_HOST": "https://eu.posthog.com",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
-        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com",
+        "APPCUES_ACCOUNT_ID": "b0ac2183-6ac8-4377-8147-44971a37586e",
+        "APPCUES_APP_ID": "220783"
       },
       "ios": {
         "image": "macos-sonoma-14.6-xcode-16.1"
@@ -113,7 +119,7 @@
     },
     "production": {
       "extends": "base",
-      "channel": "production-1-56",
+      "channel": "production-1-57",
       "env": {
         "APP_VARIANT": "production",
         "ENVIRONMENT_ID": "production",
@@ -138,7 +144,9 @@
         "POSTHOG_HOST": "https://eu.posthog.com",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-chl3h9fc4s87vlu9e2d2j5ibogr3fbeh",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-chl3h9fc4s87vlu9e2d2j5ibogr3fbeh.apps.googleusercontent.com",
-        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-jjgj6dt5dbmofgu50u4bc12fcrd9qbar.apps.googleusercontent.com"
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-jjgj6dt5dbmofgu50u4bc12fcrd9qbar.apps.googleusercontent.com",
+        "APPCUES_ACCOUNT_ID": "2ab0262f-b17c-450c-b21b-3cd8f7a052bb",
+        "APPCUES_APP_ID": "220783"
       },
       "ios": {
         "image": "macos-sonoma-14.6-xcode-16.1"
@@ -178,7 +186,9 @@
         "POSTHOG_HOST": "https://eu.posthog.com",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME": "com.googleusercontent.apps.984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg",
         "SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID": "984061681268-cthb9i6kggs0n69cki1b9r0r82es1ogg.apps.googleusercontent.com",
-        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com"
+        "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com",
+        "APPCUES_ACCOUNT_ID": "b0ac2183-6ac8-4377-8147-44971a37586e",
+        "APPCUES_APP_ID": "220783"
       },
       "ios": {
         "simulator": true

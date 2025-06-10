@@ -7,7 +7,6 @@ import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/ima
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { useTranslation } from 'react-i18next'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 
@@ -18,6 +17,7 @@ export interface CompactCardImageProps {
   bottomIcon?: HoliIconType
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
   minHeight?: number
+  imageLabel: string
 }
 
 export const CompactCardImage: React.FC<CompactCardImageProps> = ({
@@ -27,9 +27,9 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   bottomIcon,
   avatar,
   minHeight,
+  imageLabel,
 }: CompactCardImageProps) => {
   const { styles } = useStyles(stylesheet)
-  const { t } = useTranslation()
   const [imageError, setImageError] = useState(false)
   const handleImageError = () => {
     setImageError(true)
@@ -63,7 +63,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
           source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
           width={90}
           height={130}
-          alt={t('act.events.thumbnail.label')}
+          alt={imageLabel}
           onError={handleImageError}
           resizeMode="cover"
           stretch

@@ -1,7 +1,6 @@
 import VolunteeringSimilarRecosSlider, {
   MAX_RECOS_COUNT,
 } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
-import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
@@ -15,7 +14,6 @@ import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localize
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 export const VolunteeringSimilarRecosTypesense = ({ documentId }: { documentId: string }) => {
-  const cardWidth = useCardWidth()
   const { t } = useTranslation()
   const language = useUserLanguage()
 
@@ -50,11 +48,11 @@ export const VolunteeringSimilarRecosTypesense = ({ documentId }: { documentId: 
       shouldRender={recommendations?.length > 0}
       direction="column"
       gap="sm"
-      padding={Platform.OS === 'web' ? undefined : { left: 'sm' }}
+      padding={Platform.OS === 'web' ? undefined : { left: 'sm', right: 'sm' }}
       margin={{ bottom: '3xl' }}
     >
       <Text size="xxl">{t('recommendation.slider.title')}</Text>
-      <VolunteeringSimilarRecosSlider cardWidth={cardWidth} recos={recommendations as LocalizedTypesenseDocument[]} />
+      <VolunteeringSimilarRecosSlider recos={recommendations as LocalizedTypesenseDocument[]} />
     </Stack>
   )
 }

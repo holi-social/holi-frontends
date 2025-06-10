@@ -17,6 +17,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import Image from './components/Image'
 import type { ListProps } from './types'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 const IMAGE_HEIGHT = 136
 const IMAGE_WIDTH = 311
@@ -47,6 +49,7 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
         imageHeight={IMAGE_HEIGHT}
         imageWidth={IMAGE_WIDTH}
         imageAspectRatio={1.75}
+        imageFallback={getPlaceholderImage(task.id) as StaticImageData}
       >
         {isCollaborator && (
           <ChipLabel iconLeading={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled} size="sm">

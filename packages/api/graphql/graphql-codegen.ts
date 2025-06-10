@@ -975,11 +975,6 @@ export type Moderation_ReportSubmission = {
   reason?: InputMaybe<Moderation_Reason>
 }
 
-export type Moderation_Success = {
-  __typename?: 'Moderation_Success'
-  success: Scalars['Boolean']['output']
-}
-
 export type Mutation = {
   __typename?: 'Mutation'
   addCollaborationTool: CollaborationTool
@@ -2946,6 +2941,7 @@ export type TaskByIdQuery = {
     id: string
     name: string
     description: string
+    impact?: string
     slotsAvailable: number
     slotsTaken: number
     location?: string
@@ -2988,6 +2984,7 @@ export type CreateTaskMutation = {
     id: string
     name: string
     description: string
+    impact?: string
     visibility: VisibilityType
     regularity: Regularity
     duration?: Duration
@@ -3013,6 +3010,7 @@ export type UpdateTaskMutation = {
     id: string
     name: string
     description: string
+    impact?: string
     visibility: VisibilityType
     regularity: Regularity
     duration?: Duration
@@ -3759,6 +3757,7 @@ export const TaskByIdDocument = gql`
     id
     name
     description
+    impact
     slotsAvailable
     slotsTaken
     location
@@ -3838,6 +3837,7 @@ export const CreateTaskDocument = gql`
     id
     name
     description
+    impact
     visibility
     regularity
     duration
@@ -3886,6 +3886,7 @@ export const UpdateTaskDocument = gql`
     id
     name
     description
+    impact
     visibility
     regularity
     duration

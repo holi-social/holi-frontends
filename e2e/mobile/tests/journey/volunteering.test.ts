@@ -6,6 +6,7 @@ import {
   retry,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
+  waitForAnyElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
 import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
@@ -26,16 +27,16 @@ describe('@Volunteering', () => {
 
     await assertListItemExisting()
 
-    await navigateToDetailview()
-
     await assertAllowsPagination()
+
+    await navigateToDetailview()
 
     await assertFilteringWorks()
   })
 })
 
 const assertListItemExisting = async () => {
-  await waitForElementWithTestId('btn-to-volunteering-engagement')
+  await waitForAnyElementWithTestId(['volunteering-reco-card', 'task-reco-card'])
 }
 
 const assertFilteringWorks = async () => {
@@ -65,7 +66,9 @@ const assertFilteringWorks = async () => {
 }
 
 const navigateToDetailview = async () => {
-  await tapOnElementWithTestId('btn-to-volunteering-engagement')
+  // Scroll down until a volunteering card is found
+  await scrollToElementWithTestId('volunteering-reco-card', 'down')
+  await tapOnElementWithTestId('volunteering-reco-card')
   await waitForElementWithTestId('volunteering-detailview-container', 40000)
 
   // go back to items listing

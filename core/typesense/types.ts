@@ -12,8 +12,6 @@ export type TypesenseDocument = Typesense_Document
 export type TypesenseDocumentTypeEnum = Typesense_DocumentType
 export const TypesenseDocumentType = Typesense_DocumentType
 
-export type TypesenseDocumentLinkLocatorIdOrSlug = string | number
-
 export type LocalizedTypesenseDocument = Omit<
   TypesenseDocument,
   'title_de' | 'title_en' | 'description_de' | 'description_en'

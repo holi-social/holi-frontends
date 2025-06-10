@@ -71,6 +71,7 @@ const Favorites = () => {
                       label: favorite.favoritable.creator?.fullName || '',
                     }}
                     imageSrc={favorite.favoritable.headerImage}
+                    imageLabel={t('act.events.thumbnail.label')}
                   />
                 </HoliLinkTracked>
               ))}

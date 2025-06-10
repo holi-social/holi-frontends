@@ -121,7 +121,7 @@ describe('VolunteeringSimilarRecosTypesense', () => {
     render(<VolunteeringSimilarRecosTypesense documentId={mockDocumentId} />)
 
     expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
-    expect(screen.queryAllByTestId('volunteering-reco-slider-card')).toHaveLength(4)
+    expect(screen.queryAllByTestId('volunteering-reco-card')).toHaveLength(4)
   })
 
   it('should register fetching recos on pull-to-refresh', () => {

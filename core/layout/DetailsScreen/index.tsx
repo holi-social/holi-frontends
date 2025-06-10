@@ -7,7 +7,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type { ChipColor } from 'holi-bricks/components/chips/ChipLabel'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import React, { useRef, useState, type ReactNode } from 'react'
+import React, { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -19,13 +19,7 @@ import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 import { Spacing } from 'holi-bricks/foundations'
-
-const placeholderImages = [
-  require('@holi/ui/assets/img/events/cover-green.svg'),
-  require('@holi/ui/assets/img/events/cover-blue.svg'),
-  require('@holi/ui/assets/img/events/cover-purple.svg'),
-  require('@holi/ui/assets/img/events/cover-yellow.svg'),
-]
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -48,9 +42,14 @@ export type Partner = {
 
 export type DetailsScreenAuthor = AuthorBannerProps
 
+type BodyContent = {
+  title?: string
+  content: string
+}
+
 export type DetailsScreenData = {
   date?: Date | string
-  description?: string
+  bodyContent?: BodyContent | BodyContent[]
   author?: DetailsScreenAuthor
   chips?: DetailsScreenChips[]
   seoDescription?: string
@@ -64,6 +63,7 @@ export type DetailsScreenData = {
     details: Partner[]
   }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
+  placeholderImage?: MultiPlatformImageSource
   descriptionTitle?: string
 }
 
@@ -71,18 +71,18 @@ type DetailsScreenProps = DetailsScreenData
 
 const isHtml = (str: string) => /<\/?[a-z][\s\S]*>/i.test(str)
 
-const DescriptionRenderer = ({ description }: { description?: string }) => {
-  if (!description) return null
+const BodyContentRenderer = ({ content }: { content?: string }) => {
+  if (!content) return null
 
-  if (React.isValidElement(description)) {
-    return description
+  if (React.isValidElement(content)) {
+    return content
   }
 
-  if (typeof description === 'string') {
-    return isHtml(description) ? (
-      <HtmlRenderer content={description} />
+  if (typeof content === 'string') {
+    return isHtml(content) ? (
+      <HtmlRenderer content={content} />
     ) : (
-      <HoliRichTextOutput text={description as string} color="main" />
+      <HoliRichTextOutput text={content as string} color="main" />
     )
   }
 
@@ -90,7 +90,7 @@ const DescriptionRenderer = ({ description }: { description?: string }) => {
 }
 
 export const DetailsScreen = ({
-  description,
+  bodyContent,
   coverImage,
   chips = [],
   visibility,
@@ -102,19 +102,19 @@ export const DetailsScreen = ({
   seoDescription,
   partners,
   _footer = null,
-  descriptionTitle,
+  placeholderImage,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
-  const hasData = title && description
 
   const [imageFailed, setImageFailed] = useState(false)
-  const randomPlaceholderImage = useRef(placeholderImages[Math.floor(Math.random() * placeholderImages.length)]).current
+  const randomPlaceholderImage = placeholderImage ?? getPlaceholderImage(title)
 
-  if (loading && !hasData) {
+  if (loading) {
     return <DetailsScreenSkeleton />
   }
 
-  const _seoDescription = seoDescription || (typeof description === 'string' ? description : '')
+  const _seoDescription = seoDescription || (!Array.isArray(bodyContent) ? bodyContent!.content : '')
+
   return (
     <>
       <HoliHead
@@ -128,7 +128,7 @@ export const DetailsScreen = ({
         {/* image */}
         <Stack>
           <Image
-            source={!imageFailed && coverImage ? coverImage.uri : randomPlaceholderImage}
+            source={!imageFailed && coverImage?.uri ? coverImage.uri : randomPlaceholderImage}
             width={712}
             height={390}
             alt={t('act.events.thumbnail.label')}
@@ -213,12 +213,18 @@ export const DetailsScreen = ({
               })}
             </Stack>
 
-            {/* description */}
-            <Stack gap="3xs">
-              {descriptionTitle && <Text size="xl">{descriptionTitle}</Text>}
-              <DescriptionRenderer description={description} />
-            </Stack>
+            {/* body content */}
+            {(Array.isArray(bodyContent) ? bodyContent : [bodyContent]).map((bodyContentItem, idx) =>
+              bodyContentItem ? (
+                <Stack gap="3xs" key={`description-${idx}`}>
+                  {bodyContentItem.title && <Text size="xl">{bodyContentItem.title}</Text>}
+                  <BodyContentRenderer content={bodyContentItem.content} />
+                </Stack>
+              ) : undefined
+            )}
+
             {author && <AuthorBanner {...author} />}
+
             {partners && (
               <Stack direction="column" gap="xxs">
                 <Text size="sm" color="support">

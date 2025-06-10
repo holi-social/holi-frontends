@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
+import type { TrackingEvent } from '@holi/core/tracking'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Text } from 'holi-bricks/components/text'
 
@@ -36,17 +36,7 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
         trackingEvent={trackingEvent}
       >
         <View style={styles.imageContainer}>
-          <CarouselCardImage
-            key={challenge.id}
-            challenge={challenge}
-            width={cardWidth}
-            trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(
-              challenge.id,
-              challenge.title,
-              challenge.id,
-              0
-            )}
-          />
+          <CarouselCardImage key={challenge.id} challenge={challenge} width={cardWidth} />
         </View>
         <View style={styles.headline}>
           <View style={styles.title}>

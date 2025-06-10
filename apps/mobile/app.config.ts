@@ -6,9 +6,9 @@ require('ts-node/register')
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.56.2', // user-facing value visible in stores
-  iosBuildNumber: '1.56.2', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 161, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.57.1', // user-facing value visible in stores
+  iosBuildNumber: '1.57.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 163, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -54,11 +54,6 @@ const config: ExpoConfig = {
   jsEngine: 'hermes',
   newArchEnabled: false,
   scheme: 'holi',
-  splash: {
-    image: './assets/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#F5F5F5',
-  },
   updates: {
     url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
     fallbackToCacheTimeout: 3000,
@@ -202,6 +197,15 @@ const config: ExpoConfig = {
         iosUrlScheme: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_URL_SCHEME'),
       },
     ],
+    [
+      'expo-splash-screen',
+      {
+        backgroundColor: '#F5F5F5',
+        image: './assets/splash.png',
+        imageWidth: 220,
+        resizeMode: 'contain',
+      },
+    ],
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {
@@ -246,6 +250,10 @@ const config: ExpoConfig = {
     },
     jitsi: {
       url: requiredEnvVar('JITSI_URL'),
+    },
+    appcues: {
+      accountId: requiredEnvVar('APPCUES_ACCOUNT_ID'),
+      appId: requiredEnvVar('APPCUES_APP_ID'),
     },
     eas: {
       projectId: process.env.EXPO_PROJECT_ID,

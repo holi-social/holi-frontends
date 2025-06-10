@@ -51,6 +51,11 @@ export interface HoliSocialLoginConfig {
   googleWebClientId: string
 }
 
+export interface HoliAppcuesConfig {
+  accountId: string
+  appId: string
+}
+
 export interface HoliConfig {
   novu: HoliNovuConfig
   chat: HoliChatConfig
@@ -60,6 +65,7 @@ export interface HoliConfig {
   environment: string
   sentry: HoliSentryConfig
   jitsi: HoliJitsiConfig
+  appcues: HoliAppcuesConfig
   eas: HoliEASConfig
   e2e: HoliE2EConfig
   socialLogin: HoliSocialLoginConfig
@@ -94,6 +100,10 @@ export const config: HoliConfig = {
   },
   jitsi: {
     url: Constants.expoConfig?.extra?.jitsi.url,
+  },
+  appcues: {
+    accountId: Constants.expoConfig?.extra?.appcues.accountId,
+    appId: Constants.expoConfig?.extra?.appcues.appId,
   },
   eas: {
     projectId: Constants.expoConfig?.extra?.eas.projectId,

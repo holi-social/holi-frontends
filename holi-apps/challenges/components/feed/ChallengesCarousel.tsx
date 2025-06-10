@@ -91,7 +91,7 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
       <Stack direction="column" gap="3xs">
         <HoliSkeleton height={Spacing.sm} width={180} borderRadius={16} />
         <Stack direction="row" gap="3xs">
-          {[...Array(4)].map((_, index) => (
+          {[...Array(3)].map((_, index) => (
             <Stack direction="column" gap="3xs" key={index}>
               <HoliSkeleton height={CARD_WIDTH} width={CARD_WIDTH} borderRadius={16} />
               <HoliSkeleton height={Spacing.xs} width={CARD_WIDTH - Spacing.xs} borderRadius={16} />
@@ -119,7 +119,7 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
       renderItem={({ item, index }: { item: ChallengeTeaser; index: number }) => (
         <ChallengesCarouselCard
           challenge={item}
-          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, item.title, index)}
+          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, item.title, index, 'home')}
           cardWidth={CARD_WIDTH}
         />
       )}

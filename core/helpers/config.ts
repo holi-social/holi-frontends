@@ -10,3 +10,5 @@ export const jitsiUrl = Constants.expoConfig?.extra?.jitsi.url
 export const posthogKey = Constants.expoConfig?.extra?.posthog.key
 export const posthogHost = Constants.expoConfig?.extra?.posthog.host
 export const challengeAppBaseUrl = Constants.expoConfig?.extra?.challengesApp
+export const appcuesAccountId = Constants.expoConfig?.extra?.appcues?.accountId
+export const appcuesAppId = Constants.expoConfig?.extra?.appcues?.appId

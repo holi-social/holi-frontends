@@ -13,6 +13,8 @@ import Content from './components/Content'
 import Image from './components/Image'
 import Skeleton from './components/Skeleton'
 import type { BaseProps } from './types'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 const IMAGE_HEIGHT = 166
 const IMAGE_WIDTH = 311
@@ -31,6 +33,7 @@ const List = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) => {
         imageBlurhash={task.thumbnailBlurhash}
         imageHeight={IMAGE_HEIGHT}
         imageWidth={IMAGE_WIDTH}
+        imageFallback={getPlaceholderImage(task.id) as StaticImageData}
       />
 
       <HoliCardComponent.ContentContainer>

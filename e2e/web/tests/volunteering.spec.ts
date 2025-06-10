@@ -5,25 +5,24 @@ import {
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
-  isRunningLocally,
   locateElementByTestId,
   volunteeringRequestTimeout,
-  withSSR,
-} from '../helpers'
-import { test } from '../testmaster'
+} from './helpers'
+import { test } from './testmaster'
+
+const volunteeringOrTaskCardSelector = [byTestId('volunteering-reco-card'), byTestId('task-reco-card')].join(',')
 
 test.describe('@Volunteering', () => {
   test('user journey', async ({ browser, context, page }) => {
-    test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
-
     //prepare
     await page.goto('/volunteering')
 
     await testAllowsPagination(page)
-    await withSSR(browser, page.url(), testDisplaysList)
+    // Disabled as SSR is currently not working when using typesense as backend
+    // await withSSR(browser, page.url(), testDisplaysList)
 
     // click first element in list
-    await clickElementByTestId(page, 'btn-to-volunteering-engagement')
+    await clickElementByTestId(page, 'volunteering-reco-card')
     await testDisplaysEngagementDetails(context, page)
     // Disabled as SSR is currently not working when using typesense as backend
     // await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
@@ -37,14 +36,15 @@ test.describe('@Volunteering', () => {
 
 const testDisplaysList = async (page: Page) => {
   await page.waitForSelector(byTestId('volunteering-list-container'))
-  await page.waitForSelector(byTestId('btn-to-volunteering-engagement'))
+  await page.waitForSelector(volunteeringOrTaskCardSelector)
 }
 
 const testAllowsPagination = async (page: Page) => {
   await testDisplaysList(page)
 
   const countListItems = async () => {
-    const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
+    const listItems = page.locator(volunteeringOrTaskCardSelector)
+
     return await listItems.count()
   }
   await expect.poll(countListItems).toBeGreaterThan(1)
@@ -52,7 +52,7 @@ const testAllowsPagination = async (page: Page) => {
   const listItemCountBefore = await countListItems()
 
   // Scroll down to last element to trigger next fetch
-  const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
+  const listItems = page.locator(volunteeringOrTaskCardSelector)
   await listItems.last().scrollIntoViewIfNeeded()
 
   await expect.poll(countListItems, { timeout: volunteeringRequestTimeout }).toBeGreaterThan(listItemCountBefore)
@@ -103,5 +103,6 @@ const testFilteringByLocation = async (browser: Browser, page: Page) => {
   // check if the filtered volunteering container is shown
   await testDisplaysFilterResultsCommon(page)
 
-  await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
+  // Disabled as SSR is currently not working when using typesense as backend
+  // await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
 }

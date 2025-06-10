@@ -1,15 +1,18 @@
-import React, { PropsWithChildren, memo, useMemo, useState } from 'react'
+import React, { type PropsWithChildren, memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { HoliCardComponent, ImageCaptionProps, ImageProps } from '@holi/ui/components/molecules/HoliCard'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliCardComponent, type ImageCaptionProps, type ImageProps } from '@holi/ui/components/molecules/HoliCard'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 export interface Props extends Pick<ImageProps, 'imageAspectRatio' | 'imageBlurhash' | 'imageWidth' | 'testID'> {
   imageUrl?: string
   imageHeight?: number
   captionPosition?: ImageCaptionProps['position']
+  imageFallback?: StaticImageData
 }
 
 const FALLBACK_NATIVE_IMAGE_SIZE = { width: 296, height: 166 }
@@ -35,6 +38,7 @@ export const Image = ({
   imageWidth,
   imageHeight,
   imageAspectRatio = 1.5,
+  imageFallback,
   ...props
 }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
@@ -65,7 +69,7 @@ export const Image = ({
           }
         >
           <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
+            imageSource={imageFallback ?? (getPlaceholderImage(imageUrl ?? '') as StaticImageData)}
             label={t('spaces.tasks.thumbnail.label')}
             isSvg
             height={imageContainerSize.height}

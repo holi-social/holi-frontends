@@ -4,7 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Video } from '@holi/icons/src/generated'
+import { User } from '@holi/icons/src/generated'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -51,11 +51,11 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
             </Text>
           </View>
           <View style={styles.participantsContainer}>
-            <Text size="xs" colorOverride={theme.colors.gray300}>
+            <Text size="xs" color="support">
               {challenge.participants}
             </Text>
 
-            <HoliIcon icon={Video} size={16} colorOverride={theme.colors.gray300} style={styles.participantsIcon} />
+            <HoliIcon icon={User} size={14} color="support" style={styles.participantsIcon} />
           </View>
         </View>
 
@@ -70,7 +70,8 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
                 challenge.id,
                 challenge.title,
                 submission.id,
-                index
+                index,
+                'act'
               )}
             />
           ))}
@@ -84,7 +85,6 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
   StyleSheet.create({
     container: {
       width: cardWidth,
-      marginRight: Spacing['3xs'],
       flexDirection: 'column',
       padding: Spacing['3xs'],
       borderWidth: 1,

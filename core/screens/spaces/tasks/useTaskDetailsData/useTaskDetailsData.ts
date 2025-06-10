@@ -133,6 +133,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     : undefined
 
+  const coverImage = data?.taskById?.thumbnail
+    ? {
+        uri: data.taskById.thumbnail,
+      }
+    : undefined
+
   const infoList = [locationType, slots, timeFrame, regularityAndDuration].filter(
     (detail) => detail !== undefined
   ) as DetailsScreenInfoList[]
@@ -149,14 +155,15 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     data: {
       loading,
       title: data?.taskById?.name || '',
-      description: data?.taskById?.description,
+      bodyContent: [
+        { title: t('spaces.tasks.impact.title'), content: data?.taskById?.impact ?? '' },
+        { title: t('spaces.tasks.description.title'), content: data?.taskById?.description ?? '' },
+      ].filter((item) => item.content),
       chips: [...topics, ...skills],
       visibility:
         data?.taskById?.visibility === VisibilityType.Members ? 'private' : ('public' as 'private' | 'public'),
       infoList,
-      coverImage: {
-        uri: data?.taskById?.thumbnail,
-      },
+      coverImage,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',

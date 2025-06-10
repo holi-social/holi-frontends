@@ -13,6 +13,7 @@ export const makeEngagement = ({
   skills?: string[]
   location?: boolean
   organizer?: boolean
+  commitmentLabel?: string
 } = {}): VolunteeringEngagement => {
   return {
     id: faker.string.uuid(),
@@ -54,11 +55,13 @@ export const makeVolunteeringDocument = ({
   skills = ALL_SKILLS.slice(0, 2),
   location = true,
   organizer = true,
+  commitment_label,
 }: {
   topics?: string[]
   skills?: string[]
   location?: boolean
   organizer?: boolean
+  commitment_label?: string
 } = {}): LocalizedTypesenseDocument => {
   const id = faker.string.uuid()
   return {
@@ -72,6 +75,8 @@ export const makeVolunteeringDocument = ({
     organizer_name: organizer ? faker.person.fullName() : undefined,
     organizer_image_url: organizer ? faker.image.url() : undefined,
     location: location ? faker.location.city() : undefined,
+    location_type: location ? 'onsite' : 'unknown',
+    commitment_label,
     topics_v2: topics,
     skills_v2: skills,
     link_locators: {
@@ -84,10 +89,14 @@ export const makeTaskDocument = ({
   topics = ALL_TOPICS.slice(0, 3),
   skills = ALL_SKILLS.slice(0, 2),
   location = true,
+  commitment_label,
+  commitment_duration,
 }: {
   topics?: string[]
   skills?: string[]
   location?: boolean
+  commitment_label?: string
+  commitment_duration?: string
 } = {}): LocalizedTypesenseDocument => {
   const id = faker.string.uuid()
   return {
@@ -99,6 +108,9 @@ export const makeTaskDocument = ({
     organizer_name: faker.lorem.word(),
     organizer_image_url: faker.image.url(),
     location: location ? faker.location.city() : undefined,
+    location_type: location ? 'onsite' : 'remote',
+    commitment_label,
+    commitment_duration,
     topics_v2: topics,
     skills_v2: skills,
     link_locators: {
@@ -111,4 +123,4 @@ export const makeEngagements = (length: number): VolunteeringEngagement[] =>
   Array.from({ length }, () => makeEngagement({ organizer: false }))
 
 export const makeVolunteeringDocuments = (length: number): LocalizedTypesenseDocument[] =>
-  Array.from({ length }, () => makeVolunteeringDocument({ organizer: false }))
+  Array.from({ length }, () => makeVolunteeringDocument({ organizer: false, commitment_label: 'recurring' }))

@@ -8,12 +8,12 @@ import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatL
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
-import { TextLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { ArrowRightS } from '@holi/icons/src/generated'
 
 type RecoSliderProps = {
   name: string
@@ -81,8 +81,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     horizontal: true,
     contentContainerStyle: {
       paddingLeft: Spacing.xs,
-      paddingRight: Spacing.xs,
       paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+      gap: Spacing['3xs'],
     },
     data,
     renderItem,
@@ -143,16 +143,14 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
               </Text>
             </Stack>
           </Stack>
-          {seeAllPath &&
-            (seeMoreTrackingEvent ? (
-              <TextLinkTracked size="sm" role="none" trackingEvent={seeMoreTrackingEvent}>
-                {t('global.seeAll')}
-              </TextLinkTracked>
-            ) : (
+          {seeAllPath && (
+            <Stack direction="row">
               <TextLink size="sm" role="none">
                 {t('global.seeAll')}
               </TextLink>
-            ))}
+              <HoliIcon icon={ArrowRightS} size={20} />
+            </Stack>
+          )}
         </Stack>
       </Stack>
 

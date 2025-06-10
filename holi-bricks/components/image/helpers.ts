@@ -2,7 +2,11 @@
 import { PixelRatio, Platform } from 'react-native'
 import { isProduction } from '@holi/core/helpers/environment'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { MultiPlatformImageSource } from 'holi-bricks/components/image/type'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image/type'
+import coverGreen from '@holi/ui/assets/img/placeholder/placeholder-green.svg'
+import coverYellow from '@holi/ui/assets/img/placeholder/placeholder-yellow.svg'
+import coverPurple from '@holi/ui/assets/img/placeholder/placeholder-purple.svg'
+import coverBlue from '@holi/ui/assets/img/placeholder/placeholder-blue.svg'
 
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded
@@ -115,3 +119,49 @@ export const transformSource = (source: MultiPlatformImageSource, width: number,
     return buildProxiedImageUrl(calculatedWidth, calculatedHeight, encodeURIComponent(uri))
   }
 }
+
+/**
+ * @description
+ * Returns deterministically one of multiple elements based on the provided key.
+ * This function takes a set of elements and a key (like e.g. a UUID), then computes a hash
+ * value based on the provided key and returns one consistent element from the provided set.
+ * This ensures that the element will always be the same for a given set of elements and a given key.
+ *
+ * @param elements - An array of elements to choose from.
+ * @param {string} key - The key for which the element will be generated.
+ * @returns {T} - An element selected from the provided ones.
+ *
+ * @example
+ * const colors = ['#FF5733', '#33FF57', '#3357FF'];
+ * const initials = 'JD';
+ * const bgColor = getDeterministicValue(colors, initials);
+ * getDeterministicValue will be one of the values from the colors array, consistently based on the initials.
+ */
+export const pickByHash = <T>(elements: T[], key: string): T => {
+  if (!elements?.length) throw "Elements can't be empty"
+  let hash = 0
+  for (let i = 0; i < key?.length; i++) {
+    hash = key.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  const index = Math.abs(hash) % elements.length
+
+  return elements[index || 0]
+}
+
+const placeholderImages = [coverGreen, coverBlue, coverPurple, coverYellow]
+/**
+ * @description
+ * Generates a placeholder image based on the provided initials.
+ * This function takes a key (like e.g. a UUID) and returns a consistent image from a predefined set.
+ * This ensures that the placeholder image will always be the same for a given key.
+ *
+ * @param {string} key - The key for which the placeholder image will be generated.
+ * @returns {MultiPlatformImageSource} - A placeholder image selected from the provided placeholder images.
+ *
+ * @example
+ * const taskId = 'ea7317b4-69c1-436b-80fe-66e1f4957616';
+ * const fallbackImage = getPlaceholderImage(taskId);
+ * getPlaceholderImage will be one of the predefined placeholder images, consistently based on the taskId.
+ */
+export const getPlaceholderImage = (key: string): MultiPlatformImageSource => pickByHash(placeholderImages, key)
