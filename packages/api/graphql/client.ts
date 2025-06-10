@@ -10,8 +10,8 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import authorizationHeaderLink from './authorizationHeaderLink'
 import {
   alwaysReplacePolicy,
-  keyArgsWithoutMultiSearchPageInfo,
-  multiSearchPagedPolicy,
+  keyArgsWithoutTypesenseMultiSearchPageInfo,
+  typesenseMultiSearchPagedPolicy,
   pagedPolicy,
 } from './cachePolicies'
 import createLocaleHeaderLink from './createLocaleHeaderLink'
@@ -139,7 +139,7 @@ export const createCache = () =>
       },
       Typesense_MultiSearchResponse: {
         fields: {
-          results: multiSearchPagedPolicy(),
+          results: typesenseMultiSearchPagedPolicy(),
         },
       },
       Query: {
@@ -193,7 +193,7 @@ export const createCache = () =>
           },
           feed: pagedPolicy(),
           typesense_multiSearch: {
-            keyArgs: keyArgsWithoutMultiSearchPageInfo,
+            keyArgs: keyArgsWithoutTypesenseMultiSearchPageInfo,
           },
         },
       },

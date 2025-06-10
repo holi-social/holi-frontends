@@ -69,7 +69,7 @@ export const keyArgsWithoutLimitAndOffset = (args: Record<string, unknown> | nul
   return JSON.stringify(otherArgs)
 }
 
-export const keyArgsWithoutMultiSearchPageInfo = (
+export const keyArgsWithoutTypesenseMultiSearchPageInfo = (
   args: Record<string, unknown> | null,
   context: Parameters<KeyArgsFunction>[1]
 ) => {
@@ -130,8 +130,8 @@ export function pagedPolicy<T = Reference>(keyArgs: KeyArgs = keyArgsWithoutLimi
   }
 }
 
-export function multiSearchPagedPolicy(
-  keyArgs: KeyArgs = keyArgsWithoutMultiSearchPageInfo
+export function typesenseMultiSearchPagedPolicy(
+  keyArgs: KeyArgs = keyArgsWithoutTypesenseMultiSearchPageInfo
 ): FieldPolicy<(Typesense_SearchResponse | undefined)[]> {
   return {
     keyArgs,

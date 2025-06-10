@@ -2,9 +2,9 @@ import { describe, expect, it } from '@jest/globals'
 
 import {
   keyArgsWithoutLimitAndOffset,
-  keyArgsWithoutMultiSearchPageInfo,
+  keyArgsWithoutTypesenseMultiSearchPageInfo,
   mergeArraysByLimitAndOffset,
-  multiSearchPagedPolicy,
+  typesenseMultiSearchPagedPolicy,
   pagedPolicy,
 } from '@holi/api/graphql/cachePolicies'
 import type { KeyArgsFunction } from '@apollo/client/cache/inmemory/policies'
@@ -275,7 +275,7 @@ describe('cachePolicies', () => {
     })
   })
 
-  describe('keyArgsWithoutMultiSearchPageInfo', () => {
+  describe('keyArgsWithoutTypesenseMultiSearchPageInfo', () => {
     const testData: { context: Partial<Parameters<KeyArgsFunction>[1]>; expectedKey: string }[] = [
       {
         context: {},
@@ -317,7 +317,7 @@ describe('cachePolicies', () => {
     ]
     it.each(testData)('should create key $expectedKey for $context', ({ context, expectedKey }) => {
       expect(
-        keyArgsWithoutMultiSearchPageInfo(
+        keyArgsWithoutTypesenseMultiSearchPageInfo(
           {},
           {
             typename: '',
@@ -330,11 +330,16 @@ describe('cachePolicies', () => {
     })
   })
 
-  describe('multiSearchPagedPolicy.write', () => {
-    const policy = multiSearchPagedPolicy()
+  describe('typesenseMultiSearchPagedPolicy.write', () => {
+    const policy = typesenseMultiSearchPagedPolicy()
     const options = { variables: { input: { searches: [{ page: 2, per_page: 5 }] } } }
+    const generateHits = (length: number) => Array.from({ length }, (_, index) => ({ document: { id: index } }))
     const successResponse = {
-      hits: [{}, {}, {}, {}, {}],
+      hits: generateHits(5),
+      found: 10,
+    }
+    const successResponseSecondPage = {
+      hits: generateHits(10).slice(5),
       found: 10,
     }
     const errorResponse = {
@@ -342,7 +347,7 @@ describe('cachePolicies', () => {
       code: 123,
     }
     const mergedSuccessResponses = {
-      hits: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+      hits: generateHits(10),
       found: 10,
     }
 
@@ -372,28 +377,32 @@ describe('cachePolicies', () => {
 
     it('should return merged entries if nothing is missing', () => {
       // @ts-ignore
-      const result = policy.merge([successResponse], [successResponse], options)
+      const result = policy.merge([successResponse], [successResponseSecondPage], options)
       expect(result).toEqual([mergedSuccessResponses])
     })
 
     it('should return multiple merged entries if nothing is missing for a list of searches', () => {
       // @ts-ignore
-      const result = policy.merge([successResponse, successResponse], [successResponse, successResponse], {
-        variables: {
-          input: {
-            searches: [
-              { page: 2, per_page: 5 },
-              { page: 2, per_page: 5 },
-            ],
+      const result = policy.merge(
+        [successResponse, successResponse],
+        [successResponseSecondPage, successResponseSecondPage],
+        {
+          variables: {
+            input: {
+              searches: [
+                { page: 2, per_page: 5 },
+                { page: 2, per_page: 5 },
+              ],
+            },
           },
-        },
-      })
+        }
+      )
       expect(result).toEqual([mergedSuccessResponses, mergedSuccessResponses])
     })
   })
 
   describe('multiSearchPagedPolicy.read', () => {
-    const policy = multiSearchPagedPolicy()
+    const policy = typesenseMultiSearchPagedPolicy()
     const emptySearchOptions = {
       variables: {
         input: { searches: [{}] },
