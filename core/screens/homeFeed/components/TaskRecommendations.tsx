@@ -84,7 +84,6 @@ export default withProfiler(TaskRecommendations, { name: 'TaskRecommendations' }
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      marginRight: 12,
       width: cardWidth,
     },
     lastCard: {

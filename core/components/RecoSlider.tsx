@@ -13,6 +13,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { ArrowRightS } from '@holi/icons/src/generated'
 
 type RecoSliderProps = {
   name: string
@@ -80,8 +81,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     horizontal: true,
     contentContainerStyle: {
       paddingLeft: Spacing.xs,
-      paddingRight: Spacing.xs,
       paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+      gap: Spacing['3xs'],
     },
     data,
     renderItem,
@@ -143,9 +144,12 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
             </Stack>
           </Stack>
           {seeAllPath && (
-            <TextLink size="sm" role="none">
-              {t('global.seeAll')}
-            </TextLink>
+            <Stack direction="row">
+              <TextLink size="sm" role="none">
+                {t('global.seeAll')}
+              </TextLink>
+              <HoliIcon icon={ArrowRightS} size={20} />
+            </Stack>
           )}
         </Stack>
       </Stack>

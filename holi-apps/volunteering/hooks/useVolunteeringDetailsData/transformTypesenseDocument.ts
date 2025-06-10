@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
 import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
-import { MapPin2 } from '@holi/icons/src/generated'
+import { Global, MapPin2, Refresh } from '@holi/icons/src/generated'
 import {
   VOLUNTEERING_IMG_SOURCES_MAPPING,
   type VolunteeringDetailsScreenData,
@@ -32,11 +32,23 @@ export const transformTypesenseDocument = (
       }
     }) || []
 
-  const locationType = document.location
+  const isRemote = document.location_type === 'remote'
+  const locationInfo = isRemote
     ? {
-        subtitle: undefined,
-        title: document.location,
-        icon: MapPin2,
+        icon: Global,
+        title: t('volunteering:engagement.location_type.remote'),
+      }
+    : document.location
+      ? {
+          title: document.location,
+          icon: MapPin2,
+        }
+      : undefined
+
+  const commitmentInfo = document.commitment_label
+    ? {
+        icon: Refresh,
+        title: t(`volunteering:engagement.commitment_label.${engagement.commitment_label}`),
       }
     : undefined
 
@@ -55,7 +67,7 @@ export const transformTypesenseDocument = (
     },
   }
 
-  const infoList = [locationType].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
+  const infoList = [locationInfo, commitmentInfo].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
 
   return {
     title: engagement.title,
@@ -66,5 +78,8 @@ export const transformTypesenseDocument = (
     coverImage,
     author,
     externalUrl: document.external_url,
+    commitmentType: document.commitment_label,
+    locationType: document.location_type,
+    source: document.source,
   }
 }

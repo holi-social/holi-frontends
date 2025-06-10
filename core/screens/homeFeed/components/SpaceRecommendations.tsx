@@ -1,13 +1,13 @@
-import { QueryHookOptions } from '@apollo/client'
+import type { QueryHookOptions } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { SpaceCardFragment, useSpaceRecommendationQuery } from '@holi/api/graphql/graphql-codegen'
+import { type SpaceCardFragment, useSpaceRecommendationQuery } from '@holi/api/graphql/graphql-codegen'
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -121,7 +121,6 @@ export default withProfiler(SpaceRecommendations, { name: 'SpaceRecommendations'
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      marginRight: 12,
       width: cardWidth,
     },
     cardFooter: {

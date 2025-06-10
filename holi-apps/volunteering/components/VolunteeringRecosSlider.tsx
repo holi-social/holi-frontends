@@ -6,21 +6,26 @@ import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { HeartsFilled } from '@holi/icons/src/generated'
 
-import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
+import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 
 type VolunteeringRecosSliderProps = {
   recos: LocalizedTypesenseDocument[]
   cardWidth: number
 }
 
-const VolunteeringRecosSlider = ({ recos, cardWidth }: VolunteeringRecosSliderProps) => {
+const VolunteeringRecosSlider = ({ recos }: VolunteeringRecosSliderProps) => {
   const { t } = useTranslation()
+  const cardWidth = useCardWidth()
 
   const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
-    return TrackingEvent.RecommendationViewed('volunteering_opportunity', {
+    return TrackingEvent.RecommendationViewed(item.type === 'task' ? 'space_task' : 'volunteering_opportunity', {
       title: item?.title,
       id: item?.id,
+      commitmentType: item.commitment_label,
+      locationType: item.location_type,
+      source: item.source,
     })
   }
 
@@ -33,13 +38,12 @@ const VolunteeringRecosSlider = ({ recos, cardWidth }: VolunteeringRecosSliderPr
         listItemTrackingEvent,
         listItemIdentifier,
       }}
-      renderItem={(info) => <VolunteeringRecosSliderCard item={info.item} index={info.index} cardWidth={cardWidth} />}
+      renderItem={(info) => <VolunteeringRecoCard engagement={info.item} index={info.index} fixedWidth={cardWidth} />}
       data={recos}
       icon={HeartsFilled}
       heading={t('volunteering:app.name')}
       subline={t('volunteering:app.subline')}
       seeAllPath="/volunteering"
-      labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       cardWidth={cardWidth}
     />
   )
