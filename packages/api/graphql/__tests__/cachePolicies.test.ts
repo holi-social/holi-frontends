@@ -1,6 +1,13 @@
 import { describe, expect, it } from '@jest/globals'
 
-import { keyArgsWithoutLimitAndOffset, mergeIndexAwareOffsetLimitArray, pagedPolicy } from './cachePolicies'
+import {
+  keyArgsWithoutLimitAndOffset,
+  keyArgsWithoutTypesenseMultiSearchPageInfo,
+  mergeArraysByLimitAndOffset,
+  typesenseMultiSearchPagedPolicy,
+  pagedPolicy,
+} from '@holi/api/graphql/cachePolicies'
+import type { KeyArgsFunction } from '@apollo/client/cache/inmemory/policies'
 
 const one = { id: 1, __ref: 'TestType' }
 const oneOne = { id: 11, __ref: 'TestType' }
@@ -11,57 +18,79 @@ const four = { id: 4, __ref: 'TestType' }
 const five = { id: 5, __ref: 'TestType' }
 
 describe('cachePolicies', () => {
-  describe('mergeIndexAwareOffsetLimitArray', () => {
+  describe('mergeArraysByLimitAndOffset', () => {
     it('should add new entries to empty cache', () => {
-      const result = mergeIndexAwareOffsetLimitArray(undefined, [one, two], { args: { offset: 0, limit: 2 } })
+      const result = mergeArraysByLimitAndOffset({ existing: undefined, incoming: [one, two], offset: 0, limit: 2 })
       expect(result).toStrictEqual([one, two])
     })
 
     it('should add new entries to non-empty cache', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [three, four], { args: { offset: 2, limit: 2 } })
+      const result = mergeArraysByLimitAndOffset({ existing: [one, two], incoming: [three, four], offset: 2, limit: 2 })
       expect(result).toStrictEqual([one, two, three, four])
     })
 
     it('should overwrite starting from offset 0 if offset is not given', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [three, four])
+      const result = mergeArraysByLimitAndOffset({ existing: [one, two], incoming: [three, four] })
       expect(result).toStrictEqual([three, four])
     })
 
     it('should overwrite existing starting from offset 0 if offset and limit are not given', () => {
       // we assume all data was requested/returned so it should replace whatever was cached
-      const result = mergeIndexAwareOffsetLimitArray([one, two, three], [four, five])
+      const result = mergeArraysByLimitAndOffset({ existing: [one, two, three], incoming: [four, five] })
       expect(result).toStrictEqual([four, five])
     })
 
     it('should add new entries to non-empty cache (with empty slots)', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [four, five], { args: { offset: 3, limit: 2 } })
+      const result = mergeArraysByLimitAndOffset({ existing: [one, two], incoming: [four, five], offset: 3, limit: 2 })
       expect(result).toStrictEqual([one, two, null, four, five])
     })
 
     it('should concatenate if non-overlapping', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [one, two, three, four], {
-        args: { offset: 0, limit: 4 },
+      const result = mergeArraysByLimitAndOffset({
+        existing: [one, two],
+        incoming: [one, two, three, four],
+        offset: 0,
+        limit: 4,
       })
       expect(result).toStrictEqual([one, two, three, four])
     })
 
+    it('should update overlapping entries', () => {
+      const result = mergeArraysByLimitAndOffset({
+        existing: [one, two, three],
+        incoming: [oneOne, twoTwo],
+        offset: 2,
+        limit: 2,
+      })
+      expect(result).toStrictEqual([one, two, oneOne, twoTwo])
+    })
+
     it('should update existing entries', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [oneOne, twoTwo], {
-        args: { offset: 0, limit: 2 },
+      const result = mergeArraysByLimitAndOffset({
+        existing: [one, two],
+        incoming: [oneOne, twoTwo],
+        offset: 0,
+        limit: 2,
       })
       expect(result).toStrictEqual([oneOne, twoTwo])
     })
 
     it('should update and concatenate', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two], [oneOne, twoTwo, three, four], {
-        args: { offset: 0, limit: 4 },
+      const result = mergeArraysByLimitAndOffset({
+        existing: [one, two],
+        incoming: [oneOne, twoTwo, three, four],
+        offset: 0,
+        limit: 4,
       })
       expect(result).toStrictEqual([oneOne, twoTwo, three, four])
     })
 
     it('should update at correct indices', () => {
-      const result = mergeIndexAwareOffsetLimitArray([one, two, three, four, five], [oneOne, twoTwo], {
-        args: { offset: 2, limit: 2 },
+      const result = mergeArraysByLimitAndOffset({
+        existing: [one, two, three, four, five],
+        incoming: [oneOne, twoTwo],
+        offset: 2,
+        limit: 2,
       })
       expect(result).toStrictEqual([one, two, oneOne, twoTwo, five])
     })
@@ -253,6 +282,184 @@ describe('cachePolicies', () => {
       expect(keyArgsWithoutLimitAndOffset({ limit: 10, offset: 0, location: 'Hamburg', spaceId: '123' })).toEqual(
         '{"location":"Hamburg","spaceId":"123"}'
       )
+    })
+  })
+
+  describe('keyArgsWithoutTypesenseMultiSearchPageInfo', () => {
+    const testData: { context: Partial<Parameters<KeyArgsFunction>[1]>; expectedKey: string }[] = [
+      {
+        context: {},
+        expectedKey: '[]',
+      },
+      {
+        context: { variables: { input: { searches: [] } } },
+        expectedKey: '[]',
+      },
+      {
+        context: {
+          variables: {
+            input: {
+              searches: [
+                { page: 1, per_page: 10 },
+                { page: 2, per_page: 5 },
+              ],
+            },
+          },
+        },
+        expectedKey: '[{},{}]',
+      },
+      {
+        context: {
+          variables: {
+            input: {
+              searches: [
+                { q: '*', filter_by: 'type:=volunteering', page: 1, per_page: 10 },
+                { q: 'query', query_by: 'title_de', page: 2, per_page: 5 },
+              ],
+            },
+          },
+        },
+        expectedKey: JSON.stringify([
+          { q: '*', filter_by: 'type:=volunteering' },
+          { q: 'query', query_by: 'title_de' },
+        ]),
+      },
+    ]
+    it.each(testData)('should create key $expectedKey for $context', ({ context, expectedKey }) => {
+      expect(
+        keyArgsWithoutTypesenseMultiSearchPageInfo(
+          {},
+          {
+            typename: '',
+            fieldName: '',
+            field: null,
+            ...context,
+          }
+        )
+      ).toEqual(expectedKey)
+    })
+  })
+
+  describe('typesenseMultiSearchPagedPolicy.write', () => {
+    const policy = typesenseMultiSearchPagedPolicy()
+    const options = { variables: { input: { searches: [{ page: 2, per_page: 5 }] } } }
+    const generateHits = (length: number) => Array.from({ length }, (_, index) => ({ document: { id: index } }))
+    const successResponse = {
+      hits: generateHits(5),
+      found: 10,
+    }
+    const successResponseSecondPage = {
+      hits: generateHits(10).slice(5),
+      found: 10,
+    }
+    const errorResponse = {
+      error: 'Test',
+      code: 123,
+    }
+    const mergedSuccessResponses = {
+      hits: generateHits(10),
+      found: 10,
+    }
+
+    it('should return incoming if cache is empty', () => {
+      // @ts-ignore
+      const result = policy.merge(undefined, [successResponse], options)
+      expect(result).toEqual([successResponse])
+    })
+
+    it('should return incoming if cache contains fewer entries than requested partial searches', () => {
+      // @ts-ignore
+      const result = policy.merge([], [successResponse], options)
+      expect(result).toEqual([successResponse])
+    })
+
+    it('should return existing entries for a parial search if an error response is incoming', () => {
+      // @ts-ignore
+      const result = policy.merge([successResponse], [errorResponse], options)
+      expect(result).toEqual([successResponse])
+    })
+
+    it('should return incoming entries if cache contains an error response for a partial search', () => {
+      // @ts-ignore
+      const result = policy.merge([errorResponse], [successResponse], options)
+      expect(result).toEqual([successResponse])
+    })
+
+    it('should return merged entries if nothing is missing', () => {
+      // @ts-ignore
+      const result = policy.merge([successResponse], [successResponseSecondPage], options)
+      expect(result).toEqual([mergedSuccessResponses])
+    })
+
+    it('should return multiple merged entries if nothing is missing for a list of searches', () => {
+      // @ts-ignore
+      const result = policy.merge(
+        [successResponse, successResponse],
+        [successResponseSecondPage, successResponseSecondPage],
+        {
+          variables: {
+            input: {
+              searches: [
+                { page: 2, per_page: 5 },
+                { page: 2, per_page: 5 },
+              ],
+            },
+          },
+        }
+      )
+      expect(result).toEqual([mergedSuccessResponses, mergedSuccessResponses])
+    })
+  })
+
+  describe('multiSearchPagedPolicy.read', () => {
+    const policy = typesenseMultiSearchPagedPolicy()
+    const emptySearchOptions = {
+      variables: {
+        input: { searches: [{}] },
+      },
+    }
+
+    it('should return miss if cache is empty', () => {
+      // @ts-ignore
+      const result = policy.read(undefined, {})
+      expect(result).toBeUndefined()
+    })
+
+    it('should return miss if cache contains fewer entries than requested partial searches', () => {
+      // @ts-ignore
+      const result = policy.read([], emptySearchOptions)
+      expect(result).toBeUndefined()
+    })
+
+    it('should return miss if cache is empty for a partial search', () => {
+      // @ts-ignore
+      const result = policy.read([undefined], emptySearchOptions)
+      expect(result).toBeUndefined()
+    })
+
+    it('should return miss if cache contains error response for a partial search', () => {
+      // @ts-ignore
+      const result = policy.read([{ error: 'Test', code: 123 }], emptySearchOptions)
+      expect(result).toBeUndefined()
+    })
+
+    it('should return miss if cache contains fewer entries for a partial search', () => {
+      const options = {
+        variables: { input: { searches: [{ page: 1, per_page: 10 }] } },
+      }
+      // @ts-ignore
+      const result = policy.read([{ hits: [{}, {}, {}], found: 10 }], options)
+      expect(result).toBeUndefined()
+    })
+
+    it('should return cache contents if nothing is missing', () => {
+      const existing = [{ hits: [{}, {}, {}], found: 3 }]
+      const options = {
+        variables: { input: { searches: [{ page: 1, per_page: 10 }] } },
+      }
+      // @ts-ignore
+      const result = policy.read(existing, options)
+      expect(result).toEqual(existing)
     })
   })
 })

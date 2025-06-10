@@ -11,8 +11,7 @@ import {
   volunteeringHit,
 } from '@holi/core/screens/search/__tests__/testData'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
-import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { SearchResponseHit } from '@holi/core/typesense/types'
 import { createSearchParameters } from '@holi/core/screens/search/helpers/createSearchParameters'
 
 const mockUseSearchResults = jest.mocked(useSearchResults)
@@ -20,7 +19,7 @@ jest.mock('@holi/core/screens/search/hooks/useSearchResults', () => ({
   useSearchResults: jest.fn(),
 }))
 
-const removeDeniedProps = (hits: SearchResponseHit<TypesenseDocument>[]) =>
+const removeDeniedProps = (hits: SearchResponseHit[]) =>
   hits.map((original) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { link_locators, image_url, ...document } = original.document
@@ -28,7 +27,7 @@ const removeDeniedProps = (hits: SearchResponseHit<TypesenseDocument>[]) =>
   })
 
 describe('SearchHitInfiniteList', () => {
-  const hits: SearchResponseHit<TypesenseDocument>[] = [volunteeringHit, profileHit, spaceHit].map(toSearchResponseHit)
+  const hits: SearchResponseHit[] = [volunteeringHit, profileHit, spaceHit].map(toSearchResponseHit)
   const filter: SearchFilter = {
     facet: 'volunteering',
     query: 'search terms',

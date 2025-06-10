@@ -14,11 +14,10 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { Spacing } from 'holi-bricks/foundations'
 import { NoSearchResults } from '@holi/core/screens/search/NoSearchResults'
-import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
 import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { SearchResponseHit } from '@holi/core/typesense/types'
 
 const isWeb = Platform.OS === 'web'
 
@@ -92,7 +91,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
         }
       }}
       onEndReachedThreshold={0.5}
-      renderItem={({ item, index }: { item: SearchResponseHit<TypesenseDocument>; index: number }) => {
+      renderItem={({ item, index }: { item: SearchResponseHit; index: number }) => {
         const hit = item.document
         return (
           <ErrorBoundary>

@@ -82,6 +82,7 @@ export const CompactCard = (({
           avatar={avatar}
           minHeight={minHeight}
           imageLabel={imageLabel}
+          hashKey={title}
         />
 
         {/* Card Body */}

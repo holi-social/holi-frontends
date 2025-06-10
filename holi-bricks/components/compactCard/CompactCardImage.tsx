@@ -9,6 +9,7 @@ import { useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
+import { pickByHash } from 'holi-bricks/components/image/helpers'
 
 export interface CompactCardImageProps {
   imageSrc?: MultiPlatformImageSource
@@ -18,7 +19,19 @@ export interface CompactCardImageProps {
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
   minHeight?: number
   imageLabel: string
+  hashKey: string
 }
+
+const placeholderImages = [
+  require('@holi/ui/assets/img/events/thumbnail-green.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-blue.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-purple.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-yellow.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-green-full.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-blue-full.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-purple-full.svg'),
+  require('@holi/ui/assets/img/events/thumbnail-yellow-full.svg'),
+]
 
 export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   imageSrc,
@@ -28,6 +41,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   avatar,
   minHeight,
   imageLabel,
+  hashKey,
 }: CompactCardImageProps) => {
   const { styles } = useStyles(stylesheet)
   const [imageError, setImageError] = useState(false)
@@ -35,17 +49,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
     setImageError(true)
   }
 
-  const placeholderImages = [
-    require('@holi/ui/assets/img/events/thumbnail-green.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-blue.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-purple.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-yellow.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-green-full.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-blue-full.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-purple-full.svg'),
-    require('@holi/ui/assets/img/events/thumbnail-yellow-full.svg'),
-  ]
-  const randomPlaceholderImage = useRef(placeholderImages[Math.floor(Math.random() * placeholderImages.length)]).current
+  const randomPlaceholderImage = useRef(pickByHash(placeholderImages, hashKey)).current
 
   return (
     <Stack alignItems="center" justifyContent="center">

@@ -1,5 +1,5 @@
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 
 export const transformEngagementToTypesenseDocument = (
   engagementOrReco: VolunteeringEngagement | VolunteeringReco
@@ -8,7 +8,7 @@ export const transformEngagementToTypesenseDocument = (
   const engagement = isReco ? engagementOrReco.engagement : engagementOrReco
 
   return {
-    type: 'volunteering',
+    type: TypesenseDocumentType.Volunteering,
     id: `volunteering_${engagement.id}`,
     title_de: engagement.title,
     title_en: engagement.title,

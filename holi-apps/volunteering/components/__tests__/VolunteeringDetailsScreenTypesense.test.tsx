@@ -1,7 +1,7 @@
 import React from 'react'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreenTypesense } from '@holi-apps/volunteering/components/VolunteeringDetailsScreenTypesense'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
@@ -15,7 +15,7 @@ import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypes
 const engagementId = 'test-id'
 
 const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
-  type: 'volunteering',
+  type: TypesenseDocumentType.Volunteering,
   id,
   title_de: 'Deutscher Titel',
   title_en: 'English Title',
@@ -91,7 +91,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
           {
             document: {
               id: 'reco1',
-              type: 'volunteering',
+              type: TypesenseDocumentType.Volunteering,
             },
             highlight: {},
             text_match: 0,

@@ -1,39 +1,16 @@
-export type TypesenseDocumentType = 'volunteering' | 'space' | 'profile' | 'task'
+import {
+  type Typesense_Document,
+  Typesense_DocumentType,
+  type Typesense_SearchParams_Input,
+  type Typesense_SearchResponseHit,
+} from '@holi/api/graphql/graphql-codegen'
 
-export type TypesenseDocumentLinkLocatorIdOrSlug = string | number
-export interface TypesenseDocument {
-  type: TypesenseDocumentType
-  id: string
-  title_de?: string
-  title_en?: string
-  description_de?: string
-  description_en?: string
-  location?: string
-  location_lat_lng?: [number, number]
-  image_url?: string
-  user_full_name?: string // only set if type == 'profile'
-  /**
-   * Used to construct links to the entity on client-side. E.g. for a space task, this would look as follows:
-   * {
-   *   // ...
-   *   link_locators: {
-   *     space: "kiezputz",
-   *     task: "1c83676f-5197-44c7-bea6-51a7e2f41959"
-   *   }
-   * }
-   * This can then be used to reconstruct the URI path /$lang/spaces/kiezputz/tasks/1c83676f-5197-44c7-bea6-51a7e2f41959
-   */
-  link_locators?: Partial<Record<TypesenseDocumentType, TypesenseDocumentLinkLocatorIdOrSlug>>
-  topics_v2?: string[]
-  skills_v2?: string[]
-  source?: string
-  organizer_name?: string
-  organizer_image_url?: string
-  external_url?: string
-  location_type?: string
-  commitment_label?: string
-  commitment_duration?: string
-}
+export type SearchParams = Typesense_SearchParams_Input
+export type SearchResponseHit = Typesense_SearchResponseHit
+export type TypesenseDocument = Typesense_Document
+
+export type TypesenseDocumentTypeEnum = Typesense_DocumentType
+export const TypesenseDocumentType = Typesense_DocumentType
 
 export type LocalizedTypesenseDocument = Omit<
   TypesenseDocument,

@@ -3,9 +3,8 @@ import { createSearchParameters } from '@holi/core/screens/search/helpers/create
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { type SearchResponseHit, TypesenseDocumentType } from '@holi/core/typesense/types'
 import { renderHook } from '@testing-library/react-native'
-import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
 const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
 jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
@@ -17,10 +16,10 @@ jest.mock('@holi/core/errors/hooks', () => ({
   useErrorHandling: jest.fn(),
 }))
 
-const createSearchHit = (id: number): SearchResponseHit<TypesenseDocument> => ({
+const createSearchHit = (id: number): SearchResponseHit => ({
   document: {
     id: id.toString(),
-    type: 'volunteering',
+    type: TypesenseDocumentType.Volunteering,
   },
   highlight: {},
   text_match: 0,
