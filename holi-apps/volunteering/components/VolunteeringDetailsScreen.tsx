@@ -98,6 +98,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={<VolunteeringSimilarRecosFooter engagementId={engagementId} />}
+        placeholderImage={document.placeholderImage}
       />
 
       {document?.externalUrl && Platform.OS !== 'web' && (
