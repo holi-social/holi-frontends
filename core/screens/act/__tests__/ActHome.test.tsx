@@ -25,6 +25,18 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlagToggle', () => ({
   useFeatureFlagToggle: () => mockUseFeatureFlagToggle(),
 }))
 
+jest.mock('@appcues/react-native', () => ({
+  AppcuesFrameView: () => null,
+  identify: jest.fn(),
+  anonymous: jest.fn(),
+}))
+
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({
+    user: null,
+  }),
+}))
+
 const cases = [
   { section: undefined, order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
   { section: 'SPACE', order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
