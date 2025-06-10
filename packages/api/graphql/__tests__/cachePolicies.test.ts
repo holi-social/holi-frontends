@@ -55,6 +55,16 @@ describe('cachePolicies', () => {
       expect(result).toStrictEqual([one, two, three, four])
     })
 
+    it('should update overlapping entries', () => {
+      const result = mergeArraysByLimitAndOffset({
+        existing: [one, two, three],
+        incoming: [oneOne, twoTwo],
+        offset: 2,
+        limit: 2,
+      })
+      expect(result).toStrictEqual([one, two, oneOne, twoTwo])
+    })
+
     it('should update existing entries', () => {
       const result = mergeArraysByLimitAndOffset({
         existing: [one, two],

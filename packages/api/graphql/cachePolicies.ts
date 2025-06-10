@@ -42,8 +42,8 @@ export function mergeArraysByLimitAndOffset<T = Reference>({
   } else if (!offset || offset === 0) {
     // limit was given, we assume offset = 0, so incoming entries partially overwrite existing ones
     return incoming.concat(existing.slice(incoming.length))
-  } else if (existing.length >= offset + limit) {
-    // within range of existing -> incoming overwrites at the correct indices
+  } else if (existing.length >= offset) {
+    // existing and incoming overlap -> incoming overwrites at the correct indices
     const prefix = existing.slice(0, offset)
     const suffix = existing.slice(offset + incoming.length)
     return prefix.concat(incoming.concat(suffix))
