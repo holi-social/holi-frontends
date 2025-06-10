@@ -7,6 +7,7 @@ import {
   clickFirstElement,
   locateElementByTestId,
   volunteeringRequestTimeout,
+  withSSR,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -18,14 +19,12 @@ test.describe('@Volunteering', () => {
     await page.goto('/volunteering')
 
     await testAllowsPagination(page)
-    // Disabled as SSR is currently not working when using typesense as backend
-    // await withSSR(browser, page.url(), testDisplaysList)
+    await withSSR(browser, page.url(), testDisplaysList)
 
     // click first element in list
     await clickElementByTestId(page, 'volunteering-reco-card')
     await testDisplaysEngagementDetails(context, page)
-    // Disabled as SSR is currently not working when using typesense as backend
-    // await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
+    await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
 
     await page.goto('/volunteering')
     await page.waitForSelector(byTestId('volunteering-list-container'))
@@ -103,6 +102,5 @@ const testFilteringByLocation = async (browser: Browser, page: Page) => {
   // check if the filtered volunteering container is shown
   await testDisplaysFilterResultsCommon(page)
 
-  // Disabled as SSR is currently not working when using typesense as backend
-  // await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
+  await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
 }
