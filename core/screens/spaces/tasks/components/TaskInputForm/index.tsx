@@ -115,6 +115,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
     useState<HoliModalSelectOption<InteractionType>[]>(INTERACTION_TYPE_OPTIONS)
 
   const [hasInteractedWithEmail, setHasInteractedWithEmail] = useState(false)
+  const [hasInteractedWithSignupLink, setHasInteractedWithSignupLink] = useState(false)
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showLocationType, hide: hideLocationType, visible: visibleLocationType } = useModalState()
@@ -133,7 +134,10 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const contactPhoneError = fieldErrors?.contactPhone?.length ? fieldErrors.contactPhone[0] : undefined
   const contactEmailError =
     hasInteractedWithEmail && fieldErrors?.contactEmail?.length ? t('global.validation.email.invalid') : undefined
-  const interactionSignupLinkError = fieldErrors?.signupLink?.length ? fieldErrors.signupLink[0] : undefined
+  const interactionSignupLinkError =
+    hasInteractedWithSignupLink && fieldErrors.interactionSignupLink?.length
+      ? t('global.validation.url.invalid')
+      : undefined
 
   // set options translations
   useEffect(() => {
@@ -403,6 +407,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
             aria-label={t('spaces.input.task.interactionSignupLink.label')}
             testID="task-interactionSignupLink"
             maxNoOfCharacters={1200}
+            onBlur={() => setHasInteractedWithSignupLink(true)}
           />
         </Stack>
       )}
