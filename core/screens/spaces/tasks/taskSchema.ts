@@ -24,7 +24,7 @@ export const CreateTaskSchema = z.object({
   slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
   skillsV2: z.array(z.string()).optional(),
-  interactionSignupLink: z.string().optional(),
+  interactionSignupLink: z.string().url().optional(),
 })
 
 export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
@@ -54,7 +54,7 @@ export const UpdateTaskSchema = z.object({
   slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
   skillsV2: z.array(z.string()).optional(),
-  interactionSignupLink: z.string().optional(),
+  interactionSignupLink: z.string().url().optional(),
 })
 
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>
