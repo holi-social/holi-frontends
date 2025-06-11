@@ -1,13 +1,57 @@
 import { challengeAppBaseUrl } from '@holi/core/helpers/config'
 import { Platform } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const appRoute = '/apps/challenges'
 
-export const createInAppChallengesPath = (path?: string) => {
+export const createInAppChallengesPath = (path?: string, extraParams?: Record<string, string>) => {
   if (!path) {
     return appRoute
   }
-  return `${appRoute}?path=${encodeURIComponent(path)}`
+  const params = new URLSearchParams()
+  params.set('path', path)
+  if (extraParams) {
+    Object.entries(extraParams).forEach(([key, value]) => {
+      params.set(key, value)
+    })
+  }
+  return `${appRoute}?${params.toString()}`
+}
+
+export async function handlePromoState() {
+  const key = 'promoSeen'
+  const hasSeen = await AsyncStorage.getItem(key)
+
+  if (!hasSeen || hasSeen === 'false') {
+    await AsyncStorage.setItem(key, 'true')
+
+    return true
+  }
+
+  return false
+}
+
+export async function appendShowPromo(url: string) {
+  const [base, query = ''] = url.split('?')
+  const params = new URLSearchParams(query)
+  const showPromo = await handlePromoState()
+
+  params.set('showPromo', showPromo.toString())
+
+  return `${base}?${params.toString()}`
+}
+
+export async function removeShowPromoKey() {
+  const key = 'promoSeen'
+  await AsyncStorage.removeItem(key)
+  // Verify removal
+  const check = await AsyncStorage.getItem(key)
+
+  if (check !== null) {
+    // Force remove if still exists
+    await AsyncStorage.clear()
+  }
+  return true
 }
 
 const preparePath = (path?: string) => {

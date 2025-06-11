@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
@@ -10,7 +10,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
-import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
@@ -30,17 +30,26 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
   const cardWidth = calculateCardWidth(Platform.OS === 'web' ? 500 : screenWidth)
   const submissionCardWidth = (cardWidth - cardPaddingsSum) / 2
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
+  const [detailUrl, setDetailUrl] = useState('')
+  const submissions = challenge.submissions.slice(0, 2)
+
+  useEffect(() => {
+    const initUrl = async () => {
+      const url = await appendShowPromo(`/challenges/${challenge.id}`)
+      setDetailUrl(url)
+    }
+    initUrl()
+  }, [challenge.id])
 
   if (!challenge.submissions.length) {
     return null
   }
-  const submissions = challenge.submissions.slice(0, 2)
 
   return (
     <View style={styles.container}>
       <HoliLinkTracked
         label={challenge.title}
-        href={createInAppChallengesPath(challenge.challengeDetailPath)}
+        href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
       >
         <HoliGap size="xxs" />
