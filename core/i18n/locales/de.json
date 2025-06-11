@@ -330,7 +330,7 @@
   "homeFeed.notEnoughVotesNotification.notification": "Bist du auch schon gespannt auf die Ergebnisse? Lass dich darüber informieren, sobald Ergebnisse vorliegen.",
   "homeFeed.notEnoughVotesNotification.notificationYes": "Ich möchte informiert werden",
   "homeFeed.notEnoughVotesNotification.thanks": "Danke für deine Teilnahme!",
-  "homeFeed.pollComponent.anonymousVotes": "anonyme Stimmen",
+  "homeFeed.pollComponent.anonymousVotes": "Stimmen",
   "homeFeed.pollComponent.sendAnswer": "Antwort senden",
   "homeFeed.testingBanner": "Beta-Version, nur zu Testzwecken",
   "homeFeed.userSuggestions.avatarAltText": "Profilbild von {{name}}",
