@@ -1,6 +1,6 @@
 import * as SplashScreen from 'expo-splash-screen'
 import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import React, { type PropsWithChildren, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { initializeMobileApolloClient } from '@holi/api/graphql/client'
 import { Slot, Stack } from 'expo-router'
@@ -17,6 +17,8 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import * as Appcues from '@appcues/react-native'
+import { appcuesAccountId, appcuesAppId } from '@holi/core/helpers/config'
 
 const logger = getLogger('AppInit')
 
@@ -74,7 +76,7 @@ const App = () => {
 
   const init = async () => {
     try {
-      await Promise.all([initI18n(), initAuth(), initNotifications()])
+      await Promise.all([initI18n(), initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
