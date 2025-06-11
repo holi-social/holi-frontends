@@ -1,5 +1,5 @@
 import type React from 'react'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/foundations'
 import {
   type GestureResponderEvent,
@@ -40,7 +40,7 @@ export type StackProps = AccessibilityProps &
     accessibilityLabel?: string
     accessibilityRole?: AccessibilityRole
     testID?: string
-    maxWidth?: BreakpointsSize
+    maxWidth?: keyof BreakpointsSize
     maxHeight?: DimensionValue
     minWidth?: DimensionValue
     minHeight?: DimensionValue
@@ -55,7 +55,6 @@ export type StackProps = AccessibilityProps &
   }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
-  const { styles } = useStyles(containerStylesheet)
   const Wrapper = otherProps?.onPress ? Pressable : View
 
   return shouldRender ? (
@@ -74,7 +73,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
   ) : null
 }
 
-const containerStylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   container: (props: Omit<StackProps, 'children'>) => ({
     backgroundColor: props?.backgroundColor ? resolveBackgroundColor(props?.backgroundColor, theme) : undefined,
     borderColor: props?.borderColor ? theme.colors.border[props?.borderColor] : undefined,

@@ -1,5 +1,5 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { type FlexStyle, type GestureResponderEvent, Pressable, View } from 'react-native'
@@ -44,7 +44,7 @@ export const SelectorCard = ({
   testID,
   ...rest
 }: SelectorCardProps) => {
-  const { styles } = useStyles(stylesheet, { disabled, reverseOrder })
+  styles.useVariants({ disabled, reverseOrder })
   const isPressable = !!onPress
 
   return (
@@ -86,7 +86,7 @@ export const SelectorCard = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   selector: (
     hovered: boolean,
     pressed: boolean,

@@ -15,6 +15,9 @@ export type ThemeColors = {
 // Create a mapped type to check for matching keys
 type CheckMatchingKeys<T, U> = keyof T extends keyof U ? (keyof U extends keyof T ? T : never) : never
 
+type VerifiedFoundationLightColors = CheckMatchingKeys<LightTheme, DarkTheme>
+type VerifiedFoundationDarkColors = CheckMatchingKeys<DarkTheme, LightTheme>
+
 // Verify that both theme colors have the same structure
 type VerifiedLightColors = CheckMatchingKeys<LightTheme['colors'], DarkTheme['colors']>
 type VerifiedDarkColors = CheckMatchingKeys<DarkTheme['colors'], LightTheme['colors']>
@@ -36,3 +39,5 @@ export type FocusColors = keyof VerifiedFocus
 export type BackgroundColors = keyof VerifiedBg
 
 export type ElevationLevel = 200 // we will add more | 100| 300 | 400 and so on
+
+export type FoundationTheme = VerifiedFoundationLightColors | VerifiedFoundationDarkColors

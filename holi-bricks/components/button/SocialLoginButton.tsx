@@ -1,5 +1,5 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { type LayoutProps, Spacing, layoutStyle } from 'holi-bricks/foundations'
 import { TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
@@ -50,7 +50,7 @@ export const SocialLoginButton = ({
 }: SocialLoginButtonProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
-  const { styles } = useStyles(stylesheet, {
+  styles.useVariants({
     selected,
     disabled,
   })
@@ -116,7 +116,7 @@ export const SocialLoginButton = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   button: (hovered: boolean, pressed: boolean) => {
     return {
       ...buttonBaseStyle,

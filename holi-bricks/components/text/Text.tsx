@@ -1,6 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 
 import type * as React from 'react'
 import {
@@ -70,7 +70,7 @@ export const Text = ({
   testID,
   ...rest
 }: TextProps) => {
-  const { styles } = useStyles(stylesheet, { size })
+  styles.useVariants({ size })
 
   const textAccessibilityProps = createAccessibilityProps(headingLevel)
 
@@ -95,7 +95,7 @@ export const Text = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   text: (
     color: TextProps['color'],
     selectable: boolean,

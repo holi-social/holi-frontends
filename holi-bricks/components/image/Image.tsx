@@ -4,7 +4,7 @@ import { Image as RNImage } from 'react-native'
 import { Image as ExpoImage } from 'expo-image'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import type { MultiPlatformImage } from 'holi-bricks/components/image/type'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { isRemoteSource, transformSource } from 'holi-bricks/components/image/helpers'
 import { WithLocalSvg } from 'react-native-svg/css'
 import { layoutStyle } from 'holi-bricks/foundations'
@@ -48,7 +48,6 @@ export const Image: React.FC<MultiPlatformImage> = ({
   ...otherProps
 }) => {
   const [hasError, setHasError] = useState(false)
-  const { styles } = useStyles(stylesheet)
 
   if (!source) return undefined
 
@@ -106,7 +105,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   imageSize: (width: number, height: number) => {
     return {
       width,
