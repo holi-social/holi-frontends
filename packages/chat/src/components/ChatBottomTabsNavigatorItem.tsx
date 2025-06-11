@@ -1,4 +1,4 @@
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { useAtomValue } from 'jotai'
 import React from 'react'
 
@@ -13,7 +13,6 @@ export interface ChatBottomTabsNavigatorItemProps {
 
 const ChatBottomTabsNavigatorItem = ({ focused }: ChatBottomTabsNavigatorItemProps) => {
   const hasUnreadNotifications = useAtomValue(hasUnreadNotificationsAtom)
-  const { styles } = useStyles(stylesheet)
 
   return (
     <NotificationBellBadge visible={hasUnreadNotifications} testID="bell-badge">
@@ -24,7 +23,7 @@ const ChatBottomTabsNavigatorItem = ({ focused }: ChatBottomTabsNavigatorItemPro
 
 export default ChatBottomTabsNavigatorItem
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   icon: (focused: boolean) => ({
     color: focused ? theme.colors.fill.main : theme.colors.fill.default,
   }),

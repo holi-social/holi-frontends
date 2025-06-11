@@ -3,8 +3,7 @@ import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from '
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
-
+import { useNavigation, Link } from 'expo-router'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -220,6 +219,7 @@ const HomeFeed = () => {
 
   return (
     <>
+      <Link href={'/insights'}>Go to </Link>
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="feed-posts">
           <ErrorBoundary>

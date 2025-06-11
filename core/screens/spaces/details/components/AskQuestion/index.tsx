@@ -7,7 +7,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -17,7 +17,6 @@ export type AskQuestionProps = {
 }
 
 export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { representative } = useRepresentative(spaceIdOrName)
 
@@ -62,7 +61,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   ctaDrawerContent: {
     flexDirection: 'column',
     gap: 8,

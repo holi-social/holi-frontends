@@ -2,7 +2,7 @@ import type React from 'react'
 import { Platform, View } from 'react-native'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 
 interface CoverImageProps {
@@ -21,7 +21,6 @@ const bannerImage = {
 }
 
 export const CoverImageSkeleton = () => {
-  const { styles } = useStyles(stylesheet)
   return (
     <View style={[styles.container, bannerImage]}>
       <View style={styles.image}>
@@ -32,8 +31,6 @@ export const CoverImageSkeleton = () => {
 }
 
 export const CoverImage = ({ coverImage }: CoverImageProps) => {
-  const { styles } = useStyles(stylesheet)
-
   return coverImage ? (
     <HoliImageBackground
       source={coverImage}
@@ -54,7 +51,7 @@ export const CoverImage = ({ coverImage }: CoverImageProps) => {
   ) : null
 }
 
-const stylesheet = createStyleSheet(() => {
+const styles = createStyleSheet(() => {
   return {
     container: {
       paddingHorizontal: 0,

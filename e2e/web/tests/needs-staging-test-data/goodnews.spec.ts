@@ -7,7 +7,7 @@ test.describe('@GoodNews', () => {
   test('should display Good News articles', async ({ page }) => {
     test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
 
-    await page.goto('/apps/goodnews')
+    await page.goto('/goodnews')
 
     const firstArticle = page.locator(byTestId('goodnews-detailview-container')).first()
 

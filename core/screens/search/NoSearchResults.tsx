@@ -1,4 +1,4 @@
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
@@ -13,7 +13,6 @@ interface NoSearchResultsProps {
 
 export const NoSearchResults = ({ filter }: NoSearchResultsProps) => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   const message = !filter.query
     ? t('search.noResultsLocation.headline', { location: filter.location?.label ?? '' })
@@ -31,7 +30,7 @@ export const NoSearchResults = ({ filter }: NoSearchResultsProps) => {
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   container: {
     flexDirection: 'row',
     gap: Spacing['xs'],

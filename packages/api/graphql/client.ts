@@ -275,3 +275,5 @@ export const initializeWebApolloClient = ({ initState, headers, locale }: WebApo
 }
 
 export const initializeMobileApolloClient = () => createApolloClient({ ssrMode: false })
+export type ApolloClientType = ReturnType<typeof initializeWebApolloClient>
+export { ApolloProvider } from '@apollo/client'

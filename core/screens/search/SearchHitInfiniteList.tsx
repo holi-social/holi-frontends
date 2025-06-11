@@ -1,5 +1,5 @@
 import { FlashList } from '@shopify/flash-list'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/SearchHit'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -40,7 +40,6 @@ interface SearchHitInfiniteListProps {
 
 export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
-  const { styles } = useStyles(stylesheet)
   const { searchResults, isLoading: loadingResults, fetchNextPage, refetch } = useSearchResults(filter)
   const isLoading = loadingParameters || loadingResults
 
@@ -113,7 +112,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   loader: {
     padding: Spacing['xxs'],
     position: 'relative',

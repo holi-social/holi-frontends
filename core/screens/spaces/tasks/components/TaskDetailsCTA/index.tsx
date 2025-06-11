@@ -6,7 +6,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import React, { useState } from 'react'
 import { Linking, Platform, View } from 'react-native'
@@ -63,7 +63,6 @@ export const TaskDetailsCTA = ({
   taskDuration,
   taskRegularity,
 }: Props) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { adminUsers, loading: adminUsersLoading } = useSpaceAdminUsers(spaceIdOrName)
   const { user: loggedInUser } = useLoggedInUser()
@@ -251,7 +250,7 @@ export const TaskDetailsCTA = ({
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   ctaWrapper: {
     padding: Spacing.xxs,
     left: 0,

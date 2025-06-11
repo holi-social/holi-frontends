@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, type PropsWithChildren } from 'react'
+import { Redirect } from 'expo-router'
 import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { RootNavigator } from '@holi/mobile/navigation/RootNavigator'
 
 interface OnboardingAwaitingNavigatorProps {
-  onReady: () => Promise<boolean>
+  onReady?: () => Promise<boolean> | void
 }
 
 export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavigatorProps) => {
@@ -13,7 +14,7 @@ export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavig
 
   useEffect(() => {
     if (!isInitialized && !isLoading) {
-      onReady()
+      onReady?.()
       setIsInitialized(true)
     }
   }, [isInitialized, isLoading, onReady])
@@ -22,7 +23,34 @@ export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavig
     return null
   }
 
-  // Overrides the "default route" of the app if onboarding should be shown.
-  // This is based on the suggested way to handle authentication by react navigation: https://reactnavigation.org/docs/auth-flow/
-  return <RootNavigator showOnboardingOnStartup={showOnboardingOnStartup} />
+  return children
 }
+
+// TODO: IMPORTANT move notification init inside Onboarding
+// export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavigatorProps) => {
+//   const { isLoading, onboardingState } = useOnboardingInitialization()
+//   const [isInitialized, setIsInitialized] = useState(false)
+//   const [notificationsInitialized, setNotificationsInitialized] = useState(false)
+//   const { showOnboardingOnStartup } = useOnboardingRedirect()
+
+//   useEffect(() => {
+//     if (!isInitialized && !isLoading) {
+//       onReady?.()
+//       setIsInitialized(true)
+//     }
+//   }, [isInitialized, isLoading, onReady])
+
+//   useEffect(() => {
+//     if (!notificationsInitialized && onboardingState === 'finished') {
+//       initNotifications().then(() => {
+//         setNotificationsInitialized(true)
+//       })
+//     }
+//   }, [onboardingState, notificationsInitialized])
+
+//   if (isLoading && !isInitialized) {
+//     return null
+//   }
+
+//   return children
+// }

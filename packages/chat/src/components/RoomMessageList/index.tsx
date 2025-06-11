@@ -9,7 +9,7 @@ import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import RoomMessage from './RoomMessage'
 import type { RoomMessageListProps } from './types'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
@@ -46,7 +46,6 @@ const RoomMessageList = ({
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   const groupedMessages = groupByDate(messages, i18n.language)
   return (
@@ -89,7 +88,7 @@ const RoomMessageList = ({
 
 export default RoomMessageList
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   listFooterSpacer: {
     paddingHorizontal: Spacing['xs'],
   },

@@ -15,10 +15,11 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIcon } from 'holi-bricks/components/button/ButtonIcon'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { useDiscoverSpacesDefaultTopicsQuery } from '@holi/api/graphql/graphql-codegen'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 
 interface DiscoverSpacesViewProps {
   userTopics: string[]
@@ -46,8 +47,8 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
 
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, userSkills, userGeolocationId }) => {
   const { isLoggedIn } = useLoggedInUser()
-  const { styles, theme } = useStyles(getStyles)
   const { data: defaultTopics, loading: loadingDefaultTopics } = useDiscoverSpacesDefaultTopicsQuery()
+  const { theme } = useBricks()
 
   const filteredDefaultTopics = useMemo(
     () => (defaultTopics?.discoverSpacesDefaultTopicsV2 ?? []).filter((topic) => !userTopics.includes(topic)),
@@ -171,7 +172,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   )
 }
 
-const getStyles = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   body: {
     paddingTop: Spacing.lg, // + header height
     backgroundColor: theme.colors.bg.main,

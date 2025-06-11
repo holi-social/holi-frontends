@@ -5,7 +5,7 @@ import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfini
 import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Platform, View } from 'react-native'
@@ -27,7 +27,6 @@ const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
 export const Search = () => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
   const { displayError } = useErrorHandling()
 
   // Query parameters
@@ -103,7 +102,7 @@ export const Search = () => {
 }
 
 const TOP_COMPONENT_HEIGHT = 178
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   filterContainer: {
     paddingTop: Spacing.xs,
     gap: Spacing.xs,
