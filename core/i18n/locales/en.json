@@ -329,7 +329,7 @@
   "homeFeed.notEnoughVotesNotification.notification": "Are you also excited about the results? You can be informed as soon as results are available.",
   "homeFeed.notEnoughVotesNotification.notificationYes": "I would like to be informed",
   "homeFeed.notEnoughVotesNotification.thanks": "Thanks for participating!",
-  "homeFeed.pollComponent.anonymousVotes": "anonymous votes",
+  "homeFeed.pollComponent.anonymousVotes": "votes",
   "homeFeed.pollComponent.sendAnswer": "Send answer",
   "homeFeed.testingBanner": "Beta release for testing only",
   "homeFeed.userSuggestions.avatarAltText": "Profile picture of {{name}}",
