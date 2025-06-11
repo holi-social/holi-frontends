@@ -112,7 +112,6 @@ const OwnProfile = () => {
     setScreenOptions({
       title,
       headerShown: true,
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (

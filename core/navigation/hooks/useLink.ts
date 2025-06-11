@@ -11,18 +11,26 @@ export interface UseLinkProps {
   external?: boolean
 }
 
-// This hook is for mobile only and is used inside HoliLink and HoliTextLink, which have alternative implementations for web.
 const useLink = ({ onPress, external, href }: UseLinkProps) => {
   const { navigate } = useRouting()
+
+  // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
+  const normalizeHref = (href: string) => {
+    if (href.startsWith('http')) {
+      return '/' + href.replace(/^https:\/\/(app|staging\.dev)\.holi\.social(\/(en|de))?/, '').replace(/^\/+/, '')
+    }
+    return href.startsWith('/') ? href : `/${href}`
+  }
 
   return useCallback(
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
       if (onPress) {
         // Not awaiting promise before event propagation to mimick web behaviour
-        const propagateEventOrPromise = onPress(event)
-        if (propagateEventOrPromise === false) return
-        await propagateEventOrPromise
+        const result = onPress(event)
+        if (result === false) return
+        await result
       }
+
       if (external) {
         Linking.openURL(href)
         return

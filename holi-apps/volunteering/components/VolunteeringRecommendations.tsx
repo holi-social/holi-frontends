@@ -3,12 +3,10 @@ import React, { useMemo } from 'react'
 import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 
 export const VolunteeringRecommendations = () => {
-  const { styles } = useStyles(stylesheet)
-
   const { isLoading, engagements, canFetchMore, fetchNextPage } = useVolunteeringRecos({ displayErrors: true })
 
   const loadMoreComponent = useMemo(() => {
@@ -18,7 +16,7 @@ export const VolunteeringRecommendations = () => {
         placeholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
       />
     )
-  }, [fetchNextPage, styles.loaderBottom])
+  }, [fetchNextPage])
 
   return (
     <VolunteeringEngagementList
@@ -29,7 +27,7 @@ export const VolunteeringRecommendations = () => {
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   loaderBottom: {
     marginBottom: 24,
     position: 'relative',

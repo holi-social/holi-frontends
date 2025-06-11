@@ -1,9 +1,7 @@
-import { type ApolloClient, ApolloProvider } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { type PropsWithChildren } from 'react'
 import { Platform } from 'react-native'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
-
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
@@ -21,6 +19,7 @@ import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
 import { SnackbarGlobal } from '@holi/core/components/SnackbarGlobal'
 import { HoliWebViewGlobalModal } from '@holi/ui/components/organisms/HoliWebViewGlobalModal'
+import { type ApolloClientType, ApolloProvider } from '@holi/api/graphql/client'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -28,7 +27,7 @@ const initialWindowMetricsForWeb = {
 }
 
 interface RootProviderProps {
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClientType
   posthogBootstrapState?: PosthogProviderProps['bootstrapState']
 }
 

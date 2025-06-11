@@ -1,7 +1,7 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 import { useCallback } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from 'expo-router'
 
 import { initialScreenOptions } from './initOptions'
 import { NavigationCustomOptions } from './types'
@@ -9,13 +9,13 @@ import { NavigationCustomOptions } from './types'
 const screenOptions = makeVar<NavigationCustomOptions>(initialScreenOptions)
 export const useScreenOptions = () => useReactiveVar(screenOptions)
 export const useSetScreenOptions = () => {
-  const { setOptions } = useNavigation()
+  const navigation = useNavigation()
 
   return useCallback(
     (options: NavigationCustomOptions) => {
-      setOptions(options)
+      navigation.setOptions(options)
       screenOptions(options)
     },
-    [setOptions]
+    [navigation]
   )
 }

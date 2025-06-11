@@ -4,7 +4,7 @@ import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage
 import type { TypesenseDocument, TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
@@ -31,7 +31,6 @@ const getTitle = (language: string, hit: TypesenseDocument): string => {
 export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitProps) => {
   const { t } = useTranslation()
   const language = useUserLanguage()
-  const { styles } = useStyles(stylesheet)
   const title = getTitle(language, hit)
 
   return (
@@ -71,7 +70,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
   )
 })
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   hitItem: (hitType: TypesenseDocumentTypeEnum) => ({
     flexDirection: 'row',
     columnGap: Spacing.xxs,

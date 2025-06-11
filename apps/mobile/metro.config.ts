@@ -15,6 +15,10 @@ const config = {
   watchFolders: [workspaceRoot], // Watch all files within the monorepo
   resolver: {
     ...defaultConfig?.resolver,
+    unstable_enablePackageExports: false,
+    transformer: {
+      unstable_allowRequireContext: true,
+    },
     // Let Metro know where to resolve packages, and in what order
     nodeModulesPaths: [path.resolve(projectRoot, 'node_modules'), path.resolve(workspaceRoot, 'node_modules')],
     // add "cjs" extension for apollo client (see https://github.com/apollographql/apollo-client/blob/main/CHANGELOG.md#apollo-client-354-2021-11-19)

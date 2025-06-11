@@ -13,8 +13,8 @@ import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { ArrowRightS } from '@holi/icons/src/generated'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 const ICON_SIZE = 20
 
@@ -60,7 +60,6 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   const { navigate } = useRouting()
   const { track } = useTracking()
   const [itemsWidth, setItemsWidth] = useState<number | null>(null)
-  const { styles } = useStyles(stylesheet)
 
   const handleHeaderTitlePress = () => {
     if (seeAllPath) {
@@ -197,7 +196,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
 export default RecoSlider
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   seeMoreButton: (cardWidth: number) => ({
     flex: 1,
     width: cardWidth,

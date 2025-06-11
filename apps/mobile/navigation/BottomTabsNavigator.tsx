@@ -1,10 +1,7 @@
 import { TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import React, { useMemo } from 'react'
+import { createStyleSheet } from 'holi-bricks/styles'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
-import { type EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
@@ -21,8 +18,7 @@ import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
   [RouteName.SpacesStack]: undefined
@@ -44,15 +40,10 @@ const BottomTabLabel = ({ label, focused }: { label: string; focused: boolean })
 }
 
 const BottomTabsNavigator = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
-  const insets = useSafeAreaInsets()
+  const { theme } = useBricks()
 
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
-  const { styles: unistyles } = useStyles(stylesheet)
-
   return (
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
@@ -60,8 +51,8 @@ const BottomTabsNavigator = () => {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: colors.foreground30,
-        tabBarInactiveTintColor: colors.foreground20,
+        tabBarActiveTintColor: theme.colors.fill.main,
+        tabBarInactiveTintColor: theme.colors.fill.muted,
       }}
     >
       <BottomTabs.Screen
@@ -70,11 +61,13 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? HomeFilled : Home} colorOverride={unistyles.icon(focused).color} />
+            return (
+              <HoliIcon icon={focused ? HomeFilled : Home} colorOverride={styles.icon(focused).color} />
+            )
           },
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.feed', 'Feed')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-home-view',
+          // tabBarTestID: 'btn-to-home-view',
         }}
         listeners={{ tabPress: () => setPathname('/') }}
       />
@@ -85,11 +78,11 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} colorOverride={unistyles.icon(focused).color} />
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} colorOverride={styles.icon(focused).color} />
           ),
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act', 'Act')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-act',
+          // tabBarTestID: 'btn-to-act',
         }}
         listeners={{ tabPress: () => setPathname('/act') }}
       />
@@ -102,11 +95,11 @@ const BottomTabsNavigator = () => {
           headerTitle: () => null,
           headerTitleAlign: 'center',
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? SpacesFilled : Spaces} colorOverride={unistyles.icon(focused).color} />
+            return <HoliIcon icon={focused ? SpacesFilled : Spaces} colorOverride={styles.icon(focused).color} />
           },
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.organize')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-spaces',
+          // tabBarTestID: 'btn-to-spaces',
         }}
         listeners={{ tabPress: () => setPathname('/spaces') }}
       />
@@ -119,7 +112,7 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({ focused }) => <ChatBottomTabsNavigatorItem focused={focused} />,
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.chat')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-chat-view',
+          // tabBarTestID: 'btn-to-chat-view',
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
@@ -134,7 +127,7 @@ const BottomTabsNavigator = () => {
             <BottomTabLabel label={isLoggedIn ? t('navigation.profile') : t('navigation.login')} focused={focused} />
           ),
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: isLoggedIn ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view',
+          // tabBarTestID: isLoggedIn ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view',
         }}
         listeners={{ tabPress: () => setPathname('/profile') }}
       />
@@ -144,22 +137,18 @@ const BottomTabsNavigator = () => {
 
 export default BottomTabsNavigator
 
-const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
-  StyleSheet.create({
-    tabBar: {
-      paddingTop: 4,
-      /**
-       * insets.bottom are the iOS bottom bar (usually on newer devices).
-       * Older devices don't have them, and setting a single tab bar height for all leads to unnecessarily large bottom tabs on older iOS devices.
-       */
-      height: dimensions.bottomBarHeight + insets.bottom,
-      backgroundColor: theme.colors.background10,
-      borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: theme.colors.foreground20,
-    },
-  })
-
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
+  tabBar: {
+    paddingTop: 4,
+    /**
+     * insets.bottom are the iOS bottom bar (usually on newer devices).
+     * Older devices don't have them, and setting a single tab bar height for all leads to unnecessarily large bottom tabs on older iOS devices.
+     */
+    height: dimensions.bottomBarHeight,
+    backgroundColor: theme.colors.bg.main,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.bg.main,
+  },
   icon: (focused: boolean) => ({
     color: focused ? theme.colors.fill.main : theme.colors.fill.default,
   }),

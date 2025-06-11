@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { View } from 'react-native'
 import { Search } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -23,7 +23,6 @@ export interface SearchExamplesProps {
 }
 
 export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesProps) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const [displayedExampleIds, setDisplayedExampleIds] = useState<number[]>([])
   const [facet, setFacet] = useState('')
@@ -70,7 +69,7 @@ export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesPr
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   list: {
     gap: Spacing['4xs'],
   },

@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
@@ -21,7 +21,6 @@ const AvatarPile = ({
   icon,
   ...rest
 }: AvatarPileProps) => {
-  const { styles } = useStyles(stylesheet)
   const overlapDistance = AvatarSizesValues[size] / -2.4
 
   return (
@@ -49,7 +48,7 @@ const AvatarPile = ({
 
 export default AvatarPile
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -10,7 +10,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius } from 'holi-bricks/foundations'
 
 interface GetStartedViewProps {
@@ -21,7 +21,6 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   const { t } = useTranslation()
   const { navigateWithAuth } = useAuthRequiredNavigation()
   const { navigate } = useRouting()
-  const { styles } = useStyles(stylesheet)
 
   return (
     <HoliContainer testID="spaces-container" gap={Spacing.md} noPadding>
@@ -133,7 +132,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   description: {
     gap: Spacing.xs,
     paddingHorizontal: Spacing.xs,

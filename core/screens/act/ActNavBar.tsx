@@ -1,9 +1,7 @@
-import React from 'react'
-import { Stack } from 'holi-bricks/components/stack'
-import { Text } from 'holi-bricks/components/text'
-import type { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { TouchableOpacity, View } from 'react-native'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import {
   BookmarkFill,
   CalendarEventFilled,
@@ -11,9 +9,11 @@ import {
   HeartsFilled,
   StarSmileFilled,
 } from '@holi/icons/src/generated'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { TouchableOpacity, View } from 'react-native'
 
 const NavBarButton = ({ icon, onPress, label }: { icon: HoliIconType; onPress: () => void; label: string }) => {
   return (
@@ -43,7 +43,7 @@ export const ActNavBar = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   return (
-    <View style={{ overflowX: 'auto' }}>
+    <View style={{ overflow: 'scroll' }}>
       <Stack
         direction="row"
         justifyContent="space-between"

@@ -1,9 +1,9 @@
 import { TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { useRouter } from 'next/router'
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -16,16 +16,12 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FooterTabBar = () => {
   const { navigate } = useRouting()
   const { pathname } = useRouter() // Recognize 404 pages when `asPath` differs
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
-  const { styles: unistyles } = useStyles(stylesheet)
   const [mounted, setMounted] = useState(false)
 
   // This is a workaround to prevent the footer from being rendered before the translations are loaded and to avoid the hydration error
@@ -61,7 +57,7 @@ const FooterTabBar = () => {
           testID="btn-to-home-view"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isHome ? HomeFilled : Home} colorOverride={unistyles.icon(isHome).color} />
+          <HoliIcon icon={isHome ? HomeFilled : Home} colorOverride={styles.icon(isHome).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isHome ? 'main' : 'default'} role="none">
             {t('navigation.feed', 'Feed')}
@@ -76,7 +72,7 @@ const FooterTabBar = () => {
           testID="btn-to-act"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} colorOverride={unistyles.icon(isAct).color} />
+          <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} colorOverride={styles.icon(isAct).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isAct ? 'main' : 'default'} role="none">
             {t('navigation.act', 'Act')}
@@ -91,7 +87,7 @@ const FooterTabBar = () => {
           testID="btn-to-spaces"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} colorOverride={unistyles.icon(isSpaces).color} />
+          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} colorOverride={styles.icon(isSpaces).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isSpaces ? 'main' : 'default'} role="none">
             {t('navigation.organize')}
@@ -126,26 +122,22 @@ const FooterTabBar = () => {
 
 export default FooterTabBar
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    fullWidthContainer: {
-      width: '100%',
-      alignItems: 'center',
-      backgroundColor: theme.colors.background10,
-      borderTopWidth: 1,
-      borderTopColor: theme.colors.background30,
-      height: dimensions.bottomBarHeight,
-      maxHeight: dimensions.bottomBarHeight,
-    },
-    button: {
-      paddingHorizontal: Spacing.xxs,
-      paddingVertical: Spacing['3xs'],
-      alignItems: 'center',
-    },
-  })
-
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   icon: (focused: boolean) => ({
     color: focused ? theme.colors.fill.main : theme.colors.fill.default,
   }),
+  fullWidthContainer: {
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: theme.colors.bg.main,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border.default,
+    height: dimensions.bottomBarHeight,
+    maxHeight: dimensions.bottomBarHeight,
+  },
+  button: {
+    paddingHorizontal: Spacing.xxs,
+    paddingVertical: Spacing['3xs'],
+    alignItems: 'center',
+  },
 }))

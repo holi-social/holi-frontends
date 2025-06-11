@@ -1,12 +1,4 @@
-import React, { useRef } from 'react'
-import { View, StatusBar, Platform, type ScrollView, type LayoutChangeEvent } from 'react-native'
-import { useStyles } from 'holi-bricks/styles'
-import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
-import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
-import { useScrollToTop } from '@react-navigation/native'
-import { useAutoPreset } from '@holi/core/components/Screen/useAutoPreset'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { stylesheet } from '@holi/core/components/Screen/styles'
+import { styles } from '@holi/core/components/Screen/styles'
 import type {
   AutoScreenProps,
   FixedScreenProps,
@@ -14,12 +6,19 @@ import type {
   ScreenProps,
   ScrollScreenProps,
 } from '@holi/core/components/Screen/types'
+import { useAutoPreset } from '@holi/core/components/Screen/useAutoPreset'
 import { useScreenComponentInternal } from '@holi/core/components/Screen/useScreenComponentInternal'
-import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { KeyboardAwareScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { useScrollToTop } from '@react-navigation/native'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
+import React, { useRef } from 'react'
+import { type LayoutChangeEvent, Platform, type ScrollView, StatusBar, View } from 'react-native'
+import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
+import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const isIos = Platform.OS === 'ios'
 
@@ -50,7 +49,6 @@ function ScreenWithScrolling(props: ScreenProps) {
     contentPadding,
     onRefresh,
   } = props as ScrollScreenProps
-  const { styles } = useStyles(stylesheet)
   const ref = useRef<ScrollView>(null)
   const { scrollEnabled, onContentSizeChange, onLayout } = useAutoPreset(props as AutoScreenProps)
 
@@ -92,7 +90,6 @@ function ScreenWithScrolling(props: ScreenProps) {
 }
 
 function ScreenWithoutScrolling({ children, contentPadding, preset, style, contentContainerStyle }: FixedScreenProps) {
-  const { styles } = useStyles(stylesheet)
   return (
     <View style={[style, styles.container]}>
       <View
@@ -121,7 +118,6 @@ const BottomComponentWrapper = ({
   onLayout,
   footerHidden,
 }: BottomComponentWrapperProps) => {
-  const { styles } = useStyles(stylesheet)
   const { bottomDistance } = useGradualAnimation()
   const bottomBar = footerHidden ? 0 : dimensions.bottomBarHeight
   const bottomInputStyle = useAnimatedStyle(
@@ -132,7 +128,10 @@ const BottomComponentWrapper = ({
   )
 
   return (
-    <Animated.View style={[styles.stickyBottom, bottomInputStyle, styles.padding(padding)]} onLayout={onLayout}>
+    <Animated.View
+      style={[styles.stickyBottom, bottomInputStyle, styles.padding(padding)]}
+      onLayout={onLayout as Animated.View['props']['onLayout']}
+    >
       {StickyBottomComponent}
     </Animated.View>
   )
@@ -155,8 +154,7 @@ export const Screen = (props: ScreenProps) => {
     testID,
     ...otherProps
   } = props
-  const { styles, theme } = useStyles(stylesheet)
-  const { getActiveThemeName } = useBricks()
+  const { theme, getActiveThemeName } = useBricks()
   const themeName = getActiveThemeName()
   const { stickyBottomLayout, stickyBottomOffset, stickyTopLayout, stickyTopOffset } = useScreenComponentInternal({
     headerOptions,

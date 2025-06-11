@@ -13,7 +13,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { Avatar } from 'holi-bricks/components/avatar'
 import type { User } from '@holi/core/domain/shared/types'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
 
@@ -40,7 +40,6 @@ const RoomTextMessage = ({
 }: Props) => {
   const { i18n, t } = useTranslation()
   const locale = getLocale(i18n.language)
-  const { styles } = useStyles(stylesheet)
 
   const myId = useAtomValue(loggedInMemberIdAtom)
   const isMyMessage = message.sender === myId
@@ -99,7 +98,7 @@ const RoomTextMessage = ({
 
 export default RoomTextMessage
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   wrapper: (isSender?: boolean) => ({
     borderColor: isSender ? theme.colors.decorative.purpleLight : theme.colors.bg.support,
     borderWidth: 1,

@@ -1,11 +1,11 @@
+import type { ScreenProps, ScrollScreenProps } from '@holi/core/components/Screen/types'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import React from 'react'
 import { View } from 'react-native'
-import { useStyles } from 'holi-bricks/styles'
-import { stylesheet } from '@holi/core/components/Screen/styles'
-import type { ScreenProps, ScrollScreenProps } from '@holi/core/components/Screen/types'
 import { useScreenComponentInternal } from './useScreenComponentInternal'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
+import { styles } from './styles'
 
 export const Screen = (props: ScreenProps) => {
   const {
@@ -24,7 +24,7 @@ export const Screen = (props: ScreenProps) => {
     noContainerPaddingWeb,
   } = props as ScrollScreenProps
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useBricks()
   const { stickyBottomLayout, stickyBottomOffset, stickyTopLayout, stickyTopOffset, headerHeight } =
     useScreenComponentInternal({ headerOptions })
 

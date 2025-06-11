@@ -4,7 +4,7 @@ import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/ima
 import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { Text } from 'holi-bricks/components/text/Text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius, type LayoutProps, Spacing, layoutStyle, mono } from 'holi-bricks/foundations'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import React, { useCallback, useState } from 'react'
@@ -60,7 +60,7 @@ export const Avatar = ({
   icon,
   ...rest
 }: AvatarProps) => {
-  const { styles } = useStyles(stylesheet, { border, shape, size })
+  styles.useVariants({border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
   const CDN_IMAGE_DIMENSION = AvatarSizesValues[size]
@@ -102,7 +102,7 @@ export const Avatar = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   textWrapper: {
     opacity: 0.8,
   },

@@ -47,7 +47,7 @@ module.exports = {
           },
           {
             name: 'react-native-unistyles',
-            importNames: ['createStyleSheet', 'useStyles'],
+            importNames: ['createStyleSheet'],
             message: 'Please use hooks and utils from holi-bricks instead.',
           },
         ],

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO: fix eslint warning
-// Based on solito@0.0.26
-// From https://gist.github.com/nandorojo/052887f99bb61b54845474f324aa41cc
-import Router, { useRouter } from 'next/router'
+// Based on solito@0.0.26 - Adapted for Expo Router
+import { useLocalSearchParams, usePathname, useRouter } from 'expo-router'
 import { useCallback, useMemo, useRef } from 'react'
 
 import {
@@ -14,25 +13,40 @@ import {
 } from '@holi/core/navigation/hooks/useParam/shared'
 import { coerceToUUIDString } from '@holi/core/helpers'
 
+// Helper function to convert search params to URLSearchParams
+const createURLSearchParams = (searchParams: Record<string, string | string[]>) => {
+  const params = new URLSearchParams()
+  Object.entries(searchParams).forEach(([key, val]) => {
+    if (val !== undefined) {
+      if (Array.isArray(val)) {
+        val.forEach((v) => params.append(key, String(v)))
+      } else {
+        params.set(key, String(val))
+      }
+    }
+  })
+  return params
+}
+
 /**
  * This creates two hooks for handling query parameters:
  *
  * - `useParam`:
- *   Requires the name of a query parameter as argument and returns a
- *   getter and a setter to handle this query parameter's state similiar
- *   to the `useState` hook. I.e. using the setter will result in
- *   rerenderings.
+ *   Requires the name of a query parameter as an argument and returns a
+ *   getter and a setter to handle this query parameter's state similar
+ *   to the `useState` hook. I.e., using the setter will result in
+ *   re-renderings.
  *   You can pass a second parameter to control how to parse the query
- *   values, e.g. to specify how and if multiple values should be
+ *   values, e.g., to specify how and if multiple values should be
  *   allowed (see `singleParamConfig` and `arrayParamConfig`).
  * - `useUpdateParams`:
  *   This function allows updating multiple query parameters at once and
- *   does not trigger rerenderings. It expects an object of query
+ *   does not trigger re-renderings. It expects an object of query
  *   parameters with values to change as argument.
  *
- * Both hooks allow passing of `UpdateOptions` that e.g. define if
+ * Both hooks allow passing of `UpdateOptions` that e.g., define if
  * updating the query parameter should replace the last history entry on
- * web (see `webReplaceQueryConfig`). By default the last history entry
+ *  the web (see `webReplaceQueryConfig`). By default, the last history entry
  * is only replaced by the setter of `useParam` if an already present
  * query parameter is changed.
  */
@@ -59,7 +73,10 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       paramsToClearOnSetState,
       options,
     } = maybeConfig || {}
-    const nextRouter = useRouter()
+
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useLocalSearchParams()
 
     const stableParse = useStableCallback(parse)
     const stableStringify = useStableCallback(stringify)
@@ -71,39 +88,41 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     const setState = useCallback(
       (value: ParsedType) => {
         hasSetState.current = true
-        const { pathname, query } = Router
-        const newQuery = { ...query }
+
+        // Get current search params as URLSearchParams
+        const currentParams = createURLSearchParams(searchParams)
+
+        // Update the target parameter
         if (value != null && (value as any) !== '') {
-          newQuery[name as string] = stableStringify(value)
+          currentParams.set(name as string, stableStringify(value))
         } else {
-          delete newQuery[name as string]
+          currentParams.delete(name as string)
         }
 
+        // Clear additional parameters if specified
         if (stableParamsToClear.current) {
           for (const paramKey of stableParamsToClear.current) {
-            delete newQuery[paramKey as string]
+            currentParams.delete(paramKey as string)
           }
         }
 
-        const willChangeExistingParam = query[name as string] && newQuery[name as string]
+        const willChangeExistingParam = searchParams[name as string] && currentParams.has(name as string)
+        const shouldReplace = options?.web?.replace || willChangeExistingParam
 
-        const action = options?.web?.replace || willChangeExistingParam ? Router.replace : Router.push
+        // Build the new URL
+        const newSearch = currentParams.toString()
+        const href = newSearch ? `${pathname}?${newSearch}` : pathname
 
-        action(
-          {
-            pathname,
-            query: newQuery,
-          },
-          undefined,
-          {
-            shallow: true,
-          }
-        )
+        if (shouldReplace) {
+          router.replace(href)
+        } else {
+          router.push(href)
+        }
       },
-      [stableParamsToClear, name, options?.web?.replace, stableStringify]
+      [stableParamsToClear, name, options?.web?.replace, stableStringify, router, pathname, searchParams]
     )
 
-    const webParam = nextRouter?.query?.[name as string]
+    const webParam = searchParams[name as string]
 
     const state = useMemo<ParsedType>(() => {
       let state: ParsedType
@@ -132,34 +151,39 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
   const useUpdateParams = (
     options?: UpdateOptions
   ): ((props: Partial<Props>, optionOverrides?: UpdateOptions) => void) => {
-    const setWebState = useCallback(
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useLocalSearchParams()
+
+    return useCallback(
       (value: Partial<Props>, optionOverrides?: UpdateOptions) => {
         const combinedOptions = { ...options, ...optionOverrides }
-        const { pathname, query } = Router
-        const newQuery = { ...query, ...value }
+
+        // Get current search params as URLSearchParams
+        const currentParams = createURLSearchParams(searchParams)
+
+        // Update with new values
         for (const key in value) {
-          if (value[key] === null || value[key] === undefined || value[key] === '') {
-            delete newQuery[key]
+          const val = value[key]
+          if (val === null || val === undefined || val === '') {
+            currentParams.delete(key)
+          } else {
+            currentParams.set(key, String(val))
           }
         }
 
-        const action = combinedOptions?.web?.replace ? Router.replace : Router.push
+        // Build the new URL
+        const newSearch = currentParams.toString()
+        const href = newSearch ? `${pathname}?${newSearch}` : pathname
 
-        action(
-          {
-            pathname,
-            query: newQuery,
-          },
-          undefined,
-          {
-            shallow: true,
-          }
-        )
+        if (combinedOptions?.web?.replace) {
+          router.replace(href)
+        } else {
+          router.push(href)
+        }
       },
-      [options]
+      [options, router, pathname, searchParams]
     )
-
-    return setWebState
   }
 
   return {

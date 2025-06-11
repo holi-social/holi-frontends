@@ -1,22 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO: fix eslint warning
-// Based on solito@0.0.26
-// From https://gist.github.com/nandorojo/052887f99bb61b54845474f324aa41cc
-import { useCallback, useEffect, useState } from 'react'
+// Based on solito@0.0.26 - Adapted for Expo Router
+import { useRouter, useLocalSearchParams, usePathname } from 'expo-router'
+import { useCallback, useMemo, useRef } from 'react'
 
 import {
   type Params,
   type Returns,
   type UpdateOptions,
+  useStable,
   useStableCallback,
 } from '@holi/core/navigation/hooks/useParam/shared'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-
-import { useRoute } from './useRoute'
 import { coerceToUUIDString } from '@holi/core/helpers'
 
+// Helper function to convert search params to URLSearchParams
+const createURLSearchParams = (searchParams: Record<string, string | string[]>) => {
+  const params = new URLSearchParams()
+  Object.entries(searchParams).forEach(([key, val]) => {
+    if (val !== undefined) {
+      if (Array.isArray(val)) {
+        val.forEach((v) => params.append(key, String(v)))
+      } else {
+        params.set(key, String(val))
+      }
+    }
+  })
+  return params
+}
+
 /**
- * This creates three hooks for handling query parameters:
+ * This creates two hooks for handling query parameters:
  *
  * - `useParam`:
  *   Requires the name of a query parameter as argument and returns a
@@ -26,9 +39,6 @@ import { coerceToUUIDString } from '@holi/core/helpers'
  *   You can pass a second parameter to control how to parse the query
  *   values, e.g. to specify how and if multiple values should be
  *   allowed (see `singleParamConfig` and `arrayParamConfig`).
- * - `useUUIDParam`:
- *   Same as `useParam` but for UUIDs, having a default parse function
- *   that tries to coerce the value to a UUID.
  * - `useUpdateParams`:
  *   This function allows updating multiple query parameters at once and
  *   does not trigger rerenderings. It expects an object of query
@@ -56,22 +66,75 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
   >(
     ...[name, maybeConfig]: Params<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType>
   ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> => {
-    const { parse = (value?: string | string[]) => value, initial } = maybeConfig || {}
-    const nativeRoute = useRoute()
+    const {
+      parse = (value?: string | string[]) => value,
+      initial,
+      stringify = (value: ParsedType) => `${value}`,
+      paramsToClearOnSetState,
+      options,
+    } = maybeConfig || {}
+
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useLocalSearchParams()
 
     const stableParse = useStableCallback(parse)
+    const stableStringify = useStableCallback(stringify)
+    const stableParamsToClear = useStable(paramsToClearOnSetState)
 
-    const [nativeState, setNativeState] = useState<ParsedType | InitialValue>(() => {
-      const state = (nativeRoute?.params as any)?.[name]
-      return (stableParse(state) as ParsedType) ?? (initial as InitialValue)
-    })
+    const initialValue = useRef(initial)
+    const hasSetState = useRef(false)
 
-    useEffect(() => {
-      const state = (nativeRoute?.params as any)?.[name]
-      setNativeState((stableParse(state) as ParsedType) || (initial as InitialValue))
-    }, [setNativeState, stableParse, nativeRoute?.params, name, initial])
+    const setState = useCallback(
+      (value: ParsedType) => {
+        hasSetState.current = true
 
-    return [nativeState, setNativeState]
+        // Get current search params as URLSearchParams
+        const currentParams = createURLSearchParams(searchParams)
+
+        // Update the target parameter
+        if (value != null && String(value) !== '') {
+          currentParams.set(name as string, stableStringify(value))
+        } else {
+          currentParams.delete(name as string)
+        }
+
+        // Clear additional parameters if specified
+        if (stableParamsToClear.current) {
+          for (const paramKey of stableParamsToClear.current) {
+            currentParams.delete(paramKey as string)
+          }
+        }
+
+        const willChangeExistingParam = searchParams[name as string] && currentParams.has(name as string)
+        const shouldReplace = options?.web?.replace || willChangeExistingParam
+
+        // Build the new URL
+        const newSearch = currentParams.toString()
+        const href = newSearch ? `${pathname}?${newSearch}` : pathname
+
+        if (shouldReplace) {
+          router.replace(href)
+        } else {
+          router.push(href)
+        }
+      },
+      [stableParamsToClear, name, options?.web?.replace, stableStringify, router, pathname, searchParams]
+    )
+
+    const webParam = searchParams[name as string]
+
+    const state = useMemo<ParsedType>(() => {
+      let state: ParsedType
+      if (webParam === undefined && !hasSetState.current) {
+        state = initialValue.current as ParsedType
+      } else {
+        state = stableParse(webParam) as ParsedType
+      }
+      return state
+    }, [stableParse, webParam])
+
+    return [state, setState]
   }
 
   const useUUIDParam = (
@@ -86,19 +149,43 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
   ): readonly [string | undefined, (value: string) => void] => useParam(name, maybeConfig)
 
   const useUpdateParams = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     options?: UpdateOptions
   ): ((props: Partial<Props>, optionOverrides?: UpdateOptions) => void) => {
-    const { setParams } = useRouting()
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useLocalSearchParams()
 
-    const setNativeStateFromParams = useCallback(
-      (value: Partial<Props>) => {
-        setParams(value)
+    const setWebState = useCallback(
+      (value: Partial<Props>, optionOverrides?: UpdateOptions) => {
+        const combinedOptions = { ...options, ...optionOverrides }
+
+        // Get current search params as URLSearchParams
+        const currentParams = createURLSearchParams(searchParams)
+
+        // Update with new values
+        for (const key in value) {
+          const val = value[key]
+          if (val === null || val === undefined || val === '') {
+            currentParams.delete(key)
+          } else {
+            currentParams.set(key, String(val))
+          }
+        }
+
+        // Build the new URL
+        const newSearch = currentParams.toString()
+        const href = newSearch ? `${pathname}?${newSearch}` : pathname
+
+        if (combinedOptions?.web?.replace) {
+          router.replace(href)
+        } else {
+          router.push(href)
+        }
       },
-      [setParams]
+      [options, router, pathname, searchParams]
     )
 
-    return setNativeStateFromParams
+    return setWebState
   }
 
   return {
