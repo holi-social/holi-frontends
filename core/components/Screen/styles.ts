@@ -4,7 +4,7 @@ import { makePadding } from 'holi-bricks/foundations/dimensions/spacing'
 import { createStyleSheet } from 'holi-bricks/styles'
 import { Platform } from 'react-native'
 
-export const stylesheet = createStyleSheet(() => {
+export const styles = createStyleSheet(() => {
   return {
     container: {
       flex: 1,

@@ -1,9 +1,8 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { Color, LayoutProps } from 'holi-bricks/foundations'
-import { layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { createStyleSheet } from 'holi-bricks/styles'
+import { type Color, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { type GestureResponderEvent, Pressable } from 'react-native'
 
@@ -42,7 +41,7 @@ export const ChipAction = ({
   testID,
   ...rest
 }: ChipActionProps) => {
-  const { styles } = useStyles(stylesheet, { size, selected, disabled })
+  styles.useVariants({ size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
 
   return (
@@ -66,7 +65,7 @@ export const ChipAction = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {
     return {
       ...pill,
@@ -76,7 +75,7 @@ const stylesheet = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.components.chipAction.border,
       outlineWidth: 1,
-      outlineStyle: hovered ? 'solid' : 'none',
+      //outlineStyle: hovered ? 'solid' : 'none',
       boxShadow: focused ? theme.colors.focus : 'none',
       alignSelf: 'flex-start',
       variants: {

@@ -1,5 +1,5 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
@@ -58,7 +58,7 @@ export const Button = ({
 }: ButtonProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
-  const { styles } = useStyles(stylesheet, {
+  styles.useVariants({
     variant,
     size,
     selected,
@@ -136,7 +136,7 @@ export const Button = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   button: (hovered: boolean, pressed: boolean, inline: boolean) => {
     return {
       ...buttonBaseStyle,

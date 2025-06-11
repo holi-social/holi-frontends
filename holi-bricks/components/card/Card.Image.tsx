@@ -1,8 +1,8 @@
-import type React from 'react'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
-import { BorderRadius } from 'holi-bricks/foundations'
 import { Image } from 'holi-bricks/components/image'
+import { BorderRadius } from 'holi-bricks/foundations'
+import { createStyleSheet } from 'holi-bricks/styles'
+import type React from 'react'
 import { View } from 'react-native'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
@@ -17,7 +17,6 @@ export interface CardImageProps extends React.PropsWithChildren {
 }
 
 export const _CardImage = ({ source, alt, testID }: CardImageProps) => {
-  const { styles } = useStyles(cardImageStyle)
   return (
     <View testID={testID} style={[styles.imageWrapper, styles.imageBackground(!!source)]}>
       <Image
@@ -33,7 +32,7 @@ export const _CardImage = ({ source, alt, testID }: CardImageProps) => {
   )
 }
 
-const cardImageStyle = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   imageWrapper: {
     borderRadius: BorderRadius.xs,
     aspectRatio: 1.83,

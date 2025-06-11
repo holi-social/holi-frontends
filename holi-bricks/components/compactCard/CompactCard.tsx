@@ -13,9 +13,9 @@ import { FooterChips } from 'holi-bricks/components/compactCard/footer/FooterChi
 import { FooterDate } from 'holi-bricks/components/compactCard/footer/FooterDate'
 import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
 import type { CompoundCompactCard } from 'holi-bricks/components/compactCard/types'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { createStyleSheet } from 'holi-bricks/styles'
+import { layoutStyle, type LayoutProps, IconSize } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 
 export type CompactCardProps = AccessibilityProps &
   LayoutProps & {
@@ -63,7 +63,6 @@ export const CompactCard = (({
   ...rest
 }: CompactCardProps) => {
   const date = startDate ? new Date(startDate) : undefined
-  const { styles } = useStyles(stylesheet)
   const hasTopLabel = topLabel || topLabelIcon || topLabelRightIcon || buttonIcon
 
   return (
@@ -145,7 +144,7 @@ CompactCard.FooterChips = FooterChips
 CompactCard.FooterDate = FooterDate
 CompactCard.FooterProgressBar = FooterProgressBar
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   cardContainer: (maxWidth?: DimensionValue, width?: DimensionValue, fullHeight?: boolean) => ({
     maxWidth: maxWidth ?? '100%',
     width: width ?? '100%',

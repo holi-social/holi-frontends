@@ -1,5 +1,4 @@
 import { UnistylesRuntime, useUnistyles } from 'react-native-unistyles'
-import { createBricksManager } from './createBricksManager'
 
 /**
  * Custom hook to manage/read the Holi Bricks component library functionality.
@@ -17,10 +16,9 @@ import { createBricksManager } from './createBricksManager'
 export const useBricks = () => {
   const { theme } = useUnistyles()
   return {
-    ...createBricksManager({
-      setTheme: UnistylesRuntime.setTheme,
-      themeName: UnistylesRuntime.themeName || 'light',
-    }),
+    setActiveTheme: (theme: AvailableThemes) => UnistylesRuntime.setTheme(theme),
+    getActiveThemeName: () => UnistylesRuntime.themeName,
+    themeName: UnistylesRuntime.themeName || 'light',
     theme,
   }
 }

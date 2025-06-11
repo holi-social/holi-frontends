@@ -4,7 +4,7 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { createStyleSheet } from 'holi-bricks/styles'
-import { useStyles } from 'react-native-unistyles'
+
 import type React from 'react'
 import { Platform, Pressable, View } from 'react-native'
 import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
@@ -43,8 +43,6 @@ export const Snackbar = ({
   offset = 0,
   ...rest
 }: SnackbarProps) => {
-  const { styles } = useStyles(stylesheet)
-
   const iconColor = {
     error: 'danger' as const,
     warning: 'warning' as const,
@@ -131,7 +129,7 @@ export const Snackbar = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   icon: (colorVariant: 'redDefault' | 'greenDefault' | 'orangeDefault') => {
     return {
       color: theme.colors.decorative[colorVariant],

@@ -1,8 +1,7 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { Color, LayoutProps } from 'holi-bricks/foundations'
-import { layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { type Color, layoutStyle, Spacing, type LayoutProps } from 'holi-bricks/foundations'
+import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { createStyleSheet } from 'holi-bricks/styles'
 import React, { type ReactNode } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
@@ -10,9 +9,10 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 import type { AvatarProps } from 'holi-bricks/components/avatar'
 
-import { chipSizeToTextSize, type ChipSelectSize } from './size'
-import { pill } from './styles'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { type ChipSelectSize, chipSizeToTextSize } from './size'
+import { pill } from './styles'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import { Stack } from 'holi-bricks/components/stack'
 
 export type ChipSelectColor = Color | 'yellowLight'
@@ -48,7 +48,8 @@ export const ChipSelect = ({
   counter,
   ...rest
 }: ChipSelectProps) => {
-  const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
+  styles.useVariants({ size, selected, disabled })
+  const { theme } = useBricks()
   const iconSize = sizeToIconSize[size]
   const icon = selected ? Deselect : Select
   const avatarSize = size === 'lg' ? 'lg' : 'xs'
@@ -97,7 +98,7 @@ export const ChipSelect = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipSelectColor) => {
     return {
       ...pill,
@@ -107,7 +108,7 @@ const stylesheet = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.components.chipSelect.border,
       outlineWidth: 1,
-      outlineStyle: hovered ? 'solid' : 'none',
+      // outlineStyle: hovered ? 'solid' : 'none',
       boxShadow: focused ? theme.colors.focus : 'none',
       variants: {
         size: {

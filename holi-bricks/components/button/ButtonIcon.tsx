@@ -1,4 +1,4 @@
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing, layoutStyle } from 'holi-bricks/foundations'
 import type React from 'react'
 import { useCallback, useState } from 'react'
@@ -44,7 +44,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
 }: ButtonIconProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
-  const { styles } = useStyles(stylesheet, {
+  styles.useVariants({
     iconVariant,
     size,
     selected,
@@ -111,7 +111,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   button: (hovered: boolean, pressed: boolean) => {
     return {
       ...buttonBaseStyle,

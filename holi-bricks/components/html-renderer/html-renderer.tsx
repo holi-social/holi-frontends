@@ -1,8 +1,8 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import { useStyles } from 'holi-bricks/styles'
 import type React from 'react'
 import { useWindowDimensions } from 'react-native'
 import RenderHTML from 'react-native-render-html'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 
 export interface HtmlRendererProps {
   content: string
@@ -10,7 +10,7 @@ export interface HtmlRendererProps {
 }
 
 export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ content, contentWidth }) => {
-  const { theme } = useStyles()
+  const { theme } = useBricks()
   const { width } = useWindowDimensions()
   if (!content) return null
   const commonTextStyle = {

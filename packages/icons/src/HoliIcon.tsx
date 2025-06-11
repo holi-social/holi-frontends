@@ -2,7 +2,7 @@ import type React from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 export type HoliIconProps = {
@@ -28,7 +28,6 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
   accessibilityLabel,
   shadow,
 }: HoliIconProps) => {
-  const { styles } = useStyles(stylesheet)
   const width = typeof size === 'number' ? size : size.width
   const height = typeof size === 'number' ? size : size.height
 
@@ -50,7 +49,7 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   icon: (color: HoliIconProps['color'], colorOverride?: string) => {
     const iconColor = color ? theme.colors.fill[color] : undefined
     return {

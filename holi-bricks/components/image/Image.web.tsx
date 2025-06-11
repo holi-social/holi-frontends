@@ -2,7 +2,7 @@ import type { MultiPlatformImage } from 'holi-bricks/components/image'
 import { transformSource } from 'holi-bricks/components/image/helpers'
 import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import NextImage from 'next/image'
 import type React from 'react'
 import { useState } from 'react'
@@ -25,7 +25,6 @@ export const Image: React.FC<MultiPlatformImage> = ({
   aspectRatio,
   ...otherProps
 }) => {
-  const { styles } = useStyles(stylesheet)
   const [hasError, setHasError] = useState(false)
   const isRemote = isRemoteSource(source as string)
   const transformedSource = (
@@ -61,7 +60,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   objectFit: (resize?: MultiPlatformImage['resizeMode']) => ({
     objectFit: resize,
   }),

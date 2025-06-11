@@ -6,8 +6,8 @@ import { Platform, View } from 'react-native'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { useRef, useState } from 'react'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { BorderRadius, IconSize, Spacing } from 'holi-bricks/foundations'
+import { createStyleSheet } from 'holi-bricks/styles'
+import { BorderRadius, Spacing, IconSize } from 'holi-bricks/foundations'
 import type React from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
@@ -33,7 +33,6 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   imageLabel,
   hashKey,
 }: CompactCardImageProps) => {
-  const { styles } = useStyles(stylesheet)
   const [imageError, setImageError] = useState(false)
   const handleImageError = () => {
     setImageError(true)
@@ -89,7 +88,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   topLeft: {
     position: 'absolute',
     top: 4,

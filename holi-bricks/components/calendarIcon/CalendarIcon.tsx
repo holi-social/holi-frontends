@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
 import { Text, type TextSize } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
-import type { UnistylesTheme } from 'react-native-unistyles'
+import type { Theme } from 'holi-bricks/foundations/colors/themes/types'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 type CalendarIconSize = 'sm' | 'md' | 'lg'
@@ -28,7 +28,7 @@ export const CalendarIcon = ({
   ...rest
 }: CalendarIconProps) => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet, { size })
+  styles.useVariants({ size })
   const textSizes: Record<CalendarIconSize, TextSize> = {
     sm: 'lg',
     md: 'xl',
@@ -54,7 +54,7 @@ export const CalendarIcon = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   wrapper: (disabled: boolean) => ({
     variants: {
       size: {
@@ -79,9 +79,9 @@ const stylesheet = createStyleSheet((theme) => ({
     overflow: 'hidden',
     borderWidth: 1,
     borderRadius: Spacing['3xs'],
-    borderColor: getDarkColor(theme, disabled),
+    borderColor: getDarkColor(theme.colors, disabled),
     borderStyle: 'solid',
-    backgroundColor: getDarkColor(theme, disabled),
+    backgroundColor: getDarkColor(theme.colors, disabled),
   }),
   month: (disabled: boolean, colored: boolean) => ({
     variants: {
@@ -102,7 +102,7 @@ const stylesheet = createStyleSheet((theme) => ({
     },
     paddingHorizontal: Spacing['5xs'],
     textAlign: 'center',
-    color: getLightColor(theme, disabled, colored),
+    color: getLightColor(theme.colors, disabled, colored),
     justifyContent: 'center',
     alignItems: 'center',
     flexShrink: 1,
@@ -125,7 +125,7 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       },
     },
-    backgroundColor: getLightColor(theme, disabled, colored),
+    backgroundColor: getLightColor(theme.colors, disabled, colored),
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
     flexShrink: 1,
@@ -133,14 +133,10 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
 }))
 
-const getLightColor = (theme: UnistylesTheme, disabled: boolean, colored: boolean) => {
-  return disabled
-    ? theme.colors.decorative.greyLight
-    : colored
-      ? theme.colors.decorative.yellowLight
-      : theme.colors.decorative.white
+const getLightColor = (theme: Theme, disabled: boolean, colored: boolean) => {
+  return disabled ? theme.decorative.greyLight : colored ? theme.decorative.yellowLight : theme.decorative.white
 }
 
-const getDarkColor = (theme: UnistylesTheme, disabled: boolean) => {
-  return disabled ? theme.colors.decorative.greyDark : theme.colors.decorative.black
+const getDarkColor = (theme: Theme, disabled: boolean) => {
+  return disabled ? theme.decorative.greyDark : theme.decorative.black
 }
