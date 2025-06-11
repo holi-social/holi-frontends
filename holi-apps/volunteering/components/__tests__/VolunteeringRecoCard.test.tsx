@@ -35,6 +35,14 @@ describe('VolunteeringRecoCard', () => {
     expect(screen.getByText('engagement.organization')).toBeOnTheScreen()
   })
 
+  it('should render organizer initials if given organizer without avatar', () => {
+    const reco = { ...makeVolunteeringDocument({ organizer: false }), organizer_name: 'Foo Bar' }
+
+    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+
+    expect(screen.getByText('FB')).toBeOnTheScreen()
+  })
+
   it('should render location for onsite engagement', () => {
     const reco = makeVolunteeringDocument({ location: true })
 

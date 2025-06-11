@@ -6784,6 +6784,7 @@ __metadata:
     "@sentry/react-native": "npm:~6.10.0"
     "@shopify/flash-list": "npm:1.7.3"
     "@types/lodash.at": "npm:^4.6.7"
+    "@types/lodash.chunk": "npm:^4.2.9"
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.9"
     "@types/lodash.isequal": "npm:^4.5.8"
@@ -6827,6 +6828,7 @@ __metadata:
     jest-mock-extended: "npm:^3.0.5"
     jwt-decode: "npm:^4.0.0"
     lodash.at: "npm:^4.6.0"
+    lodash.chunk: "npm:^4.2.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
     lodash.isequal: "npm:^4.5.0"
@@ -13044,6 +13046,15 @@ __metadata:
   dependencies:
     "@types/lodash": "npm:*"
   checksum: 10c0/7e94fd5e7b7f36d4dc71fa3298b9b2738680382560c7a0dadf3e9fa5a5c63b97e3b5b0ff5508c1b37781ea1227cd6f9ed3c35e0c6a3251d415b9ba510976ab95
+  languageName: node
+  linkType: hard
+
+"@types/lodash.chunk@npm:^4.2.9":
+  version: 4.2.9
+  resolution: "@types/lodash.chunk@npm:4.2.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/5759b3d969c5db4b0893b70261ae40d4b9a6466c984c16de6fa1d3945b3199cc09f948a444a3b4e6cfa0dd984044cf937cbc8dab5fe0ac8da67244ed74d9e4e4
   languageName: node
   linkType: hard
 
@@ -24760,6 +24771,13 @@ __metadata:
   version: 4.6.0
   resolution: "lodash.at@npm:4.6.0"
   checksum: 10c0/069e6772c2c975024a9fbbe298f0d5045665d2fa2cee935bcdf952e3037d22615e43a2184f8d5175dc31ff7327bc1a5358e8f74c23607be84a48f57c6995f8f9
+  languageName: node
+  linkType: hard
+
+"lodash.chunk@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "lodash.chunk@npm:4.2.0"
+  checksum: 10c0/f9f99969561ad2f62af1f9a96c5bd0af776f000292b0d8db3126c28eb3b32e210d7c31b49c18d0d7901869bd769057046dc134b60cfa0c2c4ce017823a26bb23
   languageName: node
   linkType: hard
 

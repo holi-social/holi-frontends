@@ -8,12 +8,14 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 type VolunteeringRecosProps = {
   cardWidth: number
+  rows?: number
+  columns?: number
 }
 
-const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth }: VolunteeringRecosProps) => {
+const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth, rows, columns }: VolunteeringRecosProps) => {
   const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
   return useTypesense ? (
-    <VolunteeringRecosTypesense cardWidth={cardWidth} />
+    <VolunteeringRecosTypesense cardWidth={cardWidth} rows={rows} columns={columns} />
   ) : (
     <VolunteeringRecosLegacy cardWidth={cardWidth} />
   )

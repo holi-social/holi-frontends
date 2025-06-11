@@ -96,7 +96,6 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
         coverImage={document?.coverImage}
         title={document?.title ?? ''}
         infoList={document?.infoList}
-        visibility="public"
         bodyContent={document?.bodyContent}
         author={document?.author}
         chips={document?.chips}

@@ -37,7 +37,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
         <>
           {displayVolunteering && (
             <ErrorBoundary>
-              <VolunteeringRecos cardWidth={cardWidth} />
+              <VolunteeringRecos cardWidth={cardWidth} rows={3} columns={4} />
             </ErrorBoundary>
           )}
         </>

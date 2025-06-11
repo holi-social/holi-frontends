@@ -8,6 +8,7 @@ import type { ChipLabelProps } from 'holi-bricks/components/chips/ChipLabel'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { TrackingEvent } from '@holi/core/tracking'
+import { getInitials } from '@holi/core/helpers'
 
 interface VolunteeringRecoCardProps {
   engagement: LocalizedTypesenseDocument
@@ -71,10 +72,11 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
         }
         imageSrc={engagement.image_url}
         avatar={
-          engagement.organizer_image_url && engagement.organizer_name
+          engagement.organizer_name
             ? {
                 source: engagement.organizer_image_url,
                 label: engagement.organizer_name,
+                initials: getInitials(engagement.organizer_name),
               }
             : undefined
         }
@@ -83,6 +85,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
         fixedWidth={fixedWidth}
         fullHeight={!!fixedWidth}
         imageLabel={t('volunteering:engagement.thumbnail.label')}
+        fallbackImageHashKey={engagement.id}
       >
         <CompactCard.FooterChips chips={footerChips} />
       </CompactCard>
