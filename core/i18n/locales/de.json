@@ -1270,7 +1270,7 @@
   "spaces.input.task.section.timeFrame.end.label": "Ende",
   "spaces.input.task.section.timeFrame.start.label": "Start",
   "spaces.input.task.section.timing": "Dauer",
-  "spaces.input.task.section.timing.duration.forHowLong": "für",
+  "spaces.input.task.section.timing.duration.forHowLong": "{{regularity}} für {{duration}}",
   "spaces.input.task.section.timing.duration.description": "Up to",
   "spaces.input.task.section.timing.duration.label": "Wie lange dauert es jeweils?",
   "spaces.input.task.section.timing.duration.modal.description": "Wie lange dauert es jeweils?",

@@ -34,6 +34,7 @@ export interface CompactCardProps {
   children?: React.ReactNode
   fullHeight?: boolean
   imageLabel: string
+  fallbackImageHashKey?: string
 }
 
 export const CompactCard = (({
@@ -55,6 +56,7 @@ export const CompactCard = (({
   children,
   fullHeight,
   imageLabel,
+  fallbackImageHashKey,
 }: CompactCardProps) => {
   const date = startDate ? new Date(startDate) : undefined
   const { styles } = useStyles(stylesheet)
@@ -82,7 +84,7 @@ export const CompactCard = (({
           avatar={avatar}
           minHeight={minHeight}
           imageLabel={imageLabel}
-          hashKey={title}
+          hashKey={fallbackImageHashKey ?? title}
         />
 
         {/* Card Body */}
@@ -111,7 +113,7 @@ export const CompactCard = (({
               </Stack>
             )}
             {/* titles */}
-            <Stack gap="4xs">
+            <Stack gap="4xs" padding={hasTopLabel ? undefined : { top: '3xs' }}>
               <TextLink ellipsizeMode="tail" size="sm" numberOfLines={2} role="presentation">
                 {title}
               </TextLink>

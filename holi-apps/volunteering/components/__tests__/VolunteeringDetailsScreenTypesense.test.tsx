@@ -135,7 +135,6 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     expect(screen.getByText(document.location!)).toBeVisible()
     document.topics_v2?.forEach((topic) => expect(screen.getByText(`topic.${topic}`)).toBeVisible())
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
-    expect(screen.getByText('privacy.visibility.public')).toBeVisible()
     expect(screen.getByText('volunteering:engagement.commitment_label.negotiable')).toBeVisible()
   })
 

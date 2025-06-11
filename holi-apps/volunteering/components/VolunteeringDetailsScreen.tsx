@@ -92,7 +92,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         coverImage={document?.coverImage}
         title={document?.title ?? ''}
         infoList={document?.infoList}
-        visibility="public"
         bodyContent={document?.description ? { content: document?.description } : undefined}
         author={document?.author}
         chips={document?.chips}

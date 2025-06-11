@@ -104,7 +104,7 @@ const TaskDetailsContainer = () => {
       <DetailsScreen
         {...data}
         _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
-        placeholderImage={id ? getPlaceholderImage(id) : undefined}
+        placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
       />
     </Screen>
   )

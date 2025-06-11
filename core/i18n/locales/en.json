@@ -1276,7 +1276,7 @@
   "spaces.input.task.section.timeFrame.start.label": "Start",
   "spaces.input.task.section.timing": "Timing",
   "spaces.input.task.section.timing.duration.description": "Up to",
-  "spaces.input.task.section.timing.duration.forHowLong": "for",
+  "spaces.input.task.section.timing.duration.forHowLong": "{{regularity}} for {{duration}}",
   "spaces.input.task.section.timing.duration.label": "How long does it take per occurrence?",
   "spaces.input.task.section.timing.duration.modal.description": "How long does it take per occurrence?",
   "spaces.input.task.section.timing.duration.modal.saveButtonLabel": "Save",

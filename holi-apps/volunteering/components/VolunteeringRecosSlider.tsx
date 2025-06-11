@@ -9,13 +9,16 @@ import { HeartsFilled } from '@holi/icons/src/generated'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
+import { Stack } from 'holi-bricks/components/stack'
+import chunk from 'lodash.chunk'
 
 type VolunteeringRecosSliderProps = {
   recos: LocalizedTypesenseDocument[]
   cardWidth: number
+  rows?: number
 }
 
-const VolunteeringRecosSlider = ({ recos }: VolunteeringRecosSliderProps) => {
+const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderProps) => {
   const { t } = useTranslation()
   const cardWidth = useCardWidth()
 
@@ -31,6 +34,8 @@ const VolunteeringRecosSlider = ({ recos }: VolunteeringRecosSliderProps) => {
 
   const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = (item) => item.id
 
+  const columns = chunk(recos, rows)
+
   return (
     <RecoSlider
       name="volunteering"
@@ -38,8 +43,23 @@ const VolunteeringRecosSlider = ({ recos }: VolunteeringRecosSliderProps) => {
         listItemTrackingEvent,
         listItemIdentifier,
       }}
-      renderItem={(info) => <VolunteeringRecoCard engagement={info.item} index={info.index} fixedWidth={cardWidth} />}
-      data={recos}
+      renderItem={(info) =>
+        rows > 1 ? (
+          <Stack gap="3xs">
+            {info.item.map((item: LocalizedTypesenseDocument, index: number) => (
+              <VolunteeringRecoCard
+                key={item.id}
+                engagement={item}
+                index={info.index * rows + index}
+                fixedWidth={cardWidth}
+              />
+            ))}
+          </Stack>
+        ) : (
+          <VolunteeringRecoCard engagement={info.item[0]} index={info.index} fixedWidth={cardWidth} />
+        )
+      }
+      data={columns}
       icon={HeartsFilled}
       heading={t('volunteering:app.name')}
       subline={t('volunteering:app.subline')}
