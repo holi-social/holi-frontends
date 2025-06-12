@@ -61,7 +61,7 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content' }}
+      statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}
