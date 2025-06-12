@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -18,13 +18,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
-
-const IMAGE_WIDTH = 311
-
-export const useCardWidth = () => {
-  const { width: screenWidth } = useWindowDimensions()
-  return Platform.OS === 'web' ? IMAGE_WIDTH : screenWidth / 1.3 - 30
-}
+import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 
 const RecommendationsHeader = () => {
   const { t } = useTranslation()
@@ -66,7 +60,7 @@ const Recommendations = () => {
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
   const recoOrderAB = useRecoOrderAB()
-  const cardWidth = useCardWidth()
+  const cardWidth = useRecoCardWidth()
 
   return (
     <View>
