@@ -41,6 +41,9 @@ const createDocument = (id = testId): Typesense_Document => ({
   title_en: '',
   topics_v2: [],
   user_full_name: '',
+  commitment_duration: '',
+  commitment_label: '',
+  location_type: '',
 })
 
 const hit: Typesense_SearchResponseHit = {

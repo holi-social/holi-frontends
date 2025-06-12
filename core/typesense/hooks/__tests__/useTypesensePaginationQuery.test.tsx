@@ -53,6 +53,9 @@ const createHits = (length: number): Typesense_SearchResponseHit[] =>
       title_en: '',
       topics_v2: [],
       user_full_name: '',
+      commitment_duration: '',
+      commitment_label: '',
+      location_type: '',
     }
     return {
       __typename: 'Typesense_SearchResponseHit',

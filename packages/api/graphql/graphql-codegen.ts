@@ -3221,6 +3221,9 @@ export type FullTypesenseDocumentFragment = {
   organizer_name?: string
   organizer_image_url?: string
   external_url?: string
+  commitment_label?: string
+  commitment_duration?: string
+  location_type?: string
   link_locators?: {
     __typename?: 'Typesense_DocumentLinkLocators'
     volunteering?: string
@@ -3261,6 +3264,9 @@ export type Typesense_DocumentByIdQuery = {
             organizer_name?: string
             organizer_image_url?: string
             external_url?: string
+            commitment_label?: string
+            commitment_duration?: string
+            location_type?: string
             link_locators?: {
               __typename?: 'Typesense_DocumentLinkLocators'
               volunteering?: string
@@ -3307,6 +3313,9 @@ export type Typesense_MultiSearchQuery = {
               organizer_name?: string
               organizer_image_url?: string
               external_url?: string
+              commitment_label?: string
+              commitment_duration?: string
+              location_type?: string
               link_locators?: {
                 __typename?: 'Typesense_DocumentLinkLocators'
                 volunteering?: string
@@ -3592,6 +3601,9 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   organizer_name
   organizer_image_url
   external_url
+  commitment_label
+  commitment_duration
+  location_type
 }
     `
 export const FullEventFragmentDoc = gql`
