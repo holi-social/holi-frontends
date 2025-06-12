@@ -96,10 +96,13 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               role="img"
               source="https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80"
               style={
-                {
-                  "height": 40,
-                  "width": 40,
-                }
+                [
+                  {
+                    "height": 40,
+                    "width": 40,
+                  },
+                  {},
+                ]
               }
             />
           </View>
@@ -574,10 +577,13 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
               role="img"
               source="https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80"
               style={
-                {
-                  "height": 40,
-                  "width": 40,
-                }
+                [
+                  {
+                    "height": 40,
+                    "width": 40,
+                  },
+                  {},
+                ]
               }
             />
           </View>
