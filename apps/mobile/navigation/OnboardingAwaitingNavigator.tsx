@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { RootNavigator } from '@holi/mobile/navigation/RootNavigator'
-
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 interface OnboardingAwaitingNavigatorProps {
   onReady: () => Promise<boolean>
 }
 
 export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavigatorProps) => {
-  const { isLoading } = useOnboardingInitialization()
+  const { isLoading, onboardingState } = useOnboardingInitialization()
   const [isInitialized, setIsInitialized] = useState(false)
+  const [notificationsInitialized, setNotificationsInitialized] = useState(false)
   const { showOnboardingOnStartup } = useOnboardingRedirect()
 
   useEffect(() => {
@@ -17,6 +18,14 @@ export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavig
       setIsInitialized(true)
     }
   }, [isInitialized, isLoading, onReady])
+
+  useEffect(() => {
+    if (!notificationsInitialized && onboardingState === 'finished') {
+      initNotifications().then(() => {
+        setNotificationsInitialized(true)
+      })
+    }
+  }, [onboardingState, notificationsInitialized])
 
   if (isLoading && !isInitialized) {
     return null
