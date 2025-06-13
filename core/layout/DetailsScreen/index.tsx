@@ -65,6 +65,7 @@ export type DetailsScreenData = {
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
   placeholderImage?: MultiPlatformImageSource
   descriptionTitle?: string
+  additionalContent?: ReactNode | ReactNode[]
 }
 
 type DetailsScreenProps = DetailsScreenData
@@ -103,6 +104,7 @@ export const DetailsScreen = ({
   partners,
   _footer = null,
   placeholderImage,
+  additionalContent,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
 
@@ -114,7 +116,7 @@ export const DetailsScreen = ({
     return <DetailsScreenSkeleton />
   }
 
-  const _seoDescription = seoDescription || (!Array.isArray(bodyContent) ? bodyContent!.content : '')
+  const _seoDescription = seoDescription || (bodyContent && !Array.isArray(bodyContent) ? bodyContent!.content : '')
 
   return (
     <>
@@ -212,6 +214,7 @@ export const DetailsScreen = ({
                   </Stack>
                 )
               })}
+              {additionalContent}
             </Stack>
 
             {/* body content */}

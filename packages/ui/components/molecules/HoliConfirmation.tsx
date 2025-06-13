@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -16,13 +16,13 @@ import {
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button, type ButtonVariant } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Stack } from 'holi-bricks/components/stack'
 
 export interface UseConfirmation {
   show: boolean
@@ -43,6 +43,7 @@ export interface HoliConfirmationProps extends ModalProps {
   title: string
   description: string
   primaryButtonVariant?: ButtonVariant
+  secondaryButtonVariant?: ButtonVariant
   onPrimary?: () => boolean | void
   onDismiss?: () => boolean | void
   onSecondary?: () => boolean | void
@@ -99,6 +100,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   title,
   description,
   primaryButtonVariant = 'primary',
+  secondaryButtonVariant = 'secondary',
   onPrimary,
   onDismiss,
   onSecondary,
@@ -111,11 +113,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const smallDeviceWidth = dimensions.breakpointXs + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
-  const { theme } = useTheme()
-  const styles = useMemo(
-    () => getStyles(screenWidth, smallDeviceWidth, isSmallDevice, theme),
-    [screenWidth, smallDeviceWidth, isSmallDevice, theme]
-  )
+  const { styles } = useStyles(stylesheet)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { 'aria-modal': true } : {}),
@@ -131,15 +129,15 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
       animationType="fade"
       testID={`${testID}-confirmation-dialog`}
     >
-      <View style={styles.modalContainer}>
+      <Stack justifyContent="center" flex={1}>
         <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
 
-        <View style={styles.modalView}>
+        <View style={styles.modalView(isSmallDevice, screenWidth, smallDeviceWidth)}>
           <View style={styles.topContent}>
             <View style={styles.titleContainer}>
-              <HoliHeading level="3" size="m">
+              <Text headingLevel="3" size="lg">
                 {title}
-              </HoliHeading>
+              </Text>
               <TouchableOpacity
                 accessibilityLabel={t('confirmation.dismiss')}
                 accessibilityRole="button"
@@ -151,15 +149,17 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
                 <HoliIcon size={24} icon={Close} />
               </TouchableOpacity>
             </View>
+            <View style={styles.description} testID={`${testID}-confirmation-description`}>
+              <Text size="md" color="support">
+                {description}
+              </Text>
+            </View>
 
-            <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>
-              {description}
-            </HoliText>
             <View style={styles.buttonContainer}>
               {(onSecondary || onDismiss) && (
                 <View style={styles.button}>
                   <Button
-                    variant="secondary"
+                    variant={secondaryButtonVariant}
                     label={secondaryText || t('confirmation.dismiss')}
                     onPress={() => {
                       if (onSecondary) {
@@ -188,15 +188,15 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
           </View>
           {footerComponent}
         </View>
-      </View>
+      </Stack>
     </ModalBasic>
   )
 }
 
 export default HoliConfirmation
 
-const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice: boolean, theme: HoliTheme) =>
-  StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => {
+  return {
     topContent: {
       padding: Spacing.md,
     },
@@ -212,28 +212,21 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
     },
     backdrop: {
       opacity: 0.4,
-      backgroundColor: theme.colors.backdropBackground,
+      backgroundColor: theme.colors.bg.selected,
       ...StyleSheet.absoluteFillObject,
     },
-    modalView: {
+    modalView: (isSmallDevice: boolean, screenWidth: number, smallDeviceWidth: number) => ({
       maxWidth: 460,
       margin: Spacing.md,
       alignSelf: 'center',
-      backgroundColor: theme.colors.background10,
-      borderWidth: 2,
+      backgroundColor: theme.colors.bg.support,
+      borderWidth: 1,
       borderRadius: Spacing.md,
-      borderColor: theme.colors.foreground30,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 1,
-      shadowRadius: 0,
-      ...(isSmallDevice ? { minWidth: screenWidth * 0.9 } : { minWidth: smallDeviceWidth }),
-    },
+      borderColor: theme.colors.border.support,
+      minWidth: isSmallDevice ? screenWidth * 0.9 : smallDeviceWidth,
+    }),
     description: {
-      marginTop: 8,
+      marginTop: Spacing['4xs'],
     },
     buttonContainer: {
       flexDirection: 'row',
@@ -244,4 +237,5 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
     button: {
       flexGrow: 1,
     },
-  })
+  }
+})

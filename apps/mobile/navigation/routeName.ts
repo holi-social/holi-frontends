@@ -143,4 +143,7 @@ export enum RouteName {
 
   //Events
   EventDetailsScreen = 'EventDetailsScreen',
+
+  // Petitions
+  PetitionDetailsScreen = 'PetitionDetailsScreen',
 }

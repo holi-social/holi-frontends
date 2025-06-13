@@ -160,6 +160,34 @@ export namespace TrackingEvent {
     },
   }
 
+  export const Petitions = {
+    seeAll: {
+      name: 'petitions_seeAll_pressed',
+      ...versionOne,
+    },
+    pressed: (petitionId: string) => ({
+      name: 'petition_card_pressed',
+      properties: {
+        petitionId,
+      },
+      ...versionOne,
+    }),
+  }
+
+  export const PetitionDetails = {
+    viewed: (petitionId: string) => ({
+      name: 'petition_details_viewed',
+      properties: {
+        petitionId,
+      },
+      ...versionOne,
+    }),
+    findMore: {
+      name: 'petition_findMore_pressed',
+      ...versionOne,
+    },
+  }
+
   export const EventDetails = {
     shared: (eventId: string) => ({
       name: 'event_shareButton_pressed',

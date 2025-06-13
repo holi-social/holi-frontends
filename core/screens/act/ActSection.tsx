@@ -10,6 +10,7 @@ import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import EventCarousel from '@holi-apps/events/components/EventCarousel'
 import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
+import PetitionCarousel from '@holi/core/screens/act/petitions/PetitionCarousel'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
@@ -17,6 +18,7 @@ export enum ActSectionType {
   EVENTS = 'EVENTS',
   TASKS = 'TASKS',
   DONATIONS = 'DONATIONS',
+  PETITIONS = 'PETITIONS',
 }
 
 export const ActSection = ({ type }: { type: ActSectionType }) => {
@@ -24,6 +26,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayEvents = useFeatureFlagWithMaintenance(FeatureFlagKey.EVENTS).isOn
+  const displayPetitions = useFeatureFlagWithMaintenance(FeatureFlagKey.PETITIONS).isOn
 
   switch (type) {
     case ActSectionType.CHALLENGES:
@@ -41,6 +44,14 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
             </ErrorBoundary>
           )}
         </>
+      )
+    case ActSectionType.PETITIONS:
+      return (
+        displayPetitions && (
+          <ErrorBoundary>
+            <PetitionCarousel cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )
       )
     case ActSectionType.EVENTS:
       return (
