@@ -143,9 +143,9 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
               </Text>
             </Stack>
           </Stack>
-          {seeAllPath && (
+          {(seeAllPath || onPressSeeMore) && (
             <Stack direction="row">
-              <TextLink size="sm" role="none">
+              <TextLink size="sm" role="none" onPress={handleSeeMore}>
                 {t('global.seeAll')}
               </TextLink>
               <HoliIcon icon={ArrowRightS} size={20} />

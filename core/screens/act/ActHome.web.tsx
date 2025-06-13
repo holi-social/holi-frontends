@@ -23,6 +23,7 @@ const { useParam } = createParamHooks<ActHomeParams>()
 export const orderedSections = (includeTasks: boolean, selectedContentType?: string) => {
   const allSections = [
     ActSectionType.VOLUNTEERING,
+    ActSectionType.PETITIONS,
     ActSectionType.EVENTS,
     ActSectionType.CHALLENGES,
     ActSectionType.TASKS,
