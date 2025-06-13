@@ -8,9 +8,9 @@ import { HeartsFilled } from '@holi/icons/src/generated'
 
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
-import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import { Stack } from 'holi-bricks/components/stack'
 import chunk from 'lodash.chunk'
+import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 
 type VolunteeringRecosSliderProps = {
   recos: LocalizedTypesenseDocument[]
@@ -20,7 +20,7 @@ type VolunteeringRecosSliderProps = {
 
 const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderProps) => {
   const { t } = useTranslation()
-  const cardWidth = useCardWidth()
+  const cardWidth = useRecoCardWidth()
 
   const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
     return TrackingEvent.RecommendationViewed(item.type === 'task' ? 'space_task' : 'volunteering_opportunity', {

@@ -206,10 +206,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1"
                         style={
-                          {
-                            "height": 128,
-                            "width": 128,
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                            {},
+                          ]
                         }
                       />
                     </View>
@@ -620,10 +623,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2"
                         style={
-                          {
-                            "height": 128,
-                            "width": 128,
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                            {},
+                          ]
                         }
                       />
                     </View>
@@ -1034,10 +1040,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3"
                         style={
-                          {
-                            "height": 128,
-                            "width": 128,
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                            {},
+                          ]
                         }
                       />
                     </View>
@@ -1450,10 +1459,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4"
                         style={
-                          {
-                            "height": 128,
-                            "width": 128,
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                            {},
+                          ]
                         }
                       />
                     </View>

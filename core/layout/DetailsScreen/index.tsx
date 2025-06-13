@@ -9,7 +9,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import React, { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, useWindowDimensions, View } from 'react-native'
 
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
@@ -108,6 +108,7 @@ export const DetailsScreen = ({
 
   const [imageFailed, setImageFailed] = useState(false)
   const randomPlaceholderImage = placeholderImage ?? getPlaceholderImage(title)
+  const { width } = useWindowDimensions()
 
   if (loading) {
     return <DetailsScreenSkeleton />
@@ -129,12 +130,12 @@ export const DetailsScreen = ({
         <Stack>
           <Image
             source={!imageFailed && coverImage?.uri ? coverImage.uri : randomPlaceholderImage}
-            width={712}
-            height={390}
+            width={Platform.OS === 'web' ? 375 : width}
+            height={212}
             alt={t('act.events.thumbnail.label')}
             onError={() => setImageFailed(true)}
             resizeMode="cover"
-            stretch
+            stretch={Platform.OS === 'web'}
           />
           {date && (
             <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>

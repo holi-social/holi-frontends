@@ -1,6 +1,6 @@
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
+import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { withProfiler } from '@sentry/react'
@@ -21,7 +21,7 @@ const VolunteeringSimilarRecosSlider: React.FC<VolunteeringSimilarRecosProps> = 
   const recosToRender = recos.slice(0, MAX_RECOS_COUNT)
   const { width: screenWidth } = useClientWindowDimensions()
   const horizontal = screenWidth >= dimensions.breakpointL
-  const cardWidth = useCardWidth()
+  const cardWidth = useRecoCardWidth()
 
   if (horizontal) {
     return (

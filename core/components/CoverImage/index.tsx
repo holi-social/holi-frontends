@@ -58,9 +58,9 @@ const stylesheet = createStyleSheet(() => {
   return {
     container: {
       paddingHorizontal: 0,
-      paddingTop: Platform.OS === 'web' ? '56.6%' : 340,
       overflow: 'hidden',
       position: 'relative',
+      aspectRatio: 375 / 212,
     },
     image: {
       position: 'absolute',

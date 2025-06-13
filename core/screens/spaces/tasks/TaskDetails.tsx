@@ -76,7 +76,7 @@ const TaskDetailsContainer = () => {
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content' }}
+      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}
