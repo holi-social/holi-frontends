@@ -45,7 +45,7 @@ test.describe('@Task collaboration multi user journey', () => {
     await test.step('User can engage in contact', async () => {
       await carol.goto('/spaces/' + space.id + '/tasks')
       await carol.getByTestId('link').first().click()
-      await carol.getByLabel('Contact organization').click()
+      await carol.getByLabel('Get in touch').click()
     })
 
     await test.step('Task chat explanation modal is confirmable', async () => {
