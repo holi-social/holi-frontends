@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View, type ViewStyle } from 'react-native'
 
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
 
@@ -20,7 +20,6 @@ interface Props {
 
 export const Intro = ({ onContinue }: Props) => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   usePreventBackNavigation(true)
 
@@ -39,7 +38,7 @@ export const Intro = ({ onContinue }: Props) => {
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = createStyleSheet({
   ctasContainer: {
     width: '100%',
     maxWidth: 600,

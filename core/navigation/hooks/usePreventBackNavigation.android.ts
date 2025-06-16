@@ -3,12 +3,13 @@ import { BackHandler } from 'react-native'
 
 const usePreventBackNavigation = (condition?: boolean) => {
   useEffect(() => {
-    const listener = () => {
-      return condition
-    }
-    BackHandler.addEventListener('hardwareBackPress', listener)
+    const listener = () => condition === true
 
-    return () => BackHandler.removeEventListener('hardwareBackPress', listener)
+    const subscription = BackHandler.addEventListener('hardwareBackPress', listener)
+
+    return () => {
+      subscription.remove() // ✅ correct way to remove
+    }
   }, [condition])
 
   return null
