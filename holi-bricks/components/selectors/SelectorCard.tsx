@@ -46,6 +46,7 @@ export const SelectorCard = ({
 }: SelectorCardProps) => {
   styles.useVariants({ disabled, reverseOrder })
   const isPressable = !!onPress
+  const imageSize = size === 'lg' ? Spacing.xxl : Spacing.md
 
   return (
     <Pressable
