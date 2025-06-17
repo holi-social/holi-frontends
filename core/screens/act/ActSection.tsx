@@ -11,6 +11,8 @@ import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRe
 import EventCarousel from '@holi-apps/events/components/EventCarousel'
 import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 import PetitionCarousel from '@holi/core/screens/act/petitions/PetitionCarousel'
+import StartSmallCarousel from '@holi/core/components/StartSmallCarousel'
+import { CalendarEventFilled } from '@holi/icons/src/generated'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
@@ -19,6 +21,7 @@ export enum ActSectionType {
   TASKS = 'TASKS',
   DONATIONS = 'DONATIONS',
   PETITIONS = 'PETITIONS',
+  STARTSMALL = 'STARTSMALL',
 }
 
 export const ActSection = ({ type }: { type: ActSectionType }) => {
@@ -29,6 +32,12 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const displayPetitions = useFeatureFlagWithMaintenance(FeatureFlagKey.PETITIONS).isOn
 
   switch (type) {
+    case ActSectionType.STARTSMALL:
+      return (
+        <ErrorBoundary>
+          <StartSmallCarousel icon={CalendarEventFilled} />
+        </ErrorBoundary>
+      )
     case ActSectionType.CHALLENGES:
       return (
         <ErrorBoundary>
