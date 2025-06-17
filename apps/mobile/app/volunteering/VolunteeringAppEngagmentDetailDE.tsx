@@ -1,3 +1,0 @@
-import VolunteeringEngagementDetail from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-
-export default VolunteeringEngagementDetail
