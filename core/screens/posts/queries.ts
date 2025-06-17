@@ -57,6 +57,12 @@ export const PostFragment = gql`
     myReaction {
       HEART
     }
+    reactors {
+      totalResults
+      data {
+        ...FullUserAvatar
+      }
+    }
     reactions {
       HEART
     }
@@ -99,6 +105,12 @@ export const PostDetailsFragment = gql`
     }
     myReaction {
       HEART
+    }
+    reactors {
+      totalResults
+      data {
+        ...FullUserAvatar
+      }
     }
     reactions {
       HEART

@@ -45,6 +45,12 @@ export const FeedPostDetailsFragment = gql`
     reactions {
       HEART
     }
+    reactors {
+      totalResults
+      data {
+        ...FullUserAvatar
+      }
+    }
     linkPreview {
       ...LinkFragment
     }
