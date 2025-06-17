@@ -18,14 +18,14 @@ export interface MiniCardProps {
   subtitle?: string
   chipLabel?: string
   bottomLabel?: string
-  bottomLabelRight?: string
   topLabelIcon?: HoliIconType
   imageSrc?: MultiPlatformImageSource
   date?: string
   maxWidth?: DimensionValue
   fixedWidth?: DimensionValue
   chipIcon?: HoliIconType
-  bottomIcon?: HoliIconType
+  chipCounterIcon?: HoliIconType
+  chipCounter?: string
   buttonIcon?: HoliIconType
   topLabelRightIcon?: HoliIconType
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
@@ -33,9 +33,10 @@ export interface MiniCardProps {
   minHeight?: number
   children?: React.ReactNode
   fullHeight?: boolean
-  imageLabel: string
+  imageLabel?: string
   fallbackImageHashKey?: string
   bottomIconRight?: HoliIconType
+  bottomIconLeft?: HoliIconType
 }
 
 const placeholderImages = [
@@ -53,13 +54,14 @@ export const MiniCard = ({
   title,
   chipLabel,
   bottomLabel,
-  bottomLabelRight,
   imageSrc,
   chipIcon,
-  bottomIcon,
+  chipCounterIcon,
+  chipCounter,
   imageLabel,
   fallbackImageHashKey,
   bottomIconRight,
+  bottomIconLeft,
 }: MiniCardProps) => {
   const { styles } = useStyles(stylesheet)
   const [imageError, setImageError] = useState(false)
@@ -98,28 +100,28 @@ export const MiniCard = ({
               source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
               width={130}
               height={130}
-              alt={imageLabel}
+              alt={imageLabel || title}
               onError={handleImageError}
               resizeMode="cover"
             />
           </Stack>
 
           {/* on top of the image */}
-          {chipIcon && (
+          {(chipIcon || chipLabel) && (
             <View style={styles.topLeft}>
-              <ChipLabel color="white" iconLeading={chipIcon}>
+              <ChipLabel color="white" iconLeading={chipIcon} size="sm">
                 {chipLabel}
               </ChipLabel>
             </View>
           )}
-          {bottomIcon && (
+          {chipCounterIcon && (
             <View style={styles.bottomRight}>
-              {bottomLabelRight && (
+              {chipCounter && (
                 <Text color="support" size="xs">
-                  {bottomLabelRight}
+                  {chipCounter}
                 </Text>
               )}
-              <HoliIcon icon={bottomIcon} color="support" size={16} />
+              <HoliIcon icon={chipCounterIcon} color="support" size={16} />
             </View>
           )}
         </Stack>
@@ -134,7 +136,7 @@ export const MiniCard = ({
           {/* bottom row */}
           <Stack gap="3xs" direction="row" justifyContent="space-between">
             <Stack direction="row" gap="4xs">
-              {bottomIcon && <HoliIcon icon={bottomIcon} size={16} />}
+              {bottomIconLeft && <HoliIcon icon={bottomIconLeft} size={16} color="support" />}
               <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
                 {bottomLabel}
               </Text>
@@ -167,8 +169,7 @@ const stylesheet = createStyleSheet((theme) => ({
     flexDirection: 'row',
     gap: Spacing['4xs'],
     paddingVertical: Spacing['4xs'],
-    paddingRight: Spacing['4xs'],
-    paddingLeft: Spacing['3xs'],
+    paddingHorizontal: Spacing['4xs'],
     // alignItems: 'center',
     // alignSelf: 'center',
     // alignContent: 'center',

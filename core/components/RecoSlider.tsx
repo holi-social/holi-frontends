@@ -122,25 +122,18 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
           testID={`${name}-reco-slider-heading`}
         >
           <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
-            <Stack
-              elevation={200}
-              borderRadius="lg"
-              borderColor="muted"
-              borderWidth="sm"
-              backgroundColor="support"
-              padding="xxs"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <HoliIcon icon={icon} size={24} />
-            </Stack>
             <Stack direction="column">
-              <Text size="xxl" headingLevel="3">
-                {heading}
-              </Text>
-              <Text size="sm" color="support">
-                {subline}
-              </Text>
+              <Stack direction="row" gap="3xs">
+                <HoliIcon icon={icon} size={24} color="support" />
+                <Text size="xxl" headingLevel="3">
+                  {heading}
+                </Text>
+              </Stack>
+              <Stack padding={{ left: 'lg' }}>
+                <Text size="sm" color="support">
+                  {subline}
+                </Text>
+              </Stack>
             </Stack>
           </Stack>
           {(seeAllPath || onPressSeeMore) && (

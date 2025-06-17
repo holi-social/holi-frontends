@@ -1,28 +1,47 @@
 import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform } from 'react-native'
+import { FlatList, Platform, View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Stack } from 'holi-bricks/components/stack'
-import { Spacing } from 'holi-bricks/foundations'
-import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { Typesense_DocumentType } from '@holi/api/graphql/graphql-codegen'
+import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
+import { Footprints, MapPin2Filled } from '@holi/icons/src/generated'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
-type StartSmallCarouselProps = {
-  icon: HoliIconType
+export type TempGoodDeeds = {
+  id: string
+  title: string
+  duration?: string
+  location?: string
+  imageUrl?: string
 }
 
-const StartSmallCarousel: React.FC<StartSmallCarouselProps> = ({ icon }) => {
+const StartSmallCarousel = () => {
   const { t } = useTranslation()
+  const { styles } = useStyles(stylesheet)
 
-  const doingGood: LocalizedTypesenseDocument[] = [
+  const doingGood: TempGoodDeeds[] = [
     {
       id: '1',
       title: 'Help cleaning at the animal shelter',
-      description: 'Join us to clean and organize the animal shelter.',
-      type: Typesense_DocumentType.Volunteering,
+      duration: '30-60 Minuten',
+      location: 'Remote',
+      imageUrl: 'https://picsum.photos/id/1018/800/600',
+    },
+    {
+      id: '2',
+      title: 'Need help with social media designs',
+      duration: '30-60 Minuten',
+      location: 'Remote',
+      imageUrl: 'https://picsum.photos/id/1020/800/600',
+    },
+    {
+      id: '3',
+      title: 'Join public discussion on democracy',
+      duration: '30-60 Minuten',
+      location: 'Remote',
+      imageUrl: 'https://picsum.photos/id/1019/800/600',
     },
   ]
 
@@ -37,45 +56,60 @@ const StartSmallCarousel: React.FC<StartSmallCarouselProps> = ({ icon }) => {
   }
 
   const ListComponent = (
-    <FlatList renderItem={({ item }) => <MiniCard title={item.title} imageLabel={item.description} />} {...listProps} />
+    <FlatList
+      renderItem={({ item }) => (
+        <MiniCard
+          title={item.title}
+          chipLabel={item.duration}
+          bottomIconLeft={MapPin2Filled}
+          bottomLabel={item.location}
+          imageSrc={item.imageUrl}
+        />
+      )}
+      {...listProps}
+    />
   )
 
   return (
-    <Stack gap="sm" minHeight="auto" flex={1} testID="start-small-carousel">
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        padding={{ left: 'xs', right: 'xs' }}
-        testID="start-small-carousel-heading"
-      >
-        <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
-          <Stack
-            elevation={200}
-            borderRadius="lg"
-            borderColor="muted"
-            borderWidth="sm"
-            backgroundColor="support"
-            padding="xxs"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <HoliIcon icon={icon} size={24} />
-          </Stack>
-          <Stack direction="column">
-            <Text size="xxl" headingLevel="3">
-              {t('act.startSmall.title')}
-            </Text>
-            <Text size="sm" color="support">
-              {t('act.startSmall.subline')}
-            </Text>
+    <View style={styles.StartSmallCarousel}>
+      <Stack gap="sm" minHeight="auto" flex={1} testID="start-small-carousel">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          padding={{ left: 'xs', right: 'xs' }}
+          testID="start-small-carousel-heading"
+        >
+          <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
+            <Stack direction="column">
+              <Stack direction="row" gap="3xs">
+                <HoliIcon icon={Footprints} size={24} color="informative" />
+                <Text size="xxl" headingLevel="3">
+                  {t('act.startSmall.title')}
+                </Text>
+              </Stack>
+              <Stack padding={{ left: 'lg' }}>
+                <Text size="sm" color="support">
+                  {t('act.startSmall.subline')}
+                </Text>
+              </Stack>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
 
-      {ListComponent}
-    </Stack>
+        {ListComponent}
+      </Stack>
+    </View>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  StartSmallCarousel: {
+    backgroundColor: theme.colors.decorative.purpleLight,
+    paddingVertical: Spacing['xs'],
+    borderRadius: BorderRadius.md,
+    gap: Spacing['xs'],
+  },
+}))
 
 export default StartSmallCarousel
