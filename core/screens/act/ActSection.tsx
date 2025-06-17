@@ -29,13 +29,16 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayEvents = useFeatureFlagWithMaintenance(FeatureFlagKey.EVENTS).isOn
   const displayPetitions = useFeatureFlagWithMaintenance(FeatureFlagKey.PETITIONS).isOn
+  const displayStartSmallCarousel = useFeatureFlagWithMaintenance(FeatureFlagKey.START_SMALL_CAROUSEL).isOn
 
   switch (type) {
     case ActSectionType.STARTSMALL:
       return (
-        <ErrorBoundary>
-          <StartSmallCarousel />
-        </ErrorBoundary>
+        displayStartSmallCarousel && (
+          <ErrorBoundary>
+            <StartSmallCarousel />
+          </ErrorBoundary>
+        )
       )
     case ActSectionType.CHALLENGES:
       return (

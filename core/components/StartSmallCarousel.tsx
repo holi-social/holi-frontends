@@ -1,7 +1,7 @@
 import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
@@ -9,6 +9,7 @@ import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { Footprints, MapPin2Filled } from '@holi/icons/src/generated'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
+// to be replaced by real data ------------------------------------------------------------
 export type TempGoodDeeds = {
   id: string
   title: string
@@ -16,40 +17,39 @@ export type TempGoodDeeds = {
   location?: string
   imageUrl?: string
 }
+const doingGood: TempGoodDeeds[] = [
+  {
+    id: '1',
+    title: 'Help cleaning at the animal shelter',
+    duration: '30-60 Minuten',
+    location: 'Remote',
+    imageUrl: 'https://picsum.photos/id/1018/800/600',
+  },
+  {
+    id: '2',
+    title: 'Need help with social media designs',
+    duration: '30-60 Minuten',
+    location: 'Remote',
+    imageUrl: 'https://picsum.photos/id/1020/800/600',
+  },
+  {
+    id: '3',
+    title: 'Join public discussion on democracy',
+    duration: '30-60 Minuten',
+    location: 'Remote',
+    imageUrl: 'https://picsum.photos/id/1019/800/600',
+  },
+]
+// ----------------------------------------------------------------------------------------
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
 
-  const doingGood: TempGoodDeeds[] = [
-    {
-      id: '1',
-      title: 'Help cleaning at the animal shelter',
-      duration: '30-60 Minuten',
-      location: 'Remote',
-      imageUrl: 'https://picsum.photos/id/1018/800/600',
-    },
-    {
-      id: '2',
-      title: 'Need help with social media designs',
-      duration: '30-60 Minuten',
-      location: 'Remote',
-      imageUrl: 'https://picsum.photos/id/1020/800/600',
-    },
-    {
-      id: '3',
-      title: 'Join public discussion on democracy',
-      duration: '30-60 Minuten',
-      location: 'Remote',
-      imageUrl: 'https://picsum.photos/id/1019/800/600',
-    },
-  ]
-
   const listProps = {
     horizontal: true,
     contentContainerStyle: {
-      paddingLeft: Spacing.xs,
-      paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+      paddingHorizontal: Spacing.xs,
       gap: Spacing['3xs'],
     },
     data: doingGood,
@@ -72,14 +72,8 @@ const StartSmallCarousel = () => {
 
   return (
     <View style={styles.StartSmallCarousel}>
-      <Stack gap="sm" minHeight="auto" flex={1} testID="start-small-carousel">
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          padding={{ left: 'xs', right: 'xs' }}
-          testID="start-small-carousel-heading"
-        >
+      <Stack gap="sm" minHeight="auto" flex={1}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" padding={{ left: 'xs', right: 'xs' }}>
           <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
             <Stack direction="column">
               <Stack direction="row" gap="3xs">

@@ -33,6 +33,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.TYPESENSE_RECOS]: false,
     [FeatureFlagKey.SOCIAL_LOGIN]: true,
     [FeatureFlagKey.PETITIONS]: true,
+    [FeatureFlagKey.START_SMALL_CAROUSEL]: true,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -53,6 +54,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.TYPESENSE_RECOS]: null,
     [FeatureFlagKey.SOCIAL_LOGIN]: null,
     [FeatureFlagKey.PETITIONS]: null,
+    [FeatureFlagKey.START_SMALL_CAROUSEL]: null,
   },
 }
 
