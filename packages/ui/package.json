@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.25.4",
-    "@react-native-community/datetimepicker": "8.4.1",
+    "@react-native-community/datetimepicker": "8.3.0",
     "@storybook/react": "^7.6.10",
     "@types/tinycolor2": "1.4.6",
     "eslint": "^8.33.0",
@@ -32,12 +32,12 @@
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-controlled-mentions": "^2.2.5",
     "react-native-render-html": "^6.3.4",
-    "react-native-safe-area-context": "5.4.1",
+    "react-native-safe-area-context": "5.4.0",
     "react-native-svg": "15.11.2",
     "react-test-renderer": "18.3.1"
   },
   "peerDependencies": {
-    "@react-native-community/datetimepicker": "8.2.0",
+    "@react-native-community/datetimepicker": "8.3.0",
     "@types/react-transition-group": "^4.4.11",
     "lottie-react": "2.4.1",
     "lottie-react-native": "6.7.2",
@@ -46,9 +46,9 @@
     "react-native": "0.76.9",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-controlled-mentions": "^2.2.5",
-    "react-native-reanimated": "~3.16.1",
+    "react-native-reanimated": "~3.17.4",
     "react-native-render-html": "^6.3.4",
-    "react-native-safe-area-context": "5.4.1",
+    "react-native-safe-area-context": "5.4.0",
     "react-native-svg": "15.11.2",
     "react-transition-group": "^4.4.5"
   },
