@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
-import { HeartsFilled } from '@holi/icons/src/generated'
+import { HandHeartsFilled } from '@holi/icons/src/generated'
 
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
@@ -60,11 +60,10 @@ const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderPro
         )
       }
       data={columns}
-      icon={HeartsFilled}
+      icon={HandHeartsFilled}
       heading={t('volunteering:app.name')}
       subline={t('volunteering:app.subline')}
       seeAllPath="/volunteering"
-      cardWidth={cardWidth}
     />
   )
 }

@@ -35,8 +35,6 @@ const EventCarousel = ({ cardWidth }: EventCarouselProps) => {
       subline={t('act.events.subline')}
       labelSeeMore={t('act.events.showAll')}
       seeAllPath="/events"
-      cardWidth={cardWidth}
-      size="sm"
       seeMoreTrackingEvent={TrackingEvent.Events.seeAll}
     />
   )

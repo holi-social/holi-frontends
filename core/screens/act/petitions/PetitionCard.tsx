@@ -1,6 +1,6 @@
 import React from 'react'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { CalendarEventLine, ExternalLink } from '@holi/icons/src/generated'
+import { CalendarEventLine } from '@holi/icons/src/generated'
 import { CompactCard } from 'holi-bricks/components/compactCard'
 import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -35,18 +35,17 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
     >
       <CompactCard
         title={petition.title}
-        topLabel={`${petition.daysLeft || 'unlimited'} days left`}
-        subtitle={petition.category}
+        topLabel={t('act.petitions.daysLeft', { days: petition.daysLeft || 'unlimited' })}
+        subtitle={t(`act.petitions.category.${petition.category}`)}
         topLabelIcon={CalendarEventLine}
         imageSrc={petition.imageUrl}
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.petitions.thumbnail.label')}
-        topIcon={ExternalLink}
       >
         <CompactCard.FooterProgressBar
           progressBarPercentage={petition.percentage}
-          progressBarLeft={`${petition.percentage} % reached`}
+          progressBarLeft={t('act.petitions.percent', { percentage: petition.percentage })}
         />
       </CompactCard>
     </HoliLinkTracked>

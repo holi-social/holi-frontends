@@ -9,7 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
-import { HandHeartsFilled } from '@holi/icons/src/generated'
+import { CoinsFill } from '@holi/icons/src/generated'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { type AppDonationsProjectsResponse, donationProjectsQuery } from '@holi-apps/donations/queries'
@@ -86,13 +86,12 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
       }}
       renderItem={renderItem}
       data={projectsToRender}
-      icon={HandHeartsFilled}
+      icon={CoinsFill}
       heading={t('donations:app.name')}
       subline={t('donations:app.subline')}
       seeAllPath="/donations"
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
       loading={loading}
-      cardWidth={cardWidth}
     />
   )
 }

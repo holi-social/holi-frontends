@@ -61,7 +61,6 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
       seeAllPath="/apps/goodnews"
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
       loading={loading}
-      cardWidth={cardWidth}
     />
   )
 }
