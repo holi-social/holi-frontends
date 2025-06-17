@@ -85,7 +85,7 @@
     "eslint-plugin-react-native": "^4.1.0",
     "graphql-tag": "^2.12.6",
     "jest": "^29.7.0",
-    "jest-expo": "^53.0.5",
+    "jest-expo": "^53.0.7",
     "jest-offline": "^1.0.1",
     "jest-when": "^3.6.0",
     "node-gyp": "^10.2.0",
@@ -99,7 +99,7 @@
     ]
   },
   "dependencies": {
-    "expo": "^53.0.9",
+    "expo": "^53.0.11",
     "react-native-unistyles": "^3.0.0-rc.4",
     "react-native-web": "^0.20.0"
   },
