@@ -49,8 +49,8 @@ test.describe('@Task collaboration multi user journey', () => {
     })
 
     await test.step('Task chat explanation modal is confirmable', async () => {
-      await expect(carol.getByText('Start by simply saying "Hi"')).toBeVisible()
-      await carol.getByRole('button', { name: 'Start chatting' }).click()
+      await expect(carol.getByText("Let's connect")).toBeVisible()
+      await carol.getByRole('button', { name: 'Open chat' }).click()
     })
 
     await test.step('Multi user chat room with all space admins opens', async () => {
