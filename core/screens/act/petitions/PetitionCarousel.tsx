@@ -3,7 +3,7 @@ import RecoSlider from '@holi/core/components/RecoSlider'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
-import { CalendarEventFilled } from '@holi/icons/src/generated'
+import { PencilFilled } from '@holi/icons/src/generated'
 import petitions from './petitions.json'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -26,12 +26,10 @@ const PetitionCarousel = ({ cardWidth }: PetitionCarouselProps) => {
         renderItem={({ item }) => <PetitionCard petition={item} maxCardWidth={cardWidth} />}
         data={petitions}
         loading={user.isLoading}
-        icon={CalendarEventFilled}
+        icon={PencilFilled}
         heading={t('act.petitions.title')}
         subline={t('act.petitions.subline')}
         labelSeeMore={t('act.petitions.showAll')}
-        cardWidth={cardWidth}
-        size="sm"
         onPressSeeMore={() => setShowConfirmationModal(true)}
         seeMoreTrackingEvent={TrackingEvent.Petitions.seeAll}
       />

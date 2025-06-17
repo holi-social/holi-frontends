@@ -1,4 +1,4 @@
-import { calculateCardWidth, ChallengeCard } from '@holi-apps/challenges/components/ChallengeCard'
+import { ChallengeCard } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
@@ -13,7 +13,6 @@ import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, useWindowDimensions } from 'react-native'
 import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
 const API_URL = apiUrl('/api/v1/challenge-with-submissions')
@@ -30,8 +29,6 @@ const RecommendedChallenges = () => {
   const [allChallengePath, setAllChallengePath] = useState('')
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { width: screenWidth } = useWindowDimensions()
-  const cardWidth = calculateCardWidth(Platform.OS === 'web' ? 500 : screenWidth)
   const headers = useChallengesHeaders()
 
   const fetchChallenges = useCallback(async () => {
@@ -100,7 +97,6 @@ const RecommendedChallenges = () => {
       seeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'all')}
       labelSeeMore={t('challenges:carousel.seeMore')}
       loading={isLoading}
-      cardWidth={cardWidth}
     />
   )
 }
