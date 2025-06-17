@@ -40,7 +40,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
     return (
       <RecoSliderCard
         name="goodnews"
-        to={`/goodnews?${params.toString()}`}
+        to={`/apps/goodnews?${params.toString()}`}
         title={item.headline}
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}
@@ -58,7 +58,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
       icon={NewspaperFilled}
       heading={t('goodnews:app.name')}
       subline={t('goodnews:app.subline')}
-      seeAllPath="/goodnews"
+      seeAllPath="/apps/goodnews"
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
       loading={loading}
     />

@@ -28,7 +28,7 @@ const GoodNewsCard: React.FC<GoodNewsCardProps> = ({ article, style }: GoodNewsC
     getRelativeDateString(article.date, i18n.language).slice(1)
 
   return (
-    <HoliLink label={article.headline} href={`/goodnews?articleId=${article.id}`}>
+    <HoliLink label={article.headline} href={`/apps/goodnews?articleId=${article.id}`}>
       <View style={[styles.container, style]} testID="goodnews-card">
         <View style={styles.header}>
           <HoliLocalImage
