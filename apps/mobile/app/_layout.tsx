@@ -3,7 +3,7 @@ import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { initializeMobileApolloClient } from '@holi/api/graphql/client'
-import { Redirect, Slot, usePathname } from 'expo-router'
+import { Redirect, Slot, usePathname, Stack } from 'expo-router'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -35,13 +35,18 @@ logger.debug('App', 'starting app with config', config)
 const apolloClient = initializeMobileApolloClient()
 
 const redirects: { [key: string]: string } = {
-  '^/spenden': '/donations',
-  '^/ehrenamt': '/volunteering',
-  '^/spaces/(.+)/aufgaben': '/spaces/$1/tasks',
+  '/spenden': '/act/donations',
+  '/ehrenamt': '/act/volunteering',
+  // '/spaces/(.+)/aufgaben': '/spaces/$1/tasks', TODO(SF) solved using shared route?
+  '/apps': '/act', // Challenges, Goodnews
+  '/donations': '/act/donations',
+  '/volunteering': '/act/volunteering',
+  '/events': '/act/events',
+  '/petitions': '/act/petitions',
 }
 
 const handleRedirects = (pathname: string): string =>
-  Object.keys(redirects).reduce((path, rule) => path.replace(new RegExp(rule), redirects[rule] ?? ''), pathname)
+  Object.keys(redirects).reduce((path, rule) => path.replace(new RegExp(`^${rule}`), redirects[rule] ?? ''), pathname)
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
@@ -92,7 +97,12 @@ const App = () => {
                 return true
               }}
             >
-              <Slot />
+              {/* <Slot /> */}
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              ></Stack>
             </OnboardingAwaitingNavigator>
           </KeyboardProvider>
         </RootProvider>

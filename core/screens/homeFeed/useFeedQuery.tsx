@@ -63,12 +63,7 @@ export const useFeedQuery = () => {
   const randomizedEngagements = useRandomizedVolunteeringRecos({ pageSize: PAGE_SIZE_EXTERNAL_DATA })
 
   const combinedFeedData = useMemo<CombinedFeedItem[]>(() => {
-    // TODO(SF) temp. filtering youtube post
-    const feedData: FeedItem[] =
-      data?.feed?.data?.filter(
-        (item: FeedItem) =>
-          !['test-yt-2-0b90adf7', 'testing-yt-81a1a6cc'].includes((item.feedPost as FeedPost)?.slug ?? '')
-      ) || []
+    const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const insights = dataInsights?.feedInsights?.data || []
 

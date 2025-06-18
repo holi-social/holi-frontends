@@ -3,7 +3,7 @@ export enum RouteName {
   TabAct = 'act',
   TabChat = 'chat',
   TabSpaces = 'spaces',
-  TabAuth = 'auth',
+  TabProfile = 'profile',
 
   // Feed Stack
   HomeFeed = 'HomeFeed',
