@@ -57,7 +57,7 @@ export default function Layout() {
         options={{
           tabBarLabel: t('navigation.act'),
           tabBarButtonTestID: 'btn-to-act',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused, color }) => {
             return <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} colorOverride={color} />
           },
@@ -68,7 +68,7 @@ export default function Layout() {
         options={{
           tabBarLabel: t('navigation.organize'),
           tabBarButtonTestID: 'btn-to-spaces',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused, color }) => {
             return <HoliIcon icon={focused ? Spaces : SpacesFilled} colorOverride={color} />
           },
@@ -79,7 +79,7 @@ export default function Layout() {
         name={RouteName.TabChat}
         options={{
           tabBarButtonTestID: 'btn-to-chat-view',
-          headerShown: true,
+          headerShown: false,
           tabBarLabel: t('navigation.chat'),
           tabBarIcon: ({ focused, color }) => {
             return <HoliIcon icon={focused ? Chat3Filled : Chat3} colorOverride={color} />
@@ -88,10 +88,10 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name={RouteName.TabAuth}
+        name={RouteName.TabProfile}
         options={{
           tabBarButtonTestID: 'btn-to-profile-view',
-          headerShown: true,
+          headerShown: false,
           tabBarLabel: isLoggedIn ? t('navigation.profile') : t('navigation.login'),
           tabBarIcon: ({ focused, color }) => {
             return user ? (
