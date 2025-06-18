@@ -8,29 +8,28 @@ import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCall
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
-import { useFilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagementsTypesense'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
 
-interface FilteredVolunteeringEngagementsTypesenseProps {
+interface FilteredVolunteeringEngagementsProps {
   filters: VolunteeringFilters
   clearFilters?: () => void
   loadingFilters?: boolean
   loadingFiltersFailed?: boolean
 }
 
-export const FilteredVolunteeringEngagementsTypesense = ({
+export const FilteredVolunteeringEngagements = ({
   filters,
   loadingFilters = false,
   clearFilters,
   loadingFiltersFailed = false,
-}: FilteredVolunteeringEngagementsTypesenseProps) => {
+}: FilteredVolunteeringEngagementsProps) => {
   const { styles } = useStyles(stylesheet)
 
-  const { isLoading, engagements, canFetchMore, fetchNextPage, totalResults } =
-    useFilteredVolunteeringEngagementsTypesense({
-      filters,
-      loadingFilters,
-      pageSize: ENGAGEMENT_PAGE_SIZE,
-    })
+  const { isLoading, engagements, canFetchMore, fetchNextPage, totalResults } = useFilteredVolunteeringEngagements({
+    filters,
+    loadingFilters,
+    pageSize: ENGAGEMENT_PAGE_SIZE,
+  })
 
   const loadMoreComponent = useMemo(() => {
     return (

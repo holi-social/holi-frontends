@@ -9,7 +9,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
 export const user: User = {
@@ -33,9 +33,9 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   }),
 }))
 
-const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
-  useVolunteeringRecosTypesense: jest.fn(),
+const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
+  useVolunteeringRecos: jest.fn(),
 }))
 
 const donationsRequest = {
@@ -305,7 +305,7 @@ describe('ActHome Section', () => {
       [FeatureFlagKey.DONATIONS]: 'on',
       [FeatureFlagKey.VOLUNTEERING]: 'on',
     })
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       isLoading: false,
       engagements: makeVolunteeringDocuments(5),
       canFetchMore: false,

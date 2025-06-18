@@ -1,12 +1,12 @@
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 interface UseRandomizedVolunteeringRecos {
   pageSize?: number
 }
 export const useRandomizedVolunteeringRecos = ({ pageSize }: UseRandomizedVolunteeringRecos = {}) => {
-  const { engagements: typesenseEngagements } = useVolunteeringRecosTypesense({
+  const { engagements: typesenseEngagements } = useVolunteeringRecos({
     pageSize,
   })
 

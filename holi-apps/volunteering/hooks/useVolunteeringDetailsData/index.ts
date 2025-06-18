@@ -1,1 +1,1 @@
-export { useVolunteeringDetailsDataTypesense } from './useVolunteeringDetailsDataTypesense'
+export { useVolunteeringDetailsData } from './useVolunteeringDetailsData'

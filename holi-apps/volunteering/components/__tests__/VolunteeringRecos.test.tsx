@@ -1,37 +1,37 @@
 import React from 'react'
-import VolunteeringRecosTypesense from '@holi-apps/volunteering/components/VolunteeringRecosTypesense'
+import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import { render, screen } from '@testing-library/react-native'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
-const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
-  useVolunteeringRecosTypesense: jest.fn(),
+const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
+  useVolunteeringRecos: jest.fn(),
 }))
 
-describe('VolunteeringRecosTypesense', () => {
+describe('VolunteeringRecos', () => {
   it('should render nothing while loading', () => {
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       isLoading: true,
       engagements: [],
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
-    render(<VolunteeringRecosTypesense cardWidth={100} />)
+    render(<VolunteeringRecos cardWidth={100} />)
 
     expect(screen.toJSON()).toBeNull()
   })
 
   it('should correctly render engagements', () => {
     const engagements = makeVolunteeringDocuments(5)
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       isLoading: false,
       engagements,
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringRecosTypesense cardWidth={100} />)
+    render(<VolunteeringRecos cardWidth={100} />)
 
     // Header
     expect(screen.getByText('app.name')).toBeOnTheScreen()
@@ -45,28 +45,28 @@ describe('VolunteeringRecosTypesense', () => {
   })
 
   it('should use correct page size', () => {
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       isLoading: false,
       engagements: [],
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringRecosTypesense cardWidth={100} />)
+    render(<VolunteeringRecos cardWidth={100} />)
 
-    expect(mockUseVolunteeringRecosTypesense).toHaveBeenCalledWith({ pageSize: 5 })
+    expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({ pageSize: 5 })
   })
 
   it('should use correct page size with rows and columns', () => {
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       isLoading: false,
       engagements: [],
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringRecosTypesense cardWidth={100} rows={3} columns={4} />)
+    render(<VolunteeringRecos cardWidth={100} rows={3} columns={4} />)
 
-    expect(mockUseVolunteeringRecosTypesense).toHaveBeenCalledWith({ pageSize: 12 })
+    expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({ pageSize: 12 })
   })
 })

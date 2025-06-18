@@ -1,12 +1,12 @@
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { renderHook } from '@testing-library/react-hooks'
 
-const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
-  useVolunteeringRecosTypesense: jest.fn(),
+const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
+  useVolunteeringRecos: jest.fn(),
 }))
 
 const mockUseRandomizedRecos = jest.mocked(useRandomizedRecos)
@@ -18,11 +18,10 @@ describe('useRandomizedVolunteeringRecos', () => {
   const pageSize = 12
   const manyHits = makeVolunteeringDocuments(pageSize * 3)
   const typesenseHits = manyHits.slice(0, pageSize)
-  const graphqlHits = manyHits.slice(pageSize, pageSize * 2)
   const shuffledHits = manyHits.slice(pageSize * 2, pageSize * 3)
 
   beforeEach(() => {
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       engagements: typesenseHits,
       isLoading: false,
       canFetchMore: true,
@@ -34,13 +33,13 @@ describe('useRandomizedVolunteeringRecos', () => {
   it('should fetch engagements from typesense', () => {
     renderHook(() => useRandomizedVolunteeringRecos({ pageSize }))
 
-    expect(mockUseVolunteeringRecosTypesense).toHaveBeenCalledWith({ pageSize, skip: true })
+    expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({ pageSize })
   })
 
   it('should return shuffled engagements', () => {
     const { result } = renderHook(() => useRandomizedVolunteeringRecos({ pageSize }))
 
-    expect(mockUseRandomizedRecos).toHaveBeenCalledWith(graphqlHits, pageSize)
+    expect(mockUseRandomizedRecos).toHaveBeenCalledWith(typesenseHits, pageSize)
     expect(result.current).toEqual(shuffledHits)
   })
 })

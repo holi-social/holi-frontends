@@ -8,12 +8,12 @@ import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 
-interface UseVolunteeringRecosTypesenseProps {
+interface UseVolunteeringRecosProps {
   pageSize?: number
   displayErrors?: boolean
 }
 
-export const useVolunteeringRecosTypesense = ({ pageSize, displayErrors }: UseVolunteeringRecosTypesenseProps = {}) => {
+export const useVolunteeringRecos = ({ pageSize, displayErrors }: UseVolunteeringRecosProps = {}) => {
   const { displayError } = useErrorHandling()
   const language = useUserLanguage()
   const errorHandler = displayErrors ? displayError : logError
@@ -22,7 +22,7 @@ export const useVolunteeringRecosTypesense = ({ pageSize, displayErrors }: UseVo
     pageSize: pageSize ?? ENGAGEMENT_PAGE_SIZE,
     onGeolocationError: (error) => {
       errorHandler(error, 'Error retrieving geolocation', {
-        location: 'useVolunteeringRecosTypesense.useVolunteeringRecoTypesenseParameters',
+        location: 'useVolunteeringRecos.useVolunteeringRecoTypesenseParameters',
       })
     },
   })
@@ -32,7 +32,7 @@ export const useVolunteeringRecosTypesense = ({ pageSize, displayErrors }: UseVo
     skip: isLoadingParameters,
     onError: (error) => {
       errorHandler(error, 'Error retrieving recommendations', {
-        location: 'useVolunteeringRecosTypesense.useTypesensePaginationQuery',
+        location: 'useVolunteeringRecos.useTypesensePaginationQuery',
       })
     },
   })

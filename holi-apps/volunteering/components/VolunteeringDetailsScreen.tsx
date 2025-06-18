@@ -13,16 +13,16 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
-import { useVolunteeringDetailsDataTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
+import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useTrackEngagementViewMutation } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import { VolunteeringSimilarRecosFooter } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosFooter'
+import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 
 const isIos = Platform.OS === 'ios'
 
-export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagementId: string }) => {
+export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
   const { t } = useTranslation()
-  const { isLoading, document } = useVolunteeringDetailsDataTypesense(engagementId)
+  const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
   const hasTrackedRef = useRef<string>('')
@@ -102,7 +102,7 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
         author={document?.author}
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
-        _footer={<VolunteeringSimilarRecosFooter engagementId={engagementId} />}
+        _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
         placeholderImage={document?.placeholderImage}
       />
       {document?.externalUrl && Platform.OS !== 'web' && (

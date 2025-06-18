@@ -1,4 +1,4 @@
-import { useFilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagementsTypesense'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -38,7 +38,7 @@ export const makeTypesenseEngagementHits = (length: number): SearchResponseHit[]
       }) as SearchResponseHit
   )
 
-describe('useFilteredVolunteeringEngagementsTypesense', () => {
+describe('useFilteredVolunteeringEngagements', () => {
   const searchResult = {
     state: {
       isLoading: false,
@@ -75,17 +75,13 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       },
     })
 
-    const { result } = renderHook(() =>
-      useFilteredVolunteeringEngagementsTypesense({ filters, loadingFilters: true, pageSize })
-    )
+    const { result } = renderHook(() => useFilteredVolunteeringEngagements({ filters, loadingFilters: true, pageSize }))
 
     expect(result.current.isLoading).toBeTruthy()
   })
 
   it('should pass on loading state of filters', () => {
-    const { result } = renderHook(() =>
-      useFilteredVolunteeringEngagementsTypesense({ filters, loadingFilters: true, pageSize })
-    )
+    const { result } = renderHook(() => useFilteredVolunteeringEngagements({ filters, loadingFilters: true, pageSize }))
 
     expect(result.current.isLoading).toBeTruthy()
   })
@@ -93,7 +89,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
   it('should skip query execution while loading parameters', () => {
     const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding(filters)
 
-    renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, loadingFilters: true, pageSize }))
+    renderHook(() => useFilteredVolunteeringEngagements({ filters, loadingFilters: true, pageSize }))
 
     expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
       parameters: {
@@ -109,7 +105,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
   it('should expose transformed search results', () => {
     const expectedEngagements = searchResult.state.hits
 
-    const { result } = renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
+    const { result } = renderHook(() => useFilteredVolunteeringEngagements({ filters, pageSize }))
 
     expect(result.current.isLoading).toBeFalsy()
     const engagements = result.current.engagements
@@ -121,7 +117,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
   })
 
   it('should expose flag if more results can be fetched', () => {
-    const { result } = renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
+    const { result } = renderHook(() => useFilteredVolunteeringEngagements({ filters, pageSize }))
 
     expect(result.current.canFetchMore).toBeTruthy()
   })
@@ -135,7 +131,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       },
     })
 
-    const { result } = renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
+    const { result } = renderHook(() => useFilteredVolunteeringEngagements({ filters, pageSize }))
 
     expect(result.current.canFetchMore).toBeFalsy()
   })
@@ -147,7 +143,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       fetchNextPage,
     })
 
-    const { result } = renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
+    const { result } = renderHook(() => useFilteredVolunteeringEngagements({ filters, pageSize }))
 
     result.current.fetchNextPage()
 
@@ -161,7 +157,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       refetch,
     })
 
-    renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
+    renderHook(() => useFilteredVolunteeringEngagements({ filters, pageSize }))
 
     expect(mockUseOnRefresh).toHaveBeenCalledWith(refetch)
   })
@@ -188,7 +184,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       }
     })
 
-    renderHook(() => useFilteredVolunteeringEngagementsTypesense({ filters, pageSize }))
+    renderHook(() => useFilteredVolunteeringEngagements({ filters, pageSize }))
 
     expect(displayError).toHaveBeenCalledWith(testError, 'Error retrieving filtered volunteering engagements', {
       location: 'useFilteredVolunteeringEngagementsTypesense.useTypesensePaginationQuery',
@@ -208,7 +204,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding({ topics })
 
       renderHook(() =>
-        useFilteredVolunteeringEngagementsTypesense({
+        useFilteredVolunteeringEngagements({
           filters: { topics },
           pageSize,
         })
@@ -229,7 +225,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding({ skills })
 
       renderHook(() =>
-        useFilteredVolunteeringEngagementsTypesense({
+        useFilteredVolunteeringEngagements({
           filters: { skills },
           pageSize,
         })
@@ -248,7 +244,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
 
     it('should create correct parameters when filtering by location only', () => {
       renderHook(() =>
-        useFilteredVolunteeringEngagementsTypesense({
+        useFilteredVolunteeringEngagements({
           filters: { location },
           pageSize,
         })
@@ -269,7 +265,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding({ topics, skills })
 
       renderHook(() =>
-        useFilteredVolunteeringEngagementsTypesense({
+        useFilteredVolunteeringEngagements({
           filters: { topics, skills },
           pageSize,
         })
@@ -291,7 +287,7 @@ describe('useFilteredVolunteeringEngagementsTypesense', () => {
       const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding({ topics, skills })
 
       renderHook(() =>
-        useFilteredVolunteeringEngagementsTypesense({
+        useFilteredVolunteeringEngagements({
           filters: { topics, skills, location },
           pageSize,
         })

@@ -13,7 +13,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
-export const VolunteeringSimilarRecosTypesense = ({ documentId }: { documentId: string }) => {
+export const VolunteeringSimilarRecos = ({ documentId }: { documentId: string }) => {
   const { t } = useTranslation()
   const language = useUserLanguage()
 
@@ -31,7 +31,7 @@ export const VolunteeringSimilarRecosTypesense = ({ documentId }: { documentId: 
     parameters,
     onError: (error) => {
       logError(error, 'Error retrieving similar recommendations', {
-        location: 'VolunteeringSimilarRecosTypesense.useTypesensePaginationQuery',
+        location: 'VolunteeringSimilarRecos.useTypesensePaginationQuery',
       })
     },
   })

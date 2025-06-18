@@ -7,7 +7,7 @@ import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVol
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 
-export const useVolunteeringDetailsDataTypesense = (volunteeringId: string) => {
+export const useVolunteeringDetailsData = (volunteeringId: string) => {
   const { replaceRoute } = useRouting()
   const { t } = useTranslation()
   const userLanguage = useUserLanguage()
@@ -19,7 +19,7 @@ export const useVolunteeringDetailsDataTypesense = (volunteeringId: string) => {
     {
       onError: (error) => {
         displayError(error, 'Failed to load volunteering opportunity', {
-          location: 'useVolunteeringDetailsDataTypesense',
+          location: 'useVolunteeringDetailsData',
           volunteeringId,
         })
       },

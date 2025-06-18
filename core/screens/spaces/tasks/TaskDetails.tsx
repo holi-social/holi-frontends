@@ -11,7 +11,7 @@ import { TaskDetailsCTA } from '@holi/core/screens/spaces/tasks/components/TaskD
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
-import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
+import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
@@ -102,7 +102,7 @@ const TaskDetailsContainer = () => {
     >
       <DetailsScreen
         {...data}
-        _footer={<VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
+        _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
         placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
       />
     </Screen>

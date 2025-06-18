@@ -4,7 +4,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { renderHook } from '@testing-library/react-native'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { logError } from '@holi/core/errors/helpers'
 
 const mockUseVolunteeringRecoTypesenseParameters = jest.mocked(useVolunteeringRecoTypesenseParameters)
@@ -45,7 +45,7 @@ const createHits = (length: number): SearchResponseHit[] =>
       }) as SearchResponseHit
   )
 
-describe('useVolunteeringRecosTypesense', () => {
+describe('useVolunteeringRecos', () => {
   const parameters: SearchParams = {
     filter_by: '',
     sort_by: '',
@@ -104,7 +104,7 @@ describe('useVolunteeringRecosTypesense', () => {
       refetch: jest.fn(),
     })
 
-    const { result } = renderHook(() => useVolunteeringRecosTypesense())
+    const { result } = renderHook(() => useVolunteeringRecos())
 
     expect(result.current.isLoading).toBeTruthy()
   })
@@ -115,7 +115,7 @@ describe('useVolunteeringRecosTypesense', () => {
       parameters: {},
     })
 
-    renderHook(() => useVolunteeringRecosTypesense())
+    renderHook(() => useVolunteeringRecos())
 
     expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
       parameters: {},
@@ -140,13 +140,13 @@ describe('useVolunteeringRecosTypesense', () => {
       refetch: jest.fn(),
     })
 
-    const { result } = renderHook(() => useVolunteeringRecosTypesense())
+    const { result } = renderHook(() => useVolunteeringRecos())
 
     expect(result.current.isLoading).toBeTruthy()
   })
 
   it('should query results with the correct parameters', () => {
-    renderHook(() => useVolunteeringRecosTypesense())
+    renderHook(() => useVolunteeringRecos())
 
     expect(mockUseVolunteeringRecoTypesenseParameters).toHaveBeenCalledWith({
       pageSize: 10,
@@ -160,7 +160,7 @@ describe('useVolunteeringRecosTypesense', () => {
   })
 
   it('should use given page size', () => {
-    renderHook(() => useVolunteeringRecosTypesense({ pageSize: 5 }))
+    renderHook(() => useVolunteeringRecos({ pageSize: 5 }))
 
     expect(mockUseVolunteeringRecoTypesenseParameters).toHaveBeenCalledWith({
       pageSize: 5,
@@ -169,7 +169,7 @@ describe('useVolunteeringRecosTypesense', () => {
   })
 
   it('should expose transformed search results', () => {
-    const { result } = renderHook(() => useVolunteeringRecosTypesense())
+    const { result } = renderHook(() => useVolunteeringRecos())
 
     expect(result.current.isLoading).toBeFalsy()
     const engagements = result.current.engagements
@@ -190,7 +190,7 @@ describe('useVolunteeringRecosTypesense', () => {
       refetch: jest.fn(),
     })
 
-    const { result } = renderHook(() => useVolunteeringRecosTypesense())
+    const { result } = renderHook(() => useVolunteeringRecos())
 
     expect(result.current.canFetchMore).toBeTruthy()
   })
@@ -212,7 +212,7 @@ describe('useVolunteeringRecosTypesense', () => {
       refetch: jest.fn(),
     })
 
-    const { result } = renderHook(() => useVolunteeringRecosTypesense())
+    const { result } = renderHook(() => useVolunteeringRecos())
 
     expect(result.current.canFetchMore).toBeFalsy()
   })
@@ -226,7 +226,7 @@ describe('useVolunteeringRecosTypesense', () => {
       refetch: jest.fn(),
     })
 
-    const { result } = renderHook(() => useVolunteeringRecosTypesense())
+    const { result } = renderHook(() => useVolunteeringRecos())
 
     result.current.fetchNextPage()
 
@@ -242,7 +242,7 @@ describe('useVolunteeringRecosTypesense', () => {
       refetch,
     })
 
-    renderHook(() => useVolunteeringRecosTypesense())
+    renderHook(() => useVolunteeringRecos())
 
     expect(mockUseOnRefresh).toHaveBeenCalledWith(refetch)
   })
@@ -259,10 +259,10 @@ describe('useVolunteeringRecosTypesense', () => {
       }
     })
 
-    renderHook(() => useVolunteeringRecosTypesense({ displayErrors: true }))
+    renderHook(() => useVolunteeringRecos({ displayErrors: true }))
 
     expect(displayError).toHaveBeenCalledWith(testError, 'Error retrieving geolocation', {
-      location: 'useVolunteeringRecosTypesense.useVolunteeringRecoTypesenseParameters',
+      location: 'useVolunteeringRecos.useVolunteeringRecoTypesenseParameters',
     })
   })
 
@@ -288,10 +288,10 @@ describe('useVolunteeringRecosTypesense', () => {
       }
     })
 
-    renderHook(() => useVolunteeringRecosTypesense({ displayErrors: true }))
+    renderHook(() => useVolunteeringRecos({ displayErrors: true }))
 
     expect(displayError).toHaveBeenCalledWith(testError, 'Error retrieving recommendations', {
-      location: 'useVolunteeringRecosTypesense.useTypesensePaginationQuery',
+      location: 'useVolunteeringRecos.useTypesensePaginationQuery',
     })
   })
 
@@ -307,10 +307,10 @@ describe('useVolunteeringRecosTypesense', () => {
       }
     })
 
-    renderHook(() => useVolunteeringRecosTypesense())
+    renderHook(() => useVolunteeringRecos())
 
     expect(mockLogError).toHaveBeenCalledWith(testError, 'Error retrieving geolocation', {
-      location: 'useVolunteeringRecosTypesense.useVolunteeringRecoTypesenseParameters',
+      location: 'useVolunteeringRecos.useVolunteeringRecoTypesenseParameters',
     })
     expect(displayError).not.toHaveBeenCalled()
   })
@@ -337,10 +337,10 @@ describe('useVolunteeringRecosTypesense', () => {
       }
     })
 
-    renderHook(() => useVolunteeringRecosTypesense())
+    renderHook(() => useVolunteeringRecos())
 
     expect(mockLogError).toHaveBeenCalledWith(testError, 'Error retrieving recommendations', {
-      location: 'useVolunteeringRecosTypesense.useTypesensePaginationQuery',
+      location: 'useVolunteeringRecos.useTypesensePaginationQuery',
     })
     expect(displayError).not.toHaveBeenCalled()
   })

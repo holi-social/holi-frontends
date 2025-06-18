@@ -4,12 +4,12 @@ import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/V
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 
-export const VolunteeringTypesenseRecommendations = () => {
+export const VolunteeringRecommendations = () => {
   const { styles } = useStyles(stylesheet)
 
-  const { isLoading, engagements, canFetchMore, fetchNextPage } = useVolunteeringRecosTypesense({ displayErrors: true })
+  const { isLoading, engagements, canFetchMore, fetchNextPage } = useVolunteeringRecos({ displayErrors: true })
 
   const loadMoreComponent = useMemo(() => {
     return (

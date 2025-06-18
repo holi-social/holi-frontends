@@ -1,14 +1,14 @@
 import React from 'react'
-import { VolunteeringTypesenseRecommendations } from '@holi-apps/volunteering/components/VolunteeringTypesenseRecommendations'
+import { VolunteeringRecommendations } from '@holi-apps/volunteering/components/VolunteeringRecommendations'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { TrackingEvent } from '@holi/core/tracking'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
-const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
-  useVolunteeringRecosTypesense: jest.fn(),
+const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
+  useVolunteeringRecos: jest.fn(),
 }))
 
 const mockUseRecosSubtitle = jest.mocked(useRecosSubtitle)
@@ -16,7 +16,7 @@ jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
   useRecosSubtitle: jest.fn(),
 }))
 
-describe('VolunteeringTypesenseRecommendations', () => {
+describe('VolunteeringRecommendations', () => {
   const results = {
     isLoading: false,
     engagements: makeVolunteeringDocuments(10),
@@ -26,7 +26,7 @@ describe('VolunteeringTypesenseRecommendations', () => {
 
   beforeEach(() => {
     jest.useFakeTimers()
-    mockUseVolunteeringRecosTypesense.mockReturnValue(results)
+    mockUseVolunteeringRecos.mockReturnValue(results)
     mockUseRecosSubtitle.mockReturnValue('Recos subtitle')
   })
 
@@ -35,19 +35,19 @@ describe('VolunteeringTypesenseRecommendations', () => {
   })
 
   it('should render skeleton while loading recos', () => {
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       ...results,
       engagements: [],
       isLoading: true,
     })
 
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should render search results', () => {
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
     // Header
     expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
@@ -63,12 +63,12 @@ describe('VolunteeringTypesenseRecommendations', () => {
 
   it('should load more results on scroll', () => {
     const fetchNextPage = jest.fn()
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       ...results,
       fetchNextPage,
     })
 
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
     expect(screen.getByTestId('volunteering-loader')).toBeOnTheScreen()
     expect(fetchNextPage).toHaveBeenCalled()
@@ -76,13 +76,13 @@ describe('VolunteeringTypesenseRecommendations', () => {
 
   it('should not load more results if nothing more can be fetched', () => {
     const fetchNextPage = jest.fn()
-    mockUseVolunteeringRecosTypesense.mockReturnValue({
+    mockUseVolunteeringRecos.mockReturnValue({
       ...results,
       canFetchMore: false,
       fetchNextPage,
     })
 
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
     expect(screen.queryByTestId('volunteering-loader')).not.toBeOnTheScreen()
     expect(fetchNextPage).not.toHaveBeenCalled()
@@ -92,7 +92,7 @@ describe('VolunteeringTypesenseRecommendations', () => {
     const user = userEvent.setup()
     const engagement = results.engagements[0]
 
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
     await user.press(screen.getByText(engagement.title))
 
@@ -103,7 +103,7 @@ describe('VolunteeringTypesenseRecommendations', () => {
     const user = userEvent.setup()
     const engagement = results.engagements[0]
 
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
     await user.press(screen.getByText(engagement.title))
 
@@ -117,9 +117,9 @@ describe('VolunteeringTypesenseRecommendations', () => {
   })
 
   it('should display errors', () => {
-    render(<VolunteeringTypesenseRecommendations />)
+    render(<VolunteeringRecommendations />)
 
-    expect(mockUseVolunteeringRecosTypesense).toHaveBeenCalledWith({
+    expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({
       displayErrors: true,
     })
   })

@@ -2,20 +2,20 @@ import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
-import { useFilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagementsTypesense'
-import { FilteredVolunteeringEngagementsTypesense } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagementsTypesense'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
+import { FilteredVolunteeringEngagements } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagements'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
   useRecosSubtitle: jest.fn(),
 }))
 
-const mockUseFilteredVolunteeringEngagementsTypesense = jest.mocked(useFilteredVolunteeringEngagementsTypesense)
-jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagementsTypesense', () => ({
-  useFilteredVolunteeringEngagementsTypesense: jest.fn(),
+const mockUseFilteredVolunteeringEngagements = jest.mocked(useFilteredVolunteeringEngagements)
+jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements', () => ({
+  useFilteredVolunteeringEngagements: jest.fn(),
 }))
 
-describe('FilteredVolunteeringEngagementsTypesense', () => {
+describe('FilteredVolunteeringEngagements', () => {
   const results = {
     isLoading: false,
     engagements: makeVolunteeringDocuments(10),
@@ -30,7 +30,7 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
 
   beforeEach(() => {
     jest.useFakeTimers()
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue(results)
+    mockUseFilteredVolunteeringEngagements.mockReturnValue(results)
   })
 
   afterEach(async () => {
@@ -38,21 +38,21 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
   })
 
   it('should render skeleton while loading filter', () => {
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue({
+    mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       engagements: [],
       isLoading: true,
     })
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} loadingFilters={true} />)
+    render(<FilteredVolunteeringEngagements filters={filters} loadingFilters={true} />)
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should fetch results with correct filters', () => {
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
-    expect(mockUseFilteredVolunteeringEngagementsTypesense).toHaveBeenCalledWith({
+    expect(mockUseFilteredVolunteeringEngagements).toHaveBeenCalledWith({
       filters,
       loadingFilters: false,
       pageSize: 10,
@@ -60,19 +60,19 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
   })
 
   it('should render skeleton while loading engagements', () => {
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue({
+    mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       engagements: [],
       isLoading: true,
     })
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should render filter results', () => {
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     // Header
     expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
@@ -88,12 +88,12 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
 
   it('should load more results on scroll', () => {
     const fetchNextPage = jest.fn()
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue({
+    mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       fetchNextPage,
     })
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     expect(screen.getByTestId('volunteering-loader')).toBeOnTheScreen()
     expect(fetchNextPage).toHaveBeenCalled()
@@ -101,13 +101,13 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
 
   it('should not load more results if nothing more can be fetched', () => {
     const fetchNextPage = jest.fn()
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue({
+    mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       canFetchMore: false,
       fetchNextPage,
     })
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     expect(screen.queryByTestId('volunteering-loader')).not.toBeOnTheScreen()
     expect(fetchNextPage).not.toHaveBeenCalled()
@@ -117,7 +117,7 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
     const user = userEvent.setup()
     const engagement = results.engagements[0]
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     await user.press(screen.getByText(engagement.title))
 
@@ -128,7 +128,7 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
     const user = userEvent.setup()
     const engagement = results.engagements[0]
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     await user.press(screen.getByText(engagement.title))
 
@@ -142,7 +142,7 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
   })
 
   it('should display message if loading filters failed', () => {
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} loadingFiltersFailed={true} />)
+    render(<FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} />)
 
     expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
     expect(screen.getByText('filter.notFound.description')).toBeOnTheScreen()
@@ -153,11 +153,7 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
     const user = userEvent.setup()
 
     render(
-      <FilteredVolunteeringEngagementsTypesense
-        filters={filters}
-        loadingFiltersFailed={true}
-        clearFilters={clearFilters}
-      />
+      <FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} clearFilters={clearFilters} />
     )
 
     await user.press(screen.getByLabelText('search.filter.reset'))
@@ -166,25 +162,25 @@ describe('FilteredVolunteeringEngagementsTypesense', () => {
   })
 
   it('should display message if no results were found', () => {
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue({
+    mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       engagements: [],
     })
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} />)
 
     expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
     expect(screen.getByText('filter.notFound.description')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if no results were found', async () => {
-    mockUseFilteredVolunteeringEngagementsTypesense.mockReturnValue({
+    mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       engagements: [],
     })
     const clearFilters = jest.fn()
     const user = userEvent.setup()
 
-    render(<FilteredVolunteeringEngagementsTypesense filters={filters} clearFilters={clearFilters} />)
+    render(<FilteredVolunteeringEngagements filters={filters} clearFilters={clearFilters} />)
 
     await user.press(screen.getByLabelText('search.filter.reset'))
 
