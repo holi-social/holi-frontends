@@ -83,6 +83,7 @@ export interface FeedPost {
   linkPreview?: Link
   totalComments: number
   commenters: Paged<User>
+  reactors: Paged<User>
   mentionedUsers?: User[]
   language?: string
   poll?: Poll

@@ -65,6 +65,7 @@ export interface Post {
   commenters: Paged<User>
   myReaction: ReactionCounts
   reactions: ReactionCounts
+  reactors: Paged<User>
   isPublic?: boolean
   language?: string
 }
