@@ -219,7 +219,7 @@ const HomeFeed = () => {
 
   return (
     <>
-      <Link href={'/insights'}>Go to </Link>
+      <Link href={'/spenden'}>Go to donations</Link>
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="feed-posts">
           <ErrorBoundary>
