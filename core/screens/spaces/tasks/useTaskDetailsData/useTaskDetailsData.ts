@@ -65,8 +65,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   })
   const refetchData = useRateLimit(() => refetch({ id: taskId }))
   const isAdmin = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
-  const isMember = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
-  const isOwner = loginState.isLoggedIn && (isAdmin || isMember) && loginState.user.id === data?.taskById?.creator.id
+  const isOwner = loginState.isLoggedIn && (isAdmin || loginState.user.id === data?.taskById?.creator.id)
 
   const skills =
     data?.taskById?.skillsV2?.map<DetailsScreenChips>((skill) => {

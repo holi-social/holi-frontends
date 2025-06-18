@@ -7,7 +7,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Content'
 import Skeleton from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Skeleton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
-import { VisibilityType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType, VisibilityType } from '@holi/core/screens/spaces/types'
 import { GlobeFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
@@ -39,7 +39,8 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
     </View>
   )
 
-  const isTaskOwner = loginState.isLoggedIn && isCollaborator && loginState.user.id === task.creator.id
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isTaskOwner = loginState.isLoggedIn && (loginState.user.id === task.creator.id || isAdmin)
 
   return (
     <HoliCardComponent.CardContainer hasBorder borderColor="foreground30at12Percent" borderRadius={16}>
