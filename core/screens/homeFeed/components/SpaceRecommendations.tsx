@@ -111,7 +111,6 @@ const SpaceRecommendations = ({ cardWidth }: SpaceRecommendationsProps) => {
       subline={t('recommendations.spaces.subline')}
       seeAllPath="/spaces?tab=discover"
       labelSeeMore={seeMoreText}
-      cardWidth={cardWidth}
     />
   )
 }

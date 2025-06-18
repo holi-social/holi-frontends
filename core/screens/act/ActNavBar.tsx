@@ -49,7 +49,8 @@ export const ActNavBar = () => {
         justifyContent="space-between"
         alignItems={'center'}
         width="100%"
-        padding={{ left: 'xs', right: 'xs', top: 'sm', bottom: 'md' }}
+        gap="4xs"
+        padding={{ left: 'xxs', right: 'xs', top: 'sm', bottom: 'md' }}
       >
         <NavBarButton
           icon={HeartsFilled}

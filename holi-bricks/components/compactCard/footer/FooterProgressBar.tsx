@@ -22,7 +22,7 @@ export const FooterProgressBar: React.FC<FooterProgressBarProps> = ({
     throw new Error('progressBarPercentage must be between 0 and 100')
   }
   return (
-    <Stack>
+    <Stack gap="5xs">
       <Stack direction="row" justifyContent="space-between">
         <Text size="xs" color="support">
           {progressBarLeft}
