@@ -3,16 +3,22 @@ import AsyncStore from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { VideoCallLink } from '@holi/core/screens/spaces/types'
 
 export const VIDEO_CALL_LINK_STORAGE_NAME = 'space-videocall-links_'
 export const MAX_VIDEO_CALL_LINK_LIST_LENGTH = 20
 
-export interface UseVideoCallLinkStorage {
-  videoCallLinks: VideoCallLink[]
-  addVideoCallLink: (videoCallLink: VideoCallLink) => Promise<void>
+export interface VideoCallStorageLink {
+  id: string
+  url: string
+  roomName: string
+  created: string
 }
-const videoCallLinksVar = makeVar<VideoCallLink[]>([])
+
+export interface UseVideoCallLinkStorage {
+  videoCallLinks: VideoCallStorageLink[]
+  addVideoCallLink: (videoCallLink: VideoCallStorageLink) => Promise<void>
+}
+const videoCallLinksVar = makeVar<VideoCallStorageLink[]>([])
 
 export const useVideoCallLinkStorage = (spaceName?: string): UseVideoCallLinkStorage => {
   const storageKey = VIDEO_CALL_LINK_STORAGE_NAME + spaceName
@@ -34,7 +40,7 @@ export const useVideoCallLinkStorage = (spaceName?: string): UseVideoCallLinkSto
   }, [spaceName, storageKey])
 
   const addVideoCallLink = useCallback(
-    async (videoCallLink: VideoCallLink) => {
+    async (videoCallLink: VideoCallStorageLink) => {
       const newLinks = [videoCallLink, ...videoCallLinks].slice(0, MAX_VIDEO_CALL_LINK_LIST_LENGTH)
       videoCallLinksVar(newLinks)
       await AsyncStore.setItem(storageKey, JSON.stringify(newLinks))

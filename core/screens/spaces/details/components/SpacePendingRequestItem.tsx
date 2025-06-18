@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,13 +6,7 @@ import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'reac
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { type Space, SpaceConnectionAction, type SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceMembershipRequest } from '@holi/api/graphql/graphql-codegen'
 import { Check, Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -25,11 +18,17 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  SpaceMembersBySpaceIdDocument,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 const PAGE_SIZE = 20
 
 type SpacePendingRequestsProps = {
-  space: Space
+  space: Pick<Space, 'id' | 'name'>
   membershipRequest: SpaceMembershipRequest
   style?: StyleProp<ViewStyle>
   initiallyOpen?: boolean
@@ -66,63 +65,62 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
     [membershipRequest, t]
   )
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
-        spaceId: space.id,
-        userId: membershipRequest.user.id,
-      },
-      onError(error) {
-        setConnectionStatus('PENDING')
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    onError(error) {
+      setConnectionStatus('PENDING')
 
-        const context = {
-          location: 'SpacePendingRequestsItem',
-          spaceId: space.id,
-        }
-        if (error.message.includes('User did not request membership')) {
-          displayError(error, 'Failed to update space user connection as membership was not requested', {
-            displayMessage: t('spaces.membership.update.not-requested'),
-            ...context,
-          })
-        } else {
-          displayError(error, 'Failed to update space user connection', {
-            displayMessage: t('spaces.membership.update.error'),
-            ...context,
-          })
-        }
-      },
-      refetchQueries: [{ query: spaceMembersQuery, variables: { idOrName: space.name, pageSize: PAGE_SIZE } }],
-    }
-  )
+      const context = {
+        location: 'SpacePendingRequestsItem',
+        spaceId: space.id,
+      }
+      if (error.message.includes('User did not request membership')) {
+        displayError(error, 'Failed to update space user connection as membership was not requested', {
+          displayMessage: t('spaces.membership.update.not-requested'),
+          ...context,
+        })
+      } else {
+        displayError(error, 'Failed to update space user connection', {
+          displayMessage: t('spaces.membership.update.error'),
+          ...context,
+        })
+      }
+    },
+    refetchQueries: [
+      { query: SpaceMembersBySpaceIdDocument, variables: { idOrName: space.name, pageSize: PAGE_SIZE } },
+    ],
+  })
 
   const acceptRequestToJoinSpace = useCallback(() => {
     setConnectionStatus('ACCEPTED')
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBER,
+        spaceId: space.id,
+        userId: membershipRequest.user.id,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.Member,
       },
       onCompleted: () => {
         openToast(t('spaces.invite.user.request.accepted', { user: requestorName }), HoliToastType.SUCCESS)
         track(TrackingEvent.Spaces.RequestToJoin.accepted(space.id))
       },
     })
-  }, [updateSpaceUserConnection, openToast, t, requestorName, track, space.id])
+  }, [updateSpaceUserConnection, space.id, membershipRequest.user.id, openToast, t, requestorName, track])
 
   const rejectRequestToJoinSpace = useCallback(() => {
     setConnectionStatus('DECLINED')
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+        spaceId: space.id,
+        userId: membershipRequest.user.id,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.MembershipRequestor,
       },
       onCompleted: () => {
         openToast(t('spaces.invite.user.request.declined', { user: requestorName }), HoliToastType.SUCCESS)
         track(TrackingEvent.Spaces.RequestToJoin.rejected(space.id))
       },
     })
-  }, [updateSpaceUserConnection, openToast, t, requestorName, track, space.id])
+  }, [updateSpaceUserConnection, space.id, membershipRequest.user.id, openToast, t, requestorName, track])
 
   const handleJoinRequest = useCallback(
     (accept: boolean) => {

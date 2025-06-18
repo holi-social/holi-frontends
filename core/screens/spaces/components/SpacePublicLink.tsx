@@ -3,7 +3,7 @@ import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 
-import type { SpaceLink } from '@holi/core/screens/spaces/types'
+import type { ExternalLink } from '@holi/api/graphql/graphql-codegen'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Discord, Facebook, Instagram, Linkedin, Links, Twitter, Whatsapp } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -12,7 +12,7 @@ import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { useTheme } from '@holi/ui/styles/theme'
 
 type SpacePublicLinkProps = {
-  link: SpaceLink
+  link: ExternalLink
   style?: StyleProp<ViewStyle>
 }
 

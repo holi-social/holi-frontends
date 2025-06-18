@@ -3,14 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
-import type { CreateAppointmentInput, LocationDetailsInput } from '@holi/api/graphql/graphql-codegen'
-import { PermissionType } from '@holi/api/graphql/graphql-codegen'
+import type { CreateAppointmentInput, LocationDetailsInput, Space } from '@holi/api/graphql/graphql-codegen'
+import { PermissionType, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
 import { CreateAppointmentSchema } from '@holi/core/screens/appointments/mutations'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -85,7 +84,7 @@ export const getAppointmentDefaultInitialState = (
 })
 
 export interface AppointmentInputFormProps {
-  space: Space
+  space: Pick<Space, 'id' | 'connectionStatusToMyself' | 'name' | 'members'>
   initialAppointment: CreateAppointmentInput
   onSubmit: (appointment: CreateAppointmentInput) => Promise<void>
   onBackButtonPress?: () => void
@@ -149,7 +148,7 @@ const AppointmentInputForm = ({
   const { show: showInviteOnly, hide: hideInviteOnly, visible: visibleInviteOnly } = useModalState()
   const { show: showPermissionType, hide: hidePermissionType, visible: visiblePermissionType } = useModalState()
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   const inviteOnlyOptions = INVITE_ONLY_OPTIONS.map((option) => {
     const checkSelection = () => {

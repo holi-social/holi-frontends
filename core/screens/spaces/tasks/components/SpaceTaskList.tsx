@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { SpaceByIdQuery, Task } from '@holi/api/graphql/graphql-codegen'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -15,7 +15,10 @@ import { Button } from 'holi-bricks/components/button'
 
 interface SpaceTaskListProps {
   isCollaborator: boolean
-  space: Space
+  space: Pick<
+    Required<SpaceByIdQuery>['spaceById'],
+    'id' | 'name' | 'title' | 'tasks' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor'
+  >
   preview?: boolean
 }
 
@@ -43,7 +46,7 @@ const SpaceTaskList = ({ space, isCollaborator, preview }: SpaceTaskListProps) =
           <HoliGridWrapper breakpoints={gridBreakpoints} gap={16}>
             {displayTasks.map((task) => (
               <HoliGridCell key={task.id}>
-                <SpaceTaskTile variant="list" task={task} space={space} isCollaborator={isCollaborator} />
+                <SpaceTaskTile variant="list" task={task as Task} space={space} isCollaborator={isCollaborator} />
               </HoliGridCell>
             ))}
           </HoliGridWrapper>

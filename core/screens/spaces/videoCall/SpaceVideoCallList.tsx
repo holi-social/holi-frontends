@@ -11,7 +11,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import VideoCallLinks from '@holi/core/screens/spaces/videoCall/components/VideoCallLinks'
 import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -19,6 +18,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
@@ -57,7 +57,7 @@ const SpaceVideoCallList = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
+      spaceConnectionType={SpaceUserConnectionType.Member}
     >
       <ScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>

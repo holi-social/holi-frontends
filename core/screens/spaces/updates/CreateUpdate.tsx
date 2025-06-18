@@ -7,11 +7,11 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/updates/components/SpaceUpdateInputForm'
 import useCreateOrUpdateSpacePost from '@holi/core/screens/spaces/updates/useUpdateSpaceUpdates'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { useTheme } from '@holi/ui/styles/theme'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type CreateUpdateParams = {
   spaceIdOrName: string
@@ -50,8 +50,8 @@ const CreateSpaceUpdate = () => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   const isEmpty = (value: string) => {
     return /^\s*$/.test(value)
@@ -103,7 +103,7 @@ const CreateSpaceUpdate = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
+      spaceConnectionType={SpaceUserConnectionType.Member}
     >
       <SpaceFormScreenLayout
         saveButtonDisabled={saveButtonDisabled}

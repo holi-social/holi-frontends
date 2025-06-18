@@ -8,7 +8,6 @@ import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import i18n from '@holi/core/i18n'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { VideoCallLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightUp, More, Share } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -16,9 +15,10 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { VideoCallStorageLink } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
 
 interface VideoCallLinkCardProps {
-  videoCallLink: VideoCallLink
+  videoCallLink: VideoCallStorageLink
 }
 const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: VideoCallLinkCardProps) => {
   const { t } = useTranslation()

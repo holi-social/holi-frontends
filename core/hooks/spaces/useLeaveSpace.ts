@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import useUpdateSpaceUserConnection from '@holi/core/hooks/spaces/useUpdateSpaceUserConnection'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import type { Space } from '@holi/core/screens/spaces/types'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { type Space, SpaceUserConnectionType, UpdateConnectionAction } from '@holi/api/graphql/graphql-codegen'
 
 interface UseLeaveSpace {
   confirmationTitle: string
@@ -21,7 +20,9 @@ interface UseLeaveSpace {
   leaveSpaceAction: () => void
 }
 
-export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
+export const useLeaveSpace = (
+  space?: Pick<Space, 'connectionStatusToMyself' | 'id' | 'title' | 'members'>
+): UseLeaveSpace => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { track } = useTracking()
@@ -32,8 +33,8 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
   const [isLoadingLeave, leaveSpace] = useUpdateSpaceUserConnection(
     id,
     space?.title ?? '',
-    SpaceConnectionType.MEMBER,
-    SpaceConnectionAction.LEAVE_SPACE
+    SpaceUserConnectionType.Member,
+    UpdateConnectionAction.LeaveSpace
   )
 
   const deleteAction = useCallback(() => {
@@ -50,8 +51,8 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
     // Empty action when no actions are needed
   }, [])
 
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const totalMembers = space?.members.totalResults ?? 0
   const totalAdmins = space?.members.data.filter((member) => member.isAdministrator === true).length ?? 0
 

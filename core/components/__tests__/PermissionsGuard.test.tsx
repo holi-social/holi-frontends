@@ -4,7 +4,7 @@ import React from 'react'
 
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () =>
@@ -31,8 +31,8 @@ describe('PermissionsGuard', () => {
     render(
       <PermissionsGuard
         permissionType={PermissionsType.SPACES}
-        spaceConnectionType={SpaceConnectionType.MEMBER}
-        space={{ connectionStatusToMyself: [SpaceConnectionType.MEMBER] } as Space}
+        spaceConnectionType={SpaceUserConnectionType.Member}
+        space={{ connectionStatusToMyself: [SpaceUserConnectionType.Member] } as Space}
       >
         <Text size="md">Child Component</Text>
       </PermissionsGuard>
@@ -45,8 +45,8 @@ describe('PermissionsGuard', () => {
     render(
       <PermissionsGuard
         permissionType={PermissionsType.SPACES}
-        spaceConnectionType={SpaceConnectionType.FOLLOWER}
-        space={{ connectionStatusToMyself: [SpaceConnectionType.MEMBER], name: 'space_name' } as Space}
+        spaceConnectionType={SpaceUserConnectionType.Follower}
+        space={{ connectionStatusToMyself: [SpaceUserConnectionType.Member], name: 'space_name' } as Space}
       >
         <Text size="md">Child Component</Text>
       </PermissionsGuard>

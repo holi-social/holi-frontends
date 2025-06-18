@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import type React from 'react'
+import { useMemo } from 'react'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { OnboardingStep } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import type { OnboardingStep } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceCollaboratorOnboardingStepsProps = {
   steps: OnboardingStep[]
@@ -38,7 +39,7 @@ const SpaceCollaboratorOnboardingSteps: React.FC<SpaceCollaboratorOnboardingStep
               </HoliText>
             </View>
             <View style={styles.textWrapper}>
-              <HoliRichTextOutput text={step.text} style={styles.text} allowAllLinks />
+              <HoliRichTextOutput text={step.text ?? ''} style={styles.text} allowAllLinks />
             </View>
           </View>
         ))}

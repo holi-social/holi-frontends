@@ -12,7 +12,6 @@ import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
-import type { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
 import type { Paged } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, At, Information, Phone } from '@holi/icons/src/generated'
@@ -26,6 +25,8 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import type { RelatedSpaceFragment, Space } from '@holi/api/graphql/graphql-codegen'
+import type { User } from '@holi/core/domain/shared/types'
 
 type SpaceInfoViewProps = {
   space: Space
@@ -52,7 +53,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
     <View style={style}>
       <SpaceWelcome space={space} />
 
-      {!!space.parentSpace && <NetworkSpaceReference networkSpace={space.parentSpace} />}
+      {!!space.parentSpace && <NetworkSpaceReference networkSpace={space.parentSpace as RelatedSpaceFragment} />}
 
       {!!space.childSpaces?.data?.length && (
         <LinkedSpacesReference
@@ -119,7 +120,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
   )
 }
 
-const NetworkSpaceReference: React.FC<{ networkSpace: RelatedSpace }> = (props) => {
+const NetworkSpaceReference: React.FC<{ networkSpace: RelatedSpaceFragment }> = (props) => {
   const { t } = useTranslation()
   return (
     <SpaceSection title={t('spaces.spaceDetails.networkSpace')}>
@@ -127,7 +128,7 @@ const NetworkSpaceReference: React.FC<{ networkSpace: RelatedSpace }> = (props) 
         {...props.networkSpace}
         label={props.networkSpace.title}
         imageElement={<SpaceAvatar space={props.networkSpace} size="lg" />}
-        users={props.networkSpace.members.data.map((member) => member.user)}
+        users={props.networkSpace.members.data.map((member) => member.user) as User[]}
         totalUserCount={props.networkSpace.members.totalResults}
         href={`/spaces/${props.networkSpace.id}`}
         testID="main-space-link"
@@ -156,7 +157,7 @@ const ViewAllButton: React.FC<{ id: string }> = (props) => {
 
 const LinkedSpacesCarousel: React.FC<{
   onSeeMorePress: () => void
-  linkedSpaces: Paged<RelatedSpace>
+  linkedSpaces: Paged<RelatedSpaceFragment>
   showMoreCard: boolean
 }> = (props) => (
   <SpacesHorizontalSlider
@@ -184,7 +185,7 @@ const LinkedSpacesCarousel: React.FC<{
         description={space.description}
         imageSrc={space.cover}
         imageBlurhash={space.coverBlurhash}
-        users={space.members.data.map((membership) => membership.user)}
+        users={space.members.data.map((membership) => membership.user) as User[]}
         href={`/spaces/${space.name}`}
         size="large"
         totalUserCount={space.members.totalResults}
@@ -197,8 +198,8 @@ const LinkedSpacesCarousel: React.FC<{
 
 const LinkedSpacesReference: React.FC<{
   id: string
-  networkSpace: RelatedSpace | undefined
-  linkedSpaces: Paged<RelatedSpace>
+  networkSpace: RelatedSpaceFragment | undefined
+  linkedSpaces: Paged<RelatedSpaceFragment>
   showSeeMore: boolean
   onSeeMorePress: () => void
 }> = (props) => {

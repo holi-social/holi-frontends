@@ -7,8 +7,8 @@ import HoliModalSelect from '@holi/ui/components/organisms/HoliModalSelect'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { Button } from 'holi-bricks/components/button'
 import { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
-
-import type { UseTimingReturnValue } from './useTiming'
+import type { TaskFormInput } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/types'
+import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 
 // use Regularity and Duration enums values as an array for correct order of options
 const REGULARITY_VALUES: Regularity[] = [
@@ -31,11 +31,27 @@ const DURATION_VALUES: Duration[] = [
   Duration.Days_3OrMore,
 ]
 
-const TimingSection = ({ regularity, onRegularityChange, duration, onDurationChange }: UseTimingReturnValue) => {
+type TimingState = Partial<Pick<TaskFormInput, 'regularity' | 'duration'>>
+
+interface TimingSection extends Partial<Pick<TaskFormInput, 'regularity' | 'duration'>> {
+  onChange: (update: TimingState) => void
+  validateField: (field: keyof TimingState) => void
+  fieldErrors?: TranslatedFieldErrors
+}
+
+const TimingSection = ({ regularity, duration, onChange, validateField, fieldErrors = {} }: TimingSection) => {
   const { t } = useTranslation()
 
-  const { show: showRegularityModal, hide: hideRegularityModal, visible: visibleRegularityModal } = useModalState()
-  const { show: showDurationModal, hide: hideDurationModal, visible: visibleDurationModal } = useModalState()
+  const {
+    show: showRegularityModal,
+    visible: visibleRegularityModal,
+    props: { onDismiss: hideRegularityModal },
+  } = useModalState({ onDismiss: () => validateField('regularity') })
+  const {
+    show: showDurationModal,
+    visible: visibleDurationModal,
+    props: { onDismiss: hideDurationModal },
+  } = useModalState({ onDismiss: () => validateField('duration') })
 
   return (
     <>
@@ -45,17 +61,17 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
 
       <Stack margin={{ top: 'xxs' }}>
         <HoliModalSelect
+          selected={regularity}
           options={REGULARITY_VALUES.map((value) => ({
             id: value,
             title: t(`spaces.input.task.section.timing.regularity.value.${value}`),
-            selected: value === regularity,
           }))}
           label={t('spaces.input.task.section.timing.regularity.label')}
           placeholder={t('spaces.input.task.section.timing.regularity.placeholder')}
           title={t('spaces.input.task.section.timing.regularity.modal.title')}
           description={t('spaces.input.task.section.timing.regularity.modal.description')}
-          onChange={({ id }) => {
-            onRegularityChange(id)
+          onChange={({ id: regularity }) => {
+            onChange({ regularity })
             return false
           }}
           modalFooter={
@@ -70,23 +86,24 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
           show={showRegularityModal}
           hide={hideRegularityModal}
           visible={visibleRegularityModal}
+          validationErrorText={fieldErrors.regularity?.[0]}
           testID="task-regularity-input"
         />
       </Stack>
 
       <Stack margin={{ top: 'md' }}>
         <HoliModalSelect
+          selected={duration}
           options={DURATION_VALUES.map((value) => ({
             id: value,
             title: t(`spaces.input.task.section.timing.duration.value.${value}`),
-            selected: value === duration,
           }))}
           label={t('spaces.input.task.section.timing.duration.label')}
           placeholder={t('spaces.input.task.section.timing.duration.placeholder')}
           title={t('spaces.input.task.section.timing.duration.modal.title')}
           description={t('spaces.input.task.section.timing.duration.modal.description')}
-          onChange={({ id }) => {
-            onDurationChange(id)
+          onChange={({ id: duration }) => {
+            onChange({ duration })
             return false
           }}
           modalFooter={
@@ -101,6 +118,7 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
           show={showDurationModal}
           hide={hideDurationModal}
           visible={visibleDurationModal}
+          validationErrorText={fieldErrors.duration?.[0]}
           testID="task-duration-input"
         />
       </Stack>

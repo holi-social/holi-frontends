@@ -4,13 +4,14 @@ import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import SpaceInviteView from '@holi/core/screens/spaces/details/components/SpaceInviteView'
-import {
-  inviteToSpaceByEmailMutation,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  UsersByNameWithSpaceConnectionDocument,
+  UpdateSpaceUserConnectionDocument,
+  InviteToSpaceByEmailDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
@@ -20,7 +21,7 @@ global.console.warn = jest.fn()
 const spaceId = 'space1'
 const userId = 'user1'
 const userSearchRequest = {
-  query: usersByNameWithSpaceConnectionQuery,
+  query: UsersByNameWithSpaceConnectionDocument,
   variables: {
     substring: 'foobar',
     spaceId,
@@ -49,7 +50,7 @@ const userSearchSuccessMock = {
   },
 }
 const emailInviteRequest = {
-  query: inviteToSpaceByEmailMutation,
+  query: InviteToSpaceByEmailDocument,
   variables: {
     email: 'foo@bar.com',
     spaceId,
@@ -66,10 +67,10 @@ const emailInviteErrorMock = {
   error: new HoliError('Test error'),
 }
 const inviteMutationRequest = {
-  query: updateSpaceUserConnectionMutation,
+  query: UpdateSpaceUserConnectionDocument,
   variables: {
-    connectAction: SpaceConnectionAction.CONNECT,
-    connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+    connectAction: UpdateConnectionAction.Connect,
+    connectionType: SpaceUserConnectionType.MembershipInvitee,
     userId,
     spaceId,
   },

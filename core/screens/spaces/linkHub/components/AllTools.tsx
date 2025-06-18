@@ -6,14 +6,14 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import NoTools from '@holi/core/screens/spaces/linkHub/components/NoTools'
 import ToolWidget from '@holi/core/screens/spaces/linkHub/components/ToolWidget'
-import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type CollaborationTool, CollectionType, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 type AllToolsProps = {
   spaceIdOrName?: string
 }
 
 type CategorizedToolsListProps = {
-  [CollaborationType: string]: SpaceCollaborationTool[]
+  [CollaborationType: string]: CollaborationTool[]
 }
 
 const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
@@ -23,8 +23,8 @@ const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
 
   const { space } = useSpace(spaceIdOrName)
 
-  const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   useEffect(() => {
     if (space) {
@@ -50,7 +50,7 @@ const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
   return (
     <View style={styles.container}>
       {(categorizedToolsList &&
-        (Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>).map((collaborationType) => {
+        (Object.keys(CollectionType) as Array<keyof typeof CollectionType>).map((collaborationType) => {
           const tools = categorizedToolsList[collaborationType]
           if (tools && tools.length > 0) {
             return (

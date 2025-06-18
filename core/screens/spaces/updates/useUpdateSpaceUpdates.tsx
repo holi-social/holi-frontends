@@ -1,4 +1,4 @@
-import { type ApolloError, type FetchResult, useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { type ApolloError, type FetchResult, useLazyQuery, useQuery } from '@apollo/client'
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -9,14 +9,14 @@ import { detectLanguageQuery, type DetectLanguageQueryResponse } from '@holi/cor
 import { PostById, type PostByIdResponse } from '@holi/core/screens/posts/queries'
 import type { PostImage } from '@holi/core/screens/posts/types'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { type Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
 import {
-  createSpacePostMutation,
-  type CreateSpacePostMutationResponse,
-  updateSpacePostMutation,
-  type UpdateSpacePostMutationResponse,
-} from '@holi/core/screens/spaces/updates/mutations'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+  type Space,
+  SpacePostsBySpaceIdDocument,
+  useCreateSpacePostMutation,
+  useUpdateSpacePostMutation,
+  VisibilityFilter,
+  VisibilityType,
+} from '@holi/api/graphql/graphql-codegen'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
@@ -26,7 +26,7 @@ export interface UseCreateOrUpdateSpacePost {
   error?: ApolloError
   isUpdate: boolean
   // meta
-  space?: Space
+  space?: Pick<Space, 'id' | 'name' | 'connectionStatusToMyself'>
   // Form State
   title: string
   content: string
@@ -52,7 +52,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const [content, setContent] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | undefined | null>() // null is to remove the image
   const [currentImage, setCurrentImage] = useState<PostImage>()
-  const [visibility, setVisibility] = useState<VisibilityType>(VisibilityType.MEMBERS)
+  const [visibility, setVisibility] = useState<VisibilityType>(VisibilityType.Members)
 
   // data fetch
   const { loading: spaceQueryLoading, error: spaceQueryError, space } = useSpace(spaceIdOrName)
@@ -85,59 +85,53 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
       // @ts-ignore FIXME
       if (postToUpdate.image) setImage(postToUpdate.image)
       setCurrentImage(postToUpdate.image)
-      setVisibility(postToUpdate.isPublic ? VisibilityType.PUBLIC : VisibilityType.MEMBERS)
+      setVisibility(postToUpdate.isPublic ? VisibilityType.Public : VisibilityType.Members)
     }
   }, [postToUpdate])
 
   // create & update
-  const [createSpacePost, { loading: loadingCreateMutation }] = useMutation<CreateSpacePostMutationResponse>(
-    createSpacePostMutation,
-    {
-      onCompleted: () => {
-        navigateBack()
+  const [createSpacePost, { loading: loadingCreateMutation }] = useCreateSpacePostMutation({
+    onCompleted: () => {
+      navigateBack()
+    },
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        displayError(error, 'Failed to create space post', {
+          location: 'useCreateOrUpdateSpacePost.createSpacePost',
+          spaceIdOrName,
+        })
+      }
+    },
+    // refetch first page of both the current visibility filter and the ALL filter
+    refetchQueries: [
+      {
+        query: SpacePostsBySpaceIdDocument,
+        variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: visibility },
       },
-      onError: (error) => {
-        if (isMaliciousUrlError(error)) {
-          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
-        } else {
-          displayError(error, 'Failed to create space post', {
-            location: 'useCreateOrUpdateSpacePost.createSpacePost',
-            spaceIdOrName,
-          })
-        }
+      {
+        query: SpacePostsBySpaceIdDocument,
+        variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.All },
       },
-      // refetch first page of both the current visibility filter and the ALL filter
-      refetchQueries: [
-        {
-          query: spacePostsQuery,
-          variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: visibility },
-        },
-        {
-          query: spacePostsQuery,
-          variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
-        },
-      ],
-    }
-  )
+    ],
+  })
 
-  const [updateSpacePost, { loading: loadingUpdateMutation }] = useMutation<UpdateSpacePostMutationResponse>(
-    updateSpacePostMutation,
-    {
-      onCompleted: () => navigateBack(),
-      onError: (error) => {
-        if (isMaliciousUrlError(error)) {
-          openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
-        } else {
-          displayError(error, 'Failed to update space post', {
-            location: 'useCreateOrUpdateSpacePost.updateSpacePost',
-            spaceIdOrName,
-            postId,
-          })
-        }
-      },
-      refetchQueries: [spacePostsQuery],
-    }
-  )
+  const [updateSpacePost, { loading: loadingUpdateMutation }] = useUpdateSpacePostMutation({
+    onCompleted: () => navigateBack(),
+    onError: (error) => {
+      if (isMaliciousUrlError(error)) {
+        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
+      } else {
+        displayError(error, 'Failed to update space post', {
+          location: 'useCreateOrUpdateSpacePost.updateSpacePost',
+          spaceIdOrName,
+          postId,
+        })
+      }
+    },
+    refetchQueries: [SpacePostsBySpaceIdDocument],
+  })
   const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
   const saveSpacePost = async () => {
@@ -147,14 +141,14 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
       title: title.trim() && title.length > 0 ? title : undefined,
       text: content.trim(),
       image: image === null ? null : image?.blob, // null is to remove the image
-      visibility: visibility || VisibilityType.MEMBERS,
+      visibility: visibility || VisibilityType.Members,
       language: data.data?.detectedLanguage,
     }
 
     if (postId) {
       return updateSpacePost({ variables: { input: { postId, ...input } } })
     } else {
-      return createSpacePost({ variables: { input: { spaceId: space?.id, ...input } } })
+      return createSpacePost({ variables: { input: { spaceId: space?.id ?? '', ...input } } })
     }
   }
 

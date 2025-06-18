@@ -7,13 +7,13 @@ import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 type SpaceInviteUserSearchResultProps = {
   spaceId: string
@@ -22,12 +22,12 @@ type SpaceInviteUserSearchResultProps = {
 }
 
 const SPACE_CONNECTION_STATUS_PRIORITY = [
-  SpaceConnectionType.ADMINISTRATOR,
-  SpaceConnectionType.MEMBER,
-  SpaceConnectionType.FOLLOWER,
+  SpaceUserConnectionType.Administrator,
+  SpaceUserConnectionType.Member,
+  SpaceUserConnectionType.Follower,
 ]
 
-const getMostRelevantSpaceConnectionStatus = (statusList: SpaceConnectionType[] = []) =>
+const getMostRelevantSpaceConnectionStatus = (statusList: SpaceUserConnectionType[] = []) =>
   SPACE_CONNECTION_STATUS_PRIORITY.find((connectionType) => statusList.includes(connectionType))
 
 const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = ({

@@ -1,4 +1,4 @@
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 export interface Paged<T> {
   totalResults: number

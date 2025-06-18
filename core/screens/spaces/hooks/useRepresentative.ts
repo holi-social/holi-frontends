@@ -1,14 +1,13 @@
-import { useQuery } from '@apollo/client'
+import { useRepresentativeBySpaceIdQuery } from '@holi/api/graphql/graphql-codegen'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { type RepresentativeBySpaceIdResponse, spaceRepresentative } from '@holi/core/screens/spaces/queries'
 
 export const useRepresentative = (spaceIdOrName?: string) => {
   const { displayError } = useErrorHandling()
 
-  const { loading, error, data, called, refetch } = useQuery<RepresentativeBySpaceIdResponse>(spaceRepresentative, {
+  const { loading, error, data, called, refetch } = useRepresentativeBySpaceIdQuery({
     fetchPolicy: 'no-cache',
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName ?? '' },
     skip: !spaceIdOrName,
     onError: (error) => {
       if (isNotFoundError(error)) {
@@ -21,7 +20,7 @@ export const useRepresentative = (spaceIdOrName?: string) => {
     },
   })
 
-  const representative = data?.spaceById.representatives[0].user
+  const representative = data?.spaceById?.representatives[0].user
 
   return {
     loading,

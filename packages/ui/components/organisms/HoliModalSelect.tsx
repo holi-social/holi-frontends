@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Platform, ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -32,6 +32,7 @@ export type HoliModalSelectOption<IDType extends string = string> = {
 }
 
 export type HoliModalSelectProps<IDType extends string = string> = {
+  selected?: HoliModalSelectOption<IDType>['id']
   options: HoliModalSelectOption<IDType>[]
   onChange: (option: HoliModalSelectOption<IDType>) => void | false
   title: string
@@ -48,9 +49,11 @@ export type HoliModalSelectProps<IDType extends string = string> = {
   hide: () => void
   visible: boolean
   modalFooter?: React.ReactNode
+  validationErrorText?: string
 }
 
 const HoliModalSelect = <IDType extends string>({
+  selected,
   options,
   onChange,
   title,
@@ -67,8 +70,8 @@ const HoliModalSelect = <IDType extends string>({
   hide,
   visible,
   modalFooter,
+  validationErrorText,
 }: HoliModalSelectProps<IDType>) => {
-  const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption<IDType> | undefined>()
   const [hovered, setHovered] = useState(false)
 
   const mixins = useStyleMixins()
@@ -77,7 +80,7 @@ const HoliModalSelect = <IDType extends string>({
   const { colors } = theme
   const { styles } = useStyles(stylesheet)
 
-  useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
+  const selectedOption = options.find(({ id }) => id === selected)
 
   const hoverPropsForWeb = Platform.select({
     web: {
@@ -97,7 +100,7 @@ const HoliModalSelect = <IDType extends string>({
   const renderOption = useCallback(
     (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
-        contentStyle={styles.optionCardContent(!!option.selected, isDense)}
+        contentStyle={styles.optionCardContent(option.id === selected, isDense)}
         label={option.title}
         key={option.id}
         transparent
@@ -126,15 +129,15 @@ const HoliModalSelect = <IDType extends string>({
         </View>
         <HoliCheckbox
           shape="round"
-          checked={option.selected}
+          checked={option.id === selected}
           autofocus={false}
           disabled={option.disabled}
-          testID={`${option.selected ? 'checked-' : ''}${testID}`}
+          testID={`${option.id === selected ? 'checked-' : ''}${testID}`}
           aria-label={option.title}
         />
       </HoliButton>
     ),
-    [styles, isDense, testID, colors.foreground10, colors.foreground30, handleOnChange]
+    [colors.foreground10, colors.foreground30, handleOnChange, isDense, selected, styles, testID]
   )
 
   return (
@@ -143,9 +146,9 @@ const HoliModalSelect = <IDType extends string>({
         <View style={style}>
           {!!label && (
             <View style={styles.labelWrapper}>
-              <HoliText size="small" bold style={styles.label}>
+              <HoliText size="small" bold style={[styles.label, validationErrorText && styles.labelError]}>
                 {label}
-                <HoliMandatoryFieldStar show={!!isRequired} />
+                <HoliMandatoryFieldStar show={!!isRequired} error={!!validationErrorText} />
               </HoliText>
             </View>
           )}
@@ -153,7 +156,7 @@ const HoliModalSelect = <IDType extends string>({
             label={title}
             testID={`btn-${testID}`}
             transparent
-            contentStyle={[styles.button, hovered && styles.buttonHovered]}
+            contentStyle={[styles.button, hovered && styles.buttonHovered, validationErrorText && styles.buttonError]}
             onPress={show}
             {...hoverPropsForWeb}
           >
@@ -208,6 +211,9 @@ const stylesheet = createStyleSheet((theme) => ({
   label: {
     color: theme.colors.bg.selected,
   },
+  labelError: {
+    color: theme.colors.decorative.redDark,
+  },
   button: {
     paddingVertical: Spacing.xs,
     paddingHorizontal: Spacing.xxs,
@@ -222,6 +228,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   buttonHovered: {
     borderColor: theme.colors.decorative.black,
+  },
+  buttonError: {
+    borderColor: theme.colors.decorative.redDark,
   },
   placeholder: {
     color: theme.colors.decorative.black,

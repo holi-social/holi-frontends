@@ -5,9 +5,10 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { Delete } from '@holi/icons/src/generated'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import type { OnboardingStep } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceOnboardingStepInputProps = {
-  step: { text: string }
+  step: OnboardingStep
   index: number
   totalSteps: number
   handleChange: (stepNumber: number, value: string) => void
@@ -40,7 +41,7 @@ const SpaceOnboardingStepInput: React.FC<SpaceOnboardingStepInputProps> = ({
         placeholder={t('spaces.onboarding.steps.describe')}
         style={styles.inputField}
         isRequired
-        validationErrorText={isNewStep || step.text.length ? undefined : t('spaces.onboarding.steps.add.empty')}
+        validationErrorText={isNewStep || step.text?.length ? undefined : t('spaces.onboarding.steps.add.empty')}
       />
 
       <ButtonIcon

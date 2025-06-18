@@ -1,10 +1,10 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, View, ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import AddVideoCallLink from '@holi/core/screens/spaces/videoCall/components/AddVideoCallLink'
 import VideoCallLinkCard from '@holi/core/screens/spaces/videoCall/components/VideoCallLinkCard'
 import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
@@ -22,8 +22,8 @@ const VideoCallLinks: React.FC<VideoCallLinksProps> = ({ spaceIdOrName, style }:
 
   const { loading: loadingSpace, space } = useSpace(spaceIdOrName)
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isCollaborator = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
+  const isCollaborator = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   const { videoCallLinks } = useVideoCallLinkStorage(space?.name)
 

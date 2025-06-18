@@ -1,0 +1,78 @@
+#import "./fragments.graphql"
+
+mutation ValidateSpace($input: ValidateSpaceInput!) {
+  validateSpace(input: $input) {
+    success
+  }
+}
+
+mutation CreateSpace($input: CreateSpaceInput!) {
+  createSpace(input: $input) {
+    ...FullSpace
+  }
+}
+
+mutation AddExternalLink($input: AddExternalLinkInput!) {
+  addExternalLink(input: $input) {
+    id
+    type
+    url
+    name
+  }
+}
+
+mutation DeleteSpace($id: UUID!) {
+  deleteSpace(id: $id) {
+    success
+  }
+}
+
+mutation UpdateSpaceUserConnection(
+  $connectAction: UpdateConnectionAction!
+  $connectionType: SpaceUserConnectionType!
+  $spaceId: UUID!
+  $userId: UUID
+  $message: String
+) {
+  updateSpaceUserConnection(
+    connectAction: $connectAction
+    connectionType: $connectionType
+    spaceId: $spaceId
+    userId: $userId
+    message: $message
+  ) {
+    id
+    connectionStatusToMyself
+  }
+}
+
+mutation InviteToSpaceByEmail($email: String!, $spaceId: UUID!) {
+  inviteToSpaceByEmail(email: $email, spaceId: $spaceId) {
+    success
+  }
+}
+
+mutation createSpacePost($input: CreatePostInput!) {
+  createSpacePost2(input: $input) {
+    ...PostFragment
+    space {
+      posts(offset: 0, limit: 10, visibility: ALL) {
+        data {
+          ...PostFragment
+        }
+      }
+    }
+  }
+}
+
+mutation updateSpacePost($input: UpdatePostInput!) {
+  updateSpacePost(input: $input) {
+    ...PostFragment
+  }
+}
+
+mutation deleteSpacePost($id: UUID!) {
+  deleteSpacePost(id: $id) {
+    id
+  }
+}

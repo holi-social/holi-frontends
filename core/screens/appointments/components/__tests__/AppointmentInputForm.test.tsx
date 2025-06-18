@@ -5,6 +5,7 @@ import AppointmentInputForm, {
   getAppointmentDefaultInitialState,
 } from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/ui/components/organisms/HoliImagePicker')
 jest.mock('@holi/core/geolocation/components/PlacesAutocomplete')
@@ -25,7 +26,7 @@ describe('AppointmentInputForm', () => {
     render(
       <AppointmentInputForm
         initialAppointment={getAppointmentDefaultInitialState()}
-        space={space}
+        space={space as unknown as Space}
         onSubmit={onSubmitMock}
         onBackButtonPress={onBackButtonPressMock}
       />
@@ -42,7 +43,7 @@ describe('AppointmentInputForm', () => {
     render(
       <AppointmentInputForm
         initialAppointment={getAppointmentDefaultInitialState()}
-        space={space}
+        space={space as unknown as Space}
         onSubmit={onSubmitMock}
         onBackButtonPress={onBackButtonPressMock}
       />
@@ -64,7 +65,7 @@ describe('AppointmentInputForm', () => {
     render(
       <AppointmentInputForm
         initialAppointment={getAppointmentDefaultInitialState()}
-        space={space}
+        space={space as unknown as Space}
         onSubmit={onSubmitMock}
         onBackButtonPress={onBackButtonPressMock}
       />
@@ -88,7 +89,7 @@ describe('AppointmentInputForm', () => {
     render(
       <AppointmentInputForm
         initialAppointment={getAppointmentDefaultInitialState()}
-        space={space}
+        space={space as unknown as Space}
         onSubmit={onSubmitMock}
         onBackButtonPress={onBackButtonPressMock}
       />
@@ -122,7 +123,7 @@ describe('AppointmentInputForm', () => {
       render(
         <AppointmentInputForm
           initialAppointment={getAppointmentDefaultInitialState()}
-          space={space}
+          space={space as unknown as Space}
           onSubmit={onSubmitMock}
           onBackButtonPress={onBackButtonPressMock}
         />
@@ -177,7 +178,7 @@ describe('AppointmentInputForm', () => {
       render(
         <AppointmentInputForm
           initialAppointment={getAppointmentDefaultInitialState()}
-          space={space}
+          space={space as unknown as Space}
           onSubmit={onSubmitMock}
           onBackButtonPress={onBackButtonPressMock}
         />

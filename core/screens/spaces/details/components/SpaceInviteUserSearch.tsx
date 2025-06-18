@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceInviteUserSearchResult from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearchResult'
-import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useDebounce } from '@holi/ui/helper'
+import { UsersByNameWithSpaceConnectionDocument } from '@holi/api/graphql/graphql-codegen'
 
 const USER_SEARCH_DEBOUNCE = 400
 const USER_SEARCH_RESULT_PAGE_SIZE = 10
@@ -45,7 +46,7 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, 
 
   return (
     <Pagination
-      query={usersByNameWithSpaceConnectionQuery}
+      query={UsersByNameWithSpaceConnectionDocument}
       queryOptions={{
         ...userSearchQueryOptions,
         variables: {

@@ -17,12 +17,12 @@ import {
 import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
 import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/FilteredSpacesList'
 import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
-import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { SpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const { useUpdateParams } = createParamHooks<FilteredSpacesPageParams>()
 
@@ -79,7 +79,7 @@ const FilteredSpaces = () => {
             <SpacesGrid style={styles.loadingGrid} loading={true} pageSize={SPACES_PAGE_SIZE} />
           ) : (
             <Pagination
-              query={spacesQuery}
+              query={SpacesDocument}
               queryOptions={queryOptions}
               fetchMoreButtonProps={{ style: styles.buttonContainer }}
               fetchMoreButtonLabel={t('spaces.spaceListing.loadMoreButton.text')}

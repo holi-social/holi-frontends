@@ -5,8 +5,7 @@ import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
-import type { Space, SpaceMember } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceUserConnectionType, type Space, type SpaceMember } from '@holi/api/graphql/graphql-codegen'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -14,7 +13,7 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
 
 type SpaceCollaboratorsProps = {
-  space: Space
+  space: Pick<Space, 'id' | 'connectionStatusToMyself'>
   onSelectMember: (member: SpaceMember) => void
   style?: StyleProp<ViewStyle>
 }
@@ -27,7 +26,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
 
   const { data: spaceMembers } = usePaginationContext<SpaceMember>()
 
-  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   return (
     <View style={{ flex: 1 }}>

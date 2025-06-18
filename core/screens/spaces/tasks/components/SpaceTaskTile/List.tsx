@@ -7,7 +7,6 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Content'
 import Skeleton from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Skeleton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
-import { SpaceConnectionType, VisibilityType } from '@holi/core/screens/spaces/types'
 import { GlobeFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
@@ -17,6 +16,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import Image from './components/Image'
 import type { ListProps } from './types'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { SpaceUserConnectionType, VisibilityType } from '@holi/api/graphql/graphql-codegen'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
@@ -39,7 +39,7 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
     </View>
   )
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = task?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const isTaskOwner = loginState.isLoggedIn && (loginState.user.id === task.creator.id || isAdmin)
 
   return (
@@ -53,7 +53,7 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
         imageFallback={getPlaceholderImage(task.id) as StaticImageData}
       >
         {isCollaborator && (
-          <ChipLabel iconLeading={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled} size="sm">
+          <ChipLabel iconLeading={task.visibility === VisibilityType.Public ? GlobeFilled : LockFilled} size="sm">
             {t(`spaces.input.task.visibility.${task.visibility}.title`)}
           </ChipLabel>
         )}

@@ -1,6 +1,6 @@
 import type { User } from '@holi/core/domain/shared/types'
 import type { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import type { Paged } from '@holi/core/types'
 
 export enum ReactionType {
