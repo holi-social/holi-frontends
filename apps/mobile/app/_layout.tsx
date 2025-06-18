@@ -35,14 +35,9 @@ logger.debug('App', 'starting app with config', config)
 const apolloClient = initializeMobileApolloClient()
 
 const redirects: { [key: string]: string } = {
-  '/spenden': '/act/donations',
-  '/ehrenamt': '/act/volunteering',
-  // '/spaces/(.+)/aufgaben': '/spaces/$1/tasks', TODO(SF) solved using shared route?
-  '/apps': '/act', // Challenges, Goodnews
-  '/donations': '/act/donations',
-  '/volunteering': '/act/volunteering',
-  '/events': '/act/events',
-  '/petitions': '/act/petitions',
+  '/spenden': '/donations',
+  '/ehrenamt': '/volunteering',
+  '/spaces/(.+)/aufgaben': '/spaces/$1/tasks',
 }
 
 const handleRedirects = (pathname: string): string =>
