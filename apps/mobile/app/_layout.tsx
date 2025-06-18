@@ -1,9 +1,9 @@
 import * as SplashScreen from 'expo-splash-screen'
 import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
-import React, { type PropsWithChildren, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { initializeMobileApolloClient } from '@holi/api/graphql/client'
-import { Slot, Stack } from 'expo-router'
+import { Slot } from 'expo-router'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -15,8 +15,6 @@ import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
-import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import * as Appcues from '@appcues/react-native'
 import { appcuesAccountId, appcuesAppId } from '@holi/core/helpers/config'
 
@@ -35,30 +33,6 @@ registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
 logger.debug('App', 'starting app with config', config)
 
 const apolloClient = initializeMobileApolloClient()
-
-const NavigationStyleProvider = ({ children }: PropsWithChildren) => {
-  const { theme } = useBricks()
-
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        headerShadowVisible: false,
-        headerTintColor: theme.colors.fill.default,
-        headerTitleAlign: 'center',
-        headerLeft: () => <HeaderBackButton />,
-        headerStyle: {
-          backgroundColor: theme.colors.bg.support,
-        },
-        contentStyle: {
-          backgroundColor: theme.colors.bg.main,
-        },
-      }}
-    >
-      {children}
-    </Stack>
-  )
-}
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
@@ -103,9 +77,7 @@ const App = () => {
                 return true
               }}
             >
-              <NavigationStyleProvider>
-                <Slot />
-              </NavigationStyleProvider>
+              <Slot />
             </OnboardingAwaitingNavigator>
           </KeyboardProvider>
         </RootProvider>
