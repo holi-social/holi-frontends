@@ -1,55 +1,60 @@
+import { useQuery } from '@apollo/client'
+import { Typesense_DocumentByIdDocument } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import { useTypesenseClient } from '@holi/core/typesense/provider/TypesenseClientProvider'
-import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import type { TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
+import { useEffect, useMemo } from 'react'
 
 export const useSingleTypesenseDocumentQuery = (
   id: string,
-  documentType: TypesenseDocumentType,
+  documentType: TypesenseDocumentTypeEnum,
   { onError, onNotFound }: { onError?: (error: Error) => void; onNotFound?: () => void } = {}
 ) => {
-  const [document, setDocument] = useState<TypesenseDocument>()
-  const parameters = useMemo(
-    () => ({
-      q: '*',
-      filter_by: `id:${documentType}_${id} && type:${documentType}`,
-      per_page: 1,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
-    }),
-    [documentType, id]
-  )
-  const { client } = useTypesenseClient()
+  const {
+    loading: isLoading,
+    data,
+    refetch: refresh,
+  } = useQuery(Typesense_DocumentByIdDocument, {
+    variables: {
+      id,
+      documentType,
+    },
+    onError: (error) => {
+      if (onError) {
+        onError(error)
+      } else {
+        logError(error, 'Failed to fetch single document', {
+          location: 'useSingleTypesenseDocumentQuery.useQuery',
+        })
+      }
+    },
+  })
 
-  const fetchDocument = useCallback(() => {
-    client
-      .search(parameters)
-      .then((results) => {
-        if (!results?.hits?.length) {
-          onNotFound?.()
-        } else {
-          setDocument(results.hits[0].document)
-        }
-      })
-      .catch((error) => {
-        if (onError) {
-          onError(error)
-        } else {
-          logError(error, 'Failed to fetch single document', {
-            location: 'useSingleTypesenseDocumentQuery',
-          })
-        }
-      })
-  }, [client, parameters, onNotFound, onError])
+  const document = useMemo(() => {
+    if (!data || !data.typesense_documentById?.hits?.length) {
+      return undefined
+    }
+    return data.typesense_documentById.hits[0].document
+  }, [data])
 
   useEffect(() => {
-    fetchDocument()
-    // Only trigger if parameters change
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parameters])
+    if (!isLoading && data) {
+      if ('error' in data.typesense_documentById) {
+        if (onError) {
+          onError(data.typesense_documentById.error)
+        } else {
+          logError(data.typesense_documentById.error, 'Failed to fetch single document', {
+            location: 'useSingleTypesenseDocumentQuery.useEffect',
+          })
+        }
+      } else if (!data?.typesense_documentById?.hits?.length) {
+        onNotFound?.()
+      }
+    }
+  }, [data, isLoading, onError, onNotFound])
 
   return {
-    isLoading: !document,
+    isLoading,
     document,
-    refresh: fetchDocument,
+    refresh,
   }
 }

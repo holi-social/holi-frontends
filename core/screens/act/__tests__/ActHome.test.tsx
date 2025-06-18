@@ -25,13 +25,25 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlagToggle', () => ({
   useFeatureFlagToggle: () => mockUseFeatureFlagToggle(),
 }))
 
+jest.mock('@appcues/react-native', () => ({
+  AppcuesFrameView: () => null,
+  identify: jest.fn(),
+  anonymous: jest.fn(),
+}))
+
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({
+    user: null,
+  }),
+}))
+
 const cases = [
-  { section: undefined, order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
-  { section: 'SPACE', order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
-  { section: 'DONATIONS', order: ['DONATIONS', 'VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS'] },
-  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
-  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'EVENTS', 'TASKS', 'DONATIONS'] },
-  { section: 'TASKS', order: ['TASKS', 'VOLUNTEERING', 'EVENTS', 'CHALLENGES', 'DONATIONS'] },
+  { section: undefined, order: ['VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
+  { section: 'SPACE', order: ['VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
+  { section: 'DONATIONS', order: ['DONATIONS', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS'] },
+  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
+  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'TASKS', 'DONATIONS'] },
+  { section: 'TASKS', order: ['TASKS', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'] },
 ]
 
 describe('ActHome Section', () => {

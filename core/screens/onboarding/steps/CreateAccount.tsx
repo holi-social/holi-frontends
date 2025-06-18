@@ -35,6 +35,7 @@ import { Text } from 'holi-bricks/components/text'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
+import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 
 const logger = getLogger('CreateAccount')
 
@@ -124,6 +125,10 @@ export const CreateAccount = ({
 
         onRegister()
       } catch (err) {
+        if (err instanceof HoliLoginCancelledError) {
+          // Do not display error if user cancelled the login
+          return
+        }
         const url = getBrowserRedirect(err)
         if (url) {
           if (Platform.OS === 'web') {

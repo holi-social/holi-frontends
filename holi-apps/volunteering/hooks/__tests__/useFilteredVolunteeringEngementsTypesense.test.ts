@@ -3,8 +3,7 @@ import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
-import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
+import type { SearchResponseHit } from '@holi/core/typesense/types'
 import { renderHook } from '@testing-library/react-native'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
@@ -24,16 +23,20 @@ jest.mock('@holi/core/errors/hooks', () => ({
   useErrorHandling: jest.fn(),
 }))
 
-export const makeTypesenseEngagementHits = (length: number): SearchResponseHit<TypesenseDocument>[] =>
-  Array.from({ length }, (_, i) => ({
-    document: {
-      id: i.toString(),
-      title_de: `Titel ${i}`,
-      type: 'volunteering',
-    },
-    highlight: {},
-    text_match: 0,
-  }))
+export const makeTypesenseEngagementHits = (length: number): SearchResponseHit[] =>
+  Array.from(
+    { length },
+    (_, i) =>
+      ({
+        document: {
+          id: i.toString(),
+          title_de: `Titel ${i}`,
+          type: 'volunteering',
+        },
+        highlight: {},
+        text_match: 0,
+      }) as SearchResponseHit
+  )
 
 describe('useFilteredVolunteeringEngagementsTypesense', () => {
   const searchResult = {

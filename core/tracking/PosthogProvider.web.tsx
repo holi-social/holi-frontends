@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import posthog, { type BootstrapConfig, PostHog, type Properties as PosthogProperties } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { type PropsWithChildren, useEffect } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'

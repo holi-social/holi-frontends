@@ -18,6 +18,8 @@ import { useTrackEngagementViewMutation } from '@holi/api/graphql/graphql-codege
 import { logError } from '@holi/core/errors/helpers'
 import { VolunteeringSimilarRecosFooter } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosFooter'
 
+const isIos = Platform.OS === 'ios'
+
 export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagementId: string }) => {
   const { t } = useTranslation()
   const { isLoading, document } = useVolunteeringDetailsDataTypesense(engagementId)
@@ -59,7 +61,7 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, barStyle: 'light-content' }}
+      statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}
@@ -69,7 +71,11 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
           width="100%"
         >
           <ButtonTracked
-            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
+            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
+              commitmentType: document?.commitmentType,
+              locationType: document?.locationType,
+              source: document?.source,
+            })}
             icon={ExternalLink}
             label={t('volunteering:engagementDetail.getInTouch')}
             onPress={() => {
@@ -92,12 +98,12 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
         coverImage={document?.coverImage}
         title={document?.title ?? ''}
         infoList={document?.infoList}
-        visibility="public"
-        description={document?.description}
+        bodyContent={document?.bodyContent}
         author={document?.author}
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={<VolunteeringSimilarRecosFooter engagementId={engagementId} />}
+        placeholderImage={document?.placeholderImage}
       />
       {document?.externalUrl && Platform.OS !== 'web' && (
         <HoliModal

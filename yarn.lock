@@ -82,6 +82,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@appcues/expo-config@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@appcues/expo-config@npm:4.0.1"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/92349281d443d9277a918f32526e3d6a9f903b0cc58286afc53f00f4ba69af02fc673bf4bee1a8c88ea97d45b8b4971d1d6309e13970f62e7efa395547f8b9d9
+  languageName: node
+  linkType: hard
+
+"@appcues/react-native@npm:^4.4.3":
+  version: 4.4.3
+  resolution: "@appcues/react-native@npm:4.4.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/6b3fc4cc679f2930bcc3930da477682c004b486842df08be16e7e690d0215bce30fc392938495da873994dcd14f06d42145cc9f1d2dc43780ee2fb492d955ea9
+  languageName: node
+  linkType: hard
+
 "@ardatan/relay-compiler@npm:12.0.0":
   version: 12.0.0
   resolution: "@ardatan/relay-compiler@npm:12.0.0"
@@ -5749,6 +5770,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@holi/mobile@workspace:apps/mobile"
   dependencies:
+    "@appcues/expo-config": "npm:^4.0.1"
+    "@appcues/react-native": "npm:^4.4.3"
     "@babel/core": "npm:^7.24.0"
     "@babel/runtime": "npm:^7.26.0"
     "@expo/config-plugins": "npm:~9.0.0"
@@ -5775,6 +5798,7 @@ __metadata:
     "@sentry/react-native": "npm:~6.10.0"
     "@shopify/flash-list": "npm:1.7.3"
     "@types/lodash.at": "npm:^4.6.7"
+    "@types/lodash.chunk": "npm:^4.2.9"
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.9"
     "@types/lodash.isequal": "npm:^4.5.8"
@@ -5818,6 +5842,7 @@ __metadata:
     jest-mock-extended: "npm:^3.0.5"
     jwt-decode: "npm:^4.0.0"
     lodash.at: "npm:^4.6.0"
+    lodash.chunk: "npm:^4.2.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
     lodash.isequal: "npm:^4.5.0"
@@ -5853,7 +5878,6 @@ __metadata:
     tinycolor2: "npm:1.6.0"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.8.3"
-    typesense: "npm:^2.0.3"
     use-sync-external-store: "npm:^1.1.0"
   languageName: unknown
   linkType: soft
@@ -11536,6 +11560,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.chunk@npm:^4.2.9":
+  version: 4.2.9
+  resolution: "@types/lodash.chunk@npm:4.2.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/5759b3d969c5db4b0893b70261ae40d4b9a6466c984c16de6fa1d3945b3199cc09f948a444a3b4e6cfa0dd984044cf937cbc8dab5fe0ac8da67244ed74d9e4e4
+  languageName: node
+  linkType: hard
+
 "@types/lodash.debounce@npm:^4.0.7":
   version: 4.0.9
   resolution: "@types/lodash.debounce@npm:4.0.9"
@@ -13571,17 +13604,6 @@ __metadata:
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
   checksum: 10c0/4499efc89e86b0b49ffddc018798de05fab26e3bf57913818266be73279a6418c3ce8f9e934c7d2d707ab8c095e837fc6c90608fb7715b94d357720b5f568af7
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.7.2":
-  version: 1.8.4
-  resolution: "axios@npm:1.8.4"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/450993c2ba975ffccaf0d480b68839a3b2435a5469a71fa2fb0b8a55cdb2c2ae47e609360b9c1e2b2534b73dfd69e2733a1cf9f8215bee0bcd729b72f801b0ce
   languageName: node
   linkType: hard
 
@@ -23234,6 +23256,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.chunk@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "lodash.chunk@npm:4.2.0"
+  checksum: 10c0/f9f99969561ad2f62af1f9a96c5bd0af776f000292b0d8db3126c28eb3b32e210d7c31b49c18d0d7901869bd769057046dc134b60cfa0c2c4ce017823a26bb23
+  languageName: node
+  linkType: hard
+
 "lodash.clonedeep@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.clonedeep@npm:4.5.0"
@@ -23419,7 +23448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loglevel@npm:^1.6.0, loglevel@npm:^1.7.1, loglevel@npm:^1.8.1":
+"loglevel@npm:^1.6.0, loglevel@npm:^1.7.1":
   version: 1.9.2
   resolution: "loglevel@npm:1.9.2"
   checksum: 10c0/1e317fa4648fe0b4a4cffef6de037340592cee8547b07d4ce97a487abe9153e704b98451100c799b032c72bb89c9366d71c9fb8192ada8703269263ae77acdc7
@@ -31254,19 +31283,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/39117e346ff8ebd87ae1510b3a77d5d92dae5a89bde588c747d25da5c146603a99c8ee588c7ef80faaf123d89ed46f6dbd918d534d641083177d5fac38b8a1cb
-  languageName: node
-  linkType: hard
-
-"typesense@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "typesense@npm:2.0.3"
-  dependencies:
-    axios: "npm:^1.7.2"
-    loglevel: "npm:^1.8.1"
-    tslib: "npm:^2.6.2"
-  peerDependencies:
-    "@babel/runtime": ^7.23.2
-  checksum: 10c0/029804bfbf642762bcdca800001465d5a8b8678b2c2b29e5ba3e1330aaf722c521575d8e850f2aff80664746454cef0e11f3640a6710e57db0f55d00bb539bbd
   languageName: node
   linkType: hard
 

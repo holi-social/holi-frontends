@@ -106,7 +106,7 @@ describe('VolunteeringSimilarRecosLegacy', () => {
       await act(async () => {
         await waitFor(() => {
           expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
-          expect(screen.queryAllByTestId('volunteering-reco-slider-card')).toHaveLength(4)
+          expect(screen.queryAllByTestId('volunteering-reco-card')).toHaveLength(4)
         })
       })
     })

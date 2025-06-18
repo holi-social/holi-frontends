@@ -13,6 +13,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import Image from './components/Image'
 import Skeleton from './components/Skeleton'
 import type { BaseProps } from './types'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 const TaskRecommendation = ({
   loading,
@@ -36,7 +38,12 @@ const TaskRecommendation = ({
       trackingEvent={trackingEvent}
     >
       <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
-        <Image imageUrl={task.thumbnail} imageBlurhash={task.thumbnailBlurhash} imageWidth={cardWidth}>
+        <Image
+          imageUrl={task.thumbnail}
+          imageBlurhash={task.thumbnailBlurhash}
+          imageWidth={cardWidth}
+          imageFallback={getPlaceholderImage(task.id) as StaticImageData}
+        >
           <View style={[styles.imageCaption, styles.spaceCaption]}>
             <SpaceAvatar space={space} size="xs" />
             <HoliText size="extrasmall" color="gray300">

@@ -4,15 +4,19 @@ import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureF
 import { useFeatureFlagRefetch as useFeatureFlagRefetchWeb } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch.web'
 
 const mockReloadFeatureFlagsMobile = jest.fn()
+const mockIdentifyMobile = jest.fn()
 jest.mock('posthog-react-native', () => ({
   usePostHog: () => ({
+    identify: () => mockIdentifyMobile(),
     reloadFeatureFlagsAsync: () => mockReloadFeatureFlagsMobile(),
   }),
 }))
 
 const mockReloadFeatureFlagsWeb = jest.fn()
+const mockIdentifyWeb = jest.fn()
 jest.mock('posthog-js/react', () => ({
   usePostHog: () => ({
+    identify: () => mockIdentifyWeb(),
     featureFlags: {
       reloadFeatureFlags: () => mockReloadFeatureFlagsWeb(),
     },
@@ -27,6 +31,7 @@ describe('useFeatureFlagRefetch', () => {
       result.current()
 
       expect(mockReloadFeatureFlagsMobile).toHaveBeenCalled()
+      expect(mockIdentifyMobile).toHaveBeenCalled()
     })
   })
 
@@ -36,6 +41,7 @@ describe('useFeatureFlagRefetch', () => {
       result.current()
 
       expect(mockReloadFeatureFlagsWeb).toHaveBeenCalled()
+      expect(mockIdentifyWeb).toHaveBeenCalled()
     })
   })
 })

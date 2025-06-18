@@ -4,6 +4,7 @@ export enum FeatureFlagKey {
   VOLUNTEERING = 'VOLUNTEERING', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   EVENTS = 'EVENTS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   CHAT = 'CHAT', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
+  PETITIONS = 'PETITIONS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   NOTIFICATIONS = 'NOTIFICATIONS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   STORAGE = 'STORAGE', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   THEME_TOGGLE = 'THEME_TOGGLE', // boolean

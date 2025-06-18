@@ -1,7 +1,7 @@
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 
 export const volunteeringHit: TypesenseDocument = {
-  type: 'volunteering',
+  type: TypesenseDocumentType.Volunteering,
   id: 'volunteering_157403',
   title_de: 'Freiwilligenarbeit in Berlin',
   title_en: 'Volunteering in Berlin',
@@ -11,12 +11,12 @@ export const volunteeringHit: TypesenseDocument = {
   location_lat_lng: [52.52, 13.405],
   image_url: 'https://example.com/image1.jpg',
   link_locators: {
-    volunteering: 157403,
+    volunteering: '157403',
   },
 }
 
 export const profileHit: TypesenseDocument = {
-  type: 'profile',
+  type: TypesenseDocumentType.Profile,
   id: '2',
   user_full_name: 'Max Mustermann',
   image_url: 'https://example.com/image2.jpg',
@@ -26,7 +26,7 @@ export const profileHit: TypesenseDocument = {
 }
 
 export const spaceHit: TypesenseDocument = {
-  type: 'space',
+  type: TypesenseDocumentType.Space,
   id: '3',
   title_de: 'Coworking Space in Mitte',
   title_en: 'Coworking Space in Mitte',
@@ -41,7 +41,7 @@ export const spaceHit: TypesenseDocument = {
 }
 
 export const hit4: TypesenseDocument = {
-  type: 'space',
+  type: TypesenseDocumentType.Space,
   id: '4',
   title_de: 'Neuer Coworking Space',
   title_en: 'New Coworking Space',

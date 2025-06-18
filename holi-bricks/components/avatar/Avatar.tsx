@@ -2,7 +2,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
+import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { Text } from 'holi-bricks/components/text/Text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { BorderRadius, Spacing, mono } from 'holi-bricks/foundations'
@@ -118,7 +118,7 @@ const stylesheet = createStyleSheet((theme) => ({
       : {},
   avatar: (initials: string, hasImage: boolean) => {
     const bgs = Object.values(theme.components.avatar.bg)
-    const getBg = hasImage ? mono['100'] : getAvatarColorBg(bgs, initials)
+    const getBg = hasImage ? mono['100'] : pickByHash(bgs, initials)
 
     return {
       position: 'relative',

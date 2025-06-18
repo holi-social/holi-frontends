@@ -12,9 +12,9 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { VolunteeringSimilarRecosTypesense } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosTypesense'
-import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 const isIos = Platform.OS === 'ios'
 
@@ -23,7 +23,6 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetailsContainer = () => {
-  const { t } = useTranslation()
   const {
     data,
     isOwner,
@@ -77,7 +76,7 @@ const TaskDetailsContainer = () => {
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content' }}
+      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}
@@ -104,8 +103,8 @@ const TaskDetailsContainer = () => {
     >
       <DetailsScreen
         {...data}
-        descriptionTitle={t('spaces.tasks.description.title')}
         _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
+        placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
       />
     </Screen>
   )

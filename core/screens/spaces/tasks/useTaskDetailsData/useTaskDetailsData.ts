@@ -11,7 +11,7 @@ import {
   type Duration,
   type Regularity,
 } from '@holi/api/graphql/graphql-codegen'
-import { CalendarEventLine, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
+import { CalendarEventLine, Global, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
@@ -84,16 +84,14 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     }) || []
 
-  const locationType = data?.taskById?.locationType
-    ? {
-        subtitle: data?.taskById?.location ? data?.taskById?.location : undefined,
-        title:
-          data?.taskById?.locationType && t(`task.locationType.${data?.taskById?.locationType}`)
-            ? t(`task.locationType.${data?.taskById?.locationType}`)
-            : t('task.locationType.NOT_DECLARED'),
-        icon: MapPinLine,
-      }
-    : undefined
+  const locationType =
+    data?.taskById?.location || ['REMOTE', 'HYBRID'].includes(data?.taskById?.locationType ?? '')
+      ? {
+          subtitle: data?.taskById?.location ? data?.taskById?.location : undefined,
+          title: t(`task.locationType.${data?.taskById?.locationType ?? 'ONSITE'}`),
+          icon: data?.taskById?.locationType === 'ONSITE' ? MapPinLine : Global,
+        }
+      : undefined
 
   const slots =
     data?.taskById?.slotsAvailable && data?.taskById?.slotsTaken
@@ -103,21 +101,22 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         }
       : undefined
 
-  const duration = data?.taskById?.duration
-    ? t(`spaces.input.task.section.timing.duration.value.${data?.taskById?.duration}`)
-    : t('spaces.input.task.section.timing.duration.value.INDETERMINATE')
+  const duration =
+    data?.taskById?.duration && data?.taskById?.duration !== 'INDETERMINATE'
+      ? t(`spaces.input.task.section.timing.duration.value.${data?.taskById?.duration}`)
+      : undefined
 
   const regularity = data?.taskById?.regularity
     ? t(`spaces.input.task.section.timing.regularity.value.${data?.taskById?.regularity}`)
-    : t('spaces.input.task.section.timing.regularity.value.NEGOTIABLE')
+    : undefined
 
   const regularityAndDuration = {
     icon: Time,
     title: (() => {
       if (regularity && duration) {
-        return `${regularity} ${t('spaces.input.task.section.timing.duration.forHowLong')} ${duration}`
+        return t('spaces.input.task.section.timing.duration.forHowLong', { regularity, duration })
       }
-      return regularity || duration || ''
+      return regularity || duration || t('spaces.input.task.section.timing.duration.value.INDETERMINATE')
     })(),
   }
 
@@ -156,10 +155,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     data: {
       loading,
       title: data?.taskById?.name || '',
-      description: data?.taskById?.description,
+      bodyContent: [
+        { title: t('spaces.tasks.impact.title'), content: data?.taskById?.impact ?? '' },
+        { title: t('spaces.tasks.description.title'), content: data?.taskById?.description ?? '' },
+      ].filter((item) => item.content),
       chips: [...topics, ...skills],
-      visibility:
-        data?.taskById?.visibility === VisibilityType.Members ? 'private' : ('public' as 'private' | 'public'),
+      visibility: data?.taskById?.visibility === VisibilityType.Members ? 'private' : undefined,
       infoList,
       coverImage,
       author: {

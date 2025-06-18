@@ -1,26 +1,22 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import type { TrackingEvent } from '@holi/core/tracking'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { VideoFilled, Lock } from '@holi/icons/src/generated'
 import { Text } from 'holi-bricks/components/text'
 import { Image } from 'holi-bricks/components/image'
-import { mono } from 'holi-bricks/foundations'
+import { BorderRadius, mono } from 'holi-bricks/foundations'
 import ChallengeImageLoader from './ChallengeImageLoader'
 
 interface CarouselCardImageProps {
   challenge: ChallengeTeaser
   width: number
-  trackingEvent: TrackingEvent
 }
 
-export const CarouselCardImage = ({ challenge, width, trackingEvent }: CarouselCardImageProps) => {
+export const CarouselCardImage = ({ challenge, width }: CarouselCardImageProps) => {
   const styles = useMemo(() => getStyles(width), [width])
   const label = `${challenge.title}`
   const isUpcoming = challenge.isUpcoming
@@ -55,16 +51,12 @@ export const CarouselCardImage = ({ challenge, width, trackingEvent }: CarouselC
 
   return (
     <View style={styles.container}>
-      <HoliLinkTracked label={label} href={createInAppChallengesPath(challenge.url)} trackingEvent={trackingEvent}>
-        <View style={styles.imageContainer}>
-          {challenge.cover ? (
-            <Image source={challenge.cover} width={width} height={width} alt={label} />
-          ) : (
-            <View style={styles.placeholder} />
-          )}
-          {renderOverlay()}
-        </View>
-      </HoliLinkTracked>
+      {challenge.cover ? (
+        <Image source={challenge.cover} width={width} height={width} alt={label} />
+      ) : (
+        <View style={styles.placeholder} />
+      )}
+      {renderOverlay()}
     </View>
   )
 }
@@ -73,9 +65,7 @@ const getStyles = (width: number) =>
   StyleSheet.create({
     container: {
       flex: 1,
-    },
-    imageContainer: {
-      borderRadius: 16,
+      borderRadius: BorderRadius.md,
       overflow: 'hidden',
       position: 'relative',
       borderWidth: 1,
@@ -87,8 +77,8 @@ const getStyles = (width: number) =>
       right: 0,
       bottom: 0,
       height: 60,
-      borderBottomLeftRadius: 16,
-      borderBottomRightRadius: 16,
+      borderBottomLeftRadius: BorderRadius.md,
+      borderBottomRightRadius: BorderRadius.md,
     },
     avatar: {
       zIndex: 1,

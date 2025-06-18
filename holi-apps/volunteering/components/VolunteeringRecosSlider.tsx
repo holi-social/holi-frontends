@@ -4,27 +4,37 @@ import { useTranslation } from 'react-i18next'
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
-import { HeartsFilled } from '@holi/icons/src/generated'
+import { HandHeartsFilled } from '@holi/icons/src/generated'
 
-import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
+import { Stack } from 'holi-bricks/components/stack'
+import chunk from 'lodash.chunk'
+import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 
 type VolunteeringRecosSliderProps = {
   recos: LocalizedTypesenseDocument[]
   cardWidth: number
+  rows?: number
 }
 
-const VolunteeringRecosSlider = ({ recos, cardWidth }: VolunteeringRecosSliderProps) => {
+const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderProps) => {
   const { t } = useTranslation()
+  const cardWidth = useRecoCardWidth()
 
   const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
-    return TrackingEvent.RecommendationViewed('volunteering_opportunity', {
+    return TrackingEvent.RecommendationViewed(item.type === 'task' ? 'space_task' : 'volunteering_opportunity', {
       title: item?.title,
       id: item?.id,
+      commitmentType: item.commitment_label,
+      locationType: item.location_type,
+      source: item.source,
     })
   }
 
   const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = (item) => item.id
+
+  const columns = chunk(recos, rows)
 
   return (
     <RecoSlider
@@ -33,14 +43,27 @@ const VolunteeringRecosSlider = ({ recos, cardWidth }: VolunteeringRecosSliderPr
         listItemTrackingEvent,
         listItemIdentifier,
       }}
-      renderItem={(info) => <VolunteeringRecosSliderCard item={info.item} index={info.index} cardWidth={cardWidth} />}
-      data={recos}
-      icon={HeartsFilled}
+      renderItem={(info) =>
+        rows > 1 ? (
+          <Stack gap="3xs">
+            {info.item.map((item: LocalizedTypesenseDocument, index: number) => (
+              <VolunteeringRecoCard
+                key={item.id}
+                engagement={item}
+                index={info.index * rows + index}
+                fixedWidth={cardWidth}
+              />
+            ))}
+          </Stack>
+        ) : (
+          <VolunteeringRecoCard engagement={info.item[0]} index={info.index} fixedWidth={cardWidth} />
+        )
+      }
+      data={columns}
+      icon={HandHeartsFilled}
       heading={t('volunteering:app.name')}
       subline={t('volunteering:app.subline')}
       seeAllPath="/volunteering"
-      labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
-      cardWidth={cardWidth}
     />
   )
 }

@@ -146,11 +146,4 @@ jest.mock('@holi/core/helpers/useFocusEffect', () => {
   }
 })
 
-jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
-  createTypesenseClient: () => ({
-    search: jest.fn(),
-    multiSearch: jest.fn(),
-  }),
-}))
-
 export default {}

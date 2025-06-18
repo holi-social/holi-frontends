@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
+import type { TrackingEvent } from '@holi/core/tracking'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Text } from 'holi-bricks/components/text'
 
 import { CarouselCardImage } from '@holi-apps/challenges/components/feed/CarouselCardImage'
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 interface ChallengesCarouselCardProps {
@@ -23,6 +23,15 @@ export const calculateCardWidth = (screenWidth: number) => screenWidth / 1.5 - c
 
 export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: ChallengesCarouselCardProps) => {
   const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
+  const [detailUrl, setDetailUrl] = useState('')
+
+  useEffect(() => {
+    const initUrl = async () => {
+      const url = await appendShowPromo(`/challenges/${challenge.id}`)
+      setDetailUrl(url)
+    }
+    initUrl()
+  }, [challenge.id])
 
   if (!challenge.submissionsCount && !challenge.isUpcoming) {
     return null
@@ -32,21 +41,11 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
     <View style={styles.container}>
       <HoliLinkTracked
         label={challenge.title}
-        href={createInAppChallengesPath(challenge.url)}
+        href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
       >
         <View style={styles.imageContainer}>
-          <CarouselCardImage
-            key={challenge.id}
-            challenge={challenge}
-            width={cardWidth}
-            trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(
-              challenge.id,
-              challenge.title,
-              challenge.id,
-              0
-            )}
-          />
+          <CarouselCardImage key={challenge.id} challenge={challenge} width={cardWidth} />
         </View>
         <View style={styles.headline}>
           <View style={styles.title}>

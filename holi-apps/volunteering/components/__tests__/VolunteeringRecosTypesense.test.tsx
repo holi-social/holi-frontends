@@ -38,9 +38,35 @@ describe('VolunteeringRecosTypesense', () => {
     expect(screen.getByText('app.subline')).toBeOnTheScreen()
 
     // Results
-    expect(screen.getAllByRole('link')).toHaveLength(6) // 5 cards + 1 see all button
+    expect(screen.getAllByRole('link')).toHaveLength(5)
     engagements.forEach((engagement) => {
       expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     })
+  })
+
+  it('should use correct page size', () => {
+    mockUseVolunteeringRecosTypesense.mockReturnValue({
+      isLoading: false,
+      engagements: [],
+      canFetchMore: false,
+      fetchNextPage: jest.fn(),
+    })
+
+    render(<VolunteeringRecosTypesense cardWidth={100} />)
+
+    expect(mockUseVolunteeringRecosTypesense).toHaveBeenCalledWith({ pageSize: 5 })
+  })
+
+  it('should use correct page size with rows and columns', () => {
+    mockUseVolunteeringRecosTypesense.mockReturnValue({
+      isLoading: false,
+      engagements: [],
+      canFetchMore: false,
+      fetchNextPage: jest.fn(),
+    })
+
+    render(<VolunteeringRecosTypesense cardWidth={100} rows={3} columns={4} />)
+
+    expect(mockUseVolunteeringRecosTypesense).toHaveBeenCalledWith({ pageSize: 12 })
   })
 })

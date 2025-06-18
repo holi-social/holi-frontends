@@ -31,10 +31,13 @@ exports[`React tree renders correctly 1`] = `
     role="img"
     source="https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg"
     style={
-      {
-        "height": 64,
-        "width": 64,
-      }
+      [
+        {
+          "height": 64,
+          "width": 64,
+        },
+        {},
+      ]
     }
   />
 </View>

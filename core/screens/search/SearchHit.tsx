@@ -1,7 +1,7 @@
 import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/SearchHitLink'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
-import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
+import type { TypesenseDocument, TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
@@ -72,7 +72,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
 })
 
 const stylesheet = createStyleSheet(() => ({
-  hitItem: (hitType: TypesenseDocumentType) => ({
+  hitItem: (hitType: TypesenseDocumentTypeEnum) => ({
     flexDirection: 'row',
     columnGap: dimensions.spacingSM,
     height: hitType === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT,

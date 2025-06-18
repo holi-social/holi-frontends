@@ -600,9 +600,8 @@ describe('ActHome Section', () => {
       </MockedProvider>
     )
     expect(await screen.findByTestId('volunteering-reco-slider-heading-button'))
-    const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-slider-card')
+    const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-card')
     expect(volunteeringRecos.length).toBe(5)
-    expect(await screen.findAllByTestId('topic-labels-list-view'))
   })
 
   it('shows TASKS', async () => {

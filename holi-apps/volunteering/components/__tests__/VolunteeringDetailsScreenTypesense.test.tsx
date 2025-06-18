@@ -1,7 +1,7 @@
 import React from 'react'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreenTypesense } from '@holi-apps/volunteering/components/VolunteeringDetailsScreenTypesense'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
@@ -15,7 +15,7 @@ import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypes
 const engagementId = 'test-id'
 
 const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
-  type: 'volunteering',
+  type: TypesenseDocumentType.Volunteering,
   id,
   title_de: 'Deutscher Titel',
   title_en: 'English Title',
@@ -33,6 +33,8 @@ const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
   organizer_name: 'Test Organization',
   organizer_image_url: 'https://example.com/volunteering/organizer_' + engagementId + '.jpg',
   external_url: 'https://example.com/volunteering/' + engagementId,
+  location_type: 'onsite',
+  commitment_label: 'negotiable',
 })
 
 const t: TFunction = ((k: string) => k) as TFunction
@@ -89,7 +91,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
           {
             document: {
               id: 'reco1',
-              type: 'volunteering',
+              type: TypesenseDocumentType.Volunteering,
             },
             highlight: {},
             text_match: 0,
@@ -125,7 +127,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     )
     await act(jest.runAllTimersAsync)
 
-    expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1424, 780))
+    expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 424))
     expect(screen.getByText(document.title_en!)).toBeVisible()
     expect(screen.getByText(document.description_en!)).toBeVisible()
     expect(screen.getByText(document.organizer_name!)).toBeVisible()
@@ -133,7 +135,7 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     expect(screen.getByText(document.location!)).toBeVisible()
     document.topics_v2?.forEach((topic) => expect(screen.getByText(`topic.${topic}`)).toBeVisible())
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
-    expect(screen.getByText('privacy.visibility.public')).toBeVisible()
+    expect(screen.getByText('volunteering:engagement.commitment_label.negotiable')).toBeVisible()
   })
 
   it('should render correctly (de)', async () => {

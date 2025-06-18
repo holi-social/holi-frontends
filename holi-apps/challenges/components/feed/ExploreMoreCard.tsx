@@ -15,15 +15,14 @@ export interface HoliMoreCardProps {
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   label?: string
   role: Role
-  testID?: string
 }
 
-const HoliMoreCard = ({ children, onPress, role, testID, label = '' }: PropsWithChildren<HoliMoreCardProps>) => {
+const HoliMoreCard = ({ children, onPress, role, label = '' }: PropsWithChildren<HoliMoreCardProps>) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <Pressable style={styles.container} role={role} aria-label={label} accessible onPress={onPress} testID={testID}>
+    <Pressable style={styles.container} role={role} aria-label={label} accessible onPress={onPress}>
       <View style={styles.image}>
         <Image
           source={require('@holi/ui/assets/img/illustrations/arrow-right-circle.svg')}

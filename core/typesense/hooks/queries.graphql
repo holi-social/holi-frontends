@@ -1,0 +1,63 @@
+fragment FullTypesenseDocument on Typesense_Document {
+  type
+  id
+  title_de
+  title_en
+  description_de
+  description_en
+  location
+  location_lat_lng
+  image_url
+  user_full_name
+  link_locators {
+    volunteering
+    space
+    task
+    profile
+  }
+  topics_v2
+  skills_v2
+  source
+  organizer_name
+  organizer_image_url
+  external_url
+  commitment_label
+  commitment_duration
+  location_type
+}
+
+query typesense_documentById($id: String!, $documentType: String!) {
+  typesense_documentById(id: $id, documentType: $documentType) {
+    ... on Typesense_SearchResponseSuccess {
+      hits {
+        document {
+          ...FullTypesenseDocument
+        }
+      }
+    }
+    ... on Typesense_SearchResponseError {
+      error
+      code
+    }
+  }
+}
+
+query typesense_multiSearch($input: Typesense_MultiSearchRequest_Input!) {
+  typesense_multiSearch(input: $input) {
+    results {
+      ... on Typesense_SearchResponseSuccess {
+        found
+        page
+        hits {
+          document {
+            ...FullTypesenseDocument
+          }
+        }
+      }
+      ... on Typesense_SearchResponseError {
+        error
+        code
+      }
+    }
+  }
+}

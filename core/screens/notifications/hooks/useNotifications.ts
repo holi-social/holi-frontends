@@ -1,10 +1,10 @@
-import { IMessage, IPaginatedResponse } from '@novu/shared'
+import type { IMessage, IPaginatedResponse } from '@novu/shared'
 import { useCallback, useEffect, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import {
+import type {
   Notification,
   NotificationAppointments,
   NotificationChallenges,
@@ -210,6 +210,16 @@ function mapToNotification(
         content: message.content.toString(),
       }
     case NovuNotificationType.POLL_UPDATES:
+      return {
+        id: message._id,
+        notificationType,
+        notificationVersion,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationPolls['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.POLL_CLOSURE:
       return {
         id: message._id,
         notificationType,

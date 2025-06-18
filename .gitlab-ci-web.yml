@@ -182,9 +182,7 @@ holi_bricks_publish:
     # only run on specific file changes when triggered by git push
     - if: $CI_COMMIT_BRANCH == "main"
       changes:
-        - holi-bricks/components/**/*
-        - '**/*.stories.tsx'
-        - '**/*.mdx'
+        - holi-bricks/**/*
 
 web_build_docker:
   needs: ['web_build']

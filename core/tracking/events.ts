@@ -1,7 +1,7 @@
+import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
+import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
-import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
-import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
 
@@ -157,6 +157,34 @@ export namespace TrackingEvent {
         properties: { ...props },
         ...versionOne,
       }),
+    },
+  }
+
+  export const Petitions = {
+    seeAll: {
+      name: 'petitions_seeAll_pressed',
+      ...versionOne,
+    },
+    pressed: (petitionId: string) => ({
+      name: 'petition_card_pressed',
+      properties: {
+        petitionId,
+      },
+      ...versionOne,
+    }),
+  }
+
+  export const PetitionDetails = {
+    viewed: (petitionId: string) => ({
+      name: 'petition_details_viewed',
+      properties: {
+        petitionId,
+      },
+      ...versionOne,
+    }),
+    findMore: {
+      name: 'petition_findMore_pressed',
+      ...versionOne,
     },
   }
 
@@ -411,9 +439,12 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (engagementId: string): TrackingEvent => ({
+    pressed: (
+      engagementId: string,
+      otherProperties: Record<string, string | number | undefined> = {}
+    ): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
-      properties: { engagementId },
+      properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
   }
@@ -489,19 +520,34 @@ export namespace TrackingEvent {
     },
   })
 
-  export const RecommendationPressed = (type: RecommendationType, itemId: string, index: number): TrackingEvent => ({
+  type RecommendationProperties = {
+    title?: string
+    name?: string
+    id?: string | number
+    commitmentType?: string
+    locationType?: string
+    source?: string
+  }
+
+  export const RecommendationPressed = (
+    type: RecommendationType,
+    itemId: string,
+    index: number,
+    otherProperties: RecommendationProperties = {}
+  ): TrackingEvent => ({
     name: 'recommendation_pressed',
     ...versionOne,
     properties: {
       type: type,
       itemId: itemId,
       index: index,
+      ...otherProperties,
     },
   })
 
   export const RecommendationViewed = (
     type: RecommendationType | 'challenge',
-    otherProperties: Record<string, string | number>
+    otherProperties: RecommendationProperties = {}
   ): TrackingEvent => ({
     ...versionOne,
     name: 'recommendation_viewed',
@@ -531,12 +577,13 @@ export namespace TrackingEvent {
   }
 
   export namespace ChallengeCard {
-    export const CardPressed = (challengeId: string, title: string, index: number): TrackingEvent => ({
+    export const CardPressed = (challengeId: string, title: string, index: number, screen: string): TrackingEvent => ({
       name: 'challengeCard_pressed',
       properties: {
-        title: title,
-        challengeId: challengeId,
-        index: index,
+        title,
+        challengeId,
+        index,
+        screen,
       },
       ...versionOne,
     })
@@ -545,14 +592,25 @@ export namespace TrackingEvent {
       challengeId: string,
       title: string,
       submissionId: string,
-      submissionIndex: number
+      submissionIndex: number,
+      screen: string
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
       properties: {
-        challengeId: challengeId,
-        title: title,
-        submissionId: submissionId,
-        submissionIndex: submissionIndex,
+        challengeId,
+        title,
+        submissionId,
+        submissionIndex,
+        screen,
+      },
+      ...versionOne,
+    })
+
+    export const AllChallengesVisited = (screen: string, component: string): TrackingEvent => ({
+      name: 'allChallengesVisited',
+      properties: {
+        screen,
+        component,
       },
       ...versionOne,
     })

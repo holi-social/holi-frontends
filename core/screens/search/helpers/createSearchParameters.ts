@@ -1,5 +1,5 @@
 import type { SearchFacet, SearchFilter } from '@holi/core/screens/search/types'
-import type { SearchParams } from 'typesense/lib/Typesense/Documents'
+import type { SearchParams } from '@holi/core/typesense/types'
 
 const PAGE_SIZE = 10
 

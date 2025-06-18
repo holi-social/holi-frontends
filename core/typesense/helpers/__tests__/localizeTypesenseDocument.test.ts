@@ -1,9 +1,9 @@
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 
 const document: TypesenseDocument = {
   id: 'volunteering_123',
-  type: 'volunteering',
+  type: TypesenseDocumentType.Volunteering,
   title_de: 'Titel',
   title_en: 'Title',
   description_de: 'Beschreibung',

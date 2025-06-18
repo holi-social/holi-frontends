@@ -1,5 +1,5 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
-import type React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, type GestureResponderEvent, type ListRenderItem, Platform, View } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -8,11 +8,11 @@ import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatL
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
-import { TextLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
+import { ArrowRightS } from '@holi/icons/src/generated'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 type RecoSliderProps = {
@@ -29,7 +29,6 @@ type RecoSliderProps = {
   labelSeeMore?: string
   loading?: boolean
   testID?: string
-  cardWidth: number
   viewTrackingParams?: TrackableFlatListParams
   size?: 'sm' | 'md'
   seeMoreTrackingEvent?: TrackingEvent
@@ -47,14 +46,13 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   labelSeeMore,
   loading,
   testID,
-  cardWidth,
   viewTrackingParams,
-  size = 'md',
   seeMoreTrackingEvent,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { track } = useTracking()
+  const [itemsWidth, setItemsWidth] = useState<number | null>(null)
   const { styles } = useStyles(stylesheet)
 
   const handleHeaderTitlePress = () => {
@@ -77,31 +75,50 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     return null
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderItemWithMeasurement = (info: any) => {
+    const originalItem = renderItem(info)
+
+    // Measure the first few items to get consistent dimensions
+    const shouldMeasure = !itemsWidth && info.index < 3
+
+    if (shouldMeasure) {
+      return (
+        <View
+          onLayout={(event) => {
+            const { width } = event.nativeEvent.layout
+            setItemsWidth(width)
+          }}
+        >
+          {originalItem}
+        </View>
+      )
+    }
+
+    return originalItem
+  }
+
   const listProps = {
     horizontal: true,
     contentContainerStyle: {
-      paddingLeft: Spacing.xs,
-      paddingRight: Spacing.xs,
       paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+      gap: Spacing['3xs'],
     },
     data,
-    renderItem,
+    renderItem: renderItemWithMeasurement,
     ListFooterComponent:
       labelSeeMore && (seeAllPath || onPressSeeMore) ? (
-        <View style={styles.seeMoreButton(cardWidth)}>
+        <View style={styles.seeMoreButton(itemsWidth || 0)}>
           <HoliMoreCard
             role="link"
             label={labelSeeMore}
             onPress={handleSeeMore}
             testID={`${name}-reco-slider-load-more-button`}
-            size={size}
           >
             {labelSeeMore}
           </HoliMoreCard>
         </View>
-      ) : (
-        <></>
-      ),
+      ) : null,
     testID: `${name}-reco-slider-list`,
   }
 
@@ -112,47 +129,43 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   )
 
   return (
-    <Stack gap="sm" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
+    <Stack
+      padding={{ left: 'xs', right: 'xs' }}
+      gap="sm"
+      minHeight="auto"
+      flex={1}
+      testID={testID || `${name}-reco-slider`}
+    >
       <Stack onPress={handleHeaderTitlePress} testID={`${name}-reco-slider-heading-button`}>
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          padding={{ left: 'xs', right: 'xs' }}
+          gap={'xs'}
+          flex={1}
           testID={`${name}-reco-slider-heading`}
         >
-          <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
-            <Stack
-              elevation={200}
-              borderRadius="lg"
-              borderColor="muted"
-              borderWidth="sm"
-              backgroundColor="support"
-              padding="xxs"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <HoliIcon icon={icon} size={24} />
+          <Stack width={'100%'} direction="row" gap="xxs" justifyContent="center" alignItems="flex-start">
+            <Stack justifyContent="center" alignItems="center">
+              <HoliIcon icon={icon} size={20} color="support" />
             </Stack>
-            <Stack direction="column">
-              <Text size="xxl" headingLevel="3">
+            <Stack direction="column" flex={1}>
+              <Text size="xl" headingLevel="3">
                 {heading}
               </Text>
               <Text size="sm" color="support">
                 {subline}
               </Text>
             </Stack>
+            {(seeAllPath || onPressSeeMore) && (
+              <Stack direction="row">
+                <TextLink size="sm" role="none" onPress={handleSeeMore}>
+                  {t('global.seeMore')}
+                </TextLink>
+                <HoliIcon icon={ArrowRightS} size={20} />
+              </Stack>
+            )}
           </Stack>
-          {seeAllPath &&
-            (seeMoreTrackingEvent ? (
-              <TextLinkTracked size="sm" role="none" trackingEvent={seeMoreTrackingEvent}>
-                {t('global.seeAll')}
-              </TextLinkTracked>
-            ) : (
-              <TextLink size="sm" role="none">
-                {t('global.seeAll')}
-              </TextLink>
-            ))}
         </Stack>
       </Stack>
 
@@ -166,7 +179,6 @@ export default RecoSlider
 const stylesheet = createStyleSheet(() => ({
   seeMoreButton: (cardWidth: number) => ({
     flex: 1,
-    marginRight: Spacing.xxl,
     width: cardWidth,
   }),
 }))

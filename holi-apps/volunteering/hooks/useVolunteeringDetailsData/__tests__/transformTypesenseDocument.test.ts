@@ -1,6 +1,6 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
-import { MapPin2 } from '@holi/icons/src/generated'
+import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
+import { Global, MapPin2, Refresh } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 
 jest.mock('react-i18next', () => ({
@@ -12,7 +12,7 @@ jest.mock('react-i18next', () => ({
 describe('transformDocument', () => {
   // Test data setup
   const baseDocument: TypesenseDocument = {
-    type: 'volunteering',
+    type: TypesenseDocumentType.Volunteering,
     id: 'test-id-123',
     title_de: 'Deutscher Titel',
     title_en: 'English Title',
@@ -24,6 +24,8 @@ describe('transformDocument', () => {
     skills_v2: ['it-technology', 'management-strategy'],
     organizer_name: 'Test Organization',
     external_url: 'https://example.com/volunteering',
+    commitment_label: 'recurring',
+    location_type: 'onsite',
   }
 
   it('should transform a document with all fields correctly', () => {
@@ -32,7 +34,7 @@ describe('transformDocument', () => {
 
     expect(result).toEqual({
       title: 'English Title',
-      description: 'English Description',
+      bodyContent: { content: 'English Description' },
       chips: [
         { title: 'topic.animal-welfare', color: 'green' },
         { title: 'topic.gender-equality', color: 'green' },
@@ -45,6 +47,10 @@ describe('transformDocument', () => {
           title: 'Berlin, Germany',
           icon: MapPin2,
         },
+        {
+          title: 'volunteering:engagement.commitment_label.recurring',
+          icon: Refresh,
+        },
       ],
       coverImage: undefined,
       author: {
@@ -56,6 +62,9 @@ describe('transformDocument', () => {
         },
       },
       externalUrl: 'https://example.com/volunteering',
+      locationType: 'onsite',
+      commitmentType: 'recurring',
+      source: 'Voltastics',
     })
   })
 
@@ -64,7 +73,9 @@ describe('transformDocument', () => {
     const result = transformTypesenseDocument(t, 'de', baseDocument)
 
     expect(result.title).toBe('Deutscher Titel')
-    expect(result.description).toBe('Deutsche Beschreibung')
+    expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
+      'Deutsche Beschreibung'
+    )
   })
 
   it('should fall back to English when German is not available', () => {
@@ -78,12 +89,14 @@ describe('transformDocument', () => {
     const result = transformTypesenseDocument(t, 'de', docWithoutGerman)
 
     expect(result.title).toBe('English Title')
-    expect(result.description).toBe('English Description')
+    expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
+      'English Description'
+    )
   })
 
   it('should handle missing optional fields gracefully', () => {
     const minimalDocument: TypesenseDocument = {
-      type: 'volunteering',
+      type: TypesenseDocumentType.Volunteering,
       id: 'minimal-id',
       source: 'GoVolunteer',
     }
@@ -93,7 +106,7 @@ describe('transformDocument', () => {
 
     expect(result).toEqual({
       title: '',
-      description: '',
+      bodyContent: { content: '' },
       chips: [],
       visibility: 'public',
       infoList: [],
@@ -107,6 +120,7 @@ describe('transformDocument', () => {
         },
       },
       externalUrl: undefined,
+      source: 'GoVolunteer',
     })
   })
 
@@ -160,5 +174,25 @@ describe('transformDocument', () => {
     const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
     expect(result.author?.title).toBe('Voltastics')
     expect(result.author?.mainAvatar?.label).toBe('??')
+  })
+
+  it('should handle remote opportunity', () => {
+    const docWithoutOrgName: TypesenseDocument = {
+      ...baseDocument,
+      location_type: 'remote',
+    }
+
+    const { t } = useTranslation()
+    const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
+    expect(result.infoList).toEqual([
+      {
+        title: 'volunteering:engagement.location_type.remote',
+        icon: Global,
+      },
+      {
+        title: 'volunteering:engagement.commitment_label.recurring',
+        icon: Refresh,
+      },
+    ])
   })
 })

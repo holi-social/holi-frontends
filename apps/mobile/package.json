@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@appcues/expo-config": "^4.0.1",
+    "@appcues/react-native": "^4.4.3",
     "@babel/runtime": "^7.26.0",
     "@expo/config-plugins": "~9.0.0",
     "@formatjs/intl-locale": "^4.0.0",
@@ -57,6 +59,7 @@
     "intl": "^1.2.5",
     "jwt-decode": "^4.0.0",
     "lodash.at": "^4.6.0",
+    "lodash.chunk": "^4.2.0",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
     "lodash.isequal": "^4.5.0",
@@ -88,12 +91,12 @@
     "react-native-webview": "13.12.5",
     "react-spring": "^9.7.4",
     "slugify": "^1.6.6",
-    "tinycolor2": "1.6.0",
-    "typesense": "^2.0.3"
+    "tinycolor2": "1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@types/lodash.at": "^4.6.7",
+    "@types/lodash.chunk": "^4.2.9",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lodash.groupby": "^4.6.9",
     "@types/lodash.partition": "^4.6.9",

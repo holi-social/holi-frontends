@@ -1,7 +1,7 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import React from 'react'
 
-import ActHome from '@holi/core/screens/act/ActHome'
+import ActHome from '@holi/core/screens/act/ActHome.web'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const ActPage: NextPage = () => <ActHome />

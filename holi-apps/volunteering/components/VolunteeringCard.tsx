@@ -15,6 +15,7 @@ import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { Image } from 'holi-bricks/components/image'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 type VolunteeringCardProps = {
   engagement: LocalizedTypesenseDocument
@@ -47,19 +48,19 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
         trackingEvent={TrackingEvent.RecommendationPressed(
           engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
           engagement.id,
-          index
+          index,
+          {
+            commitmentType: engagement.commitment_label,
+            locationType: engagement.location_type,
+            source: engagement.source,
+          }
         )}
       >
         <View style={styles.content}>
           {engagement.image_url ? (
             <ImagePreview currentImage={engagement.image_url} />
           ) : (
-            <Image
-              source={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
-              width={296}
-              height={166}
-              alt={''}
-            />
+            <Image source={getPlaceholderImage(engagement.id)} width={296} height={166} alt={''} />
           )}
           <View>
             <VolunteeringLabels

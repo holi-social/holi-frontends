@@ -13,6 +13,8 @@ import { Stack } from 'holi-bricks/components/stack'
 import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
 import { Screen } from '@holi/core/components/Screen'
 import { Spacing } from 'holi-bricks/foundations'
+import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 type ActHomeParams = {
   section: string
@@ -23,6 +25,7 @@ const { useParam } = createParamHooks<ActHomeParams>()
 export const orderedSections = (includeTasks: boolean, selectedContentType?: string) => {
   const allSections = [
     ActSectionType.VOLUNTEERING,
+    ActSectionType.PETITIONS,
     ActSectionType.EVENTS,
     ActSectionType.CHALLENGES,
     ActSectionType.TASKS,
@@ -51,7 +54,6 @@ const ActHome = () => {
   return (
     <Screen
       preset="scroll"
-      contentContainerPadding={{ bottom: '3xl' }}
       scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
       headerOptions={{
         title,
@@ -69,6 +71,9 @@ const ActHome = () => {
       <Stack direction="column" gap="xs" testID="act-home">
         <ActNavBar />
         <Stack gap="xxl" direction="column">
+          <HoliContainer>
+            <MarketingBanner frameId="act-home-banner" />
+          </HoliContainer>
           <AttendingChallengeEventsLegacy />
           {sections.map((sectionName) => (
             <ActSection type={sectionName} key={sectionName} />

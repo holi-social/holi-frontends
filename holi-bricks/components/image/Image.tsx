@@ -13,7 +13,7 @@ const isLocalSvg = (source: number) => {
     const resolvedSource = RNImage.resolveAssetSource(source)
     if (!resolvedSource || !resolvedSource.uri) return false
     const uri = resolvedSource.uri
-    return /\.svg(\?|#|$)/i.test(uri)
+    return /\.svg(\?|#|$|&)/i.test(uri)
   } catch {
     return false
   }
@@ -62,8 +62,8 @@ export const Image: React.FC<MultiPlatformImage> = ({
         role="img"
         aria-label={alt}
         asset={source}
-        width={width}
-        height={height}
+        width={stretch ? '100%' : width}
+        height={stretch ? '100%' : height}
         preserveAspectRatio={getSVGPreserveAspectRatio(resizeMode)}
         accessibilityLabel={alt}
         accessible={otherProps?.['aria-hidden'] === true}
@@ -84,7 +84,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
         accessible={otherProps?.['aria-hidden'] === true}
         placeholder={isRemote ? blurhash : undefined}
-        style={{ width, height }}
+        style={[styles.imageSize(width, height), styles.stretch(stretch)]}
         contentFit={resizeMode}
         onError={() => {
           setHasError(true)

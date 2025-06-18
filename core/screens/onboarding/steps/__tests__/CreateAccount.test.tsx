@@ -4,6 +4,7 @@ import {
   doLogin,
   getVerificationFlowFromRegistration,
   initRegistrationFlow,
+  retrieveSubmitFlowBody,
 } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -19,6 +20,7 @@ import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeS
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ApolloClient } from '@apollo/client'
 import type { UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -42,12 +44,13 @@ const mockInitRegistrationFlow = initRegistrationFlow as jest.Mock
 const mockGetVerificationFlowFromRegistration = getVerificationFlowFromRegistration as jest.Mock
 const mockDoBrowserLogin = doBrowserLogin as jest.Mock
 const mockDoLogin = doLogin as jest.Mock
+const mockRetrieveSubmitFlowBody = retrieveSubmitFlowBody as jest.Mock
 jest.mock('@holi/core/auth/helpers/auth', () => ({
   initRegistrationFlow: jest.fn(),
   getVerificationFlowFromRegistration: jest.fn(),
   doBrowserLogin: jest.fn(),
   doLogin: jest.fn(),
-  retrieveSubmitFlowBody: (payload: UpdateRegistrationFlowBody) => Promise.resolve(payload),
+  retrieveSubmitFlowBody: jest.fn(),
 }))
 
 const mockSetVerificationFlowData = setVerificationFlowData as unknown as jest.Mock
@@ -100,6 +103,7 @@ describe('CreateAccount', () => {
     mockGetVerificationFlowFromRegistration.mockReturnValue(verificationFlowData)
     mockSetLoginStateLoggedIn.mockResolvedValue({})
     mockDoBrowserLogin.mockResolvedValue({})
+    mockRetrieveSubmitFlowBody.mockImplementation((payload: UpdateRegistrationFlowBody) => Promise.resolve(payload))
   })
   afterEach(async () => {
     await act(jest.runOnlyPendingTimers)
@@ -254,6 +258,14 @@ describe('CreateAccount', () => {
         displayMessage: 'auth.login.error.login',
         location: 'CreateAccount.doBrowserLogin',
       })
+    })
+
+    it('should not display an error when social login is cancelled', async () => {
+      mockRetrieveSubmitFlowBody.mockRejectedValue(new HoliLoginCancelledError('Test'))
+
+      await submitForm()
+
+      expect(displayError).not.toHaveBeenCalled()
     })
 
     it('should set verification flow data', async () => {

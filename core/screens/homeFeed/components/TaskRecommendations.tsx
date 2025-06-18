@@ -10,8 +10,8 @@ import TaskRecommendation from '@holi/core/screens/spaces/tasks/components/Space
 import type { Task } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
-import CheckboxFilled from '@holi/icons/src/generated/CheckboxFilled'
 import { useRecommendedTasksQuery } from '@holi/api/graphql/graphql-codegen'
+import { StarSmile } from '@holi/icons/src/generated'
 
 type TaskRecommendationsProps = {
   cardWidth: number
@@ -71,10 +71,9 @@ const TaskRecommendations = ({ cardWidth }: TaskRecommendationsProps) => {
         ) : null
       }}
       data={tasks}
-      icon={CheckboxFilled}
+      icon={StarSmile}
       heading={t('recommendations.tasks.title')}
       subline={t('recommendations.tasks.subline')}
-      cardWidth={cardWidth}
     />
   )
 }
@@ -84,7 +83,6 @@ export default withProfiler(TaskRecommendations, { name: 'TaskRecommendations' }
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     cardContainer: {
-      marginRight: 12,
       width: cardWidth,
     },
     lastCard: {

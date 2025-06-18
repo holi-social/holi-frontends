@@ -45,12 +45,12 @@ test.describe('@Task collaboration multi user journey', () => {
     await test.step('User can engage in contact', async () => {
       await carol.goto('/spaces/' + space.id + '/tasks')
       await carol.getByTestId('link').first().click()
-      await carol.getByLabel('Contact organization').click()
+      await carol.getByLabel('Get in touch').click()
     })
 
     await test.step('Task chat explanation modal is confirmable', async () => {
-      await expect(carol.getByText('Start by simply saying "Hi"')).toBeVisible()
-      await carol.getByRole('button', { name: 'Start chatting' }).click()
+      await expect(carol.getByText("Let's connect")).toBeVisible()
+      await carol.getByRole('button', { name: 'Open chat' }).click()
     })
 
     await test.step('Multi user chat room with all space admins opens', async () => {

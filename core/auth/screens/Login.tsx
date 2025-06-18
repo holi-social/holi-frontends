@@ -31,6 +31,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { Text } from 'holi-bricks/components/text'
+import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 
 export type LoginParams = {
   flow?: string
@@ -102,6 +103,10 @@ const Login = () => {
       storeOnboardingState('finished')
       redirect(true)
     } catch (err) {
+      if (err instanceof HoliLoginCancelledError) {
+        // Do not display error if user cancelled the login
+        return
+      }
       const url = getBrowserRedirect(err)
       if (url) {
         if (Platform.OS === 'web') {

@@ -1,16 +1,16 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Video } from '@holi/icons/src/generated'
+import { User } from '@holi/icons/src/generated'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
-import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
@@ -30,17 +30,26 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
   const cardWidth = calculateCardWidth(Platform.OS === 'web' ? 500 : screenWidth)
   const submissionCardWidth = (cardWidth - cardPaddingsSum) / 2
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
+  const [detailUrl, setDetailUrl] = useState('')
+  const submissions = challenge.submissions.slice(0, 2)
+
+  useEffect(() => {
+    const initUrl = async () => {
+      const url = await appendShowPromo(`/challenges/${challenge.id}`)
+      setDetailUrl(url)
+    }
+    initUrl()
+  }, [challenge.id])
 
   if (!challenge.submissions.length) {
     return null
   }
-  const submissions = challenge.submissions.slice(0, 2)
 
   return (
     <View style={styles.container}>
       <HoliLinkTracked
         label={challenge.title}
-        href={createInAppChallengesPath(challenge.challengeDetailPath)}
+        href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
       >
         <HoliGap size="xxs" />
@@ -51,11 +60,11 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
             </Text>
           </View>
           <View style={styles.participantsContainer}>
-            <Text size="xs" colorOverride={theme.colors.gray300}>
+            <Text size="xs" color="support">
               {challenge.participants}
             </Text>
 
-            <HoliIcon icon={Video} size={16} colorOverride={theme.colors.gray300} style={styles.participantsIcon} />
+            <HoliIcon icon={User} size={14} color="support" style={styles.participantsIcon} />
           </View>
         </View>
 
@@ -70,7 +79,8 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
                 challenge.id,
                 challenge.title,
                 submission.id,
-                index
+                index,
+                'act'
               )}
             />
           ))}
@@ -84,7 +94,6 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
   StyleSheet.create({
     container: {
       width: cardWidth,
-      marginRight: Spacing['3xs'],
       flexDirection: 'column',
       padding: Spacing['3xs'],
       borderWidth: 1,
