@@ -10,6 +10,7 @@ import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 
 const PAGE_SIZE_EXTERNAL_DATA = 12
 const PAGE_SIZE_FEED = 12
@@ -62,7 +63,12 @@ export const useFeedQuery = () => {
   const randomizedEngagements = useRandomizedVolunteeringRecos({ pageSize: PAGE_SIZE_EXTERNAL_DATA })
 
   const combinedFeedData = useMemo<CombinedFeedItem[]>(() => {
-    const feedData = data?.feed?.data || []
+    // TODO(SF) temp. filtering youtube post
+    const feedData: FeedItem[] =
+      data?.feed?.data?.filter(
+        (item: FeedItem) =>
+          !['test-yt-2-0b90adf7', 'testing-yt-81a1a6cc'].includes((item.feedPost as FeedPost)?.slug ?? '')
+      ) || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const insights = dataInsights?.feedInsights?.data || []
 
