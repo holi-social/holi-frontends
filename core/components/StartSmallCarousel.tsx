@@ -1,43 +1,47 @@
 import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { Footprints, MapPin2Filled } from '@holi/icons/src/generated'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
+import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
+import { TrackingEvent } from '@holi/core/tracking'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { Typesense_DocumentType } from '@holi/api/graphql/graphql-codegen'
 
 // to be replaced by real data ------------------------------------------------------------
-export type TempGoodDeeds = {
-  id: string
-  title: string
-  duration?: string
-  location?: string
-  imageUrl?: string
-}
-const doingGood: TempGoodDeeds[] = [
+const doingGood: LocalizedTypesenseDocument[] = [
   {
     id: '1',
     title: 'Help cleaning at the animal shelter',
-    duration: '30-60 Minuten',
+    type: Typesense_DocumentType.Volunteering,
+    commitment_duration: '30-60 Minuten',
     location: 'Remote',
-    imageUrl: 'https://picsum.photos/id/1018/800/600',
+    description: 'Assist in cleaning and organizing the animal shelter.',
+    image_url: 'https://picsum.photos/id/1018/800/600',
   },
   {
     id: '2',
     title: 'Need help with social media designs',
-    duration: '30-60 Minuten',
+    type: Typesense_DocumentType.Volunteering,
+    commitment_duration: '30-60 Minuten',
     location: 'Remote',
-    imageUrl: 'https://picsum.photos/id/1020/800/600',
+    description: 'Need help with social media designs',
+    image_url: 'https://picsum.photos/id/1020/800/600',
   },
   {
     id: '3',
     title: 'Join public discussion on democracy',
-    duration: '30-60 Minuten',
+    type: Typesense_DocumentType.Volunteering,
+    commitment_duration: '30-60 Minuten',
     location: 'Remote',
-    imageUrl: 'https://picsum.photos/id/1019/800/600',
+    description: 'Join public discussion on democracy',
+    image_url: 'https://picsum.photos/id/1019/800/600',
   },
 ]
 // ----------------------------------------------------------------------------------------
@@ -55,18 +59,28 @@ const StartSmallCarousel = () => {
     data: doingGood,
   }
 
+  const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = ({ type, id, title }) => {
+    return TrackingEvent.StartSmallCardClicked(type, id, title)
+  }
+
+  const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = ({ id }) => {
+    return id
+  }
+
   const ListComponent = (
-    <FlatList
+    <TrackableFlatList
       renderItem={({ item }) => (
         <MiniCard
           title={item.title}
-          chipLabel={item.duration}
+          chipLabel={item.commitment_duration}
           bottomIconLeft={MapPin2Filled}
           bottomLabel={item.location}
-          imageSrc={item.imageUrl}
+          imageSrc={item.image_url}
         />
       )}
       {...listProps}
+      listItemTrackingEvent={listItemTrackingEvent}
+      listItemIdentifier={listItemIdentifier}
     />
   )
 
