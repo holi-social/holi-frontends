@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 type SpaceShareProps = {
   space: Space
@@ -23,8 +24,8 @@ const SpaceShare: React.FC<SpaceShareProps> = ({ space, style }: SpaceShareProps
     })}`,
   })
 
-  const isCollaborator = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdministrator = space.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isCollaborator = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
+  const isAdministrator = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   return isCollaborator || isAdministrator ? (
     <View style={style}>

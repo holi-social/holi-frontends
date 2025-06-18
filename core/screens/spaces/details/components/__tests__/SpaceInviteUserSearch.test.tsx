@@ -5,8 +5,8 @@ import React from 'react'
 import { createCache } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
-import { usersByNameWithSpaceConnectionQuery } from '@holi/core/screens/spaces/details/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { UsersByNameWithSpaceConnectionDocument } from '@holi/api/graphql/graphql-codegen'
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
@@ -24,7 +24,7 @@ const createUser = (index: number) => ({
   __typename: 'User',
 })
 const userSearchRequest = {
-  query: usersByNameWithSpaceConnectionQuery,
+  query: UsersByNameWithSpaceConnectionDocument,
   variables: {
     substring: 'foobar',
     spaceId,

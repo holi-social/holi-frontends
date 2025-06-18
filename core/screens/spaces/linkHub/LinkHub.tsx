@@ -11,7 +11,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
 import SuggestedTools from '@holi/core/screens/spaces/linkHub/components/SuggestedTools'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import { Add } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -82,7 +82,7 @@ const LinkHub = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
+      spaceConnectionType={SpaceUserConnectionType.Member}
     >
       <HoliTabs
         activeTab={activeTab}

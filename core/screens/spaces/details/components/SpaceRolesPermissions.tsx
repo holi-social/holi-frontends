@@ -8,7 +8,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -17,6 +16,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollViewLayout'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceRolesPermissionsParams = {
   spaceIdOrName: string
@@ -238,7 +238,7 @@ const SpaceRolesPermissions = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      spaceConnectionType={SpaceUserConnectionType.Administrator}
     >
       <HoliTabs
         testID="collaborator-tabs"

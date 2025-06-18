@@ -1,125 +1,94 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
-import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
 import {
   LOCATION_TYPE_OPTIONS,
   INTERACTION_TYPE_OPTIONS,
   VISIBILITY_TYPE_OPTIONS,
 } from '@holi/core/screens/spaces/tasks/consts'
-import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
-import type { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, LinkM } from '@holi/icons/src/generated'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import HoliModalSelect from '@holi/ui/components/organisms/HoliModalSelect'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
 
 import TimeFrameSection from './sections/TimeFrameSection'
 import TimingSection from './sections/TimingSection'
-import type { UseTimeFrameReturnValue } from './sections/TimeFrameSection/useTimeFrame'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
-import type { UseTimingReturnValue } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/sections/TimingSection/useTiming'
-import type { InteractionType as CGInteractionType, InteractionType } from '@holi/api/graphql/graphql-codegen'
+import { InteractionType as CGInteractionType, LocationType, VisibilityType } from '@holi/api/graphql/graphql-codegen'
+
+import type { TaskFormInput } from './types'
+import { useTimeFrame } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
 
 export interface TaskInputFormProps {
-  name: string
-  description: string
-  impact?: string
-  contactEmail: string
-  interactionSignupLink?: string
-  skills: string[]
-  slotsAvailable?: number
-  visibility?: HoliModalSelectOption
-  locationType?: HoliModalSelectOption
-  interactionType?: HoliModalSelectOption
-  thumbnail?: HoliImageInfo
-  thumbnailBlurhash?: string
-  geolocation?: GeolocationPoint
-  contactPhone?: string
-  selectedLocation?: GeolocationSuggestion
-  currentThumbnail?: string
-  timingSectionProps: UseTimingReturnValue
-  timeFrameSectionProps: UseTimeFrameReturnValue
-  onChangeName: (_: string) => void
-  onChangeDescription: (_: string) => void
-  onChangeImpact?: (_: string) => void
-  onChangeVisibility: (_: HoliModalSelectOption) => void
-  onChangeLocationType: (_: HoliModalSelectOption) => void
-  onChangeInteractionType: (_: HoliModalSelectOption<CGInteractionType>) => void
-  onChangeContactEmail: (_: string) => void
-  onChangeInteractionSignupLink: (_: string) => void
-  onChangeSlotsAvailable: (_: number) => void
-  onChangeThumbnail: (_: HoliImageInfo) => void
-  onChangeSkills: (_: string[]) => void
-  onChangeGeolocation: (_: GeolocationPoint) => void
-  onChangeContactPhone: (_: string) => void
-  onChangeSelectedLocation: (_?: GeolocationSuggestion) => void
+  taskInput: TaskFormInput
+  onTaskInputChange: (update: Partial<TaskFormInput>) => void
+  validateField: (field: keyof TaskFormInput) => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
   isAdmin?: boolean
 }
 
 const TaskInputForm: React.FC<TaskInputFormProps> = ({
-  name,
-  description,
-  impact,
-  visibility,
-  locationType,
-  interactionType,
-  contactEmail,
-  interactionSignupLink,
-  thumbnail,
-  currentThumbnail,
-  contactPhone,
-  skills,
-  selectedLocation,
-  timeFrameSectionProps,
-  timingSectionProps,
-  onChangeName,
-  onChangeDescription,
-  onChangeImpact,
-  onChangeVisibility,
-  onChangeLocationType,
-  onChangeInteractionType,
-  onChangeContactEmail,
-  onChangeInteractionSignupLink,
-  onChangeThumbnail,
-  onChangeContactPhone,
-  onChangeSkills,
-  onChangeSelectedLocation,
+  taskInput,
+  onTaskInputChange,
+  validateField,
   isEdit = false,
   fieldErrors = {},
   isAdmin,
 }: TaskInputFormProps) => {
-  const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
-  const [locationTypeOptions, setLocationTypeOptions] = useState<HoliModalSelectOption[]>(LOCATION_TYPE_OPTIONS)
-  const [interactionTypeOptions, setInteractionTypeOptions] =
-    useState<HoliModalSelectOption<InteractionType>[]>(INTERACTION_TYPE_OPTIONS)
+  const {
+    show: showVisibility,
+    visible: visibleVisibility,
+    props: { onDismiss: hideVisibility },
+  } = useModalState({
+    onDismiss: () => validateField('visibility'),
+  })
+  const {
+    show: showLocationType,
+    visible: visibleLocationType,
+    props: { onDismiss: hideLocationType },
+  } = useModalState({
+    onDismiss: () => validateField('locationType'),
+  })
+  const {
+    show: showInteractionType,
+    visible: visibleInteractionType,
+    props: { onDismiss: hideInteractionType },
+  } = useModalState({
+    onDismiss: () => validateField('interactionType'),
+  })
 
-  const [hasInteractedWithEmail, setHasInteractedWithEmail] = useState(false)
-  const [hasInteractedWithSignupLink, setHasInteractedWithSignupLink] = useState(false)
-
-  const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
-  const { show: showLocationType, hide: hideLocationType, visible: visibleLocationType } = useModalState()
-  const { show: showInteractionType, hide: hideInteractionType, visible: visibleInteractionType } = useModalState()
+  const timeFrameSectionProps = useTimeFrame(
+    {
+      anytime: !taskInput.timeframeStartDate && !taskInput.timeframeEndDate,
+      start: new Date(taskInput.timeframeStartDate ?? Date.now()),
+      end: new Date(taskInput.timeframeEndDate ?? Date.now()),
+    },
+    ({ anytime, start, end }) =>
+      onTaskInputChange(
+        anytime
+          ? { timeframeStartDate: undefined, timeframeEndDate: undefined }
+          : { timeframeStartDate: start.toISOString().split('T')[0], timeframeEndDate: end.toISOString().split('T')[0] }
+      )
+  )
 
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
@@ -128,73 +97,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
-
-  const nameError = fieldErrors?.name?.length ? fieldErrors.name[0] : undefined
-  const descriptionError = fieldErrors?.description?.length ? fieldErrors.description[0] : undefined
-  const contactPhoneError = fieldErrors?.contactPhone?.length ? fieldErrors.contactPhone[0] : undefined
-  const contactEmailError =
-    hasInteractedWithEmail && fieldErrors?.contactEmail?.length ? t('global.validation.email.invalid') : undefined
-  const interactionSignupLinkError =
-    hasInteractedWithSignupLink && fieldErrors.interactionSignupLink?.length
-      ? t('global.validation.url.invalid')
-      : undefined
-
-  // set options translations
-  useEffect(() => {
-    setVisibilityOptions((options) =>
-      options.map((option) => ({
-        ...option,
-        title: t(`spaces.input.task.visibility.${option.id}.title`),
-        description: t(`spaces.input.task.visibility.${option.id}.description`),
-        disabled: !isAdmin && option.id === VisibilityType.PUBLIC ? true : false,
-      }))
-    )
-
-    setLocationTypeOptions((options) =>
-      options.map((option) => ({
-        ...option,
-        title: t(`spaces.input.task.locationType.${option.id}.title`),
-      }))
-    )
-
-    setInteractionTypeOptions((options) =>
-      options.map((option) => ({
-        ...option,
-        title: t(`spaces.input.task.interactionType.${option.id}.title`),
-        description: t(`spaces.input.task.interactionType.${option.id}.description`),
-      }))
-    )
-  }, [t, setVisibilityOptions, setLocationTypeOptions, isAdmin])
-
-  useEffect(() => {
-    if (visibility) {
-      setVisibilityOptions((options) =>
-        options.map((visibilityOption) =>
-          visibilityOption.title === visibility.title
-            ? { ...visibilityOption, selected: true }
-            : { ...visibilityOption, selected: false }
-        )
-      )
-    }
-    if (locationType) {
-      setLocationTypeOptions((options) =>
-        options.map((locationTypeOption) =>
-          locationTypeOption.title === locationType.title
-            ? { ...locationTypeOption, selected: true }
-            : { ...locationTypeOption, selected: false }
-        )
-      )
-    }
-    if (interactionType) {
-      setInteractionTypeOptions((options) =>
-        options.map((interactionTypeOption) =>
-          interactionTypeOption.title === interactionType.title
-            ? { ...interactionTypeOption, selected: true }
-            : { ...interactionTypeOption, selected: false }
-        )
-      )
-    }
-  }, [visibility, locationType, interactionType])
 
   const ThumbnailUploader = () => {
     return (
@@ -209,10 +111,14 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         borderColor="default"
       >
         {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
-        {thumbnail?.uri ? (
-          <ReactNativeImage source={{ uri: thumbnail?.uri ?? '' }} aria-hidden={true} style={styles.thumbnail} />
-        ) : currentThumbnail ? (
-          <ReactNativeImage source={{ uri: currentThumbnail }} aria-hidden={true} style={styles.thumbnail} />
+        {taskInput.thumbnail ? (
+          <ReactNativeImage
+            source={{ uri: taskInput.thumbnail?.uri ?? taskInput.thumbnail }}
+            aria-hidden={true}
+            style={styles.thumbnail}
+          />
+          // ) : currentThumbnail ? (
+          //   <ReactNativeImage source={{ uri: currentThumbnail }} aria-hidden={true} style={styles.thumbnail} />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
             <HoliIcon icon={LinkM} size={20} colorOverride={colors.brandColorB30} />
@@ -230,7 +136,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
               testID: 'space-upload-image-btn',
               style: styles.imageUploadButton,
             }}
-            onPickImage={onChangeThumbnail}
+            onPickImage={(image) => onTaskInputChange({ thumbnail: image })}
           />
         </Stack>
         <Instructions />
@@ -253,19 +159,38 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
       <Text size="lg" testID="task-visibility-title">
         {t('spaces.input.task.section.visibility')}
       </Text>
+
       <HoliModalSelect
-        options={visibilityOptions}
+        selected={taskInput.visibility}
+        options={VISIBILITY_TYPE_OPTIONS.map((option) => ({
+          ...option,
+          title: t(`spaces.input.task.visibility.${option.id}.title`),
+          description: t(`spaces.input.task.visibility.${option.id}.description`),
+          disabled: !isAdmin && option.id === VisibilityType.Public ? true : false,
+        }))}
         style={styles.marginSeparator}
         title={t('spaces.input.task.section.visibility')}
-        onChange={onChangeVisibility}
+        onChange={(option) => {
+          onTaskInputChange({ visibility: option.id })
+          return false
+        }}
         placeholder={t('spaces.input.task.visibility.placeholder')}
         label={t('spaces.input.task.visibility.label')}
-        testID="task-visibility-input"
         isRequired
         show={showVisibility}
         hide={hideVisibility}
         visible={visibleVisibility}
+        validationErrorText={fieldErrors.visibility?.[0]}
+        modalFooter={
+          <Button
+            onPress={hideVisibility}
+            label={t('spaces.input.task.section.timing.duration.modal.saveButtonLabel')}
+            testID="task-visibility-input-save-button"
+          />
+        }
+        testID="task-visibility-input"
       />
+
       <View style={styles.sectionWrapper}>
         <Text size="lg" testID="task-input-label-name">
           {t('spaces.input.task.section.about')}
@@ -274,38 +199,40 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
           inputLabel={t('spaces.input.task.name.label')}
-          validationErrorText={nameError}
-          value={name}
-          onChange={onChangeName}
+          validationErrorText={fieldErrors.name?.[0]}
+          value={taskInput.name}
+          onChange={(name) => onTaskInputChange({ name })}
           style={styles.marginSeparator}
           aria-label={t('spaces.input.task.name.label')}
           testID="task-name"
           isRequired
           showCharacterCount
           maxNoOfCharacters={128}
+          onBlur={() => validateField('name')}
         />
 
         <HoliTextInput
           placeholder={t('spaces.input.task.description.placeholder')}
           inputLabel={t('spaces.input.task.description.label')}
-          value={description}
-          onChange={onChangeDescription}
+          value={taskInput.description}
+          onChange={(description) => onTaskInputChange({ description })}
           style={styles.marginSeparator}
           aria-label={t('spaces.input.task.description.label')}
-          validationErrorText={descriptionError}
+          validationErrorText={fieldErrors.description?.[0]}
           testID="task-description"
           isRequired
           showCharacterCount
           noOfVisibleLines={4}
           maxNoOfVisibleLines={8}
           maxNoOfCharacters={1200}
+          onBlur={() => validateField('description')}
         />
 
         <HoliTextInput
           placeholder={t('spaces.input.task.impact.placeholder')}
           inputLabel={t('spaces.input.task.impact.label')}
-          value={impact}
-          onChange={onChangeImpact}
+          value={taskInput.impact}
+          onChange={(impact) => onTaskInputChange({ impact })}
           style={styles.marginSeparator}
           aria-label={t('spaces.input.task.impact.label')}
           testID="task-impact"
@@ -317,14 +244,16 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
         <Stack margin={{ top: 'xs' }}>
           <Text size="lg">{t('spaces.input.task.section.skills.title')}</Text>
+
           <Stack margin={{ top: '3xs' }}>
             <Text color="support" size="md">
               {t('spaces.input.task.section.skills.description')}
             </Text>
           </Stack>
-          {!!skills?.length && (
+
+          {!!taskInput.skillsV2?.length && (
             <Stack margin={{ top: 'xs' }} direction="row" wrap="wrap" flexShrink={1} gap="3xs">
-              {skills.map((skill) => (
+              {taskInput.skillsV2.map((skill) => (
                 <ChipLabel key={skill} color="blue">
                   {t(`skill.${skill}`)}
                 </ChipLabel>
@@ -334,12 +263,12 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
           <Stack alignSelf="flex-start" margin={{ top: 'xs' }}>
             <Button
-              label={t(skills.length > 0 ? 'global.edit' : 'global.add')}
+              label={t(taskInput.skillsV2 && taskInput.skillsV2.length > 0 ? 'global.edit' : 'global.add')}
               variant="secondary"
               inline
               onPress={showSkillsForm}
               testID="btn-task-edit-skills-modal"
-              icon={skills.length > 0 ? Edit2 : Add}
+              icon={taskInput.skillsV2 && taskInput.skillsV2.length > 0 ? Edit2 : Add}
             />
           </Stack>
         </Stack>
@@ -347,30 +276,53 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
       <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
         <Text size="lg">{t('spaces.input.task.section.location')}</Text>
+
         <HoliModalSelect
-          options={locationTypeOptions}
+          selected={taskInput.locationType}
+          options={LOCATION_TYPE_OPTIONS.map((option) => ({
+            ...option,
+            title: t(`spaces.input.task.locationType.${option.id}.title`),
+          }))}
           title={t('spaces.input.task.locationType.label')}
           label={t('spaces.input.task.locationType.label')}
           placeholder={t('spaces.input.task.locationType.placeholder')}
           description={t('spaces.input.task.locationType.placeholder')}
           style={styles.marginSeparator}
-          onChange={onChangeLocationType}
+          onChange={(option) => {
+            onTaskInputChange({ locationType: option.id })
+            return false
+          }}
           isRequired
-          testID="task-locationType"
           variant="dense"
           show={showLocationType}
           hide={hideLocationType}
+          modalFooter={
+            <Button
+              onPress={hideLocationType}
+              label={t('spaces.input.task.section.timing.duration.modal.saveButtonLabel')}
+              testID="task-locationType-input-save-button"
+            />
+          }
           visible={visibleLocationType}
+          validationErrorText={fieldErrors.locationType?.[0]}
+          testID="task-locationType"
         />
 
-        {locationType && locationType.id !== LocationType.REMOTE && (
+        {taskInput.locationType && taskInput.locationType !== LocationType.Remote && (
           <PlacesAutocomplete
             label={t('spaces.input.location.label')}
             placeholder={t('spaces.input.location.placeholder')}
-            selected={selectedLocation}
+            selected={{ id: '', label: taskInput.location ?? '', coordinates: taskInput.geolocation }}
             id="task-location"
             testID="task-location"
-            onChange={onChangeSelectedLocation}
+            onChange={(geolocation) => {
+              if (geolocation?.coordinates) {
+                onTaskInputChange({
+                  location: geolocation.label,
+                  geolocation: geolocation?.coordinates,
+                })
+              }
+            }}
             style={[styles.marginSeparator, { zIndex: 1 }]}
             inputProps={{ autoFocus: !isEdit }}
             helperText={t('spaces.input.location.validation.helper')}
@@ -380,40 +332,64 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
       <View style={[styles.sectionWrapper, { zIndex: 1 }]}>
         <Text size="lg">{t('spaces.input.task.section.interactionType')}</Text>
+
         <HoliModalSelect
-          options={interactionTypeOptions}
+          selected={taskInput.interactionType}
+          options={INTERACTION_TYPE_OPTIONS.map((option) => ({
+            ...option,
+            title: t(`spaces.input.task.interactionType.${option.id}.title`),
+            description: t(`spaces.input.task.interactionType.${option.id}.description`),
+          }))}
           title={t('spaces.input.task.interactionType.label')}
           label={t('spaces.input.task.interactionType.label')}
           placeholder={t('spaces.input.task.interactionType.placeholder')}
           description={t('spaces.input.task.interactionType.description')}
           style={styles.marginSeparator}
-          onChange={onChangeInteractionType}
+          onChange={(option) => {
+            onTaskInputChange({ interactionType: option.id })
+            return false
+          }}
           isRequired
-          testID="task-interactionType"
           show={showInteractionType}
           hide={hideInteractionType}
+          modalFooter={
+            <Button
+              onPress={hideInteractionType}
+              label={t('spaces.input.task.section.timing.duration.modal.saveButtonLabel')}
+              testID="task-interactionType-input-save-button"
+            />
+          }
           visible={visibleInteractionType}
+          validationErrorText={fieldErrors.interactionType?.[0]}
+          testID="task-interactionType"
         />
       </View>
-      {interactionType?.id === 'LINK' && (
+
+      {taskInput.interactionType === CGInteractionType.Link && (
         <Stack margin={{ top: 'xs' }}>
           <HoliTextInput
             placeholder={t('spaces.input.task.interactionSignupLink.placeholder')}
             inputLabel={t('spaces.input.task.interactionSignupLink.label')}
-            validationErrorText={interactionSignupLinkError}
-            value={interactionSignupLink}
-            onChange={onChangeInteractionSignupLink}
+            value={taskInput.interactionSignupLink}
+            onChange={(interactionSignupLink) => onTaskInputChange({ interactionSignupLink })}
             style={styles.marginSeparator}
             aria-label={t('spaces.input.task.interactionSignupLink.label')}
-            testID="task-interactionSignupLink"
             maxNoOfCharacters={1200}
-            onBlur={() => setHasInteractedWithSignupLink(true)}
+            onBlur={() => validateField('interactionSignupLink')}
+            validationErrorText={fieldErrors.interactionSignupLink?.[0]}
+            testID="task-interactionSignupLink"
           />
         </Stack>
       )}
 
       <View style={styles.sectionWrapper}>
-        <TimingSection {...timingSectionProps} />
+        <TimingSection
+          duration={taskInput.duration}
+          regularity={taskInput.regularity}
+          onChange={onTaskInputChange}
+          fieldErrors={fieldErrors}
+          validateField={validateField}
+        />
       </View>
 
       <View style={styles.sectionWrapper}>
@@ -422,26 +398,28 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
       <View style={styles.sectionWrapper}>
         <Text size="lg">{t('spaces.input.task.section.contact')}</Text>
+
         <HoliTextInput
           placeholder={t('spaces.input.task.contactEmail.placeholder')}
           inputLabel={t('spaces.input.task.contactEmail.label')}
-          validationErrorText={contactEmailError}
+          validationErrorText={fieldErrors.contactEmail?.length ? t('global.validation.email.invalid') : undefined}
           isRequired
-          value={contactEmail}
-          onChange={onChangeContactEmail}
+          value={taskInput.contactEmail}
+          onChange={(contactEmail) => onTaskInputChange({ contactEmail })}
           style={styles.marginSeparator}
           aria-label={t('spaces.input.task.contactEmail.label')}
           testID="task-contactEmail"
           maxNoOfCharacters={256}
-          onBlur={() => setHasInteractedWithEmail(true)}
+          onBlur={() => validateField('contactEmail')}
         />
+
         <HoliTextInput
           placeholder={t('spaces.input.task.contactPhone.placeholder')}
           inputLabel={t('spaces.input.task.contactPhone.label')}
-          validationErrorText={contactPhoneError}
+          validationErrorText={fieldErrors.contactPhone?.[0]}
           type="number"
-          value={contactPhone}
-          onChange={onChangeContactPhone}
+          value={taskInput.contactPhone}
+          onChange={(contactPhone) => onTaskInputChange({ contactPhone })}
           style={styles.marginSeparator}
           aria-label={t('spaces.input.task.contactPhone.label')}
           testID="task-contactPhone"
@@ -451,6 +429,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
       <View style={styles.sectionWrapper}>
         <Text size="lg">{t('spaces.input.task.section.thumbnail')}</Text>
+
         <ThumbnailUploader />
       </View>
 
@@ -477,8 +456,8 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
                 title={t('spaces.input.task.section.skills')}
                 description={t('spaces.input.task.section.skills.description')}
                 searchPlaceholder={t('spaces.input.task.section.skills.search')}
-                selected={skills}
-                onSelect={onChangeSkills}
+                selected={taskInput.skillsV2 ?? []}
+                onSelect={(skillsV2) => onTaskInputChange({ skillsV2 })}
                 termType="skill"
               />
             </HoliContainer>

@@ -1,20 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, StyleProp, View, ViewStyle } from 'react-native'
+import { Keyboard, type StyleProp, View, type ViewStyle } from 'react-native'
 import { z } from 'zod'
 
-import { FieldError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import type { FieldError } from '@holi/core/errors/helpers'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { createUUID } from '@holi/core/helpers'
 import { generateSpaceVideoCallUrl } from '@holi/core/screens/spaces/helpers/urls'
-import { Space } from '@holi/core/screens/spaces/types'
 import { useVideoCallLinkStorage } from '@holi/core/screens/spaces/videoCall/useVideoCallLinkStorage'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 interface AddVideoCallLinkProps {
-  space: Space
+  space: Pick<Space, 'name'>
   style?: StyleProp<ViewStyle>
 }
 

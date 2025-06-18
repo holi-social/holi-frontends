@@ -16,14 +16,14 @@ import {
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
-import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { SpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const topicsV2 = ['topic1']
 const createSpacePaginationMock = (offset = 0) => ({
   request: {
-    query: spacesQuery,
+    query: SpacesDocument,
     variables: {
       limit: pageSize,
       offset,
@@ -191,7 +191,7 @@ describe('usePaginationQuery', () => {
           createSpacePaginationMock(pageSize * 2),
         ]}
       >
-        <TestComponent query={spacesQuery} queryPath="spaces" variables={{ topicsV2 }} />
+        <TestComponent query={SpacesDocument} queryPath="spaces" variables={{ topicsV2 }} />
       </MockedProvider>
     )
 

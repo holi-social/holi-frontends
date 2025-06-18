@@ -22,7 +22,6 @@ import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFoot
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, type PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -31,6 +30,7 @@ import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type PostDetailPageParams = {
   postId: string
@@ -55,7 +55,7 @@ const PostDetailPage = () => {
   const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { space } = useSpace(spaceIdOrName)
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   const { t } = useTranslation()
   const { theme } = useTheme()

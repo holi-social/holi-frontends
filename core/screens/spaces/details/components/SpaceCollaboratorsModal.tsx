@@ -1,20 +1,24 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { ScrollView, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
-import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import {
+  SpaceMembersBySpaceIdDocument,
+  SpaceUserConnectionType,
+  type Space,
+  type SpaceMember,
+} from '@holi/api/graphql/graphql-codegen'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpaceCollaboratorsModalProps = {
@@ -44,7 +48,7 @@ const SpaceCollaboratorsModal: React.FC<SpaceCollaboratorsModalProps> = ({ shown
     },
   }
 
-  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   const handleNavigation = useCallback(
     (id: string) => {
@@ -82,7 +86,7 @@ const SpaceCollaboratorsModal: React.FC<SpaceCollaboratorsModalProps> = ({ shown
       <ToastProvider>
         <ScrollView contentContainerStyle={[mixins.container, styles.wrapper]}>
           <Pagination
-            query={spaceMembersQuery}
+            query={SpaceMembersBySpaceIdDocument}
             queryOptions={queryOptions}
             fetchMoreButtonProps={{ style: styles.buttonContainer }}
             fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}

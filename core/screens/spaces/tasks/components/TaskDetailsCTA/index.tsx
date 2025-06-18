@@ -24,6 +24,7 @@ import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliAction
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { InteractionType, type Duration, type Regularity } from '@holi/api/graphql/graphql-codegen'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
+import type { User } from '@holi/core/domain/shared/types'
 
 interface Props {
   spaceIdOrName?: string
@@ -82,7 +83,7 @@ export const TaskDetailsCTA = ({
       return undefined
     }
 
-    const chatPartnerMatrixIds = adminUsers.map(({ identity }) => toMatrixIdentity(identity))
+    const chatPartnerMatrixIds = adminUsers.map(({ identity }) => toMatrixIdentity(identity ?? ''))
     const { room_id } = await getOrCreateSpaceTaskRoom(chatPartnerMatrixIds, {
       type: 'space.task',
       content: {
@@ -100,7 +101,7 @@ export const TaskDetailsCTA = ({
     if (!isChatInitialized) return undefined
     if (!adminUsers) return undefined
 
-    const adminMatrixUserIds = adminUsers.map(({ identity }) => toMatrixIdentity(identity))
+    const adminMatrixUserIds = adminUsers.map(({ identity }) => toMatrixIdentity(identity ?? ''))
     return getExistingRoomId(adminMatrixUserIds, 'space.task')
   }
   const existingRoomId = findExistingRoomId()
@@ -182,7 +183,7 @@ export const TaskDetailsCTA = ({
 
           <Stack padding={{ top: 'xxs' }}>
             <StartChatButton
-              chatPartners={adminUsers}
+              chatPartners={adminUsers as User[]}
               trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
               // icon={ChatSmile2}
               label={t('spaces.tasks.contactOrganization.cta.chat.open')}

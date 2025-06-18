@@ -4,17 +4,16 @@ import { useTranslation } from 'react-i18next'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Button } from 'holi-bricks/components/button'
-import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import { type Appointment, type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 interface AppointmentsListProps {
-  space: Space
+  space: Pick<Space, 'id' | 'connectionStatusToMyself' | 'name'>
   pastAppointments?: boolean
 }
 
@@ -23,8 +22,8 @@ const AppointmentsList = ({ space, pastAppointments = false }: AppointmentsListP
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   const gridBreakpoints: [number, number][] = [
     [0, 1],

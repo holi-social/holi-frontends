@@ -1,15 +1,17 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
-
 import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser, notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
-import { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  UpdateSpaceUserConnectionDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const useLoggedInUserMock = jest.mocked(useLoggedInUser)
@@ -26,10 +28,10 @@ global.console.warn = jest.fn()
 
 const acceptRequest = {
   request: {
-    query: updateSpaceUserConnectionMutation,
+    query: UpdateSpaceUserConnectionDocument,
     variables: {
-      connectAction: SpaceConnectionAction.CONNECT,
-      connectionType: SpaceConnectionType.MEMBER,
+      connectAction: UpdateConnectionAction.Connect,
+      connectionType: SpaceUserConnectionType.Member,
       userId: notificationSpaceConnectionRequest.options.user.id,
       spaceId: notificationSpaceConnectionRequest.options.space.id,
     },
@@ -40,10 +42,10 @@ const acceptRequest = {
 }
 const declineRequest = {
   request: {
-    query: updateSpaceUserConnectionMutation,
+    query: UpdateSpaceUserConnectionDocument,
     variables: {
-      connectAction: SpaceConnectionAction.DISCONNECT,
-      connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+      connectAction: UpdateConnectionAction.Disconnect,
+      connectionType: SpaceUserConnectionType.MembershipRequestor,
       userId: notificationSpaceConnectionRequest.options.user.id,
       spaceId: notificationSpaceConnectionRequest.options.space.id,
     },

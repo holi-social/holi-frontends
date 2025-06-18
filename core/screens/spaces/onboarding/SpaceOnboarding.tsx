@@ -9,7 +9,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, Checkbox, Team } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -65,7 +65,7 @@ const SpaceOnboarding = () => {
   return (
     <PermissionsGuard
       space={space}
-      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      spaceConnectionType={SpaceUserConnectionType.Administrator}
       permissionType={PermissionsType.SPACES}
     >
       <ScrollView style={styles.layout}>

@@ -7,16 +7,15 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
-import type { Space } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import SpaceUpdatesList from '@holi/core/screens/spaces/updates/components/SpaceUpdatesList'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { Spacing } from 'holi-bricks/foundations'
+import { CreateSpacePostDocument, SpaceUserConnectionType, VisibilityFilter } from '@holi/api/graphql/graphql-codegen'
 
 export interface SpaceUpdatesTabProps {
   space: Space
@@ -30,7 +29,7 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { displayError } = useErrorHandling()
   const styles = getStyles()
 
-  const [filter, setFilter] = useState(VisibilityFilter.ALL)
+  const [filter, setFilter] = useState(VisibilityFilter.All)
 
   const spacePostQueryOptions: PaginationQueryHookOptions = {
     pageSize: POSTS_RESULT_PAGE_SIZE,
@@ -44,15 +43,15 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
 
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
   const headline = isMember ? t('spaces.updates.noResults.headline.member') : t('spaces.updates.noResults.headline')
 
   const hasPosts = (isMember && space.hasPrivatePosts) || space.hasPublicPosts
   const hasPostFilter = isMember && space.hasPrivatePosts && space.hasPublicPosts
 
-  const isFilterAll = filter === VisibilityFilter.ALL
-  const isFilterPublic = filter === VisibilityFilter.PUBLIC
-  const isFilterMembers = filter === VisibilityFilter.MEMBERS
+  const isFilterAll = filter === VisibilityFilter.All
+  const isFilterPublic = filter === VisibilityFilter.Public
+  const isFilterMembers = filter === VisibilityFilter.Members
   const showNoResults = !hasPosts || (!isMember && !space.hasPublicPosts)
 
   return (
@@ -75,7 +74,7 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
       {hasPosts && hasPostFilter && (
         <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.buttonWrapper}>
           <ChipAction
-            onPress={() => setFilter(VisibilityFilter.ALL)}
+            onPress={() => setFilter(VisibilityFilter.All)}
             selected={isFilterAll}
             color="white"
             size="lg"
@@ -84,7 +83,7 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
             {t('spaces.updates.filter.all')}
           </ChipAction>
           <ChipAction
-            onPress={() => setFilter(VisibilityFilter.PUBLIC)}
+            onPress={() => setFilter(VisibilityFilter.Public)}
             selected={isFilterPublic}
             color="white"
             size="lg"
@@ -94,7 +93,7 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
             {t('spaces.updates.filter.public')}
           </ChipAction>
           <ChipAction
-            onPress={() => setFilter(VisibilityFilter.MEMBERS)}
+            onPress={() => setFilter(VisibilityFilter.Members)}
             selected={isFilterMembers}
             color="white"
             size="lg"
@@ -107,10 +106,10 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
       )}
 
       <Pagination
-        query={spacePostsQuery}
+        query={CreateSpacePostDocument}
         queryOptions={{
           ...spacePostQueryOptions,
-          variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.ALL },
+          variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.All },
         }}
         loadMoreOnScroll={true}
         scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}

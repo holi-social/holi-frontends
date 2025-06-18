@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,15 +6,16 @@ import type { StyleProp, ViewStyle } from 'react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { Button } from 'holi-bricks/components/button'
+import {
+  type Space,
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceFollowProps = {
   space: Space
@@ -31,7 +31,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()
 
-  const [followSpace, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
+  const [followSpace, { loading }] = useUpdateSpaceUserConnectionMutation({
     // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
     update: (cache) => {
       cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
@@ -45,10 +45,10 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
     },
   })
 
-  const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
-  const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
-  const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
+  const isFollowing = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.Follower)
+  const isInvited = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.MembershipInvitee)
+  const isMember = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
+  const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.MembershipRequestor)
 
   const onFollowSpaceButtonPressed = useCallback(() => {
     track(TrackingEvent.Spaces.followSpaceButtonPressed(space.id, isLoggedIn))
@@ -61,8 +61,8 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
     }
     return followSpace({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.FOLLOWER,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.Follower,
         spaceId: space.id,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.followed(space.id)),
@@ -73,8 +73,8 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
     setUnfollowDialogIsOpen(false)
     followSpace({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.FOLLOWER,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.Follower,
         spaceId: space.id,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.unfollowed(space.id)),

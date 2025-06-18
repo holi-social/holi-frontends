@@ -5,7 +5,7 @@ import type { Appointment } from '@holi/core/screens/appointments/types'
 import type { Comment } from '@holi/core/screens/comments/types'
 import type { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import type { Post } from '@holi/core/screens/posts/types'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 export enum NotificationType {
   POST_REACTION = 'PR',

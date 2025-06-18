@@ -1,4 +1,4 @@
-query taskById($id: UUID!) {
+query TaskById($id: UUID!) {
   taskById(id: $id) {
     id
     name
@@ -75,6 +75,7 @@ mutation UpdateTask($input: UpdateTaskInput!) {
     contactEmail
     contactPhone
     thumbnail
+    thumbnailBlurhash
     interactionType
     interactionSignupLink
   }

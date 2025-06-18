@@ -21,13 +21,12 @@ import {
   UpdateCollaborationToolSchema,
   updateCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
+import { CollectionType, SpaceByIdDocument, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type EditDigitalToolParams = {
   spaceIdOrName: string
@@ -62,10 +61,10 @@ const EditDigitalTool = () => {
   useEffect(() => {
     if (space) {
       const collaborationTools = space ? space.collaborationTools : []
-      if (collaborationTools && collaborationTools.length > 0 && toolId) {
+      if (collaborationTools.length > 0 && toolId) {
         const digitalTool = collaborationTools.find((tool) => tool.id === toolId)
         const collectionType = COLLECTION_TYPES.filter(
-          (collection_type) => collection_type === digitalTool?.collectionType
+          (cType) => CollectionType[cType] === digitalTool?.collectionType
         )[0]
         const toolCollectionType = {
           id: collectionType,
@@ -94,7 +93,7 @@ const EditDigitalTool = () => {
         setFieldErrors(handleGraphQLError(error))
       }
     },
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: spaceIdOrName } }],
   })
 
   const { handleGraphQLError } = useFieldErrors({
@@ -169,7 +168,7 @@ const EditDigitalTool = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
+      spaceConnectionType={SpaceUserConnectionType.Member}
     >
       <SpaceFormScreenLayout
         title={t('spaces.digitalTool.edit.title')}

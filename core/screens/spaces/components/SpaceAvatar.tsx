@@ -1,6 +1,6 @@
 import React from 'react'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar, type AvatarSizes } from 'holi-bricks/components/avatar'
 

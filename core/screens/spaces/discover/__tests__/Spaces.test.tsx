@@ -11,9 +11,9 @@ import {
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
-import { discoverSpacesDefaultTopicsV2, discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
+import { DiscoverSpacesDefaultTopicsDocument, DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const loginStateLoggedIn = {
   isLoading: false,
@@ -41,7 +41,7 @@ const mySpacesErrorMock = { ...mySpacesWithEmptyResultMock, error: new HoliError
 
 const defaultTopicsMock = {
   request: {
-    query: discoverSpacesDefaultTopicsV2,
+    query: DiscoverSpacesDefaultTopicsDocument,
   },
   result: {
     data: {
@@ -52,7 +52,7 @@ const defaultTopicsMock = {
 
 const discoverSpacesUserSpecificMock = {
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2: [],
       skillsV2: [],
@@ -68,7 +68,7 @@ const discoverSpacesUserSpecificMock = {
 
 const discoverSpacesDefaultMock = {
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2: ['animal-welfare'],
       geolocation: {},

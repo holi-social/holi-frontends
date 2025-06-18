@@ -10,12 +10,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceInviteView from '@holi/core/screens/spaces/details/components/SpaceInviteView'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowLeftS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceInviteViewParams = {
   spaceIdOrName: string
@@ -55,7 +55,7 @@ const SpaceInvitePage = () => {
   }
 
   // Only space members are allowed to see this screen
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
   if (!isMember) {
     navigate(`/spaces/${spaceIdOrName}`)
     return <></>

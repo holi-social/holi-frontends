@@ -8,7 +8,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
 import type { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, CalendarEvent } from '@holi/icons/src/generated'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -17,6 +16,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 interface AppointmentsWidgetProps {
   space: Space
@@ -67,8 +68,8 @@ const AppointmentsWidget = ({ space, appointments, totalResults, isCollaborator,
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   const navigateToAppointmentsPage = useCallback(() => {
     navigate(`/spaces/${space.name}/appointments`)

@@ -1,15 +1,15 @@
-import { type StoreObject, useMutation } from '@apollo/client'
+import type { StoreObject } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
-
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 export const useSpaceJoinRequest = (space: Space, showJoinOverlay: () => void, message?: string) => {
   const { isLoggedIn } = useLoggedInUser()
@@ -18,40 +18,37 @@ export const useSpaceJoinRequest = (space: Space, showJoinOverlay: () => void, m
   const { t } = useTranslation()
   const client = useApolloClient()
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
-      update: (cache) => {
-        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-      },
-      onCompleted() {
-        showJoinOverlay()
-      },
-      onError(error) {
-        if (!('__typename' in space)) {
-          console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
-        }
-        client.cache.evict({ id: client.cache.identify(space as unknown as StoreObject) })
-        const context = {
-          location: 'useSpaceJoinRequest.updateSpaceUserConnection',
-          spaceId: space.id,
-        }
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+    },
+    onCompleted() {
+      showJoinOverlay()
+    },
+    onError(error) {
+      if (!('__typename' in space)) {
+        console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
+      }
+      client.cache.evict({ id: client.cache.identify(space as unknown as StoreObject) })
+      const context = {
+        location: 'useSpaceJoinRequest.updateSpaceUserConnection',
+        spaceId: space.id,
+      }
 
-        if (error.message.includes('Not requested to join community')) {
-          displayError(error, 'Failed to request space membership as it was already handled', {
-            displayMessage: t('spaces.join.error.already-revoked'),
-            ...context,
-          })
-        } else {
-          displayError(error, 'Failed to request space membership', {
-            displayMessage: t('spaces.join.error'),
-            ...context,
-          })
-        }
-      },
-    }
-  )
+      if (error.message.includes('Not requested to join community')) {
+        displayError(error, 'Failed to request space membership as it was already handled', {
+          displayMessage: t('spaces.join.error.already-revoked'),
+          ...context,
+        })
+      } else {
+        displayError(error, 'Failed to request space membership', {
+          displayMessage: t('spaces.join.error'),
+          ...context,
+        })
+      }
+    },
+  })
 
   const submitJoinRequest = async () => {
     if (!isLoggedIn) {
@@ -62,9 +59,9 @@ export const useSpaceJoinRequest = (space: Space, showJoinOverlay: () => void, m
     }
     return updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-        message: message === '' ? null : message,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.MembershipRequestor,
+        message: message === '' ? undefined : message,
         spaceId: space.id,
       },
     })

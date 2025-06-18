@@ -1,4 +1,4 @@
-import type { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import type { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export type TermType = 'topic' | 'skill'
@@ -151,7 +151,7 @@ export interface User {
   interestsV2?: string[]
   skillsV2?: string[]
   connectionStatusToMyself?: UserConnectionStatus
-  connectionStatusToSpace?: SpaceConnectionType[]
+  connectionStatusToSpace?: SpaceUserConnectionType[]
 }
 
 export interface AuthenticatedUser extends User {

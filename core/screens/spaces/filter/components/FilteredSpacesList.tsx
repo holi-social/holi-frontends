@@ -7,7 +7,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { Button } from 'holi-bricks/components/button'
 

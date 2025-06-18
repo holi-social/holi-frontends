@@ -1,17 +1,17 @@
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { authenticatedUserV2, locationId } from '@holi/core/screens/spaces/__tests__/testData'
-import { mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
+import { MySpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 export const authenticatedUserMock = {
   request: {
     query: authenticatedUserV2Query,
-    variables: { userId: authenticatedUserV2.id },
+    variables: {},
   },
   result: {
     data: {
-      authenticatedUserV2,
+      authenticatedUserV2: { ...authenticatedUserV2 },
     },
   },
 }
@@ -52,7 +52,7 @@ export const defaultLocationDetailsMock = {
 
 export const mySpacesWithEmptyResultMock = {
   request: {
-    query: mySpaceQuery,
+    query: MySpacesDocument,
     variables: {},
   },
   result: {

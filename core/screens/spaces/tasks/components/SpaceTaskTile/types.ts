@@ -1,8 +1,8 @@
-import { Space, Task } from '@holi/core/screens/spaces/types'
+import type { Space, Task } from '@holi/api/graphql/graphql-codegen'
 
 export interface BaseProps {
   task: Task
-  space: Space
+  space: Pick<Space, 'id' | 'name' | 'title' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor'>
 }
 
 export interface ListProps extends BaseProps {

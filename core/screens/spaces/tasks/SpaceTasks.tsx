@@ -11,7 +11,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -19,6 +18,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceTasksParams = {
   spaceIdOrName: string
@@ -36,8 +36,8 @@ const SpaceTasks = () => {
   const { space, refetch } = useSpace(spaceIdOrName)
   useOnRefresh(refetch)
 
-  const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = !!space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
+  const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const isCollaborator = isAdmin || isMember
 
   const setScreenOptions = useSetScreenOptions()

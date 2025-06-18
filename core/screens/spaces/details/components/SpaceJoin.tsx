@@ -7,7 +7,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceUserConnectionType, UpdateConnectionAction } from '@holi/api/graphql/graphql-codegen'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Time } from '@holi/icons/src/generated'
@@ -36,16 +36,16 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
     setWithdrawDialogIsOpen(false)
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.MembershipRequestor,
         spaceId: space.id,
       },
     }).then(() => track(TrackingEvent.Spaces.RequestToJoin.withdrawn(space.id)))
   }, [updateSpaceUserConnection, space.id, track])
 
-  const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
-  const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
-  const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
+  const isRequestor = space.connectionStatusToMyself.includes(SpaceUserConnectionType.MembershipRequestor)
+  const isInvited = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.MembershipInvitee)
+  const isMember = space.connectionStatusToMyself.includes(SpaceUserConnectionType.Member)
 
   const onCollaborateButtonPressed = () => {
     track(TrackingEvent.Spaces.joinSpaceButtonPressed(space.id, isLoggedIn))

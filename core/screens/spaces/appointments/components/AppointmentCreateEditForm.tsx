@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
+import { type Space, SpaceUserConnectionType, type CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -10,7 +10,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import AppointmentInputForm, {
   getAppointmentDefaultInitialState,
 } from '@holi/core/screens/appointments/components/AppointmentInputForm'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -19,7 +18,7 @@ export type CreateAppointmentParams = {
 }
 
 interface AppointmentFormProps {
-  space: Space
+  space: Pick<Space, 'id' | 'connectionStatusToMyself' | 'name' | 'members'>
   initialAppointment?: CreateAppointmentInput
   headerTitle: string
   onSubmit: (appointment: CreateAppointmentInput) => Promise<void>
@@ -56,7 +55,7 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
+      spaceConnectionType={SpaceUserConnectionType.Member}
       redirectRoute={`/spaces/${space.id}`}
     >
       <AppointmentInputForm
@@ -66,7 +65,7 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
           getAppointmentDefaultInitialState({
             spaceId: space.id,
             // only admins can create spaces that are not inviteOnly, so for non-admins inviteOnly needs to be set to true
-            inviteOnly: !space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR),
+            inviteOnly: !space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator),
           })
         }
         onSubmit={onSubmit}

@@ -1,4 +1,3 @@
-import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import * as Notifications from 'expo-notifications'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -18,13 +17,6 @@ import { useNotificationEligibility } from '@holi/core/screens/notifications/hel
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/create/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/create/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/CreateSpaceTopics'
-import {
-  type CreateSpaceResponse,
-  type ValidateSpaceResponse,
-  createSpaceMutation,
-  validateSpaceMutation,
-} from '@holi/core/screens/spaces/create/mutations'
-import { type MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import { Close } from '@holi/icons/src/generated'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -35,6 +27,12 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Text } from 'holi-bricks/components/text'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
+import {
+  MySpacesDocument,
+  useCreateSpaceMutation,
+  useMySpacesQuery,
+  useValidateSpaceMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 const CreateSpace = () => {
   const { navigateBack } = useRouting()
@@ -53,7 +51,7 @@ const CreateSpace = () => {
   const setScreenOptions = useSetScreenOptions()
 
   let hasOwnSpaces = false
-  const { data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, { skip: !isLoggedIn })
+  const { data: mySpacesData } = useMySpacesQuery({ skip: !isLoggedIn })
   const mySpaces = mySpacesData?.mySpaces || []
   hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
 
@@ -72,7 +70,7 @@ const CreateSpace = () => {
     }
   }, [loginState])
 
-  const [validateSpace] = useMutation<ValidateSpaceResponse>(validateSpaceMutation, {
+  const [validateSpace] = useValidateSpaceMutation({
     onCompleted: () => setFieldErrors({}),
     onError: (error) => {
       if (isMaliciousUrlError(error)) {
@@ -82,7 +80,7 @@ const CreateSpace = () => {
       }
     },
   })
-  const [createSpace] = useMutation<CreateSpaceResponse>(createSpaceMutation, {
+  const [createSpace] = useCreateSpaceMutation({
     onCompleted: async (data) => {
       const spaceDetailsRoute = `/spaces/${data.createSpace.name}`
       await replaceHistory(spaceDetailsRoute)
@@ -110,7 +108,7 @@ const CreateSpace = () => {
       // Throw error to re-enable wizard save button
       throw error
     },
-    refetchQueries: [{ query: mySpaceQuery }],
+    refetchQueries: [{ query: MySpacesDocument }],
   })
 
   useIsomorphicLayoutEffect(() => {

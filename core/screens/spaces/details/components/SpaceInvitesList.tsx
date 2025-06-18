@@ -1,17 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpaceInviteItem from '@holi/core/screens/spaces/details/components/SpaceInviteItem'
-import { Space, SpaceInvite } from '@holi/core/screens/spaces/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import type { Space, SpaceInvite } from '@holi/api/graphql/graphql-codegen'
 
 type SpaceInvitesProps = {
-  space: Space
+  space: Pick<Space, 'id' | 'name'>
   style?: StyleProp<ViewStyle>
 }
 
@@ -54,7 +55,9 @@ const SpaceInvitesList: React.FC<SpaceInvitesProps> = ({ space, style }) => {
         </View>
       )}
       {!!spaceInvites.length &&
-        spaceInvites.map((invite) => <SpaceInviteItem invite={invite} space={space} key={invite.id} />)}
+        spaceInvites.map((invite) => (
+          <SpaceInviteItem invitedUser={invite.invitedUser} space={space} key={invite.id} />
+        ))}
     </View>
   )
 }

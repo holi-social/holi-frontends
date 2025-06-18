@@ -1,13 +1,16 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  UpdateSpaceUserConnectionDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
@@ -24,10 +27,10 @@ const user: User = {
   connectionStatusToSpace: [],
 }
 const inviteMutationRequest = {
-  query: updateSpaceUserConnectionMutation,
+  query: UpdateSpaceUserConnectionDocument,
   variables: {
-    connectAction: SpaceConnectionAction.CONNECT,
-    connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+    connectAction: UpdateConnectionAction.Connect,
+    connectionType: SpaceUserConnectionType.MembershipInvitee,
     userId: user.id,
     spaceId: spaceId,
   },
@@ -44,10 +47,10 @@ const inviteMutationErrorMock = {
 }
 
 const acceptMembershipRequest = {
-  query: updateSpaceUserConnectionMutation,
+  query: UpdateSpaceUserConnectionDocument,
   variables: {
-    connectAction: SpaceConnectionAction.CONNECT,
-    connectionType: SpaceConnectionType.MEMBER,
+    connectAction: UpdateConnectionAction.Connect,
+    connectionType: SpaceUserConnectionType.Member,
     userId: user.id,
     spaceId: spaceId,
   },
@@ -69,7 +72,7 @@ const renderComponent = ({
   onInviteHandled,
 }: {
   mocks?: MockedResponse[]
-  connectionStatusToSpace?: SpaceConnectionType[]
+  connectionStatusToSpace?: SpaceUserConnectionType[]
   onInviteHandled?: () => void
 } = {}) =>
   render(
@@ -86,12 +89,12 @@ const renderComponent = ({
 
 describe('SpaceInviteUserButton', () => {
   it('displays nothing if the user is already a member', () => {
-    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceConnectionType.MEMBER] })
+    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceUserConnectionType.Member] })
     expect(toJSON()).toMatchSnapshot()
   })
 
   it('displays status if the user is already invited', () => {
-    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_INVITEE] })
+    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceUserConnectionType.MembershipInvitee] })
     expect(toJSON()).toMatchSnapshot()
   })
 
@@ -121,14 +124,14 @@ describe('SpaceInviteUserButton', () => {
   })
 
   it('displays button if the user already requested membership', () => {
-    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_REQUESTOR] })
+    const { toJSON } = renderComponent({ connectionStatusToSpace: [SpaceUserConnectionType.MembershipRequestor] })
     expect(toJSON()).toMatchSnapshot()
   })
 
   it('accepts membership request on button press if the user already requested membership', async () => {
     const onInviteHandled = jest.fn()
     renderComponent({
-      connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_REQUESTOR],
+      connectionStatusToSpace: [SpaceUserConnectionType.MembershipRequestor],
       mocks: [acceptMembershipRequestSuccessMock],
       onInviteHandled,
     })
@@ -143,7 +146,7 @@ describe('SpaceInviteUserButton', () => {
   it('displays toast in case of error during membership update', async () => {
     renderComponent({
       mocks: [acceptMembershipRequestErrorMock],
-      connectionStatusToSpace: [SpaceConnectionType.MEMBERSHIP_REQUESTOR],
+      connectionStatusToSpace: [SpaceUserConnectionType.MembershipRequestor],
     })
 
     fireEvent.press(screen.getByTestId('btn-to-invite'))

@@ -7,13 +7,12 @@ import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/
 import { authenticatedUserMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { SpaceByIdDocument, SpacePostsBySpaceIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 const createMocksForSpace = (spaceById = space) => {
   const spaceByIdRequest = {
     request: {
-      query: spaceByIdQuery,
+      query: SpaceByIdDocument,
       variables: {
         idOrName: spaceById.name,
       },
@@ -27,7 +26,7 @@ const createMocksForSpace = (spaceById = space) => {
 
   const spacePostsRequest = {
     request: {
-      query: spacePostsQuery,
+      query: SpacePostsBySpaceIdDocument,
       variables: {
         offset: 0,
         limit: 10,

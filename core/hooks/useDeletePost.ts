@@ -1,20 +1,22 @@
-import { useMutation } from '@apollo/client'
 import type { ApolloError } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { Post } from '@holi/core/screens/posts/types'
-import { VisibilityFilter } from '@holi/core/screens/spaces/types'
-import { deleteSpacePostMutation } from '@holi/core/screens/spaces/updates/mutations'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import type { Post } from '@holi/core/screens/posts/types'
+
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import {
+  SpacePostsBySpaceIdDocument,
+  useDeleteSpacePostMutation,
+  VisibilityFilter,
+} from '@holi/api/graphql/graphql-codegen'
 
 const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () => void) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
-  const [deletePost, { loading: isLoadingPostDeletion }] = useMutation<null>(deleteSpacePostMutation, {
+  const [deletePost, { loading: isLoadingPostDeletion }] = useDeleteSpacePostMutation({
     variables: { id: post.id },
     onCompleted: () => {
       openToast(t('insights.post.delete.success'), HoliToastType.SUCCESS)
@@ -32,17 +34,17 @@ const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () =>
     refetchQueries: spaceIdOrName
       ? [
           {
-            query: spacePostsQuery,
+            query: SpacePostsBySpaceIdDocument,
             variables: {
               idOrName: spaceIdOrName,
               offset: 0,
               limit: 10,
-              visibility: post.isPublic ? VisibilityFilter.PUBLIC : VisibilityFilter.MEMBERS,
+              visibility: post.isPublic ? VisibilityFilter.Public : VisibilityFilter.Members,
             },
           },
           {
-            query: spacePostsQuery,
-            variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.ALL },
+            query: SpacePostsBySpaceIdDocument,
+            variables: { idOrName: spaceIdOrName, offset: 0, limit: 10, visibility: VisibilityFilter.All },
           },
         ]
       : [],

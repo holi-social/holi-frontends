@@ -2,11 +2,11 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { PaginationContext } from '@holi/core/pagination/Pagination'
 import SpaceInviteUserSearchResult from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearchResult'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 const spaceId = 'space1'
 const onInviteHandled = jest.fn()
@@ -25,22 +25,22 @@ const users: User[] = [
     id: 'user3',
     fullName: 'Connected and Space connection',
     connectionStatusToMyself: UserConnectionStatus.CONNECTED,
-    connectionStatusToSpace: [SpaceConnectionType.MEMBER],
+    connectionStatusToSpace: [SpaceUserConnectionType.Member],
   }),
   createUser({
     id: 'user4',
     fullName: 'Follower',
-    connectionStatusToSpace: [SpaceConnectionType.FOLLOWER],
+    connectionStatusToSpace: [SpaceUserConnectionType.Follower],
   }),
   createUser({
     id: 'user5',
     fullName: 'Member',
-    connectionStatusToSpace: [SpaceConnectionType.MEMBER, SpaceConnectionType.FOLLOWER],
+    connectionStatusToSpace: [SpaceUserConnectionType.Member, SpaceUserConnectionType.Follower],
   }),
   createUser({
     id: 'user6',
     fullName: 'Admin',
-    connectionStatusToSpace: [SpaceConnectionType.MEMBER, SpaceConnectionType.ADMINISTRATOR],
+    connectionStatusToSpace: [SpaceUserConnectionType.Member, SpaceUserConnectionType.Administrator],
   }),
 ]
 
