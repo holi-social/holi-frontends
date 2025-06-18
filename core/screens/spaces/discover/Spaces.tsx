@@ -1,4 +1,4 @@
-import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
+import { type DocumentNode, useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,7 +21,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
-import { type MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -29,6 +28,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Spacing } from 'holi-bricks/foundations'
+import { MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
+import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 export enum Tab {
   MINE = 'mine',
@@ -63,7 +64,7 @@ const Spaces = () => {
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
-  const { loading, data: mySpacesData } = useQuery<MySpacesResponse>(mySpaceQuery, {
+  const { loading, data: mySpacesData } = useMySpacesQuery({
     skip: !isLoggedIn,
     onError: (error) => displayError(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
   })
@@ -80,7 +81,7 @@ const Spaces = () => {
 
   useOnRefresh(() =>
     client.refetchQueries({
-      include: [isLoggedIn ? mySpaceQuery : undefined, discoverSpacesQuery].filter((q) => !!q) as DocumentNode[],
+      include: [isLoggedIn ? MySpacesDocument : undefined, DiscoverSpacesDocument].filter((q) => !!q) as DocumentNode[],
     })
   )
 

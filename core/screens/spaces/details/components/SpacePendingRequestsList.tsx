@@ -1,23 +1,23 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import NotificationBanner from '@holi/core/screens/notifications/components/NotificationBanner'
 import SpacePendingRequestsItem from '@holi/core/screens/spaces/details/components/SpacePendingRequestItem'
 import { useSpaceMembershipStatus } from '@holi/core/screens/spaces/hooks/useSpaceMembershipStatus'
-import { Space, SpaceMember, SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
-import { Paged } from '@holi/core/types'
+import type { Space, SpaceMember, SpaceMembershipRequest } from '@holi/api/graphql/graphql-codegen'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type SpacePendingRequestsProps = {
-  space: Space
+  space: Pick<Space, 'id' | 'name'>
   style?: StyleProp<ViewStyle>
   initiallySelectedUserId?: string
-  spaceMembers?: Paged<SpaceMember>
+  spaceMembers?: Pick<SpaceMember, 'id' | 'user'>[]
 }
 
 const SpacePendingRequestsList: React.FC<SpacePendingRequestsProps> = ({

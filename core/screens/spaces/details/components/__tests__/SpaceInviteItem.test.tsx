@@ -19,7 +19,7 @@ describe('SpaceInviteItem', () => {
   it('renders correctly', () => {
     render(
       <MockedProvider>
-        <SpaceInviteItem space={space} invite={invite} />
+        <SpaceInviteItem space={space} invitedUser={invite.invitedUser} />
       </MockedProvider>
     )
     expect(screen.toJSON()).toMatchSnapshot()

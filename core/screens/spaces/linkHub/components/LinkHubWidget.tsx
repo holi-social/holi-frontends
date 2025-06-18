@@ -8,12 +8,13 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import { Add, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 interface LinkHubWidgetProps {
   space: Space
@@ -52,7 +53,7 @@ const LinkHubWidget: React.FC<LinkHubWidgetProps> = ({ space, style }) => {
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { collaborationTools = [] } = space
   const { theme } = useTheme()

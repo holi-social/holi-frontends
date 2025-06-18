@@ -10,7 +10,7 @@ import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { createSpaceList, locationId as location, spaces } from '@holi/core/screens/spaces/__tests__/testData'
 import FilteredSpaces, { SPACES_PAGE_SIZE } from '@holi/core/screens/spaces/filter/FilteredSpaces'
-import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
+import { SpacesDocument } from '@holi/api/graphql/graphql-codegen'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())
@@ -22,7 +22,7 @@ global.console.warn = jest.fn()
 
 const createSpacesMock = (variables = {}) => ({
   request: {
-    query: spacesQuery,
+    query: SpacesDocument,
     variables: {
       geolocation: undefined,
       topicsV2: [],
@@ -50,7 +50,7 @@ const skillsV2 = ['arts-crafts']
 
 const createSpacesPaginationMock = (offset = 0) => ({
   request: {
-    query: spacesQuery,
+    query: SpacesDocument,
     variables: {
       limit: SPACES_PAGE_SIZE,
       offset,
@@ -72,7 +72,7 @@ const createSpacesPaginationMock = (offset = 0) => ({
 
 const spacesNoResultsMock = {
   request: {
-    query: spacesQuery,
+    query: SpacesDocument,
     variables: {
       geolocation: undefined,
       topicsV2: [],
@@ -93,7 +93,7 @@ const spacesNoResultsMock = {
 
 const spacesErrorMock = {
   request: {
-    query: spacesQuery,
+    query: SpacesDocument,
     variables: {
       limit: SPACES_PAGE_SIZE,
       offset: 0,

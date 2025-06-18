@@ -1,8 +1,8 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
-import { SPACE_TITLE_LEN } from '@holi/core/screens/spaces/create/mutations'
+import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
+import { SPACE_TITLE_LEN } from '@holi/core/screens/spaces/create/validattionSchemas'
 
 export interface SpaceNameInputProps extends Partial<HoliTextInputProps> {
   errorMessages?: string[]

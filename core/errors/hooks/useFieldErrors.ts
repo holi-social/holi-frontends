@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { type FieldErrors, extractFieldErrors } from '@holi/core/errors/helpers/apolloUtils'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-export type TranslatedFieldErrors = { [key: string]: string[] }
+export type TranslatedFieldErrors = { [key: string]: string[] | undefined }
 
 export const useFieldErrors = ({
   i18nPrefix = 'global',

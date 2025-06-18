@@ -3,17 +3,17 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceContactForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactForm'
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
-import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface EditSpaceContactProps {
-  space: Space
+  space: Pick<Space, 'id' | 'contactDescription' | 'contactPhone' | 'contactEmail'>
   onDismiss: () => void
 }
 

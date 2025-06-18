@@ -1,12 +1,12 @@
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
-import { Post } from '@holi/core/screens/posts/types'
-import type { Space } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -19,7 +19,7 @@ export interface SpaceUpdatesListProps {
 
 const SpaceUpdatesList = ({ space }: SpaceUpdatesListProps) => {
   const { loading, data: posts } = usePaginationContext<Post>()
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
   if (loading) return <HoliLoader style={styles.loaderBottom} />
 
   return (

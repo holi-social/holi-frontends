@@ -1,14 +1,14 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceInviteUserSearchResult from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearchResult'
-import { userConnectionsQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { ConnectedUsersWithSpaceConnectionDocument } from '@holi/api/graphql/graphql-codegen'
 
 const PAGE_SIZE = 20
 
@@ -35,7 +35,7 @@ const UserConnectionsList: React.FC<UserConnectionsListProps> = ({ spaceId, onIn
 
   return (
     <Pagination
-      query={userConnectionsQuery}
+      query={ConnectedUsersWithSpaceConnectionDocument}
       queryOptions={{
         ...queryOptions,
         variables: {

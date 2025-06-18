@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
-import { SPACE_DESCRIPTION_LEN, SPACE_TITLE_LEN } from '@holi/core/screens/spaces/create/mutations'
+import type { Space, ExternalLinkType } from '@holi/api/graphql/graphql-codegen'
+import { SPACE_DESCRIPTION_LEN, SPACE_TITLE_LEN } from '@holi/core/screens/spaces/create/validattionSchemas'
 
 export const UpdateSpaceInputSchema = z.object({
   id: z.string(),
@@ -66,7 +66,7 @@ export const UpdateExternalLinkSchema = z.object({
 export type UpdateExternalLinkInput = z.infer<typeof UpdateExternalLinkSchema>
 
 export type UpdateExternalLinkResponse = {
-  updateExternalLink: SpaceLink
+  updateExternalLink: ExternalLinkType
 }
 
 export const updateExternalLinkMutation = gql`

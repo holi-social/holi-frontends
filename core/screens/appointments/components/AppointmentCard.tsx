@@ -3,14 +3,13 @@ import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import type { Appointment, Space } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
-import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -22,7 +21,7 @@ import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 
 type AppointmentCardProps = {
   appointment: Appointment
-  space: Space
+  space: Pick<Space, 'id' | 'name'>
   isAdmin?: boolean
   isMember?: boolean
   pastAppointments?: boolean

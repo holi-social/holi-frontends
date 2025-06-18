@@ -6,10 +6,13 @@ import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLo
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser, notificationSpaceInvite } from '@holi/core/screens/notifications/components/seedData'
-import { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import type { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  UpdateSpaceUserConnectionDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const useLoggedInUserMock = jest.mocked(useLoggedInUser)
@@ -26,10 +29,10 @@ global.console.warn = jest.fn()
 
 const acceptInvite = {
   request: {
-    query: updateSpaceUserConnectionMutation,
+    query: UpdateSpaceUserConnectionDocument,
     variables: {
-      connectAction: SpaceConnectionAction.CONNECT,
-      connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+      connectAction: UpdateConnectionAction.Connect,
+      connectionType: SpaceUserConnectionType.MembershipInvitee,
       spaceId: notificationSpaceInvite.options.space.id,
     },
   },
@@ -39,10 +42,10 @@ const acceptInvite = {
 }
 const declineInvite = {
   request: {
-    query: updateSpaceUserConnectionMutation,
+    query: UpdateSpaceUserConnectionDocument,
     variables: {
-      connectAction: SpaceConnectionAction.DISCONNECT,
-      connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+      connectAction: UpdateConnectionAction.Disconnect,
+      connectionType: SpaceUserConnectionType.MembershipInvitee,
       spaceId: notificationSpaceInvite.options.space.id,
     },
   },

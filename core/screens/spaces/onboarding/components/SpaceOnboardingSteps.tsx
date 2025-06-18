@@ -16,7 +16,6 @@ import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
-import { type OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Information } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -30,6 +29,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { Button } from 'holi-bricks/components/button'
+import { type OnboardingStep, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -136,7 +136,7 @@ const SpaceOnboardingSteps = () => {
   return (
     <PermissionsGuard
       space={space}
-      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      spaceConnectionType={SpaceUserConnectionType.Administrator}
       permissionType={PermissionsType.SPACES}
     >
       <DefaultLayout

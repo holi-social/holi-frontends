@@ -3,8 +3,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import { LocationType } from '@holi/core/screens/spaces/types'
-import type { Task } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   AtFilled,
@@ -21,6 +19,7 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import { useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
 import type { TextProps } from 'holi-bricks/components/text'
+import { LocationType, type Task } from '@holi/api/graphql/graphql-codegen'
 
 export interface Props {
   task: Task
@@ -45,7 +44,7 @@ const Content = ({
         <View style={styles.iconGroupContainer}>
           <HoliIcon
             icon={
-              task.location ? MapPin2Filled : task.locationType === LocationType.HYBRID ? RefreshFilled : GlobalFilled
+              task.location ? MapPin2Filled : task.locationType === LocationType.Hybrid ? RefreshFilled : GlobalFilled
             }
             size={12}
             colorOverride={colors.foreground20}

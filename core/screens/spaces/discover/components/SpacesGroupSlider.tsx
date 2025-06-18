@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,12 +9,7 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
-import {
-  type DiscoverSpacesData,
-  type DiscoverSpacesVariables,
-  discoverSpacesQuery,
-} from '@holi/core/screens/spaces/discover/queries'
-import type { Space } from '@holi/core/screens/spaces/types'
+import { useDiscoverSpacesQuery } from '@holi/api/graphql/graphql-codegen'
 import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
@@ -70,7 +64,7 @@ const SpacesGroupSlider = ({
 
   const topicFilter = topic ? { topicsV2: [topic] } : {}
   const skillFilter = skill ? { skillsV2: [skill] } : {}
-  const { data } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
+  const { data } = useDiscoverSpacesQuery({
     variables: {
       // component is either parameterized with topic or skill, so this doesn't fetch both
       ...topicFilter,
@@ -146,7 +140,7 @@ const SpacesGroupSlider = ({
           ? new Array(pageSize).fill(1).map((_, idx) => {
               return <HoliBlockItem key={idx} loading={true} size="large" testID="space-link" />
             })
-          : spacesData.map((space: Space) => (
+          : spacesData.map((space) => (
               <HoliBlockItem
                 key={space.id}
                 label={space.title}

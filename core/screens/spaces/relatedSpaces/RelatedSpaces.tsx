@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,8 +11,7 @@ import type { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
-import { spaceRelatedSpacesQuery } from '@holi/core/screens/spaces/queries'
-import type { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
+import { useSpaceRealatedSpacesQuery, type RelatedSpaceFragment } from '@holi/api/graphql/graphql-codegen'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -22,6 +20,7 @@ import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
+import type { User } from '@holi/core/domain/shared/types'
 
 export type SpaceRelatedSpacesParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -33,7 +32,7 @@ const { useParam } = createParamHooks<SpaceRelatedSpacesParams>()
 interface RelatedSpaceSection {
   id: 'parentSpace' | 'childSpaces'
   title: string
-  data: RelatedSpace[]
+  data: RelatedSpaceFragment[]
 }
 
 const SPACE_BLOCK_ITEM_HEIGHT = 80
@@ -53,14 +52,11 @@ const RelatedSpaces = () => {
     data: { spaceById: space } = {},
     loading,
     fetchMore,
-  } = useQuery<{ spaceById: Pick<Space, 'id' | 'name' | 'title' | 'parentSpace' | 'childSpaces'> }>(
-    spaceRelatedSpacesQuery,
-    {
-      variables: { idOrName: spaceIdOrName, offset: 0, limit: spaceFetchLimit },
-      fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present for members
-      skip: !spaceIdOrName,
-    }
-  )
+  } = useSpaceRealatedSpacesQuery({
+    variables: { idOrName: spaceIdOrName ?? '', offset: 0, limit: spaceFetchLimit },
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present for members
+    skip: !spaceIdOrName,
+  })
 
   const fetchMoreChildSpaces = () => {
     fetchMore({ variables: { offset: space?.childSpaces?.data.length ?? 0 } })
@@ -119,7 +115,7 @@ const RelatedSpaces = () => {
                 {...relatedSpace}
                 label={relatedSpace.title}
                 imageElement={<SpaceAvatar space={relatedSpace} size="lg" />}
-                users={relatedSpace.members.data.map((membership) => membership.user)}
+                users={relatedSpace.members.data.map((membership) => membership.user) as User[]}
                 totalUserCount={relatedSpace.members.totalResults}
                 href={`/spaces/${relatedSpace.id}`}
                 testID={`${section.id === 'parentSpace' ? 'main' : 'child'}-space-item`}

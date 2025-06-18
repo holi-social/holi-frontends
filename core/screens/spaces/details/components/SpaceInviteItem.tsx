@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,13 +6,6 @@ import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { type Space, SpaceConnectionAction, type SpaceInvite } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -24,16 +16,23 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import type { Space, SpaceMembershipRequest } from '@holi/api/graphql/graphql-codegen'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  SpaceMembersBySpaceIdDocument,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 const PAGE_SIZE = 10
 
 type SpaceInviteProps = {
-  space: Space
-  invite: SpaceInvite
+  space: Pick<Space, 'id' | 'name'>
+  invitedUser: SpaceMembershipRequest['user']
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
+const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invitedUser }) => {
   const { t } = useTranslation()
   const { track } = useTracking()
   const { openToast } = useToast()
@@ -54,56 +53,53 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
     [navigate, hidePermissions]
   )
 
-  const invitedName = useMemo(() => invite.invitedUser.fullName || t('user.profileView.anonymous'), [invite, t])
+  const invitedName = invitedUser.fullName || t('user.profileView.anonymous')
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    onCompleted() {
+      openToast(t('spaces.invite.user.witdrawn', { user: invitedName }), HoliToastType.SUCCESS)
+    },
+    onError(error) {
+      setWithdrawn(false)
+
+      const context = {
+        location: 'SpaceInviteItem',
         spaceId: space.id,
-        userId: invite.invitedUser.id,
-      },
-      onCompleted() {
-        openToast(t('spaces.invite.user.witdrawn', { user: invitedName }), HoliToastType.SUCCESS)
-      },
-      onError(error) {
-        setWithdrawn(false)
+      }
 
-        const context = {
-          location: 'SpaceInviteItem',
-          spaceId: space.id,
-        }
-
-        if (
-          error.graphQLErrors.length > 0 &&
-          // @ts-ignore
-          error.graphQLErrors[0].extensions?.errors?.includes('No invite to withdraw.')
-        ) {
-          displayError(error, 'Failed to remove space invite - No invite to withdraw.', {
-            displayMessage: t('spaces.invite.update.not-invited'),
-            ...context,
-          })
-        } else {
-          displayError(error, 'Failed to remove space invite', {
-            displayMessage: t('spaces.invite.update.error'),
-            ...context,
-          })
-        }
-      },
-      refetchQueries: [{ query: spaceMembersQuery, variables: { idOrName: space.name, pageSize: PAGE_SIZE } }],
-    }
-  )
+      if (
+        error.graphQLErrors.length > 0 &&
+        // @ts-ignore
+        error.graphQLErrors[0].extensions?.errors?.includes('No invite to withdraw.')
+      ) {
+        displayError(error, 'Failed to remove space invite - No invite to withdraw.', {
+          displayMessage: t('spaces.invite.update.not-invited'),
+          ...context,
+        })
+      } else {
+        displayError(error, 'Failed to remove space invite', {
+          displayMessage: t('spaces.invite.update.error'),
+          ...context,
+        })
+      }
+    },
+    refetchQueries: [
+      { query: SpaceMembersBySpaceIdDocument, variables: { idOrName: space.name, pageSize: PAGE_SIZE } },
+    ],
+  })
 
   const withdrawInvite = useCallback(() => {
     setWithdrawn(true)
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+        spaceId: space.id,
+        userId: invitedUser.id,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.MembershipInvitee,
       },
       onCompleted: () => track(TrackingEvent.Spaces.Invitation.withdrawn(space.id)),
     })
-  }, [updateSpaceUserConnection, track, space.id])
+  }, [updateSpaceUserConnection, space.id, invitedUser.id, track])
 
   const handleWithdrawInvite = useCallback(() => {
     withdrawInvite()
@@ -111,7 +107,7 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
   }, [hidePermissions, withdrawInvite])
 
   return (
-    <View key={invite.invitedUser.id} testID={'space-invite-item'} style={styles.wrapper}>
+    <View key={invitedUser.id} testID={'space-invite-item'} style={styles.wrapper}>
       <HoliButton
         transparent
         inline
@@ -121,10 +117,10 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
         onPress={showPermissions}
       >
         <Avatar
-          source={invite.invitedUser.avatar}
-          imgPlaceholder={invite.invitedUser.avatarBlurhash}
+          source={invitedUser.avatar}
+          imgPlaceholder={invitedUser.avatarBlurhash}
           label={invitedName}
-          initials={invite.invitedUser.avatarLabel}
+          initials={invitedUser.avatarLabel}
           size="sm"
         />
         <View style={styles.name}>
@@ -149,7 +145,7 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
       )}
       <SpacePermissions
         space={space}
-        user={invite.invitedUser}
+        user={invitedUser}
         handleNavigation={handleNavigation}
         handleWithdrawInvite={withdrawn ? undefined : handleWithdrawInvite}
         hidePermissions={hidePermissions}

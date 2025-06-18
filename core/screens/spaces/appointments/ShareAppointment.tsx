@@ -4,15 +4,14 @@ import { StyleSheet, View } from 'react-native'
 
 import { isApp } from '@holi/core/helpers/isApp'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { FileCopy, Share } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import type { Space, Appointment } from '@holi/api/graphql/graphql-codegen'
 
 type ShareAppointmentProps = {
-  space: Space
+  space: Pick<Space, 'id' | 'name' | 'title'>
   appointment: Appointment
   date: string
   startTime: string

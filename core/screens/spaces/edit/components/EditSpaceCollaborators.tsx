@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
@@ -19,13 +18,6 @@ import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/
 import SpaceInvitesList from '@holi/core/screens/spaces/details/components/SpaceInvitesList'
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
-import {
-  spaceInvitesQuery,
-  spaceMembersQuery,
-  spaceMembershipRequestsQuery,
-} from '@holi/core/screens/spaces/details/queries'
-import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType, type SpaceMember } from '@holi/core/screens/spaces/types'
 import { UserAdd } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -35,6 +27,15 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Button } from 'holi-bricks/components/button'
+import {
+  SpaceUserConnectionType,
+  type SpaceMember,
+  useSpaceMembershipByIdQuery,
+  useSpaceMembersBySpaceIdQuery,
+  SpaceMembershipRequestsBySpaceIdDocument,
+  SpaceMembersBySpaceIdDocument,
+  SpaceInvitesBySpaceIdDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -55,7 +56,7 @@ enum SpaceCollaboratorsTabs {
 const EditSpaceCollaborators = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const [spaceIdOrName = ''] = useParam('spaceIdOrName')
   const { replaceRoute } = useRouting()
   const [selectedTab] = useParam('tab')
   const [selectedUserId] = useUUIDParam('userId')
@@ -67,7 +68,7 @@ const EditSpaceCollaborators = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const { data, loading, error, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+  const { data, loading, error, called } = useSpaceMembershipByIdQuery({
     variables: { idOrName: spaceIdOrName },
     skip: !spaceIdOrName,
     onError: (error) => {
@@ -80,7 +81,7 @@ const EditSpaceCollaborators = () => {
       })
     },
   })
-  const { data: membersData } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
+  const { data: membersData } = useSpaceMembersBySpaceIdQuery({
     skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
@@ -95,7 +96,7 @@ const EditSpaceCollaborators = () => {
   }, [setScreenOptions, t])
 
   const space = data?.spaceById
-  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   const initialTab =
     selectedTab === 'pending' || space?.membershipRequests?.totalResults
@@ -151,13 +152,13 @@ const EditSpaceCollaborators = () => {
     return <></>
   }
 
-  const spaceMembers = membersData?.spaceById?.members
+  const spaceMembers = membersData?.spaceById?.members.data as Pick<SpaceMember, 'id' | 'user'>[] | undefined
 
   return (
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      spaceConnectionType={SpaceUserConnectionType.Administrator}
     >
       <HoliTabs
         activeTab={activeTab}
@@ -169,7 +170,7 @@ const EditSpaceCollaborators = () => {
             content: () => (
               <ScrollViewRefreshable style={styles.tabContent} contentContainerStyle={tabContentContainerStyle}>
                 <Pagination
-                  query={spaceMembersQuery}
+                  query={SpaceMembersBySpaceIdDocument}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
                   fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
@@ -186,7 +187,7 @@ const EditSpaceCollaborators = () => {
             content: () => (
               <ScrollViewRefreshable style={styles.tabContent} contentContainerStyle={tabContentContainerStyle}>
                 <Pagination
-                  query={spaceMembershipRequestsQuery}
+                  query={SpaceMembershipRequestsBySpaceIdDocument}
                   queryOptions={{
                     ...queryOptions,
                     queryPath: 'spaceById.membershipRequests',
@@ -213,7 +214,7 @@ const EditSpaceCollaborators = () => {
             content: () => (
               <ScrollViewRefreshable style={styles.tabContent} contentContainerStyle={tabContentContainerStyle}>
                 <Pagination
-                  query={spaceInvitesQuery}
+                  query={SpaceInvitesBySpaceIdDocument}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.invites', fetchPolicy: 'cache-and-network' }}
                   fetchMoreButtonProps={{ style: styles.buttonContainer }}
                   fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}

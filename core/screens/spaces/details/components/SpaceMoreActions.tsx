@@ -1,20 +1,21 @@
-import { type StoreObject, useMutation } from '@apollo/client'
+import type { StoreObject } from '@apollo/client'
 import type React from 'react'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, Check, Close } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useTheme } from '@holi/ui/styles/theme'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import {
+  type Space,
+  SpaceUserConnectionType,
+  UpdateConnectionAction,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceMoreActionsProps = {
   space: Space
@@ -28,37 +29,32 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
-  const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
+  const isInvited = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.MembershipInvitee)
+  const isFollowing = space.connectionStatusToMyself?.includes(SpaceUserConnectionType.Follower)
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      if (!('__typename' in space)) {
+        console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
+      }
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+      cache.evict({ id: cache.identify(space as unknown as StoreObject) })
+    },
+    onError: (error) => {
+      displayError(error, 'Failed to update space user connection', {
+        location: 'SpaceMoreActions.updateSpaceUserConnection',
         spaceId: space.id,
-      },
-      // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
-      update: (cache) => {
-        if (!('__typename' in space)) {
-          console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
-        }
-        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-        cache.evict({ id: cache.identify(space as unknown as StoreObject) })
-      },
-      onError: (error) => {
-        displayError(error, 'Failed to update space user connection', {
-          location: 'SpaceMoreActions.updateSpaceUserConnection',
-          spaceId: space.id,
-        })
-      },
-    }
-  )
+      })
+    },
+  })
 
   const followSpace = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.FOLLOWER,
+        spaceId: space.id,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.Follower,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.followed(space.id)),
     })
@@ -67,8 +63,9 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const unfollowSpace = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.FOLLOWER,
+        spaceId: space.id,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.Follower,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.unfollowed(space.id)),
     })
@@ -77,8 +74,9 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const acceptSpaceInvitation = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+        spaceId: space.id,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.MembershipInvitee,
       },
       onCompleted() {
         openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
@@ -90,8 +88,9 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const rejectSpaceInvitation = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+        spaceId: space.id,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.MembershipInvitee,
       },
       onCompleted() {
         openToast(t('spaces.invite.decline.success'), HoliToastType.SUCCESS)

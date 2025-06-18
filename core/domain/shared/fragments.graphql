@@ -1,0 +1,114 @@
+fragment UserAvatar on User {
+  id
+  identity
+  avatar
+  avatarBlurhash
+  avatarLabel
+  avatarDefaultColor
+  firstName
+  fullName
+}
+
+fragment FullUserAvatar on User {
+  id
+  identity
+  avatar
+  avatarBlurhash
+  avatarLabel
+  avatarDefaultColor
+  firstName
+  fullName
+  role
+}
+
+fragment FullAuthenticatedUser on AuthenticatedUser {
+  id
+  identity
+  avatar
+  avatarBlurhash
+  avatarDefaultColor
+  avatarLabel
+  fullName
+  firstName
+  lastName
+  aboutMe
+  pronouns
+  location
+  role
+  geolocationId
+  engagementLevel
+  interestsV2
+  skillsV2
+  connectionStatusToMyself
+  trackingConsentAnalytics
+  trackingConsentPersonalization
+  trackingConsentAdPartners
+  isEmployee
+  email
+  isOidc
+}
+
+fragment PostFragment on Post {
+  __typename
+  id
+  title
+  text
+  created
+  modified
+  creator {
+    ...FullUserAvatar
+  }
+  numberOfComments
+  commenters {
+    totalResults
+    data {
+      ...FullUserAvatar
+    }
+  }
+  space {
+    id
+    title
+    name
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+    connectionStatusToMyself
+  }
+  image {
+    ...PostImageData
+  }
+  links {
+    ...LinkFragment
+  }
+  mentions {
+    id
+    fullName
+  }
+  myReaction {
+    HEART
+  }
+  reactions {
+    HEART
+  }
+  isPublic
+  language
+}
+
+fragment PostImageData on PostImage {
+  id
+  url
+  height
+  width
+}
+
+fragment LinkFragment on LinkPreview {
+  requestedUrl
+  url
+  title
+  description
+  type
+  image
+  siteName
+  origin
+  icon
+}

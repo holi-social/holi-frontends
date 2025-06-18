@@ -22,7 +22,6 @@ import ShareAppointment from '@holi/core/screens/spaces/appointments/ShareAppoin
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ExternalLink, Global, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -38,6 +37,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
@@ -89,7 +89,7 @@ const AppointmentDetails = () => {
 
   const appointment = appointmentData?.appointment
 
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   const renderActionDrawer = useCallback(
     () =>

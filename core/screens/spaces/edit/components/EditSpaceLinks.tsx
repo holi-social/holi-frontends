@@ -3,14 +3,13 @@ import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { type Space, type ExternalLink, SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceLinkInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkInput'
 import CreateSpaceLinks from '@holi/core/screens/spaces/create/components/CreateSpaceLink'
 import EditSpaceLink from '@holi/core/screens/spaces/edit/components/EditSpaceLink'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { deleteSpaceLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 import { Add } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -20,13 +19,13 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 
 interface EditSpaceLinksProps {
-  space: Space
+  space: Pick<Space, 'id' | 'links'>
   onDismiss: () => void
 }
 
 const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
   const { openToast } = useToast()
-  const [selectedLink, setSelectedLink] = useState<SpaceLink>(undefined as unknown as SpaceLink)
+  const [selectedLink, setSelectedLink] = useState<ExternalLink>(undefined as unknown as ExternalLink)
   const { visible: visibleEdit, show: showEdit, hide: hideEdit } = useModalState()
   const { visible: visibleCreate, show: showCreate, hide: hideCreate } = useModalState()
   const { displayError } = useErrorHandling()
@@ -38,10 +37,10 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
     onCompleted: () => {
       openToast(t('spaces.input.publicLinks.delete.success'), HoliToastType.SUCCESS)
     },
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
+    refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: space.id } }],
   })
 
-  const onEdit = (link: SpaceLink) => {
+  const onEdit = (link: ExternalLink) => {
     setSelectedLink(link)
     showEdit()
   }

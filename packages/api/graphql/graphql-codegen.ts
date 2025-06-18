@@ -680,6 +680,7 @@ export type FeedPost = {
   myReaction: ReactionCounts
   poll?: Maybe<Poll>
   reactions: ReactionCounts
+  reactors: UserPaged
   slug: Scalars['String']['output']
   title?: Maybe<Scalars['String']['output']>
   topics?: Maybe<Array<Topic>>
@@ -690,6 +691,12 @@ export type FeedPost = {
 
 /** FeedPost(id, title, slug, description, visibility, topics_v2, category, poll, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration, image_urls, aspect_ratio) */
 export type FeedPostCommentersArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+/** FeedPost(id, title, slug, description, visibility, topics_v2, category, poll, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration, image_urls, aspect_ratio) */
+export type FeedPostReactorsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -1465,6 +1472,7 @@ export type Post = {
   myReaction: ReactionCounts
   numberOfComments: Scalars['Int']['output']
   reactions: ReactionCounts
+  reactors: UserPaged
   space?: Maybe<Space>
   text?: Maybe<Scalars['String']['output']>
   title?: Maybe<Scalars['String']['output']>
@@ -1478,6 +1486,12 @@ export type PostCommentersArgs = {
 
 /** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language_code, is_edited, is_closed, is_deleted, status, is_public) */
 export type PostInvolvedUsersArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language_code, is_edited, is_closed, is_deleted, status, is_public) */
+export type PostReactorsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -2886,6 +2900,140 @@ export enum VisibilityType {
   Public = 'PUBLIC',
 }
 
+export type UserAvatarFragment = {
+  __typename?: 'User'
+  id: string
+  identity?: string
+  avatar?: string
+  avatarBlurhash?: string
+  avatarLabel: string
+  avatarDefaultColor: string
+  firstName?: string
+  fullName: string
+}
+
+export type FullUserAvatarFragment = {
+  __typename?: 'User'
+  id: string
+  identity?: string
+  avatar?: string
+  avatarBlurhash?: string
+  avatarLabel: string
+  avatarDefaultColor: string
+  firstName?: string
+  fullName: string
+  role?: UserRole
+}
+
+export type FullAuthenticatedUserFragment = {
+  __typename?: 'AuthenticatedUser'
+  id: string
+  identity?: string
+  avatar?: string
+  avatarBlurhash?: string
+  avatarDefaultColor: string
+  avatarLabel: string
+  fullName: string
+  firstName?: string
+  lastName?: string
+  aboutMe?: string
+  pronouns?: string
+  location?: string
+  role?: UserRole
+  geolocationId?: string
+  engagementLevel?: string
+  interestsV2: Array<string>
+  skillsV2: Array<string>
+  connectionStatusToMyself?: UserConnectionStatus
+  trackingConsentAnalytics?: boolean
+  trackingConsentPersonalization?: boolean
+  trackingConsentAdPartners?: boolean
+  isEmployee: boolean
+  email: string
+  isOidc: boolean
+}
+
+export type PostFragmentFragment = {
+  __typename: 'Post'
+  id: string
+  title?: string
+  text?: string
+  created: any
+  modified: any
+  numberOfComments: number
+  isPublic: boolean
+  language?: string
+  creator: {
+    __typename?: 'User'
+    id: string
+    identity?: string
+    avatar?: string
+    avatarBlurhash?: string
+    avatarLabel: string
+    avatarDefaultColor: string
+    firstName?: string
+    fullName: string
+    role?: UserRole
+  }
+  commenters: {
+    __typename?: 'UserPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+      role?: UserRole
+    }>
+  }
+  space?: {
+    __typename?: 'Space'
+    id: string
+    title: string
+    name: string
+    avatar?: string
+    avatarBlurhash?: string
+    avatarDefaultColor: string
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+  }
+  image?: { __typename?: 'PostImage'; id: string; url: string; height: number; width: number }
+  links: Array<{
+    __typename?: 'LinkPreview'
+    requestedUrl: string
+    url: string
+    title: string
+    description: string
+    type: string
+    image: string
+    siteName: string
+    origin: string
+    icon?: string
+  }>
+  mentions: Array<{ __typename?: 'User'; id: string; fullName: string }>
+  myReaction: { __typename?: 'ReactionCounts'; HEART: number }
+  reactions: { __typename?: 'ReactionCounts'; HEART: number }
+}
+
+export type PostImageDataFragment = { __typename?: 'PostImage'; id: string; url: string; height: number; width: number }
+
+export type LinkFragmentFragment = {
+  __typename?: 'LinkPreview'
+  requestedUrl: string
+  url: string
+  title: string
+  description: string
+  type: string
+  image: string
+  siteName: string
+  origin: string
+  icon?: string
+}
+
 export type FavoritesQueryVariables = Exact<{
   offset?: Scalars['Int']['input']
   limit?: Scalars['Int']['input']
@@ -3052,6 +3200,1591 @@ export type SpaceCardFragment = {
   }
 }
 
+export type SpaceMemberPermissionsFragment = {
+  __typename?: 'User'
+  aboutMe?: string
+  pronouns?: string
+  id: string
+  identity?: string
+  avatar?: string
+  avatarBlurhash?: string
+  avatarLabel: string
+  avatarDefaultColor: string
+  firstName?: string
+  fullName: string
+}
+
+export type SpaceMemberListFragment = {
+  __typename?: 'SpaceMemberPaged'
+  totalResults: number
+  data: Array<{
+    __typename?: 'SpaceMember'
+    id: string
+    isAdministrator: boolean
+    user: {
+      __typename?: 'User'
+      aboutMe?: string
+      pronouns?: string
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+  }>
+}
+
+export type SpaceMembershipRequestListFragment = {
+  __typename?: 'SpaceMembershipRequestPaged'
+  totalResults: number
+  data: Array<{
+    __typename?: 'SpaceMembershipRequest'
+    id: string
+    message?: string
+    user: {
+      __typename?: 'User'
+      aboutMe?: string
+      pronouns?: string
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+  }>
+}
+
+export type SpaceInviteListFragment = {
+  __typename?: 'SpaceInvitePaged'
+  totalResults: number
+  data: Array<{
+    __typename?: 'SpaceInvite'
+    id: string
+    invitedUser: {
+      __typename?: 'User'
+      aboutMe?: string
+      pronouns?: string
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+  }>
+}
+
+export type FullTaskFragment = {
+  __typename?: 'Task'
+  id: string
+  name: string
+  description: string
+  impact?: string
+  slotsAvailable: number
+  slotsTaken: number
+  location?: string
+  visibility: VisibilityType
+  locationType: LocationType
+  interactionType?: InteractionType
+  contactEmail: string
+  contactPhone?: string
+  thumbnail?: string
+  thumbnailBlurhash?: string
+  regularity: Regularity
+  duration?: Duration
+  timeframeEndDate?: any
+  timeframeStartDate?: any
+  skillsV2: Array<string>
+  interactionSignupLink?: string
+  geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+  creator: {
+    __typename?: 'User'
+    id: string
+    identity?: string
+    avatar?: string
+    avatarBlurhash?: string
+    avatarLabel: string
+    avatarDefaultColor: string
+    firstName?: string
+    fullName: string
+  }
+}
+
+export type RelatedSpaceFragment = {
+  __typename?: 'Space'
+  id: string
+  title: string
+  location?: string
+  description?: string
+  cover?: string
+  coverBlurhash?: string
+  name: string
+  avatar?: string
+  avatarDefaultColor: string
+  members: {
+    __typename?: 'SpaceMemberPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'SpaceMember'
+      user: {
+        __typename?: 'User'
+        identity?: string
+        id: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+      }
+    }>
+  }
+}
+
+export type FullSpaceFragment = {
+  __typename?: 'Space'
+  id: string
+  title: string
+  description?: string
+  contactEmail?: string
+  contactPhone?: string
+  contactDescription?: string
+  created: any
+  avatar?: string
+  avatarBlurhash?: string
+  cover?: string
+  coverBlurhash?: string
+  name: string
+  avatarDefaultColor: string
+  location?: string
+  hasPublicPosts: boolean
+  hasPrivatePosts: boolean
+  connectionStatusToMyself: Array<SpaceUserConnectionType>
+  topicsV2: Array<string>
+  creator?: {
+    __typename?: 'User'
+    id: string
+    identity?: string
+    avatar?: string
+    avatarBlurhash?: string
+    avatarLabel: string
+    avatarDefaultColor: string
+    firstName?: string
+    fullName: string
+  }
+  geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+  links: Array<{ __typename?: 'ExternalLink'; id: string; type: ExternalLinkType; url: string; name: string }>
+  collaborationTools: Array<{
+    __typename?: 'CollaborationTool'
+    id: string
+    domain: string
+    url: string
+    description?: string
+    title: string
+    collectionType: CollectionType
+    thumbnail?: string
+    thumbnailBlurhash?: string
+  }>
+  members: {
+    __typename?: 'SpaceMemberPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'SpaceMember'
+      id: string
+      isAdministrator: boolean
+      user: {
+        __typename?: 'User'
+        id: string
+        identity?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+      }
+    }>
+  }
+  membershipRequests: { __typename?: 'SpaceMembershipRequestPaged'; totalResults: number }
+  tasks: Array<{
+    __typename?: 'Task'
+    id: string
+    name: string
+    description: string
+    impact?: string
+    slotsAvailable: number
+    slotsTaken: number
+    location?: string
+    visibility: VisibilityType
+    locationType: LocationType
+    interactionType?: InteractionType
+    contactEmail: string
+    contactPhone?: string
+    thumbnail?: string
+    thumbnailBlurhash?: string
+    regularity: Regularity
+    duration?: Duration
+    timeframeEndDate?: any
+    timeframeStartDate?: any
+    skillsV2: Array<string>
+    interactionSignupLink?: string
+    geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+    creator: {
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+  }>
+  onboarding?: { __typename?: 'Onboarding'; steps: Array<{ __typename?: 'OnboardingStep'; text?: string }> }
+  parentSpace?: {
+    __typename?: 'Space'
+    id: string
+    title: string
+    location?: string
+    description?: string
+    cover?: string
+    coverBlurhash?: string
+    name: string
+    avatar?: string
+    avatarDefaultColor: string
+    members: {
+      __typename?: 'SpaceMemberPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceMember'
+        user: {
+          __typename?: 'User'
+          identity?: string
+          id: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+  }
+  childSpaces: {
+    __typename?: 'SpacePaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'Space'
+      id: string
+      title: string
+      location?: string
+      description?: string
+      cover?: string
+      coverBlurhash?: string
+      name: string
+      avatar?: string
+      avatarDefaultColor: string
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            identity?: string
+            id: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+          }
+        }>
+      }
+    }>
+  }
+}
+
+export type SpaceOverviewFragment = {
+  __typename?: 'Space'
+  id: string
+  title: string
+  description?: string
+  cover?: string
+  coverBlurhash?: string
+  location?: string
+  avatar?: string
+  avatarBlurhash?: string
+  avatarDefaultColor: string
+  name: string
+  creator?: { __typename?: 'User'; id: string }
+  members: {
+    __typename?: 'SpaceMemberPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'SpaceMember'
+      user: {
+        __typename?: 'User'
+        identity?: string
+        id: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+      }
+    }>
+  }
+}
+
+export type MemberSpacesFragment = {
+  __typename?: 'SpacePaged'
+  totalResults: number
+  data: Array<{
+    __typename?: 'Space'
+    id: string
+    title: string
+    avatar?: string
+    avatarBlurhash?: string
+    avatarDefaultColor: string
+    cover?: string
+    coverBlurhash?: string
+    name: string
+    members: {
+      __typename?: 'SpaceMemberPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceMember'
+        user: {
+          __typename?: 'User'
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+  }>
+}
+
+export type ValidateSpaceMutationVariables = Exact<{
+  input: ValidateSpaceInput
+}>
+
+export type ValidateSpaceMutation = {
+  __typename?: 'Mutation'
+  validateSpace: { __typename?: 'Result'; success: boolean }
+}
+
+export type CreateSpaceMutationVariables = Exact<{
+  input: CreateSpaceInput
+}>
+
+export type CreateSpaceMutation = {
+  __typename?: 'Mutation'
+  createSpace: {
+    __typename?: 'Space'
+    id: string
+    title: string
+    description?: string
+    contactEmail?: string
+    contactPhone?: string
+    contactDescription?: string
+    created: any
+    avatar?: string
+    avatarBlurhash?: string
+    cover?: string
+    coverBlurhash?: string
+    name: string
+    avatarDefaultColor: string
+    location?: string
+    hasPublicPosts: boolean
+    hasPrivatePosts: boolean
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+    topicsV2: Array<string>
+    creator?: {
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+    geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+    links: Array<{ __typename?: 'ExternalLink'; id: string; type: ExternalLinkType; url: string; name: string }>
+    collaborationTools: Array<{
+      __typename?: 'CollaborationTool'
+      id: string
+      domain: string
+      url: string
+      description?: string
+      title: string
+      collectionType: CollectionType
+      thumbnail?: string
+      thumbnailBlurhash?: string
+    }>
+    members: {
+      __typename?: 'SpaceMemberPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceMember'
+        id: string
+        isAdministrator: boolean
+        user: {
+          __typename?: 'User'
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+    membershipRequests: { __typename?: 'SpaceMembershipRequestPaged'; totalResults: number }
+    tasks: Array<{
+      __typename?: 'Task'
+      id: string
+      name: string
+      description: string
+      impact?: string
+      slotsAvailable: number
+      slotsTaken: number
+      location?: string
+      visibility: VisibilityType
+      locationType: LocationType
+      interactionType?: InteractionType
+      contactEmail: string
+      contactPhone?: string
+      thumbnail?: string
+      thumbnailBlurhash?: string
+      regularity: Regularity
+      duration?: Duration
+      timeframeEndDate?: any
+      timeframeStartDate?: any
+      skillsV2: Array<string>
+      interactionSignupLink?: string
+      geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+      creator: {
+        __typename?: 'User'
+        id: string
+        identity?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+      }
+    }>
+    onboarding?: { __typename?: 'Onboarding'; steps: Array<{ __typename?: 'OnboardingStep'; text?: string }> }
+    parentSpace?: {
+      __typename?: 'Space'
+      id: string
+      title: string
+      location?: string
+      description?: string
+      cover?: string
+      coverBlurhash?: string
+      name: string
+      avatar?: string
+      avatarDefaultColor: string
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            identity?: string
+            id: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+          }
+        }>
+      }
+    }
+    childSpaces: {
+      __typename?: 'SpacePaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'Space'
+        id: string
+        title: string
+        location?: string
+        description?: string
+        cover?: string
+        coverBlurhash?: string
+        name: string
+        avatar?: string
+        avatarDefaultColor: string
+        members: {
+          __typename?: 'SpaceMemberPaged'
+          totalResults: number
+          data: Array<{
+            __typename?: 'SpaceMember'
+            user: {
+              __typename?: 'User'
+              identity?: string
+              id: string
+              avatar?: string
+              avatarBlurhash?: string
+              avatarLabel: string
+              avatarDefaultColor: string
+              firstName?: string
+              fullName: string
+            }
+          }>
+        }
+      }>
+    }
+  }
+}
+
+export type AddExternalLinkMutationVariables = Exact<{
+  input: AddExternalLinkInput
+}>
+
+export type AddExternalLinkMutation = {
+  __typename?: 'Mutation'
+  addExternalLink: { __typename?: 'ExternalLink'; id: string; type: ExternalLinkType; url: string; name: string }
+}
+
+export type DeleteSpaceMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteSpaceMutation = { __typename?: 'Mutation'; deleteSpace: { __typename?: 'Result'; success: boolean } }
+
+export type UpdateSpaceUserConnectionMutationVariables = Exact<{
+  connectAction: UpdateConnectionAction
+  connectionType: SpaceUserConnectionType
+  spaceId: Scalars['UUID']['input']
+  userId?: InputMaybe<Scalars['UUID']['input']>
+  message?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type UpdateSpaceUserConnectionMutation = {
+  __typename?: 'Mutation'
+  updateSpaceUserConnection: {
+    __typename?: 'Space'
+    id: string
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+  }
+}
+
+export type InviteToSpaceByEmailMutationVariables = Exact<{
+  email: Scalars['String']['input']
+  spaceId: Scalars['UUID']['input']
+}>
+
+export type InviteToSpaceByEmailMutation = {
+  __typename?: 'Mutation'
+  inviteToSpaceByEmail: { __typename?: 'Result'; success: boolean }
+}
+
+export type CreateSpacePostMutationVariables = Exact<{
+  input: CreatePostInput
+}>
+
+export type CreateSpacePostMutation = {
+  __typename?: 'Mutation'
+  createSpacePost2: {
+    __typename: 'Post'
+    id: string
+    title?: string
+    text?: string
+    created: any
+    modified: any
+    numberOfComments: number
+    isPublic: boolean
+    language?: string
+    space?: {
+      __typename?: 'Space'
+      id: string
+      title: string
+      name: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarDefaultColor: string
+      connectionStatusToMyself: Array<SpaceUserConnectionType>
+      posts: {
+        __typename?: 'PostPaged'
+        data: Array<{
+          __typename: 'Post'
+          id: string
+          title?: string
+          text?: string
+          created: any
+          modified: any
+          numberOfComments: number
+          isPublic: boolean
+          language?: string
+          creator: {
+            __typename?: 'User'
+            id: string
+            identity?: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+            role?: UserRole
+          }
+          commenters: {
+            __typename?: 'UserPaged'
+            totalResults: number
+            data: Array<{
+              __typename?: 'User'
+              id: string
+              identity?: string
+              avatar?: string
+              avatarBlurhash?: string
+              avatarLabel: string
+              avatarDefaultColor: string
+              firstName?: string
+              fullName: string
+              role?: UserRole
+            }>
+          }
+          space?: {
+            __typename?: 'Space'
+            id: string
+            title: string
+            name: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarDefaultColor: string
+            connectionStatusToMyself: Array<SpaceUserConnectionType>
+          }
+          image?: { __typename?: 'PostImage'; id: string; url: string; height: number; width: number }
+          links: Array<{
+            __typename?: 'LinkPreview'
+            requestedUrl: string
+            url: string
+            title: string
+            description: string
+            type: string
+            image: string
+            siteName: string
+            origin: string
+            icon?: string
+          }>
+          mentions: Array<{ __typename?: 'User'; id: string; fullName: string }>
+          myReaction: { __typename?: 'ReactionCounts'; HEART: number }
+          reactions: { __typename?: 'ReactionCounts'; HEART: number }
+        }>
+      }
+    }
+    creator: {
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+      role?: UserRole
+    }
+    commenters: {
+      __typename?: 'UserPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'User'
+        id: string
+        identity?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+        role?: UserRole
+      }>
+    }
+    image?: { __typename?: 'PostImage'; id: string; url: string; height: number; width: number }
+    links: Array<{
+      __typename?: 'LinkPreview'
+      requestedUrl: string
+      url: string
+      title: string
+      description: string
+      type: string
+      image: string
+      siteName: string
+      origin: string
+      icon?: string
+    }>
+    mentions: Array<{ __typename?: 'User'; id: string; fullName: string }>
+    myReaction: { __typename?: 'ReactionCounts'; HEART: number }
+    reactions: { __typename?: 'ReactionCounts'; HEART: number }
+  }
+}
+
+export type UpdateSpacePostMutationVariables = Exact<{
+  input: UpdatePostInput
+}>
+
+export type UpdateSpacePostMutation = {
+  __typename?: 'Mutation'
+  updateSpacePost: {
+    __typename: 'Post'
+    id: string
+    title?: string
+    text?: string
+    created: any
+    modified: any
+    numberOfComments: number
+    isPublic: boolean
+    language?: string
+    creator: {
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+      role?: UserRole
+    }
+    commenters: {
+      __typename?: 'UserPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'User'
+        id: string
+        identity?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+        role?: UserRole
+      }>
+    }
+    space?: {
+      __typename?: 'Space'
+      id: string
+      title: string
+      name: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarDefaultColor: string
+      connectionStatusToMyself: Array<SpaceUserConnectionType>
+    }
+    image?: { __typename?: 'PostImage'; id: string; url: string; height: number; width: number }
+    links: Array<{
+      __typename?: 'LinkPreview'
+      requestedUrl: string
+      url: string
+      title: string
+      description: string
+      type: string
+      image: string
+      siteName: string
+      origin: string
+      icon?: string
+    }>
+    mentions: Array<{ __typename?: 'User'; id: string; fullName: string }>
+    myReaction: { __typename?: 'ReactionCounts'; HEART: number }
+    reactions: { __typename?: 'ReactionCounts'; HEART: number }
+  }
+}
+
+export type DeleteSpacePostMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteSpacePostMutation = { __typename?: 'Mutation'; deleteSpacePost: { __typename?: 'Space'; id: string } }
+
+export type SpaceByIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+}>
+
+export type SpaceByIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    title: string
+    description?: string
+    contactEmail?: string
+    contactPhone?: string
+    contactDescription?: string
+    created: any
+    avatar?: string
+    avatarBlurhash?: string
+    cover?: string
+    coverBlurhash?: string
+    name: string
+    avatarDefaultColor: string
+    location?: string
+    hasPublicPosts: boolean
+    hasPrivatePosts: boolean
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+    topicsV2: Array<string>
+    creator?: {
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+    geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+    links: Array<{ __typename?: 'ExternalLink'; id: string; type: ExternalLinkType; url: string; name: string }>
+    collaborationTools: Array<{
+      __typename?: 'CollaborationTool'
+      id: string
+      domain: string
+      url: string
+      description?: string
+      title: string
+      collectionType: CollectionType
+      thumbnail?: string
+      thumbnailBlurhash?: string
+    }>
+    members: {
+      __typename?: 'SpaceMemberPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceMember'
+        id: string
+        isAdministrator: boolean
+        user: {
+          __typename?: 'User'
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+    membershipRequests: { __typename?: 'SpaceMembershipRequestPaged'; totalResults: number }
+    tasks: Array<{
+      __typename?: 'Task'
+      id: string
+      name: string
+      description: string
+      impact?: string
+      slotsAvailable: number
+      slotsTaken: number
+      location?: string
+      visibility: VisibilityType
+      locationType: LocationType
+      interactionType?: InteractionType
+      contactEmail: string
+      contactPhone?: string
+      thumbnail?: string
+      thumbnailBlurhash?: string
+      regularity: Regularity
+      duration?: Duration
+      timeframeEndDate?: any
+      timeframeStartDate?: any
+      skillsV2: Array<string>
+      interactionSignupLink?: string
+      geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+      creator: {
+        __typename?: 'User'
+        id: string
+        identity?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+      }
+    }>
+    onboarding?: { __typename?: 'Onboarding'; steps: Array<{ __typename?: 'OnboardingStep'; text?: string }> }
+    parentSpace?: {
+      __typename?: 'Space'
+      id: string
+      title: string
+      location?: string
+      description?: string
+      cover?: string
+      coverBlurhash?: string
+      name: string
+      avatar?: string
+      avatarDefaultColor: string
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            identity?: string
+            id: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+          }
+        }>
+      }
+    }
+    childSpaces: {
+      __typename?: 'SpacePaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'Space'
+        id: string
+        title: string
+        location?: string
+        description?: string
+        cover?: string
+        coverBlurhash?: string
+        name: string
+        avatar?: string
+        avatarDefaultColor: string
+        members: {
+          __typename?: 'SpaceMemberPaged'
+          totalResults: number
+          data: Array<{
+            __typename?: 'SpaceMember'
+            user: {
+              __typename?: 'User'
+              identity?: string
+              id: string
+              avatar?: string
+              avatarBlurhash?: string
+              avatarLabel: string
+              avatarDefaultColor: string
+              firstName?: string
+              fullName: string
+            }
+          }>
+        }
+      }>
+    }
+  }
+}
+
+export type SpaceConnectionStatusToMyselfByIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+}>
+
+export type SpaceConnectionStatusToMyselfByIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    name: string
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+  }
+}
+
+export type SpaceRealatedSpacesQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+  offset?: InputMaybe<Scalars['Int']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
+}>
+
+export type SpaceRealatedSpacesQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    name: string
+    title: string
+    parentSpace?: {
+      __typename?: 'Space'
+      id: string
+      title: string
+      location?: string
+      description?: string
+      cover?: string
+      coverBlurhash?: string
+      name: string
+      avatar?: string
+      avatarDefaultColor: string
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            identity?: string
+            id: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+          }
+        }>
+      }
+    }
+    childSpaces: {
+      __typename?: 'SpacePaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'Space'
+        id: string
+        title: string
+        location?: string
+        description?: string
+        cover?: string
+        coverBlurhash?: string
+        name: string
+        avatar?: string
+        avatarDefaultColor: string
+        members: {
+          __typename?: 'SpaceMemberPaged'
+          totalResults: number
+          data: Array<{
+            __typename?: 'SpaceMember'
+            user: {
+              __typename?: 'User'
+              identity?: string
+              id: string
+              avatar?: string
+              avatarBlurhash?: string
+              avatarLabel: string
+              avatarDefaultColor: string
+              firstName?: string
+              fullName: string
+            }
+          }>
+        }
+      }>
+    }
+  }
+}
+
+export type SpaceMembershipByIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+}>
+
+export type SpaceMembershipByIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    name: string
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+    membershipRequests: { __typename?: 'SpaceMembershipRequestPaged'; totalResults: number }
+  }
+}
+
+export type RepresentativeBySpaceIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+}>
+
+export type RepresentativeBySpaceIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+    representatives: Array<{ __typename?: 'SpaceMember'; user: { __typename?: 'User'; id: string; identity?: string } }>
+  }
+}
+
+export type SpaceMembershiByIdAllMembersQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+}>
+
+export type SpaceMembershiByIdAllMembersQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    name: string
+    connectionStatusToMyself: Array<SpaceUserConnectionType>
+    members: {
+      __typename?: 'SpaceMemberPaged'
+      totalResults: number
+      data: Array<{ __typename?: 'SpaceMember'; user: { __typename?: 'User'; id: string } }>
+    }
+  }
+}
+
+export type SpacesByMemberQueryVariables = Exact<{
+  memberId?: InputMaybe<Scalars['UUID']['input']>
+}>
+
+export type SpacesByMemberQuery = {
+  __typename?: 'Query'
+  spaces: {
+    __typename?: 'SpacePaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'Space'
+      id: string
+      title: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarDefaultColor: string
+      cover?: string
+      coverBlurhash?: string
+      name: string
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            id: string
+            identity?: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+          }
+        }>
+      }
+    }>
+  }
+}
+
+export type SpaceMembersBySpaceIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type SpaceMembersBySpaceIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    members: {
+      __typename?: 'SpaceMemberPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceMember'
+        id: string
+        isAdministrator: boolean
+        user: {
+          __typename?: 'User'
+          aboutMe?: string
+          pronouns?: string
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+  }
+}
+
+export type SpaceMembershipRequestsBySpaceIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type SpaceMembershipRequestsBySpaceIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    membershipRequests: {
+      __typename?: 'SpaceMembershipRequestPaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceMembershipRequest'
+        id: string
+        message?: string
+        user: {
+          __typename?: 'User'
+          aboutMe?: string
+          pronouns?: string
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+  }
+}
+
+export type SpaceInvitesBySpaceIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type SpaceInvitesBySpaceIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    invites: {
+      __typename?: 'SpaceInvitePaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'SpaceInvite'
+        id: string
+        invitedUser: {
+          __typename?: 'User'
+          aboutMe?: string
+          pronouns?: string
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+        }
+      }>
+    }
+  }
+}
+
+export type UsersByNameWithSpaceConnectionQueryVariables = Exact<{
+  substring: Scalars['String']['input']
+  spaceId: Scalars['UUID']['input']
+  limit: Scalars['Int']['input']
+  offset: Scalars['Int']['input']
+}>
+
+export type UsersByNameWithSpaceConnectionQuery = {
+  __typename?: 'Query'
+  userByName: {
+    __typename?: 'UserPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'User'
+      connectionStatusToMyself?: UserConnectionStatus
+      connectionStatusToSpace: Array<SpaceUserConnectionType>
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }>
+  }
+}
+
+export type ConnectedUsersWithSpaceConnectionQueryVariables = Exact<{
+  spaceId: Scalars['UUID']['input']
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type ConnectedUsersWithSpaceConnectionQuery = {
+  __typename?: 'Query'
+  connectedUsers: {
+    __typename?: 'UserPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'User'
+      connectionStatusToSpace: Array<SpaceUserConnectionType>
+      connectionStatusToMyself?: UserConnectionStatus
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }>
+  }
+}
+
+export type SpacePostsBySpaceIdQueryVariables = Exact<{
+  idOrName: Scalars['String']['input']
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+  visibility: VisibilityFilter
+}>
+
+export type SpacePostsBySpaceIdQuery = {
+  __typename?: 'Query'
+  spaceById?: {
+    __typename?: 'Space'
+    id: string
+    hasPublicPosts: boolean
+    hasPrivatePosts: boolean
+    posts: {
+      __typename?: 'PostPaged'
+      totalResults: number
+      data: Array<{
+        __typename: 'Post'
+        id: string
+        title?: string
+        text?: string
+        created: any
+        modified: any
+        numberOfComments: number
+        isPublic: boolean
+        language?: string
+        creator: {
+          __typename?: 'User'
+          id: string
+          identity?: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarLabel: string
+          avatarDefaultColor: string
+          firstName?: string
+          fullName: string
+          role?: UserRole
+        }
+        commenters: {
+          __typename?: 'UserPaged'
+          totalResults: number
+          data: Array<{
+            __typename?: 'User'
+            id: string
+            identity?: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+            role?: UserRole
+          }>
+        }
+        space?: {
+          __typename?: 'Space'
+          id: string
+          title: string
+          name: string
+          avatar?: string
+          avatarBlurhash?: string
+          avatarDefaultColor: string
+          connectionStatusToMyself: Array<SpaceUserConnectionType>
+        }
+        image?: { __typename?: 'PostImage'; id: string; url: string; height: number; width: number }
+        links: Array<{
+          __typename?: 'LinkPreview'
+          requestedUrl: string
+          url: string
+          title: string
+          description: string
+          type: string
+          image: string
+          siteName: string
+          origin: string
+          icon?: string
+        }>
+        mentions: Array<{ __typename?: 'User'; id: string; fullName: string }>
+        myReaction: { __typename?: 'ReactionCounts'; HEART: number }
+        reactions: { __typename?: 'ReactionCounts'; HEART: number }
+      }>
+    }
+  }
+}
+
+export type DiscoverSpacesQueryVariables = Exact<{
+  topicsV2?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>
+  geolocation?: InputMaybe<Scalars['GeoJSON']['input']>
+  skillsV2?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type DiscoverSpacesQuery = {
+  __typename?: 'Query'
+  discoverSpaces: Array<{
+    __typename?: 'DiscoverSpaces'
+    topicV2?: string
+    locationId?: string
+    skillV2?: string
+    spaces: {
+      __typename?: 'SpacePaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'Space'
+        id: string
+        title: string
+        description?: string
+        cover?: string
+        coverBlurhash?: string
+        location?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarDefaultColor: string
+        name: string
+        creator?: { __typename?: 'User'; id: string }
+        members: {
+          __typename?: 'SpaceMemberPaged'
+          totalResults: number
+          data: Array<{
+            __typename?: 'SpaceMember'
+            user: {
+              __typename?: 'User'
+              identity?: string
+              id: string
+              avatar?: string
+              avatarBlurhash?: string
+              avatarLabel: string
+              avatarDefaultColor: string
+              firstName?: string
+              fullName: string
+            }
+          }>
+        }
+      }>
+    }
+  }>
+}
+
+export type MySpacesQueryVariables = Exact<{ [key: string]: never }>
+
+export type MySpacesQuery = {
+  __typename?: 'Query'
+  mySpaces: Array<{
+    __typename?: 'MySpaces'
+    section: string
+    type: SpaceUserConnectionType
+    spaces: {
+      __typename?: 'SpacePaged'
+      totalResults: number
+      data: Array<{
+        __typename?: 'Space'
+        id: string
+        title: string
+        description?: string
+        cover?: string
+        coverBlurhash?: string
+        location?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarDefaultColor: string
+        name: string
+        creator?: { __typename?: 'User'; id: string }
+        members: {
+          __typename?: 'SpaceMemberPaged'
+          totalResults: number
+          data: Array<{
+            __typename?: 'SpaceMember'
+            user: {
+              __typename?: 'User'
+              identity?: string
+              id: string
+              avatar?: string
+              avatarBlurhash?: string
+              avatarLabel: string
+              avatarDefaultColor: string
+              firstName?: string
+              fullName: string
+            }
+          }>
+        }
+      }>
+    }
+  }>
+}
+
+export type SpacesQueryVariables = Exact<{
+  topicsV2?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>
+  geolocation?: InputMaybe<Scalars['GeoJSON']['input']>
+  skillsV2?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type SpacesQuery = {
+  __typename?: 'Query'
+  spaces: {
+    __typename?: 'SpacePaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'Space'
+      id: string
+      title: string
+      description?: string
+      cover?: string
+      coverBlurhash?: string
+      location?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarDefaultColor: string
+      name: string
+      creator?: { __typename?: 'User'; id: string }
+      members: {
+        __typename?: 'SpaceMemberPaged'
+        totalResults: number
+        data: Array<{
+          __typename?: 'SpaceMember'
+          user: {
+            __typename?: 'User'
+            identity?: string
+            id: string
+            avatar?: string
+            avatarBlurhash?: string
+            avatarLabel: string
+            avatarDefaultColor: string
+            firstName?: string
+            fullName: string
+          }
+        }>
+      }
+    }>
+  }
+}
+
+export type DiscoverSpacesDefaultTopicsQueryVariables = Exact<{ [key: string]: never }>
+
+export type DiscoverSpacesDefaultTopicsQuery = { __typename?: 'Query'; discoverSpacesDefaultTopicsV2: Array<string> }
+
 export type TaskByIdQueryVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -3143,6 +4876,7 @@ export type UpdateTaskMutation = {
     contactEmail: string
     contactPhone?: string
     thumbnail?: string
+    thumbnailBlurhash?: string
     interactionType?: InteractionType
     interactionSignupLink?: string
   }
@@ -3509,6 +5243,117 @@ export type TrackEngagementViewMutation = {
   appVolunteering_trackEngagementView: { __typename?: 'AppVolunteering_TrackEngagementViewResponse'; id?: string }
 }
 
+export const FullAuthenticatedUserFragmentDoc = gql`
+    fragment FullAuthenticatedUser on AuthenticatedUser {
+  id
+  identity
+  avatar
+  avatarBlurhash
+  avatarDefaultColor
+  avatarLabel
+  fullName
+  firstName
+  lastName
+  aboutMe
+  pronouns
+  location
+  role
+  geolocationId
+  engagementLevel
+  interestsV2
+  skillsV2
+  connectionStatusToMyself
+  trackingConsentAnalytics
+  trackingConsentPersonalization
+  trackingConsentAdPartners
+  isEmployee
+  email
+  isOidc
+}
+    `
+export const FullUserAvatarFragmentDoc = gql`
+    fragment FullUserAvatar on User {
+  id
+  identity
+  avatar
+  avatarBlurhash
+  avatarLabel
+  avatarDefaultColor
+  firstName
+  fullName
+  role
+}
+    `
+export const PostImageDataFragmentDoc = gql`
+    fragment PostImageData on PostImage {
+  id
+  url
+  height
+  width
+}
+    `
+export const LinkFragmentFragmentDoc = gql`
+    fragment LinkFragment on LinkPreview {
+  requestedUrl
+  url
+  title
+  description
+  type
+  image
+  siteName
+  origin
+  icon
+}
+    `
+export const PostFragmentFragmentDoc = gql`
+    fragment PostFragment on Post {
+  __typename
+  id
+  title
+  text
+  created
+  modified
+  creator {
+    ...FullUserAvatar
+  }
+  numberOfComments
+  commenters {
+    totalResults
+    data {
+      ...FullUserAvatar
+    }
+  }
+  space {
+    id
+    title
+    name
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+    connectionStatusToMyself
+  }
+  image {
+    ...PostImageData
+  }
+  links {
+    ...LinkFragment
+  }
+  mentions {
+    id
+    fullName
+  }
+  myReaction {
+    HEART
+  }
+  reactions {
+    HEART
+  }
+  isPublic
+  language
+}
+    ${FullUserAvatarFragmentDoc}
+${PostImageDataFragmentDoc}
+${LinkFragmentFragmentDoc}`
 export const TaskFragmentDoc = gql`
     fragment Task on Task {
   id
@@ -3555,6 +5400,239 @@ export const SpaceCardFragmentDoc = gql`
   }
 }
     `
+export const UserAvatarFragmentDoc = gql`
+    fragment UserAvatar on User {
+  id
+  identity
+  avatar
+  avatarBlurhash
+  avatarLabel
+  avatarDefaultColor
+  firstName
+  fullName
+}
+    `
+export const SpaceMemberPermissionsFragmentDoc = gql`
+    fragment SpaceMemberPermissions on User {
+  ...UserAvatar
+  aboutMe
+  pronouns
+}
+    ${UserAvatarFragmentDoc}`
+export const SpaceMemberListFragmentDoc = gql`
+    fragment SpaceMemberList on SpaceMemberPaged {
+  totalResults
+  data {
+    id
+    user {
+      ...SpaceMemberPermissions
+    }
+    isAdministrator
+  }
+}
+    ${SpaceMemberPermissionsFragmentDoc}`
+export const SpaceMembershipRequestListFragmentDoc = gql`
+    fragment SpaceMembershipRequestList on SpaceMembershipRequestPaged {
+  totalResults
+  data {
+    id
+    message
+    user {
+      ...SpaceMemberPermissions
+    }
+  }
+}
+    ${SpaceMemberPermissionsFragmentDoc}`
+export const SpaceInviteListFragmentDoc = gql`
+    fragment SpaceInviteList on SpaceInvitePaged {
+  totalResults
+  data {
+    id
+    invitedUser {
+      ...SpaceMemberPermissions
+    }
+  }
+}
+    ${SpaceMemberPermissionsFragmentDoc}`
+export const FullTaskFragmentDoc = gql`
+    fragment FullTask on Task {
+  id
+  name
+  description
+  impact
+  slotsAvailable
+  slotsTaken
+  location
+  geolocation {
+    latitude
+    longitude
+  }
+  visibility
+  locationType
+  interactionType
+  contactEmail
+  contactPhone
+  thumbnail
+  thumbnailBlurhash
+  regularity
+  duration
+  timeframeEndDate
+  timeframeStartDate
+  creator {
+    ...UserAvatar
+  }
+  skillsV2
+  interactionSignupLink
+}
+    ${UserAvatarFragmentDoc}`
+export const RelatedSpaceFragmentDoc = gql`
+    fragment RelatedSpace on Space {
+  id
+  title
+  location
+  description
+  cover
+  coverBlurhash
+  name
+  avatar
+  avatarDefaultColor
+  members(limit: 3) {
+    totalResults
+    data {
+      user {
+        identity
+        ...UserAvatar
+      }
+    }
+  }
+}
+    ${UserAvatarFragmentDoc}`
+export const FullSpaceFragmentDoc = gql`
+    fragment FullSpace on Space {
+  id
+  title
+  description
+  contactEmail
+  contactPhone
+  contactDescription
+  created
+  creator {
+    ...UserAvatar
+  }
+  avatar
+  avatarBlurhash
+  cover
+  coverBlurhash
+  name
+  avatarDefaultColor
+  location
+  hasPublicPosts
+  hasPrivatePosts
+  geolocation {
+    latitude
+    longitude
+  }
+  connectionStatusToMyself
+  links {
+    id
+    type
+    url
+    name
+  }
+  collaborationTools {
+    id
+    domain
+    url
+    description
+    title
+    collectionType
+    thumbnail
+    thumbnailBlurhash
+  }
+  members(limit: 3) {
+    totalResults
+    data {
+      id
+      isAdministrator
+      user {
+        ...UserAvatar
+      }
+    }
+  }
+  membershipRequests(limit: 0) {
+    totalResults
+  }
+  tasks {
+    ...FullTask
+  }
+  topicsV2
+  onboarding {
+    steps {
+      text
+    }
+  }
+  parentSpace {
+    ...RelatedSpace
+  }
+  childSpaces(limit: 4) {
+    totalResults
+    data {
+      ...RelatedSpace
+    }
+  }
+}
+    ${UserAvatarFragmentDoc}
+${FullTaskFragmentDoc}
+${RelatedSpaceFragmentDoc}`
+export const SpaceOverviewFragmentDoc = gql`
+    fragment SpaceOverview on Space {
+  id
+  title
+  description
+  cover
+  coverBlurhash
+  location
+  avatar
+  avatarBlurhash
+  avatarDefaultColor
+  name
+  creator {
+    id
+  }
+  members(limit: 3) {
+    totalResults
+    data {
+      user {
+        identity
+        ...UserAvatar
+      }
+    }
+  }
+}
+    ${UserAvatarFragmentDoc}`
+export const MemberSpacesFragmentDoc = gql`
+    fragment MemberSpaces on SpacePaged {
+  data {
+    id
+    title
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+    cover
+    coverBlurhash
+    name
+    members {
+      data {
+        user {
+          ...UserAvatar
+        }
+      }
+      totalResults
+    }
+  }
+  totalResults
+}
+    ${UserAvatarFragmentDoc}`
 export const FullUserFragmentDoc = gql`
     fragment FullUser on User {
   id
@@ -3885,8 +5963,1522 @@ export type SpaceRecommendationQueryResult = Apollo.QueryResult<
   SpaceRecommendationQuery,
   SpaceRecommendationQueryVariables
 >
+export const ValidateSpaceDocument = gql`
+    mutation ValidateSpace($input: ValidateSpaceInput!) {
+  validateSpace(input: $input) {
+    success
+  }
+}
+    `
+export type ValidateSpaceMutationFn = Apollo.MutationFunction<ValidateSpaceMutation, ValidateSpaceMutationVariables>
+
+/**
+ * __useValidateSpaceMutation__
+ *
+ * To run a mutation, you first call `useValidateSpaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useValidateSpaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [validateSpaceMutation, { data, loading, error }] = useValidateSpaceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useValidateSpaceMutation(
+  baseOptions?: Apollo.MutationHookOptions<ValidateSpaceMutation, ValidateSpaceMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<ValidateSpaceMutation, ValidateSpaceMutationVariables>(ValidateSpaceDocument, options)
+}
+export type ValidateSpaceMutationHookResult = ReturnType<typeof useValidateSpaceMutation>
+export type ValidateSpaceMutationResult = Apollo.MutationResult<ValidateSpaceMutation>
+export type ValidateSpaceMutationOptions = Apollo.BaseMutationOptions<
+  ValidateSpaceMutation,
+  ValidateSpaceMutationVariables
+>
+export const CreateSpaceDocument = gql`
+    mutation CreateSpace($input: CreateSpaceInput!) {
+  createSpace(input: $input) {
+    ...FullSpace
+  }
+}
+    ${FullSpaceFragmentDoc}`
+export type CreateSpaceMutationFn = Apollo.MutationFunction<CreateSpaceMutation, CreateSpaceMutationVariables>
+
+/**
+ * __useCreateSpaceMutation__
+ *
+ * To run a mutation, you first call `useCreateSpaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSpaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSpaceMutation, { data, loading, error }] = useCreateSpaceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateSpaceMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateSpaceMutation, CreateSpaceMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateSpaceMutation, CreateSpaceMutationVariables>(CreateSpaceDocument, options)
+}
+export type CreateSpaceMutationHookResult = ReturnType<typeof useCreateSpaceMutation>
+export type CreateSpaceMutationResult = Apollo.MutationResult<CreateSpaceMutation>
+export type CreateSpaceMutationOptions = Apollo.BaseMutationOptions<CreateSpaceMutation, CreateSpaceMutationVariables>
+export const AddExternalLinkDocument = gql`
+    mutation AddExternalLink($input: AddExternalLinkInput!) {
+  addExternalLink(input: $input) {
+    id
+    type
+    url
+    name
+  }
+}
+    `
+export type AddExternalLinkMutationFn = Apollo.MutationFunction<
+  AddExternalLinkMutation,
+  AddExternalLinkMutationVariables
+>
+
+/**
+ * __useAddExternalLinkMutation__
+ *
+ * To run a mutation, you first call `useAddExternalLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddExternalLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addExternalLinkMutation, { data, loading, error }] = useAddExternalLinkMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddExternalLinkMutation(
+  baseOptions?: Apollo.MutationHookOptions<AddExternalLinkMutation, AddExternalLinkMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<AddExternalLinkMutation, AddExternalLinkMutationVariables>(AddExternalLinkDocument, options)
+}
+export type AddExternalLinkMutationHookResult = ReturnType<typeof useAddExternalLinkMutation>
+export type AddExternalLinkMutationResult = Apollo.MutationResult<AddExternalLinkMutation>
+export type AddExternalLinkMutationOptions = Apollo.BaseMutationOptions<
+  AddExternalLinkMutation,
+  AddExternalLinkMutationVariables
+>
+export const DeleteSpaceDocument = gql`
+    mutation DeleteSpace($id: UUID!) {
+  deleteSpace(id: $id) {
+    success
+  }
+}
+    `
+export type DeleteSpaceMutationFn = Apollo.MutationFunction<DeleteSpaceMutation, DeleteSpaceMutationVariables>
+
+/**
+ * __useDeleteSpaceMutation__
+ *
+ * To run a mutation, you first call `useDeleteSpaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSpaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSpaceMutation, { data, loading, error }] = useDeleteSpaceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSpaceMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteSpaceMutation, DeleteSpaceMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteSpaceMutation, DeleteSpaceMutationVariables>(DeleteSpaceDocument, options)
+}
+export type DeleteSpaceMutationHookResult = ReturnType<typeof useDeleteSpaceMutation>
+export type DeleteSpaceMutationResult = Apollo.MutationResult<DeleteSpaceMutation>
+export type DeleteSpaceMutationOptions = Apollo.BaseMutationOptions<DeleteSpaceMutation, DeleteSpaceMutationVariables>
+export const UpdateSpaceUserConnectionDocument = gql`
+    mutation UpdateSpaceUserConnection($connectAction: UpdateConnectionAction!, $connectionType: SpaceUserConnectionType!, $spaceId: UUID!, $userId: UUID, $message: String) {
+  updateSpaceUserConnection(
+    connectAction: $connectAction
+    connectionType: $connectionType
+    spaceId: $spaceId
+    userId: $userId
+    message: $message
+  ) {
+    id
+    connectionStatusToMyself
+  }
+}
+    `
+export type UpdateSpaceUserConnectionMutationFn = Apollo.MutationFunction<
+  UpdateSpaceUserConnectionMutation,
+  UpdateSpaceUserConnectionMutationVariables
+>
+
+/**
+ * __useUpdateSpaceUserConnectionMutation__
+ *
+ * To run a mutation, you first call `useUpdateSpaceUserConnectionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSpaceUserConnectionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSpaceUserConnectionMutation, { data, loading, error }] = useUpdateSpaceUserConnectionMutation({
+ *   variables: {
+ *      connectAction: // value for 'connectAction'
+ *      connectionType: // value for 'connectionType'
+ *      spaceId: // value for 'spaceId'
+ *      userId: // value for 'userId'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useUpdateSpaceUserConnectionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateSpaceUserConnectionMutation,
+    UpdateSpaceUserConnectionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateSpaceUserConnectionMutation, UpdateSpaceUserConnectionMutationVariables>(
+    UpdateSpaceUserConnectionDocument,
+    options
+  )
+}
+export type UpdateSpaceUserConnectionMutationHookResult = ReturnType<typeof useUpdateSpaceUserConnectionMutation>
+export type UpdateSpaceUserConnectionMutationResult = Apollo.MutationResult<UpdateSpaceUserConnectionMutation>
+export type UpdateSpaceUserConnectionMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSpaceUserConnectionMutation,
+  UpdateSpaceUserConnectionMutationVariables
+>
+export const InviteToSpaceByEmailDocument = gql`
+    mutation InviteToSpaceByEmail($email: String!, $spaceId: UUID!) {
+  inviteToSpaceByEmail(email: $email, spaceId: $spaceId) {
+    success
+  }
+}
+    `
+export type InviteToSpaceByEmailMutationFn = Apollo.MutationFunction<
+  InviteToSpaceByEmailMutation,
+  InviteToSpaceByEmailMutationVariables
+>
+
+/**
+ * __useInviteToSpaceByEmailMutation__
+ *
+ * To run a mutation, you first call `useInviteToSpaceByEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInviteToSpaceByEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inviteToSpaceByEmailMutation, { data, loading, error }] = useInviteToSpaceByEmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      spaceId: // value for 'spaceId'
+ *   },
+ * });
+ */
+export function useInviteToSpaceByEmailMutation(
+  baseOptions?: Apollo.MutationHookOptions<InviteToSpaceByEmailMutation, InviteToSpaceByEmailMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<InviteToSpaceByEmailMutation, InviteToSpaceByEmailMutationVariables>(
+    InviteToSpaceByEmailDocument,
+    options
+  )
+}
+export type InviteToSpaceByEmailMutationHookResult = ReturnType<typeof useInviteToSpaceByEmailMutation>
+export type InviteToSpaceByEmailMutationResult = Apollo.MutationResult<InviteToSpaceByEmailMutation>
+export type InviteToSpaceByEmailMutationOptions = Apollo.BaseMutationOptions<
+  InviteToSpaceByEmailMutation,
+  InviteToSpaceByEmailMutationVariables
+>
+export const CreateSpacePostDocument = gql`
+    mutation createSpacePost($input: CreatePostInput!) {
+  createSpacePost2(input: $input) {
+    ...PostFragment
+    space {
+      posts(offset: 0, limit: 10, visibility: ALL) {
+        data {
+          ...PostFragment
+        }
+      }
+    }
+  }
+}
+    ${PostFragmentFragmentDoc}`
+export type CreateSpacePostMutationFn = Apollo.MutationFunction<
+  CreateSpacePostMutation,
+  CreateSpacePostMutationVariables
+>
+
+/**
+ * __useCreateSpacePostMutation__
+ *
+ * To run a mutation, you first call `useCreateSpacePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSpacePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSpacePostMutation, { data, loading, error }] = useCreateSpacePostMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateSpacePostMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateSpacePostMutation, CreateSpacePostMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateSpacePostMutation, CreateSpacePostMutationVariables>(CreateSpacePostDocument, options)
+}
+export type CreateSpacePostMutationHookResult = ReturnType<typeof useCreateSpacePostMutation>
+export type CreateSpacePostMutationResult = Apollo.MutationResult<CreateSpacePostMutation>
+export type CreateSpacePostMutationOptions = Apollo.BaseMutationOptions<
+  CreateSpacePostMutation,
+  CreateSpacePostMutationVariables
+>
+export const UpdateSpacePostDocument = gql`
+    mutation updateSpacePost($input: UpdatePostInput!) {
+  updateSpacePost(input: $input) {
+    ...PostFragment
+  }
+}
+    ${PostFragmentFragmentDoc}`
+export type UpdateSpacePostMutationFn = Apollo.MutationFunction<
+  UpdateSpacePostMutation,
+  UpdateSpacePostMutationVariables
+>
+
+/**
+ * __useUpdateSpacePostMutation__
+ *
+ * To run a mutation, you first call `useUpdateSpacePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSpacePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSpacePostMutation, { data, loading, error }] = useUpdateSpacePostMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateSpacePostMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateSpacePostMutation, UpdateSpacePostMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateSpacePostMutation, UpdateSpacePostMutationVariables>(UpdateSpacePostDocument, options)
+}
+export type UpdateSpacePostMutationHookResult = ReturnType<typeof useUpdateSpacePostMutation>
+export type UpdateSpacePostMutationResult = Apollo.MutationResult<UpdateSpacePostMutation>
+export type UpdateSpacePostMutationOptions = Apollo.BaseMutationOptions<
+  UpdateSpacePostMutation,
+  UpdateSpacePostMutationVariables
+>
+export const DeleteSpacePostDocument = gql`
+    mutation deleteSpacePost($id: UUID!) {
+  deleteSpacePost(id: $id) {
+    id
+  }
+}
+    `
+export type DeleteSpacePostMutationFn = Apollo.MutationFunction<
+  DeleteSpacePostMutation,
+  DeleteSpacePostMutationVariables
+>
+
+/**
+ * __useDeleteSpacePostMutation__
+ *
+ * To run a mutation, you first call `useDeleteSpacePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSpacePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSpacePostMutation, { data, loading, error }] = useDeleteSpacePostMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSpacePostMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteSpacePostMutation, DeleteSpacePostMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteSpacePostMutation, DeleteSpacePostMutationVariables>(DeleteSpacePostDocument, options)
+}
+export type DeleteSpacePostMutationHookResult = ReturnType<typeof useDeleteSpacePostMutation>
+export type DeleteSpacePostMutationResult = Apollo.MutationResult<DeleteSpacePostMutation>
+export type DeleteSpacePostMutationOptions = Apollo.BaseMutationOptions<
+  DeleteSpacePostMutation,
+  DeleteSpacePostMutationVariables
+>
+export const SpaceByIdDocument = gql`
+    query SpaceById($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    ...FullSpace
+  }
+}
+    ${FullSpaceFragmentDoc}`
+
+/**
+ * __useSpaceByIdQuery__
+ *
+ * To run a query within a React component, call `useSpaceByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceByIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *   },
+ * });
+ */
+export function useSpaceByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<SpaceByIdQuery, SpaceByIdQueryVariables> &
+    ({ variables: SpaceByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
+}
+export function useSpaceByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpaceByIdQuery, SpaceByIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
+}
+export function useSpaceByIdSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SpaceByIdQuery, SpaceByIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
+}
+export type SpaceByIdQueryHookResult = ReturnType<typeof useSpaceByIdQuery>
+export type SpaceByIdLazyQueryHookResult = ReturnType<typeof useSpaceByIdLazyQuery>
+export type SpaceByIdSuspenseQueryHookResult = ReturnType<typeof useSpaceByIdSuspenseQuery>
+export type SpaceByIdQueryResult = Apollo.QueryResult<SpaceByIdQuery, SpaceByIdQueryVariables>
+export const SpaceConnectionStatusToMyselfByIdDocument = gql`
+    query SpaceConnectionStatusToMyselfById($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    connectionStatusToMyself
+  }
+}
+    `
+
+/**
+ * __useSpaceConnectionStatusToMyselfByIdQuery__
+ *
+ * To run a query within a React component, call `useSpaceConnectionStatusToMyselfByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceConnectionStatusToMyselfByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceConnectionStatusToMyselfByIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *   },
+ * });
+ */
+export function useSpaceConnectionStatusToMyselfByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SpaceConnectionStatusToMyselfByIdQuery,
+    SpaceConnectionStatusToMyselfByIdQueryVariables
+  > &
+    ({ variables: SpaceConnectionStatusToMyselfByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceConnectionStatusToMyselfByIdQuery, SpaceConnectionStatusToMyselfByIdQueryVariables>(
+    SpaceConnectionStatusToMyselfByIdDocument,
+    options
+  )
+}
+export function useSpaceConnectionStatusToMyselfByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SpaceConnectionStatusToMyselfByIdQuery,
+    SpaceConnectionStatusToMyselfByIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceConnectionStatusToMyselfByIdQuery, SpaceConnectionStatusToMyselfByIdQueryVariables>(
+    SpaceConnectionStatusToMyselfByIdDocument,
+    options
+  )
+}
+export function useSpaceConnectionStatusToMyselfByIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        SpaceConnectionStatusToMyselfByIdQuery,
+        SpaceConnectionStatusToMyselfByIdQueryVariables
+      >
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    SpaceConnectionStatusToMyselfByIdQuery,
+    SpaceConnectionStatusToMyselfByIdQueryVariables
+  >(SpaceConnectionStatusToMyselfByIdDocument, options)
+}
+export type SpaceConnectionStatusToMyselfByIdQueryHookResult = ReturnType<
+  typeof useSpaceConnectionStatusToMyselfByIdQuery
+>
+export type SpaceConnectionStatusToMyselfByIdLazyQueryHookResult = ReturnType<
+  typeof useSpaceConnectionStatusToMyselfByIdLazyQuery
+>
+export type SpaceConnectionStatusToMyselfByIdSuspenseQueryHookResult = ReturnType<
+  typeof useSpaceConnectionStatusToMyselfByIdSuspenseQuery
+>
+export type SpaceConnectionStatusToMyselfByIdQueryResult = Apollo.QueryResult<
+  SpaceConnectionStatusToMyselfByIdQuery,
+  SpaceConnectionStatusToMyselfByIdQueryVariables
+>
+export const SpaceRealatedSpacesDocument = gql`
+    query SpaceRealatedSpaces($idOrName: String!, $offset: Int, $limit: Int) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    title
+    parentSpace {
+      ...RelatedSpace
+    }
+    childSpaces(offset: $offset, limit: $limit) {
+      totalResults
+      data {
+        ...RelatedSpace
+      }
+    }
+  }
+}
+    ${RelatedSpaceFragmentDoc}`
+
+/**
+ * __useSpaceRealatedSpacesQuery__
+ *
+ * To run a query within a React component, call `useSpaceRealatedSpacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceRealatedSpacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceRealatedSpacesQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSpaceRealatedSpacesQuery(
+  baseOptions: Apollo.QueryHookOptions<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables> &
+    ({ variables: SpaceRealatedSpacesQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
+    SpaceRealatedSpacesDocument,
+    options
+  )
+}
+export function useSpaceRealatedSpacesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
+    SpaceRealatedSpacesDocument,
+    options
+  )
+}
+export function useSpaceRealatedSpacesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
+    SpaceRealatedSpacesDocument,
+    options
+  )
+}
+export type SpaceRealatedSpacesQueryHookResult = ReturnType<typeof useSpaceRealatedSpacesQuery>
+export type SpaceRealatedSpacesLazyQueryHookResult = ReturnType<typeof useSpaceRealatedSpacesLazyQuery>
+export type SpaceRealatedSpacesSuspenseQueryHookResult = ReturnType<typeof useSpaceRealatedSpacesSuspenseQuery>
+export type SpaceRealatedSpacesQueryResult = Apollo.QueryResult<
+  SpaceRealatedSpacesQuery,
+  SpaceRealatedSpacesQueryVariables
+>
+export const SpaceMembershipByIdDocument = gql`
+    query SpaceMembershipById($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    connectionStatusToMyself
+    membershipRequests(limit: 0) {
+      totalResults
+    }
+  }
+}
+    `
+
+/**
+ * __useSpaceMembershipByIdQuery__
+ *
+ * To run a query within a React component, call `useSpaceMembershipByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceMembershipByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceMembershipByIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *   },
+ * });
+ */
+export function useSpaceMembershipByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables> &
+    ({ variables: SpaceMembershipByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
+    SpaceMembershipByIdDocument,
+    options
+  )
+}
+export function useSpaceMembershipByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
+    SpaceMembershipByIdDocument,
+    options
+  )
+}
+export function useSpaceMembershipByIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
+    SpaceMembershipByIdDocument,
+    options
+  )
+}
+export type SpaceMembershipByIdQueryHookResult = ReturnType<typeof useSpaceMembershipByIdQuery>
+export type SpaceMembershipByIdLazyQueryHookResult = ReturnType<typeof useSpaceMembershipByIdLazyQuery>
+export type SpaceMembershipByIdSuspenseQueryHookResult = ReturnType<typeof useSpaceMembershipByIdSuspenseQuery>
+export type SpaceMembershipByIdQueryResult = Apollo.QueryResult<
+  SpaceMembershipByIdQuery,
+  SpaceMembershipByIdQueryVariables
+>
+export const RepresentativeBySpaceIdDocument = gql`
+    query RepresentativeBySpaceId($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    connectionStatusToMyself
+    representatives {
+      user {
+        id
+        identity
+      }
+    }
+  }
+}
+    `
+
+/**
+ * __useRepresentativeBySpaceIdQuery__
+ *
+ * To run a query within a React component, call `useRepresentativeBySpaceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRepresentativeBySpaceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRepresentativeBySpaceIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *   },
+ * });
+ */
+export function useRepresentativeBySpaceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables> &
+    ({ variables: RepresentativeBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
+    RepresentativeBySpaceIdDocument,
+    options
+  )
+}
+export function useRepresentativeBySpaceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
+    RepresentativeBySpaceIdDocument,
+    options
+  )
+}
+export function useRepresentativeBySpaceIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
+    RepresentativeBySpaceIdDocument,
+    options
+  )
+}
+export type RepresentativeBySpaceIdQueryHookResult = ReturnType<typeof useRepresentativeBySpaceIdQuery>
+export type RepresentativeBySpaceIdLazyQueryHookResult = ReturnType<typeof useRepresentativeBySpaceIdLazyQuery>
+export type RepresentativeBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useRepresentativeBySpaceIdSuspenseQuery>
+export type RepresentativeBySpaceIdQueryResult = Apollo.QueryResult<
+  RepresentativeBySpaceIdQuery,
+  RepresentativeBySpaceIdQueryVariables
+>
+export const SpaceMembershiByIdAllMembersDocument = gql`
+    query SpaceMembershiByIdAllMembers($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    connectionStatusToMyself
+    members(limit: 100000) {
+      totalResults
+      data {
+        user {
+          id
+        }
+      }
+    }
+  }
+}
+    `
+
+/**
+ * __useSpaceMembershiByIdAllMembersQuery__
+ *
+ * To run a query within a React component, call `useSpaceMembershiByIdAllMembersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceMembershiByIdAllMembersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceMembershiByIdAllMembersQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *   },
+ * });
+ */
+export function useSpaceMembershiByIdAllMembersQuery(
+  baseOptions: Apollo.QueryHookOptions<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables> &
+    ({ variables: SpaceMembershiByIdAllMembersQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
+    SpaceMembershiByIdAllMembersDocument,
+    options
+  )
+}
+export function useSpaceMembershiByIdAllMembersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SpaceMembershiByIdAllMembersQuery,
+    SpaceMembershiByIdAllMembersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
+    SpaceMembershiByIdAllMembersDocument,
+    options
+  )
+}
+export function useSpaceMembershiByIdAllMembersSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
+    SpaceMembershiByIdAllMembersDocument,
+    options
+  )
+}
+export type SpaceMembershiByIdAllMembersQueryHookResult = ReturnType<typeof useSpaceMembershiByIdAllMembersQuery>
+export type SpaceMembershiByIdAllMembersLazyQueryHookResult = ReturnType<
+  typeof useSpaceMembershiByIdAllMembersLazyQuery
+>
+export type SpaceMembershiByIdAllMembersSuspenseQueryHookResult = ReturnType<
+  typeof useSpaceMembershiByIdAllMembersSuspenseQuery
+>
+export type SpaceMembershiByIdAllMembersQueryResult = Apollo.QueryResult<
+  SpaceMembershiByIdAllMembersQuery,
+  SpaceMembershiByIdAllMembersQueryVariables
+>
+export const SpacesByMemberDocument = gql`
+    query SpacesByMember($memberId: UUID) {
+  spaces(memberId: $memberId) {
+    ...MemberSpaces
+  }
+}
+    ${MemberSpacesFragmentDoc}`
+
+/**
+ * __useSpacesByMemberQuery__
+ *
+ * To run a query within a React component, call `useSpacesByMemberQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpacesByMemberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpacesByMemberQuery({
+ *   variables: {
+ *      memberId: // value for 'memberId'
+ *   },
+ * });
+ */
+export function useSpacesByMemberQuery(
+  baseOptions?: Apollo.QueryHookOptions<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
+}
+export function useSpacesByMemberLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
+}
+export function useSpacesByMemberSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
+}
+export type SpacesByMemberQueryHookResult = ReturnType<typeof useSpacesByMemberQuery>
+export type SpacesByMemberLazyQueryHookResult = ReturnType<typeof useSpacesByMemberLazyQuery>
+export type SpacesByMemberSuspenseQueryHookResult = ReturnType<typeof useSpacesByMemberSuspenseQuery>
+export type SpacesByMemberQueryResult = Apollo.QueryResult<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+export const SpaceMembersBySpaceIdDocument = gql`
+    query SpaceMembersBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  spaceById(idOrName: $idOrName) {
+    id
+    members(limit: $limit, offset: $offset) {
+      ...SpaceMemberList
+    }
+  }
+}
+    ${SpaceMemberListFragmentDoc}`
+
+/**
+ * __useSpaceMembersBySpaceIdQuery__
+ *
+ * To run a query within a React component, call `useSpaceMembersBySpaceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceMembersBySpaceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceMembersBySpaceIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSpaceMembersBySpaceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables> &
+    ({ variables: SpaceMembersBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
+    SpaceMembersBySpaceIdDocument,
+    options
+  )
+}
+export function useSpaceMembersBySpaceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
+    SpaceMembersBySpaceIdDocument,
+    options
+  )
+}
+export function useSpaceMembersBySpaceIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
+    SpaceMembersBySpaceIdDocument,
+    options
+  )
+}
+export type SpaceMembersBySpaceIdQueryHookResult = ReturnType<typeof useSpaceMembersBySpaceIdQuery>
+export type SpaceMembersBySpaceIdLazyQueryHookResult = ReturnType<typeof useSpaceMembersBySpaceIdLazyQuery>
+export type SpaceMembersBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useSpaceMembersBySpaceIdSuspenseQuery>
+export type SpaceMembersBySpaceIdQueryResult = Apollo.QueryResult<
+  SpaceMembersBySpaceIdQuery,
+  SpaceMembersBySpaceIdQueryVariables
+>
+export const SpaceMembershipRequestsBySpaceIdDocument = gql`
+    query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  spaceById(idOrName: $idOrName) {
+    id
+    membershipRequests(limit: $limit, offset: $offset) {
+      ...SpaceMembershipRequestList
+    }
+  }
+}
+    ${SpaceMembershipRequestListFragmentDoc}`
+
+/**
+ * __useSpaceMembershipRequestsBySpaceIdQuery__
+ *
+ * To run a query within a React component, call `useSpaceMembershipRequestsBySpaceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceMembershipRequestsBySpaceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceMembershipRequestsBySpaceIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSpaceMembershipRequestsBySpaceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SpaceMembershipRequestsBySpaceIdQuery,
+    SpaceMembershipRequestsBySpaceIdQueryVariables
+  > &
+    ({ variables: SpaceMembershipRequestsBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceMembershipRequestsBySpaceIdQuery, SpaceMembershipRequestsBySpaceIdQueryVariables>(
+    SpaceMembershipRequestsBySpaceIdDocument,
+    options
+  )
+}
+export function useSpaceMembershipRequestsBySpaceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SpaceMembershipRequestsBySpaceIdQuery,
+    SpaceMembershipRequestsBySpaceIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceMembershipRequestsBySpaceIdQuery, SpaceMembershipRequestsBySpaceIdQueryVariables>(
+    SpaceMembershipRequestsBySpaceIdDocument,
+    options
+  )
+}
+export function useSpaceMembershipRequestsBySpaceIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        SpaceMembershipRequestsBySpaceIdQuery,
+        SpaceMembershipRequestsBySpaceIdQueryVariables
+      >
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceMembershipRequestsBySpaceIdQuery, SpaceMembershipRequestsBySpaceIdQueryVariables>(
+    SpaceMembershipRequestsBySpaceIdDocument,
+    options
+  )
+}
+export type SpaceMembershipRequestsBySpaceIdQueryHookResult = ReturnType<
+  typeof useSpaceMembershipRequestsBySpaceIdQuery
+>
+export type SpaceMembershipRequestsBySpaceIdLazyQueryHookResult = ReturnType<
+  typeof useSpaceMembershipRequestsBySpaceIdLazyQuery
+>
+export type SpaceMembershipRequestsBySpaceIdSuspenseQueryHookResult = ReturnType<
+  typeof useSpaceMembershipRequestsBySpaceIdSuspenseQuery
+>
+export type SpaceMembershipRequestsBySpaceIdQueryResult = Apollo.QueryResult<
+  SpaceMembershipRequestsBySpaceIdQuery,
+  SpaceMembershipRequestsBySpaceIdQueryVariables
+>
+export const SpaceInvitesBySpaceIdDocument = gql`
+    query SpaceInvitesBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  spaceById(idOrName: $idOrName) {
+    id
+    invites(limit: $limit, offset: $offset) {
+      ...SpaceInviteList
+    }
+  }
+}
+    ${SpaceInviteListFragmentDoc}`
+
+/**
+ * __useSpaceInvitesBySpaceIdQuery__
+ *
+ * To run a query within a React component, call `useSpaceInvitesBySpaceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpaceInvitesBySpaceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpaceInvitesBySpaceIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSpaceInvitesBySpaceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables> &
+    ({ variables: SpaceInvitesBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
+    SpaceInvitesBySpaceIdDocument,
+    options
+  )
+}
+export function useSpaceInvitesBySpaceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
+    SpaceInvitesBySpaceIdDocument,
+    options
+  )
+}
+export function useSpaceInvitesBySpaceIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
+    SpaceInvitesBySpaceIdDocument,
+    options
+  )
+}
+export type SpaceInvitesBySpaceIdQueryHookResult = ReturnType<typeof useSpaceInvitesBySpaceIdQuery>
+export type SpaceInvitesBySpaceIdLazyQueryHookResult = ReturnType<typeof useSpaceInvitesBySpaceIdLazyQuery>
+export type SpaceInvitesBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useSpaceInvitesBySpaceIdSuspenseQuery>
+export type SpaceInvitesBySpaceIdQueryResult = Apollo.QueryResult<
+  SpaceInvitesBySpaceIdQuery,
+  SpaceInvitesBySpaceIdQueryVariables
+>
+export const UsersByNameWithSpaceConnectionDocument = gql`
+    query UsersByNameWithSpaceConnection($substring: String!, $spaceId: UUID!, $limit: Int!, $offset: Int!) {
+  userByName(substring: $substring, limit: $limit, offset: $offset) {
+    data {
+      ...UserAvatar
+      connectionStatusToMyself
+      connectionStatusToSpace(spaceId: $spaceId)
+    }
+    totalResults
+  }
+}
+    ${UserAvatarFragmentDoc}`
+
+/**
+ * __useUsersByNameWithSpaceConnectionQuery__
+ *
+ * To run a query within a React component, call `useUsersByNameWithSpaceConnectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersByNameWithSpaceConnectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersByNameWithSpaceConnectionQuery({
+ *   variables: {
+ *      substring: // value for 'substring'
+ *      spaceId: // value for 'spaceId'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useUsersByNameWithSpaceConnectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UsersByNameWithSpaceConnectionQuery,
+    UsersByNameWithSpaceConnectionQueryVariables
+  > &
+    ({ variables: UsersByNameWithSpaceConnectionQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
+    UsersByNameWithSpaceConnectionDocument,
+    options
+  )
+}
+export function useUsersByNameWithSpaceConnectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UsersByNameWithSpaceConnectionQuery,
+    UsersByNameWithSpaceConnectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
+    UsersByNameWithSpaceConnectionDocument,
+    options
+  )
+}
+export function useUsersByNameWithSpaceConnectionSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
+    UsersByNameWithSpaceConnectionDocument,
+    options
+  )
+}
+export type UsersByNameWithSpaceConnectionQueryHookResult = ReturnType<typeof useUsersByNameWithSpaceConnectionQuery>
+export type UsersByNameWithSpaceConnectionLazyQueryHookResult = ReturnType<
+  typeof useUsersByNameWithSpaceConnectionLazyQuery
+>
+export type UsersByNameWithSpaceConnectionSuspenseQueryHookResult = ReturnType<
+  typeof useUsersByNameWithSpaceConnectionSuspenseQuery
+>
+export type UsersByNameWithSpaceConnectionQueryResult = Apollo.QueryResult<
+  UsersByNameWithSpaceConnectionQuery,
+  UsersByNameWithSpaceConnectionQueryVariables
+>
+export const ConnectedUsersWithSpaceConnectionDocument = gql`
+    query ConnectedUsersWithSpaceConnection($spaceId: UUID!, $offset: Int! = 0, $limit: Int! = 20) {
+  connectedUsers(limit: $limit, offset: $offset) {
+    totalResults
+    data {
+      ...UserAvatar
+      connectionStatusToSpace(spaceId: $spaceId)
+      connectionStatusToMyself
+    }
+  }
+}
+    ${UserAvatarFragmentDoc}`
+
+/**
+ * __useConnectedUsersWithSpaceConnectionQuery__
+ *
+ * To run a query within a React component, call `useConnectedUsersWithSpaceConnectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useConnectedUsersWithSpaceConnectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useConnectedUsersWithSpaceConnectionQuery({
+ *   variables: {
+ *      spaceId: // value for 'spaceId'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useConnectedUsersWithSpaceConnectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ConnectedUsersWithSpaceConnectionQuery,
+    ConnectedUsersWithSpaceConnectionQueryVariables
+  > &
+    ({ variables: ConnectedUsersWithSpaceConnectionQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<ConnectedUsersWithSpaceConnectionQuery, ConnectedUsersWithSpaceConnectionQueryVariables>(
+    ConnectedUsersWithSpaceConnectionDocument,
+    options
+  )
+}
+export function useConnectedUsersWithSpaceConnectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ConnectedUsersWithSpaceConnectionQuery,
+    ConnectedUsersWithSpaceConnectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<ConnectedUsersWithSpaceConnectionQuery, ConnectedUsersWithSpaceConnectionQueryVariables>(
+    ConnectedUsersWithSpaceConnectionDocument,
+    options
+  )
+}
+export function useConnectedUsersWithSpaceConnectionSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ConnectedUsersWithSpaceConnectionQuery,
+        ConnectedUsersWithSpaceConnectionQueryVariables
+      >
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    ConnectedUsersWithSpaceConnectionQuery,
+    ConnectedUsersWithSpaceConnectionQueryVariables
+  >(ConnectedUsersWithSpaceConnectionDocument, options)
+}
+export type ConnectedUsersWithSpaceConnectionQueryHookResult = ReturnType<
+  typeof useConnectedUsersWithSpaceConnectionQuery
+>
+export type ConnectedUsersWithSpaceConnectionLazyQueryHookResult = ReturnType<
+  typeof useConnectedUsersWithSpaceConnectionLazyQuery
+>
+export type ConnectedUsersWithSpaceConnectionSuspenseQueryHookResult = ReturnType<
+  typeof useConnectedUsersWithSpaceConnectionSuspenseQuery
+>
+export type ConnectedUsersWithSpaceConnectionQueryResult = Apollo.QueryResult<
+  ConnectedUsersWithSpaceConnectionQuery,
+  ConnectedUsersWithSpaceConnectionQueryVariables
+>
+export const SpacePostsBySpaceIdDocument = gql`
+    query SpacePostsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10, $visibility: VisibilityFilter!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    hasPublicPosts
+    hasPrivatePosts
+    posts(offset: $offset, limit: $limit, visibility: $visibility) {
+      data {
+        ...PostFragment
+      }
+      totalResults
+    }
+  }
+}
+    ${PostFragmentFragmentDoc}`
+
+/**
+ * __useSpacePostsBySpaceIdQuery__
+ *
+ * To run a query within a React component, call `useSpacePostsBySpaceIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpacePostsBySpaceIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpacePostsBySpaceIdQuery({
+ *   variables: {
+ *      idOrName: // value for 'idOrName'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *      visibility: // value for 'visibility'
+ *   },
+ * });
+ */
+export function useSpacePostsBySpaceIdQuery(
+  baseOptions: Apollo.QueryHookOptions<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables> &
+    ({ variables: SpacePostsBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
+    SpacePostsBySpaceIdDocument,
+    options
+  )
+}
+export function useSpacePostsBySpaceIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
+    SpacePostsBySpaceIdDocument,
+    options
+  )
+}
+export function useSpacePostsBySpaceIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
+    SpacePostsBySpaceIdDocument,
+    options
+  )
+}
+export type SpacePostsBySpaceIdQueryHookResult = ReturnType<typeof useSpacePostsBySpaceIdQuery>
+export type SpacePostsBySpaceIdLazyQueryHookResult = ReturnType<typeof useSpacePostsBySpaceIdLazyQuery>
+export type SpacePostsBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useSpacePostsBySpaceIdSuspenseQuery>
+export type SpacePostsBySpaceIdQueryResult = Apollo.QueryResult<
+  SpacePostsBySpaceIdQuery,
+  SpacePostsBySpaceIdQueryVariables
+>
+export const DiscoverSpacesDocument = gql`
+    query DiscoverSpaces($topicsV2: [String!], $geolocation: GeoJSON, $skillsV2: [String!], $offset: Int! = 0, $limit: Int! = 5) {
+  discoverSpaces(
+    topicsV2: $topicsV2
+    geolocation: $geolocation
+    skillsV2: $skillsV2
+    offset: $offset
+    limit: $limit
+  ) {
+    topicV2
+    locationId
+    skillV2
+    spaces {
+      totalResults
+      data {
+        ...SpaceOverview
+      }
+    }
+  }
+}
+    ${SpaceOverviewFragmentDoc}`
+
+/**
+ * __useDiscoverSpacesQuery__
+ *
+ * To run a query within a React component, call `useDiscoverSpacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDiscoverSpacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDiscoverSpacesQuery({
+ *   variables: {
+ *      topicsV2: // value for 'topicsV2'
+ *      geolocation: // value for 'geolocation'
+ *      skillsV2: // value for 'skillsV2'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useDiscoverSpacesQuery(
+  baseOptions?: Apollo.QueryHookOptions<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
+}
+export function useDiscoverSpacesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
+}
+export function useDiscoverSpacesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
+}
+export type DiscoverSpacesQueryHookResult = ReturnType<typeof useDiscoverSpacesQuery>
+export type DiscoverSpacesLazyQueryHookResult = ReturnType<typeof useDiscoverSpacesLazyQuery>
+export type DiscoverSpacesSuspenseQueryHookResult = ReturnType<typeof useDiscoverSpacesSuspenseQuery>
+export type DiscoverSpacesQueryResult = Apollo.QueryResult<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+export const MySpacesDocument = gql`
+    query MySpaces {
+  mySpaces {
+    section
+    type
+    spaces {
+      totalResults
+      data {
+        ...SpaceOverview
+      }
+    }
+  }
+}
+    ${SpaceOverviewFragmentDoc}`
+
+/**
+ * __useMySpacesQuery__
+ *
+ * To run a query within a React component, call `useMySpacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMySpacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMySpacesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMySpacesQuery(baseOptions?: Apollo.QueryHookOptions<MySpacesQuery, MySpacesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
+}
+export function useMySpacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MySpacesQuery, MySpacesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
+}
+export function useMySpacesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MySpacesQuery, MySpacesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
+}
+export type MySpacesQueryHookResult = ReturnType<typeof useMySpacesQuery>
+export type MySpacesLazyQueryHookResult = ReturnType<typeof useMySpacesLazyQuery>
+export type MySpacesSuspenseQueryHookResult = ReturnType<typeof useMySpacesSuspenseQuery>
+export type MySpacesQueryResult = Apollo.QueryResult<MySpacesQuery, MySpacesQueryVariables>
+export const SpacesDocument = gql`
+    query Spaces($topicsV2: [String!], $geolocation: GeoJSON, $skillsV2: [String!], $offset: Int! = 0, $limit: Int! = 12) {
+  spaces(
+    topicsV2: $topicsV2
+    geolocation: $geolocation
+    skillsV2: $skillsV2
+    offset: $offset
+    limit: $limit
+  ) {
+    totalResults
+    data {
+      ...SpaceOverview
+    }
+  }
+}
+    ${SpaceOverviewFragmentDoc}`
+
+/**
+ * __useSpacesQuery__
+ *
+ * To run a query within a React component, call `useSpacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSpacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSpacesQuery({
+ *   variables: {
+ *      topicsV2: // value for 'topicsV2'
+ *      geolocation: // value for 'geolocation'
+ *      skillsV2: // value for 'skillsV2'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSpacesQuery(baseOptions?: Apollo.QueryHookOptions<SpacesQuery, SpacesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
+}
+export function useSpacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SpacesQuery, SpacesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
+}
+export function useSpacesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SpacesQuery, SpacesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
+}
+export type SpacesQueryHookResult = ReturnType<typeof useSpacesQuery>
+export type SpacesLazyQueryHookResult = ReturnType<typeof useSpacesLazyQuery>
+export type SpacesSuspenseQueryHookResult = ReturnType<typeof useSpacesSuspenseQuery>
+export type SpacesQueryResult = Apollo.QueryResult<SpacesQuery, SpacesQueryVariables>
+export const DiscoverSpacesDefaultTopicsDocument = gql`
+    query DiscoverSpacesDefaultTopics {
+  discoverSpacesDefaultTopicsV2
+}
+    `
+
+/**
+ * __useDiscoverSpacesDefaultTopicsQuery__
+ *
+ * To run a query within a React component, call `useDiscoverSpacesDefaultTopicsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDiscoverSpacesDefaultTopicsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDiscoverSpacesDefaultTopicsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDiscoverSpacesDefaultTopicsQuery(
+  baseOptions?: Apollo.QueryHookOptions<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
+    DiscoverSpacesDefaultTopicsDocument,
+    options
+  )
+}
+export function useDiscoverSpacesDefaultTopicsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
+    DiscoverSpacesDefaultTopicsDocument,
+    options
+  )
+}
+export function useDiscoverSpacesDefaultTopicsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
+    DiscoverSpacesDefaultTopicsDocument,
+    options
+  )
+}
+export type DiscoverSpacesDefaultTopicsQueryHookResult = ReturnType<typeof useDiscoverSpacesDefaultTopicsQuery>
+export type DiscoverSpacesDefaultTopicsLazyQueryHookResult = ReturnType<typeof useDiscoverSpacesDefaultTopicsLazyQuery>
+export type DiscoverSpacesDefaultTopicsSuspenseQueryHookResult = ReturnType<
+  typeof useDiscoverSpacesDefaultTopicsSuspenseQuery
+>
+export type DiscoverSpacesDefaultTopicsQueryResult = Apollo.QueryResult<
+  DiscoverSpacesDefaultTopicsQuery,
+  DiscoverSpacesDefaultTopicsQueryVariables
+>
 export const TaskByIdDocument = gql`
-    query taskById($id: UUID!) {
+    query TaskById($id: UUID!) {
   taskById(id: $id) {
     id
     name
@@ -4031,6 +7623,7 @@ export const UpdateTaskDocument = gql`
     contactEmail
     contactPhone
     thumbnail
+    thumbnailBlurhash
     interactionType
     interactionSignupLink
   }

@@ -304,6 +304,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // choose first option on visibility
   await clickElementByTestId(page, 'btn-task-visibility-input')
   await clickElementByTestId(page, 'item-task-visibility-input-PUBLIC')
+  await clickElementByTestId(page, 'task-visibility-input-save-button')
   // then Public entry is visible
   page.getByText('Public')
 
@@ -326,6 +327,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await page.waitForSelector(byTestId('btn-task-locationType'))
   await clickElementByTestId(page, 'btn-task-locationType')
   await clickElementByTestId(page, 'item-task-locationType-ONSITE')
+  await clickElementByTestId(page, 'task-locationType-input-save-button')
   // then location type is visible
   page.getByText('On-site')
 
@@ -333,6 +335,7 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await page.waitForSelector(byTestId('btn-task-interactionType'))
   await clickElementByTestId(page, 'btn-task-interactionType')
   await clickElementByTestId(page, 'item-task-interactionType-CHAT')
+  await clickElementByTestId(page, 'task-interactionType-input-save-button')
 
   // set regularty
   await page.waitForSelector(byTestId('btn-task-regularity-input'))

@@ -1,15 +1,16 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import { StyleProp, View, ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import type { User } from '@holi/core/domain/shared/types'
 
 interface Props {
   spaces: Space[]
@@ -46,7 +47,7 @@ const SpacesGrid = ({ loading, spaces, style, pageSize = 1 }: PropsWithChildren<
                   description={space.description}
                   imageSrc={space.cover}
                   imageBlurhash={space.coverBlurhash}
-                  users={space.members.data.map((membership) => membership.user)}
+                  users={space.members.data.map((membership) => membership.user) as User[]}
                   href={`/spaces/${space.name}`}
                   size="large"
                   testID="space-link"

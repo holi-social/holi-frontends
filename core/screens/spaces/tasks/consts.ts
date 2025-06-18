@@ -1,17 +1,16 @@
-import { InteractionType, Regularity } from '@holi/api/graphql/graphql-codegen'
-import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
+import { InteractionType, LocationType, Regularity, VisibilityType } from '@holi/api/graphql/graphql-codegen'
 import { ChatSmile2, Global, LinkM, Lock, StreakFilled } from '@holi/icons/src/generated'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
-export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
+export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption<VisibilityType>[] = [
   {
-    id: VisibilityType.PUBLIC,
+    id: VisibilityType.Public,
     title: 'Public',
     selected: false,
     icon: Global,
   },
   {
-    id: VisibilityType.MEMBERS,
+    id: VisibilityType.Members,
     title: 'Members',
     selected: false,
     icon: Lock,
@@ -20,14 +19,14 @@ export const VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption[] = [
 
 export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption<VisibilityType>[] = [
   {
-    id: VisibilityType.MEMBERS,
+    id: VisibilityType.Members,
     title: 'Members',
     selected: false,
     disabled: false,
     icon: Lock,
   },
   {
-    id: VisibilityType.PUBLIC,
+    id: VisibilityType.Public,
     title: 'Public',
     selected: false,
     disabled: false,
@@ -35,19 +34,19 @@ export const SPACE_POST_VISIBILITY_TYPE_OPTIONS: HoliModalSelectOption<Visibilit
   },
 ]
 
-export const LOCATION_TYPE_OPTIONS: HoliModalSelectOption[] = [
+export const LOCATION_TYPE_OPTIONS: HoliModalSelectOption<LocationType>[] = [
   {
-    id: LocationType.ONSITE,
+    id: LocationType.Onsite,
     title: 'On-site',
     selected: false,
   },
   {
-    id: LocationType.REMOTE,
+    id: LocationType.Remote,
     title: 'Remote',
     selected: false,
   },
   {
-    id: LocationType.HYBRID,
+    id: LocationType.Hybrid,
     title: 'Hybrid',
     selected: false,
   },
@@ -74,7 +73,7 @@ export const INTERACTION_TYPE_OPTIONS: HoliModalSelectOption<InteractionType>[] 
   },
 ]
 
-export const REGULARITY_OPTIONS: HoliModalSelectOption[] = [
+export const REGULARITY_OPTIONS: HoliModalSelectOption<Regularity>[] = [
   {
     id: Regularity.OneTime,
     title: 'OneTime',

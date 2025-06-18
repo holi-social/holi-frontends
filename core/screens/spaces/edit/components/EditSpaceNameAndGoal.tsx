@@ -3,23 +3,23 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceNameAndGoalForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameAndGoalForm'
 import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
-import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface EditSpaceNameAndGoalProps {
-  space: Space
+  space: Pick<Space, 'id' | 'title' | 'description'>
   onDismiss: () => void
 }
 
 const EditSpaceNameAndGoal = ({ space, onDismiss }: EditSpaceNameAndGoalProps) => {
   const [spaceName, setSpaceName] = useState<string>(space.title)
-  const [spaceGoal, setSpaceGoal] = useState<string>(space.description)
+  const [spaceGoal, setSpaceGoal] = useState<string>(space.description ?? '')
   const [inputValid, setInputValid] = useState(true)
   const { openToast } = useToast()
   const { theme } = useTheme()

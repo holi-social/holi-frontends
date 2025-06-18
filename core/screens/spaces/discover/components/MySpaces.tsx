@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMineTile'
-import type { SpaceSection } from '@holi/core/screens/spaces/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import type { MySpacesQuery, Space } from '@holi/api/graphql/graphql-codegen'
 
 export type MySpacesProps = {
-  mySpaces: SpaceSection[]
+  mySpaces: MySpacesQuery['mySpaces']
 }
 
 const MySpaces = ({ mySpaces = [] }: MySpacesProps) => {
@@ -41,7 +41,7 @@ const MySpaces = ({ mySpaces = [] }: MySpacesProps) => {
 
             {section.data.map((space, spaceIndex) => (
               <SpaceMineTile
-                space={space}
+                space={space as Space}
                 sectionType={section.type}
                 key={`${sectionIndex}-${space.name}-${spaceIndex}`}
               />

@@ -8,10 +8,10 @@ import {
   mySpacesWithEmptyResultMock,
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
-import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
+import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const loginStateLoggedIn = {
   isLoading: false,
@@ -26,7 +26,7 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 
 const getStartedViewUserSpecificMock = {
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2: [],
       skillsV2: [],
@@ -42,7 +42,7 @@ const getStartedViewUserSpecificMock = {
 
 const getStartedViewDefaultMock = {
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2: ['animal-welfare'],
       geolocation: {},

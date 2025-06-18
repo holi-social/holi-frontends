@@ -1,20 +1,21 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import SpaceLocationInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLocationInput'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
-import { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface EditSpaceLocationProps {
-  space: Space
+  space: Pick<Space, 'id' | 'location' | 'geolocation'>
   onDismiss: () => void
 }
 

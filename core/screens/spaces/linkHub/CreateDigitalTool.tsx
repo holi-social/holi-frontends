@@ -20,8 +20,6 @@ import {
   AddCollaborationToolSchema,
   addCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -30,6 +28,7 @@ import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliMo
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { SpaceByIdDocument, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -59,7 +58,7 @@ const CreateDigitalTool = () => {
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   const { handleGraphQLError } = useFieldErrors({
     handledFieldErrors: ['url', 'title', 'description'],
@@ -77,7 +76,7 @@ const CreateDigitalTool = () => {
         setFieldErrors(handleGraphQLError(error))
       }
     },
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: spaceIdOrName } }],
   })
 
   const onSave = () => {
@@ -150,7 +149,7 @@ const CreateDigitalTool = () => {
   return (
     <PermissionsGuard
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
+      spaceConnectionType={SpaceUserConnectionType.Member}
       permissionType={PermissionsType.SPACES}
     >
       <SpaceFormScreenLayout

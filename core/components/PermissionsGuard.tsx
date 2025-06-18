@@ -1,9 +1,10 @@
-import React, { memo } from 'react'
+import type React from 'react'
+import { memo } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export enum PermissionsType {
   SPACES = 'SPACES',
@@ -13,14 +14,14 @@ export enum PermissionsType {
 interface PermissionsGuardProps {
   permissionType: PermissionsType
   redirectRoute?: string
-  spaceConnectionType?: SpaceConnectionType
-  space?: Space
+  spaceConnectionType?: SpaceUserConnectionType
+  space?: Pick<Space, 'id' | 'name' | 'connectionStatusToMyself'>
   forceRestrict?: boolean // for any extra logic made on a component level to indicate it should restrict the page
 }
 
 const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>> = ({
   permissionType,
-  spaceConnectionType = SpaceConnectionType.MEMBER,
+  spaceConnectionType = SpaceUserConnectionType.Member,
   redirectRoute,
   space,
   forceRestrict,

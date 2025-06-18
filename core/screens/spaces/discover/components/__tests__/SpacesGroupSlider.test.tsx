@@ -8,12 +8,12 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import {
-  type DiscoverSpacesData,
-  type DiscoverSpacesGroup,
-  type DiscoverSpacesVariables,
-  discoverSpacesQuery,
-} from '@holi/core/screens/spaces/discover/queries'
-import type { Space } from '@holi/core/screens/spaces/types'
+  type DiscoverSpaces,
+  DiscoverSpacesDocument,
+  type DiscoverSpacesQuery,
+  type DiscoverSpacesQueryVariables,
+  type Space,
+} from '@holi/api/graphql/graphql-codegen'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
 // prevent logging about incomplete apollo mocks,
@@ -27,9 +27,9 @@ const discoverSpacesErrorMock = ({
 }: {
   topicsV2?: string[]
   skillsV2?: string[]
-}): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => ({
+}): MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => ({
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2,
       skillsV2,
@@ -46,9 +46,9 @@ const discoverSpacesDataMock = ({
 }: {
   topicsV2?: string[]
   skillsV2?: string[]
-}): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => {
+}): MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => {
   const spaces: Space[] = createSpaceList(5)
-  const discoverSpaces: DiscoverSpacesGroup[] = [
+  const discoverSpaces: DiscoverSpaces[] = [
     ...(topicsV2?.map((topicV2) => ({
       topicV2,
       spaces: {
@@ -66,7 +66,7 @@ const discoverSpacesDataMock = ({
   ]
   return {
     request: {
-      query: discoverSpacesQuery,
+      query: DiscoverSpacesDocument,
       variables: {
         topicsV2,
         skillsV2,

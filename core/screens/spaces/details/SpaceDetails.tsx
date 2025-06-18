@@ -17,7 +17,6 @@ import ToolkitModal from '@holi/core/screens/spaces/details/components/ToolkitMo
 import { determineSpaceViewerRelation } from '@holi/core/screens/spaces/details/utils'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceOnboardings, useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Pencil, Spaces } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
@@ -32,6 +31,7 @@ import React, { memo, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -69,7 +69,7 @@ const SpaceDetails = () => {
   }, [space, showOnboardingModal, needsOnboarding, isCreator, isMember])
 
   const determineInitialTab = useCallback(() => {
-    const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+    const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
     const hasInvolvementContent = space?.tasks?.length !== 0 || space?.collaborationTools?.length !== 0
     if (!isMember) {
       return SpaceDetailsTabs.INFO
@@ -105,7 +105,7 @@ const SpaceDetails = () => {
         <View style={styles.headerRight}>
           {(isMember || isAdmin) && space && <SpaceChatRoomIcon space={space} />}
           {!isMember || (!isAdmin && <SpaceShareIcon spaceIdOrName={space?.name || space?.id} title={space?.title} />)}
-          {space && <ActionDrawer space={space} />}
+          {space && <ActionDrawer space={space as Space} />}
         </View>
       ),
       navigationCustomOptions: {
@@ -128,7 +128,7 @@ const SpaceDetails = () => {
         style={{ backgroundColor: colors.background20, flex: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        {activeTab && <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onTabChange} />}
+        {activeTab && <SpaceDetailView space={space as Space} activeTab={activeTab} onTabChange={onTabChange} />}
       </ScrollViewRefreshable>
 
       {isMember && activeTab && (

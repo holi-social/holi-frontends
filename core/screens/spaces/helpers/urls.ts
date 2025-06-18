@@ -1,7 +1,7 @@
 import slugify from 'slugify'
 
 import { jitsiUrl } from '@holi/core/helpers/config'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
-export const generateSpaceVideoCallUrl = (space: Space, roomName: string) =>
+export const generateSpaceVideoCallUrl = (space: Pick<Space, 'name'>, roomName: string) =>
   jitsiUrl + '/' + slugify(`${space.name}-${roomName}`)

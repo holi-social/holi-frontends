@@ -4,7 +4,7 @@ import React from 'react'
 
 import { task } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {

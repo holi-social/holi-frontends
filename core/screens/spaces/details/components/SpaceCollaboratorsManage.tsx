@@ -2,19 +2,19 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 
 export type SpaceCollaboratorsManageParams = {
   spaceIdOrName: string
@@ -51,7 +51,7 @@ const SpaceCollaboratorsManage = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      spaceConnectionType={SpaceUserConnectionType.Administrator}
     >
       <ScrollView style={styles.flex1}>
         <View style={[mixins.container]}>

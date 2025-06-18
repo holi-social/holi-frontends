@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
@@ -15,8 +14,6 @@ import { Pagination } from '@holi/core/pagination/Pagination'
 import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import AppointmentsList from '@holi/core/screens/appointments/components/AppointmentsList'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -24,6 +21,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import { SpaceUserConnectionType, useSpaceMembershipByIdQuery } from '@holi/api/graphql/graphql-codegen'
 
 export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -50,9 +48,9 @@ const SpaceAppointments = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const { data, loading, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
+  const { data, loading, called } = useSpaceMembershipByIdQuery({
     skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
+    variables: { idOrName: spaceIdOrName ?? '' },
   })
 
   useIsomorphicLayoutEffect(() => {
@@ -72,7 +70,7 @@ const SpaceAppointments = () => {
       : SpaceAppointmentsTabs.UPCOMING
   const [activeTab, setActiveTab] = useState<string>(initialTab)
 
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
 
   // TODO: use upcoming spaceAppointmentsQuery (with filter by upcoming and past appointments)
   const queryOptions: PaginationQueryHookOptions = {

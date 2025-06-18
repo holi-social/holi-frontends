@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,12 +5,6 @@ import { StyleSheet, View } from 'react-native'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { spaceInvitesQuery, userConnectionsQuery } from '@holi/core/screens/spaces/details/queries'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { Add } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -20,6 +13,13 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  useUpdateSpaceUserConnectionMutation,
+  ConnectedUsersWithSpaceConnectionDocument,
+  SpaceInvitesBySpaceIdDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 type SpaceInviteUserSearchProps = {
   user: User
@@ -36,61 +36,57 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   const styles = useMemo(() => getStyles(theme), [theme])
   const { track } = useTracking()
 
-  const [acceptRequestToJoin, { loading: loadingUserConnectionUpdate }] =
-    useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
-      variables: {
+  const [acceptRequestToJoin, { loading: loadingUserConnectionUpdate }] = useUpdateSpaceUserConnectionMutation({
+    variables: {
+      spaceId: spaceId,
+      userId: user.id,
+      connectAction: UpdateConnectionAction.Connect,
+      connectionType: SpaceUserConnectionType.Member,
+    },
+    onCompleted() {
+      openToast(t('spaces.invite.user.request.accepted', { user: userName }), HoliToastType.SUCCESS)
+      onInviteHandled()
+      track(TrackingEvent.Spaces.RequestToJoin.accepted(spaceId))
+    },
+    onError(error) {
+      displayError(error, 'Failed to accept space membership request', {
+        location: 'SpaceInviteUserButton.acceptRequestToJoin',
         spaceId: spaceId,
-        userId: user.id,
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBER,
-      },
-      onCompleted() {
-        openToast(t('spaces.invite.user.request.accepted', { user: userName }), HoliToastType.SUCCESS)
-        onInviteHandled()
-        track(TrackingEvent.Spaces.RequestToJoin.accepted(spaceId))
-      },
-      onError(error) {
-        displayError(error, 'Failed to accept space membership request', {
-          location: 'SpaceInviteUserButton.acceptRequestToJoin',
-          spaceId: spaceId,
-          ...(error.message.includes('Not a community staff.')
-            ? { displayMessage: t('spaces.invite.user.error', { user: user.fullName }) }
-            : {}),
-        })
-      },
-    })
+        ...(error.message.includes('Not a community staff.')
+          ? { displayMessage: t('spaces.invite.user.error', { user: user.fullName }) }
+          : {}),
+      })
+    },
+  })
 
-  const isCollaborator = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBER)
-  const wantsToJoin = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
-  const isInvited = user.connectionStatusToSpace?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
+  const isCollaborator = user.connectionStatusToSpace?.includes(SpaceUserConnectionType.Member)
+  const wantsToJoin = user.connectionStatusToSpace?.includes(SpaceUserConnectionType.MembershipRequestor)
+  const isInvited = user.connectionStatusToSpace?.includes(SpaceUserConnectionType.MembershipInvitee)
 
-  const [inviteToSpaceById, { loading: loadingInvite }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
+  const [inviteToSpaceById, { loading: loadingInvite }] = useUpdateSpaceUserConnectionMutation({
+    onError: (error) => {
+      displayError(error, 'Failed to invite user to space', {
+        location: 'SpaceInviteUserButton.inviteToSpaceById',
         spaceId: spaceId,
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
-      },
-      onError: (error) => {
-        displayError(error, 'Failed to invite user to space', {
-          location: 'SpaceInviteUserButton.inviteToSpaceById',
-          spaceId: spaceId,
-        })
-      },
-      refetchQueries: [
-        { query: spaceInvitesQuery, variables: { idOrName: spaceId } },
-        ...(user.connectionStatusToMyself === UserConnectionStatus.CONNECTED
-          ? [{ query: userConnectionsQuery, variables: { spaceId } }]
-          : []),
-      ],
-    }
-  )
+      })
+    },
+    refetchQueries: [
+      { query: SpaceInvitesBySpaceIdDocument, variables: { idOrName: spaceId } },
+      ...(user.connectionStatusToMyself === UserConnectionStatus.CONNECTED
+        ? [{ query: ConnectedUsersWithSpaceConnectionDocument, variables: { spaceId } }]
+        : []),
+    ],
+  })
 
   const inviteUserToSpace = useCallback(
     async () =>
       await inviteToSpaceById({
-        variables: { userId: user.id },
+        variables: {
+          userId: user.id,
+          spaceId: spaceId,
+          connectAction: UpdateConnectionAction.Connect,
+          connectionType: SpaceUserConnectionType.MembershipInvitee,
+        },
         onCompleted() {
           openToast(t('spaces.invite.user.success', { user: userName }), HoliToastType.SUCCESS)
           onInviteHandled()

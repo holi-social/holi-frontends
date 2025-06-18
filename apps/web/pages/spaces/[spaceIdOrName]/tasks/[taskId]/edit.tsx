@@ -1,11 +1,11 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import React from 'react'
 
-import EditTask from '@holi/core/screens/spaces/tasks/EditTask'
+import CreateOrEditTask from '@holi/core/screens/spaces/tasks/CreateOrEditTask'
 
 const EditTaskPage: NextPage = () => (
   // @ts-ignore (to ignore ScreenProps parameters expected in Mobile)
-  <EditTask />
+  <CreateOrEditTask />
 )
 
 export default EditTaskPage

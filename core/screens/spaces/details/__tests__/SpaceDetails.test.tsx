@@ -6,16 +6,19 @@ import { createCache } from '@holi/api/graphql/client'
 import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { space } from '@holi/core/screens/spaces/__tests__/testData'
+import { createSpaceList, space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import {
+  SpaceByIdDocument,
+  SpacePostsBySpaceIdDocument,
+  SpaceUserConnectionType,
+} from '@holi/api/graphql/graphql-codegen'
+import { authenticatedUserMock } from '@holi/core/screens/spaces/__tests__/mocks'
 
 const createMocksForSpace = (spaceById = space) => {
   const spaceByIdRequest = {
     request: {
-      query: spaceByIdQuery,
+      query: SpaceByIdDocument,
       variables: {
         idOrName: spaceById.name,
       },
@@ -29,7 +32,7 @@ const createMocksForSpace = (spaceById = space) => {
 
   const spacePostsRequest = {
     request: {
-      query: spacePostsQuery,
+      query: SpacePostsBySpaceIdDocument,
       variables: {
         offset: 0,
         limit: 10,
@@ -64,7 +67,7 @@ const createMocksForSpace = (spaceById = space) => {
     },
   }
 
-  return [spaceByIdRequest, spacePostsRequest, appointmentsRequest]
+  return [authenticatedUserMock, spaceByIdRequest, spacePostsRequest, appointmentsRequest]
 }
 
 const mockUseFeatureFlag = jest.fn()
@@ -79,11 +82,12 @@ jest.mock('@holi/core/navigation/hooks/useParam')
 describe('SpaceDetails', () => {
   const spaceForMember = {
     ...space,
-    connectionStatusToMyself: [SpaceConnectionType.MEMBER],
+    connectionStatusToMyself: [SpaceUserConnectionType.Member],
+    parentSpace: createSpaceList()[0],
   }
 
   beforeEach(() => {
-    jest.useFakeTimers()
+    // jest.useFakeTimers()
     mockUseFeatureFlag.mockReturnValue(['on', undefined])
   })
   afterEach(async () => {
@@ -112,7 +116,7 @@ describe('SpaceDetails', () => {
     )
 
     await screen.queryByText(space.title)
-    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'involvement' }))
+    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenLastCalledWith({ tab: 'involvement' }))
   })
 
   it('selects updates tab for members if no involvement content exists', async () => {

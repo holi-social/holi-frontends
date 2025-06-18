@@ -1,0 +1,186 @@
+#import "./fragments.graphql"
+
+query SpaceById($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    ...FullSpace
+  }
+}
+
+query SpaceConnectionStatusToMyselfById($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    connectionStatusToMyself
+  }
+}
+
+query SpaceRealatedSpaces($idOrName: String!, $offset: Int, $limit: Int) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    title
+    parentSpace {
+      ...RelatedSpace
+    }
+    childSpaces(offset: $offset, limit: $limit) {
+      totalResults
+      data {
+        ...RelatedSpace
+      }
+    }
+  }
+}
+
+query SpaceMembershipById($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    connectionStatusToMyself
+    membershipRequests(limit: 0) {
+      totalResults
+    }
+  }
+}
+
+query RepresentativeBySpaceId($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    connectionStatusToMyself
+    representatives {
+      user {
+        id
+        identity
+      }
+    }
+  }
+}
+
+query SpaceMembershiByIdAllMembers($idOrName: String!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    name
+    connectionStatusToMyself
+    members(limit: 100000) {
+      totalResults
+      data {
+        user {
+          id
+        }
+      }
+    }
+  }
+}
+
+query SpacesByMember($memberId: UUID) {
+  spaces(memberId: $memberId) {
+    ...MemberSpaces
+  }
+}
+
+query SpaceMembersBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  spaceById(idOrName: $idOrName) {
+    id
+    members(limit: $limit, offset: $offset) {
+      ...SpaceMemberList
+    }
+  }
+}
+
+query SpaceMembershipRequestsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  spaceById(idOrName: $idOrName) {
+    id
+    membershipRequests(limit: $limit, offset: $offset) {
+      ...SpaceMembershipRequestList
+    }
+  }
+}
+
+query SpaceInvitesBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
+  spaceById(idOrName: $idOrName) {
+    id
+    invites(limit: $limit, offset: $offset) {
+      ...SpaceInviteList
+    }
+  }
+}
+
+query UsersByNameWithSpaceConnection($substring: String!, $spaceId: UUID!, $limit: Int!, $offset: Int!) {
+  userByName(substring: $substring, limit: $limit, offset: $offset) {
+    data {
+      ...UserAvatar
+      connectionStatusToMyself
+      connectionStatusToSpace(spaceId: $spaceId)
+    }
+    totalResults
+  }
+}
+
+query ConnectedUsersWithSpaceConnection($spaceId: UUID!, $offset: Int! = 0, $limit: Int! = 20) {
+  connectedUsers(limit: $limit, offset: $offset) {
+    totalResults
+    data {
+      ...UserAvatar
+      connectionStatusToSpace(spaceId: $spaceId)
+      connectionStatusToMyself
+    }
+  }
+}
+
+query SpacePostsBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 10, $visibility: VisibilityFilter!) {
+  spaceById(idOrName: $idOrName) {
+    id
+    hasPublicPosts
+    hasPrivatePosts
+    posts(offset: $offset, limit: $limit, visibility: $visibility) {
+      data {
+        ...PostFragment
+      }
+      totalResults
+    }
+  }
+}
+
+query DiscoverSpaces(
+  $topicsV2: [String!]
+  $geolocation: GeoJSON
+  $skillsV2: [String!]
+  $offset: Int! = 0
+  $limit: Int! = 5
+) {
+  discoverSpaces(topicsV2: $topicsV2, geolocation: $geolocation, skillsV2: $skillsV2, offset: $offset, limit: $limit) {
+    topicV2
+    locationId
+    skillV2
+    spaces {
+      totalResults
+      data {
+        ...SpaceOverview
+      }
+    }
+  }
+}
+
+query MySpaces {
+  mySpaces {
+    section
+    type
+    spaces {
+      totalResults
+      data {
+        ...SpaceOverview
+      }
+    }
+  }
+}
+
+query Spaces($topicsV2: [String!], $geolocation: GeoJSON, $skillsV2: [String!], $offset: Int! = 0, $limit: Int! = 12) {
+  spaces(topicsV2: $topicsV2, geolocation: $geolocation, skillsV2: $skillsV2, offset: $offset, limit: $limit) {
+    totalResults
+    data {
+      ...SpaceOverview
+    }
+  }
+}
+
+query DiscoverSpacesDefaultTopics {
+  discoverSpacesDefaultTopicsV2
+}

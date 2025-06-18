@@ -18,13 +18,14 @@ import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 interface SpaceInvolvementProps {
   style?: StyleProp<ViewStyle>
@@ -37,8 +38,8 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const isMember = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Member)
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const isCollaborator = isAdmin || isMember
 
   const {

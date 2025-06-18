@@ -10,23 +10,23 @@ import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/m
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import { authenticatedUserMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { pagedInvites, pagedMembershipRequests, space, user } from '@holi/core/screens/spaces/__tests__/testData'
-import {
-  spaceInvitesQuery,
-  spaceMembersQuery,
-  spaceMembershipRequestsQuery,
-} from '@holi/core/screens/spaces/details/queries'
 import EditSpaceCollaborators from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
-import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import {
+  SpaceInvitesBySpaceIdDocument,
+  SpaceMembershipByIdDocument,
+  SpaceUserConnectionType,
+  SpaceMembersBySpaceIdDocument,
+  SpaceMembershipRequestsBySpaceIdDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 const spaceForAdmin = {
   ...space,
-  connectionStatusToMyself: [SpaceConnectionType.ADMINISTRATOR, SpaceConnectionType.MEMBER],
+  connectionStatusToMyself: [SpaceUserConnectionType.Administrator, SpaceUserConnectionType.Member],
 }
 const createMocksForSpace = (spaceById = spaceForAdmin) => {
   const spaceByIdRequest = {
     request: {
-      query: spaceMembershipByIdQuery,
+      query: SpaceMembershipByIdDocument,
       variables: {
         idOrName: spaceById.name,
       },
@@ -40,7 +40,7 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
 
   const spaceMembersBySpaceIdRequest = {
     request: {
-      query: spaceMembersQuery,
+      query: SpaceMembersBySpaceIdDocument,
       variables: {
         offset: 0,
         limit: 20,
@@ -56,7 +56,7 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
 
   const spaceMembershipRequestsBySpaceIdRequest = {
     request: {
-      query: spaceMembershipRequestsQuery,
+      query: SpaceMembershipRequestsBySpaceIdDocument,
       variables: {
         offset: 0,
         limit: 20,
@@ -72,7 +72,7 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
 
   const spaceInvitesBySpaceIdRequest = {
     request: {
-      query: spaceInvitesQuery,
+      query: SpaceInvitesBySpaceIdDocument,
       variables: {
         offset: 0,
         limit: 20,

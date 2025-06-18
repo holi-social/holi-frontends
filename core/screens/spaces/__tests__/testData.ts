@@ -1,40 +1,46 @@
 import { faker } from '@faker-js/faker'
-import { Duration, InteractionType, Regularity } from '@holi/api/graphql/graphql-codegen'
-
-import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
-import { type AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
-import type { Post } from '@holi/core/screens/posts/types'
-import type { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import {
+  type Appointment,
+  type AppointmentPaged,
+  type DiscoverSpaces,
+  Duration,
+  InteractionType,
+  PermissionType,
+  type PostPaged,
+  Regularity,
+  type SpaceInvitePaged,
+  type SpaceMemberPaged,
+  type SpaceMembershipRequestPaged,
+} from '@holi/api/graphql/graphql-codegen'
+
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import {
+  type User,
   LocationType,
   type Onboarding,
-  type RelatedSpace,
+  type RelatedSpaceFragment,
   type Space,
   type SpaceInvite,
-  type SpaceLink,
-  SpaceLinkType,
+  type ExternalLink,
+  ExternalLinkType,
   type SpaceMember,
   type SpaceMembershipRequest,
-  type SpaceSection,
-  SpaceSectionType,
+  type MySpaces,
+  SpaceUserConnectionType,
   type Task,
   VisibilityType,
-} from '@holi/core/screens/spaces/types'
-import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
-import type { Paged } from '@holi/core/types'
-
-export type WithTypename = {
-  __typename: string
-}
+  UserConnectionStatus,
+  type GeolocationPoint,
+} from '@holi/api/graphql/graphql-codegen'
 
 export const locationId = '123'
-const geolocation = {
+const geolocation: GeolocationPoint = {
   latitude: 0,
   longitude: 0,
   __typename: 'GeolocationPoint',
 }
 
-export const user: User & WithTypename = {
+export const user: User = {
   id: '1',
   firstName: 'Some',
   lastName: 'Body',
@@ -51,7 +57,12 @@ export const user: User & WithTypename = {
   geolocationId: '',
   engagementLevel: 'INTERESTED',
   skillsV2: ALL_SKILLS.slice(7, 9),
-  connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
+  connectionStatusToMyself: UserConnectionStatus.NotConnected,
+  connectionStatusToSpace: [SpaceUserConnectionType.Member],
+  interests: [],
+  isOidc: false,
+  sdgs: [],
+  skills: [],
   __typename: 'User',
 }
 
@@ -66,12 +77,27 @@ export const authenticatedUserV2 = {
   avatarDefaultColor: '#7571EC',
   avatarLabel: 'EV',
   identity: 'ee',
+  pronouns: null,
+  location: null,
+  role: 'REGULAR',
+  geolocationId: null,
+  engagementLevel: null,
+  interestsV2: [],
+  skillsV2: [],
+  connectionStatusToMyself: null,
+  trackingConsentAnalytics: true,
+  trackingConsentPersonalization: true,
+  trackingConsentAdPartners: false,
+  isEmployee: false,
+  email: 'test_user@test.com',
+  isOidc: false,
+  __typename: 'AuthenticatedUser',
 }
 
-export const membership: SpaceMember & WithTypename = {
+export const membership: SpaceMember = {
   id: '1',
   user,
-  data: undefined,
+  community: {} as Space,
   isAdministrator: false,
   created: '2022-11-21T12:34:56Z',
   __typename: 'SpaceMember',
@@ -86,78 +112,79 @@ const members = [1, 2, 3].map((id) => ({
   },
 }))
 
-export const pagedMembers: Paged<SpaceMember> & WithTypename = {
+export const pagedMembers: SpaceMemberPaged = {
   totalResults: members.length,
   data: members,
   __typename: 'SpaceMemberPaged',
 }
 
-const membershipRequests = [1, 2, 3].map((id) => ({
+const membershipRequests: SpaceMembershipRequest[] = [1, 2, 3].map((id) => ({
   id: `membership-request-id-${id}`,
   user: {
     ...user,
     id: `requesting-user-${id}`,
   },
   message: 'Hi',
+  community: space,
   __typename: 'SpaceMembershipRequest',
 }))
 
-const invites = [1, 2, 3].map((id) => ({
+const invites: SpaceInvite[] = [1, 2, 3].map((id) => ({
   id: `invite-id-${id}`,
   invitedUser: {
     ...user,
     id: `invited-user-${id}`,
   },
+  community: space,
+  creator: user,
   __typename: 'SpaceInvite',
 }))
 
-const appointmentInputs: AppointmentInput[] = [1, 2, 3].map(
-  (number) =>
-    ({
-      id: 'appointment-' + number,
-      spaceId: 'space-xyz',
-      inviteOnly: false,
-      startDateTime: '2024-04-12T07:39:03Z',
-      endDateTime: '2024-04-12T09:39:03Z',
-      permission: PermissionsType.PARTICIPANTS,
-      creator: user,
-      description: 'appointment-' + number,
-      title: `invite-title-${number}`,
-      __typename: 'AppointmentInput',
-    }) as AppointmentInput
-)
+const appointmentInputs: Appointment[] = [1, 2, 3].map((number) => ({
+  id: 'appointment-' + number,
+  spaceId: 'space-xyz',
+  inviteOnly: false,
+  startDateTime: '2024-04-12T07:39:03Z',
+  endDateTime: '2024-04-12T09:39:03Z',
+  permission: PermissionType.Participants,
+  creator: user,
+  description: 'appointment-' + number,
+  title: `invite-title-${number}`,
+  slug: 'appointment-slug',
+  __typename: 'Appointment',
+}))
 
-export const pagedMembershipRequests: Paged<SpaceMembershipRequest> & WithTypename = {
+export const pagedMembershipRequests: SpaceMembershipRequestPaged = {
   totalResults: membershipRequests.length,
   data: membershipRequests,
   __typename: 'SpaceMembershipRequestPaged',
 }
 
-const emptyPagedMembershipRequests: Paged<SpaceMembershipRequest> & WithTypename = {
+const emptyPagedMembershipRequests: SpaceMembershipRequestPaged = {
   totalResults: 0,
   data: [],
   __typename: 'SpaceMembershipRequestPaged',
 }
 
-export const pagedInvites: Paged<SpaceInvite> & WithTypename = {
+export const pagedInvites: SpaceInvitePaged = {
   totalResults: invites.length,
   data: invites,
   __typename: 'SpaceInvitePaged',
 }
 
-export const pagedAppointments: Paged<AppointmentInput> & WithTypename = {
+export const pagedAppointments: AppointmentPaged = {
   totalResults: invites.length,
   data: appointmentInputs,
   __typename: 'AppointmentPaged',
 }
 
-const emptyPagedAppointments: Paged<AppointmentInput> & WithTypename = {
+const emptyPagedAppointments: AppointmentPaged = {
   totalResults: 0,
   data: [],
   __typename: 'AppointmentPaged',
 }
 
-export const task: Task & WithTypename = {
+export const task: Task = {
   id: 'id',
   name: 'Task title',
   description: 'Task description',
@@ -165,9 +192,9 @@ export const task: Task & WithTypename = {
   slotsAvailable: 3,
   slotsTaken: 1,
   location: 'Hamburg, Germany',
-  locationType: LocationType.ONSITE,
+  locationType: LocationType.Onsite,
   regularity: Regularity.ProjectBased,
-  visibility: VisibilityType.PUBLIC,
+  visibility: VisibilityType.Public,
   contactEmail: 'test@email.com',
   contactPhone: '',
   thumbnail: 'https://www.example.com/task-thumbnail.jpg?tr=w-48',
@@ -177,10 +204,13 @@ export const task: Task & WithTypename = {
   space: {} as Space,
   interactionType: InteractionType.Chat,
   duration: Duration.Days_1,
-  timeframe_start_date: '2024-04-12',
-  timeframe_end_date: '2024-04-12',
+  timeframeStartDate: '2024-04-12',
+  timeframeEndDate: '2024-04-12',
   __typename: 'Task',
   interactionSignupLink: 'https://www.example.com/signup',
+  created: '2024-04-12T07:39:03Z',
+  skills: [],
+  impact: 'test-impact',
 }
 
 const tasks = [1, 2, 3].map((id) => ({
@@ -188,24 +218,24 @@ const tasks = [1, 2, 3].map((id) => ({
   id: `task-${id}`,
 }))
 
-export const links: (SpaceLink & WithTypename)[] = [
+export const links: ExternalLink[] = [
   {
     url: 'www.facebook.com',
-    type: SpaceLinkType.FACEBOOK,
+    type: ExternalLinkType.Facebook,
     id: '1',
     name: 'Facebook',
     __typename: 'ExternalLink',
   },
   {
     url: 'https://www.twitter.com',
-    type: SpaceLinkType.TWITTER,
+    type: ExternalLinkType.Twitter,
     id: '2',
     name: 'Twitter',
     __typename: 'ExternalLink',
   },
 ]
 
-export const space: Space & WithTypename = {
+export const space: Space = {
   id: '1',
   title: 'Space title',
   description: 'Space description',
@@ -240,11 +270,20 @@ export const space: Space & WithTypename = {
     totalResults: 0,
     data: [],
     __typename: 'PostPaged',
-  } as Paged<Post>,
+  } as PostPaged,
   __typename: 'Space',
+  childSpaces: {
+    totalResults: 0,
+    data: [],
+    __typename: 'SpacePaged',
+  },
+  invites: pagedInvites,
+  representatives: [],
+  sdgs: [],
+  topics: [],
 }
 
-export const createSpaceList = (length = 3) =>
+export const createSpaceList = (length = 3): Space[] =>
   Array.from({ length }, (_, index) => ({
     ...space,
     id: `space-${index}`,
@@ -255,27 +294,30 @@ export const createSpaceList = (length = 3) =>
     __typename: 'Space',
   }))
 
-export const createRelatedSpace = (space: Partial<RelatedSpace> = {}): RelatedSpace => {
+export const createRelatedSpace = (space: Partial<RelatedSpaceFragment> = {}): RelatedSpaceFragment => {
   return {
+    __typename: 'Space',
     id: faker.string.uuid(),
-    avatar: faker.image.avatar(),
-    avatarDefaultColor: faker.internet.color(),
     title: faker.lorem.words(),
-    members: {
-      totalResults: 1,
-      data: [membership],
-    },
     location: faker.location.city(),
     description: faker.lorem.sentence(),
     cover: faker.image.url(),
+    coverBlurhash: faker.string.alphanumeric(10),
     name: faker.lorem.words(),
+    avatar: faker.image.avatar(),
+    avatarDefaultColor: faker.internet.color(),
+    members: {
+      __typename: 'SpaceMemberPaged',
+      totalResults: 1,
+      data: [membership],
+    },
     ...space,
   }
 }
 
-export const spaces = createSpaceList()
+export const spaces: Space[] = createSpaceList()
 
-export const spacesGroups: DiscoverSpacesGroup[] = [
+export const spacesGroups: DiscoverSpaces[] = [
   {
     topicV2: 'test_topic',
     spaces: {
@@ -299,10 +341,10 @@ export const spacesGroups: DiscoverSpacesGroup[] = [
   },
 ]
 
-export const mySpaces: SpaceSection[] = [
+export const mySpaces: MySpaces[] = [
   {
     section: 'Member',
-    type: SpaceSectionType.MEMBER,
+    type: SpaceUserConnectionType.Member,
     spaces: {
       totalResults: 2,
       data: [
@@ -321,7 +363,7 @@ export const mySpaces: SpaceSection[] = [
   },
   {
     section: 'Creator',
-    type: SpaceSectionType.CREATOR,
+    type: SpaceUserConnectionType.Creator,
     spaces: {
       totalResults: 2,
       data: [
@@ -340,7 +382,7 @@ export const mySpaces: SpaceSection[] = [
   },
   {
     section: 'Follower',
-    type: SpaceSectionType.FOLLOWER,
+    type: SpaceUserConnectionType.Follower,
     spaces: {
       totalResults: 2,
       data: [

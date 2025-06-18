@@ -18,11 +18,7 @@ import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
-import {
-  type DiscoverSpacesDefaultTopicsVResponse,
-  discoverSpacesDefaultTopicsV2,
-} from '@holi/core/screens/spaces/discover/queries'
-import { useQuery } from '@apollo/client'
+import { useDiscoverSpacesDefaultTopicsQuery } from '@holi/api/graphql/graphql-codegen'
 
 interface DiscoverSpacesViewProps {
   userTopics: string[]
@@ -51,8 +47,7 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, userSkills, userGeolocationId }) => {
   const { isLoggedIn } = useLoggedInUser()
   const { styles, theme } = useStyles(getStyles)
-  const { data: defaultTopics, loading: loadingDefaultTopics } =
-    useQuery<DiscoverSpacesDefaultTopicsVResponse>(discoverSpacesDefaultTopicsV2)
+  const { data: defaultTopics, loading: loadingDefaultTopics } = useDiscoverSpacesDefaultTopicsQuery()
 
   const filteredDefaultTopics = useMemo(
     () => (defaultTopics?.discoverSpacesDefaultTopicsV2 ?? []).filter((topic) => !userTopics.includes(topic)),
