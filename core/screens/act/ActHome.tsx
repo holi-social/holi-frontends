@@ -7,14 +7,13 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 
 import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
-import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { Stack } from 'holi-bricks/components/stack'
 import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
 import { Screen } from '@holi/core/components/Screen'
 import { Spacing } from 'holi-bricks/foundations'
 import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Platform } from 'react-native'
 
 type ActHomeParams = {
   section: string
@@ -22,16 +21,14 @@ type ActHomeParams = {
 
 const { useParam } = createParamHooks<ActHomeParams>()
 
-export const orderedSections = (includeTasks: boolean, selectedContentType?: string) => {
-  const allSections = [
+export const orderedSections = (selectedContentType?: string) => {
+  const sections = [
     ActSectionType.VOLUNTEERING,
     ActSectionType.PETITIONS,
     ActSectionType.EVENTS,
     ActSectionType.CHALLENGES,
-    ActSectionType.TASKS,
     ActSectionType.DONATIONS,
   ]
-  const sections = includeTasks ? allSections : allSections.filter((section) => section != ActSectionType.TASKS)
 
   if (selectedContentType) {
     const index = sections.findIndex((item) => item === selectedContentType)
@@ -48,8 +45,7 @@ const ActHome = () => {
   const title = t('act.title')
   const [selectedContentType] = useParam('section')
 
-  const includeTasks = !useFeatureFlagToggle(FeatureFlagKey.TYPESENSE_RECOS)
-  const sections = orderedSections(includeTasks, selectedContentType)
+  const sections = orderedSections(selectedContentType)
 
   return (
     <Screen
@@ -71,9 +67,11 @@ const ActHome = () => {
       <Stack direction="column" gap="xs" testID="act-home">
         <ActNavBar />
         <Stack gap="xxl" direction="column">
-          <HoliContainer>
-            <MarketingBanner frameId="act-home-banner" />
-          </HoliContainer>
+          {Platform.OS !== 'web' && (
+            <HoliContainer>
+              <MarketingBanner frameId="act-home-banner" />
+            </HoliContainer>
+          )}
           <AttendingChallengeEventsLegacy />
           {sections.map((sectionName) => (
             <ActSection type={sectionName} key={sectionName} />

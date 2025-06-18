@@ -1,5 +1,5 @@
 import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
-import { useVolunteeringRecosParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { useVolunteeringRecosParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecosParameters'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import type { SearchParams } from '@holi/core/typesense/types'
 import { useMemo } from 'react'

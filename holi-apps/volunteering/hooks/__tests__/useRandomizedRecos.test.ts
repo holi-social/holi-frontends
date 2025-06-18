@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react-hooks'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
-import type { VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 // Properly type the mocked AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -29,13 +29,11 @@ describe('useRandomizedRecos', () => {
     mockedGetItem.mockResolvedValue(null)
 
     // Create a mock recommendation
-    const mockRecos: VolunteeringReco[] = [
+    const mockRecos: LocalizedTypesenseDocument[] = [
       {
-        engagement: {
-          id: '1',
-          title: 'Test Engagement',
-        },
-      } as VolunteeringReco,
+        id: '1',
+        title: 'Test Engagement',
+      } as LocalizedTypesenseDocument,
     ]
 
     // Render the hook

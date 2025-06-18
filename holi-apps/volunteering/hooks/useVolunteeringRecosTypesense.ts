@@ -11,14 +11,9 @@ import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localize
 interface UseVolunteeringRecosTypesenseProps {
   pageSize?: number
   displayErrors?: boolean
-  skip?: boolean
 }
 
-export const useVolunteeringRecosTypesense = ({
-  pageSize,
-  displayErrors,
-  skip = false,
-}: UseVolunteeringRecosTypesenseProps = {}) => {
+export const useVolunteeringRecosTypesense = ({ pageSize, displayErrors }: UseVolunteeringRecosTypesenseProps = {}) => {
   const { displayError } = useErrorHandling()
   const language = useUserLanguage()
   const errorHandler = displayErrors ? displayError : logError
@@ -34,7 +29,7 @@ export const useVolunteeringRecosTypesense = ({
 
   const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,
-    skip: isLoadingParameters || skip,
+    skip: isLoadingParameters,
     onError: (error) => {
       errorHandler(error, 'Error retrieving recommendations', {
         location: 'useVolunteeringRecosTypesense.useTypesensePaginationQuery',

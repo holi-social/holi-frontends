@@ -37,7 +37,6 @@ const TaskDetailsContainer = () => {
     taskRegularity,
   } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
-  const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
 
   const renderActionDrawer = useCallback(
     (tintColor?: string) => <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />,
@@ -103,7 +102,7 @@ const TaskDetailsContainer = () => {
     >
       <DetailsScreen
         {...data}
-        _footer={useTypesense && <VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
+        _footer={<VolunteeringSimilarRecosTypesense documentId={`task_${id}`} />}
         placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
       />
     </Screen>

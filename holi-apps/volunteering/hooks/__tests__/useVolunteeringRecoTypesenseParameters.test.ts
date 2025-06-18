@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { useVolunteeringRecosParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { useVolunteeringRecosParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecosParameters'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
 
 const mockUseVolunteeringRecosParameters = jest.mocked(useVolunteeringRecosParameters)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables', () => ({
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosParameters', () => ({
   useVolunteeringRecosParameters: jest.fn(),
 }))
 

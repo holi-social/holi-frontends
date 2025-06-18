@@ -1,7 +1,5 @@
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
-import type { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
-
 interface VolunteeringRecosParameters {
   topics?: string[]
   skills?: string[]
@@ -44,21 +42,5 @@ export const useVolunteeringRecosParameters = (): VolunteeringRecosParameters =>
     return {
       topics: DEFAULT_RECO_TOPICS_V2,
     }
-  }
-}
-
-export const useVolunteeringRecosQueryVariables = (): {
-  queryVariables: VolunteeringRecosQueryVariables
-  loading?: boolean
-} => {
-  const parameters = useVolunteeringRecosParameters()
-
-  return {
-    loading: parameters.loading,
-    queryVariables: {
-      topics: parameters.topics,
-      skills: parameters.skills,
-      geolocationId: parameters.geolocationId,
-    },
   }
 }

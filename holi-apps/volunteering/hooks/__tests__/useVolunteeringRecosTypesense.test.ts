@@ -124,16 +124,6 @@ describe('useVolunteeringRecosTypesense', () => {
     })
   })
 
-  it('should pass on prop to skip query execution', () => {
-    renderHook(() => useVolunteeringRecosTypesense({ skip: true }))
-
-    expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-      parameters,
-      skip: true,
-      onError: expect.any(Function),
-    })
-  })
-
   it('should expose loading flag while loading results', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       state: {
