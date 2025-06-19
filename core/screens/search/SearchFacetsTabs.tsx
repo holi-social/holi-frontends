@@ -29,7 +29,7 @@ export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTa
       tabBarBackgroundColor={styles.tabs.backgroundColor}
       data={SEARCH_FACETS_IN_ORDER.map((facet) => ({
         key: facet,
-        tabTitle: t(`search.typesense.facets.${facet}`),
+        tabTitle: t(`search.facets.${facet}`),
         tabIcons: FACET_ICONS[facet],
       }))}
       keyExtractor={({ key }) => key}

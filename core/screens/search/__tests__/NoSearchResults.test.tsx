@@ -6,8 +6,8 @@ describe('NoSearchResults', () => {
   it('should display text that no results were found for the given query', () => {
     render(<NoSearchResults filter={{ query: 'foo in bar', facet: 'volunteering' }} />)
 
-    expect(screen.getByText('search.typesense.noResults.headline')).toBeOnTheScreen()
-    expect(screen.getByText('search.typesense.noResults.description')).toBeOnTheScreen()
+    expect(screen.getByText('search.noResults.headline')).toBeOnTheScreen()
+    expect(screen.getByText('search.noResults.description')).toBeOnTheScreen()
   })
 
   it('should display text that no results were found for the given location if the query is empty', () => {
@@ -17,7 +17,7 @@ describe('NoSearchResults', () => {
       />
     )
 
-    expect(screen.getByText('search.typesense.noResultsLocation.headline')).toBeOnTheScreen()
-    expect(screen.getByText('search.typesense.noResults.description')).toBeOnTheScreen()
+    expect(screen.getByText('search.noResultsLocation.headline')).toBeOnTheScreen()
+    expect(screen.getByText('search.noResults.description')).toBeOnTheScreen()
   })
 })
