@@ -1,3 +1,3 @@
-import CreateTask from '@holi/core/screens/spaces/tasks/CreateTask'
+import CreateOrEditTask from '@holi/core/screens/spaces/tasks/CreateOrEditTask'
 
-export default CreateTask
+export default CreateOrEditTask
