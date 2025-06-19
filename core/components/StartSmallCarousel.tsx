@@ -12,43 +12,12 @@ import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { Typesense_DocumentType } from '@holi/api/graphql/graphql-codegen'
-
-// to be replaced by real data ------------------------------------------------------------
-const doingGood: LocalizedTypesenseDocument[] = [
-  {
-    id: '1',
-    title: 'Help cleaning at the animal shelter',
-    type: Typesense_DocumentType.Volunteering,
-    commitment_duration: '30-60 Minuten',
-    location: 'Remote',
-    description: 'Assist in cleaning and organizing the animal shelter.',
-    image_url: 'https://picsum.photos/id/1018/800/600',
-  },
-  {
-    id: '2',
-    title: 'Need help with social media designs',
-    type: Typesense_DocumentType.Volunteering,
-    commitment_duration: '30-60 Minuten',
-    location: 'Remote',
-    description: 'Need help with social media designs',
-    image_url: 'https://picsum.photos/id/1020/800/600',
-  },
-  {
-    id: '3',
-    title: 'Join public discussion on democracy',
-    type: Typesense_DocumentType.Volunteering,
-    commitment_duration: '30-60 Minuten',
-    location: 'Remote',
-    description: 'Join public discussion on democracy',
-    image_url: 'https://picsum.photos/id/1019/800/600',
-  },
-]
-// ----------------------------------------------------------------------------------------
+import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
+  const { engagements } = useVolunteeringRecosTypesense({ displayErrors: true })
 
   const listProps = {
     horizontal: true,
@@ -56,7 +25,7 @@ const StartSmallCarousel = () => {
       paddingHorizontal: Spacing.xs,
       gap: Spacing['3xs'],
     },
-    data: doingGood,
+    data: engagements,
   }
 
   const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = ({ type, id, title }) => {
@@ -72,8 +41,13 @@ const StartSmallCarousel = () => {
       renderItem={({ item }) => (
         <MiniCard
           title={item.title}
-          chipLabel={item.commitment_duration}
-          bottomIconLeft={MapPin2Filled}
+          chipLabel={
+            item.commitment_duration
+              ? t(`spaces.input.task.section.timing.duration.value.${item.commitment_duration}`)
+              : undefined
+          }
+          // chipLabel={item.commitment_duration}
+          bottomIconLeft={item.location ? MapPin2Filled : undefined}
           bottomLabel={item.location}
           imageSrc={item.image_url}
         />

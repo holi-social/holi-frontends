@@ -108,7 +108,7 @@ export const MiniCard = ({
         </Stack>
 
         {/* Card Body */}
-        <Stack gap="xs" padding="4xs" flexShrink={1} justifyContent="space-between">
+        <Stack gap="xs" padding="4xs" flex={1} justifyContent="space-between">
           {/* title */}
           <TextLink ellipsizeMode="tail" size="sm" numberOfLines={3} role="presentation">
             {title}
@@ -116,7 +116,7 @@ export const MiniCard = ({
 
           {/* bottom row */}
           <Stack gap="3xs" direction="row" justifyContent="space-between">
-            <Stack direction="row" gap="4xs">
+            <Stack direction="row" gap="4xs" flexShrink={1}>
               {bottomIconLeft && <HoliIcon icon={bottomIconLeft} size={16} color="support" />}
               <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
                 {bottomLabel}
