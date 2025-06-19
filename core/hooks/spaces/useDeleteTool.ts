@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
-  DeleteCollaborationToolResponse,
+  type DeleteCollaborationToolResponse,
   deleteCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 export type UseDeleteTool = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
 
@@ -37,7 +37,7 @@ const useDeleteTool = ({ id, spaceIdOrName, successMsg, handleDelete }: UseDelet
         toolId: id,
         spaceIdOrName,
       }),
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+    refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: spaceIdOrName } }],
   })
 
   return [loading, deleteTool]

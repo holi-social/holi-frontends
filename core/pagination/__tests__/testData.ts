@@ -1,3 +1,4 @@
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
@@ -11,7 +12,7 @@ const insight: Insight = {
   title: 'Insight title',
   description: 'Insight description',
   datePublished: '',
-  creator: user,
+  creator: user as User,
   headerImage: '',
   headerImageBlurhash: '',
   topicV2: 'topic1',

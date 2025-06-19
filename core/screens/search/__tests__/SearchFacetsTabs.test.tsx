@@ -7,9 +7,9 @@ describe('SearchFacetsTabs', () => {
   it('should render available facets', async () => {
     render(<SearchFacetsTabs currentFacet="volunteering" onFacetChange={jest.fn()} />)
 
-    expect(screen.getByLabelText('search.typesense.facets.volunteering')).toBeOnTheScreen()
-    expect(screen.getByLabelText('search.typesense.facets.space')).toBeOnTheScreen()
-    expect(screen.getByLabelText('search.typesense.facets.profile')).toBeOnTheScreen()
+    expect(screen.getByLabelText('search.facets.volunteering')).toBeOnTheScreen()
+    expect(screen.getByLabelText('search.facets.space')).toBeOnTheScreen()
+    expect(screen.getByLabelText('search.facets.profile')).toBeOnTheScreen()
   })
 
   it('should call callback on facet change', async () => {
@@ -18,7 +18,7 @@ describe('SearchFacetsTabs', () => {
 
     render(<SearchFacetsTabs currentFacet="volunteering" onFacetChange={onFacetChange} />)
 
-    await user.press(screen.getByLabelText('search.typesense.facets.profile'))
+    await user.press(screen.getByLabelText('search.facets.profile'))
 
     expect(onFacetChange).toHaveBeenCalledWith('profile')
   })
@@ -26,7 +26,7 @@ describe('SearchFacetsTabs', () => {
   it('applies initial selection', async () => {
     render(<SearchFacetsTabs currentFacet="space" onFacetChange={jest.fn()} />)
 
-    const tab = screen.getByLabelText('search.typesense.facets.space')
+    const tab = screen.getByLabelText('search.facets.space')
     expect(tab).toHaveAccessibilityState({ selected: true })
   })
 })

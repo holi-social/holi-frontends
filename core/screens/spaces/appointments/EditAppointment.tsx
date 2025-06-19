@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
+import type { CreateAppointmentInput, Space } from '@holi/api/graphql/graphql-codegen'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -61,7 +61,7 @@ const EditAppointment = () => {
   return (
     <AppointmentCreateEditForm
       initialAppointment={appointmentToCreateAppointmentInput(appointment, space.id)}
-      space={space}
+      space={space as Space}
       headerTitle={t('spaces.appointments.edit.button.label')}
       onSubmit={onSubmit}
     />

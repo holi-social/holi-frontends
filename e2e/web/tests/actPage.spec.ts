@@ -18,7 +18,6 @@ test.describe('@ActPage', () => {
 const testActPageContent = async (page: Page) => {
   // act page is open and contain apps
   await page.waitForSelector(byTestId('volunteering-reco-slider'))
-  await page.waitForSelector(byTestId('tasks-reco-slider'))
   await page.waitForSelector(byTestId('donations-reco-slider'))
 }
 

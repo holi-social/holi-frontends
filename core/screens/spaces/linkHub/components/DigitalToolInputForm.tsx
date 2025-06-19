@@ -5,7 +5,6 @@ import { Image as ReactNativeImage, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
-import { CollaborationType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -15,8 +14,10 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { CollectionType } from '@holi/api/graphql/graphql-codegen'
 
-export const COLLECTION_TYPES = Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
+export const COLLECTION_TYPES = Object.keys(CollectionType) as Array<keyof typeof CollectionType>
+
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
   onChangeTitle: (title: string) => void
@@ -54,10 +55,10 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
 
   const collectionTypes = useMemo(
     () =>
-      COLLECTION_TYPES.map((collectionType) => {
+      COLLECTION_TYPES.map((cType) => {
         return {
-          id: collectionType,
-          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+          id: CollectionType[cType],
+          title: t(`spaces.toolKit.linkhub.collection.${CollectionType[cType]}`),
           selected: false,
         }
       }),

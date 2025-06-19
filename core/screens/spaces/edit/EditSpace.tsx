@@ -4,6 +4,7 @@ import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -25,7 +26,6 @@ import EditSpaceLocation from '@holi/core/screens/spaces/edit/components/EditSpa
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/edit/components/EditSpaceNameAndGoal'
 import EditSpaceTopics from '@holi/core/screens/spaces/edit/components/EditSpaceTopics'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
 import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
@@ -183,7 +183,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
     <PermissionsGuard
       permissionType={PermissionsType.SPACES}
       space={space}
-      spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
+      spaceConnectionType={SpaceUserConnectionType.Administrator}
     >
       <ScrollView contentContainerStyle={styles.contentStyle}>
         <View style={styles.wrapper} testID="space-edit-container">

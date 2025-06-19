@@ -1,4 +1,5 @@
 import { toMatrixIdentity, getOrCreatePrivateRoom } from '@holi/chat/src/store'
+import type { User } from '@holi/core/domain/shared/types'
 import { AskQuestionActionButton } from '@holi/core/screens/spaces/details/components/AskQuestion/AskQuestionActionButton'
 import { useRepresentative } from '@holi/core/screens/spaces/hooks/useRepresentative'
 import { StartChatButton } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA/StartChatButton'
@@ -22,7 +23,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
 
   const getOrCreateRoom = async () => {
     if (!representative) return
-    const chatPartnerMatrixId = toMatrixIdentity(representative.identity)
+    const chatPartnerMatrixId = toMatrixIdentity(representative.identity!)
     const { room_id } = await getOrCreatePrivateRoom([chatPartnerMatrixId])
     return room_id
   }
@@ -51,7 +52,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
         </View>
 
         <StartChatButton
-          chatPartners={representative ? [representative] : []}
+          chatPartners={representative ? [representative as User] : []}
           label={t('spaces.connectCta')}
           trackingEvent={TrackingEvent.SpaceAskQuestion.askedQuestion}
           getRoomId={getOrCreateRoom}

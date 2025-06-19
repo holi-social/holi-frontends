@@ -1,3 +1,4 @@
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
@@ -5,13 +6,15 @@ import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequir
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { determineSpaceViewerRelation } from '@holi/core/screens/spaces/details/utils'
-import { Space } from '@holi/core/screens/spaces/types'
 import { Delete, DoorClosed, Edit2, Flag, UserSettings } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import React, { useCallback } from 'react'
+import type React from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const ActionDrawer: React.FC<{ space: Space }> = ({ space }) => {
+export const ActionDrawer: React.FC<{
+  space: Pick<Space, 'connectionStatusToMyself' | 'id' | 'members' | 'title'> & { creator?: { id: string } }
+}> = ({ space }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { navigateWithAuth } = useAuthRequiredNavigation()

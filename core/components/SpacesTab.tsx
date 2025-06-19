@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 
@@ -6,14 +5,13 @@ import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
-import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
-import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
-import type { SpaceForMember } from '@holi/core/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { useSpacesByMemberQuery } from '@holi/api/graphql/graphql-codegen'
+import type { User } from '@holi/core/domain/shared/types'
 
 export interface SpacesTabProps {
   memberId: string
@@ -22,7 +20,7 @@ export interface SpacesTabProps {
 }
 
 const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) => {
-  const { data, refetch } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
+  const { data, refetch } = useSpacesByMemberQuery({
     variables: { memberId },
     onError: (error) =>
       logError(error, 'Failed to load spaces for user', { location: 'SpacesTab.spacesByMemberIdQuery' }),
@@ -51,7 +49,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
 
       {animKey === 'ready' && (
         <HoliBox padding={[Spacing.xs, 0]}>
-          {spaces?.data.map((space: SpaceForMember) => (
+          {spaces?.data?.map((space) => (
             <HoliBox
               key={space.id}
               padding={[0, 0, 32, 0]}
@@ -61,7 +59,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
                 label={space.title}
                 title={space.title}
                 imageElement={<SpaceAvatar space={space} size={'lg'} />}
-                users={space.members.data.map((membership) => membership.user)}
+                users={space.members.data.map((membership) => membership.user) as User[]}
                 href={`/spaces/${space.name}`}
                 testID="space-tab"
                 totalUserCount={space.members.totalResults}

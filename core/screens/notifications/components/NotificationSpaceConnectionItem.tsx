@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,17 +13,17 @@ import {
   type NotificationSpaceConnection,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
 import { Spacing } from 'holi-bricks/foundations'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import {
+  SpaceUserConnectionType,
+  UpdateConnectionAction,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
@@ -56,57 +55,54 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
 
   const spaceId = notification.options.space.id
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    onError(error) {
+      const context = {
+        location: 'NotificationSpaceConnectionItem.updateSpaceUserConnection',
+        notificationType: notification.notificationType,
         spaceId,
-        userId: notification.options.user.id,
-      },
-      onError(error) {
-        const context = {
-          location: 'NotificationSpaceConnectionItem.updateSpaceUserConnection',
-          notificationType: notification.notificationType,
-          spaceId,
-        }
-        if (error.message.includes('User did not request membership')) {
-          displayError(error, 'Failed to update space user connection as membership was not requested', {
-            displayMessage: t('spaces.membership.update.not-requested'),
-            ...context,
-          })
-        } else {
-          displayError(error, 'Failed to update space user connection', {
-            displayMessage: t('spaces.membership.update.error'),
-            ...context,
-          })
-        }
-      },
-    }
-  )
+      }
+      if (error.message.includes('User did not request membership')) {
+        displayError(error, 'Failed to update space user connection as membership was not requested', {
+          displayMessage: t('spaces.membership.update.not-requested'),
+          ...context,
+        })
+      } else {
+        displayError(error, 'Failed to update space user connection', {
+          displayMessage: t('spaces.membership.update.error'),
+          ...context,
+        })
+      }
+    },
+  })
 
   const approveConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBER,
+        spaceId,
+        userId: notification.options.user.id,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.Member,
       },
     }).then(() => {
       setConnectionAccepted(true)
       track(TrackingEvent.Spaces.RequestToJoin.accepted(spaceId))
     })
-  }, [spaceId, track, updateSpaceUserConnection])
+  }, [notification.options.user.id, spaceId, track, updateSpaceUserConnection])
 
   const declineConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
+        spaceId,
+        userId: notification.options.user.id,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.MembershipRequestor,
       },
     }).then(() => {
       setConnectionAccepted(false)
       track(TrackingEvent.Spaces.RequestToJoin.rejected(spaceId))
     })
-  }, [spaceId, track, updateSpaceUserConnection])
+  }, [notification.options.user.id, spaceId, track, updateSpaceUserConnection])
 
   const loginState = useLoggedInUser()
 

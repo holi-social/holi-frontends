@@ -7,10 +7,10 @@ import type { User } from '@holi/core/domain/shared/types'
 import { getInitials } from '@holi/core/helpers'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { Space } from '@holi/core/screens/spaces/types'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import type { AvatarSizes } from 'holi-bricks/components/avatar'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 type OnPressHandler = (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 

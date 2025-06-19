@@ -1,19 +1,11 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
-import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { ContentType, ContentType3K } from '@holi/core/queries'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close, Flag, ShieldMinus, ShieldPlus, User as UserIcon, UserUnfollow } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -27,10 +19,18 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { Spacing } from 'holi-bricks/foundations'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  SpaceMembersBySpaceIdDocument,
+  type Space,
+  type SpaceMembershipRequest,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 type SpacePermissionsProps = {
-  space: Space
-  user: User
+  space: Pick<Space, 'id' | 'name'>
+  user: SpaceMembershipRequest['user']
   handleNavigation: (id: string) => void
   permissionsVisible: boolean
   hidePermissions: () => void
@@ -72,53 +72,48 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const spaceId = space.id
   const userId = user.id
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    onError(error) {
+      displayError(error, 'Failed to update space user connection', {
+        location: 'SpacePermissions.updateSpaceUserConnection',
         spaceId,
-        userId,
-      },
-      onError(error) {
-        displayError(error, 'Failed to update space user connection', {
-          location: 'SpacePermissions.updateSpaceUserConnection',
-          spaceId,
-        })
-      },
-      onCompleted() {
-        hidePermissions()
-        if (showRemoveMemberConfirmationModal) {
-          openToast(
-            t('spaces.collaborators.permissions.remove.user.success', {
-              user: user.fullName || t('user.profileView.anonymous'),
-            }),
-            HoliToastType.SUCCESS
-          )
-        } else if (showRevokeAdminConfirmationModal) {
-          openToast(
-            t('spaces.collaborators.permissions.revokeAdmin.success', {
-              user: user.fullName || t('user.profileView.anonymous'),
-            }),
-            HoliToastType.SUCCESS
-          )
-        } else {
-          openToast(
-            t('spaces.collaborators.permissions.grantAdmin.success', {
-              user: user.fullName || t('user.profileView.anonymous'),
-            }),
-            HoliToastType.SUCCESS
-          )
-        }
-      },
-      refetchQueries: [{ query: spaceMembersQuery, variables: { idOrName: space.name } }],
-    }
-  )
+      })
+    },
+    onCompleted() {
+      hidePermissions()
+      if (showRemoveMemberConfirmationModal) {
+        openToast(
+          t('spaces.collaborators.permissions.remove.user.success', {
+            user: user.fullName || t('user.profileView.anonymous'),
+          }),
+          HoliToastType.SUCCESS
+        )
+      } else if (showRevokeAdminConfirmationModal) {
+        openToast(
+          t('spaces.collaborators.permissions.revokeAdmin.success', {
+            user: user.fullName || t('user.profileView.anonymous'),
+          }),
+          HoliToastType.SUCCESS
+        )
+      } else {
+        openToast(
+          t('spaces.collaborators.permissions.grantAdmin.success', {
+            user: user.fullName || t('user.profileView.anonymous'),
+          }),
+          HoliToastType.SUCCESS
+        )
+      }
+    },
+    refetchQueries: [{ query: SpaceMembersBySpaceIdDocument, variables: { idOrName: space.name } }],
+  })
 
   const grantAdminRights = () => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.GRANT_ADMIN_ACCESS,
-        connectionType: SpaceConnectionType.ADMINISTRATOR,
+        spaceId,
+        userId,
+        connectAction: UpdateConnectionAction.GrantAdminAccess,
+        connectionType: SpaceUserConnectionType.Administrator,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.gotAdminRights(spaceId)),
     }).then(() => setShowGrantAdminConfirmationModal(false))
@@ -127,8 +122,10 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const revokeAdminRights = () => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.REVOKE_ADMIN_ACCESS,
-        connectionType: SpaceConnectionType.ADMINISTRATOR,
+        spaceId,
+        userId,
+        connectAction: UpdateConnectionAction.RevokeAdminAccess,
+        connectionType: SpaceUserConnectionType.Administrator,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.lostAdminRights(spaceId)),
     }).then(() => setshowRevokeAdminConfirmationModal(false))
@@ -137,8 +134,10 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const removeMember = () => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.REMOVE_MEMBER,
-        connectionType: SpaceConnectionType.ADMINISTRATOR,
+        spaceId,
+        userId,
+        connectAction: UpdateConnectionAction.RemoveMember,
+        connectionType: SpaceUserConnectionType.Administrator,
       },
       onCompleted: () => track(TrackingEvent.Spaces.User.wasRemoved(spaceId)),
     }).then(() => setShowRemoveMemberConfirmationModal(false))

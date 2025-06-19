@@ -39,9 +39,9 @@ export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesPr
 
   return (
     <View style={styles.list} testID="search-examples">
-      <Text size="lg">{t('search.typesense.examples.headline')}</Text>
+      <Text size="lg">{t('search.examples.headline')}</Text>
       {displayedExampleIds.map((id) => {
-        const text = t(`search.typesense.examples.${facet}${id}`)
+        const text = t(`search.examples.${facet}${id}`)
         const params = new URLSearchParams({
           facet,
           query: text,

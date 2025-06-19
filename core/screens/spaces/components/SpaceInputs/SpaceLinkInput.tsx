@@ -3,7 +3,7 @@ import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import type { SpaceLink } from '@holi/core/screens/spaces/types'
+import type { ExternalLink } from '@holi/api/graphql/graphql-codegen'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   Delete,
@@ -23,9 +23,9 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ButtonIcon } from 'holi-bricks/components/button'
 
 type SpaceLinkInputProps = {
-  link: SpaceLink
+  link: ExternalLink
   style?: StyleProp<ViewStyle>
-  onEdit?: (link: SpaceLink) => void
+  onEdit?: (link: ExternalLink) => void
   onDelete?: (linkId: string) => void
 }
 

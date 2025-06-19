@@ -12,9 +12,9 @@ describe('useBricks', () => {
 
   it('should set the active theme', () => {
     const { setActiveTheme } = createBricksManager(mockLibRuntime)
-    setActiveTheme('dark')
+    setActiveTheme('light')
 
-    expect(mockLibRuntime.setTheme).toHaveBeenCalledWith('dark')
+    expect(mockLibRuntime.setTheme).toHaveBeenCalledWith('light')
   })
 
   it('should get the active theme', () => {

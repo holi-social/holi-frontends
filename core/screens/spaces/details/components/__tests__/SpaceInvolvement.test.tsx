@@ -4,7 +4,7 @@ import React from 'react'
 
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseFeatureFlag = jest.fn()
 jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
@@ -35,7 +35,7 @@ describe('SpaceInvolvement', () => {
   it('renders correctly for collaborators', async () => {
     const spaceForMember = {
       ...space,
-      connectionStatusToMyself: [SpaceConnectionType.MEMBER],
+      connectionStatusToMyself: [SpaceUserConnectionType.Member],
     }
 
     render(

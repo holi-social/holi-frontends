@@ -1,0 +1,211 @@
+#import "@holi/core/domain/shared/fragments.graphql"
+
+fragment SpaceMemberPermissions on User {
+  ...UserAvatar
+  aboutMe
+  pronouns
+}
+
+fragment SpaceMemberList on SpaceMemberPaged {
+  totalResults
+  data {
+    id
+    user {
+      ...SpaceMemberPermissions
+    }
+    isAdministrator
+  }
+}
+
+fragment SpaceMembershipRequestList on SpaceMembershipRequestPaged {
+  totalResults
+  data {
+    id
+    message
+    user {
+      ...SpaceMemberPermissions
+    }
+  }
+}
+
+fragment SpaceInviteList on SpaceInvitePaged {
+  totalResults
+  data {
+    id
+    invitedUser {
+      ...SpaceMemberPermissions
+    }
+  }
+}
+
+fragment FullTask on Task {
+  id
+  name
+  description
+  impact
+  slotsAvailable
+  slotsTaken
+  location
+  geolocation {
+    latitude
+    longitude
+  }
+  visibility
+  locationType
+  interactionType
+  contactEmail
+  contactPhone
+  thumbnail
+  thumbnailBlurhash
+  regularity
+  duration
+  timeframeEndDate
+  timeframeStartDate
+  creator {
+    ...UserAvatar
+  }
+  skillsV2
+  interactionSignupLink
+}
+
+fragment RelatedSpace on Space {
+  id
+  title
+  location
+  description
+  cover
+  coverBlurhash
+  name
+  avatar
+  avatarDefaultColor
+  members(limit: 3) {
+    totalResults
+    data {
+      user {
+        identity
+        ...UserAvatar
+      }
+    }
+  }
+}
+
+fragment FullSpace on Space {
+  id
+  title
+  description
+  contactEmail
+  contactPhone
+  contactDescription
+  created
+  creator {
+    ...UserAvatar
+  }
+  avatar
+  avatarBlurhash
+  cover
+  coverBlurhash
+  name
+  avatarDefaultColor
+  location
+  hasPublicPosts
+  hasPrivatePosts
+  geolocation {
+    latitude
+    longitude
+  }
+  connectionStatusToMyself
+  links {
+    id
+    type
+    url
+    name
+  }
+  collaborationTools {
+    id
+    domain
+    url
+    description
+    title
+    collectionType
+    thumbnail
+    thumbnailBlurhash
+  }
+  members(limit: 3) {
+    totalResults
+    data {
+      id
+      isAdministrator
+      user {
+        ...UserAvatar
+      }
+    }
+  }
+  membershipRequests(limit: 0) {
+    totalResults
+  }
+  tasks {
+    ...FullTask
+  }
+  topicsV2
+  onboarding {
+    steps {
+      text
+    }
+  }
+  parentSpace {
+    ...RelatedSpace
+  }
+  childSpaces(limit: 4) {
+    totalResults
+    data {
+      ...RelatedSpace
+    }
+  }
+}
+
+fragment SpaceOverview on Space {
+  id
+  title
+  description
+  cover
+  coverBlurhash
+  location
+  avatar
+  avatarBlurhash
+  avatarDefaultColor
+  name
+  creator {
+    id
+  }
+  members(limit: 3) {
+    totalResults
+    data {
+      user {
+        identity
+        ...UserAvatar
+      }
+    }
+  }
+}
+
+fragment MemberSpaces on SpacePaged {
+  data {
+    id
+    title
+    avatar
+    avatarBlurhash
+    avatarDefaultColor
+    cover
+    coverBlurhash
+    name
+    members {
+      data {
+        user {
+          ...UserAvatar
+        }
+      }
+      totalResults
+    }
+  }
+  totalResults
+}

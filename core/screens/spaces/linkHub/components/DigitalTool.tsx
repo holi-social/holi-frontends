@@ -6,7 +6,6 @@ import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import useDeleteTool from '@holi/core/hooks/spaces/useDeleteTool'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, LinkM, ShareBox } from '@holi/icons/src/generated'
@@ -20,9 +19,10 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import type { CollaborationTool } from '@holi/api/graphql/graphql-codegen'
 
 interface DigitalToolProps {
-  tool: SpaceCollaborationTool
+  tool: CollaborationTool
   isAdmin: boolean | undefined
   spaceIdOrName: string
   onShareButtonPress: (url: string) => void

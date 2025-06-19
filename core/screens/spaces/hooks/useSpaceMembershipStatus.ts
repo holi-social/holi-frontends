@@ -1,14 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
-import { UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
-import { SpaceMember } from '@holi/core/screens/spaces/types'
-import { Paged } from '@holi/core/types'
+import { type UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
+import type { User } from '@holi/core/domain/shared/types'
+import type { SpaceMember } from '@holi/api/graphql/graphql-codegen'
 
 export const useSpaceMembershipStatus = (
   initiallySelectedUserId: string,
-  spaceMembers: Paged<SpaceMember> | undefined
+  spaceMembers: Pick<SpaceMember, 'id' | 'user'>[] | undefined
 ) => {
   const [user, setUser] = useState<User>()
   const [showBanner, setShowBanner] = useState(false)
@@ -27,9 +26,7 @@ export const useSpaceMembershipStatus = (
   })
 
   useEffect(() => {
-    const initiallySelectedIsMemberAlready = (spaceMembers?.data as SpaceMember[])?.find(
-      (member) => member.user.id === initiallySelectedUserId
-    )
+    const initiallySelectedIsMemberAlready = spaceMembers?.find((member) => member.user.id === initiallySelectedUserId)
 
     if (loading || error) return
 
@@ -45,7 +42,7 @@ export const useSpaceMembershipStatus = (
       setUser(userData?.userById)
       setStatus('cancelled')
     }
-  }, [error, initiallySelectedUserId, loading, spaceMembers?.data, userData])
+  }, [error, initiallySelectedUserId, loading, spaceMembers, userData])
 
   return { user, showBanner, status, loading }
 }

@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,18 +11,19 @@ import {
   type NotificationSpaceConnection,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
-import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  MySpacesDocument,
+  DiscoverSpacesDocument,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 
 const isNotificationInvitationDeclined = ({ notificationType }: NotificationSpaceConnection) =>
   notificationType === NotificationType.COMMUNITY_INVITE_DECLINED
@@ -45,39 +45,34 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
 
   const loginState = useLoggedInUser()
 
-  const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      variables: {
+  const [updateSpaceUserConnection, { loading }] = useUpdateSpaceUserConnectionMutation({
+    onError(error) {
+      const context = {
+        location: 'NotificationSpaceInviteItem.updateSpaceUserConnection',
+        notificationType: notification.notificationType,
         spaceId,
-      },
-      onError(error) {
-        const context = {
-          location: 'NotificationSpaceInviteItem.updateSpaceUserConnection',
-          notificationType: notification.notificationType,
-          spaceId,
-        }
-        if (error.message.includes('User did not request membership')) {
-          displayError(error, 'Failed to update space user connection as membership was not requested', {
-            displayMessage: t('spaces.membership.update.not-requested'),
-            ...context,
-          })
-        } else {
-          displayError(error, 'Failed to update space user connection', {
-            displayMessage: t('spaces.membership.update.error'),
-            ...context,
-          })
-        }
-      },
-      refetchQueries: [{ query: discoverSpacesQuery }, { query: mySpaceQuery }],
-    }
-  )
+      }
+      if (error.message.includes('User did not request membership')) {
+        displayError(error, 'Failed to update space user connection as membership was not requested', {
+          displayMessage: t('spaces.membership.update.not-requested'),
+          ...context,
+        })
+      } else {
+        displayError(error, 'Failed to update space user connection', {
+          displayMessage: t('spaces.membership.update.error'),
+          ...context,
+        })
+      }
+    },
+    refetchQueries: [{ query: DiscoverSpacesDocument }, { query: MySpacesDocument }],
+  })
 
   const acceptInvite = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+        spaceId,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.MembershipInvitee,
       },
     }).then(() => {
       setInviteAccepted(true)
@@ -88,8 +83,9 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
   const declineInvite = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.DISCONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
+        spaceId,
+        connectAction: UpdateConnectionAction.Disconnect,
+        connectionType: SpaceUserConnectionType.MembershipInvitee,
       },
     }).then(() => {
       setInviteDeclined(true)

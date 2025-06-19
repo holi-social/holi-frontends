@@ -1,12 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, Linking } from 'react-native'
+import { Linking, Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { white } from 'holi-bricks/foundations'
-import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { ExternalLink } from '@holi/icons/src/generated'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -14,16 +13,19 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
+import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useTrackEngagementViewMutation } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import { VolunteeringSimilarRecosFooter } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosFooter'
+import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
+
+const isIos = Platform.OS === 'ios'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
   const { t } = useTranslation()
   const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
-  const hasTrackedRef = useRef<boolean>(false)
+  const hasTrackedRef = useRef<string>('')
 
   const [trackEngagementView] = useTrackEngagementViewMutation({
     onError: (error) =>
@@ -34,9 +36,9 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   })
 
   useEffect(() => {
-    if (document && hasTrackedRef.current === false) {
+    if (document && hasTrackedRef.current !== engagementId) {
       trackEngagementView({ variables: { id: engagementId } })
-      hasTrackedRef.current = true
+      hasTrackedRef.current = engagementId
     }
   }, [document, engagementId, trackEngagementView])
 
@@ -59,7 +61,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, barStyle: 'light-content' }}
+      statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}
@@ -69,7 +71,11 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           width="100%"
         >
           <ButtonTracked
-            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
+            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
+              commitmentType: document?.commitmentType,
+              locationType: document?.locationType,
+              source: document?.source,
+            })}
             icon={ExternalLink}
             label={t('volunteering:engagementDetail.getInTouch')}
             onPress={() => {
@@ -92,14 +98,13 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         coverImage={document?.coverImage}
         title={document?.title ?? ''}
         infoList={document?.infoList}
-        bodyContent={document?.description ? { content: document?.description } : undefined}
+        bodyContent={document?.bodyContent}
         author={document?.author}
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
-        _footer={<VolunteeringSimilarRecosFooter engagementId={engagementId} />}
-        placeholderImage={document.placeholderImage}
+        _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
+        placeholderImage={document?.placeholderImage}
       />
-
       {document?.externalUrl && Platform.OS !== 'web' && (
         <HoliModal
           label="modal"
@@ -107,7 +112,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           style={{ width: '100%', height: '100%', flex: 1 }}
           shown={modalProps.shown}
           onDismiss={modalProps.onDismiss}
-          testID={'volunteering-partner-modal'}
+          testID={'volunteering-external-url-modal'}
         >
           <HoliWebView
             theme={theme}

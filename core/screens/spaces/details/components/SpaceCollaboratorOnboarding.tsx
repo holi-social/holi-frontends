@@ -1,4 +1,4 @@
-import { type StoreObject, useMutation } from '@apollo/client'
+import type { StoreObject } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import type React from 'react'
 import { useMemo, useState } from 'react'
@@ -12,10 +12,11 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import {
-  type UpdateSpaceUserConnectionResponse,
-  updateSpaceUserConnectionMutation,
-} from '@holi/core/screens/spaces/details/mutations'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+  type Space,
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  useUpdateSpaceUserConnectionMutation,
+} from '@holi/api/graphql/graphql-codegen'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -53,37 +54,34 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
 
-  const [updateSpaceUserConnection] = useMutation<UpdateSpaceUserConnectionResponse>(
-    updateSpaceUserConnectionMutation,
-    {
-      // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
-      update: (cache) => {
-        cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-      },
-      onError(error) {
-        if (!('__typename' in space)) {
-          console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
-        }
-        client.cache.evict({ id: client.cache.identify(space as unknown as StoreObject) })
-        const context = {
-          location: 'SpaceCollaboratorOnboarding.updateSpaceUserConnection',
-          spaceId: space.id,
-        }
+  const [updateSpaceUserConnection] = useUpdateSpaceUserConnectionMutation({
+    // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
+    update: (cache) => {
+      cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
+    },
+    onError(error) {
+      if (!('__typename' in space)) {
+        console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
+      }
+      client.cache.evict({ id: client.cache.identify(space as unknown as StoreObject) })
+      const context = {
+        location: 'SpaceCollaboratorOnboarding.updateSpaceUserConnection',
+        spaceId: space.id,
+      }
 
-        if (error.message.includes('Not requested to join community')) {
-          displayError(error, 'Failed to request space membership as it was already handled', {
-            displayMessage: t('spaces.join.error.already-revoked'),
-            ...context,
-          })
-        } else {
-          displayError(error, 'Failed to request space membership', {
-            displayMessage: t('spaces.join.error'),
-            ...context,
-          })
-        }
-      },
-    }
-  )
+      if (error.message.includes('Not requested to join community')) {
+        displayError(error, 'Failed to request space membership as it was already handled', {
+          displayMessage: t('spaces.join.error.already-revoked'),
+          ...context,
+        })
+      } else {
+        displayError(error, 'Failed to request space membership', {
+          displayMessage: t('spaces.join.error'),
+          ...context,
+        })
+      }
+    },
+  })
 
   const submitJoinRequest = async () => {
     if (!isLoggedIn) {
@@ -95,9 +93,9 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
 
     return updateSpaceUserConnection({
       variables: {
-        connectAction: SpaceConnectionAction.CONNECT,
-        connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
-        message: message === '' ? null : message,
+        connectAction: UpdateConnectionAction.Connect,
+        connectionType: SpaceUserConnectionType.MembershipRequestor,
+        message: message === '' ? undefined : message,
         spaceId: space.id,
       },
       onCompleted: () => track(TrackingEvent.Spaces.RequestToJoin.sent(space.id)),

@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
-import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
+import { TaskByIdDocument } from '@holi/api/graphql/graphql-codegen'
 import TaskDetails from '@holi/core/screens/spaces/tasks/TaskDetails'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
@@ -12,7 +12,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const queries = [
     {
-      query: taskByIdQuery,
+      query: TaskByIdDocument,
       variables: {
         id: taskId,
       },

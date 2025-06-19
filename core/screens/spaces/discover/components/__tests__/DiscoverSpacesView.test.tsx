@@ -7,7 +7,7 @@ import DiscoverSpacesView, {
   SPACES_SLIDER_SKELETONS,
 } from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
-import { discoverSpacesDefaultTopicsV2 } from '@holi/core/screens/spaces/discover/queries'
+import { DiscoverSpacesDefaultTopicsDocument } from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
@@ -31,7 +31,7 @@ global.console.warn = jest.fn()
 
 const defaultTopicsMock = {
   request: {
-    query: discoverSpacesDefaultTopicsV2,
+    query: DiscoverSpacesDefaultTopicsDocument,
   },
   result: {
     data: {

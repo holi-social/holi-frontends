@@ -146,7 +146,7 @@ describe('SearchHitInfiniteList', () => {
     })
     render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
-    expect(screen.getByText('search.typesense.noResults.headline')).toBeOnTheScreen()
+    expect(screen.getByText('search.noResults.headline')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 

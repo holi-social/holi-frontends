@@ -38,8 +38,10 @@ import SpaceOnboardingSteps, {
   type SpaceOnboardingStepsParams,
 } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'
 import RelatedSpaces, { type SpaceRelatedSpacesParams } from '@holi/core/screens/spaces/relatedSpaces/RelatedSpaces'
-import CreateTask, { type CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
-import EditTask, { type EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
+import CreateOrEditTask, {
+  type CreateTaskParams,
+  type EditTaskParams,
+} from '@holi/core/screens/spaces/tasks/CreateOrEditTask'
 import SpaceTasks, { type SpaceTasksParams } from '@holi/core/screens/spaces/tasks/SpaceTasks'
 import TaskDetails, { type TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
 import CreateSpaceUpdate, { type CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
@@ -107,11 +109,11 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceVideoCallList} component={SpaceVideoCallList} />
       <SpacesStack.Screen name={RouteName.LinkHub} component={LinkHub} />
       <SpacesStack.Screen name={RouteName.EditDigitalTool} component={EditDigitalTool} />
-      <SpacesStack.Screen name={RouteName.CreateTask} component={CreateTask} />
-      <SpacesStack.Screen name={RouteName.EditTask} component={EditTask} />
+      <SpacesStack.Screen name={RouteName.CreateTask} component={CreateOrEditTask} />
+      <SpacesStack.Screen name={RouteName.EditTask} component={CreateOrEditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
-      <SpacesStack.Screen name={RouteName.CreateTaskDE} component={CreateTask} />
-      <SpacesStack.Screen name={RouteName.EditTaskDE} component={EditTask} />
+      <SpacesStack.Screen name={RouteName.CreateTaskDE} component={CreateOrEditTask} />
+      <SpacesStack.Screen name={RouteName.EditTaskDE} component={CreateOrEditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetailsDE} component={TaskDetails} />
       <SpacesStack.Screen name={RouteName.CreateUpdate} component={CreateSpaceUpdate} />
       <SpacesStack.Screen name={RouteName.EditUpdate} component={CreateSpaceUpdate} />

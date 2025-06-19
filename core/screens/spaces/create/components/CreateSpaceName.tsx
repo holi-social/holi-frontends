@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
 import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
-import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/mutations'
+import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/validattionSchemas'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'

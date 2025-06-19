@@ -4,24 +4,23 @@ import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
-import { WithTypename, createRelatedSpace, space } from '@holi/core/screens/spaces/__tests__/testData'
-import { spaceRelatedSpacesQuery } from '@holi/core/screens/spaces/queries'
+import { createRelatedSpace, space } from '@holi/core/screens/spaces/__tests__/testData'
 import RelatedSpaces from '@holi/core/screens/spaces/relatedSpaces/RelatedSpaces'
-import { Space } from '@holi/core/screens/spaces/types'
+import { SpaceRealatedSpacesDocument, type Space } from '@holi/api/graphql/graphql-codegen'
 
-const createMocksForSpace = (spaceById: Space & WithTypename) => {
+const createMocksForSpace = (space: Space) => {
   const spaceByIdRequest = {
     request: {
-      query: spaceRelatedSpacesQuery,
+      query: SpaceRealatedSpacesDocument,
       variables: {
-        idOrName: spaceById.name,
+        idOrName: space.name,
         offset: 0,
         limit: 17,
       },
     },
     result: {
       data: {
-        spaceById,
+        spaceById: space,
       },
     },
   }
@@ -32,7 +31,7 @@ const createMocksForSpace = (spaceById: Space & WithTypename) => {
 jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('RelatedSpaces', () => {
-  const renderComponent = async (space: Space & WithTypename) => {
+  const renderComponent = async (space: Space) => {
     mockParameters({ spaceIdOrName: space.name })
 
     render(
@@ -47,7 +46,7 @@ describe('RelatedSpaces', () => {
   describe('Main Space section', () => {
     it('shows Main Space if available', async () => {
       const parentSpace = createRelatedSpace()
-      await renderComponent({ ...space, parentSpace })
+      await renderComponent({ ...space, parentSpace: parentSpace as Space })
 
       expect(screen.queryByText('spaces.spaceDetails.networkSpace')).toBeOnTheScreen()
       expect(screen.getByText(parentSpace.title)).toBeOnTheScreen()
@@ -63,7 +62,7 @@ describe('RelatedSpaces', () => {
 
   describe('Child Spaces section', () => {
     it('shows Child Spaces when available', async () => {
-      const childSpaces = { data: Array.from({ length: 7 }, () => createRelatedSpace()), totalResults: 7 }
+      const childSpaces = { data: Array.from({ length: 7 }, () => createRelatedSpace() as Space), totalResults: 7 }
       await renderComponent({ ...space, childSpaces })
 
       expect(screen.queryByText('spaces.spaceDetails.linkedSpaces')).toBeOnTheScreen()
@@ -74,7 +73,7 @@ describe('RelatedSpaces', () => {
     })
 
     it('does not show Child Spaces and title for it when not provided', async () => {
-      await renderComponent({ ...space, parentSpace: createRelatedSpace() })
+      await renderComponent({ ...space, parentSpace: createRelatedSpace() as Space })
 
       expect(screen.queryAllByTestId('child-spaces-section')).toHaveLength(0)
       expect(screen.queryByText('spaces.spaceDetails.linkedSpaces')).not.toBeOnTheScreen()

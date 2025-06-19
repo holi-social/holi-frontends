@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client'
+import type { CollaborationTool } from '@holi/api/graphql/graphql-codegen'
 import { z } from 'zod'
-
-import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 
 const COLLABORATION_TOOL_TITLE_LEN = 50
 const COLLABORATION_TOOL_DESCRIPTION_LEN = 100
@@ -30,7 +29,7 @@ export const addCollaborationToolMutation = gql`
 `
 
 export type AddCollaborationToolResponse = {
-  addCollaborationTool: SpaceCollaborationTool
+  addCollaborationTool: CollaborationTool
 }
 
 export const UpdateCollaborationToolSchema = z.object({
@@ -44,7 +43,7 @@ export const UpdateCollaborationToolSchema = z.object({
 export type UpdateCollaborationToolInput = z.infer<typeof UpdateCollaborationToolSchema>
 
 export type UpdateCollaborationToolResponse = {
-  updateCollaborationTool: SpaceCollaborationTool
+  updateCollaborationTool: CollaborationTool
 }
 
 export const updateCollaborationToolMutation = gql`

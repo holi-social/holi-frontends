@@ -8,12 +8,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Delete, Edit2, Flag, More } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { mono } from 'holi-bricks/foundations'
+import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 export type TaskDrawerProps = {
   taskId?: string
@@ -73,7 +73,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ tintColor
                     variables: {
                       id: taskId,
                     },
-                    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceName } }],
+                    refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: spaceName } }],
                     onError: (error) => {
                       displayError(error, 'Failed to delete task', {
                         displayMessage: t('spaces.tasks.delete.error'),

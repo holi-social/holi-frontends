@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
 
@@ -7,16 +8,15 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { validateUrl, withProtocol } from '@holi/core/helpers/url'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
-import { UpdateExternalLinkResponse, updateExternalLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceLink, SpaceLinkType } from '@holi/core/screens/spaces/types'
+import { type UpdateExternalLinkResponse, updateExternalLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import { type ExternalLink, ExternalLinkType, type Space, SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 interface EditSpaceLinkProps {
-  link: SpaceLink
-  space: Space
+  link: ExternalLink
+  space: Pick<Space, 'id'>
   onDismiss: () => void
 }
 
@@ -25,7 +25,7 @@ const EditSpaceLink: React.FC<EditSpaceLinkProps> = ({ space, link, onDismiss }:
   const { displayError } = useErrorHandling()
   const [url, setUrl] = useState<string>(link.url || '')
   const [name, setName] = useState<string>(link.name || '')
-  const [type, setType] = useState<string>(SpaceLinkType.OTHER || '')
+  const [type, setType] = useState<ExternalLinkType>(ExternalLinkType.Other)
   const [validationErrorTextUrl, setValidationErrorTextUrl] = useState<string | undefined>()
   const [validationErrorTextName, setValidationErrorTextName] = useState('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
@@ -43,7 +43,7 @@ const EditSpaceLink: React.FC<EditSpaceLinkProps> = ({ space, link, onDismiss }:
         linkId: link.id,
       })
     },
-    refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: space.id } }],
+    refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: space.id } }],
   })
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const EditSpaceLink: React.FC<EditSpaceLinkProps> = ({ space, link, onDismiss }:
   }, [name, url, t, validationErrorTextUrl])
 
   useEffect(() => {
-    const linkTypes = Object.values(SpaceLinkType)
+    const linkTypes = Object.values(ExternalLinkType)
     linkTypes.forEach((type) => {
       if (url.toUpperCase().includes(type)) {
         setType(type)

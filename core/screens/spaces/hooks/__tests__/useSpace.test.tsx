@@ -6,7 +6,7 @@ import React from 'react'
 
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 const mockDisplayError = jest.fn()
 const mockReplaceRoute = jest.fn()
@@ -23,7 +23,7 @@ jest.mock('@holi/core/navigation/hooks/useRouting', () => () => ({
 
 const spaceByIdRequest = {
   request: {
-    query: spaceByIdQuery,
+    query: SpaceByIdDocument,
     variables: {
       idOrName: space.name,
     },
@@ -37,7 +37,7 @@ const spaceByIdRequest = {
 
 const spaceByIdRequestFailure = {
   request: {
-    query: spaceByIdQuery,
+    query: SpaceByIdDocument,
     variables: {
       idOrName: space.name,
     },
@@ -47,7 +47,7 @@ const spaceByIdRequestFailure = {
 
 const spaceByIdRequestNotFound = {
   request: {
-    query: spaceByIdQuery,
+    query: SpaceByIdDocument,
     variables: {
       idOrName: space.name,
     },

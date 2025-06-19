@@ -154,9 +154,6 @@ export const createCache = () =>
           comments: {
             keyArgs: [],
           },
-          appVolunteering_engagementRecosV2: pagedPolicy(),
-          appVolunteering_similarRecommendations: pagedPolicy(),
-          appVolunteering_filteredEngagementsV2: pagedPolicy(),
           spaces: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (args: Record<string, any> | null) => {

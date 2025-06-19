@@ -1,5 +1,4 @@
 import { breakpoints } from 'holi-bricks/foundations'
-import { darkTheme } from 'holi-bricks/foundations/colors/themes/dark'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import { UnistylesRegistry } from 'react-native-unistyles'
 
@@ -7,7 +6,8 @@ import { UnistylesRegistry } from 'react-native-unistyles'
 UnistylesRegistry.addBreakpoints({ ...{ zero: 0 }, ...breakpoints })
   .addThemes({
     light: lightTheme,
-    dark: darkTheme,
+    // Removing dark theme until fully supported with HOLI-11770
+    // dark: darkTheme,
   })
   .addConfig({
     initialTheme: 'light',

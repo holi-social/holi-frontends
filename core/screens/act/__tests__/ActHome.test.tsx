@@ -40,34 +40,34 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 const cases = [
   {
     section: undefined,
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
   },
   {
     section: 'SPACE',
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
   },
   {
     section: 'DONATIONS',
-    order: ['DONATIONS', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS'],
+    order: ['DONATIONS', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES'],
   },
   {
     section: 'VOLUNTEERING',
-    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'TASKS', 'DONATIONS'],
+    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
   },
   {
     section: 'CHALLENGES',
-    order: ['CHALLENGES', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'TASKS', 'DONATIONS'],
+    order: ['CHALLENGES', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'],
   },
   {
     section: 'TASKS',
-    order: ['TASKS', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
   },
 ]
 
 describe('ActHome Section', () => {
   it.each(cases)('query parameter section=$section gives order: $order', ({ section, order }) => {
     mockUseFeatureFlagToggle.mockReturnValue(false)
-    const orderedSect = orderedSections(true, section)
+    const orderedSect = orderedSections(section)
     expect(orderedSect).toStrictEqual(order)
     mockParameters({ section })
 

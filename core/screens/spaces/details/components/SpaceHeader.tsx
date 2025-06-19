@@ -14,7 +14,6 @@ import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvit
 import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
 import SpaceMoreActions from '@holi/core/screens/spaces/details/components/SpaceMoreActions'
 import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -22,6 +21,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 
 type SpaceHeaderProps = {
   space: Space
@@ -45,8 +46,8 @@ const SpaceHeader: React.FC<SpaceHeaderProps> = ({ space, style }) => {
 
   const admins = adminMemberships.map((membership) => membership.user)
   const members = regularMemberships.map((membership) => membership.user)
-  const sortedMembersList = [...sortUsersByFirstName(admins), ...sortUsersByFirstName(members)]
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+  const sortedMembersList = [...sortUsersByFirstName(admins as User[]), ...sortUsersByFirstName(members as User[])]
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
 
   const { navigate } = useRouting()
 

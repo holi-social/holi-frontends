@@ -1,17 +1,18 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/api/graphql/graphql-codegen'
 import { Add, Checkbox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface TasksCardProps {
   isAdmin: boolean

@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react'
+import { useReducer } from 'react'
 
 import { getOneDayEarlierDate, getOneDayLaterDate, getTodayDate, normalizeDate } from './dateHelpers'
 
@@ -73,20 +73,23 @@ const initialTimeFrame: TimeFrame = {
   end: getOneDayLaterDate(getTodayDate()),
 }
 
-export const useTimeFrame = (initialTF: TimeFrame = initialTimeFrame) => {
+export const useTimeFrame = (initialTF: TimeFrame = initialTimeFrame, onChange?: (timeFrame: TimeFrame) => void) => {
   const [timeFrame, dispatch] = useReducer(reducer, initialTF)
 
-  const onChangeAnytimeToggle = useCallback((value: boolean) => {
+  const onChangeAnytimeToggle = (value: boolean) => {
     dispatch({ type: value ? 'SET_TIME_FRAME_ANYTIME' : 'SET_TIME_FRAME_RESTRICTED' })
-  }, [])
+    onChange?.(timeFrame)
+  }
 
-  const onChangeStart = useCallback((start: Date) => {
+  const onChangeStart = (start: Date) => {
     dispatch({ type: 'SET_TIME_FRAME_START', payload: start })
-  }, [])
+    onChange?.(timeFrame)
+  }
 
-  const onChangeEnd = useCallback((end: Date) => {
+  const onChangeEnd = (end: Date) => {
     dispatch({ type: 'SET_TIME_FRAME_END', payload: end })
-  }, [])
+    onChange?.(timeFrame)
+  }
 
   return { timeFrame, onChangeAnytimeToggle, onChangeStart, onChangeEnd } as const
 }

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import { SPACE_POST_VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/tasks/consts'
-import { VisibilityType } from '@holi/core/screens/spaces/types'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { VisibilityType } from '@holi/api/graphql/graphql-codegen'
 
 export interface SpaceUpdateInputFormProps {
   onChangeVisibility: (_: VisibilityType) => void
@@ -50,8 +51,8 @@ const SpaceUpdateInputForm: React.FC<SpaceUpdateInputFormProps> = ({
         ...option,
         title: t(`spaces.input.update.visibility.${option.id}.title`),
         description: t(`spaces.input.update.visibility.${option.id}.description`),
-        selected: option.id === VisibilityType.MEMBERS ? true : false,
-        disabled: !isAdmin && option.id === VisibilityType.PUBLIC ? true : false,
+        selected: option.id === VisibilityType.Members ? true : false,
+        disabled: !isAdmin && option.id === VisibilityType.Public ? true : false,
       }))
     )
   }, [t, setVisibilityOptions, isAdmin])

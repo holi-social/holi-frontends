@@ -9,12 +9,12 @@ import {
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
-import { discoverSpacesDefaultTopicsV2, discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { DiscoverSpacesDefaultTopicsDocument, DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const discoverSpacesUserSpecificMock = {
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2: [],
       skillsV2: [],
@@ -30,7 +30,7 @@ const discoverSpacesUserSpecificMock = {
 
 const discoverSpacesDefaultMock = {
   request: {
-    query: discoverSpacesQuery,
+    query: DiscoverSpacesDocument,
     variables: {
       topicsV2: ['animal-welfare'],
       geolocation: {},
@@ -46,7 +46,7 @@ const discoverSpacesDefaultMock = {
 
 const defaultTopicsMock = {
   request: {
-    query: discoverSpacesDefaultTopicsV2,
+    query: DiscoverSpacesDefaultTopicsDocument,
   },
   result: {
     data: {

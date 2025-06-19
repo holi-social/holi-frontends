@@ -3,7 +3,6 @@ import React from 'react'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
-import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
 
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
@@ -17,7 +16,6 @@ export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
   CHALLENGES = 'CHALLENGES',
   EVENTS = 'EVENTS',
-  TASKS = 'TASKS',
   DONATIONS = 'DONATIONS',
   PETITIONS = 'PETITIONS',
   STARTSMALL = 'STARTSMALL',
@@ -73,12 +71,6 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
             </ErrorBoundary>
           )}
         </>
-      )
-    case ActSectionType.TASKS:
-      return (
-        <ErrorBoundary>
-          <TaskRecommendations cardWidth={cardWidth} />
-        </ErrorBoundary>
       )
 
     case ActSectionType.DONATIONS:

@@ -1,9 +1,9 @@
 import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import SpaceTasks from '@holi/core/screens/spaces/tasks/SpaceTasks'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
+import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 const SpaceTasksPage: NextPage = () => <SpaceTasks />
 
@@ -12,7 +12,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const queries = [
     {
-      query: spaceByIdQuery,
+      query: SpaceByIdDocument,
       variables: {
         idOrName: spaceIdOrName,
       },

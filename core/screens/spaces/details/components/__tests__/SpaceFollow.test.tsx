@@ -8,9 +8,12 @@ import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/m
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
 import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
-import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
-import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import {
+  UpdateConnectionAction,
+  SpaceUserConnectionType,
+  UpdateSpaceUserConnectionDocument,
+  SpaceByIdDocument,
+} from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -48,10 +51,10 @@ const authenticatedUserRequest = {
 const SPACE_ID = '1'
 const followSpaceMutation = {
   request: {
-    query: updateSpaceUserConnectionMutation,
+    query: UpdateSpaceUserConnectionDocument,
     variables: {
-      connectAction: SpaceConnectionAction.CONNECT,
-      connectionType: SpaceConnectionType.FOLLOWER,
+      connectAction: UpdateConnectionAction.Connect,
+      connectionType: SpaceUserConnectionType.Follower,
       spaceId: SPACE_ID,
     },
   },
@@ -61,7 +64,7 @@ const followSpaceMutation = {
         updateSpaceUserConnection: {
           ...space,
           id: SPACE_ID,
-          connectionStatusToMyself: [SpaceConnectionType.FOLLOWER],
+          connectionStatusToMyself: [SpaceUserConnectionType.Follower],
         },
       },
     }
@@ -70,10 +73,10 @@ const followSpaceMutation = {
 
 const unfollowSpaceMutation = {
   request: {
-    query: updateSpaceUserConnectionMutation,
+    query: UpdateSpaceUserConnectionDocument,
     variables: {
-      connectAction: SpaceConnectionAction.DISCONNECT,
-      connectionType: SpaceConnectionType.FOLLOWER,
+      connectAction: UpdateConnectionAction.Disconnect,
+      connectionType: SpaceUserConnectionType.Follower,
       spaceId: SPACE_ID,
     },
   },
@@ -92,7 +95,7 @@ const unfollowSpaceMutation = {
 
 const spaceByIdRequest = {
   request: {
-    query: spaceByIdQuery,
+    query: SpaceByIdDocument,
     variables: {
       idOrName: SPACE_ID,
     },
@@ -116,7 +119,7 @@ const spaceByIdRequestFollowing = {
       spaceById: {
         ...space,
         id: SPACE_ID,
-        connectionStatusToMyself: [SpaceConnectionType.FOLLOWER],
+        connectionStatusToMyself: [SpaceUserConnectionType.Follower],
         __typename: 'Space',
       },
     },
@@ -163,7 +166,7 @@ xdescribe('Space follow button', () => {
   it('shows button with text "already following", when user is already following', async () => {
     const aSpace = {
       ...space,
-      connectionStatusToMyself: [SpaceConnectionType.FOLLOWER],
+      connectionStatusToMyself: [SpaceUserConnectionType.Follower],
     }
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
