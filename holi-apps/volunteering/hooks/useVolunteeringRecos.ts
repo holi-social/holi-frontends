@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
-import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
+import { useVolunteeringRecoParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoParameters'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -18,11 +18,11 @@ export const useVolunteeringRecos = ({ pageSize, displayErrors }: UseVolunteerin
   const language = useUserLanguage()
   const errorHandler = displayErrors ? displayError : logError
 
-  const { isLoadingParameters, parameters } = useVolunteeringRecoTypesenseParameters({
+  const { isLoadingParameters, parameters } = useVolunteeringRecoParameters({
     pageSize: pageSize ?? ENGAGEMENT_PAGE_SIZE,
     onGeolocationError: (error) => {
       errorHandler(error, 'Error retrieving geolocation', {
-        location: 'useVolunteeringRecos.useVolunteeringRecoTypesenseParameters',
+        location: 'useVolunteeringRecos.useVolunteeringRecoParameters',
       })
     },
   })

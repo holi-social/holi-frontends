@@ -1,5 +1,5 @@
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
+import { useVolunteeringRecoParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoParameters'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -7,9 +7,9 @@ import { renderHook } from '@testing-library/react-native'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { logError } from '@holi/core/errors/helpers'
 
-const mockUseVolunteeringRecoTypesenseParameters = jest.mocked(useVolunteeringRecoTypesenseParameters)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters', () => ({
-  useVolunteeringRecoTypesenseParameters: jest.fn(),
+const mockUseVolunteeringRecoParameters = jest.mocked(useVolunteeringRecoParameters)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecoParameters', () => ({
+  useVolunteeringRecoParameters: jest.fn(),
 }))
 
 const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
@@ -65,7 +65,7 @@ describe('useVolunteeringRecos', () => {
 
   beforeEach(() => {
     jest.useFakeTimers()
-    mockUseVolunteeringRecoTypesenseParameters.mockReturnValue({
+    mockUseVolunteeringRecoParameters.mockReturnValue({
       isLoadingParameters: false,
       parameters,
     })
@@ -85,7 +85,7 @@ describe('useVolunteeringRecos', () => {
   })
 
   it('should expose loading flag while loading parameters', () => {
-    mockUseVolunteeringRecoTypesenseParameters.mockReturnValue({
+    mockUseVolunteeringRecoParameters.mockReturnValue({
       isLoadingParameters: true,
       parameters: {},
     })
@@ -110,7 +110,7 @@ describe('useVolunteeringRecos', () => {
   })
 
   it('should skip query execution while loading parameters', () => {
-    mockUseVolunteeringRecoTypesenseParameters.mockReturnValue({
+    mockUseVolunteeringRecoParameters.mockReturnValue({
       isLoadingParameters: true,
       parameters: {},
     })
@@ -148,7 +148,7 @@ describe('useVolunteeringRecos', () => {
   it('should query results with the correct parameters', () => {
     renderHook(() => useVolunteeringRecos())
 
-    expect(mockUseVolunteeringRecoTypesenseParameters).toHaveBeenCalledWith({
+    expect(mockUseVolunteeringRecoParameters).toHaveBeenCalledWith({
       pageSize: 10,
       onGeolocationError: expect.any(Function),
     })
@@ -162,7 +162,7 @@ describe('useVolunteeringRecos', () => {
   it('should use given page size', () => {
     renderHook(() => useVolunteeringRecos({ pageSize: 5 }))
 
-    expect(mockUseVolunteeringRecoTypesenseParameters).toHaveBeenCalledWith({
+    expect(mockUseVolunteeringRecoParameters).toHaveBeenCalledWith({
       pageSize: 5,
       onGeolocationError: expect.any(Function),
     })
@@ -251,7 +251,7 @@ describe('useVolunteeringRecos', () => {
     const testError = new Error('Geolocation error')
     const displayError = jest.fn()
     mockUseErrorHandling.mockReturnValue({ displayError })
-    mockUseVolunteeringRecoTypesenseParameters.mockImplementation((props) => {
+    mockUseVolunteeringRecoParameters.mockImplementation((props) => {
       props?.onGeolocationError?.(testError)
       return {
         isLoadingParameters: false,
@@ -262,7 +262,7 @@ describe('useVolunteeringRecos', () => {
     renderHook(() => useVolunteeringRecos({ displayErrors: true }))
 
     expect(displayError).toHaveBeenCalledWith(testError, 'Error retrieving geolocation', {
-      location: 'useVolunteeringRecos.useVolunteeringRecoTypesenseParameters',
+      location: 'useVolunteeringRecos.useVolunteeringRecoParameters',
     })
   })
 
@@ -299,7 +299,7 @@ describe('useVolunteeringRecos', () => {
     const testError = new Error('Geolocation error')
     const displayError = jest.fn()
     mockUseErrorHandling.mockReturnValue({ displayError })
-    mockUseVolunteeringRecoTypesenseParameters.mockImplementation((props) => {
+    mockUseVolunteeringRecoParameters.mockImplementation((props) => {
       props?.onGeolocationError?.(testError)
       return {
         isLoadingParameters: false,
@@ -310,7 +310,7 @@ describe('useVolunteeringRecos', () => {
     renderHook(() => useVolunteeringRecos())
 
     expect(mockLogError).toHaveBeenCalledWith(testError, 'Error retrieving geolocation', {
-      location: 'useVolunteeringRecos.useVolunteeringRecoTypesenseParameters',
+      location: 'useVolunteeringRecos.useVolunteeringRecoParameters',
     })
     expect(displayError).not.toHaveBeenCalled()
   })

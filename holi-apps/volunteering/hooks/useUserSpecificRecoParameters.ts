@@ -1,6 +1,6 @@
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
-interface VolunteeringRecosParameters {
+interface VolunteeringRecoUserSpecificParameters {
   topics?: string[]
   skills?: string[]
   geolocationId?: string
@@ -16,7 +16,7 @@ export const DEFAULT_RECO_TOPICS_V2 = [
   'animal-welfare',
 ]
 
-export const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
+export const useUserSpecificRecoParameters = (): VolunteeringRecoUserSpecificParameters => {
   const { user, isLoading: userLoading } = useLoggedInUser()
 
   if (!user && userLoading) {
