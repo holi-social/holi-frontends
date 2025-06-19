@@ -21,6 +21,12 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Avatar } from 'holi-bricks/components/avatar'
 
+// needed to avoid tabs remounting on switch
+export const unstable_settings = {
+  // ensures tabs persist their navigation state and don't re-render on switch
+  persistNavigation: true,
+}
+
 export default function Layout() {
   const { theme } = useBricks()
   const { t } = useTranslation()
