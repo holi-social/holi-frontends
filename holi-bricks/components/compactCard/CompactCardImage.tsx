@@ -10,6 +10,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
+import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
 
 export interface CompactCardImageProps {
   imageSrc?: MultiPlatformImageSource
@@ -21,17 +22,6 @@ export interface CompactCardImageProps {
   imageLabel: string
   hashKey: string
 }
-
-const placeholderImages = [
-  require('@holi/ui/assets/img/events/thumbnail-green.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-blue.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-purple.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-yellow.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-green-full.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-blue-full.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-purple-full.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-yellow-full.svg'),
-]
 
 export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   imageSrc,

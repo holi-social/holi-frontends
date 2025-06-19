@@ -85,7 +85,7 @@ const StartSmallCarousel = () => {
   )
 
   return (
-    <View style={styles.StartSmallCarousel}>
+    <View style={styles.startSmallCarousel}>
       <Stack gap="sm" minHeight="auto" flex={1}>
         <Stack direction="row" justifyContent="space-between" alignItems="center" padding={{ left: 'xs', right: 'xs' }}>
           <Stack direction="row" gap="xs" justifyContent="center" alignItems="center">
@@ -112,7 +112,7 @@ const StartSmallCarousel = () => {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  StartSmallCarousel: {
+  startSmallCarousel: {
     backgroundColor: theme.colors.decorative.purpleLight,
     paddingVertical: Spacing['xs'],
     borderRadius: BorderRadius.md,

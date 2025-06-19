@@ -12,6 +12,7 @@ import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { ChipLabel } from 'holi-bricks/components/chips'
+import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
 
 export interface MiniCardProps {
   title: string
@@ -38,17 +39,6 @@ export interface MiniCardProps {
   bottomIconRight?: HoliIconType
   bottomIconLeft?: HoliIconType
 }
-
-const placeholderImages = [
-  require('@holi/ui/assets/img/events/thumbnail-green.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-blue.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-purple.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-yellow.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-green-full.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-blue-full.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-purple-full.svg'),
-  require('@holi/ui/assets/img/events/thumbnail-yellow-full.svg'),
-]
 
 export const MiniCard = ({
   title,
@@ -86,16 +76,7 @@ export const MiniCard = ({
       >
         {/* Card Cover */}
         <Stack alignItems="center" justifyContent="center">
-          <Stack
-            borderColor="default"
-            borderRadius="xs"
-            borderStyle="solid"
-            borderWidth="sm"
-            overflow="hidden"
-            // width={130}
-            // minHeight={minHeight}
-            // {...(Platform.OS === 'web' ? { height: '100%' } : {})}
-          >
+          <Stack borderColor="default" borderRadius="xs" borderStyle="solid" borderWidth="sm" overflow="hidden">
             <Image
               source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
               width={130}
@@ -154,10 +135,6 @@ const stylesheet = createStyleSheet((theme) => ({
     position: 'absolute',
     top: 4,
     left: 4,
-    // borderRadius: BorderRadius.pill,
-    // padding: Spacing['4xs'],
-    // backgroundColor: theme.colors.bg.support,
-    // flexDirection: 'row',
   },
   bottomRight: {
     position: 'absolute',
@@ -170,9 +147,6 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: Spacing['4xs'],
     paddingVertical: Spacing['4xs'],
     paddingHorizontal: Spacing['4xs'],
-    // alignItems: 'center',
-    // alignSelf: 'center',
-    // alignContent: 'center',
   },
   bottomLeft: {
     position: 'absolute',
