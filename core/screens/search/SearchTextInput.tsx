@@ -40,8 +40,8 @@ export function SearchTextInput({ currentQuery, onQueryChange }: SearchBoxProps)
 
   return (
     <HoliTextInput
-      aria-label={t('search.typesense.input.label')}
-      placeholder={t('search.typesense.input.label')}
+      aria-label={t('search.input.label')}
+      placeholder={t('search.input.label')}
       value={inputValue}
       onChange={setQuery}
       inputProps={{
@@ -55,7 +55,7 @@ export function SearchTextInput({ currentQuery, onQueryChange }: SearchBoxProps)
         inputValue ? (
           <Pressable
             onPress={() => setQuery('')}
-            accessibilityLabel={t('search.typesense.input.clear')}
+            accessibilityLabel={t('search.input.clear')}
             testID="search-input-clear"
             accessibilityRole="button"
           >

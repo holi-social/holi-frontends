@@ -1,10 +1,10 @@
 import { withProfiler } from '@sentry/react'
 import type React from 'react'
 
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import VolunteeringRecosTypesense from '@holi-apps/volunteering/components/VolunteeringRecosTypesense'
-import VolunteeringRecosLegacy from '@holi-apps/volunteering/components/VolunteeringRecosLegacy'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import VolunteeringRecosSlider from '@holi-apps/volunteering/components/VolunteeringRecosSlider'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
+
+export const ENGAGEMENT_RECOS_PAGE_SIZE = 5
 
 type VolunteeringRecosProps = {
   cardWidth: number
@@ -13,12 +13,16 @@ type VolunteeringRecosProps = {
 }
 
 const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth, rows, columns }: VolunteeringRecosProps) => {
-  const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
-  return useTypesense ? (
-    <VolunteeringRecosTypesense cardWidth={cardWidth} rows={rows} columns={columns} />
-  ) : (
-    <VolunteeringRecosLegacy cardWidth={cardWidth} />
-  )
+  const pageSize = rows && columns ? rows * columns : ENGAGEMENT_RECOS_PAGE_SIZE
+  const { isLoading, engagements } = useVolunteeringRecos({ pageSize })
+
+  if (isLoading || !engagements.length) {
+    return null
+  }
+
+  const recosToRender = engagements.slice(0, pageSize)
+
+  return <VolunteeringRecosSlider recos={recosToRender} cardWidth={cardWidth} rows={rows} />
 }
 
 export default withProfiler(VolunteeringRecos, { name: 'VolunteeringRecos' })

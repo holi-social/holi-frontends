@@ -4,14 +4,13 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
-import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
-import { DEFAULT_RECO_TOPICS_V2 } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
-import { RecommendedTasksDocument } from '@holi/api/graphql/graphql-codegen'
+import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
+import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
 export const user: User = {
   id: '123',
@@ -34,284 +33,10 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   }),
 }))
 
-const tasksRequest = {
-  request: {
-    query: RecommendedTasksDocument,
-    variables: { limit: 5 },
-  },
-  result: {
-    data: {
-      recommendedTasks: {
-        data: [
-          {
-            id: '24e71f03-333f-495d-b5c0-aed210793673',
-            name: 'Leadership Remote 5-2',
-            description: 'sewrwer',
-            space: {
-              id: '9e724463-4682-45d3-b24e-b15fe9d95a3a',
-              title: 'Space 5',
-              name: 'space-5',
-              avatar: null,
-              avatarBlurhash: null,
-              avatarDefaultColor: '#78EDA8',
-              __typename: 'Space',
-            },
-            thumbnail: null,
-            thumbnailBlurhash: null,
-            location: null,
-            locationType: 'REMOTE',
-            regularity: 'ONE_TIME',
-            skillsV2: ALL_SKILLS.slice(2, 3),
-            __typename: 'Task',
-          },
-          {
-            id: 'e75ff702-c70c-4fe6-a84b-63e4c525a594',
-            name: 'Private Leadership 3-3',
-            description: 'aasdfasdf',
-            space: {
-              id: '5e308371-d074-4249-b6dc-1de5deb53561',
-              title: 'Space 3',
-              name: 'space-3',
-              avatar:
-                'https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png',
-              avatarBlurhash: 'LYDvsB?bt8V?~WxZj[ay%2jEWAkW',
-              avatarDefaultColor: '#FFAE86',
-              __typename: 'Space',
-            },
-            thumbnail: null,
-            thumbnailBlurhash: null,
-            location: null,
-            locationType: 'REMOTE',
-            regularity: 'ONE_TIME',
-            skillsV2: ALL_SKILLS.slice(2, 3),
-            __typename: 'Task',
-          },
-          {
-            id: 'cd277528-9a4d-44cd-afc0-8730b6f72282',
-            name: 'Leadership Local 3-1',
-            description: 'adsfsadf',
-            space: {
-              id: '5e308371-d074-4249-b6dc-1de5deb53561',
-              title: 'Space 3',
-              name: 'space-3',
-              avatar:
-                'https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png',
-              avatarBlurhash: 'LYDvsB?bt8V?~WxZj[ay%2jEWAkW',
-              avatarDefaultColor: '#FFAE86',
-              __typename: 'Space',
-            },
-            thumbnail: null,
-            thumbnailBlurhash: null,
-            location: 'Sasel, Hamburg, Germany',
-            locationType: 'ONSITE',
-            regularity: 'ONE_TIME',
-            skillsV2: ALL_SKILLS.slice(3, 10),
-            __typename: 'Task',
-          },
-          {
-            id: 'e335db2f-a725-4230-8a71-26d41d269126',
-            name: 'Motivation Local 2-2',
-            description: 'asdfasdf',
-            space: {
-              id: 'a66ebe3c-bb20-44c7-98d2-c91ede584371',
-              title: 'Space 2',
-              name: 'space-2',
-              avatar: null,
-              avatarBlurhash: null,
-              avatarDefaultColor: '#7571EC',
-              __typename: 'Space',
-            },
-            thumbnail: null,
-            thumbnailBlurhash: null,
-            location: 'Sasel, Hamburg, Germany',
-            locationType: 'ONSITE',
-            regularity: 'ONE_TIME',
-            skillsV2: ALL_SKILLS.slice(4, 6),
-            __typename: 'Task',
-          },
-          {
-            id: '2b5f92bc-6f47-48d7-9642-bee06acc3b9c',
-            name: 'Motivation Remote Task 2-1',
-            description: 'Blabla',
-            space: {
-              id: 'a66ebe3c-bb20-44c7-98d2-c91ede584371',
-              title: 'Space 2',
-              name: 'space-2',
-              avatar: null,
-              avatarBlurhash: null,
-              avatarDefaultColor: '#7571EC',
-              __typename: 'Space',
-            },
-            thumbnail: null,
-            thumbnailBlurhash: null,
-            location: null,
-            locationType: 'REMOTE',
-            regularity: 'ONE_TIME',
-            skillsV2: ALL_SKILLS.slice(4, 1),
-            __typename: 'Task',
-          },
-        ],
-        totalResults: 13,
-        __typename: 'TaskPaged',
-      },
-    },
-  },
-}
-
-const volunteeringRequest = {
-  request: {
-    query: volunteeringRecosQuery,
-    variables: {
-      limit: 5,
-      offset: 0,
-      topics: DEFAULT_RECO_TOPICS_V2,
-      skills: undefined,
-      geolocationId: undefined,
-    },
-  },
-  result: {
-    data: {
-      appVolunteering_engagementRecosV2: {
-        totalResults: 21618,
-        data: [
-          {
-            engagement: {
-              id: '83200',
-              title: 'Ehrenamtliche Unterstützung beim Schreiben und Lesen in Deutsch',
-              description:
-                '<p>Sie unterstützen einen jungen Mann beim Erlernen der deutschen Sprache in Wort und Schrift. Er kann bereits sehr gut Deutsch sprechen und verstehen. </p>',
-              url: 'https://vostel.de/de/volunteering/projects/4023_Buero-fuer-Buergerengagement-der-AWO-Kreisverband-Koeln_Ehrenamtliche-Unterstuetzung-beim-Schreiben-und-Lesen-in-Deutsch_Koeln?utm_source=voltastics',
-              imageUrl:
-                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D83200-ehrenamtliche-unterstutzung-beim-schreiben-und-lesen-in-deutsch',
-              source: 'vostel.de',
-              organizer: {
-                name: 'Büro für Bürgerengagement der AWO Kreisverband Köln',
-                imageUrl:
-                  'https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/276/AWO_Logo_840x360_px_neu_19_3_2014.JPG',
-                __typename: 'AppVolunteering_Organizer',
-              },
-              location: 'Köln',
-              latitude: 50.937531,
-              longitude: 6.9602786,
-              topicsV2: ALL_TOPICS.slice(1, 4),
-              skillsV2: ALL_SKILLS.slice(2, 6),
-              __typename: 'AppVolunteering_Engagement',
-            },
-            matchedTopicsV2: ALL_TOPICS.slice(1, 4),
-            matchedSkillsV2: ALL_SKILLS.slice(2, 6),
-            __typename: 'AppVolunteering_EngagementReco',
-          },
-          {
-            engagement: {
-              id: '124064',
-              title: 'Bibliothek betreuen',
-              description:
-                '<p>Es wird eine Betreuung der Bibliothek in den Pausen gewünscht.</p>\n<p>Einzelheiten sind mit der Lehrerin Frau Frieske klären.</p>',
-              url: 'https://www.aktion-mensch.de/was-du-tun-kannst/ehrenamt/engagement-plattform#/lokale-angebote/c9ddc509-9f6f-4bc8-ad80-0303e2bf0f7b?utm_source=voltastics',
-              imageUrl:
-                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D124064-bibliothek-betreuen',
-              source: 'Aktion Mensch',
-              organizer: {
-                name: 'Freiwilligen Zentrum Königs Wusterhausen',
-                imageUrl: null,
-                __typename: 'AppVolunteering_Organizer',
-              },
-              location: 'Königs Wusterhausen',
-              latitude: 52.2994511,
-              longitude: 13.6244389,
-              topicsV2: ALL_TOPICS.slice(2, 1),
-              skillsV2: ALL_SKILLS.slice(5, 3),
-              __typename: 'AppVolunteering_Engagement',
-            },
-            matchedTopicsV2: ALL_TOPICS.slice(2, 1),
-            matchedSkillsV2: ALL_SKILLS.slice(5, 3),
-            __typename: 'AppVolunteering_EngagementReco',
-          },
-          {
-            engagement: {
-              id: '93629',
-              title: 'Nutze öffentliche Bücherschränke in deiner Stadt',
-              description:
-                '<p><strong>Worum geht es bei diesem Engagement?</strong></p><p>Öffentliche Bücherschränke sind eine fantastische Möglichkeit, bereits gelesene Bücher anderen Menschen kostenfrei zur Verfügung zu stellen und gleichzeitig für sich selbst tolles neues Lesematerial zu finden.</p><p>Auf der Seite des <a href="https://openbookcase.de/map">OpenBookCase</a> findest du eine Karte, auf der du viele Bücherschränke in deiner Stadt finden kannst. Sollte ein Bücherschrank in deiner Nähe nicht dabei sein, kannst du diesen ganz einfach selbst ergänzen.</p><p>----------------------</p><p><strong>Was sind 5-Minuten Engagements?</strong></p><p>Mit unseren 5-Minuten Engagements wollen wir dich dazu inspirieren, Engagement ganz einfach in deinen Alltag zu integrieren. Sie sind unabhängig von gemeinnützigen Organisationen und ermöglichen es dir, dich individuell für Menschen und Natur in deiner Nachbarschaft einzusetzen.</p>',
-              url: 'https://vostel.de/de/volunteering/projects/5961_vostel-de_Nutze-oeffentliche-Buecherschraenke-in-deiner-Stadt?utm_source=voltastics',
-              imageUrl:
-                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D93629-nutze-offentliche-bucherschranke-in-deiner-stadt',
-              source: 'vostel.de',
-              organizer: {
-                name: 'vostel.de',
-                imageUrl:
-                  'https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/65/logo-de-rot-medium.png',
-                __typename: 'AppVolunteering_Organizer',
-              },
-              location: 'Bundesweit',
-              latitude: null,
-              longitude: null,
-              topicsV2: ALL_TOPICS.slice(0, 1),
-              skillsV2: ALL_SKILLS.slice(1, 5),
-              __typename: 'AppVolunteering_Engagement',
-            },
-            matchedTopicsV2: ALL_TOPICS.slice(0, 1),
-            matchedSkillsV2: ALL_SKILLS.slice(1, 5),
-            __typename: 'AppVolunteering_EngagementReco',
-          },
-          {
-            engagement: {
-              id: '68892',
-              title: 'Nachhilfe für junge Erwachsene',
-              description:
-                '<p>Wir suchen laufend Nachhilfe für junge Erwachsene in verschiedensten Fächern, vor allem aber in Mathe und Deutsch.</p><p>Für dieses Projekt benötigt ihr ca. 1-Mal pro Woche 1-2 Stunden Zeit. </p>',
-              url: 'https://vostel.de/de/volunteering/projects/3106_Muenchner-Fluechtlingsrat-e-V-Gemeinsam-Aktiv_Nachhilfe-fuer-junge-Erwachsene_Muenchen?utm_source=voltastics',
-              imageUrl:
-                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D68892-nachhilfe-fur-junge-erwachsene',
-              source: 'vostel.de',
-              organizer: {
-                name: 'Münchner Flüchtlingsrat e.V. - Gemeinsam Aktiv',
-                imageUrl: 'https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/688/Logoeinfach.jpg',
-                __typename: 'AppVolunteering_Organizer',
-              },
-              location: 'München',
-              latitude: 48.1351253,
-              longitude: 11.5819806,
-              topicsV2: ALL_TOPICS.slice(1, 1),
-              skillsV2: ALL_SKILLS.slice(4, 2),
-              __typename: 'AppVolunteering_Engagement',
-            },
-            matchedTopicsV2: ALL_TOPICS.slice(1, 1),
-            matchedSkillsV2: ALL_SKILLS.slice(4, 2),
-            __typename: 'AppVolunteering_EngagementReco',
-          },
-          {
-            engagement: {
-              id: '101572',
-              title: 'Bookla Foundation',
-              description:
-                '<ul>\n<li>Marketing</li>\n<li>Design (UI/UX)</li>\n<li>Programming (Frontend/Mobile)</li>\n<li>Programming (Backend) - Python, PHP, Node.Js over TypeScript</li>\n</ul>\n<p>All experience levels are welcome!</p>',
-              url: 'https://govolunteer.com/projekte/bookla-foundation?utm_source=voltastics',
-              imageUrl:
-                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D101572-bookla-foundation',
-              source: 'GoVolunteer',
-              organizer: {
-                name: 'Bookla',
-                imageUrl: 'https://app.voltastics.com/media/headers/search.png',
-                __typename: 'AppVolunteering_Organizer',
-              },
-              location: 'Berlin',
-              latitude: 52.5170365,
-              longitude: 13.3888599,
-              topicsV2: ALL_TOPICS.slice(0, 3),
-              skillsV2: ALL_SKILLS.slice(0, 4),
-              __typename: 'AppVolunteering_Engagement',
-            },
-            matchedTopicsV2: ALL_TOPICS.slice(0, 3),
-            matchedSkillsV2: ALL_SKILLS.slice(0, 4),
-            __typename: 'AppVolunteering_EngagementReco',
-          },
-        ],
-        __typename: 'AppVolunteering_EngagementRecosResponse',
-      },
-    },
-  },
-}
+const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
+  useVolunteeringRecos: jest.fn(),
+}))
 
 const donationsRequest = {
   request: {
@@ -580,6 +305,12 @@ describe('ActHome Section', () => {
       [FeatureFlagKey.DONATIONS]: 'on',
       [FeatureFlagKey.VOLUNTEERING]: 'on',
     })
+    mockUseVolunteeringRecos.mockReturnValue({
+      isLoading: false,
+      engagements: makeVolunteeringDocuments(5),
+      canFetchMore: false,
+      fetchNextPage: jest.fn(),
+    })
   })
 
   it('shows DONATIONS', async () => {
@@ -594,25 +325,10 @@ describe('ActHome Section', () => {
   })
 
   it('shows VOLUNTEERING', async () => {
-    render(
-      <MockedProvider mocks={[volunteeringRequest]}>
-        <ActSection type={ActSectionType.VOLUNTEERING} />
-      </MockedProvider>
-    )
+    render(<ActSection type={ActSectionType.VOLUNTEERING} />)
     expect(await screen.findByTestId('volunteering-reco-slider-heading-button'))
     const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-card')
     expect(volunteeringRecos.length).toBe(5)
-  })
-
-  it('shows TASKS', async () => {
-    render(
-      <MockedProvider mocks={[tasksRequest]}>
-        <ActSection type={ActSectionType.TASKS} />
-      </MockedProvider>
-    )
-    expect(await screen.findByTestId('tasks-reco-slider-heading-button'))
-    const tasksRecos = await screen.findAllByTestId('tasks-reco-slider-card')
-    expect(tasksRecos.length).toBe(5)
   })
 
   it('shows CHALLENGES', async () => {

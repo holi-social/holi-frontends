@@ -7,17 +7,17 @@ import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypes
 import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 
-interface UseFilteredVolunteeringEngagementsTypesenseProps {
+interface UseFilteredVolunteeringEngagementsProps {
   filters: VolunteeringFilters
   loadingFilters?: boolean
   pageSize: number
 }
 
-export const useFilteredVolunteeringEngagementsTypesense = ({
+export const useFilteredVolunteeringEngagements = ({
   filters,
   loadingFilters = false,
   pageSize,
-}: UseFilteredVolunteeringEngagementsTypesenseProps) => {
+}: UseFilteredVolunteeringEngagementsProps) => {
   const { displayError } = useErrorHandling()
   const language = useUserLanguage()
 

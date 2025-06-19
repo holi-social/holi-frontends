@@ -1,6 +1,6 @@
 import React from 'react'
 import '@holi/core/components/Screen/mock'
-import { VolunteeringDetailsScreenTypesense } from '@holi-apps/volunteering/components/VolunteeringDetailsScreenTypesense'
+import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 
@@ -8,7 +8,7 @@ import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVol
 import type { TFunction } from 'i18next'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { TrackEngagementViewDocument } from '@holi/api/graphql/graphql-codegen'
-import { useVolunteeringDetailsDataTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
+import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 
@@ -43,9 +43,9 @@ const imageProxyPrefixed = (url: string, width = 96, height = 96): string =>
   `https://dev-images.holi.social/crop:0:0/resize:fill-down:${width}:${height}/ext:webp/quality:80/plain/` +
   encodeURIComponent(url)
 
-const mockUseVolunteeringDetailsDataTypesense = jest.mocked(useVolunteeringDetailsDataTypesense)
+const mockUseVolunteeringDetailsData = jest.mocked(useVolunteeringDetailsData)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringDetailsData', () => ({
-  useVolunteeringDetailsDataTypesense: jest.fn(),
+  useVolunteeringDetailsData: jest.fn(),
 }))
 
 const mockUseFeatureFlag = jest.mocked(useFeatureFlag)
@@ -73,7 +73,7 @@ const mocks: MockedResponse[] = [
 
 jest.useFakeTimers()
 
-describe('VolunteeringDetailsScreenTypesense', () => {
+describe('VolunteeringDetailsScreen', () => {
   beforeEach(() => {
     mockTrackEngagementView.mockReturnValue({
       data: {
@@ -115,14 +115,14 @@ describe('VolunteeringDetailsScreenTypesense', () => {
   it('should render correctly (en)', async () => {
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockReturnValue({
       isLoading: false,
       document: data,
     })
 
     render(
       <MockedProvider mocks={mocks}>
-        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+        <VolunteeringDetailsScreen engagementId={engagementId} />
       </MockedProvider>
     )
     await act(jest.runAllTimersAsync)
@@ -141,14 +141,14 @@ describe('VolunteeringDetailsScreenTypesense', () => {
   it('should render correctly (de)', async () => {
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'de', document)
-    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockReturnValue({
       isLoading: false,
       document: data,
     })
 
     render(
       <MockedProvider mocks={mocks}>
-        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+        <VolunteeringDetailsScreen engagementId={engagementId} />
       </MockedProvider>
     )
     await act(jest.runAllTimersAsync)
@@ -160,14 +160,14 @@ describe('VolunteeringDetailsScreenTypesense', () => {
   it('tracks views', async () => {
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockReturnValue({
       isLoading: false,
       document: data,
     })
 
     render(
       <MockedProvider mocks={mocks}>
-        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+        <VolunteeringDetailsScreen engagementId={engagementId} />
       </MockedProvider>
     )
     await act(jest.runAllTimersAsync)
@@ -178,14 +178,14 @@ describe('VolunteeringDetailsScreenTypesense', () => {
   it('tracks external link clicks (mobile)', async () => {
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockReturnValue({
       isLoading: false,
       document: data,
     })
 
     render(
       <MockedProvider mocks={mocks}>
-        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+        <VolunteeringDetailsScreen engagementId={engagementId} />
       </MockedProvider>
     )
 
@@ -201,14 +201,14 @@ describe('VolunteeringDetailsScreenTypesense', () => {
   it('renders similarity recommendations', async () => {
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockReturnValue({
       isLoading: false,
       document: data,
     })
 
     render(
       <MockedProvider mocks={mocks}>
-        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+        <VolunteeringDetailsScreen engagementId={engagementId} />
       </MockedProvider>
     )
 

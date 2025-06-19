@@ -430,9 +430,16 @@ export type Comment = {
   myReaction: ReactionCounts
   parentCommentId?: Maybe<Scalars['UUID']['output']>
   reactions: ReactionCounts
+  reactors: UserPaged
   replies?: Maybe<Array<Comment>>
   text: Scalars['String']['output']
   totalReplies: Scalars['Int']['output']
+}
+
+/** Comment(id, commentable_type, commentable_id, parent_comment, created, modified, commenter, text, language_code, is_edited, is_deleted) */
+export type CommentReactorsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 export type CommentPaged = {
@@ -815,6 +822,13 @@ export type Initiative = {
   linkPreview: LinkPreview
   myReaction: ReactionCounts
   reactions: ReactionCounts
+  reactors: UserPaged
+}
+
+/** Initiative(id, insight, category, link, link_preview, comment) */
+export type InitiativeReactorsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 /** Insight(id, title, description, creator, date_published, header_image, header_image_blurhash, topic, topic_v2) */
@@ -1510,7 +1524,14 @@ export type PostComment = {
   myReaction: ReactionCounts
   post: Post
   reactions: ReactionCounts
+  reactors: UserPaged
   text: Scalars['String']['output']
+}
+
+/** Comment(id, commentable_type, commentable_id, parent_comment, created, modified, commenter, text, language_code, is_edited, is_deleted) */
+export type PostCommentReactorsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 /** PostImage(id, post, image, image_blurhash, width, height) */
@@ -1977,7 +1998,14 @@ export type Quote = {
   linkPreview: LinkPreview
   myReaction: ReactionCounts
   reactions: ReactionCounts
+  reactors: UserPaged
   text: Scalars['String']['output']
+}
+
+/** Quote(id, insight, text, author, author_profession, link, link_preview, category, comment) */
+export type QuoteReactorsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 export enum ReactionAction {
@@ -2004,6 +2032,13 @@ export type Recommendation = {
   linkPreview: LinkPreview
   myReaction: ReactionCounts
   reactions: ReactionCounts
+  reactors: UserPaged
+}
+
+/** Recommendation(id, insight, category, link, link_preview, comment) */
+export type RecommendationReactorsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 export type RegisterDeviceInput = {
@@ -5188,52 +5223,6 @@ export type FullEventFragment = {
   }
 }
 
-export type VolunteeringByIdQueryVariables = Exact<{
-  id: Scalars['String']['input']
-}>
-
-export type VolunteeringByIdQuery = {
-  __typename?: 'Query'
-  appVolunteering_engagement?: {
-    __typename?: 'AppVolunteering_Engagement'
-    id?: string
-    title?: string
-    description?: string
-    url?: string
-    imageUrl?: string
-    source?: string
-    location?: string
-    latitude?: number
-    longitude?: number
-    topicsV2?: Array<string>
-    skillsV2?: Array<string>
-    organizer?: { __typename?: 'AppVolunteering_Organizer'; name?: string; imageUrl?: string }
-  }
-}
-
-export type SimilarVolunteeringSliderQueryVariables = Exact<{
-  id: Scalars['String']['input']
-  offset?: Scalars['Int']['input']
-  limit?: InputMaybe<Scalars['Int']['input']>
-}>
-
-export type SimilarVolunteeringSliderQuery = {
-  __typename?: 'Query'
-  appVolunteering_similarRecommendations: {
-    __typename?: 'AppVolunteering_EngagementsResponse'
-    totalResults: number
-    data: Array<{
-      __typename?: 'AppVolunteering_Engagement'
-      location?: string
-      topicsV2?: Array<string>
-      skillsV2?: Array<string>
-      title?: string
-      imageUrl?: string
-      id?: string
-    }>
-  }
-}
-
 export type TrackEngagementViewMutationVariables = Exact<{
   id: Scalars['String']['input']
 }>
@@ -8039,145 +8028,6 @@ export type NearbyEventsQueryHookResult = ReturnType<typeof useNearbyEventsQuery
 export type NearbyEventsLazyQueryHookResult = ReturnType<typeof useNearbyEventsLazyQuery>
 export type NearbyEventsSuspenseQueryHookResult = ReturnType<typeof useNearbyEventsSuspenseQuery>
 export type NearbyEventsQueryResult = Apollo.QueryResult<NearbyEventsQuery, NearbyEventsQueryVariables>
-export const VolunteeringByIdDocument = gql`
-    query VolunteeringById($id: String!) {
-  appVolunteering_engagement(id: $id) {
-    id
-    title
-    description
-    url
-    imageUrl
-    source
-    organizer {
-      name
-      imageUrl
-    }
-    location
-    latitude
-    longitude
-    topicsV2
-    skillsV2
-  }
-}
-    `
-
-/**
- * __useVolunteeringByIdQuery__
- *
- * To run a query within a React component, call `useVolunteeringByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useVolunteeringByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useVolunteeringByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useVolunteeringByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<VolunteeringByIdQuery, VolunteeringByIdQueryVariables> &
-    ({ variables: VolunteeringByIdQueryVariables; skip?: boolean } | { skip: boolean })
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<VolunteeringByIdQuery, VolunteeringByIdQueryVariables>(VolunteeringByIdDocument, options)
-}
-export function useVolunteeringByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<VolunteeringByIdQuery, VolunteeringByIdQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<VolunteeringByIdQuery, VolunteeringByIdQueryVariables>(VolunteeringByIdDocument, options)
-}
-export function useVolunteeringByIdSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<VolunteeringByIdQuery, VolunteeringByIdQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<VolunteeringByIdQuery, VolunteeringByIdQueryVariables>(
-    VolunteeringByIdDocument,
-    options
-  )
-}
-export type VolunteeringByIdQueryHookResult = ReturnType<typeof useVolunteeringByIdQuery>
-export type VolunteeringByIdLazyQueryHookResult = ReturnType<typeof useVolunteeringByIdLazyQuery>
-export type VolunteeringByIdSuspenseQueryHookResult = ReturnType<typeof useVolunteeringByIdSuspenseQuery>
-export type VolunteeringByIdQueryResult = Apollo.QueryResult<VolunteeringByIdQuery, VolunteeringByIdQueryVariables>
-export const SimilarVolunteeringSliderDocument = gql`
-    query SimilarVolunteeringSlider($id: String!, $offset: Int! = 0, $limit: Int = 10) {
-  appVolunteering_similarRecommendations(id: $id, offset: $offset, limit: $limit) {
-    totalResults
-    data {
-      location
-      topicsV2
-      skillsV2
-      title
-      imageUrl
-      id
-    }
-  }
-}
-    `
-
-/**
- * __useSimilarVolunteeringSliderQuery__
- *
- * To run a query within a React component, call `useSimilarVolunteeringSliderQuery` and pass it any options that fit your needs.
- * When your component renders, `useSimilarVolunteeringSliderQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSimilarVolunteeringSliderQuery({
- *   variables: {
- *      id: // value for 'id'
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useSimilarVolunteeringSliderQuery(
-  baseOptions: Apollo.QueryHookOptions<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables> &
-    ({ variables: SimilarVolunteeringSliderQueryVariables; skip?: boolean } | { skip: boolean })
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables>(
-    SimilarVolunteeringSliderDocument,
-    options
-  )
-}
-export function useSimilarVolunteeringSliderLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables>(
-    SimilarVolunteeringSliderDocument,
-    options
-  )
-}
-export function useSimilarVolunteeringSliderSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables>(
-    SimilarVolunteeringSliderDocument,
-    options
-  )
-}
-export type SimilarVolunteeringSliderQueryHookResult = ReturnType<typeof useSimilarVolunteeringSliderQuery>
-export type SimilarVolunteeringSliderLazyQueryHookResult = ReturnType<typeof useSimilarVolunteeringSliderLazyQuery>
-export type SimilarVolunteeringSliderSuspenseQueryHookResult = ReturnType<
-  typeof useSimilarVolunteeringSliderSuspenseQuery
->
-export type SimilarVolunteeringSliderQueryResult = Apollo.QueryResult<
-  SimilarVolunteeringSliderQuery,
-  SimilarVolunteeringSliderQueryVariables
->
 export const TrackEngagementViewDocument = gql`
     mutation TrackEngagementView($id: String!) {
   appVolunteering_trackEngagementView(id: $id) {

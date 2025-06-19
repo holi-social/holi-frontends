@@ -1,11 +1,11 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { useVolunteeringRecosParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { useUserSpecificRecoParameters } from '@holi-apps/volunteering/hooks/useUserSpecificRecoParameters'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
-import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
+import { useVolunteeringRecoParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoParameters'
 
-const mockUseVolunteeringRecosParameters = jest.mocked(useVolunteeringRecosParameters)
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables', () => ({
-  useVolunteeringRecosParameters: jest.fn(),
+const mockUseUserSpecificRecoParameters = jest.mocked(useUserSpecificRecoParameters)
+jest.mock('@holi-apps/volunteering/hooks/useUserSpecificRecoParameters', () => ({
+  useUserSpecificRecoParameters: jest.fn(),
 }))
 
 const mockUseGeolocationDetails = jest.mocked(useGeolocationDetails)
@@ -13,12 +13,12 @@ jest.mock('@holi/core/geolocation/hooks/useGeolocationDetails', () => ({
   useGeolocationDetails: jest.fn(),
 }))
 
-describe('useVolunteeringRecoTypesenseParameters', () => {
+describe('useVolunteeringRecoParameters', () => {
   beforeEach(() => {
     mockUseGeolocationDetails.mockReturnValue({
       loadingGeolocation: false,
     })
-    mockUseVolunteeringRecosParameters.mockReturnValue({
+    mockUseUserSpecificRecoParameters.mockReturnValue({
       loading: false,
       topics: ['arts-culture', 'disaster-relief'],
       skills: ['building-handicraft', 'emergency-care'],
@@ -26,11 +26,11 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
   })
 
   it('passes on loading state of user reco query variables', () => {
-    mockUseVolunteeringRecosParameters.mockReturnValue({
+    mockUseUserSpecificRecoParameters.mockReturnValue({
       loading: true,
     })
 
-    const { result } = renderHook(() => useVolunteeringRecoTypesenseParameters())
+    const { result } = renderHook(() => useVolunteeringRecoParameters())
 
     expect(result.current.isLoadingParameters).toBeTruthy()
   })
@@ -40,13 +40,13 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
       loadingGeolocation: true,
     })
 
-    const { result } = renderHook(() => useVolunteeringRecoTypesenseParameters())
+    const { result } = renderHook(() => useVolunteeringRecoParameters())
 
     expect(result.current.isLoadingParameters).toBeTruthy()
   })
 
   it('builds the parameters correctly', () => {
-    const { result } = renderHook(() => useVolunteeringRecoTypesenseParameters())
+    const { result } = renderHook(() => useVolunteeringRecoParameters())
 
     expect(result.current.isLoadingParameters).toBeFalsy()
     expect(result.current.parameters).toEqual({
@@ -77,7 +77,7 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
         name: '',
       },
     })
-    const { result } = renderHook(() => useVolunteeringRecoTypesenseParameters())
+    const { result } = renderHook(() => useVolunteeringRecoParameters())
 
     expect(result.current.isLoadingParameters).toBeFalsy()
     expect(result.current.parameters).toEqual({
@@ -90,7 +90,7 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
 
   it('builds the parameters correctly with the given page size', () => {
     const pageSize = 5
-    const { result } = renderHook(() => useVolunteeringRecoTypesenseParameters({ pageSize }))
+    const { result } = renderHook(() => useVolunteeringRecoParameters({ pageSize }))
 
     expect(result.current.isLoadingParameters).toBeFalsy()
     expect(result.current.parameters).toEqual({
@@ -120,7 +120,7 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
         loadingGeolocation: false,
       }
     })
-    renderHook(() => useVolunteeringRecoTypesenseParameters({ onGeolocationError }))
+    renderHook(() => useVolunteeringRecoParameters({ onGeolocationError }))
 
     expect(onGeolocationError).toHaveBeenCalledWith(error)
   })

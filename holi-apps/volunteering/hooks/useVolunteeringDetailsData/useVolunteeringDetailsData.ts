@@ -1,94 +1,38 @@
-import { useVolunteeringByIdQuery } from '@holi/api/graphql/graphql-codegen'
-import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { isSSR } from '@holi/core/helpers/isSSR'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { MapPin2 } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
-import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
-import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
+import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
+import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
+import { TypesenseDocumentType } from '@holi/core/typesense/types'
 
 export const useVolunteeringDetailsData = (volunteeringId: string) => {
   const { replaceRoute } = useRouting()
   const { t } = useTranslation()
+  const userLanguage = useUserLanguage()
   const { displayError } = useErrorHandling()
-  const { data, loading, refetch } = useVolunteeringByIdQuery({
-    variables: {
-      id: volunteeringId,
-    },
-    skip: !volunteeringId,
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
-      if (isNotFoundError(error) || isForbiddenError(error)) {
+
+  const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(
+    volunteeringId,
+    TypesenseDocumentType.Volunteering,
+    {
+      onError: (error) => {
+        displayError(error, 'Failed to load volunteering opportunity', {
+          location: 'useVolunteeringDetailsData',
+          volunteeringId,
+        })
+      },
+      onNotFound: () => {
         return replaceRoute('/404')
-      }
-      displayError(error, 'Failed to volunteering opportunity', {
-        location: 'useVolunteeringDetailsData',
-        volunteeringId,
-      })
-    },
-  })
+      },
+    }
+  )
 
-  useOnRefresh(refetch)
-
-  const volunteering = data?.appVolunteering_engagement
-  const partner = volunteering?.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[volunteering.source] : undefined
-
-  const skills =
-    volunteering?.skillsV2?.map<DetailsScreenChips>((skill) => {
-      return {
-        title: t('skill.' + skill),
-        color: 'blue',
-      }
-    }) || []
-
-  const topics =
-    volunteering?.topicsV2?.map<DetailsScreenChips>((topic) => {
-      return {
-        title: t('topic.' + topic),
-        color: 'green',
-      }
-    }) || []
-
-  const locationType = volunteering?.location
-    ? {
-        subtitle: volunteering.location,
-        title: volunteering.location,
-        icon: MapPin2,
-      }
-    : undefined
-
-  const coverImage = volunteering?.imageUrl
-    ? {
-        uri: volunteering?.imageUrl,
-      }
-    : undefined
-
-  const author = {
-    topTitle: `${t('postedVia', { source: volunteering?.source })}`,
-    title: volunteering?.organizer?.name || volunteering?.source || '',
-    mainAvatar: {
-      source: volunteering?.organizer?.imageUrl ?? (partner?.logo?.src as string),
-      label: volunteering?.organizer?.name || '??',
-    },
-  }
-
-  const infoList = [locationType].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
+  useOnRefresh(refresh)
 
   return {
-    isLoading: loading,
-    document: {
-      title: volunteering?.title || '',
-      description: volunteering?.description,
-      chips: [...topics, ...skills],
-      visibility: 'public',
-      infoList,
-      coverImage,
-      author,
-      externalUrl: volunteering?.url,
-      placeholderImage: volunteering?.id ? getPlaceholderImage(volunteering?.id) : undefined,
-    },
+    isLoading,
+    document: document ? transformTypesenseDocument(t, userLanguage, document) : undefined,
   }
 }

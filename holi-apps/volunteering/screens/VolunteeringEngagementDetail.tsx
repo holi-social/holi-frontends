@@ -4,8 +4,6 @@ import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogF
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { VolunteeringDetailsScreenTypesense } from '@holi-apps/volunteering/components/VolunteeringDetailsScreenTypesense'
 import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 
 export type VolunteeringEngagementDetailParams = {
@@ -17,13 +15,7 @@ const { useParam } = createParamHooks<VolunteeringEngagementDetailParams>()
 export const VolunteeringEngagementDetail = () => {
   const [engagementId = ''] = useParam('engagementId')
 
-  const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
-
-  return useTypesense ? (
-    <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
-  ) : (
-    <VolunteeringDetailsScreen engagementId={engagementId} />
-  )
+  return <VolunteeringDetailsScreen engagementId={engagementId} />
 }
 
 const WrappedVolunteeringEngagementDetail = () => (

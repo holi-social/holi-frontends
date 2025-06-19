@@ -17,7 +17,7 @@ describe('SearchTextInput', () => {
 
     render(<SearchTextInput currentQuery="" onQueryChange={onQueryChange} />)
 
-    const inputField = screen.getByLabelText('search.typesense.input.label')
+    const inputField = screen.getByLabelText('search.input.label')
     await user.type(inputField, 'something in my area')
 
     act(() => {
@@ -30,7 +30,7 @@ describe('SearchTextInput', () => {
   it('should prefill input field with initial query', async () => {
     render(<SearchTextInput currentQuery="some query" onQueryChange={jest.fn()} />)
 
-    const inputField = screen.getByLabelText('search.typesense.input.label')
+    const inputField = screen.getByLabelText('search.input.label')
     expect(inputField.props.value).toBe('some query')
   })
 
@@ -40,7 +40,7 @@ describe('SearchTextInput', () => {
 
     render(<SearchTextInput currentQuery="some query" onQueryChange={onQueryChange} />)
 
-    const clearButton = screen.getByLabelText('search.typesense.input.clear')
+    const clearButton = screen.getByLabelText('search.input.clear')
     await user.press(clearButton)
 
     act(() => {
@@ -56,7 +56,7 @@ describe('SearchTextInput', () => {
 
     render(<SearchTextInput onQueryChange={onQueryChange} currentQuery="some query" />)
 
-    const inputField = screen.getByLabelText('search.typesense.input.label')
+    const inputField = screen.getByLabelText('search.input.label')
     await user.paste(inputField, 'some query')
 
     expect(onQueryChange).not.toHaveBeenCalled()
@@ -65,7 +65,7 @@ describe('SearchTextInput', () => {
   it('should update input value on param change', () => {
     const { rerender } = render(<SearchTextInput currentQuery="" onQueryChange={jest.fn()} />)
 
-    const inputField = screen.getByLabelText('search.typesense.input.label')
+    const inputField = screen.getByLabelText('search.input.label')
     expect(inputField.props.value).toBe('')
 
     rerender(<SearchTextInput currentQuery="new query" onQueryChange={jest.fn()} />)

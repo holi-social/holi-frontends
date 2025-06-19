@@ -1,24 +1,24 @@
 import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
-import { useVolunteeringRecosParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { useUserSpecificRecoParameters } from '@holi-apps/volunteering/hooks/useUserSpecificRecoParameters'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import type { SearchParams } from '@holi/core/typesense/types'
 import { useMemo } from 'react'
 
-interface UseVolunteeringRecoTypesenseParametersOptions {
+interface UseVolunteeringRecoParametersOptions {
   pageSize?: number
   onGeolocationError?: (error: Error) => void
 }
 
-interface UseVolunteeringRecoTypesenseParameters {
+interface UseVolunteeringRecoParameters {
   isLoadingParameters: boolean
   parameters: SearchParams
 }
 
-export const useVolunteeringRecoTypesenseParameters = ({
+export const useVolunteeringRecoParameters = ({
   pageSize,
   onGeolocationError,
-}: UseVolunteeringRecoTypesenseParametersOptions = {}): UseVolunteeringRecoTypesenseParameters => {
-  const { loading: loadingQueryVariables = false, skills, topics, geolocationId } = useVolunteeringRecosParameters()
+}: UseVolunteeringRecoParametersOptions = {}): UseVolunteeringRecoParameters => {
+  const { loading: loadingQueryVariables = false, skills, topics, geolocationId } = useUserSpecificRecoParameters()
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(geolocationId, onGeolocationError)
   const parameters = useMemo(() => {
     const { lat, lon } = geolocationDetails?.geolocation?.properties ?? {}

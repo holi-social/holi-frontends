@@ -16,8 +16,8 @@ export const NoSearchResults = ({ filter }: NoSearchResultsProps) => {
   const { styles } = useStyles(stylesheet)
 
   const message = !filter.query
-    ? t('search.typesense.noResultsLocation.headline', { location: filter.location?.label ?? '' })
-    : t('search.typesense.noResults.headline', { query: filter.query })
+    ? t('search.noResultsLocation.headline', { location: filter.location?.label ?? '' })
+    : t('search.noResults.headline', { query: filter.query })
   return (
     <View style={styles.container}>
       <View style={styles.animation}>
@@ -25,7 +25,7 @@ export const NoSearchResults = ({ filter }: NoSearchResultsProps) => {
       </View>
       <View style={styles.text}>
         <Text size="lg">{message}</Text>
-        <Text size="sm">{t('search.typesense.noResults.description')}</Text>
+        <Text size="sm">{t('search.noResults.description')}</Text>
       </View>
     </View>
   )
