@@ -10,7 +10,6 @@ import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 
 const PAGE_SIZE_EXTERNAL_DATA = 12
 const PAGE_SIZE_FEED = 12

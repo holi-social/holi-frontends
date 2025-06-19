@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Link } from 'expo-router'
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
+import { TextLink } from 'holi-bricks/components/text'
 
 export const HoliLink = ({
   href,
@@ -11,18 +12,13 @@ export const HoliLink = ({
   isFullHeight = false,
   testID = 'link',
   onPress,
+  size,
 }: PropsWithChildren<HoliLinkProps>) => {
   return (
-    <Link
-      role="link"
-      aria-label={label}
-      accessible
-      href={href}
-      testID={testID}
-      onPress={onPress}
-      style={[isFullHeight && styles.fullHeight]}
-    >
-      {children}
+    <Link href={href} testID={testID} asChild style={[isFullHeight && styles.fullHeight]}>
+      <TextLink role="link" aria-label={label} accessible onPress={onPress} size={size || 'sm'}>
+        {children}
+      </TextLink>
     </Link>
   )
 }
