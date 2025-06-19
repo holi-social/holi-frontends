@@ -1,4 +1,3 @@
-import type { darkTheme } from 'holi-bricks/foundations/colors/themes/dark'
 import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import type breakpoints from 'holi-bricks/foundations/dimensions/breakpoints'
 import type { Role } from 'react-native'
@@ -10,7 +9,8 @@ type Breakpoints = typeof breakpoints & {
 type AccessibilityRoleWeb = Role | 'menuitemcheckbox' | 'menuitemradio'
 
 declare global {
-  type AvailableThemes = 'light' | 'dark'
+  // Removing dark theme until fully supported with HOLI-11770
+  type AvailableThemes = 'light' // | 'dark'
   // RN WEB
   interface AccessibilityPropsWeb extends AccessibilityProps {
     'aria-level'?: number
@@ -24,7 +24,7 @@ declare global {
 
 type Themes = {
   light: typeof lightTheme
-  dark: typeof darkTheme
+  // dark: typeof darkTheme
 }
 
 declare module 'react-native-unistyles' {
