@@ -38,6 +38,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -331,13 +332,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           headlineText={t('individuals.post.input.topics.title')}
           testID="post-selectedTopics-input-content"
         >
-          <TermsInput
-            termType="topic"
-            description={t('individuals.post.input.topics.description')}
-            searchPlaceholder={t('spaces.input.topics.search')}
-            selected={selectedTopics ?? []}
-            onSelect={onChangeSelectedTopics}
-          />
+          <HoliBox padding={[0, 24]}>
+            <TermsInput
+              termType="topic"
+              description={t('individuals.post.input.topics.description')}
+              searchPlaceholder={t('spaces.input.topics.search')}
+              selected={selectedTopics ?? []}
+              onSelect={onChangeSelectedTopics}
+            />
+          </HoliBox>
         </HoliModalContentWrapper>
       </HoliModal>
       <HoliModal
