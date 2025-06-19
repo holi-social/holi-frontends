@@ -79,13 +79,15 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
 
   useEffect(() => {
     const webView = webViewRef?.current
+    let backHandlerSub: ReturnType<typeof BackHandler.addEventListener> | undefined
+
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
+      backHandlerSub = BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
     }
 
     return () => {
-      if (Platform.OS === 'android') {
-        BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress)
+      if (Platform.OS === 'android' && backHandlerSub) {
+        backHandlerSub.remove()
       }
       navigation.addListener('beforeRemove', () => {
         return webView?.injectJavaScript('window.dispatchEvent( new Event("unload") );')
