@@ -100,7 +100,7 @@
   },
   "dependencies": {
     "expo": "^53.0.11",
-    "react-native-unistyles": "^3.0.0-rc.4",
+    "react-native-unistyles": "^3.0.0-rc.5",
     "react-native-web": "^0.20.0"
   },
   "installConfig": {

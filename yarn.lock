@@ -6010,6 +6010,7 @@ __metadata:
     react-native-phone-number-input: "npm:^2.1.0"
     react-native-reanimated-carousel: "npm:^4.0.2"
     react-native-safe-area-context: "npm:5.4.0"
+    react-native-webview: "npm:13.13.5"
     typescript-graphql-request: "npm:^4.4.6"
     uuid: "npm:^11.1.0"
     zod: "npm:^3.25.36"
@@ -6186,7 +6187,7 @@ __metadata:
     react-native-screens: "npm:~4.11.1"
     react-native-svg: "npm:15.11.2"
     react-native-swiper: "npm:^1.6.0"
-    react-native-unistyles: "npm:^3.0.0-rc.4"
+    react-native-unistyles: "npm:^3.0.0-rc.5"
     react-native-webview: "npm:13.13.5"
     react-spring: "npm:^9.7.5"
     slugify: "npm:^1.6.6"
@@ -6228,7 +6229,7 @@ __metadata:
     raf: "npm:^3.4.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
-    react-native-unistyles: "npm:^2.11.0"
+    react-native-unistyles: "npm:^3.0.0-rc.5"
     react-native-web: "npm:^0.19.12"
     sass: "npm:^1.56.2"
     sass-loader: "npm:^14.0.0"
@@ -6330,7 +6331,7 @@ __metadata:
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.17.4"
     react-native-svg-web: "npm:^1.0.9"
-    react-native-unistyles: "npm:^3.0.0-rc.4"
+    react-native-unistyles: "npm:^3.0.0-rc.5"
     react-native-web: "npm:^0.20.0"
     react-transition-group: "npm:^4.4.5"
     react-zoom-pan-pinch: "npm:^2.6.1"
@@ -20684,7 +20685,7 @@ __metadata:
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:5.4.0"
     react-native-svg: "npm:15.11.2"
-    react-native-unistyles: "npm:^3.0.0-rc.4"
+    react-native-unistyles: "npm:^3.0.0-rc.5"
     react-native-web: "npm:^0.20.0"
     storybook: "npm:^8.5.8"
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
@@ -20701,7 +20702,7 @@ __metadata:
     react-native-nitro-modules: 0.26.2
     react-native-render-html: ^6.3.4
     react-native-svg: 15.11.2
-    react-native-unistyles: ^3.0.0-rc.3
+    react-native-unistyles: ^3.0.0-rc.5
     react-native-web: ^0.20.0
   languageName: unknown
   linkType: soft
@@ -20739,7 +20740,7 @@ __metadata:
     jest-offline: "npm:^1.0.1"
     jest-when: "npm:^3.6.0"
     node-gyp: "npm:^10.2.0"
-    react-native-unistyles: "npm:^3.0.0-rc.4"
+    react-native-unistyles: "npm:^3.0.0-rc.5"
     react-native-web: "npm:^0.20.0"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.8.3"
@@ -27682,30 +27683,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-unistyles@npm:^2.11.0":
-  version: 2.32.0
-  resolution: "react-native-unistyles@npm:2.32.0"
-  peerDependencies:
-    "@react-native/normalize-colors": "*"
-    react: "*"
-    react-native: "*"
-    react-native-macos: "*"
-    react-native-web: "*"
-    react-native-windows: "*"
-  peerDependenciesMeta:
-    react-native-macos:
-      optional: true
-    react-native-web:
-      optional: true
-    react-native-windows:
-      optional: true
-  checksum: 10c0/01d27e42fdaa08ff382ec8e77f11e8a08c1b43141fd3f69e7a94c14efc19475b72d37270993640e16d92ac0ad672ba2c4135872b927119971d4b4d80352f66dd
-  languageName: node
-  linkType: hard
-
-"react-native-unistyles@npm:^3.0.0-rc.4":
-  version: 3.0.0-rc.4
-  resolution: "react-native-unistyles@npm:3.0.0-rc.4"
+"react-native-unistyles@npm:^3.0.0-rc.5":
+  version: 3.0.0-rc.5
+  resolution: "react-native-unistyles@npm:3.0.0-rc.5"
   peerDependencies:
     "@react-native/normalize-colors": "*"
     react: "*"
@@ -27716,7 +27696,7 @@ __metadata:
   peerDependenciesMeta:
     react-native-reanimated:
       optional: true
-  checksum: 10c0/50d69618396262b3e074d6d162b03cc7d69934ff405be96aca47062290e1954be32a4ab3d8d02eb610d576c9500bad3ac19368093425c89cb92856aa4df5785f
+  checksum: 10c0/44caa3a8271bc8174cfeb4c2aa83c1dc08885d7c0cf0ec96cc389d3d17b113d4e4107f395fc51fb2b28fff88be17a72d53f068ad3c4ce54bfeb22b4d66173f94
   languageName: node
   linkType: hard
 
