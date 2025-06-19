@@ -30,6 +30,7 @@ export interface TextProps extends React.PropsWithChildren {
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
   headingLevel?: TextHeadingLevel
+  bold?: boolean
   testID?: string
 }
 
@@ -61,6 +62,7 @@ export const Text = ({
   textAlign,
   ellipsizeMode,
   headingLevel,
+  bold,
   children,
   testID,
   ...rest
@@ -80,7 +82,7 @@ export const Text = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, selectable, colorOverride, textAlign) as unknown as TextStyle}
+      style={styles.text(color, selectable, colorOverride, textAlign, bold) as unknown as TextStyle}
     >
       {children}
     </RNText>
@@ -92,7 +94,8 @@ const stylesheet = createStyleSheet((theme) => ({
     color: TextProps['color'],
     selectable: boolean,
     colorOverride?: ColorValue,
-    textAlign?: TextStyle['textAlign']
+    textAlign?: TextStyle['textAlign'],
+    bold?: boolean
   ) => {
     const textColor = color ? theme.colors.fill[color] : theme.colors.fill.default
     return {
@@ -108,6 +111,7 @@ const stylesheet = createStyleSheet((theme) => ({
           fontFeatureSettings: '"ss12", "ss11", "ss10", "ss07", "ss05", "ss04", "ss08", "ss03", "liga" 0',
         },
       }),
+      ...(bold && { fontWeight: '500' }),
       variants: {
         size: {
           '4xl': {

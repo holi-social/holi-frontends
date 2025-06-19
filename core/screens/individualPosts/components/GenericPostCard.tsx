@@ -9,17 +9,14 @@ import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFl
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
-import type { User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
-import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import ImageCarousel from '@holi/core/screens/individualPosts/components/ImageCarousel'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import { type FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
-import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import type { Post } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -33,13 +30,13 @@ import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import SpaceFeedFollow from '@holi/core/screens/spaces/details/components/SpaceFeedFollow'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
+import PostResponseBar from '@holi/core/screens/individualPosts/components/PostResponseBar/PostResponseBar'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -245,18 +242,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           </View>
         )}
 
-        <View style={styles.reactionsBar}>
-          <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
-            {feedPost.totalComments > 0 ? (
-              <HoliUserAvatarPile users={feedPost.commenters.data as User[]} usersToShow={5} collapse>
-                {t('comments.response', { count: feedPost.totalComments })}
-              </HoliUserAvatarPile>
-            ) : (
-              <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
-            )}
-          </HoliButton>
-          <FeedPostReactions post={feedPost} />
-        </View>
+        <PostResponseBar post={feedPost} onCommentPress={goToDetailView} />
       </View>
     )
   } else {
@@ -418,18 +404,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
             <PostLocationCard location={spacePost.location} geolocation={spacePost.geolocation} />
           </View>
         )}
-        <View style={styles.reactionsBar}>
-          <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
-            {spacePost.numberOfComments > 0 ? (
-              <HoliUserAvatarPile users={spacePost.commenters.data as User[]} usersToShow={5} collapse>
-                {t('comments.response', { count: spacePost.numberOfComments })}
-              </HoliUserAvatarPile>
-            ) : (
-              <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
-            )}
-          </HoliButton>
-          <PostReactions post={spacePost} />
-        </View>
+        <PostResponseBar post={spacePost} onCommentPress={goToDetailView} />
       </View>
     )
   }

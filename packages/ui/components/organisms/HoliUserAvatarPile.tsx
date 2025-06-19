@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { sizes as avatarSizes } from '@holi/ui/components/molecules/HoliAvatar'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   usersToShow?: number
