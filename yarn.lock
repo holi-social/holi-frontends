@@ -5995,6 +5995,7 @@ __metadata:
     eslint-plugin-react: "npm:^7.32.2"
     eslint-plugin-react-hooks: "npm:4.6.2"
     eslint-plugin-react-native: "npm:^4.1.0"
+    expo-linking: "npm:~7.1.5"
     expo-router: "npm:~5.1.0"
     expo-status-bar: "npm:^2.2.3"
     graphql: "npm:^16.3.0"
@@ -6018,7 +6019,7 @@ __metadata:
     expo: ^53.0.11
     expo-calendar: ~14.0.6
     expo-image-picker: ~16.0.6
-    expo-linking: 7.0.5
+    expo-linking: ~7.1.5
     expo-router: ~5.1.0
     expo-tracking-transparency: ~5.1.1
     graphql-request: ^7.1.0
