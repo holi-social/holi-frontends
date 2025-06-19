@@ -37,7 +37,8 @@ const ThemeWrapper = ({ children, showInLightMode = true, showInDarkMode = false
   const { setActiveTheme } = useBricks()
 
   useEffect(() => {
-    setActiveTheme(showInDarkMode ? 'dark' : 'light')
+    // Removing support for dark theme until fully supported with HOLI-11770
+    // setActiveTheme('showInDarkMode ? 'dark' : 'light'')
   }, [setActiveTheme, showInDarkMode, showInLightMode])
 
   return (
