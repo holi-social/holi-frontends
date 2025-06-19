@@ -12,12 +12,12 @@ import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
+import { useMicroactions } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-  const { engagements } = useVolunteeringRecosTypesense({ displayErrors: true })
+  const { engagements } = useMicroactions({ displayErrors: true })
 
   const listProps = {
     horizontal: true,
@@ -46,7 +46,6 @@ const StartSmallCarousel = () => {
               ? t(`spaces.input.task.section.timing.duration.value.${item.commitment_duration}`)
               : undefined
           }
-          // chipLabel={item.commitment_duration}
           bottomIconLeft={item.location ? MapPin2Filled : undefined}
           bottomLabel={item.location}
           imageSrc={item.image_url}
