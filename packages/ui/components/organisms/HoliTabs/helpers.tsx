@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react'
+import type React from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
@@ -6,7 +7,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import TabButton from './TabButton'
-import { HoliTabItem, RenderFuncOptions } from './types'
+import type { HoliTabItem, RenderFuncOptions } from './types'
 
 interface RenderTabButtonArgs<D> {
   options: RenderFuncOptions<D>
@@ -24,7 +25,7 @@ export const renderTabButtonHelper = <D extends HoliTabItem>({
   if (renderFunc) {
     return renderFunc(options)
   } else {
-    const { item, key } = options
+    const { item, key, ...otherOptions } = options
     return (
       <TabButton
         id={id}
@@ -33,7 +34,7 @@ export const renderTabButtonHelper = <D extends HoliTabItem>({
         tabIcons={item.tabIcons}
         onPress={() => onPress(key)}
         testID={id}
-        {...options}
+        {...otherOptions}
       />
     )
   }

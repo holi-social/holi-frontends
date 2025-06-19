@@ -21,29 +21,38 @@ const tabs: Tab[] = [
   {
     key: 'profile',
     tabTitle: 'Profile',
-    content: (options) => (
-      <TestTabContent {...options}>
-        <HoliText testID="profileTab">This is my profile.</HoliText>
-      </TestTabContent>
-    ),
+    content: (options) => {
+      const { key, ...otherOptions } = options
+      return (
+        <TestTabContent key={key} {...otherOptions}>
+          <HoliText testID="profileTab">This is my profile.</HoliText>
+        </TestTabContent>
+      )
+    },
   },
   {
     key: 'insights',
     tabTitle: 'Insights',
-    content: (options) => (
-      <TestTabContent {...options}>
-        <HoliText testID="InsightsTab">These are my insights.</HoliText>
-      </TestTabContent>
-    ),
+    content: (options) => {
+      const { key, ...otherOptions } = options
+      return (
+        <TestTabContent key={key} {...otherOptions}>
+          <HoliText testID="InsightsTab">These are my insights.</HoliText>
+        </TestTabContent>
+      )
+    },
   },
   {
     key: 'spaces',
     tabTitle: 'Spaces',
-    content: (options) => (
-      <TestTabContent {...options}>
-        <HoliText testID="SpacesTab">These are my spaces.</HoliText>
-      </TestTabContent>
-    ),
+    content: (options) => {
+      const { key, ...otherOptions } = options
+      return (
+        <TestTabContent key={key} {...otherOptions}>
+          <HoliText testID="SpacesTab">These are my spaces.</HoliText>
+        </TestTabContent>
+      )
+    },
   },
 ]
 
