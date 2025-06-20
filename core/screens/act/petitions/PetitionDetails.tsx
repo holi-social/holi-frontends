@@ -31,7 +31,10 @@ export const PetitionDetails = () => {
   const infoList: DetailsScreenInfoList[] = [
     { title: `${t('act.petitions.createdBy')} ${petition.startedBy}`, icon: UserLine },
     { title: `${t('act.petitions.towards')} ${petition.targetOrganisation}`, icon: Focus2Line },
-    { title: `${t('act.petitions.daysLeft', { days: petition.daysLeft })}`, icon: CalendarEventLine },
+    {
+      title: `${petition.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')}`,
+      icon: CalendarEventLine,
+    },
   ]
 
   useTrackOnce(TrackingEvent.PetitionDetails.viewed(petitionId as string))
@@ -90,7 +93,7 @@ export const PetitionDetails = () => {
         additionalContent={
           <FooterProgressBar
             progressBarPercentage={petition.percentage}
-            progressBarLeft={`${petition.percentage} ${t('act.petitions.percent')}`}
+            progressBarLeft={t('act.petitions.percent', { percentage: petition.percentage })}
           />
         }
       />
