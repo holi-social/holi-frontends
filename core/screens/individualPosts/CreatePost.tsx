@@ -25,6 +25,8 @@ import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Text } from 'holi-bricks/components/text'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking/events'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -37,6 +39,7 @@ const CreatePost = () => {
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
+  const { track } = useTracking()
 
   const { loading: categoriesLoading, categories } = useFeedPostCategories()
 
@@ -60,6 +63,7 @@ const CreatePost = () => {
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.FeedPosts.feedPostCreateComplete(selectedCategoryId, selectedTopics))
       navigateBack()
     },
     refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }, { query: feedQuery }],
