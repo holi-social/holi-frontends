@@ -58,10 +58,6 @@ const cases = [
     section: 'CHALLENGES',
     order: ['CHALLENGES', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'],
   },
-  {
-    section: 'TASKS',
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
-  },
 ]
 
 describe('ActHome Section', () => {

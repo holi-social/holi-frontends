@@ -11,6 +11,7 @@ import EventCarousel from '@holi-apps/events/components/EventCarousel'
 import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 import PetitionCarousel from '@holi/core/screens/act/petitions/PetitionCarousel'
 import StartSmallCarousel from '@holi/core/components/StartSmallCarousel'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
@@ -27,7 +28,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayEvents = useFeatureFlagWithMaintenance(FeatureFlagKey.EVENTS).isOn
   const displayPetitions = useFeatureFlagWithMaintenance(FeatureFlagKey.PETITIONS).isOn
-  const displayStartSmallCarousel = useFeatureFlagWithMaintenance(FeatureFlagKey.START_SMALL_CAROUSEL).isOn
+  const displayStartSmallCarousel = useFeatureFlag(FeatureFlagKey.START_SMALL_CAROUSEL)
 
   switch (type) {
     case ActSectionType.STARTSMALL:

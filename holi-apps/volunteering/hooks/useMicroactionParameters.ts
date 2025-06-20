@@ -11,7 +11,7 @@ export const useMicroactionParameters = (pageSize: number, location?: PlaceDetai
 
     const { lat, lon } = location?.geolocation.properties || {}
     if (lat && lon) {
-      filterBy.push(`location_lat_lng:(${lat},${lon},50 km)`)
+      filterBy.push(`location_lat_lng:(${lat},${lon},30 km) || location_type:=[remote]`)
     } else {
       filterBy.push('location_type:=[remote]')
     }

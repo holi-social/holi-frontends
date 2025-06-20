@@ -15,7 +15,6 @@ import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
-import { useCallback, useState } from 'react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 
@@ -30,17 +29,7 @@ const StartSmallCarousel = () => {
     fetchNextPage,
     canFetchMore,
     isLoading: isLoadingEngagements,
-  } = useMicroactions({ pageSize: 5, displayErrors: true, userLocation: geolocationDetails })
-  const [isProcessing, setProcessing] = useState(false)
-
-  const handlePress = useCallback(async () => {
-    setProcessing(true)
-    try {
-      await fetchNextPage()
-    } finally {
-      setProcessing(false)
-    }
-  }, [fetchNextPage])
+  } = useMicroactions({ userLocation: geolocationDetails })
 
   const listProps = {
     horizontal: true,
@@ -54,7 +43,7 @@ const StartSmallCarousel = () => {
         <HoliMoreCard
           role="link"
           label={t('act.startSmall.showAll')}
-          onPress={handlePress}
+          onPress={fetchNextPage}
           testID={'start-small-slider-load-more-button'}
           hasButton
           bgImageSrc={require('@holi/ui/assets/img/placeholder/placeholder-blue.svg')}
@@ -64,7 +53,7 @@ const StartSmallCarousel = () => {
             label={t('act.startSmall.showAll')}
             size="sm"
             onPress={fetchNextPage}
-            loading={isProcessing || isLoadingEngagements}
+            loading={isLoadingEngagements}
           />
         </HoliMoreCard>
       </View>
@@ -88,11 +77,13 @@ const StartSmallCarousel = () => {
           title={item.title}
           chipLabel={
             item.commitment_duration
-              ? t(`spaces.input.task.section.timing.duration.value.${item.commitment_duration}`)
+              ? t(`volunteering:engagement.commitment_duration.${item.commitment_duration}`)
               : undefined
           }
           bottomIconLeft={item.location_type === 'remote' ? GlobalFilled : item.location ? MapPin2Filled : undefined}
-          bottomLabel={item.location_type === 'remote' ? t('task.locationType.REMOTE') : item.location}
+          bottomLabel={
+            item.location_type === 'remote' ? t('volunteering:engagement.location_type.remote') : item.location
+          }
           imageSrc={item.image_url}
         />
       )}
