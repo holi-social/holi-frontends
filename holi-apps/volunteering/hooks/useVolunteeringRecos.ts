@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import {
-  useMicroactionRecoParameters,
+  useMicroactionParameters,
   useVolunteeringRecoParameters,
 } from '@holi-apps/volunteering/hooks/useVolunteeringRecoParameters'
 import { logError } from '@holi/core/errors/helpers'
@@ -65,9 +65,9 @@ export const useMicroactions = ({ pageSize, displayErrors }: UseMicroactionProps
   const language = useUserLanguage()
   const errorHandler = displayErrors ? displayError : logError
 
-  const { parameters } = useMicroactionRecoParameters(pageSize ?? ENGAGEMENT_PAGE_SIZE)
+  const { parameters } = useMicroactionParameters(pageSize ?? ENGAGEMENT_PAGE_SIZE)
 
-  const { state, refetch } = useTypesensePaginationQuery({
+  const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,
     onError: (error) => {
       errorHandler(error, 'Error retrieving recommendations', {
@@ -84,6 +84,8 @@ export const useMicroactions = ({ pageSize, displayErrors }: UseMicroactionProps
   useOnRefresh(refetch)
 
   return {
+    isLoading: state.isLoading,
     engagements,
+    fetchNextPage,
   }
 }

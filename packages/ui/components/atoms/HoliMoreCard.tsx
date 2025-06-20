@@ -1,81 +1,85 @@
 import type React from 'react'
-import { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
-import { type GestureResponderEvent, Pressable, type Role, StyleSheet, View } from 'react-native'
-
+import { type GestureResponderEvent, Pressable, type Role, View } from 'react-native'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Stack } from 'holi-bricks/components/stack'
+import { Image } from 'holi-bricks/components/image'
+import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import HoliLocalImage from './HoliLocalImage'
-
-export interface HoliMoreCardProps {
+export interface HoliMoreCardSmallProps {
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
   label?: string
   role: Role
   testID?: string
-  size?: 'sm' | 'md'
+  hasButton?: boolean
+  bgImageSrc?: string
+  fixedWidth?: number
 }
 
-const HoliMoreCard = ({
+const HoliMoreCardSmall = ({
   children,
   onPress,
   role,
   testID,
   label = '',
-  size = 'md',
-}: PropsWithChildren<HoliMoreCardProps>) => {
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  hasButton = false,
+  bgImageSrc,
+  fixedWidth,
+}: PropsWithChildren<HoliMoreCardSmallProps>) => {
+  const { styles } = useStyles(stylesheet)
 
   return (
-    <Pressable style={styles.container} role={role} aria-label={label} accessible onPress={onPress} testID={testID}>
-      <View style={styles.image}>
-        <HoliLocalImage
-          label="more"
-          imageSource={require('@holi/ui/assets/img/illustrations/plus-circle.svg')}
-          isSvg
-          width={size === 'sm' ? 48 : 96}
-          height={size === 'sm' ? 48 : 96}
-        />
-      </View>
-      <View style={styles.caption}>
-        <Text size="sm">{children}</Text>
-      </View>
+    <Pressable role={role} aria-label={label} accessible onPress={onPress} testID={testID} style={{ flex: 1 }}>
+      <Stack
+        justifyContent="space-around"
+        alignItems="stretch"
+        backgroundColor="support"
+        borderColor="support"
+        borderStyle="solid"
+        borderWidth="sm"
+        borderRadius="sm"
+        padding="3xs"
+        flex={1}
+        gap="3xs"
+      >
+        <View style={styles.imageContainer(!!bgImageSrc, fixedWidth)}>
+          {bgImageSrc && <Image alt="see more" source={bgImageSrc} width={0} height={0} resizeMode="cover" stretch />}
+          <View style={styles.image}>
+            <Image
+              alt="see more plus icon"
+              source={require('@holi/ui/assets/img/illustrations/plus-circle.svg')}
+              width={96}
+              height={96}
+            />
+          </View>
+        </View>
+        {hasButton ? (
+          children
+        ) : (
+          <Stack padding={{ left: '3xs' }}>
+            <Text size="md">{children}</Text>
+          </Stack>
+        )}
+      </Stack>
     </Pressable>
   )
 }
 
-export default HoliMoreCard
+export default HoliMoreCardSmall
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-around',
-      alignItems: 'stretch',
-      padding: 8,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: theme.colors.gray200,
-      backgroundColor: theme.colors.background10,
-    },
-    image: {
-      flex: 7,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      padding: 16,
-      borderRadius: 8,
-      backgroundColor: theme.colors.brandB100,
-    },
-    caption: {
-      paddingHorizontal: 8,
-      paddingTop: 16,
-      paddingBottom: 8,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  image: {
+    position: 'absolute',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
+  imageContainer: (hasBgImage?: boolean, fixedWidth?: number) => ({
+    backgroundColor: !hasBgImage ? theme.colors.decorative.purpleLight : undefined,
+    borderRadius: BorderRadius.sm,
+    flex: 1,
+    width: fixedWidth || '100%',
+    overflow: 'hidden',
+  }),
+}))
