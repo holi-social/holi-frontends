@@ -154,71 +154,178 @@ export default HoliBlockItem
 
 const styles = createStyleSheet((theme) => ({
   container: {
-    borderWidth: 1,
-    backgroundColor: theme.colors.bg.support,
-    borderColor: theme.colors.border.default,
-    flex: 1,
     variants: {
       size: {
         small: {
-          padding: Spacing['3xs'],
-          paddingBottom: Spacing.xs,
-          borderRadius: SMALL_OUTER_BORDER_RADIUS,
+          padding: 0,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexGrow: 1,
         },
         large: {
           padding: Spacing['3xs'],
           paddingBottom: Spacing.xs,
           borderRadius: LARGE_OUTER_BORDER_RADIUS,
+          borderWidth: 1,
+          backgroundColor: theme.colors.bg.support,
+          borderColor: theme.colors.border.default,
+          flex: 1,
         },
       },
     },
   },
   mainSection: {
-    flexGrow: 1,
+    variants: {
+      size: {
+        small: {
+          flexGrow: 2,
+          marginRight: Spacing['4xs'],
+        },
+        large: {
+          flexGrow: 1,
+        },
+      },
+    },
   },
-  blockItemInner: {},
+  blockItemInner: {
+    variants: {
+      size: {
+        small: {
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          gap: Spacing.xs,
+        },
+        large: {},
+      },
+    },
+  },
   imageContainer: {
-    position: 'relative',
-    width: '100%',
-    marginBottom: Spacing.xs,
+    variants: {
+      size: {
+        small: {
+          position: 'relative',
+          width: SMALL_IMAGE_DIMENSION,
+          height: SMALL_IMAGE_DIMENSION,
+        },
+        large: {
+          position: 'relative',
+          width: '100%',
+          marginBottom: Spacing.xs,
+        },
+      },
+    },
   },
   image: {
-    borderRadius: 8,
-    maxWidth: '100%',
     variants: {
       size: {
         small: {
           aspectRatio: 1,
+          borderRadius: SMALL_OUTER_BORDER_RADIUS,
+          height: '100%',
         },
         large: {
           aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
+          borderRadius: SMALL_OUTER_BORDER_RADIUS,
+          maxWidth: '100%',
         },
       },
     },
   },
   usersPile: {
-    position: 'absolute',
-    left: 10,
-    bottom: 10,
-    padding: Spacing['4xs'],
-    paddingRight: Spacing['3xs'],
-    borderRadius: Spacing.md,
-    backgroundColor: theme.colors.bg.support,
+    variants: {
+      size: {
+        small: {
+          maxWidth: '100%',
+          paddingVertical: Spacing['4xs'],
+          paddingRight: Spacing['3xs'],
+        },
+        large: {
+          position: 'absolute',
+          left: 10,
+          bottom: 10,
+          padding: Spacing['4xs'],
+          paddingRight: Spacing['3xs'],
+          borderRadius: Spacing.md,
+          backgroundColor: theme.colors.bg.support,
+        },
+      },
+    },
   },
-  usersPileText: {},
+  usersPileText: {
+    variants: {
+      size: {
+        small: {
+          color: theme.colors.fill.support,
+        },
+        large: {},
+      },
+    },
+  },
   textContainer: {
-    width: '100%',
+    variants: {
+      size: {
+        small: {
+          flex: 1,
+          marginTop: 6,
+          justifyContent: 'center',
+        },
+        large: {
+          width: '100%',
+        },
+      },
+    },
   },
   title: {
-    marginTop: Spacing['4xs'],
+    variants: {
+      size: {
+        small: {},
+        large: {
+          marginTop: Spacing['4xs'],
+        },
+      },
+    },
   },
   subtitle: {
-    display: 'flex',
-    color: theme.colors.fill.support,
+    variants: {
+      size: {
+        small: {
+          display: 'none',
+        },
+        large: {
+          display: 'flex',
+          color: theme.colors.fill.support,
+        },
+      },
+    },
   },
   description: {
-    color: theme.colors.fill.support,
-    marginTop: Spacing['4xs'],
+    variants: {
+      size: {
+        small: {
+          display: 'none',
+        },
+        large: {
+          color: theme.colors.fill.support,
+          marginTop: Spacing['4xs'],
+        },
+      },
+    },
   },
-  optionsButton: {},
+  optionsButton: {
+    variants: {
+      size: {
+        small: {
+          display: 'flex',
+          padding: Spacing['3xs'],
+          borderRadius: Spacing['3xs'],
+          maxHeight: 36,
+          backgroundColor: theme.colors.bg.support,
+        },
+        large: {},
+      },
+    },
+  },
 }))
