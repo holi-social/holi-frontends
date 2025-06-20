@@ -1,4 +1,4 @@
-import type { Duration, Regularity, Typesense_DocumentType } from '@holi/api/graphql/graphql-codegen'
+import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
@@ -554,20 +554,6 @@ export namespace TrackingEvent {
     properties: {
       type,
       ...otherProperties,
-    },
-  })
-
-  export const StartSmallCardClicked = (
-    type: Typesense_DocumentType,
-    volunteeringId: string,
-    title: string
-  ): TrackingEvent => ({
-    ...versionOne,
-    name: 'start_small_card_clicked',
-    properties: {
-      type,
-      volunteeringId,
-      title,
     },
   })
 

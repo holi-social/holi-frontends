@@ -75,6 +75,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               commitmentType: document?.commitmentType,
               locationType: document?.locationType,
               source: document?.source,
+              trackingOrigin: 'Volunteering',
             })}
             icon={ExternalLink}
             label={t('volunteering:engagementDetail.getInTouch')}

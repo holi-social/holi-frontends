@@ -62,8 +62,18 @@ const StartSmallCarousel = () => {
     ),
   }
 
-  const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = ({ type, id, title }) => {
-    return TrackingEvent.StartSmallCardClicked(type, id, title)
+  const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = ({
+    id,
+    source,
+    commitment_label,
+    location_type,
+  }) => {
+    return TrackingEvent.Volunteering.pressed(id, {
+      commitmentType: commitment_label,
+      locationType: location_type,
+      source: source,
+      trackingOrigin: 'Micro Action',
+    })
   }
 
   const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = ({ id }) => {
