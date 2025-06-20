@@ -2,12 +2,11 @@ import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, useWindowDimensions, Clipboard, Share } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -16,7 +15,7 @@ import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/indi
 import OwnProfileView, { type EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnUserProfile'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
+import { Edit2, Settings3, Share as ShareIcon } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -27,6 +26,8 @@ import { ButtonIcon } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { holiNextJSApiUrl } from '@holi/api/config'
 
 const OwnProfile = () => {
   const { track } = useTracking()
@@ -40,6 +41,7 @@ const OwnProfile = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const { colors } = theme
+  const { openToast } = useToast()
 
   const { user, isLoggedIn } = useLoggedInUser()
 
@@ -61,10 +63,37 @@ const OwnProfile = () => {
     [showModal, track]
   )
 
-  // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({
-    feature: 'USER_PROFILE_SHARE',
-  })
+  const shareProfile = useCallback(async () => {
+    if (!user?.id) return
+
+    // Construct the full URL with domain for web, or use holiNextJSApiUrl for mobile
+    const baseUrl = Platform.OS === 'web' ? window.location.origin : holiNextJSApiUrl
+    const profileUrl = `${baseUrl}/profile/${user.id}`
+    const message = t('profile.share.message', { name: user.fullName || user.firstName })
+
+    if (Platform.OS === 'web') {
+      // Web: Copy to clipboard and show toast
+      Clipboard.setString(profileUrl)
+      openToast(t('global.share.copied'), HoliToastType.SUCCESS)
+    } else {
+      // Mobile: Use native share sheet
+      try {
+        const result = await Share.share({
+          title: `${user.fullName || user.firstName}'s Profile`,
+          message: Platform.OS === 'android' ? `${message}\n${profileUrl}` : message,
+          url: profileUrl,
+        })
+
+        if (result.action === 'sharedAction') {
+          track(TrackingEvent.UserProfile.editPressed())
+        }
+      } catch {
+        // Fallback to clipboard if share fails
+        Clipboard.setString(profileUrl)
+        openToast(t('global.share.copied'), HoliToastType.SUCCESS)
+      }
+    }
+  }, [user?.id, user?.fullName, user?.firstName, openToast, t, track])
 
   useIsomorphicLayoutEffect(() => {
     const title = t('profile.title')
@@ -96,13 +125,7 @@ const OwnProfile = () => {
             icon={Edit2}
             size="lg"
           />
-          <ButtonIcon
-            label={t('profile.share')}
-            transparent
-            onPress={showFeatureNotImplementedToast}
-            icon={Share}
-            size="lg"
-          />
+          <ButtonIcon label={t('profile.share')} transparent onPress={shareProfile} icon={ShareIcon} size="lg" />
           <ButtonIcon
             label={t('profile.settings.overview.title')}
             transparent
@@ -114,7 +137,7 @@ const OwnProfile = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, setScreenOptions, user])
+  }, [navigate, t, isLoggedIn, toggleEditMode, shareProfile, setScreenOptions, user])
 
   const client = useApolloClient()
   const onSubmit = useCallback(async () => {
