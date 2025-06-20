@@ -280,6 +280,14 @@ export namespace TrackingEvent {
       name: 'feedPostCreateStart',
       ...versionOne,
     },
+    feedPostCreateComplete: (categoryId: string | null, selectedTopics: string[]): TrackingEvent => ({
+      name: 'feedPostCreateComplete',
+      properties: {
+        categoryId,
+        selectedTopics,
+      },
+      ...versionOne,
+    }),
     viewSummary: (
       totalElements: number,
       feedPosts: number,
