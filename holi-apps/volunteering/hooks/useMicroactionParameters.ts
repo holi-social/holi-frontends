@@ -1,7 +1,7 @@
-import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { PlaceDetails } from '@holi/core/geolocation/typings'
 import { useMemo } from 'react'
 
-export const useMicroactionParameters = (pageSize: number, location?: GeolocationSuggestion) => {
+export const useMicroactionParameters = (pageSize: number, location?: PlaceDetails) => {
   const parameters = useMemo(() => {
     const sortBy = ['_rand():desc']
     const filterBy = [
@@ -9,9 +9,9 @@ export const useMicroactionParameters = (pageSize: number, location?: Geolocatio
       'commitment_duration:=[MINUTES_10to15,MINUTES_15to30,MINUTES_30to60]',
     ]
 
-    const { latitude, longitude } = location?.coordinates || {}
-    if (latitude && longitude) {
-      filterBy.push(`location_lat_lng:(${latitude},${longitude},30 km)`)
+    const { lat, lon } = location?.geolocation.properties || {}
+    if (lat && lon) {
+      filterBy.push(`location_lat_lng:(${lat},${lon},50 km)`)
     } else {
       filterBy.push('location_type:=[remote]')
     }
@@ -21,7 +21,7 @@ export const useMicroactionParameters = (pageSize: number, location?: Geolocatio
       sort_by: sortBy.join(','),
       per_page: pageSize,
     }
-  }, [pageSize, location?.coordinates])
+  }, [pageSize, location?.geolocation.properties])
 
   return {
     parameters,

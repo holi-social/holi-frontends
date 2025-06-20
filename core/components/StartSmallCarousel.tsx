@@ -16,18 +16,21 @@ import { useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
 import { useCallback, useState } from 'react'
-import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-  const { filters } = useVolunteeringFilters(() => {}) // TODO: probably thats not the right way to get the users location
+  const { user } = useLoggedInUser()
+  const { geolocationDetails } = useGeolocationDetails(user?.geolocationId)
 
   const {
     engagements,
     fetchNextPage,
+    canFetchMore,
     isLoading: isLoadingEngagements,
-  } = useMicroactions({ pageSize: 5, displayErrors: true, userLocation: filters.location })
+  } = useMicroactions({ pageSize: 5, displayErrors: true, userLocation: geolocationDetails })
   const [isProcessing, setProcessing] = useState(false)
 
   const handlePress = useCallback(async () => {
@@ -46,8 +49,8 @@ const StartSmallCarousel = () => {
       gap: Spacing['3xs'],
     },
     data: engagements,
-    ListFooterComponent: (
-      <View style={{ flex: 1 }}>
+    ListFooterComponent: canFetchMore ? (
+      <View style={{ flex: 1, minHeight: 261 }}>
         <HoliMoreCard
           role="link"
           label={t('act.startSmall.showAll')}
@@ -65,6 +68,8 @@ const StartSmallCarousel = () => {
           />
         </HoliMoreCard>
       </View>
+    ) : (
+      <></>
     ),
   }
 

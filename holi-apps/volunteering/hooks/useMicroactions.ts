@@ -1,18 +1,18 @@
 import { useMemo } from 'react'
 import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
-import { useMicroactionParameters } from '@holi-apps/volunteering/hooks/useMicroactionParamteres'
+import { useMicroactionParameters } from '@holi-apps/volunteering/hooks/useMicroactionParameters'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
-import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { PlaceDetails } from '@holi/core/geolocation/typings'
 
 interface UseMicroactionProps {
   pageSize?: number
   displayErrors?: boolean
-  userLocation?: GeolocationSuggestion
+  userLocation?: PlaceDetails
 }
 
 export const useMicroactions = ({ pageSize, displayErrors, userLocation }: UseMicroactionProps = {}) => {
@@ -41,6 +41,7 @@ export const useMicroactions = ({ pageSize, displayErrors, userLocation }: UseMi
   return {
     isLoading: state.isLoading,
     engagements,
+    canFetchMore: state.canFetchMore,
     fetchNextPage,
   }
 }
