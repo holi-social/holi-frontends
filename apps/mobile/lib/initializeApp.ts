@@ -18,17 +18,25 @@ export const useAppInit = () => {
     initializeApp: async () => {
       logger.debug('App', 'starting app with config', config)
       try {
-        await Promise.all([initAuth(), initI18n(), Appcues.setup(appcuesAccountId, appcuesAppId)]).finally(() => {
+        await Promise.all([
+          initAuth().catch((e) => logError(e, 'Error on init Auth', { location: 'initializeApp' })),
+          initNotifications().catch((e) => logError(e, 'Error on init notifications', { location: 'initializeApp' })),
+          initI18n().catch((e) => logError(e, 'Error on init i18n', { location: 'initializeApp' })),
+          Appcues.setup(appcuesAccountId, appcuesAppId).catch((e) =>
+            logError(e, 'Error on init appCues', { location: 'initializeApp' })
+          ),
+        ]).finally(() => {
           setInitReady(true)
         })
+
+        // Init services that are not vital for the app first rendering must stay outside
+        // of the main promise
+        subscribeToDeviceTokenChanges()
+
+        logger.debug('App', 'init completed')
       } catch (error) {
         logError(error, 'Error during initializeApp()', { location: 'initializeApp.ts' })
       }
-
-      // Init services that are not vital for the app first rendering must stay outside
-      // of the main promise
-      subscribeToDeviceTokenChanges()
-      initNotifications().catch((e) => logError(e, 'Error on init notifications', { location: 'initializeApp' }))
     },
   }
 }
