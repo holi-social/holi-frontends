@@ -39,17 +39,3 @@ export const useVolunteeringRecoParameters = ({
     parameters,
   }
 }
-
-export const useMicroactionParameters = (pageSize: number) => {
-  const parameters = useMemo(() => {
-    return {
-      filter_by: 'type:=[volunteering,task] && commitment_duration:=[MINUTES_10to15,MINUTES_15to30,MINUTES_30to60]',
-      sort_by: '_rand():desc',
-      per_page: pageSize,
-    }
-  }, [pageSize])
-
-  return {
-    parameters,
-  }
-}

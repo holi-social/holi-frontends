@@ -6,25 +6,28 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
-import { Footprints, MapPin2Filled } from '@holi/icons/src/generated'
+import { Footprints, GlobalFilled, MapPin2Filled } from '@holi/icons/src/generated'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { useMicroactions } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
+import { useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
 import { useCallback, useState } from 'react'
+import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
+  const { filters } = useVolunteeringFilters(() => {}) // TODO: probably thats not the right way to get the users location
+
   const {
     engagements,
     fetchNextPage,
     isLoading: isLoadingEngagements,
-  } = useMicroactions({ pageSize: 5, displayErrors: true })
+  } = useMicroactions({ pageSize: 5, displayErrors: true, userLocation: filters.location })
   const [isProcessing, setProcessing] = useState(false)
 
   const handlePress = useCallback(async () => {
@@ -83,8 +86,8 @@ const StartSmallCarousel = () => {
               ? t(`spaces.input.task.section.timing.duration.value.${item.commitment_duration}`)
               : undefined
           }
-          bottomIconLeft={item.location ? MapPin2Filled : undefined}
-          bottomLabel={item.location}
+          bottomIconLeft={item.location_type === 'remote' ? GlobalFilled : item.location ? MapPin2Filled : undefined}
+          bottomLabel={item.location_type === 'remote' ? t('task.locationType.REMOTE') : item.location}
           imageSrc={item.image_url}
         />
       )}
