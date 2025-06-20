@@ -60,6 +60,7 @@ export const PetitionDetails = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
+        statusBarStyle: 'light',
       }}
       StickyBottomComponent={
         <Stack

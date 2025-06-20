@@ -10,6 +10,7 @@ export default function Layout() {
         headerTintColor: '#000',
         headerBackVisible: false,
         headerTitleAlign: 'center',
+        title: '',
       }}
     />
   )

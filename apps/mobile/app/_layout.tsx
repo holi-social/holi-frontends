@@ -34,7 +34,7 @@ export default function Layout() {
 
   return (
     <AppProviders>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false, statusBarStyle: 'dark' }} />
     </AppProviders>
   )
 }

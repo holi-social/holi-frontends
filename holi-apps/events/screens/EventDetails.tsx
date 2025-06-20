@@ -56,6 +56,7 @@ export const EventDetailsScreen = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
+        statusBarStyle: 'light',
       }}
       StickyBottomComponent={
         <Stack

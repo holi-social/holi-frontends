@@ -84,6 +84,7 @@ const TaskDetails = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
+        statusBarStyle: 'light',
       }}
       statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
       StickyBottomComponent={
