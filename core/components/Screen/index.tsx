@@ -15,10 +15,11 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { useScrollToTop } from '@react-navigation/native'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import React, { useRef } from 'react'
-import { type LayoutChangeEvent, Platform, type ScrollView, StatusBar, View } from 'react-native'
+import { type LayoutChangeEvent, Platform, type ScrollView, View } from 'react-native'
 import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
 import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SystemBars } from 'react-native-edge-to-edge'
 
 const isIos = Platform.OS === 'ios'
 
@@ -142,7 +143,6 @@ export const Screen = (props: ScreenProps) => {
   const {
     preset = 'auto',
     keyboardVerticalOffset = 100,
-    statusBarProps,
     keyboardAvoidingViewProps,
     backgroundColor = 'main',
     safeAreaEdges = [],
@@ -178,7 +178,7 @@ export const Screen = (props: ScreenProps) => {
         { backgroundColor: theme.colors.bg[backgroundColor] },
       ]}
     >
-      <StatusBar barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'} {...statusBarProps} />
+      <SystemBars style={themeName} hidden={{ statusBar: false, navigationBar: false }} />
 
       <KeyboardAvoidingView
         {...keyboardAvoidingViewProps}

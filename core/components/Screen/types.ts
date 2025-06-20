@@ -28,6 +28,7 @@ export interface BaseScreenProps {
    * Control status bar options. Note that status bar theme
    * is managed automatically
    */
+  // TODO (SF): remove? or migrate?
   statusBarProps?: StatusBarProps
   StickyBottomComponent?: ReactNode
   StickyTopComponent?: ReactNode
