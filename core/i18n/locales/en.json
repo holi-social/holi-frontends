@@ -768,6 +768,7 @@
   "profile.settings.tracking.purpose.personalization": "Allow personalization",
   "profile.settings.tracking.title": "Data collection",
   "profile.share": "Share",
+  "profile.share.message": "Check out {{name}}'s profile in the holi app!",
   "profile.skills": "Things I can help with",
   "profile.skills.add": "Add skills",
   "profile.skills.edit": "Edit skills",

@@ -769,6 +769,7 @@
   "profile.settings.tracking.purpose.personalization": "Personalisierung erlauben",
   "profile.settings.tracking.title": "Datensammlung",
   "profile.share": "Teilen",
+  "profile.share.message": "Schau dir {{name}}s Profil in der holi App an!",
   "profile.skills": "Dinge, mit denen ich unterstützen kann",
   "profile.skills.add": "Fähigkeiten hinzufügen",
   "profile.skills.edit": "Fähigkeiten bearbeiten",
