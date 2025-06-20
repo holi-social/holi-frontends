@@ -24,6 +24,7 @@
   "act.petitions.createdBy": "From",
   "act.petitions.cta": "Sign on the partner page",
   "act.petitions.daysLeft": "{{days}} days left",
+  "act.petitions.noDaysLeft": "No time limit",
   "act.petitions.percent": "{{percentage}}% reached",
   "act.petitions.seeAllModal.description": "We’re working on an overview of all petitions — so you’ll soon be able to explore and take action even more easily.",
   "act.petitions.seeAllModal.title": "More petitions coming soon!",
