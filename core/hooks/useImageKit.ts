@@ -2,6 +2,13 @@ import { gql, useMutation } from '@apollo/client'
 import type { ImagePickerAsset } from 'expo-image-picker'
 import { Platform } from 'react-native'
 
+// Type for React Native FormData file objects
+type ReactNativeFile = {
+  uri: string
+  type: string
+  name: string
+}
+
 const getImageKitAuthParams = gql`
   mutation GetImagekitAuthParams {
     getImagekitAuthParams {
@@ -28,12 +35,13 @@ export const useImageKit = () => {
         const blob = await response.blob()
         formData.append('file', blob, fileName)
       } else {
-        // For React Native, we use the file uri
-        formData.append('file', {
+        // For React Native, we use the file uri with proper structure
+        const reactNativeFile: ReactNativeFile = {
           uri: file.uri,
-          type: file.mimeType,
+          type: file.mimeType || 'image/jpeg',
           name: fileName,
-        } as unknown as Blob)
+        }
+        formData.append('file', reactNativeFile as unknown as Blob)
       }
 
       formData.append('fileName', fileName)
@@ -45,6 +53,9 @@ export const useImageKit = () => {
       const res = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
         method: 'POST',
         body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
       })
 
       const responseData = await res.json()
