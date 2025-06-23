@@ -13,17 +13,44 @@ export const favoritesQuery = gql`
         favoritableType
         favoritable {
           __typename
-          ... on Insight {
-            id
-            title
-            datePublished
-            creator {
-              ...UserAvatar
-              aboutMe
+
+            ... on Insight {
+                id
+                title
+                description
+                datePublished
+                initiatives {
+                    link
+                    __typename
+                }
+                creator {
+                    fullName
+                    avatar
+                    __typename
+                }
+                headerImage
+                headerImageBlurhash
+                __typename
             }
-            headerImage
-            headerImageBlurhash
-          }
+            ... on ExternalVolunteeringOpportunity {
+                externalId
+                __typename
+            }
+            ... on Task {
+                id
+                name
+                thumbnail
+                thumbnailBlurhash
+                created
+                space {
+                    creator {
+                        fullName
+                        avatar
+                        avatarBlurhash
+                    }
+                }
+                __typename
+            }
         }
       }
       totalResults
