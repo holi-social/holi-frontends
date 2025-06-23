@@ -11,7 +11,7 @@ import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequir
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { type DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -51,7 +51,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
     setShowDeleteConfirmationModal(false)
     deleteFeedPost({
       variables: { postId: post.id },
-      refetchQueries: [{ query: allPostsQuery }, { query: myPostsQuery }],
+      refetchQueries: [{ query: myPostsQuery }],
     }).then(() => {
       openToast(t('individuals.post.delete.success'), HoliToastType.SUCCESS)
     })

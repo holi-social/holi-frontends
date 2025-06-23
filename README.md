@@ -647,7 +647,7 @@ For tracking purposes (such as click tracking, impression tracking, etc.), we us
 #### FlatList as a render component
 
 `TrackableFlatList` is a wrapper around RN FlatList component. It allows consumers to track list items in-view appearance. 
-Its usage example can be found in the `TaskRecommendations` component. It can be used for both vertical and horizontal lists.
+Its usage example can be found in the `RecoSlider` component. It can be used for both vertical and horizontal lists.
 
 There are few required and optional props:
 * `listItemTrackingEvent` (required): a callback that returns a tracking event for the provided list item. Example:
