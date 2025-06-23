@@ -24,11 +24,10 @@ import { ArrowDownS } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
-import { SpaceByIdDocument, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import { type CollectionType, SpaceByIdDocument, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -49,7 +48,7 @@ const CreateDigitalTool = () => {
   const [description, setDescription] = useState<string | undefined>()
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
-  const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
+  const [selectedCollectionType, setSelectedCollectionType] = useState<CollectionType | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [inputValid, setInputValid] = useState(true)
@@ -66,7 +65,7 @@ const CreateDigitalTool = () => {
 
   const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
     onCompleted: () => {
-      track(TrackingEvent.Spaces.LinkHub.linkAdded(space?.id ?? spaceIdOrName ?? '', selectedCollection?.id ?? ''))
+      track(TrackingEvent.Spaces.LinkHub.linkAdded(space?.id ?? spaceIdOrName ?? '', selectedCollectionType ?? ''))
       return navigateBack()
     },
     onError: (error) => {
@@ -87,7 +86,7 @@ const CreateDigitalTool = () => {
           spaceId: space?.id,
           title,
           description,
-          collectionType: selectedCollection?.id,
+          collectionType: selectedCollectionType,
           thumbnail: thumbnail?.blob,
         },
       },
@@ -115,17 +114,17 @@ const CreateDigitalTool = () => {
   }, [t, loadingSpace, isMember, setScreenOptions, styles.background])
 
   useEffect(() => {
-    if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {
+    if (url.length > 0 && title.length > 0 && !!selectedCollectionType && inputValid) {
       setSaveButtonDisabled(false)
     }
-  }, [url, title, selectedCollection, inputValid])
+  }, [url, title, selectedCollectionType, inputValid])
 
   useEffect(() => {
     const resultSchema = AddCollaborationToolSchema.safeParse({
       spaceId: space?.id,
       ...(title ? { title } : {}),
       ...(url ? { url } : {}),
-      ...(selectedCollection?.id ? { collectionType: selectedCollection?.id } : {}),
+      ...(selectedCollectionType ? { collectionType: selectedCollectionType } : {}),
       ...(description ? { description } : {}),
     })
     setInputValid(resultSchema.success)
@@ -135,7 +134,7 @@ const CreateDigitalTool = () => {
     } else {
       setFieldErrors({})
     }
-  }, [description, selectedCollection?.id, space?.id, title, url])
+  }, [description, selectedCollectionType, space?.id, title, url])
 
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space) {
@@ -165,8 +164,8 @@ const CreateDigitalTool = () => {
           onChangeUrl={setUrl}
           onChangeTitle={setTitle}
           onChangeDescription={setDescription}
-          onSelectCollection={setSelectedCollection}
-          selectedCollection={selectedCollection}
+          onSelectCollectionType={setSelectedCollectionType}
+          selectedCollectionType={selectedCollectionType}
           onChangeThumbnail={setThumbnail}
           url={url}
           title={title}

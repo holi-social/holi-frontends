@@ -24,9 +24,8 @@ import {
 import { ArrowDownS } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
-import { CollectionType, SpaceByIdDocument, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import { type CollectionType, SpaceByIdDocument, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 
 export type EditDigitalToolParams = {
   spaceIdOrName: string
@@ -47,7 +46,7 @@ const EditDigitalTool = () => {
   const [description, setDescription] = useState<string | undefined>('')
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [thumbnailBlurhash, setCurrentThumbnailBlurhash] = useState<string | undefined>()
-  const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
+  const [selectedCollectionType, setSelectedCollectionType] = useState<CollectionType | undefined>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
@@ -63,9 +62,7 @@ const EditDigitalTool = () => {
       const collaborationTools = space ? space.collaborationTools : []
       if (collaborationTools.length > 0 && toolId) {
         const digitalTool = collaborationTools.find((tool) => tool.id === toolId)
-        const collectionType = COLLECTION_TYPES.filter(
-          (cType) => CollectionType[cType] === digitalTool?.collectionType
-        )[0]
+        const collectionType = COLLECTION_TYPES.filter((cType) => cType === digitalTool?.collectionType)[0]
         const toolCollectionType = {
           id: collectionType,
           selected: true,
@@ -74,7 +71,7 @@ const EditDigitalTool = () => {
         setUrl(digitalTool?.url ?? '')
         setTitle(digitalTool?.title ?? '')
         setDescription(digitalTool?.description ?? '')
-        setSelectedCollection(toolCollectionType ?? '')
+        setSelectedCollectionType(toolCollectionType?.id ?? '')
         setCurrentThumbnail(digitalTool?.thumbnail ?? '')
         setCurrentThumbnailBlurhash(digitalTool?.thumbnailBlurhash)
       }
@@ -108,7 +105,7 @@ const EditDigitalTool = () => {
           url: withProtocol(url),
           title,
           description,
-          collectionType: selectedCollection?.id,
+          collectionType: selectedCollectionType,
           thumbnail: thumbnail?.blob,
         },
       },
@@ -142,7 +139,7 @@ const EditDigitalTool = () => {
       spaceId: space?.id,
       ...(title ? { title } : {}),
       ...(url ? { url } : {}),
-      ...(selectedCollection?.id ? { collectionType: selectedCollection?.id } : {}),
+      ...(selectedCollectionType ? { collectionType: selectedCollectionType } : {}),
       ...(description ? { description } : {}),
     })
 
@@ -155,14 +152,14 @@ const EditDigitalTool = () => {
     } else {
       setFieldErrors({})
     }
-  }, [description, selectedCollection?.id, space?.id, title, url])
+  }, [description, selectedCollectionType, space?.id, title, url])
 
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space) {
     return <></>
   }
 
-  const saveButtonDisabled = !(url.length > 0 && title.length > 0 && !!selectedCollection && inputValid)
+  const saveButtonDisabled = !(url.length > 0 && title.length > 0 && !!selectedCollectionType && inputValid)
 
   return (
     <PermissionsGuard
@@ -182,8 +179,8 @@ const EditDigitalTool = () => {
           onChangeUrl={setUrl}
           onChangeTitle={setTitle}
           onChangeDescription={setDescription}
-          onSelectCollection={setSelectedCollection}
-          selectedCollection={selectedCollection}
+          onSelectCollectionType={setSelectedCollectionType}
+          selectedCollectionType={selectedCollectionType}
           onChangeThumbnail={setThumbnail}
           url={url}
           title={title}
