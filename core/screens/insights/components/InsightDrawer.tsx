@@ -9,10 +9,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { FavoriteType } from '@holi/core/screens/favorites/model'
 import {
-  FavoriteResponse,
-  UnfavoriteResponse,
-  favoriteMutation,
-  unfavoriteMutation,
+  FavoriteV2Response,
+  UnfavoriteV2Response,
+  favoriteV2Mutation,
+  unfavoriteV2Mutation,
 } from '@holi/core/screens/favorites/mutation'
 import { favoritesQuery } from '@holi/core/screens/favorites/queries'
 import { insightById } from '@holi/core/screens/insights/queries'
@@ -37,7 +37,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
 
   const { openSignupModal } = useSignupModal()
 
-  const [favorite] = useMutation<FavoriteResponse>(favoriteMutation, {
+  const [favorite] = useMutation<FavoriteV2Response>(favoriteV2Mutation, {
     onError: (error) =>
       displayError(error, 'Failed to favorite insight', {
         location: 'InsightDrawer.favoriteInsight',
@@ -46,7 +46,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
     refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
   })
 
-  const [unfavorite] = useMutation<UnfavoriteResponse>(unfavoriteMutation, {
+  const [unfavorite] = useMutation<UnfavoriteV2Response>(unfavoriteV2Mutation, {
     onError: (error) =>
       displayError(error, 'Failed to remove insight favorite', {
         location: 'InsightDrawer.unfavorite',
