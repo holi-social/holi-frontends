@@ -15,12 +15,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { type UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import {
-  type PostQueryResponse,
-  allPostsQuery,
-  myPostsQuery,
-  postQuery,
-} from '@holi/core/screens/individualPosts/queries'
+import { type PostQueryResponse, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
 import { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Close } from '@holi/icons/src/generated'
@@ -85,7 +80,7 @@ const EditPost = () => {
       navigateBack()
     },
 
-    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }],
   })
 
   const editPost = async () => {

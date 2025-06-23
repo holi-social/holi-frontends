@@ -1,12 +1,3 @@
-query SpaceRecommendation($limit: Int) {
-  recommendedSpaces(limit: $limit) {
-    data {
-      ...SpaceCard
-    }
-    totalResults
-  }
-}
-
 fragment SpaceCard on Space {
   title
   name

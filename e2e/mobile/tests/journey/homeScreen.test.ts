@@ -1,12 +1,6 @@
-import { continueAsGuest, login, logout } from '../../helpers/auth'
-import { scrollDown } from '../../helpers/gestures'
+import { continueAsGuest, logout } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import {
-  scrollToElementWithTestId,
-  tapOnElementWithTestId,
-  waitForElementWithTestId,
-  waitForElementWithTestIdToBeNull,
-} from '../../helpers/selectors'
+import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@HomeScreen_journey', () => {
   afterEach(async () => {
@@ -24,10 +18,6 @@ describe('@HomeScreen_journey', () => {
     await assertShowInsightsScreen()
 
     await assertShowsAppUpdates('goodnews')
-
-    await assertShowsNoUserSuggestionsWhenLoggedOut()
-
-    await assertShowsUserSuggestionsWhenLoggedIn()
   })
 })
 
@@ -71,23 +61,4 @@ const assertShowsAppUpdates = async (app: string) => {
 
   // await navigateBackToHomeScreen()
   await navigateBackToHomeScreen('nav-button-back')
-}
-
-const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
-  // scroll to bottom (swipe up, opposite direction)
-  await scrollDown()
-
-  // user suggestions element should be null when logged out
-  await waitForElementWithTestIdToBeNull('user-suggestions')
-}
-
-const assertShowsUserSuggestionsWhenLoggedIn = async () => {
-  // login
-  await login()
-
-  // go home
-  await navigateBackToHomeScreen('btn-to-home-view')
-
-  // scroll down to user suggestions element should be visible
-  await scrollToElementWithTestId('user-suggestions', 'down')
 }
