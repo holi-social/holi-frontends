@@ -12,22 +12,22 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import HoliModalSelect from '@holi/ui/components/organisms/HoliModalSelect'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { CollectionType } from '@holi/api/graphql/graphql-codegen'
 
-export const COLLECTION_TYPES = Object.keys(CollectionType) as Array<keyof typeof CollectionType>
+export const COLLECTION_TYPES = Object.values(CollectionType)
 
 export interface DigitalToolInputFormProps {
   onChangeUrl: (url: string) => void
   onChangeTitle: (title: string) => void
   onChangeDescription: (description: string) => void
-  onSelectCollection: (option: HoliModalSelectOption) => void
+  onSelectCollectionType: (option: CollectionType) => void
   onChangeThumbnail: (thumbnail: HoliImageInfo) => void
   url: string
   title: string
   description?: string
-  selectedCollection?: HoliModalSelectOption
+  selectedCollectionType?: CollectionType
   thumbnail?: HoliImageInfo | undefined
   thumbnailBlurhash?: string
   fieldErrors?: TranslatedFieldErrors
@@ -38,12 +38,12 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
   onChangeUrl,
   onChangeTitle,
   onChangeDescription,
-  onSelectCollection,
+  onSelectCollectionType,
   onChangeThumbnail,
   url,
   title,
   description,
-  selectedCollection,
+  selectedCollectionType,
   thumbnail,
   fieldErrors = {},
   currentThumbnail,
@@ -53,41 +53,28 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const collectionTypes = useMemo(
-    () =>
-      COLLECTION_TYPES.map((cType) => {
-        return {
-          id: CollectionType[cType],
-          title: t(`spaces.toolKit.linkhub.collection.${CollectionType[cType]}`),
-          selected: false,
-        }
-      }),
-    [t]
-  )
-  const [collectionOptions, setCollectionOptions] = useState<HoliModalSelectOption[]>(collectionTypes)
-
   const [urlError, setUrlError] = useState<string | undefined>()
   const [titleError, setTitleError] = useState<string | undefined>()
   const [descriptionError, setDescriptionError] = useState<string | undefined>()
 
   const { show, hide, visible } = useModalState()
 
+  const collectionTypeOptions = useMemo(
+    () =>
+      COLLECTION_TYPES.map((cType) => {
+        return {
+          id: cType,
+          title: t(`spaces.toolKit.linkhub.collection.${cType}`),
+        }
+      }),
+    [t]
+  )
+
   useEffect(() => {
     setUrlError(fieldErrors?.url?.[0])
     setDescriptionError(fieldErrors?.description?.[0])
     setTitleError(fieldErrors?.title?.[0])
   }, [fieldErrors])
-
-  useEffect(() => {
-    if (selectedCollection) {
-      const updatedCollectionsList = collectionTypes.map((collectionOption) =>
-        collectionOption.id === selectedCollection.id
-          ? { ...collectionOption, selected: true }
-          : { ...collectionOption, selected: false }
-      )
-      setCollectionOptions(updatedCollectionsList)
-    }
-  }, [selectedCollection, collectionTypes])
 
   const thumbnailUri = thumbnail?.uri ?? currentThumbnail
 
@@ -117,18 +104,19 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
         maxNoOfCharacters={50}
       />
       <HoliModalSelect
-        options={collectionOptions}
+        selected={selectedCollectionType}
+        options={collectionTypeOptions}
         title={t('spaces.input.digitalTool.collection.label')}
         label={t('spaces.input.digitalTool.collection.label')}
         placeholder={t('spaces.input.digitalTool.collection.placeholder')}
         style={styles.collectionOption}
-        onChange={onSelectCollection}
+        onChange={({ id }) => onSelectCollectionType(id)}
         isRequired={true}
-        testID="digital-tool-collection"
         variant="dense"
         show={show}
         hide={hide}
         visible={visible}
+        testID="digital-tool-collection"
       />
       <HoliTextInput
         placeholder={t('spaces.input.digitalTool.description.placeholder')}
