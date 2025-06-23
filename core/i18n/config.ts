@@ -33,7 +33,7 @@ export const i18nConfig: I18nConfig = {
   fallbackNS: 'core',
   resources,
   ns: Object.keys(resources['en']),
-  compatibilityJSON: 'v3',
+  compatibilityJSON: 'v4',
   detection: {
     // Use browser language to determine the language
     order: ['navigator'],
