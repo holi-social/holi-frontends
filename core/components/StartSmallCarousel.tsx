@@ -62,23 +62,18 @@ const StartSmallCarousel = () => {
     ),
   }
 
-  const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = ({
-    id,
-    source,
-    commitment_label,
-    location_type,
-  }) => {
-    return TrackingEvent.Volunteering.pressed(id, {
-      commitmentType: commitment_label,
-      locationType: location_type,
-      source: source,
-      trackingOrigin: 'Micro Action',
+  const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
+    return TrackingEvent.RecommendationViewed('volunteering_opportunity', {
+      title: item?.title,
+      id: item?.id,
+      commitmentType: item.commitment_label,
+      locationType: item.location_type,
+      source: item.source,
+      sourceSection: 'Micro Action',
     })
   }
 
-  const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = ({ id }) => {
-    return id
-  }
+  const listItemIdentifier: ListItemIdentifier<LocalizedTypesenseDocument> = (item) => item.id
 
   const ListComponent = (
     <TrackableFlatList

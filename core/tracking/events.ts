@@ -527,6 +527,7 @@ export namespace TrackingEvent {
     commitmentType?: string
     locationType?: string
     source?: string
+    sourceSection?: 'Micro Action' | 'Volunteering' // To be expanded when we add other content types to the Micro Action Section.
   }
 
   export const RecommendationPressed = (
