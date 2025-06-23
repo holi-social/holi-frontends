@@ -35,7 +35,7 @@ const GoodNewsAppHome = () => {
   }, [setScreenOptions, colors.light, activeDate])
 
   return (
-    <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews:maintenance.feature">
+    <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews.maintenance.feature">
       <View style={{ flex: 1 }} testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 

@@ -1,10 +1,10 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 
 import DonationListing from '@holi-apps/donations/components/DonationListing'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
@@ -38,7 +38,7 @@ const DonationListingContainer: React.FC<DonationListingProps> = ({
         style: styles.loadMoreButton,
         testID: 'btn-donation-list-load-more',
       }}
-      fetchMoreButtonLabel={t('donations:donationListing.loadMoreButton.text')}
+      fetchMoreButtonLabel={t('donations.donationListing.loadMoreButton.text')}
     >
       <DonationListing resetSearch={resetSearch} locationQuery={locationQuery} />
     </Pagination>

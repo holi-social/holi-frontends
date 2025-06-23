@@ -77,7 +77,7 @@ export const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volu
 
   return (
     <HoliModalContentWrapper
-      actionButtonText={t('volunteering:filter.submitButton')}
+      actionButtonText={t('volunteering.filter.submitButton')}
       onActionButtonPress={submit}
       style={styles.modalWrapper}
       testID="volunteering-filter-modal"
@@ -87,12 +87,12 @@ export const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volu
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text size="3xl">{t('volunteering:filter.heading')}</Text>
+          <Text size="3xl">{t('volunteering.filter.heading')}</Text>
           <Button label={t('global.reset')} inline onPress={resetForm} variant="secondary" size="sm" icon={Close} />
         </View>
         <PlacesAutocomplete
-          label={t('volunteering:filter.location.label')}
-          placeholder={t('volunteering:filter.location.placeholder')}
+          label={t('volunteering.filter.location.label')}
+          placeholder={t('volunteering.filter.location.placeholder')}
           selected={selectedLocation}
           id="volunteering-filter-location"
           testID="volunteering-filter-location"
@@ -102,28 +102,28 @@ export const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volu
         />
         <HoliSelect
           options={topicOptions}
-          inputLabel={t('volunteering:filter.topics.label')}
-          aria-label={t('volunteering:filter.topics.label')}
-          placeholder={t('volunteering:filter.topics.placeholder')}
+          inputLabel={t('volunteering.filter.topics.label')}
+          aria-label={t('volunteering.filter.topics.label')}
+          placeholder={t('volunteering.filter.topics.placeholder')}
           style={[styles.filterOption, { zIndex: 1 }]}
           onChange={toggleTopicSelection}
           id="volunteering-filter-topics"
           testID="volunteering-filter-topics"
           multiSelect
-          multiSelectionLabel={t('volunteering:filter.topics.multiSelectionLabel')}
+          multiSelectionLabel={t('volunteering.filter.topics.multiSelectionLabel')}
           virtualized={true}
         />
         <HoliSelect
           options={skillOptions}
-          inputLabel={t('volunteering:filter.skills.label')}
-          aria-label={t('volunteering:filter.skills.label')}
-          placeholder={t('volunteering:filter.skills.placeholder')}
+          inputLabel={t('volunteering.filter.skills.label')}
+          aria-label={t('volunteering.filter.skills.label')}
+          placeholder={t('volunteering.filter.skills.placeholder')}
           style={[styles.filterOption, { zIndex: 0 }]}
           onChange={toggleSkillSelection}
           id="volunteering-filter-skills"
           testID="volunteering-filter-skills"
           multiSelect
-          multiSelectionLabel={t('volunteering:filter.skills.multiSelectionLabel')}
+          multiSelectionLabel={t('volunteering.filter.skills.multiSelectionLabel')}
           virtualized={true}
         />
       </View>

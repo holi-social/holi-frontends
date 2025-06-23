@@ -31,10 +31,10 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
 
   return (
     <View style={[styles.container, style]} testID="volunteering-card">
-      <HoliLink label={t('volunteering:recommended.title')} href={'/volunteering'}>
+      <HoliLink label={t('volunteering.recommended.title')} href={'/volunteering'}>
         <View style={styles.header}>
           <Text size="xs" colorOverride={theme.colors.gray300}>
-            {t('volunteering:recommended.title')}
+            {t('volunteering.recommended.title')}
           </Text>
           <View style={styles.seeMore}>
             <Text size="xs">{t('global.seeMore')}</Text>

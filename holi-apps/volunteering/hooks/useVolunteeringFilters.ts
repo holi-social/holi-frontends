@@ -38,7 +38,7 @@ const useDiscoveryV1Filters = (): FilterHook => {
   const { t } = useTranslation()
   const geolocationProps = useGeolocationDetailsWithSuggestion(geolocationId, (error) =>
     displayError(error, 'Failed to load geolocation details', {
-      displayMessage: t('volunteering:listing.error'),
+      displayMessage: t('volunteering.listing.error'),
       location: 'useDiscoveryV1Filters.useGeolocationDetailsWithSuggestion',
       geolocationId,
     })

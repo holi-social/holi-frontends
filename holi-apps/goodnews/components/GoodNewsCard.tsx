@@ -44,7 +44,7 @@ const GoodNewsCard: React.FC<GoodNewsCardProps> = ({ article, style }: GoodNewsC
             <HoliIcon icon={ArrowRightS} size={16} />
           </View>
         </View>
-        <Text size="xs">{t('goodnews:listing.partnerModal.goodnews.eu.buttonText')}</Text>
+        <Text size="xs">{t('goodnews.listing.partnerModal.goodnews.eu.buttonText')}</Text>
         <ImagePreview currentImage={article.pictureUrl} />
         <Text size="lg">{article.headline}</Text>
         <Text size="xs">{date}</Text>

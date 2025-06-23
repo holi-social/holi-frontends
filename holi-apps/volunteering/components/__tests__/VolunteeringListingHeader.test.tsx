@@ -17,18 +17,18 @@ describe('VolunteeringListingHeader', () => {
   it('should render correct header for recommendations', () => {
     render(<VolunteeringListingHeader />)
 
-    expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('listing.subline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
     expect(screen.getByText('Recos subtitle')).toBeOnTheScreen()
-    expect(screen.queryByText('filter.result')).not.toBeOnTheScreen()
+    expect(screen.queryByText('volunteering.filter.result')).not.toBeOnTheScreen()
   })
 
   it('should render correct header when filtering', () => {
     render(<VolunteeringListingHeader isFiltering={true} totalResults={123} />)
 
-    expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('listing.subline')).toBeOnTheScreen()
-    expect(screen.getByText('filter.result')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
     expect(screen.queryByText('Recos subtitle')).not.toBeOnTheScreen()
   })
 
@@ -40,7 +40,7 @@ describe('VolunteeringListingHeader', () => {
 
     render(<VolunteeringListingHeader />)
 
-    await user.press(screen.getByText('listing.subline'))
+    await user.press(screen.getByText('volunteering.listing.subline'))
 
     const modal = screen.getByTestId('volunteering-partner-modal')
     expect(within(modal).getAllByRole('heading')).toHaveLength(expectedPartners.length)

@@ -23,7 +23,7 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
 
   return (
     <HoliModalContentWrapper
-      actionButtonText={t('donations:search.submitButton')}
+      actionButtonText={t('donations.search.submitButton')}
       onActionButtonPress={() => onSubmit(selectedLocation?.label)}
       style={styles.modalWrapper}
       testID="donations-search-modal-content"
@@ -32,7 +32,7 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>
-          <HoliHeading>{t('donations:search.heading')}</HoliHeading>
+          <HoliHeading>{t('donations.search.heading')}</HoliHeading>
           <Button
             inline
             label={t('global.reset')}
@@ -45,8 +45,8 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
         </View>
         <PlacesAutocomplete
           selected={selectedLocation}
-          label={t('donations:search.location.label')}
-          placeholder={t('donations:search.location.placeholder')}
+          label={t('donations.search.location.label')}
+          placeholder={t('donations.search.location.placeholder')}
           inputProps={{ autoFocus: true }}
           testID="donations-search-location"
           id="donations-search-location"

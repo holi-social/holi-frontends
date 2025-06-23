@@ -19,7 +19,7 @@ export const VolunteeringEngagementDetail = () => {
 }
 
 const WrappedVolunteeringEngagementDetail = () => (
-  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering.maintenance.feature">
     <VolunteeringEngagementDetail />
   </PosthogFeatureFlagGuard>
 )

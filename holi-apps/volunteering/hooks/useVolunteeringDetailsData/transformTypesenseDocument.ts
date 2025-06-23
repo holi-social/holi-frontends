@@ -36,7 +36,7 @@ export const transformTypesenseDocument = (
   const locationInfo = isRemote
     ? {
         icon: Global,
-        title: t('volunteering:engagement.location_type.remote'),
+        title: t('volunteering.engagement.location_type.remote'),
       }
     : document.location
       ? {
@@ -48,7 +48,7 @@ export const transformTypesenseDocument = (
   const commitmentInfo = document.commitment_label
     ? {
         icon: Refresh,
-        title: t(`volunteering:engagement.commitment_label.${engagement.commitment_label}`),
+        title: t(`volunteering.engagement.commitment_label.${engagement.commitment_label}`),
       }
     : undefined
 

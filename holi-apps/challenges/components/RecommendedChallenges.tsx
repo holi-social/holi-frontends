@@ -90,12 +90,12 @@ const RecommendedChallenges = () => {
       )}
       data={challenges.slice(0, MAX_ITEMS_TO_DISPLAY)}
       icon={StarSmileFilled}
-      heading={t('challenges:recommendations.title')}
-      subline={t('challenges:recommendations.subline')}
+      heading={t('challenges.recommendations.title')}
+      subline={t('challenges.recommendations.subline')}
       seeAllPath={createInAppChallengesPath()}
       onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
       seeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'all')}
-      labelSeeMore={t('challenges:carousel.seeMore')}
+      labelSeeMore={t('challenges.carousel.seeMore')}
       loading={isLoading}
     />
   )

@@ -6,7 +6,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import type { ProjectInitiative } from '@holi-apps/donations/typings'
@@ -23,7 +23,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
   const name = initiative.name
   return (
     <HoliButton
-      label={t('donations:initiative.link.button', { name })}
+      label={t('donations.initiative.link.button', { name })}
       transparent
       disabled={!initiative.url}
       onPress={() => initiative.url && Linking.openURL(initiative.url)}
@@ -41,7 +41,7 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">
-                <Trans t={t} i18nKey="donations:initiative.indication" values={{ name }} shouldUnescape={true}>
+                <Trans t={t} i18nKey="donations.initiative.indication" values={{ name }} shouldUnescape={true}>
                   <HoliText style={styles.initiativeName} bold size="small" />
                 </Trans>
               </HoliText>

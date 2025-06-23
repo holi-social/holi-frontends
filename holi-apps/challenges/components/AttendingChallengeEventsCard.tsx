@@ -48,7 +48,7 @@ const AttendingChallengeEventsCard = ({ challengeEvent }: PropsWithChildren<Atte
 
         <View style={styles.content}>
           <ChipLabel iconLeading={CalendarEventLine} size="sm">
-            {t('challenges:attending.title')}
+            {t('challenges.attending.title')}
           </ChipLabel>
           <HoliGap size="xs" />
           <Text size="sm">{challengeEvent?.title}</Text>

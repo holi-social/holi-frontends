@@ -77,7 +77,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               source: document?.source,
             })}
             icon={ExternalLink}
-            label={t('volunteering:engagementDetail.getInTouch')}
+            label={t('volunteering.engagementDetail.getInTouch')}
             onPress={() => {
               if (document?.externalUrl) {
                 if (Platform.OS === 'web') {

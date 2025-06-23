@@ -41,17 +41,17 @@ describe('VolunteeringEngagementList', () => {
   it('should render header for engagement recos', () => {
     render(<VolunteeringEngagementList engagements={engagements} />)
 
-    expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('listing.subline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
     expect(screen.getByText('Recos subtitle')).toBeOnTheScreen()
   })
 
   it('should render header for filtered engagements', () => {
     render(<VolunteeringEngagementList engagements={engagements} isFiltering={true} totalResults={123} />)
 
-    expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('listing.subline')).toBeOnTheScreen()
-    expect(screen.getByText('filter.result')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
   })
 
   it('should render footer if given', () => {
@@ -110,7 +110,7 @@ describe('VolunteeringEngagementList', () => {
     render(<VolunteeringEngagementList engagements={engagements} loadingFailed={true} />)
 
     expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if loading results failed', async () => {
@@ -128,7 +128,7 @@ describe('VolunteeringEngagementList', () => {
     render(<VolunteeringEngagementList engagements={[]} />)
 
     expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if no results were found', async () => {

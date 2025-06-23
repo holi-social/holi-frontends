@@ -34,7 +34,7 @@ const VolunteeringAppNavigator = () => {
     headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
     headerTitle: () => (
       <HoliHeading level="2" size="s">
-        {t('volunteering:app.name')}
+        {t('volunteering.app.name')}
       </HoliHeading>
     ),
   }

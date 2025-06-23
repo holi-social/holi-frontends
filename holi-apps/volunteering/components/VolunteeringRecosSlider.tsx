@@ -61,8 +61,8 @@ const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderPro
       }
       data={columns}
       icon={HandHeartsFilled}
-      heading={t('volunteering:app.name')}
-      subline={t('volunteering:app.subline')}
+      heading={t('volunteering.app.name')}
+      subline={t('volunteering.app.subline')}
       seeAllPath="/volunteering"
     />
   )
