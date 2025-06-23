@@ -1,8 +1,7 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { ScrollView, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
@@ -20,13 +19,12 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import HoliModalSelect from '@holi/ui/components/organisms/HoliModalSelect'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
 
 import TimeFrameSection from './sections/TimeFrameSection'
 import TimingSection from './sections/TimingSection'
-import { Text } from 'holi-bricks/components/text'
+import { Text, TextLink } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
@@ -36,6 +34,38 @@ import { InteractionType as CGInteractionType, LocationType, VisibilityType } fr
 
 import type { TaskFormInput } from './types'
 import { useTimeFrame } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { colors } from '@holi/ui/styles/globalVars'
+import { SelectorCard } from 'holi-bricks/components/selectors'
+import { SelectorCardContent } from 'holi-bricks/components/selectors/SelectorCardContent'
+
+const tipsForDescription = [
+  {
+    title: 'spaces.input.task.tipsForDescription.modal.tip_1.title',
+    description: 'spaces.input.task.tipsForDescription.modal.tip_1.description',
+    icon: require('@holi/ui/assets/img/tasks/checkmark.svg'),
+  },
+  {
+    title: 'spaces.input.task.tipsForDescription.modal.tip_2.title',
+    description: 'spaces.input.task.tipsForDescription.modal.tip_2.description',
+    icon: require('@holi/ui/assets/img/tasks/sparkle.svg'),
+  },
+  {
+    title: 'spaces.input.task.tipsForDescription.modal.tip_3.title',
+    description: 'spaces.input.task.tipsForDescription.modal.tip_3.description',
+    icon: require('@holi/ui/assets/img/tasks/news.svg'),
+  },
+  {
+    title: 'spaces.input.task.tipsForDescription.modal.tip_4.title',
+    description: 'spaces.input.task.tipsForDescription.modal.tip_4.description',
+    icon: require('@holi/ui/assets/img/tasks/insight.svg'),
+  },
+  {
+    title: 'spaces.input.task.tipsForDescription.modal.tip_5.title',
+    description: 'spaces.input.task.tipsForDescription.modal.tip_5.description',
+    icon: require('@holi/ui/assets/img/tasks/support.svg'),
+  },
+]
 
 export interface TaskInputFormProps {
   taskInput: TaskFormInput
@@ -54,6 +84,11 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   fieldErrors = {},
   isAdmin,
 }: TaskInputFormProps) => {
+  const {
+    show: showTipsForDescriptionModal,
+    hide: hideTipsForDescriptionModal,
+    props: tipsForDescriptionModalProps,
+  } = useModalState()
   const {
     show: showVisibility,
     visible: visibleVisibility,
@@ -92,9 +127,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
 
@@ -117,8 +150,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
             aria-hidden={true}
             style={styles.thumbnail}
           />
-          // ) : currentThumbnail ? (
-          //   <ReactNativeImage source={{ uri: currentThumbnail }} aria-hidden={true} style={styles.thumbnail} />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
             <HoliIcon icon={LinkM} size={20} colorOverride={colors.brandColorB30} />
@@ -195,6 +226,64 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         <Text size="lg" testID="task-input-label-name">
           {t('spaces.input.task.section.about')}
         </Text>
+
+        <Stack margin={{ top: '3xs' }}>
+          <TextLink size="xs" color="informative" onPress={showTipsForDescriptionModal}>
+            {t('spaces.input.task.tipsForDescription.linkTitle')}
+          </TextLink>
+        </Stack>
+
+        <HoliModal
+          label={t('spaces.input.task.tipsForDescription.modal.title')}
+          {...tipsForDescriptionModalProps}
+          autoHeight={false}
+          backgroundColor={colors.background20}
+        >
+          <ScrollView>
+            <HoliContainer>
+              <Stack gap="3xs" margin={{ left: '3xs', right: '3xs' }}>
+                <Text size="3xl">{t('spaces.input.task.tipsForDescription.modal.title')}</Text>
+
+                <Text size="md" colorOverride={styles.tipDescription.color}>
+                  {t('spaces.input.task.tipsForDescription.modal.description')}
+                </Text>
+              </Stack>
+
+              <Stack margin={{ top: 'md' }} gap="sm">
+                {tipsForDescription.map(({ title, description, icon }, idx) =>
+                  idx === 0 ? (
+                    <SelectorCard
+                      key={title}
+                      title={t(title)}
+                      description={t(description)}
+                      imageSource={icon.default.src}
+                      size="lm"
+                      outlined={false}
+                      alignItems="flex-start"
+                    />
+                  ) : (
+                    <Stack key={title} direction="row" gap="xs" margin={'3xs'} alignItems="flex-start">
+                      <SelectorCardContent
+                        title={t(title)}
+                        description={t(description)}
+                        imageSource={icon.default.src}
+                        size="lm"
+                      />
+                    </Stack>
+                  )
+                )}
+              </Stack>
+
+              <Stack margin={{ top: 'md', bottom: 'xs' }}>
+                <Button
+                  onPress={hideTipsForDescriptionModal}
+                  label={t('spaces.input.task.tipsForDescription.modal.close')}
+                  testID="task-tipsForDescription-close-button"
+                />
+              </Stack>
+            </HoliContainer>
+          </ScrollView>
+        </HoliModal>
 
         <HoliTextInput
           placeholder={t('spaces.input.task.section.about')}
@@ -470,36 +559,38 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
 export default TaskInputForm
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    marginSeparator: {
-      marginTop: Spacing.xs,
-    },
-    sectionWrapper: {
-      borderTopWidth: BorderWidth.sm,
-      borderTopColor: theme.colors.background30,
-      paddingTop: Spacing.lg,
-      marginTop: Spacing.lg,
-    },
-    thumbnailTitle: {
-      marginTop: Spacing['3xl'],
-    },
-    thumbnail: {
-      aspectRatio: 1,
-      width: '20%',
-      borderRadius: Spacing['3xs'],
-      marginBottom: Spacing.xs,
-    },
-    thumbnailSkeleton: {
-      backgroundColor: theme.colors.brandColorB10,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    imageUploadButton: {
-      backgroundColor: theme.colors.background10,
-      borderWidth: BorderWidth.sm,
-    },
-    modalWrapper: {
-      flex: 1,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  marginSeparator: {
+    marginTop: Spacing.xs,
+  },
+  sectionWrapper: {
+    borderTopWidth: BorderWidth.sm,
+    borderTopColor: theme.colors.decorative.greyLight,
+    paddingTop: Spacing.lg,
+    marginTop: Spacing.lg,
+  },
+  thumbnailTitle: {
+    marginTop: Spacing['3xl'],
+  },
+  thumbnail: {
+    aspectRatio: 1,
+    width: '20%',
+    borderRadius: Spacing['3xs'],
+    marginBottom: Spacing.xs,
+  },
+  thumbnailSkeleton: {
+    backgroundColor: theme.colors.decorative.purpleDefault,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imageUploadButton: {
+    backgroundColor: theme.colors.decorative.white,
+    borderWidth: BorderWidth.sm,
+  },
+  modalWrapper: {
+    flex: 1,
+  },
+  tipDescription: {
+    color: theme.components.selector.text,
+  },
+}))
