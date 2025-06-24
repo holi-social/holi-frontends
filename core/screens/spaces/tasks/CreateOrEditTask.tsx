@@ -213,7 +213,7 @@ const CreateOrEditTask = () => {
       animation: 'slide_from_bottom',
       headerTitle: () => (
         <Text headingLevel="1" size="lg">
-          {t('spaces.tasks.edit.title')}
+          {isEditing ? t('spaces.tasks.edit.title') : t('spaces.tasks.add.title')}
         </Text>
       ),
       headerTitleAlign: 'center',
@@ -223,7 +223,7 @@ const CreateOrEditTask = () => {
         footerShown: false,
       },
     })
-  }, [t, isMember, setScreenOptions, showConfirmationModal])
+  }, [t, isMember, setScreenOptions, showConfirmationModal, isEditing])
 
   if (isEditing && errorTask) {
     replaceRoute('/404')
