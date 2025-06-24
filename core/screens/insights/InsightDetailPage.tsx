@@ -18,7 +18,6 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
@@ -31,7 +30,7 @@ import type { Poll } from '@holi/core/screens/polls/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import type { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { MoreFilled } from '@holi/icons/src/generated'
+import { Share } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -52,6 +51,10 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { Stack } from 'holi-bricks/components/stack'
+import { useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType } from '@holi/core/hooks/useShareLink'
+import { InsightFavoriting } from '@holi/core/screens/insights/components/InsightFavoriting'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -92,6 +95,15 @@ const InsightDetailPage = () => {
   })
   const setScreenOptions = useSetScreenOptions()
 
+  const [, shareLink] = useShareLink({
+    link: `/insights/${insight?.id}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('insights.insight.share.message', {
+      title: insight?.title,
+      interpolation: { escapeValue: false },
+    })}`,
+  })
+
   useOnRefresh(refetch)
 
   useIsomorphicLayoutEffect(() => {
@@ -104,17 +116,20 @@ const InsightDetailPage = () => {
         },
       }),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      headerRight: ({ tintColor }) => {
+      headerRight: () => {
         return (
-          insight && (
-            <InsightDrawer insight={insight}>
-              <HoliIcon icon={MoreFilled} colorOverride={tintColor} />
-            </InsightDrawer>
+          insightId && (
+            <Stack direction="row" gap="md">
+              <InsightFavoriting insightId={insightId} isFavorite={insight?.isFavorite || false} />
+              <Pressable onPress={shareLink}>
+                <HoliIcon icon={Share} />
+              </Pressable>
+            </Stack>
           )
         )
       },
     })
-  }, [insight, setScreenOptions, colors.light, colors.dark])
+  }, [insightId, insight?.isFavorite, setScreenOptions, colors.light, colors.dark, shareLink])
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []

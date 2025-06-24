@@ -466,7 +466,7 @@
   "insights.initiatives.recommendation.title": "holi’s recommendation",
   "insights.initiatives.title": "Take action with holi",
   "insights.insight.favorite.button": "Save to favourites",
-  "insights.insight.favorite.success": "Saved in favourites",
+  "insights.insight.favorite.success": "Saved! You can find all your favorites in the <underline>favorite overview</underline>.",
   "insights.insight.login.prompt.message": "To save in favourites, you have to sign up first",
   "insights.insight.notFound": "Topic {{insightId}} not found",
   "insights.insight.remove.favorite.button": "Saved in favourites",

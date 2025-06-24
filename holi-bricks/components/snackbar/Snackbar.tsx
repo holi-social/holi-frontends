@@ -10,9 +10,10 @@ import { Pressable, View } from 'react-native'
 import { Spacing } from 'holi-bricks/foundations'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Modal } from 'react-native'
 
 interface SnackbarProps {
-  label: string
+  label: string | React.ReactNode
   variant?: 'error' | 'warning' | 'success'
   icon?: HoliIconType
   actionLabel?: string
@@ -20,7 +21,6 @@ interface SnackbarProps {
   showDismiss?: boolean
   persistent?: boolean
   duration?: 'short' | 'medium' | 'long'
-  positionTowardsParent?: 'above' | 'below'
   show?: boolean
   onDismiss?: () => void
 }
@@ -34,7 +34,6 @@ export const Snackbar = ({
   showDismiss,
   persistent = false,
   duration = 'medium',
-  positionTowardsParent: position = 'below',
   show = true,
   onDismiss,
 }: SnackbarProps) => {
@@ -90,47 +89,50 @@ export const Snackbar = ({
 
   if (!visible) return null
   return (
-    <Pressable
-      style={styles.snackbar(position)}
-      onHoverIn={pauseTimer} // dont close snackbar while hovering
-      onHoverOut={startTimer} // reset timer to close snackbar
-    >
-      <Stack
-        backgroundColor="selected"
-        borderRadius="md"
-        direction="row"
-        justifyContent="space-between"
-        padding="xxs"
-        width={351}
-        alignItems="center"
-      >
-        <Stack direction="row" gap="3xs" flexShrink={1} alignItems="center">
-          {icon && <HoliIcon icon={icon} color={iconColor} colorOverride={iconColorOverride} />}
-          <Text size="sm" color="selected">
-            {label}
-          </Text>
-        </Stack>
-        <Stack direction="row" gap="3xs" alignItems="center">
-          {actionLabel && (
-            <View style={{ maxWidth: Spacing['4xl'] }}>
-              <TextLink size="sm" color="selected" onPress={onPress} numberOfLines={1}>
-                {actionLabel}
-              </TextLink>
-            </View>
-          )}
-          {showDismiss && (
-            <ButtonIcon
-              icon={Close}
-              onPress={closeSnackbar}
-              label="close button"
-              transparent
-              color="selected"
-              size="lg"
-            />
-          )}
-        </Stack>
+    <Modal transparent visible={visible} animationType="fade" onRequestClose={onDismiss}>
+      <Stack flex={1} justifyContent="flex-end" alignItems="center" padding={{ bottom: 'xl' }}>
+        <Pressable
+          onHoverIn={pauseTimer} // dont close snackbar while hovering
+          onHoverOut={startTimer} // reset timer to close snackbar
+        >
+          <Stack
+            backgroundColor="selected"
+            borderRadius="md"
+            direction="row"
+            justifyContent="space-between"
+            padding="xxs"
+            width={351}
+            alignItems="center"
+          >
+            <Stack direction="row" gap="3xs" flexShrink={1} alignItems="center">
+              {icon && <HoliIcon icon={icon} color={iconColor} colorOverride={iconColorOverride} />}
+              <Text size="sm" color="selected">
+                {label}
+              </Text>
+            </Stack>
+            <Stack direction="row" gap="3xs" alignItems="center">
+              {actionLabel && (
+                <View style={{ maxWidth: Spacing['4xl'] }}>
+                  <TextLink size="sm" color="selected" onPress={onPress} numberOfLines={1}>
+                    {actionLabel}
+                  </TextLink>
+                </View>
+              )}
+              {showDismiss && (
+                <ButtonIcon
+                  icon={Close}
+                  onPress={closeSnackbar}
+                  label="close button"
+                  transparent
+                  color="selected"
+                  size="lg"
+                />
+              )}
+            </Stack>
+          </Stack>
+        </Pressable>
       </Stack>
-    </Pressable>
+    </Modal>
   )
 }
 
@@ -140,13 +142,4 @@ const stylesheet = createStyleSheet((theme) => ({
       color: theme.colors.decorative[colorVariant],
     }
   },
-  snackbar: (position) => ({
-    position: 'absolute',
-    top: position === 'above' ? -Spacing['4xl'] : 0,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    padding: position === 'above' ? 0 : Spacing.xl,
-    zIndex: 1000,
-  }),
 }))

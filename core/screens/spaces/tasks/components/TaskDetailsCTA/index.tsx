@@ -213,8 +213,6 @@ export const TaskDetailsCTA = ({
     <>
       <Snackbar
         label={t('spaces.tasks.contactOrganization.snackbar')}
-        // persistent
-        positionTowardsParent="above"
         icon={CheckboxCircleFilled}
         showDismiss
         onDismiss={() => setShowSnackbar(false)}

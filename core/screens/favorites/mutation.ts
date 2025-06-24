@@ -35,7 +35,9 @@ export const favoriteV2Mutation = gql`
 `
 
 export interface FavoriteV2Response {
-  success: boolean
+  favoriteV2: {
+    success: boolean
+  }
 }
 
 export const unfavoriteV2Mutation = gql`
@@ -47,5 +49,7 @@ export const unfavoriteV2Mutation = gql`
 `
 
 export interface UnfavoriteV2Response {
-  success: boolean
+  unfavoriteV2: {
+    success: boolean
+  }
 }
