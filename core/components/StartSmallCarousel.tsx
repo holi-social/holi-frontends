@@ -21,15 +21,15 @@ import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocati
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-  const { user } = useLoggedInUser()
-  const { geolocationDetails } = useGeolocationDetails(user?.geolocationId)
+  const { user, isLoading: isLoadingUser } = useLoggedInUser()
+  const { geolocationDetails, loadingGeolocation: isLoadingGeolocation } = useGeolocationDetails(user?.geolocationId)
 
   const {
     engagements,
     fetchNextPage,
     canFetchMore,
     isLoading: isLoadingEngagements,
-  } = useMicroactions({ userLocation: geolocationDetails })
+  } = useMicroactions({ userLocation: geolocationDetails, skip: isLoadingUser || isLoadingGeolocation })
 
   const listProps = {
     horizontal: true,

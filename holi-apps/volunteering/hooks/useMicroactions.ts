@@ -9,17 +9,19 @@ import type { PlaceDetails } from '@holi/core/geolocation/typings'
 
 interface UseMicroactionProps {
   userLocation?: PlaceDetails
+  skip?: boolean
 }
 
 export const MICROACTION_PAGE_SIZE = 5
 
-export const useMicroactions = ({ userLocation }: UseMicroactionProps = {}) => {
+export const useMicroactions = ({ userLocation, skip }: UseMicroactionProps = {}) => {
   const language = useUserLanguage()
 
   const { parameters } = useMicroactionParameters(MICROACTION_PAGE_SIZE, userLocation)
 
   const { state, fetchNextPage, refetch, isFetchingMore } = useTypesensePaginationQuery({
     parameters,
+    skip,
     onError: (error) => {
       logError(error, 'Error retrieving recommendations', {
         location: 'useMicroactions.useTypesensePaginationQuery',

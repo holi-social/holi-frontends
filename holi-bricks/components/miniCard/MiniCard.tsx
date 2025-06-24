@@ -1,12 +1,10 @@
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import type { AvatarProps } from 'holi-bricks/components/avatar'
-import type { ButtonVariant } from 'holi-bricks/components/button/helpers'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
-import { type DimensionValue, View } from 'react-native'
+import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
@@ -16,24 +14,12 @@ import { placeholderImages } from 'holi-bricks/components/image/placeholderImage
 
 export interface MiniCardProps {
   title: string
-  subtitle?: string
   chipLabel?: string
   bottomLabel?: string
-  topLabelIcon?: HoliIconType
   imageSrc?: MultiPlatformImageSource
-  date?: string
-  maxWidth?: DimensionValue
-  fixedWidth?: DimensionValue
   chipIcon?: HoliIconType
   chipCounterIcon?: HoliIconType
   chipCounter?: string
-  buttonIcon?: HoliIconType
-  topLabelRightIcon?: HoliIconType
-  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
-  buttonIconVariant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
-  minHeight?: number
-  children?: React.ReactNode
-  fullHeight?: boolean
   imageLabel?: string
   fallbackImageHashKey?: string
   bottomIconRight?: HoliIconType
