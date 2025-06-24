@@ -555,7 +555,7 @@
   "insights.initiatives.recommendation.title": "holi’s Empfehlung",
   "insights.initiatives.title": "Werde aktiv mit holi",
   "insights.insight.favorite.button": "Speichern",
-  "insights.insight.favorite.success": "In Favoriten gespeichert",
+  "insights.insight.favorite.success": "Gespeichert! Du findest all deine Favoriten in der <underline>Favoritenübersicht</underline>.",
   "insights.insight.login.prompt.message": "Um diesen Insight in den Favoriten zu speichern, musst du dich erst registrieren.",
   "insights.insight.notFound": "Thema {{insightId}} nicht gefunden",
   "insights.insight.remove.favorite.button": "Gespeichert in Favoriten",
