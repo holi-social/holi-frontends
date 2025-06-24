@@ -42,15 +42,14 @@ const StartSmallCarousel = () => {
       <View style={{ flex: 1, minHeight: 261 }}>
         <HoliMoreCard
           role="link"
-          label={t('act.startSmall.showAll')}
+          label={t('act.startSmall.showMore')}
           onPress={fetchNextPage}
-          testID={'start-small-slider-load-more-button'}
           hasButton
           bgImageSrc={require('@holi/ui/assets/img/placeholder/placeholder-blue.svg')}
           fixedWidth={146}
         >
           <Button
-            label={t('act.startSmall.showAll')}
+            label={t('act.startSmall.showMore')}
             size="sm"
             onPress={fetchNextPage}
             loading={isLoadingEngagements}
@@ -101,21 +100,17 @@ const StartSmallCarousel = () => {
   return (
     <View style={styles.startSmallCarousel}>
       <Stack gap="sm" minHeight="auto" flex={1}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" padding={{ left: 'xs', right: 'xs' }}>
-          <Stack direction="row" gap="xs" justifyContent="center" alignItems="center" flex={1}>
-            <Stack direction="column" flex={1}>
-              <Stack direction="row" gap="3xs">
-                <HoliIcon icon={Footprints} size={24} color="informative" />
-                <Text size="xxl" headingLevel="3">
-                  {t('act.startSmall.title')}
-                </Text>
-              </Stack>
-              <Stack padding={{ left: 'lg' }}>
-                <Text size="sm" color="support">
-                  {t('act.startSmall.subline')}
-                </Text>
-              </Stack>
-            </Stack>
+        <Stack direction="column" padding={{ left: 'xs', right: 'xs' }}>
+          <Stack direction="row" gap="3xs">
+            <HoliIcon icon={Footprints} size={24} color="informative" />
+            <Text size="xl" headingLevel="3">
+              {t('act.startSmall.title')}
+            </Text>
+          </Stack>
+          <Stack padding={{ left: 'lg' }}>
+            <Text size="sm" color="support">
+              {t('act.startSmall.subline')}
+            </Text>
           </Stack>
         </Stack>
 
