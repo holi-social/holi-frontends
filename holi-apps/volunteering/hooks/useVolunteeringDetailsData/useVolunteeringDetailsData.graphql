@@ -1,5 +1,0 @@
-mutation TrackEngagementView($id: String!) {
-  appVolunteering_trackEngagementView(id: $id) {
-    id
-  }
-}
