@@ -6,6 +6,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
+import { useTranslation } from 'react-i18next'
 
 export interface HoliMoreCardSmallProps {
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -17,7 +18,7 @@ export interface HoliMoreCardSmallProps {
   fixedWidth?: number
 }
 
-const HoliMoreCardSmall = ({
+const HoliMoreCard = ({
   children,
   onPress,
   role,
@@ -28,6 +29,7 @@ const HoliMoreCardSmall = ({
   fixedWidth,
 }: PropsWithChildren<HoliMoreCardSmallProps>) => {
   const { styles } = useStyles(stylesheet)
+  const { t } = useTranslation()
 
   return (
     <Pressable role={role} aria-label={label} accessible onPress={onPress} testID={testID} style={{ flex: 1 }}>
@@ -44,10 +46,19 @@ const HoliMoreCardSmall = ({
         gap="3xs"
       >
         <View style={styles.imageContainer(!!bgImageSrc, fixedWidth)}>
-          {bgImageSrc && <Image alt="see more" source={bgImageSrc} width={0} height={0} resizeMode="cover" stretch />}
+          {bgImageSrc && (
+            <Image
+              alt={t('global.seeMore.plusIcon.label')}
+              source={bgImageSrc}
+              width={0}
+              height={0}
+              resizeMode="cover"
+              stretch
+            />
+          )}
           <View style={styles.image}>
             <Image
-              alt="see more plus icon"
+              alt={t('global.seeMore.plusIcon.label')}
               source={require('@holi/ui/assets/img/illustrations/plus-circle.svg')}
               width={96}
               height={96}
@@ -66,7 +77,7 @@ const HoliMoreCardSmall = ({
   )
 }
 
-export default HoliMoreCardSmall
+export default HoliMoreCard
 
 const stylesheet = createStyleSheet((theme) => ({
   image: {

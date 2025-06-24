@@ -3,7 +3,6 @@ import { useMemo } from 'react'
 
 export const useMicroactionParameters = (pageSize: number, location?: PlaceDetails) => {
   const parameters = useMemo(() => {
-    const sortBy = ['_rand():desc']
     const filterBy = [
       'type:=[volunteering,task]',
       'commitment_duration:=[MINUTES_10to15,MINUTES_15to30,MINUTES_30to60]',
@@ -18,7 +17,7 @@ export const useMicroactionParameters = (pageSize: number, location?: PlaceDetai
 
     return {
       filter_by: filterBy.join(' && '),
-      sort_by: sortBy.join(','),
+      sort_by: '_rand():desc',
       per_page: pageSize,
     }
   }, [pageSize, location?.geolocation.properties])

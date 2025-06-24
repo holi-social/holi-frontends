@@ -97,6 +97,10 @@ const StartSmallCarousel = () => {
     />
   )
 
+  if (isLoadingUser || isLoadingGeolocation || isLoadingEngagements) {
+    return null
+  }
+
   return (
     <View style={styles.startSmallCarousel}>
       <Stack gap="sm" minHeight="auto" flex={1}>

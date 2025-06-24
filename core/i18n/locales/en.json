@@ -309,6 +309,7 @@
   "global.save": "Save",
   "global.seeAll": "See all",
   "global.seeMore": "See more",
+  "global.seeMore.plusIcon.label": "See more illustration",
   "global.share": "Share",
   "global.share.copied": "Link copied to clipboard",
   "global.share.copy.link": "Copy link",
