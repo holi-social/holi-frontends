@@ -33,10 +33,6 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
     initUrl()
   }, [challenge.id])
 
-  if (!challenge.submissionsCount && !challenge.isUpcoming) {
-    return null
-  }
-
   return (
     <View style={styles.container}>
       <HoliLinkTracked

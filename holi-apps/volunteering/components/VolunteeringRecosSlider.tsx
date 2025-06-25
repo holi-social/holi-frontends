@@ -29,6 +29,7 @@ const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderPro
       commitmentType: item.commitment_label,
       locationType: item.location_type,
       source: item.source,
+      sourceSection: 'Volunteering',
     })
   }
 

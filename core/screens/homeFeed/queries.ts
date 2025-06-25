@@ -1,6 +1,4 @@
 import { gql } from '@apollo/client/core'
-import type { Task } from '@holi/api/graphql/graphql-codegen'
-
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
 import { InsightFragment } from '@holi/core/screens/insights/queries'
@@ -35,10 +33,6 @@ export const checkAppVersionQuery = gql`
 
 export type CheckAppVersionResponse = {
   checkAppVersion: NeedUpdate
-}
-
-export type RecommendedTasksQueryResponse = {
-  recommendedTasks: Paged<Task>
 }
 
 export interface FeedResponse {

@@ -53,6 +53,7 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
             commitmentType: engagement.commitment_label,
             locationType: engagement.location_type,
             source: engagement.source,
+            sourceSection: 'Volunteering',
           }
         )}
       >

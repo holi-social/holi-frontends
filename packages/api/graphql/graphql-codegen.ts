@@ -1618,8 +1618,6 @@ export type Query = {
   post: FeedPost
   postById?: Maybe<Post>
   postsByUserId: FeedPostPaged
-  recommendedSpaces: SpacePaged
-  recommendedTasks: TaskPaged
   /** @deprecated Deprecated since 1.53. */
   sdgs: SdgPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
@@ -1653,7 +1651,6 @@ export type Query = {
   userById?: Maybe<User>
   userByName: UserPaged
   userHasVotedByPollId: Scalars['Boolean']['output']
-  userSuggestions: UserPaged
   usersByChatIdentities: UserPaged
 }
 
@@ -1889,16 +1886,6 @@ export type QueryPostsByUserIdArgs = {
   userId: Scalars['UUID']['input']
 }
 
-export type QueryRecommendedSpacesArgs = {
-  limit?: Scalars['Int']['input']
-  offset?: Scalars['Int']['input']
-}
-
-export type QueryRecommendedTasksArgs = {
-  limit?: Scalars['Int']['input']
-  offset?: Scalars['Int']['input']
-}
-
 export type QuerySdgsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -1973,11 +1960,6 @@ export type QueryUserByNameArgs = {
 
 export type QueryUserHasVotedByPollIdArgs = {
   id: Scalars['UUID']['input']
-}
-
-export type QueryUserSuggestionsArgs = {
-  limit?: Scalars['Int']['input']
-  offset?: Scalars['Int']['input']
 }
 
 export type QueryUsersByChatIdentitiesArgs = {
@@ -3112,102 +3094,6 @@ export type UnfavoriteMutationVariables = Exact<{
 }>
 
 export type UnfavoriteMutation = { __typename?: 'Mutation'; unfavorite: { __typename?: 'Result'; success: boolean } }
-
-export type TaskFragment = {
-  __typename?: 'Task'
-  id: string
-  name: string
-  description: string
-  thumbnail?: string
-  thumbnailBlurhash?: string
-  location?: string
-  locationType: LocationType
-  interactionType?: InteractionType
-  regularity: Regularity
-  skillsV2: Array<string>
-  interactionSignupLink?: string
-  space: {
-    __typename?: 'Space'
-    id: string
-    title: string
-    name: string
-    avatar?: string
-    avatarBlurhash?: string
-    avatarDefaultColor: string
-  }
-}
-
-export type RecommendedTasksQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>
-}>
-
-export type RecommendedTasksQuery = {
-  __typename?: 'Query'
-  recommendedTasks: {
-    __typename?: 'TaskPaged'
-    totalResults: number
-    data: Array<{
-      __typename?: 'Task'
-      id: string
-      name: string
-      description: string
-      thumbnail?: string
-      thumbnailBlurhash?: string
-      location?: string
-      locationType: LocationType
-      interactionType?: InteractionType
-      regularity: Regularity
-      skillsV2: Array<string>
-      interactionSignupLink?: string
-      space: {
-        __typename?: 'Space'
-        id: string
-        title: string
-        name: string
-        avatar?: string
-        avatarBlurhash?: string
-        avatarDefaultColor: string
-      }
-    }>
-  }
-}
-
-export type SpaceRecommendationQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>
-}>
-
-export type SpaceRecommendationQuery = {
-  __typename?: 'Query'
-  recommendedSpaces: {
-    __typename?: 'SpacePaged'
-    totalResults: number
-    data: Array<{
-      __typename?: 'Space'
-      title: string
-      name: string
-      description?: string
-      location?: string
-      id: string
-      cover?: string
-      members: {
-        __typename?: 'SpaceMemberPaged'
-        totalResults: number
-        data: Array<{
-          __typename?: 'SpaceMember'
-          user: {
-            __typename?: 'User'
-            id: string
-            avatar?: string
-            avatarLabel: string
-            avatarDefaultColor: string
-            avatarBlurhash?: string
-            fullName: string
-          }
-        }>
-      }
-    }>
-  }
-}
 
 export type SpaceCardFragment = {
   __typename?: 'Space'
@@ -5223,15 +5109,6 @@ export type FullEventFragment = {
   }
 }
 
-export type TrackEngagementViewMutationVariables = Exact<{
-  id: Scalars['String']['input']
-}>
-
-export type TrackEngagementViewMutation = {
-  __typename?: 'Mutation'
-  appVolunteering_trackEngagementView: { __typename?: 'AppVolunteering_TrackEngagementViewResponse'; id?: string }
-}
-
 export const FullAuthenticatedUserFragmentDoc = gql`
     fragment FullAuthenticatedUser on AuthenticatedUser {
   id
@@ -5343,29 +5220,6 @@ export const PostFragmentFragmentDoc = gql`
     ${FullUserAvatarFragmentDoc}
 ${PostImageDataFragmentDoc}
 ${LinkFragmentFragmentDoc}`
-export const TaskFragmentDoc = gql`
-    fragment Task on Task {
-  id
-  name
-  description
-  space {
-    id
-    title
-    name
-    avatar
-    avatarBlurhash
-    avatarDefaultColor
-  }
-  thumbnail
-  thumbnailBlurhash
-  location
-  locationType
-  interactionType
-  regularity
-  skillsV2
-  interactionSignupLink
-}
-    `
 export const SpaceCardFragmentDoc = gql`
     fragment SpaceCard on Space {
   title
@@ -5835,123 +5689,6 @@ export function useUnfavoriteMutation(
 export type UnfavoriteMutationHookResult = ReturnType<typeof useUnfavoriteMutation>
 export type UnfavoriteMutationResult = Apollo.MutationResult<UnfavoriteMutation>
 export type UnfavoriteMutationOptions = Apollo.BaseMutationOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
-export const RecommendedTasksDocument = gql`
-    query RecommendedTasks($limit: Int) {
-  recommendedTasks(limit: $limit) {
-    data {
-      ...Task
-    }
-    totalResults
-  }
-}
-    ${TaskFragmentDoc}`
-
-/**
- * __useRecommendedTasksQuery__
- *
- * To run a query within a React component, call `useRecommendedTasksQuery` and pass it any options that fit your needs.
- * When your component renders, `useRecommendedTasksQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRecommendedTasksQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useRecommendedTasksQuery(
-  baseOptions?: Apollo.QueryHookOptions<RecommendedTasksQuery, RecommendedTasksQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<RecommendedTasksQuery, RecommendedTasksQueryVariables>(RecommendedTasksDocument, options)
-}
-export function useRecommendedTasksLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<RecommendedTasksQuery, RecommendedTasksQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<RecommendedTasksQuery, RecommendedTasksQueryVariables>(RecommendedTasksDocument, options)
-}
-export function useRecommendedTasksSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<RecommendedTasksQuery, RecommendedTasksQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<RecommendedTasksQuery, RecommendedTasksQueryVariables>(
-    RecommendedTasksDocument,
-    options
-  )
-}
-export type RecommendedTasksQueryHookResult = ReturnType<typeof useRecommendedTasksQuery>
-export type RecommendedTasksLazyQueryHookResult = ReturnType<typeof useRecommendedTasksLazyQuery>
-export type RecommendedTasksSuspenseQueryHookResult = ReturnType<typeof useRecommendedTasksSuspenseQuery>
-export type RecommendedTasksQueryResult = Apollo.QueryResult<RecommendedTasksQuery, RecommendedTasksQueryVariables>
-export const SpaceRecommendationDocument = gql`
-    query SpaceRecommendation($limit: Int) {
-  recommendedSpaces(limit: $limit) {
-    data {
-      ...SpaceCard
-    }
-    totalResults
-  }
-}
-    ${SpaceCardFragmentDoc}`
-
-/**
- * __useSpaceRecommendationQuery__
- *
- * To run a query within a React component, call `useSpaceRecommendationQuery` and pass it any options that fit your needs.
- * When your component renders, `useSpaceRecommendationQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSpaceRecommendationQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useSpaceRecommendationQuery(
-  baseOptions?: Apollo.QueryHookOptions<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>(
-    SpaceRecommendationDocument,
-    options
-  )
-}
-export function useSpaceRecommendationLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>(
-    SpaceRecommendationDocument,
-    options
-  )
-}
-export function useSpaceRecommendationSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceRecommendationQuery, SpaceRecommendationQueryVariables>(
-    SpaceRecommendationDocument,
-    options
-  )
-}
-export type SpaceRecommendationQueryHookResult = ReturnType<typeof useSpaceRecommendationQuery>
-export type SpaceRecommendationLazyQueryHookResult = ReturnType<typeof useSpaceRecommendationLazyQuery>
-export type SpaceRecommendationSuspenseQueryHookResult = ReturnType<typeof useSpaceRecommendationSuspenseQuery>
-export type SpaceRecommendationQueryResult = Apollo.QueryResult<
-  SpaceRecommendationQuery,
-  SpaceRecommendationQueryVariables
->
 export const ValidateSpaceDocument = gql`
     mutation ValidateSpace($input: ValidateSpaceInput!) {
   validateSpace(input: $input) {
@@ -8028,47 +7765,3 @@ export type NearbyEventsQueryHookResult = ReturnType<typeof useNearbyEventsQuery
 export type NearbyEventsLazyQueryHookResult = ReturnType<typeof useNearbyEventsLazyQuery>
 export type NearbyEventsSuspenseQueryHookResult = ReturnType<typeof useNearbyEventsSuspenseQuery>
 export type NearbyEventsQueryResult = Apollo.QueryResult<NearbyEventsQuery, NearbyEventsQueryVariables>
-export const TrackEngagementViewDocument = gql`
-    mutation TrackEngagementView($id: String!) {
-  appVolunteering_trackEngagementView(id: $id) {
-    id
-  }
-}
-    `
-export type TrackEngagementViewMutationFn = Apollo.MutationFunction<
-  TrackEngagementViewMutation,
-  TrackEngagementViewMutationVariables
->
-
-/**
- * __useTrackEngagementViewMutation__
- *
- * To run a mutation, you first call `useTrackEngagementViewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTrackEngagementViewMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [trackEngagementViewMutation, { data, loading, error }] = useTrackEngagementViewMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useTrackEngagementViewMutation(
-  baseOptions?: Apollo.MutationHookOptions<TrackEngagementViewMutation, TrackEngagementViewMutationVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<TrackEngagementViewMutation, TrackEngagementViewMutationVariables>(
-    TrackEngagementViewDocument,
-    options
-  )
-}
-export type TrackEngagementViewMutationHookResult = ReturnType<typeof useTrackEngagementViewMutation>
-export type TrackEngagementViewMutationResult = Apollo.MutationResult<TrackEngagementViewMutation>
-export type TrackEngagementViewMutationOptions = Apollo.BaseMutationOptions<
-  TrackEngagementViewMutation,
-  TrackEngagementViewMutationVariables
->

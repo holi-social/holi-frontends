@@ -58,6 +58,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
           commitmentType: engagement.commitment_label,
           locationType: engagement.location_type,
           source: engagement.source,
+          sourceSection: 'Volunteering',
         }
       )}
       isFullHeight={!!fixedWidth}
