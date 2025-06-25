@@ -55,7 +55,7 @@ export const EventList = () => {
 
   const filterButton = (
     <HoliButtonBell
-      label={t('volunteering:filter.heading')}
+      label={t('volunteering.filter.heading')}
       icon={Filter3}
       onPress={showFilterModal}
       testID="btn-to-volunteering-filter-modal"
@@ -107,7 +107,7 @@ export const EventList = () => {
 
             {/* info modal */}
             <InfoModal
-              headline={t('volunteering:listing.partnerModal.headline')}
+              headline={t('volunteering.listing.partnerModal.headline')}
               items={partner}
               shown={partnerModalVisible}
               onDismiss={closePartnerModal}

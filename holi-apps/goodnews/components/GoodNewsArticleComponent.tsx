@@ -82,7 +82,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
       </ImageBackground>
       <View style={[mixins.container, styles.contentContainer]} testID="goodnews-list-item">
         <PartnerInfoRow
-          rowText={t('goodnews:app.subline')}
+          rowText={t('goodnews.app.subline')}
           showOutlinkIcon={false}
           partners={{ 'goodnews.eu': partner }}
           onPress={partnerModalState.show}
@@ -92,7 +92,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
           items={{ 'goodnews.eu': partner }}
           shown={partnerModalState.visible}
           onDismiss={partnerModalState.hide}
-          i18nPrefix={'goodnews:listing.partnerModal'}
+          i18nPrefix={'goodnews.listing.partnerModal'}
           testID="goodnews-partner-modal"
         />
         <HoliText size="small" style={styles.source}>
@@ -106,7 +106,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
         <HoliGap size="xs" />
         {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
         <Button
-          label={t('goodnews:button.readArticle')}
+          label={t('goodnews.button.readArticle')}
           onPress={() => Linking.openURL(article.articleUrl)}
           testID="btn-to-article-external"
           variant="secondary"

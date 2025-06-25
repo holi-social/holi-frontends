@@ -111,7 +111,7 @@ describe('VolunteeringDetailsScreen', () => {
     expect(screen.getByText(document.location!)).toBeVisible()
     document.topics_v2?.forEach((topic) => expect(screen.getByText(`topic.${topic}`)).toBeVisible())
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
-    expect(screen.getByText('volunteering:engagement.commitment_label.negotiable')).toBeVisible()
+    expect(screen.getByText('volunteering.engagement.commitment_label.negotiable')).toBeVisible()
   })
 
   it('should render correctly (de)', async () => {
@@ -142,7 +142,7 @@ describe('VolunteeringDetailsScreen', () => {
     await act(jest.runAllTimersAsync)
 
     const user = userEvent.setup()
-    await user.press(screen.getByLabelText('engagementDetail.getInTouch'))
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
 
     await act(jest.runAllTimersAsync)
     expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()

@@ -91,23 +91,23 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
           />
         )}
         <Text size="md" textAlign="center">
-          <Trans t={t} i18nKey={'goodnews:listing.teaser.description'}>
+          <Trans t={t} i18nKey={'goodnews.listing.teaser.description'}>
             <HoliTextLink
-              label={t('goodnews:listing.teaser.textLink.label')}
-              href={t('goodnews:listing.teaser.textLink.url')}
+              label={t('goodnews.listing.teaser.textLink.label')}
+              href={t('goodnews.listing.teaser.textLink.url')}
               external
               size="md"
             />
           </Trans>
         </Text>
         <HoliButton
-          label={t('goodnews:button.loadMoreArticles.label')}
+          label={t('goodnews.button.loadMoreArticles.label')}
           style={styles.loadMoreBtn}
           onPress={animateAndFetchMore}
           testID="btn-goodnews-list-load-more"
         >
           <HoliText bold style={styles.btnText}>
-            {t('goodnews:listing.loadMoreButton.text')}
+            {t('goodnews.listing.loadMoreButton.text')}
           </HoliText>
         </HoliButton>
       </View>

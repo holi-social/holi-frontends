@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -13,7 +14,7 @@ export type GoodNewsHeaderProps = {
 
 const GoodNewsHeader: React.FC<GoodNewsHeaderProps> = ({ formattedDate = undefined }) => {
   const { t } = useTranslation()
-  const title = t('goodnews:app.name')
+  const title = t('goodnews.app.name')
   const { theme } = useTheme()
   const { colors } = theme
   const commonStyles = useMemo(() => getCommonStyles(theme), [theme])

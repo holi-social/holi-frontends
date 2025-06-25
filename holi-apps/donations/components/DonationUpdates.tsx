@@ -87,10 +87,10 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
       renderItem={renderItem}
       data={projectsToRender}
       icon={CoinsFill}
-      heading={t('donations:app.name')}
-      subline={t('donations:app.subline')}
+      heading={t('donations.app.name')}
+      subline={t('donations.app.subline')}
       seeAllPath="/donations"
-      labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
+      labelSeeMore={t('donations.donationListing.loadMoreButton.text')}
       loading={loading}
     />
   )

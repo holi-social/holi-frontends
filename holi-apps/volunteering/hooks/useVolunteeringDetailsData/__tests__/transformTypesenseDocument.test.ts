@@ -48,7 +48,7 @@ describe('transformDocument', () => {
           icon: MapPin2,
         },
         {
-          title: 'volunteering:engagement.commitment_label.recurring',
+          title: 'volunteering.engagement.commitment_label.recurring',
           icon: Refresh,
         },
       ],
@@ -186,11 +186,11 @@ describe('transformDocument', () => {
     const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
     expect(result.infoList).toEqual([
       {
-        title: 'volunteering:engagement.location_type.remote',
+        title: 'volunteering.engagement.location_type.remote',
         icon: Global,
       },
       {
-        title: 'volunteering:engagement.commitment_label.recurring',
+        title: 'volunteering.engagement.commitment_label.recurring',
         icon: Refresh,
       },
     ])

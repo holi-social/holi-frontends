@@ -67,7 +67,7 @@ export const VolunteeringEngagementList = ({
                   isSvg
                 />
               }
-              secondText={t('volunteering:filter.notFound.description')}
+              secondText={t('volunteering.filter.notFound.description')}
             >
               <Button label={t('search.filter.reset')} onPress={clearFilters} />
             </HoliNoResults>

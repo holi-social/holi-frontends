@@ -24,7 +24,7 @@ import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const title = t('volunteering:app.name')
+  const title = t('volunteering.app.name')
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -41,7 +41,7 @@ const VolunteeringAppHome = () => {
   useIsomorphicLayoutEffect(() => {
     const filterButton = (
       <HoliButtonBell
-        label={t('volunteering:filter.heading')}
+        label={t('volunteering.filter.heading')}
         icon={Filter3}
         showBell={isFiltering}
         onPress={() => {
@@ -76,7 +76,7 @@ const VolunteeringAppHome = () => {
         shown={filterModalShown}
         onDismiss={closeModal}
         testID="volunteering-filter-modal"
-        label={t('volunteering:filter.heading')}
+        label={t('volunteering.filter.heading')}
         autoHeight={false}
         relativeHeight={1}
       >
@@ -96,7 +96,7 @@ const VolunteeringAppHome = () => {
 
 const WrappedVolunteeringAppHome = () => {
   return (
-    <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
+    <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering.maintenance.feature">
       <VolunteeringAppHome />
     </PosthogFeatureFlagGuard>
   )

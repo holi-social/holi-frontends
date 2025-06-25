@@ -26,7 +26,7 @@ const { useParam, useUpdateParams } = createParamHooks<DonationsAppHomeParams>()
 
 const DonationsAppHome = () => {
   const { t } = useTranslation()
-  const title = t('donations:app.name')
+  const title = t('donations.app.name')
   const mixins = useStyleMixins()
   const { height: deviceHeight } = useWindowDimensions()
   const { theme } = useTheme()
@@ -59,7 +59,7 @@ const DonationsAppHome = () => {
     // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
     // const searchButton = (
     //   <HoliButton
-    //     label={t('donations:search.heading')}
+    //     label={t('donations.search.heading')}
     //     inline
     //     transparent
     //     onPress={() => setShowSearchModal(true)}
@@ -89,7 +89,7 @@ const DonationsAppHome = () => {
           shown={showSearchModal}
           onDismiss={closeModal}
           testID="donations-search-modal"
-          label={t('donations:search.heading')}
+          label={t('donations.search.heading')}
           autoHeight={false}
           // Smaller devides use the whole screen and
           // larger ones should have more space above for clicking the backdrop pane
@@ -106,7 +106,7 @@ const DonationsAppHome = () => {
 }
 
 const WrappedDonationsAppHome = () => (
-  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.DONATIONS} i18nKey="donations:maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.DONATIONS} i18nKey="donations.maintenance.feature">
     <DonationsAppHome />
   </PosthogFeatureFlagGuard>
 )

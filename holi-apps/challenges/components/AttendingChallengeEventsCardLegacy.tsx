@@ -10,7 +10,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 
-import { ChallengeEvent } from '@holi-apps/challenges/components/types'
+import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
 export interface AttendingChallengeEventsCardProps {
@@ -48,7 +48,7 @@ const AttendingChallengeEventsCard = ({
         imageBorderRadius={4}
       >
         <ChipLabel iconLeading={CalendarEventLine} size="sm">
-          {t('challenges:attending.title')}
+          {t('challenges.attending.title')}
         </ChipLabel>
         <HoliGap size="xs" />
         <HoliText size="small" bold>

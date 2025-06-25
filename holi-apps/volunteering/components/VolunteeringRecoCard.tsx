@@ -21,7 +21,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
   const isRemote = engagement.location_type === 'remote'
   const link = linkFromLocator(engagement.type, engagement.link_locators)
   const linkLabel = engagement?.organizer_name
-    ? t('volunteering:engagement.title', {
+    ? t('volunteering.engagement.title', {
         title: engagement.title,
         organization: engagement.organizer_name,
         interpolation: { escapeValue: false },
@@ -34,7 +34,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
       color: 'blue',
       size: 'md',
       iconLeading: Refresh,
-      children: t(`volunteering:engagement.commitment_label.${engagement.commitment_label}`),
+      children: t(`volunteering.engagement.commitment_label.${engagement.commitment_label}`),
     })
   }
   if (engagement.commitment_duration && engagement.commitment_duration !== 'INDETERMINATE') {
@@ -42,7 +42,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
       color: 'blue',
       size: 'md',
       iconLeading: Time,
-      children: t(`volunteering:engagement.commitment_duration.${engagement.commitment_duration}`),
+      children: t(`volunteering.engagement.commitment_duration.${engagement.commitment_duration}`),
     })
   }
 
@@ -68,7 +68,7 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
         title={engagement.title}
         subtitle={
           engagement.organizer_name
-            ? t('volunteering:engagement.organization', { organization: engagement.organizer_name })
+            ? t('volunteering.engagement.organization', { organization: engagement.organizer_name })
             : ''
         }
         imageSrc={engagement.image_url}
@@ -82,10 +82,10 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
             : undefined
         }
         topLabelIcon={isRemote ? Global : engagement.location ? MapPin2Filled : undefined}
-        topLabel={isRemote ? t('volunteering:engagement.location_type.remote') : engagement.location}
+        topLabel={isRemote ? t('volunteering.engagement.location_type.remote') : engagement.location}
         fixedWidth={fixedWidth}
         fullHeight={!!fixedWidth}
-        imageLabel={t('volunteering:engagement.thumbnail.label')}
+        imageLabel={t('volunteering.engagement.thumbnail.label')}
         fallbackImageHashKey={engagement.id}
       >
         <CompactCard.FooterChips chips={footerChips} />

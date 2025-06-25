@@ -8,8 +8,7 @@ const translationLoader: BackendModule = {
   init: () => {},
   read: (language, namespace, callback) => {
     try {
-      const namespaceConfig = i18nConfig.resources[language] || i18nConfig.resources[i18nConfig.fallbackLng]
-      const translations = namespaceConfig[namespace] || namespaceConfig[i18nConfig.fallbackLng]
+      const translations = i18nConfig.resources[language] || i18nConfig.resources[i18nConfig.fallbackLng]
       callback(null, translations)
     } catch (error) {
       callback(error as CallbackError, null)

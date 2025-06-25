@@ -11,7 +11,7 @@ describe('VolunteeringRecoCard', () => {
     render(<VolunteeringRecoCard engagement={reco} index={0} />)
 
     expect(screen.getByText(reco.title)).toBeOnTheScreen()
-    expect(screen.getByText('engagement.commitment_label.recurring')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.commitment_label.recurring')).toBeOnTheScreen()
   })
 
   it('should render title and labels for task engagement', () => {
@@ -23,8 +23,8 @@ describe('VolunteeringRecoCard', () => {
     render(<VolunteeringRecoCard engagement={reco} index={0} />)
 
     expect(screen.getByText(reco.title)).toBeOnTheScreen()
-    expect(screen.getByText('engagement.commitment_label.one-time')).toBeOnTheScreen()
-    expect(screen.getByText('engagement.commitment_duration.MINUTES_30to60')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.commitment_label.one-time')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.commitment_duration.MINUTES_30to60')).toBeOnTheScreen()
   })
 
   it('should render engagement organizer if given', () => {
@@ -32,7 +32,7 @@ describe('VolunteeringRecoCard', () => {
 
     render(<VolunteeringRecoCard engagement={reco} index={0} />)
 
-    expect(screen.getByText('engagement.organization')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.organization')).toBeOnTheScreen()
   })
 
   it('should render organizer initials if given organizer without avatar', () => {
@@ -56,7 +56,7 @@ describe('VolunteeringRecoCard', () => {
 
     render(<VolunteeringRecoCard engagement={reco} index={0} />)
 
-    expect(screen.getByText('engagement.location_type.remote')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
   })
 
   it('should navigate on press to volunteering recommendation', async () => {

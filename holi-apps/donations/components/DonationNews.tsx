@@ -1,17 +1,18 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, type ViewStyle } from 'react-native'
 
-import HoliMediaAuthorHeader, { Author } from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliMediaAuthorHeader, { type Author } from '@holi/core/components/HoliMediaAuthorHeader'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { News } from '@holi-apps/donations/typings'
+import type { News } from '@holi-apps/donations/typings'
 
 type DonationNewsProps = {
   totalEntries: number
@@ -41,10 +42,10 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
   return (
     <View style={[props?.style]}>
       <HoliText bold style={{ marginBottom: totalEntries === 0 ? 0 : 24 }} testID="donations-news-count">
-        {t('donations:donationNews.total', { count: totalEntries })}
+        {t('donations.donationNews.total', { count: totalEntries })}
       </HoliText>
       {mainNews && (
-        <HoliLink label={t('donations:donationNews.readArticle')} href={mainNews.url} external>
+        <HoliLink label={t('donations.donationNews.readArticle')} href={mainNews.url} external>
           <View testID="donation-news-spotlight" style={{ marginBottom: 24 }}>
             <HoliText size="large" style={{ marginBottom: 12 }}>
               {mainNews.title}
@@ -54,7 +55,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
               <HoliMediaAuthorHeader author={author} date={mainNews.publishDate} style={{ marginBottom: 24 }} />
             ) : (
               <HoliText size="small" style={{ color: colors.foreground20, marginBottom: 24 }}>
-                {t('donations:donationNews.publishTime', {
+                {t('donations.donationNews.publishTime', {
                   time: getRelativeDateString(mainNews.publishDate, i18n.language),
                 })}
               </HoliText>
@@ -68,7 +69,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
       {otherNews.length > 0 && (
         <View testID="donations-news-other">
           <HoliText bold style={{ marginBottom: 12 }}>
-            {t('donations:donationNews.moreUpdates')}
+            {t('donations.donationNews.moreUpdates')}
           </HoliText>
 
           {
@@ -76,7 +77,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
             otherNews.map((entry) => (
               <HoliLink
                 key={entry.id}
-                label={t('donations:donationNews.readArticle')}
+                label={t('donations.donationNews.readArticle')}
                 href={entry.url}
                 external
                 testID="donations-news-other-item"
@@ -88,7 +89,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
                     </HoliText>
                     {!!entry.publishDate && (
                       <HoliText size="small" style={{ color: colors.foreground20 }}>
-                        {t('donations:donationNews.publishTime', {
+                        {t('donations.donationNews.publishTime', {
                           time: getRelativeDateString(entry.publishDate, i18n.language),
                         })}
                       </HoliText>

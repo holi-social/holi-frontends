@@ -23,26 +23,26 @@ export const VolunteeringListingHeader = ({ isFiltering, totalResults = 0 }: Vol
 
   return (
     <View>
-      <Text size="3xl">{t('volunteering:discoveryV1.headline')}</Text>
+      <Text size="3xl">{t('volunteering.discoveryV1.headline')}</Text>
       <HoliGap size="s" />
       <PartnerInfoRow
-        rowText={t('volunteering:listing.subline')}
+        rowText={t('volunteering.listing.subline')}
         showOutlinkIcon={false}
         partners={allPartners}
         onPress={showPartnerModal}
       />
       <InfoModal
-        headline={t('volunteering:listing.partnerModal.headline')}
+        headline={t('volunteering.listing.partnerModal.headline')}
         items={allPartners}
         shown={partnerModalVisible}
         onDismiss={closeModal}
         testID={'volunteering-partner-modal'}
-        i18nPrefix={'volunteering:listing.partnerModal'}
+        i18nPrefix={'volunteering.listing.partnerModal'}
       />
       {isFiltering ? (
         <View style={styles.headingRow}>
           <Text size="md" color="support">
-            {t('volunteering:filter.result', {
+            {t('volunteering.filter.result', {
               count: totalResults,
             })}
           </Text>

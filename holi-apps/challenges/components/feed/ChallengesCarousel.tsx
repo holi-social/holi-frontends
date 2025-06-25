@@ -123,9 +123,9 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
           cardWidth={CARD_WIDTH}
         />
       )}
-      heading={t('challenges:feed.carousel.title')}
+      heading={t('challenges.feed.carousel.title')}
       seeAllPath={createInAppChallengesPath('/')}
-      labelSeeMore={t('challenges:carousel.seeMore')}
+      labelSeeMore={t('challenges.carousel.seeMore')}
       cardWidth={CARD_WIDTH}
     />
   )

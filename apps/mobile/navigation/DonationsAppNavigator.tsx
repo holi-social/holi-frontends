@@ -33,7 +33,7 @@ const DonationsAppNavigator = () => {
     headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
     headerTitle: () => (
       <HoliHeading level="2" size="s">
-        {t('donations:app.name')}
+        {t('donations.app.name')}
       </HoliHeading>
     ),
   }

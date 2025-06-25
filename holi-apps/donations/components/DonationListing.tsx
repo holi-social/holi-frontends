@@ -68,7 +68,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
   useEffect(() => {
     if (error) {
       displayError(error, 'Failed to load donation projects', {
-        displayMessage: t('donations:donationListing.error'),
+        displayMessage: t('donations.donationListing.error'),
         location: 'DonationListing.useEffect',
         locationQuery,
       })
@@ -84,14 +84,14 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
       {!!projects.length && (
         <HoliBox padding={[24, 0, 16, 0]}>
           <HoliHeading level="2" size="l" testID="donations-list-search-heading">
-            {t('donations:donationListing.heading')}
+            {t('donations.donationListing.heading')}
           </HoliHeading>
         </HoliBox>
       )}
       {!!projects.length && (
         <>
           <PartnerInfoRow
-            rowText={t('donations:app.subline')}
+            rowText={t('donations.app.subline')}
             showOutlinkIcon={false}
             partners={{ 'betterplace.org': partner }}
             onPress={showPartnerModal}
@@ -100,7 +100,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             items={{ 'betterplace.org': partner }}
             shown={partnerModalVisible}
             onDismiss={closeModal}
-            i18nPrefix={'donations:listing.partnerModal'}
+            i18nPrefix={'donations.listing.partnerModal'}
           />
         </>
       )}
@@ -109,7 +109,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
         <HoliBox padding={[16, 0, 0, 0]}>
           <View style={styles.searchFilter}>
             <HoliText bold testID="donations-list-search-summary" style={{ color: colors.foreground20 }}>
-              {t('donations:donationListing.search.resultCount', { count: totalResults })}
+              {t('donations.donationListing.search.resultCount', { count: totalResults })}
             </HoliText>
             <Button
               inline
@@ -127,7 +127,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
         {isFiltering && !projects.length && (
           <HoliContainer>
             <HoliNoResults
-              firstText={t('donations:donationListing.search.empty.tagline')}
+              firstText={t('donations.donationListing.search.empty.tagline')}
               media={
                 <HoliLocalImage
                   imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
@@ -137,7 +137,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                   isSvg
                 />
               }
-              secondText={t('donations:donationListing.search.empty.headline')}
+              secondText={t('donations.donationListing.search.empty.headline')}
               style={[styles.noResultsMessage]}
             >
               <Button label={t('search.filter.reset')} onPress={resetSearch} />
@@ -159,7 +159,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                     {!!project.categories[0] && (
                       <>
                         <HoliText size="small" style={styles.category}>
-                          {t(`donations:category.${project.categories[0]}`)}
+                          {t(`donations.category.${project.categories[0]}`)}
                         </HoliText>
                       </>
                     )}

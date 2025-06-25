@@ -68,7 +68,7 @@ const DonationsAppProjectDetail = () => {
         return replaceRoute('/404')
       }
       displayError(error, 'Failed to load donation project', {
-        displayMessage: t('donations:donationListing.error'),
+        displayMessage: t('donations.donationListing.error'),
         location: 'DonationsAppProjectDetail.projectByIdQuery',
         projectId,
       })
@@ -79,7 +79,7 @@ const DonationsAppProjectDetail = () => {
   const project = data?.appDonations_project
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('donations:app.name') })
+    setScreenOptions({ title: t('donations.app.name') })
   }, [setScreenOptions, t])
 
   if (!projectId || loading || !project) {
@@ -139,13 +139,13 @@ const DonationsAppProjectDetail = () => {
 
         <View style={[mixins.container, styles.donateButtonContainer]}>
           <HoliLink
-            label={t('donations:projectDetail.donate')}
+            label={t('donations.projectDetail.donate')}
             href={`${project.donationUrl}${UTM_PARAMS}`}
             testID="donations-project-detail-donate-btn"
             external
           >
             <ButtonTracked
-              label={t('donations:projectDetail.donate')}
+              label={t('donations.projectDetail.donate')}
               onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
               trackingEvent={TrackingEvent.Donations.pressed(project.id)}
               icon={ShareBox}
@@ -158,7 +158,7 @@ const DonationsAppProjectDetail = () => {
 }
 
 const WrappedDonationsAppProjectDetail = () => (
-  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.DONATIONS} i18nKey="donations:maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.DONATIONS} i18nKey="donations.maintenance.feature">
     <DonationsAppProjectDetail />
   </PosthogFeatureFlagGuard>
 )

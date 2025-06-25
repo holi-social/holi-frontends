@@ -50,8 +50,8 @@ describe('VolunteeringRecommendations', () => {
     render(<VolunteeringRecommendations />)
 
     // Header
-    expect(screen.getByText('discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('listing.subline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
     expect(screen.getByText('Recos subtitle')).toBeOnTheScreen()
 
     // Results

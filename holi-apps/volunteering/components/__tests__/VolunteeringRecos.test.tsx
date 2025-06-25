@@ -34,8 +34,8 @@ describe('VolunteeringRecos', () => {
     render(<VolunteeringRecos cardWidth={100} />)
 
     // Header
-    expect(screen.getByText('app.name')).toBeOnTheScreen()
-    expect(screen.getByText('app.subline')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.app.name')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.app.subline')).toBeOnTheScreen()
 
     // Results
     expect(screen.getAllByRole('link')).toHaveLength(5)

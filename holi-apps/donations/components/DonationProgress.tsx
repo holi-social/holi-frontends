@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, type ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
@@ -46,11 +46,11 @@ const DonationProgress = ({
       </View>
       <View style={styles.goals}>
         <HoliText size={goalTextSize} bold={size === 'large'} style={{ color: colors.foreground20 }}>
-          {t('donations:donationProgress.percentFunded', { percentage: progressPercentage })}
+          {t('donations.donationProgress.percentFunded', { percentage: progressPercentage })}
         </HoliText>
         {!isSmall && (
           <HoliText size={goalTextSize} bold>
-            {t('donations:donationProgress.openAmount', { amount: openAmount })}
+            {t('donations.donationProgress.openAmount', { amount: openAmount })}
           </HoliText>
         )}
       </View>
