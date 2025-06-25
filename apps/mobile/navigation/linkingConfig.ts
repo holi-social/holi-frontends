@@ -13,6 +13,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
+            [RouteName.MarketingCampaign]: 'marketing-campaign',
           },
         },
         [RouteName.SpacesStack]: {

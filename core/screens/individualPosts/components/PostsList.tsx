@@ -18,12 +18,7 @@ type PostsListProps = {
   showVisibilityBadge?: boolean
 }
 
-const PostsList = ({
-  postsQuery: allPostsQuery,
-  paginationOptions,
-  emptyMessage,
-  showVisibilityBadge = false,
-}: PostsListProps) => {
+const PostsList = ({ postsQuery, paginationOptions, emptyMessage, showVisibilityBadge = false }: PostsListProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const styles = getStyles()
@@ -33,7 +28,7 @@ const PostsList = ({
       fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
       onError: (error: ApolloError) => {
         displayError(error, 'Failed to query posts', {
-          location: 'allPostsQuery',
+          location: 'PostsList',
         })
       },
     },
@@ -42,7 +37,7 @@ const PostsList = ({
 
   return (
     <Pagination
-      query={allPostsQuery}
+      query={postsQuery}
       queryOptions={queryOptions}
       fetchMoreButtonProps={{
         variant: 'secondary',

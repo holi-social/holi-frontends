@@ -69,7 +69,7 @@ export const ContentSelection = ({ onChange, selectedOption, testID = 'content-s
             description={t(`onboarding.contentSelection.${id}.description`)}
             onPress={() => onChange(id)}
             selected={id === selectedOption}
-            image={image}
+            imageSource={image.default?.src}
           />
         ))}
       </View>

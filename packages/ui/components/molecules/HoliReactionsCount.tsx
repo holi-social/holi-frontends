@@ -1,12 +1,13 @@
-import React, { SyntheticEvent, useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { type SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  GestureResponderEvent,
-  NativeMouseEvent,
-  NativeSyntheticEvent,
+  type GestureResponderEvent,
+  type NativeMouseEvent,
+  type NativeSyntheticEvent,
   Platform,
   StyleSheet,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
@@ -14,7 +15,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HandHeartThin, HandHeartThinFilledDarker, HandHeartThinFilledRaised } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type MouseEnterOutEvent = NativeSyntheticEvent<NativeMouseEvent>
 

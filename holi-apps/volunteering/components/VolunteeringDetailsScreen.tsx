@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform } from 'react-native'
 
@@ -14,8 +14,6 @@ import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
-import { useTrackEngagementViewMutation } from '@holi/api/graphql/graphql-codegen'
-import { logError } from '@holi/core/errors/helpers'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 
 const isIos = Platform.OS === 'ios'
@@ -25,22 +23,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
-  const hasTrackedRef = useRef<string>('')
-
-  const [trackEngagementView] = useTrackEngagementViewMutation({
-    onError: (error) =>
-      logError(error, 'Error tracking view for volunteering engagement', {
-        location: 'VolunteeringEngagementDetail.trackEngagementViewMutation',
-        engagementId,
-      }),
-  })
-
-  useEffect(() => {
-    if (document && hasTrackedRef.current !== engagementId) {
-      trackEngagementView({ variables: { id: engagementId } })
-      hasTrackedRef.current = engagementId
-    }
-  }, [document, engagementId, trackEngagementView])
 
   return (
     <Screen

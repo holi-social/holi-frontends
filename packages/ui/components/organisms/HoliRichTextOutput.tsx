@@ -15,6 +15,9 @@ export interface HoliRichTextProps extends Omit<Omit<TextLinkProps, 'variant'>, 
   text: string
   users?: User[]
   links?: Link[]
+  /**
+   * @deprecated This is an unused property, it is not applied to any internal component. It will be removed when this component is migrated to holiBricks.
+   */
   style?: StyleProp<TextStyle>
   mentionStyle?: StyleProp<ViewStyle>
   linkMentionsToProfile?: boolean

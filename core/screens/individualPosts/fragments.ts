@@ -3,7 +3,6 @@ import { gql } from '@apollo/client'
 import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { PollFragment } from '@holi/core/screens/polls/queries'
-import { PostFragment } from '@holi/core/screens/posts/queries'
 
 export const FeedPostDetailsFragment = gql`
   ${FullUserAvatarFragment}
@@ -68,24 +67,5 @@ export const FeedPostDetailsFragment = gql`
     poll {
       ...PollFragment
     }
-  }
-`
-
-export const GenericPostPagedFragment = gql`
-  ${FullUserAvatarFragment}
-  ${LinkFragment}
-  ${PostFragment}
-  ${FeedPostDetailsFragment}
-
-  fragment GenericPostPagedFragment on GenericPostPaged {
-    data {
-      ... on Post {
-        ...PostFragment
-      }
-      ... on FeedPost {
-        ...FeedPostFull
-      }
-    }
-    totalResults
   }
 `

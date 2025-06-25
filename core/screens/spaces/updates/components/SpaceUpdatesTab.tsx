@@ -15,7 +15,11 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { Spacing } from 'holi-bricks/foundations'
-import { CreateSpacePostDocument, SpaceUserConnectionType, VisibilityFilter } from '@holi/api/graphql/graphql-codegen'
+import {
+  SpacePostsBySpaceIdDocument,
+  SpaceUserConnectionType,
+  VisibilityFilter,
+} from '@holi/api/graphql/graphql-codegen'
 
 export interface SpaceUpdatesTabProps {
   space: Space
@@ -106,7 +110,7 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
       )}
 
       <Pagination
-        query={CreateSpacePostDocument}
+        query={SpacePostsBySpaceIdDocument}
         queryOptions={{
           ...spacePostQueryOptions,
           variables: { idOrName: space.name, visibility: hasPostFilter ? filter : VisibilityFilter.All },

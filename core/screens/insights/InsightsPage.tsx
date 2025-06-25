@@ -191,7 +191,7 @@ const InsightsPage = () => {
     pageSize: INSIGHT_PAGE_SIZE,
     queryPath: 'lastInsights',
     onError: (error) => {
-      logError(error, 'Failed to query insights', { location: 'InsightsOfTheWeek' })
+      logError(error, 'Failed to query insights', { location: 'InsightsPage' })
     },
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }

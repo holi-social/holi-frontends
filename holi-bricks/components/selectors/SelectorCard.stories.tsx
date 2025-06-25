@@ -46,7 +46,7 @@ type Story = StoryObj<typeof SelectorCard>
 export const Playground: Story = {
   argTypes: {
     icon: { table: { disable: true } },
-    image: { table: { disable: true } },
+    imageSource: { table: { disable: true } },
     onPress: { table: { disable: true } },
   },
   args: {

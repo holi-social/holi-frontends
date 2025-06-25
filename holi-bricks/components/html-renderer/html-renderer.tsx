@@ -46,6 +46,8 @@ export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ content, contentWidt
           fontWeight: '400',
           margin: 0,
         },
+        ul: commonTextStyle,
+        li: commonTextStyle,
       }}
       enableExperimentalMarginCollapsing
     />

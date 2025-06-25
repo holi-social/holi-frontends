@@ -7,7 +7,6 @@ import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
-import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 import { Stack } from 'holi-bricks/components/stack'
@@ -19,7 +18,6 @@ interface HomeFeedHeaderProps {
 }
 
 const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
-  const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
   const displayChallengesCarousel = useFeatureFlag(FeatureFlagKey.CHALLENGES_CAROUSEL)
   const { t } = useTranslation()
 
@@ -47,7 +45,7 @@ const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
       )}
 
       {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
-      {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
+      <AttendingChallengeEvents />
       <ProfileCompletionCard page="home_feed" />
     </Stack>
   )

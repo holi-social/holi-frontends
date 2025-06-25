@@ -35,7 +35,9 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
     >
       <CompactCard
         title={petition.title}
-        topLabel={t('act.petitions.daysLeft', { days: petition.daysLeft || 'unlimited' })}
+        topLabel={
+          petition.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')
+        }
         subtitle={t(`act.petitions.category.${petition.category}`)}
         topLabelIcon={CalendarEventLine}
         imageSrc={petition.imageUrl}

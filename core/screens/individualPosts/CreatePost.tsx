@@ -12,7 +12,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { type CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
@@ -62,7 +62,7 @@ const CreatePost = () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
-    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }, { query: feedQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: feedQuery }],
   })
 
   const createPost = async () => {

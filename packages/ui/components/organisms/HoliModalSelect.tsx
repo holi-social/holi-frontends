@@ -6,7 +6,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowDownS, ArrowUpS, Global } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -18,6 +17,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Stack } from 'holi-bricks/components/stack'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Text } from 'holi-bricks/components/text'
 
 export type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
 export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
@@ -184,7 +184,7 @@ const HoliModalSelect = <IDType extends string>({
       >
         <ScrollView style={mixins.container}>
           <HoliBox padding={[0, 0, Spacing.xs, 0]}>
-            <HoliHeading level="2">{title}</HoliHeading>
+            <Text size="xxl">{title}</Text>
           </HoliBox>
           {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           {isDense && <View style={styles.separator} />}

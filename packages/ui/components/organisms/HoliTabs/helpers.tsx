@@ -35,6 +35,7 @@ export const renderTabButtonHelper = <D extends HoliTabItem>({
         onPress={() => onPress(key)}
         testID={id}
         {...otherOptions}
+        key={key}
       />
     )
   }

@@ -14,6 +14,7 @@ export enum RouteName {
   InsightsCurationPrinciples = 'InsightsCurationPrinciples',
   DiscussionDetailPage = 'DiscussionDetailPage',
   DiscussionCommentPage = 'DiscussionCommentPage',
+  MarketingCampaign = 'MarketingCampaign',
 
   // Spaces
   SpacesHome = 'SpacesHome',
