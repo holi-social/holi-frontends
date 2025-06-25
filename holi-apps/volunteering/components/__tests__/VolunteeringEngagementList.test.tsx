@@ -85,6 +85,7 @@ describe('VolunteeringEngagementList', () => {
         commitmentType: 'recurring',
         locationType: 'onsite',
         source: engagement.source,
+        sourceSection: 'Volunteering',
       })
     )
   })
@@ -102,6 +103,7 @@ describe('VolunteeringEngagementList', () => {
       TrackingEvent.RecommendationPressed('space_task', task.id, engagements.length, {
         commitmentType: 'one-time',
         locationType: 'onsite',
+        sourceSection: 'Volunteering',
       })
     )
   })

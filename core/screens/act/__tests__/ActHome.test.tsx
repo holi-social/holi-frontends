@@ -38,11 +38,26 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 }))
 
 const cases = [
-  { section: undefined, order: ['VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'] },
-  { section: 'SPACE', order: ['VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'] },
-  { section: 'DONATIONS', order: ['DONATIONS', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES'] },
-  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'] },
-  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'] },
+  {
+    section: undefined,
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+  },
+  {
+    section: 'SPACE',
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+  },
+  {
+    section: 'DONATIONS',
+    order: ['DONATIONS', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES'],
+  },
+  {
+    section: 'VOLUNTEERING',
+    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+  },
+  {
+    section: 'CHALLENGES',
+    order: ['CHALLENGES', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'],
+  },
 ]
 
 describe('ActHome Section', () => {

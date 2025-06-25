@@ -96,6 +96,7 @@ describe('VolunteeringRecoCard', () => {
         commitmentType: 'negotiable',
         locationType: 'onsite',
         source: reco.source,
+        sourceSection: 'Volunteering',
       })
     )
   })
@@ -113,6 +114,7 @@ describe('VolunteeringRecoCard', () => {
         commitmentType: 'one-time',
         locationType: 'onsite',
         source: reco.source,
+        sourceSection: 'Volunteering',
       })
     )
   })
