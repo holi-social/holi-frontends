@@ -137,6 +137,7 @@ describe('FilteredVolunteeringEngagements', () => {
         commitmentType: 'recurring',
         locationType: 'onsite',
         source: engagement.source,
+        sourceSection: 'Volunteering',
       })
     )
   })

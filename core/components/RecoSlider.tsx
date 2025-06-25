@@ -1,5 +1,6 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
-import React, { useState } from 'react'
+import type React from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, type GestureResponderEvent, type ListRenderItem, Platform, View } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'

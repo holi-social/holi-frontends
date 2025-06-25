@@ -23,6 +23,7 @@ const { useParam } = createParamHooks<ActHomeParams>()
 
 export const orderedSections = (selectedContentType?: string) => {
   const sections = [
+    ActSectionType.STARTSMALL,
     ActSectionType.VOLUNTEERING,
     ActSectionType.PETITIONS,
     ActSectionType.EVENTS,
@@ -66,16 +67,18 @@ const ActHome = () => {
     >
       <Stack direction="column" gap="xs" testID="act-home">
         <ActNavBar />
-        <Stack gap="xxl" direction="column">
+        <Stack direction="column">
           {Platform.OS !== 'web' && (
             <HoliContainer>
               <MarketingBanner frameId="act-home-banner" />
             </HoliContainer>
           )}
           <AttendingChallengeEventsLegacy />
-          {sections.map((sectionName) => (
-            <ActSection type={sectionName} key={sectionName} />
-          ))}
+          <Stack gap="xxl">
+            {sections.map((sectionName) => (
+              <ActSection type={sectionName} key={sectionName} />
+            ))}
+          </Stack>
         </Stack>
       </Stack>
     </Screen>

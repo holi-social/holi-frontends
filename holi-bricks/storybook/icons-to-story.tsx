@@ -1,13 +1,10 @@
 import * as Icons from '@holi/icons/src/generated'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import type { InputType } from '@storybook/core/types'
 
-const entries = Object.entries(Icons)
-
-const iconOptions: HoliIconType[] = entries.map(([, comp]) => comp)
-const iconLabels: Record<string, string> = entries.reduce(
-  (acc, [name, comp]) => {
-    acc[comp.toString()] = name
+const iconOptions = Object.keys(Icons)
+export const iconLabels = Object.keys(Icons).reduce(
+  (acc, name) => {
+    acc[name] = name
     return acc
   },
   {} as Record<string, string>
@@ -19,9 +16,10 @@ export const toIconName = (icon?: HoliIconType): string => {
 }
 
 export const controlWithLabel = {
+  options: iconOptions, // ['AddBox', 'AccountCircle', 'ArrowLeft', ...]
+  mapping: Icons, // { AddBox: AddBox, AccountCircle: AccountCircle, ...}
   control: {
     type: 'select',
-    labels: iconLabels,
-  } as InputType['control'],
-  options: iconOptions as InputType['options'],
+    labels: iconLabels, // { AddBox: 'AddBox', AccountCircle: 'AccountCircle', ...}
+  },
 }

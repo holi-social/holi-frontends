@@ -112,6 +112,7 @@ describe('VolunteeringRecommendations', () => {
         commitmentType: 'recurring',
         locationType: 'onsite',
         source: engagement.source,
+        sourceSection: 'Volunteering',
       })
     )
   })
