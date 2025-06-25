@@ -97,7 +97,7 @@ const StartSmallCarousel = () => {
     />
   )
 
-  if (isLoadingUser || isLoadingGeolocation || isLoadingEngagements) {
+  if (isLoadingUser || isLoadingGeolocation || engagements.length === 0) {
     return null
   }
 
