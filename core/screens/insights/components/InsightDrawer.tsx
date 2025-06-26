@@ -1,5 +1,4 @@
-import { useMutation } from '@apollo/client'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -7,16 +6,14 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { FavoriteType } from '@holi/core/screens/favorites/model'
 import {
-  FavoriteV2Response,
-  UnfavoriteV2Response,
-  favoriteV2Mutation,
-  unfavoriteV2Mutation,
-} from '@holi/core/screens/favorites/mutation'
-import { favoritesQuery } from '@holi/core/screens/favorites/queries'
+  FavoritableType,
+  FavoritesDocument,
+  useFavoriteV2Mutation,
+  useUnfavoriteV2Mutation,
+} from '@holi/api/graphql/graphql-codegen'
 import { insightById } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import { Bookmark3Line, BookmarkFill, BookmarkLine, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -37,27 +34,27 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
 
   const { openSignupModal } = useSignupModal()
 
-  const [favorite] = useMutation<FavoriteV2Response>(favoriteV2Mutation, {
+  const [favorite] = useFavoriteV2Mutation({
     onError: (error) =>
       displayError(error, 'Failed to favorite insight', {
         location: 'InsightDrawer.favoriteInsight',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
+    refetchQueries: [{ query: insightById, variables: { id } }, FavoritesDocument],
   })
 
-  const [unfavorite] = useMutation<UnfavoriteV2Response>(unfavoriteV2Mutation, {
+  const [unfavorite] = useUnfavoriteV2Mutation({
     onError: (error) =>
       displayError(error, 'Failed to remove insight favorite', {
         location: 'InsightDrawer.unfavorite',
         id,
       }),
-    refetchQueries: [{ query: insightById, variables: { id } }, favoritesQuery],
+    refetchQueries: [{ query: insightById, variables: { id } }, FavoritesDocument],
   })
 
   const favoriteInsightActionHandler = async () => {
     if (isLoggedIn) {
-      await favorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
+      await favorite({ variables: { favoritableId: id, favoritableType: FavoritableType.Insight } })
       openToast(t('insights.insight.favorite.success'), HoliToastType.SUCCESS)
     } else {
       openSignupModal({
@@ -69,7 +66,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
   }
 
   const unfavoriteActionHandler = async () => {
-    await unfavorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
+    await unfavorite({ variables: { favoritableId: id, favoritableType: FavoritableType.Insight } })
     openToast(t('insights.insight.remove.favorite.success'), HoliToastType.SUCCESS)
   }
 

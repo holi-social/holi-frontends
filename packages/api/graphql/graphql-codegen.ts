@@ -3086,6 +3086,37 @@ export type LinkFragmentFragment = {
   icon?: string
 }
 
+export type FavoriteMutationVariables = Exact<{
+  favoritableId: Scalars['UUID']['input']
+  favoritableType: FavoritableType
+}>
+
+export type FavoriteMutation = { __typename?: 'Mutation'; favorite: { __typename?: 'Result'; success: boolean } }
+
+export type UnfavoriteMutationVariables = Exact<{
+  favoritableId: Scalars['UUID']['input']
+  favoritableType: FavoritableType
+}>
+
+export type UnfavoriteMutation = { __typename?: 'Mutation'; unfavorite: { __typename?: 'Result'; success: boolean } }
+
+export type FavoriteV2MutationVariables = Exact<{
+  favoritableId: Scalars['String']['input']
+  favoritableType: FavoritableType
+}>
+
+export type FavoriteV2Mutation = { __typename?: 'Mutation'; favoriteV2: { __typename?: 'Result'; success: boolean } }
+
+export type UnfavoriteV2MutationVariables = Exact<{
+  favoritableId: Scalars['String']['input']
+  favoritableType: FavoritableType
+}>
+
+export type UnfavoriteV2Mutation = {
+  __typename?: 'Mutation'
+  unfavoriteV2: { __typename?: 'Result'; success: boolean }
+}
+
 export type FavoritesQueryVariables = Exact<{
   offset?: Scalars['Int']['input']
   limit?: Scalars['Int']['input']
@@ -3118,20 +3149,6 @@ export type FavoritesQuery = {
     }>
   }
 }
-
-export type FavoriteMutationVariables = Exact<{
-  favoritableId: Scalars['UUID']['input']
-  favoritableType: FavoritableType
-}>
-
-export type FavoriteMutation = { __typename?: 'Mutation'; favorite: { __typename?: 'Result'; success: boolean } }
-
-export type UnfavoriteMutationVariables = Exact<{
-  favoritableId: Scalars['UUID']['input']
-  favoritableType: FavoritableType
-}>
-
-export type UnfavoriteMutation = { __typename?: 'Mutation'; unfavorite: { __typename?: 'Result'; success: boolean } }
 
 export type TaskFragment = {
   __typename?: 'Task'
@@ -5715,74 +5732,6 @@ export const FullEventFragmentDoc = gql`
   }
 }
     `
-export const FavoritesDocument = gql`
-    query Favorites($offset: Int! = 0, $limit: Int! = 10) {
-  favorites(offset: $offset, limit: $limit) {
-    data {
-      id
-      favoritableId
-      favoritableType
-      favoritable {
-        ... on Insight {
-          __typename
-          id
-          title
-          description
-          datePublished
-          initiatives {
-            link
-          }
-          creator {
-            fullName
-            avatar
-          }
-          headerImage
-          headerImageBlurhash
-        }
-      }
-    }
-    totalResults
-  }
-}
-    `
-
-/**
- * __useFavoritesQuery__
- *
- * To run a query within a React component, call `useFavoritesQuery` and pass it any options that fit your needs.
- * When your component renders, `useFavoritesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFavoritesQuery({
- *   variables: {
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useFavoritesQuery(baseOptions?: Apollo.QueryHookOptions<FavoritesQuery, FavoritesQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
-}
-export function useFavoritesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
-}
-export function useFavoritesSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
-}
-export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>
-export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>
-export type FavoritesSuspenseQueryHookResult = ReturnType<typeof useFavoritesSuspenseQuery>
-export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>
 export const FavoriteDocument = gql`
     mutation Favorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
   favorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
@@ -5855,6 +5804,149 @@ export function useUnfavoriteMutation(
 export type UnfavoriteMutationHookResult = ReturnType<typeof useUnfavoriteMutation>
 export type UnfavoriteMutationResult = Apollo.MutationResult<UnfavoriteMutation>
 export type UnfavoriteMutationOptions = Apollo.BaseMutationOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
+export const FavoriteV2Document = gql`
+    mutation FavoriteV2($favoritableId: String!, $favoritableType: FavoritableType!) {
+  favoriteV2(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+    `
+export type FavoriteV2MutationFn = Apollo.MutationFunction<FavoriteV2Mutation, FavoriteV2MutationVariables>
+
+/**
+ * __useFavoriteV2Mutation__
+ *
+ * To run a mutation, you first call `useFavoriteV2Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteV2Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [favoriteV2Mutation, { data, loading, error }] = useFavoriteV2Mutation({
+ *   variables: {
+ *      favoritableId: // value for 'favoritableId'
+ *      favoritableType: // value for 'favoritableType'
+ *   },
+ * });
+ */
+export function useFavoriteV2Mutation(
+  baseOptions?: Apollo.MutationHookOptions<FavoriteV2Mutation, FavoriteV2MutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<FavoriteV2Mutation, FavoriteV2MutationVariables>(FavoriteV2Document, options)
+}
+export type FavoriteV2MutationHookResult = ReturnType<typeof useFavoriteV2Mutation>
+export type FavoriteV2MutationResult = Apollo.MutationResult<FavoriteV2Mutation>
+export type FavoriteV2MutationOptions = Apollo.BaseMutationOptions<FavoriteV2Mutation, FavoriteV2MutationVariables>
+export const UnfavoriteV2Document = gql`
+    mutation UnfavoriteV2($favoritableId: String!, $favoritableType: FavoritableType!) {
+  unfavoriteV2(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+    `
+export type UnfavoriteV2MutationFn = Apollo.MutationFunction<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>
+
+/**
+ * __useUnfavoriteV2Mutation__
+ *
+ * To run a mutation, you first call `useUnfavoriteV2Mutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfavoriteV2Mutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfavoriteV2Mutation, { data, loading, error }] = useUnfavoriteV2Mutation({
+ *   variables: {
+ *      favoritableId: // value for 'favoritableId'
+ *      favoritableType: // value for 'favoritableType'
+ *   },
+ * });
+ */
+export function useUnfavoriteV2Mutation(
+  baseOptions?: Apollo.MutationHookOptions<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>(UnfavoriteV2Document, options)
+}
+export type UnfavoriteV2MutationHookResult = ReturnType<typeof useUnfavoriteV2Mutation>
+export type UnfavoriteV2MutationResult = Apollo.MutationResult<UnfavoriteV2Mutation>
+export type UnfavoriteV2MutationOptions = Apollo.BaseMutationOptions<
+  UnfavoriteV2Mutation,
+  UnfavoriteV2MutationVariables
+>
+export const FavoritesDocument = gql`
+    query Favorites($offset: Int! = 0, $limit: Int! = 10) {
+  favorites(offset: $offset, limit: $limit) {
+    data {
+      id
+      favoritableId
+      favoritableType
+      favoritable {
+        ... on Insight {
+          __typename
+          id
+          title
+          description
+          datePublished
+          initiatives {
+            link
+          }
+          creator {
+            fullName
+            avatar
+          }
+          headerImage
+          headerImageBlurhash
+        }
+      }
+    }
+    totalResults
+  }
+}
+    `
+
+/**
+ * __useFavoritesQuery__
+ *
+ * To run a query within a React component, call `useFavoritesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoritesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoritesQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useFavoritesQuery(baseOptions?: Apollo.QueryHookOptions<FavoritesQuery, FavoritesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+}
+export function useFavoritesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+}
+export function useFavoritesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+}
+export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>
+export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>
+export type FavoritesSuspenseQueryHookResult = ReturnType<typeof useFavoritesSuspenseQuery>
+export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>
 export const RecommendedTasksDocument = gql`
     query RecommendedTasks($limit: Int) {
   recommendedTasks(limit: $limit) {

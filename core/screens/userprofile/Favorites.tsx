@@ -32,9 +32,6 @@ const Favorites = () => {
   })
 
   const favorites = data?.favorites?.data || []
-  const groupedFavorites = {
-    insights: favorites.filter((favorite) => favorite.favoritable.__typename === 'Insight'),
-  }
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
@@ -47,34 +44,37 @@ const Favorites = () => {
           }}
           padding={{ bottom: 'sm', left: 'sm', right: 'sm', top: 'md' }}
         >
-          {groupedFavorites.insights.length > 0 ? (
+          {favorites.some(({ favoritable }) => favoritable.__typename === 'Insight') ? (
             <Stack direction="column" gap="xxs" margin={{ top: 'xs' }}>
               <Text size="xl">{t('profile.settings.favorites.insights.title')}</Text>
-              {groupedFavorites.insights.map((favorite) => (
-                <HoliLinkTracked
-                  key={favorite.id}
-                  href={`/insights/${favorite.favoritable.id}`}
-                  label={favorite.favoritable.title}
-                  trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
-                    type: 'Insight',
-                    id: favorite.favoritable.id,
-                  })}
-                  isFullHeight
-                >
-                  <CompactCard
-                    topLabelRightIcon={BookmarkFill}
-                    topLabel={favorite.favoritable.datePublished}
-                    subtitle={favorite.favoritable.description}
-                    title={favorite.favoritable.title}
-                    avatar={{
-                      source: favorite.favoritable.creator?.avatar,
-                      label: favorite.favoritable.creator?.fullName || '',
-                    }}
-                    imageSrc={favorite.favoritable.headerImage}
-                    imageLabel={t('act.events.thumbnail.label')}
-                  />
-                </HoliLinkTracked>
-              ))}
+              {favorites.map(
+                (favorite) =>
+                  favorite.favoritable.__typename === 'Insight' && (
+                    <HoliLinkTracked
+                      key={favorite.id}
+                      href={`/insights/${favorite.favoritable.id}`}
+                      label={favorite.favoritable.title}
+                      trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
+                        type: 'Insight',
+                        id: favorite.favoritable.id,
+                      })}
+                      isFullHeight
+                    >
+                      <CompactCard
+                        topLabelRightIcon={BookmarkFill}
+                        topLabel={favorite.favoritable.datePublished}
+                        subtitle={favorite.favoritable.description}
+                        title={favorite.favoritable.title}
+                        avatar={{
+                          source: favorite.favoritable.creator?.avatar,
+                          label: favorite.favoritable.creator?.fullName || '',
+                        }}
+                        imageSrc={favorite.favoritable.headerImage}
+                        imageLabel={t('act.events.thumbnail.label')}
+                      />
+                    </HoliLinkTracked>
+                  )
+              )}
             </Stack>
           ) : (
             <FavoritesListEmpyState />

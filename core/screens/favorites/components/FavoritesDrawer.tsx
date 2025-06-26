@@ -1,17 +1,16 @@
 import { useMutation } from '@apollo/client'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import { UnfavoriteResponse, unfavoriteMutation } from '@holi/core/screens/favorites/mutation'
-import { favoritesQuery } from '@holi/core/screens/favorites/queries'
+import { type UnfavoriteResponse, unfavoriteMutation } from '@holi/core/screens/favorites/mutation'
 import { insightById } from '@holi/core/screens/insights/queries'
 import { Bookmark2Line, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { Insight, UserFavorite } from '@holi/api/graphql/graphql-codegen'
+import { FavoritesDocument, type Insight, type UserFavorite } from '@holi/api/graphql/graphql-codegen'
 
 type FavoriteDrawerProps = {
   item: UserFavorite
@@ -39,7 +38,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
         location: 'FavoriteDrawer.unfavorite',
       }),
     refetchQueries: [
-      favoritesQuery,
+      FavoritesDocument,
       {
         query: insightById,
         variables: {
