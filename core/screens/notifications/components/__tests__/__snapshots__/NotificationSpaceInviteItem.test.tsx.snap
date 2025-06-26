@@ -63,19 +63,22 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
         >
           <View
             style={
-              {
-                "alignItems": "center",
-                "backgroundColor": "#ffffff",
-                "borderColor": "#262424",
-                "borderRadius": 8,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 40,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 40,
-              }
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#ffffff",
+                  "borderColor": "#262424",
+                  "borderRadius": 8,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 40,
+                },
+                {},
+              ]
             }
             testID="space-avatar"
           >
@@ -95,6 +98,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                     "height": 40,
                     "width": 40,
                   },
+                  {},
                   {},
                 ]
               }
@@ -318,6 +322,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="decline-invite-button"
@@ -345,20 +350,23 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.invite.ignore
@@ -421,6 +429,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="accept-invite-button"
@@ -448,20 +457,23 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.invite.accept
@@ -538,19 +550,22 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
         >
           <View
             style={
-              {
-                "alignItems": "center",
-                "backgroundColor": "#ffffff",
-                "borderColor": "#262424",
-                "borderRadius": 8,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 40,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 40,
-              }
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#ffffff",
+                  "borderColor": "#262424",
+                  "borderRadius": 8,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 40,
+                },
+                {},
+              ]
             }
             testID="space-avatar"
           >
@@ -570,6 +585,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                     "height": 40,
                     "width": 40,
                   },
+                  {},
                   {},
                 ]
               }
@@ -807,6 +823,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="decline-invite-button"
@@ -834,20 +851,23 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.invite.ignore
@@ -910,6 +930,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="accept-invite-button"
@@ -937,20 +958,23 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.invite.accept
