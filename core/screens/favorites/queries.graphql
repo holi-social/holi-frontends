@@ -26,15 +26,3 @@ query Favorites($offset: Int! = 0, $limit: Int! = 10) {
     totalResults
   }
 }
-
-mutation Favorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
-  favorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
-    success
-  }
-}
-
-mutation Unfavorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
-  unfavorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
-    success
-  }
-}

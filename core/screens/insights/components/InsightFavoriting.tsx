@@ -1,21 +1,14 @@
 import type React from 'react'
-import { useMutation } from '@apollo/client'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { FavoriteType } from '@holi/core/screens/favorites/model'
-import {
-  type FavoriteV2Response,
-  favoriteV2Mutation,
-  type UnfavoriteV2Response,
-  unfavoriteV2Mutation,
-} from '@holi/core/screens/favorites/mutation'
 import { BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Pressable } from 'react-native'
+import { FavoritableType, useFavoriteV2Mutation, useUnfavoriteV2Mutation } from '@holi/api/graphql/graphql-codegen'
 
 type InsightFavoritingProps = {
   insightId: string
@@ -31,7 +24,7 @@ export const InsightFavoriting = ({ insightId, isFavorite }: InsightFavoritingPr
   const [showSnackbar, setShowSnackbar] = useState(false)
   const [showRemovedSnackbar, setShowRemovedSnackbar] = useState(false)
 
-  const [favorite] = useMutation<FavoriteV2Response>(favoriteV2Mutation, {
+  const [favorite] = useFavoriteV2Mutation({
     onError: (error) =>
       displayError(error, 'Failed to favorite insight', {
         location: 'InsightDetailPage.favoriteInsight',
@@ -49,7 +42,7 @@ export const InsightFavoriting = ({ insightId, isFavorite }: InsightFavoritingPr
     },
   })
 
-  const [unfavorite] = useMutation<UnfavoriteV2Response>(unfavoriteV2Mutation, {
+  const [unfavorite] = useUnfavoriteV2Mutation({
     onError: (error) =>
       displayError(error, 'Failed to remove insight favorite', {
         location: 'InsightDrawer.unfavorite',
@@ -70,7 +63,7 @@ export const InsightFavoriting = ({ insightId, isFavorite }: InsightFavoritingPr
   const favoriteInsightActionHandler = async () => {
     if (isLoggedIn) {
       const favouritingSuccess = (
-        await favorite({ variables: { favoritableId: insightId, favoritableType: FavoriteType.INSIGHT } })
+        await favorite({ variables: { favoritableId: insightId, favoritableType: FavoritableType.Insight } })
       ).data?.favoriteV2.success
       setShowSnackbar(favouritingSuccess || false)
     } else {
@@ -84,7 +77,7 @@ export const InsightFavoriting = ({ insightId, isFavorite }: InsightFavoritingPr
 
   const unfavoriteInsightActionHandler = async () => {
     const unfavoritingSuccess = (
-      await unfavorite({ variables: { favoritableId: insightId, favoritableType: FavoriteType.INSIGHT } })
+      await unfavorite({ variables: { favoritableId: insightId, favoritableType: FavoritableType.Insight } })
     ).data?.unfavoriteV2
     setShowRemovedSnackbar(unfavoritingSuccess?.success || false)
   }
@@ -99,6 +92,7 @@ export const InsightFavoriting = ({ insightId, isFavorite }: InsightFavoritingPr
         onDismiss={() => setShowSnackbar(false)}
         show={showSnackbar}
       />
+
       {/* show snackbar when successfully removed from bookmarks */}
       <Snackbar
         label={t('insights.insight.remove.favorite.success')}
@@ -108,6 +102,7 @@ export const InsightFavoriting = ({ insightId, isFavorite }: InsightFavoritingPr
         onDismiss={() => setShowRemovedSnackbar(false)}
         show={showRemovedSnackbar}
       />
+
       {isFavorite ? (
         <Pressable onPress={unfavoriteInsightActionHandler}>
           <HoliIcon icon={BookmarkFill} />
