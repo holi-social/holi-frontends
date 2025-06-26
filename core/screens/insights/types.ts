@@ -48,6 +48,7 @@ export interface Insight {
   recommendations?: Recommendation[]
   initiatives?: Initiative[]
   discussions?: Discussion[]
+  __typename: 'Insight'
 }
 
 export interface InsightPreview {

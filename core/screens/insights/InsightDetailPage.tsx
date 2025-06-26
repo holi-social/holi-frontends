@@ -7,7 +7,7 @@ import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import type { Discussion } from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType, type Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -54,7 +54,9 @@ import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { Stack } from 'holi-bricks/components/stack'
 import { useShareLink } from '@holi/core/hooks/useShareLink'
 import { LinkType } from '@holi/core/hooks/useShareLink'
-import { InsightFavoriting } from '@holi/core/screens/insights/components/InsightFavoriting'
+import { FavoritingButton } from '@holi/core/components/FavoritingButton'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -65,6 +67,7 @@ const { useUUIDParam } = createParamHooks<InsightDetailPageParams>()
 const InsightDetailPage = () => {
   const [insightId] = useUUIDParam('insightId')
   const { t, i18n } = useTranslation()
+  const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
   const [curatorModalShown, setCuratorModalShown] = useState(false)
@@ -118,18 +121,40 @@ const InsightDetailPage = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => {
         return (
-          insightId && (
+          insight && (
             <Stack direction="row" gap="md">
-              <InsightFavoriting insightId={insightId} isFavorite={insight?.isFavorite || false} />
-              <Pressable onPress={shareLink}>
-                <HoliIcon icon={Share} />
-              </Pressable>
+              <HoliTransition.FadeRight visible index={0}>
+                <FavoritingButton
+                  favoritableId={insight.id}
+                  favoritableType={FavoritableType.Insight}
+                  typename={insight.__typename}
+                  isFavorite={insight.isFavorite ?? false}
+                  onError={(error) =>
+                    displayError(
+                      error,
+                      insight.isFavorite
+                        ? 'Failed to add the insight from favorites'
+                        : 'Failed to remove the insight from favorites',
+                      {
+                        location: 'InsightDetailPage.favoriteInsight',
+                        favoritableId: insight.id,
+                      }
+                    )
+                  }
+                />
+              </HoliTransition.FadeRight>
+
+              <HoliTransition.FadeRight visible index={1}>
+                <Pressable onPress={shareLink}>
+                  <HoliIcon icon={Share} />
+                </Pressable>
+              </HoliTransition.FadeRight>
             </Stack>
           )
         )
       },
     })
-  }, [insightId, insight?.isFavorite, setScreenOptions, colors.light, colors.dark, shareLink])
+  }, [insight, setScreenOptions, colors.light, colors.dark, shareLink, displayError, t])
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []
