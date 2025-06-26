@@ -1,3 +1,5 @@
+import type { FlexStyle } from 'react-native'
+
 export const Spacing = {
   '5xs': 2,
   '4xs': 4,
@@ -24,7 +26,14 @@ export type SizeToEdge =
       right?: SpacingSize
     }
 
-const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
+export type LayoutProps = {
+  margin?: SizeToEdge
+}
+
+type Margins = Pick<FlexStyle, 'margin' | 'marginTop' | 'marginBottom' | 'marginLeft' | 'marginRight'>
+type Paddings = Pick<FlexStyle, 'padding' | 'paddingTop' | 'paddingBottom' | 'paddingLeft' | 'paddingRight'>
+
+const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge): Margins | Paddings => {
   if (!size) return {}
 
   if (typeof size === 'string') {
@@ -44,3 +53,7 @@ const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
 
 export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding', padding)
 export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin)
+
+export const layoutStyle = (props: LayoutProps) => {
+  return makeMargin(props.margin)
+}
