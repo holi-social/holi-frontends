@@ -1,16 +1,20 @@
-import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import { type UnfavoriteResponse, unfavoriteMutation } from '@holi/core/screens/favorites/mutation'
 import { insightById } from '@holi/core/screens/insights/queries'
 import { Bookmark2Line, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { FavoritesDocument, type Insight, type UserFavorite } from '@holi/api/graphql/graphql-codegen'
+import {
+  FavoritesDocument,
+  type FavoritableType,
+  useUnfavoriteV2Mutation,
+  type Insight,
+  type UserFavorite,
+} from '@holi/api/graphql/graphql-codegen'
 
 type FavoriteDrawerProps = {
   item: UserFavorite
@@ -32,7 +36,7 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
     })}`,
   })
 
-  const [unfavorite] = useMutation<UnfavoriteResponse>(unfavoriteMutation, {
+  const [unfavorite] = useUnfavoriteV2Mutation({
     onError: (error) =>
       displayError(error, 'Failed to remove favorite', {
         location: 'FavoriteDrawer.unfavorite',
@@ -49,7 +53,9 @@ const FavoriteDrawer: React.FC<FavoriteDrawerProps> = ({ item, children }: Favor
   })
 
   const removeInsightFavoriteActionHandler = async () => {
-    await unfavorite({ variables: { favoritableId: item.favoritableId, favoritableType: item.favoritableType } })
+    await unfavorite({
+      variables: { favoritableId: item.favoritableId, favoritableType: item.favoritableType as FavoritableType },
+    })
     openToast(t('insights.insight.remove.bookmark.success'), HoliToastType.SUCCESS)
   }
 
