@@ -62,8 +62,8 @@ const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge): Margi
   }
 }
 
-export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding', padding)
-export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin)
+export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding', padding) as Paddings
+export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin) as Margins
 
 export const layoutStyle = (props: LayoutProps) => {
   return makeMargin(props.margin)
