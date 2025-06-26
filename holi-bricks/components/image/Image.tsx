@@ -7,6 +7,7 @@ import type { MultiPlatformImage } from 'holi-bricks/components/image/type'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { isRemoteSource, transformSource } from 'holi-bricks/components/image/helpers'
 import { WithLocalSvg } from 'react-native-svg/css'
+import { layoutStyle } from 'holi-bricks/foundations'
 
 const isLocalSvg = (source: number) => {
   try {
@@ -68,7 +69,12 @@ export const Image: React.FC<MultiPlatformImage> = ({
         accessibilityLabel={alt}
         accessible={otherProps?.['aria-hidden'] === true}
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
-        style={[styles.imageSize(width, height), styles.aspectRatio(aspectRatio), styles.stretch(stretch)]}
+        style={[
+          styles.imageSize(width, height),
+          styles.aspectRatio(aspectRatio),
+          styles.stretch(stretch),
+          layoutStyle(otherProps),
+        ]}
         {...accessibilityProps(otherProps)}
       />
     )
@@ -84,7 +90,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
         accessible={otherProps?.['aria-hidden'] === true}
         placeholder={isRemote ? blurhash : undefined}
-        style={[styles.imageSize(width, height), styles.stretch(stretch)]}
+        style={[styles.imageSize(width, height), styles.stretch(stretch), layoutStyle(otherProps)]}
         contentFit={resizeMode}
         onError={() => {
           setHasError(true)

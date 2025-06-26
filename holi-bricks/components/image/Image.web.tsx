@@ -1,5 +1,6 @@
 import type { MultiPlatformImage } from 'holi-bricks/components/image'
 import { transformSource } from 'holi-bricks/components/image/helpers'
+import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import NextImage from 'next/image'
@@ -46,6 +47,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         ...styles.objectFit(resizeMode),
         ...styles.aspectRatio(aspectRatio),
         ...styles.stretch(stretch),
+        ...layoutStyle(otherProps),
       }}
       onError={() => {
         setHasError(true)
