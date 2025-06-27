@@ -1780,7 +1780,7 @@
   "user.profileForm.location": "Location",
   "user.profileForm.locationPlaceholder": "Where would you like to make a difference?",
   "user.profileForm.pronouns": "What are your preferred pronouns?",
-  "user.profileForm.pronounsHint": "Some ideas: she/her, he/him, they/them",
+  "user.profileForm.pronounsHint": "e.g.: she/her, he/him, they/them",
   "user.profileForm.pronounsPlaceholder": "How would you like to be addressed?",
   "user.profileForm.save": "Save",
   "user.profileView.anonymous": "Anonymous User",
@@ -1872,6 +1872,7 @@
   "volunteering.listing.subline": "provided by our partners",
   "volunteering.maintenance.feature": "The volunteering app",
   "volunteering.recommended.title": "Recommended Volunteering",
+  "volunteeringDetails.timeAI": "Auto-estimated from description",
   "webview.error": "Loading the page failed!",
   "wizard.stepsCount": "Step {{current}} of {{total}}"
 }

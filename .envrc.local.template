@@ -41,3 +41,7 @@ export ORY_ADMIN_ACCESS_TOKEN=
 
 # For graphql codegen - decide which schema to generate from, either staging (default) or e.g. http://localhost:4455/graphql
 export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql
+
+# Localazy api keys, used for scripts
+export LOCALAZY_API_KEY_WRITE=
+export LOCALAZY_API_KEY_READ=
