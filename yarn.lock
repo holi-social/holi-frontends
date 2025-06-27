@@ -6918,6 +6918,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@localazy/cli@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "@localazy/cli@npm:2.0.8"
+  dependencies:
+    "@sinonjs/text-encoding": "npm:0.7.2"
+    ws: "npm:8.18.0"
+  bin:
+    localazy: index.js
+  checksum: 10c0/1e758688a130150f0f72d5354ad602f16b24aae1bbd485df9456cd288ce90b65992d2b3665d531ba8a80ba9388c716799dd07c3bc3af0fb5007834bdb0222b5f
+  languageName: node
+  linkType: hard
+
 "@lottiefiles/react-lottie-player@npm:^3.5.4":
   version: 3.5.4
   resolution: "@lottiefiles/react-lottie-player@npm:3.5.4"
@@ -9487,6 +9499,13 @@ __metadata:
   dependencies:
     "@sinonjs/commons": "npm:^3.0.0"
   checksum: 10c0/2e2fb6cc57f227912814085b7b01fede050cd4746ea8d49a1e44d5a0e56a804663b0340ae2f11af7559ea9bf4d087a11f2f646197a660ea3cb04e19efc04aa63
+  languageName: node
+  linkType: hard
+
+"@sinonjs/text-encoding@npm:0.7.2":
+  version: 0.7.2
+  resolution: "@sinonjs/text-encoding@npm:0.7.2"
+  checksum: 10c0/583a45bf3643169e313ff9d4395aff28b0c4f330d3697e252c3effc13d4303ee30f83df542732c1a68617720e4ea6fc08d48a3d9151c9b354a7fc356a8e9b162
   languageName: node
   linkType: hard
 
@@ -20368,6 +20387,7 @@ __metadata:
     "@graphql-codegen/typescript": "npm:^4.0.6"
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-codegen/typescript-react-apollo": "npm:^4.3.0"
+    "@localazy/cli": "npm:^2.0.8"
     "@parcel/watcher": "npm:^2.4.1"
     "@testing-library/jest-dom": "npm:^6.5.0"
     "@testing-library/jest-native": "npm:^5.4.3"
@@ -32496,6 +32516,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ws@npm:8.18.0, ws@npm:^8.11.0, ws@npm:^8.12.0, ws@npm:^8.12.1, ws@npm:^8.17.1, ws@npm:^8.18.0, ws@npm:^8.2.3":
+  version: 8.18.0
+  resolution: "ws@npm:8.18.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10c0/25eb33aff17edcb90721ed6b0eb250976328533ad3cd1a28a274bd263682e7296a6591ff1436d6cbc50fa67463158b062f9d1122013b361cec99a05f84680e06
+  languageName: node
+  linkType: hard
+
 "ws@npm:8.2.3":
   version: 8.2.3
   resolution: "ws@npm:8.2.3"
@@ -32547,21 +32582,6 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10c0/bd7d5f4aaf04fae7960c23dcb6c6375d525e00f795dd20b9385902bd008c40a94d3db3ce97d878acc7573df852056ca546328b27b39f47609f80fb22a0a9b61d
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.11.0, ws@npm:^8.12.0, ws@npm:^8.12.1, ws@npm:^8.17.1, ws@npm:^8.18.0, ws@npm:^8.2.3":
-  version: 8.18.0
-  resolution: "ws@npm:8.18.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10c0/25eb33aff17edcb90721ed6b0eb250976328533ad3cd1a28a274bd263682e7296a6591ff1436d6cbc50fa67463158b062f9d1122013b361cec99a05f84680e06
   languageName: node
   linkType: hard
 

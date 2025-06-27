@@ -521,48 +521,108 @@ It may be configured at different places, but over all it must be unique.
 
 ### I18n (Internationalization)
 
+Localization is managed in [Localazy](https://localazy.com/) which serves as source of truth for copies and translations.
+
+#### Translation updates
+
+We maintain a snapshot of the current translations in `core/i18n/locales` which gets updated nightly on the main branch.
+
+The translation snapshot can be manually updated using `yarn i18n:download`.
+
+If it's necessary to change keys during development, you can either add them in Localazy via UI (make sure to select the file `holi-core`!) or adjust the JSON files in `core/i18n/locales` and upload them via `yarn i18n:upload`.
+
+Message keys should include prefixes separated by `.` for grouping translations e.g. by screen and be represented in a flat JSON structure.
+
+#### Technical details
+
 We use [i18next](https://www.i18next.com/) as framework for internationalization with [react-i18next](https://react.i18next.com/) for React/React Native support and [ni18n](https://github.com/JCQuintas/ni18n) for NextJS integration and SSR. We also rely on [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) to provide locale data for date and number formatting (polyfilled on mobile using [intl](https://www.npmjs.com/package/intl)).
 
 Our web app supports internationalized routes by adding the locale as sub-path (e.g. <https://app.holi.social/de/spaces>). These sub-paths are ignored when deep linking on mobile.
 
 You can find more documentation [here](https://oss.holi.social/docs/internationalisation).
 
-All translations can be found in `core/i18n/locales`.
+#### Usage examples
 
-Message keys should include prefixes separated by `.` for grouping translations e.g. by screen and be represented in a flat JSON structure.
+- Simple translation
+  - Translation:
 
-#### Usage example
+    ```JSON
+    {
+      "message.simple": "Simple translation"
+    }
+    ```
 
-Example translations
+  - Usage in components:
 
-```JSON
-{
-  "message.simple": "Simple translation",
-  "message.interpolation": "Interpolation {{value}}",
-  "message.nestedComponent": "Translation with a <0>nested component<0>"
-}
-```
+    ```tsx
+    import { useTranslation } from 'react-i18next'
 
-Usage in components
+    const { t } = useTranslation()
 
-```tsx
-import { Trans, useTranslation } from 'react-i18next'
+    // results in: "Simple translation"
+    t('message.simple')
+    ```
 
-const { t } = useTranslation()
+- Interpolation
 
-// results in: "Simple translation"
-t('message.key')
+  - Translation:
 
-// results in: "Interpolation example"
-t('message.interpolation', { value: 'example' })
+    ```JSON
+    {
+      "message.interpolation": "Interpolation {{value}}"
+    }
+    ```
 
-// results in: "Translation with a <HoliText bold>nested component</HoliText>"
-<Trans t={t} i18nKey="message.nestedComponent">
-  <HoliText bold>this text will be replaced by "nested component"</HoliText>
-</Trans>
-```
+  - Usage:
 
-See `holi-apps/donations/components/DonationProgress.tsx` for an example for number formatting using `Intl.NumberFormat`.
+    ```tsx
+    // results in: "Interpolation example"
+    t('message.interpolation', { value: 'example' })
+    ```
+
+- Nested components
+  - Often used e.g. for links embedded in a sentence.
+  - Translation:
+
+    ```JSON
+    {
+      "message.nestedComponent": "Translation with a <0>nested component<0>"
+    }
+    ```
+
+  - Usage:
+
+    ```tsx
+    import { Trans } from 'react-i18next'
+
+    // results in: "Translation with a <Text size="md">nested component</Text>"
+    <Trans t={t} i18nKey="message.nestedComponent">
+      <Text size="md">this text will be replaced by "nested component"</Text>
+    </Trans>
+    ```
+
+- Pluralization
+
+  - Translations:
+
+    ```JSON
+    {
+      "message.pluralization_one": "one example",
+      "message.pluralization_other": "{{count}} examples"
+    }
+    ```
+
+  - Usage
+
+    ```tsx
+    // results in: "one example"
+    t('message.pluralization', { count: 1 })
+    // results in: "3 examples"
+    t('message.pluralization', { count: 3 })
+    ```
+
+- Number formatting
+  - See `holi-apps/donations/components/DonationProgress.tsx` for an example for number formatting using `Intl.NumberFormat`.
 
 #### VS Code extension
 
@@ -645,6 +705,7 @@ For tracking purposes (such as click tracking, impression tracking, etc.), we us
 Its usage example can be found in the `RecoSlider` component. It can be used for both vertical and horizontal lists.
 
 There are few required and optional props:
+
 - `listItemTrackingEvent` (required): a callback that returns a tracking event for the provided list item. Example:
 
 ```
@@ -653,7 +714,7 @@ There are few required and optional props:
   }
 ```
 
-* `listItemIdentifier` (required): a callback that returns an identifier for the provided list item. Example:
+- `listItemIdentifier` (required): a callback that returns an identifier for the provided list item. Example:
 
 ```
   const listItemIdentifier: ListItemIdentifier<Task> = ({ id }) => {
@@ -661,7 +722,8 @@ There are few required and optional props:
   }
 ```
 
-* `itemVisiblePercentThreshold` (optional, default value = 80): an item visible percent threshold (more docs: <https://reactnative.dev/docs/flatlist#viewabilityconfig>)
+- `itemVisiblePercentThreshold` (optional, default value = 80): an item visible percent threshold (more docs: <https://reactnative.dev/docs/flatlist#viewabilityconfig>)
+
 - `minimumViewTime` (optional, default value = 1000): a minimum view time before item is considered as "viewed" (more docs: <https://reactnative.dev/docs/flatlist#viewabilityconfig>)
 - `trackOnce` (optional, default value = false): a flag that defines whether an item should be tracked only once or every time it's viewed
 
