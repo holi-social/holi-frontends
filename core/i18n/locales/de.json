@@ -317,6 +317,9 @@
   "donations.listing.partnerModal.betterplace.org.headline": "Deutschlands größte Spendenplattform",
   "donations.listing.partnerModal.betterplace.org.text": "Die Förderung von Transparenz ist einer der Grundgedanken von betterplace.org. Deshalb verlangt betterplace von den Projekten, die über die Plattform Spenden sammeln, dass sie der Gemeinschaft mitteilen, wie sie diese Spenden verwenden.",
   "donations.maintenance.feature": "Die Spenden App",
+  "donations.project.initiative": "von {{initiative}}",
+  "donations.project.thumbnail.label": "Projekt Cover Bild",
+  "donations.project.title": "{{title}} von {{initiative}}",
   "donations.projectDetail.donate": "Spenden",
   "donations.projectDetail.notFound": "Projekt mit ID {{projectId}} wurde nicht gefunden",
   "donations.search.heading": "Suche",
@@ -1872,7 +1875,7 @@
   "volunteering.listing.subline": "von Partnern bereitgestellt",
   "volunteering.maintenance.feature": "Die Engagement App",
   "volunteering.recommended.title": "Empfohlenes Ehrenamt",
-  "volunteeringDetails.timeAI": "Auto-estimated from description",
+  "volunteeringDetails.timeAI": "Automatisch geschätzt aus der Beschreibung",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
   "wizard.stepsCount": "Schritt {{current}} von {{total}}"
 }
