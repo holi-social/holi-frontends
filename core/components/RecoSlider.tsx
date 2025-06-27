@@ -33,6 +33,8 @@ type RecoSliderProps = {
   viewTrackingParams?: TrackableFlatListParams
   size?: 'sm' | 'md'
   seeMoreTrackingEvent?: TrackingEvent
+  headerTitleSeeMoreTrackingEvent?: TrackingEvent
+  headerTitleTrackingEvent?: TrackingEvent
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -49,6 +51,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   testID,
   viewTrackingParams,
   seeMoreTrackingEvent,
+  headerTitleSeeMoreTrackingEvent,
+  headerTitleTrackingEvent,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -58,7 +62,14 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
   const handleHeaderTitlePress = () => {
     if (seeAllPath) {
-      if (seeMoreTrackingEvent) track(seeMoreTrackingEvent)
+      if (headerTitleTrackingEvent) track(headerTitleTrackingEvent)
+      navigate(seeAllPath)
+    }
+  }
+
+  const handleSeeMoreHeaderTitlePress = () => {
+    if (seeAllPath) {
+      if (headerTitleSeeMoreTrackingEvent) track(headerTitleSeeMoreTrackingEvent)
       navigate(seeAllPath)
     }
   }
@@ -160,7 +171,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
             </Stack>
             {(seeAllPath || onPressSeeMore) && (
               <Stack direction="row">
-                <TextLink size="sm" role="none" onPress={handleSeeMore}>
+                <TextLink size="sm" role="none" onPress={handleSeeMoreHeaderTitlePress}>
                   {t('global.seeMore')}
                 </TextLink>
                 <HoliIcon icon={ArrowRightS} size={20} />
