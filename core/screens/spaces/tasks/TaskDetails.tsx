@@ -15,6 +15,10 @@ import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/Vol
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
+import { FavoritingButton } from '@holi/core/components/FavoritingButton'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 
 const isIos = Platform.OS === 'ios'
 
@@ -22,7 +26,7 @@ export type TaskDetailsParams = {
   taskId: string
 }
 
-const TaskDetailsContainer = () => {
+const TaskDetails = () => {
   const {
     data,
     isOwner,
@@ -37,10 +41,38 @@ const TaskDetailsContainer = () => {
     taskRegularity,
   } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
+  const { displayError } = useErrorHandling()
 
   const renderActionDrawer = useCallback(
-    (tintColor?: string) => <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />,
-    [id, isOwner, spaceName]
+    (tintColor?: string) =>
+      id && (
+        <Stack direction="row" gap="md">
+          <HoliTransition.FadeRight visible index={0}>
+            <FavoritingButton
+              favoritableId={id}
+              favoritableType={FavoritableType.Task}
+              typename={'Task'}
+              isFavorite={false} // TODO: add isFavorite
+              onError={(error) =>
+                displayError(
+                  error,
+                  // eslint-disable-next-line no-constant-condition
+                  false ? 'Failed to add the task from favorites' : 'Failed to remove the task from favorites',
+                  {
+                    location: 'TaskDetails.favoriteTask',
+                    favoritableId: id,
+                  }
+                )
+              }
+            />
+          </HoliTransition.FadeRight>
+
+          <HoliTransition.FadeRight visible index={1}>
+            <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />
+          </HoliTransition.FadeRight>
+        </Stack>
+      ),
+    [displayError, id, isOwner, spaceName]
   )
 
   useTrackOnce(
@@ -109,4 +141,4 @@ const TaskDetailsContainer = () => {
   )
 }
 
-export default memo(TaskDetailsContainer)
+export default memo(TaskDetails)
