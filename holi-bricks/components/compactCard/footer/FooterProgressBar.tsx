@@ -3,6 +3,7 @@ import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
+import { View } from 'react-native'
 
 export type FooterProgressBarProps = {
   /**
@@ -23,13 +24,17 @@ export const FooterProgressBar: React.FC<FooterProgressBarProps> = ({
   }
   return (
     <Stack gap="5xs">
-      <Stack direction="row" justifyContent="space-between">
-        <Text size="xs" color="support">
-          {progressBarLeft}
-        </Text>
-        <Text size="xs" color="main">
-          {progressBarRight}
-        </Text>
+      <Stack direction="row" justifyContent="space-between" alignItems="flex-end">
+        <View style={{ flex: 1 }}>
+          <Text size="xs" color="support">
+            {progressBarLeft}
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text size="xs" color="main" textAlign="right">
+            {progressBarRight}
+          </Text>
+        </View>
       </Stack>
       <HoliProgressBar percentage={progressBarPercentage} />
     </Stack>

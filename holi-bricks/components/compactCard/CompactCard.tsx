@@ -118,7 +118,7 @@ export const CompactCard = (({
                 {title}
               </TextLink>
 
-              <Text numberOfLines={1} ellipsizeMode="tail" size="sm" color="support">
+              <Text numberOfLines={1} ellipsizeMode="tail" size="sm" color="support" selectable={false}>
                 {subtitle}
               </Text>
             </Stack>
