@@ -13,6 +13,7 @@ import RootProvider from '@holi/core/providers/RootProvider'
 import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
@@ -51,7 +52,7 @@ const App = () => {
 
   const init = async () => {
     try {
-      await Promise.all([initI18n(), initAuth(), Appcues.setup(appcuesAccountId, appcuesAppId)])
+      await Promise.all([initI18n(), initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
