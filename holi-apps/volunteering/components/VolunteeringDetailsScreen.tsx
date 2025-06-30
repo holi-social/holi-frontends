@@ -15,10 +15,15 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { FavoritingButton } from '@holi/core/components/FavoritingButton'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 
 const isIos = Platform.OS === 'ios'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
+  const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
@@ -39,6 +44,31 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           },
         }),
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+        headerRight: ({ tintColor }) =>
+          !!document && (
+            <HoliTransition.FadeRight visible>
+              <FavoritingButton
+                favoritableId={engagementId}
+                favoritableType={FavoritableType.ExternalVolunteeringOpportunity}
+                tintColor={tintColor}
+                typename={'Typesense_Document'}
+                isFavorite={false} // TODO: add isFavorite
+                onError={(error) =>
+                  displayError(
+                    error,
+                    // eslint-disable-next-line no-constant-condition
+                    false
+                      ? 'Failed to add the volunteering from favorites'
+                      : 'Failed to remove the volunteering from favorites',
+                    {
+                      location: 'VolunteeringDetailsScreen.favoriteVolunteering',
+                      favoritableId: engagementId,
+                    }
+                  )
+                }
+              />
+            </HoliTransition.FadeRight>
+          ),
         navigationCustomOptions: {
           footerShown: false,
         },

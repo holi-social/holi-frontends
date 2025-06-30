@@ -15,6 +15,7 @@ type FavoritingButtonProps = {
   favoritableId: string
   favoritableType: FavoritableType
   typename: string
+  tintColor?: string
   isFavorite?: boolean
   onError?: (error: ApolloError) => void
 }
@@ -23,6 +24,7 @@ export const FavoritingButton = ({
   favoritableId,
   favoritableType,
   typename,
+  tintColor,
   isFavorite = false,
   onError,
 }: FavoritingButtonProps) => {
@@ -71,11 +73,11 @@ export const FavoritingButton = ({
 
       {isFavorite ? (
         <Pressable onPress={unfavoriteHandler}>
-          <HoliIcon icon={BookmarkFill} />
+          <HoliIcon icon={BookmarkFill} colorOverride={tintColor} />
         </Pressable>
       ) : (
         <Pressable onPress={favoriteHandler}>
-          <HoliIcon icon={BookmarkLine} />
+          <HoliIcon icon={BookmarkLine} colorOverride={tintColor} />
         </Pressable>
       )}
     </>
