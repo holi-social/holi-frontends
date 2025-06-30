@@ -4,27 +4,25 @@ import { StyleSheet, View } from 'react-native'
 
 import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
-import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import type { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import { Button } from 'holi-bricks/components/button'
+import { DonationCard } from '@holi-apps/donations/components/DonationCard'
+import { Spacing } from 'holi-bricks/foundations'
 
 type DonationListingProps = {
   locationQuery?: string
@@ -144,39 +142,12 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             </HoliNoResults>
           </HoliContainer>
         )}
-        <HoliGridWrapper gap={32}>
-          {projects
-            // FIX: duplication in projects after loading more
-            .map((project) => (
-              <HoliGridCell key={project.id}>
-                <HoliLink href={`/donations/${project.id}`} label={project.title}>
-                  <HoliCard
-                    imageLabel={project.title ?? ''}
-                    imageUri={project.picture[0].url}
-                    testID={'donations-list-item'}
-                    imageWidth={0}
-                  >
-                    {!!project.categories[0] && (
-                      <>
-                        <HoliText size="small" style={styles.category}>
-                          {t(`donations.category.${project.categories[0]}`)}
-                        </HoliText>
-                      </>
-                    )}
-                    <HoliGap size="xs" />
-                    <HoliHeading level="2" size="s" selectable>
-                      {project.title}
-                    </HoliHeading>
-                    <HoliGap size="xs" />
-                    <DonationProgress
-                      category={project.categories[0]}
-                      progressPercentage={project.progressPercentage}
-                      openAmountInCents={project.openAmountInCents}
-                    />
-                  </HoliCard>
-                </HoliLink>
-              </HoliGridCell>
-            ))}
+        <HoliGridWrapper gap={Spacing['3xs']}>
+          {projects.map((project, index) => (
+            <HoliGridCell key={project.id}>
+              <DonationCard project={project} index={index} fixedWidth="100%" />
+            </HoliGridCell>
+          ))}
         </HoliGridWrapper>
       </HoliBox>
     </View>
