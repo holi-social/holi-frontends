@@ -41,9 +41,10 @@ interface Props {
 
 const CloseButtonInsideDrawer = () => {
   const { hideDrawer } = useActionDrawerContext()
+  const { t } = useTranslation()
   return (
     <Button
-      label="Close"
+      label={t('spaces.tasks.contactOrganization.modal.close')}
       onPress={() => {
         hideDrawer()
       }}

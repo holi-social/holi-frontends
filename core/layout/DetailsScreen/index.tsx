@@ -83,7 +83,7 @@ const BodyContentRenderer = ({ content }: { content?: string }) => {
     return isHtml(content) ? (
       <HtmlRenderer content={content} />
     ) : (
-      <HoliRichTextOutput text={content as string} color="main" />
+      <HoliRichTextOutput text={content as string} color="main" allowAllLinks />
     )
   }
 
