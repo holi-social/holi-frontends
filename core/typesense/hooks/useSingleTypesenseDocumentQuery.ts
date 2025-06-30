@@ -1,5 +1,4 @@
-import { useQuery } from '@apollo/client'
-import { Typesense_DocumentByIdDocument } from '@holi/api/graphql/graphql-codegen'
+import { useTypesense_DocumentByIdQuery } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
 import type { TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
 import { useEffect, useMemo } from 'react'
@@ -13,7 +12,7 @@ export const useSingleTypesenseDocumentQuery = (
     loading: isLoading,
     data,
     refetch: refresh,
-  } = useQuery(Typesense_DocumentByIdDocument, {
+  } = useTypesense_DocumentByIdQuery({
     variables: {
       id,
       documentType,
@@ -30,23 +29,29 @@ export const useSingleTypesenseDocumentQuery = (
   })
 
   const document = useMemo(() => {
-    if (!data || !data.typesense_documentById?.hits?.length) {
-      return undefined
+    if (
+      data?.typesense_documentById?.__typename === 'Typesense_SearchResponseSuccess' &&
+      data.typesense_documentById?.hits?.length
+    ) {
+      return data.typesense_documentById?.hits?.[0]?.document
     }
-    return data.typesense_documentById.hits[0].document
+    return undefined
   }, [data])
 
   useEffect(() => {
     if (!isLoading && data) {
-      if ('error' in data.typesense_documentById) {
+      if (data.typesense_documentById?.__typename === 'Typesense_SearchResponseError') {
         if (onError) {
-          onError(data.typesense_documentById.error)
+          onError(new Error(data.typesense_documentById.error))
         } else {
           logError(data.typesense_documentById.error, 'Failed to fetch single document', {
             location: 'useSingleTypesenseDocumentQuery.useEffect',
           })
         }
-      } else if (!data?.typesense_documentById?.hits?.length) {
+      } else if (
+        data?.typesense_documentById?.__typename === 'Typesense_SearchResponseSuccess' &&
+        !data?.typesense_documentById?.hits?.length
+      ) {
         onNotFound?.()
       }
     }
