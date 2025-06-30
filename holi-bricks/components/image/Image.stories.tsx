@@ -1,10 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Image } from './Image'
 
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'onError',
+  'onLoadEnd',
+  'fallbackSource',
+]
+
 const meta: Meta<typeof Image> = {
   title: 'Components/Image',
   component: Image,
   argTypes: {
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
     source: { control: 'text' },
     alt: { control: 'text' },
     width: { control: 'number' },
@@ -27,6 +42,7 @@ export const Default: Story = {
     alt: 'Placeholder Image',
     width: 400,
     height: 400,
+    stretch: false,
   },
 }
 
@@ -37,6 +53,7 @@ export const WithFallback: Story = {
     width: 400,
     height: 400,
     fallbackSource: 'https://picsum.photos/400',
+    stretch: false,
   },
 }
 
@@ -46,6 +63,7 @@ export const SvgImage: Story = {
     alt: 'Local SVG',
     width: 56,
     height: 24,
+    stretch: false,
   },
 }
 
@@ -55,5 +73,6 @@ export const LogsErrorOnFail: Story = {
     alt: 'Broken Image',
     width: 150,
     height: 150,
+    stretch: false,
   },
 }

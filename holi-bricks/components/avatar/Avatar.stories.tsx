@@ -2,8 +2,21 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Avatar } from 'holi-bricks/components/avatar/Avatar'
 
 import { Chat3 } from '@holi/icons/src/generated'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 
 const availableSizes = ['xs', 'sm', 'md', 'lg'] as const
+const disabledProps = [
+  'testID',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'imgPlaceholder',
+  'accessible',
+  'id',
+  'role',
+  'tabIndex',
+]
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar/Avatar',
@@ -11,7 +24,8 @@ const meta: Meta<typeof Avatar> = {
   argTypes: {
     label: { description: 'Button text', required: false },
     source: { table: { disable: true } },
-    icon: { table: { disable: true } },
+    icon: { ...controlWithLabel },
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     label: 'Label',

@@ -5,6 +5,8 @@ import React from 'react'
 import { Cloud, Heart } from '@holi/icons/src/generated'
 
 import { ChipLabel } from './ChipLabel'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { Stack } from 'holi-bricks/components/stack'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
@@ -17,7 +19,7 @@ const disabledProps = [
   'aria-labelledby',
   'aria-disabled',
   'tabIndex',
-  'iconLeading',
+  'testID',
 ]
 
 const meta: Meta<typeof ChipLabel> = {
@@ -26,6 +28,8 @@ const meta: Meta<typeof ChipLabel> = {
   argTypes: {
     children: { description: 'Text label', required: true },
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
+    iconTrailing: { ...controlWithLabel },
+    iconLeading: { ...controlWithLabel },
   },
   args: {
     children: 'Chip',
@@ -38,11 +42,6 @@ export const Default: Story = {
   argTypes: {
     color: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },
-    iconTrailing: {
-      table: {
-        disable: true,
-      },
-    },
   },
   args: {
     color: Colors.yellow,
@@ -52,31 +51,25 @@ export const Default: Story = {
 }
 
 export const ByColor: Story = {
-  args: {
-    iconLeading: Cloud,
-  },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableColors.map((c) => (
           <ChipLabel key={c} {...args} color={c} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
 
 export const BySize: Story = {
-  args: {
-    iconLeading: Cloud,
-  },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableSizes.map((s) => (
           <ChipLabel key={s} {...args} size={s} color="green" />
         ))}
-      </>
+      </Stack>
     )
   },
 }
@@ -92,13 +85,13 @@ export const ByIcons: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         <ChipLabel {...args} />
         <ChipLabel {...args} iconLeading={Cloud} />
         <ChipLabel {...args} iconTrailing={Cloud} />
         <ChipLabel {...args} iconLeading={Cloud} iconTrailing={Heart} />
         <ChipLabel {...{ ...args, ...{ children: undefined } }} iconLeading={Cloud} />
-      </>
+      </Stack>
     )
   },
 }

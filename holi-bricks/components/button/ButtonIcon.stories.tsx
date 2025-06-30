@@ -1,13 +1,14 @@
 import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
 import { ButtonIcon } from 'holi-bricks/components/button'
-import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 
 import { Chat3 } from '@holi/icons/src/generated'
-import { View } from 'react-native'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { Stack } from 'holi-bricks/components/stack'
 
 const availableVariants = ['primary', 'secondary', 'tertiary'] as const
+const availableStates = ['loading', 'disabled', 'selected', 'transparent']
 const availableSizes = ['sm', 'md', 'lg'] as const
 const disabledProps = [
   'accessible',
@@ -18,9 +19,9 @@ const disabledProps = [
   'aria-labelledby',
   'aria-disabled',
   'tabIndex',
-  'icon',
   'onPress',
   'testID',
+  'color',
 ]
 
 const meta: Meta<typeof ButtonIcon> = {
@@ -29,6 +30,7 @@ const meta: Meta<typeof ButtonIcon> = {
   argTypes: {
     variant: { control: 'select', options: availableVariants },
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
+    icon: { ...controlWithLabel },
   },
   args: {
     variant: 'primary',
@@ -63,62 +65,63 @@ export const Default: Story = {
 
 export const BySize: Story = {
   args: {
+    variant: 'primary',
+    size: 'md',
+    loading: false,
+    disabled: false,
+    transparent: false,
+    selected: false,
     icon: Chat3,
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableSizes.map((size) => (
-          <View key={size} style={{ margin: 6 }}>
-            <ButtonIcon {...args} size={size} />
-          </View>
+          <ButtonIcon key={size} {...args} size={size} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
 
 export const ByVariant: Story = {
   args: {
+    variant: 'primary',
+    size: 'md',
+    loading: false,
+    disabled: false,
+    transparent: false,
+    selected: false,
     icon: Chat3,
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableVariants.map((variant) => (
-          <View key={variant} style={{ margin: 6 }}>
-            <ButtonIcon {...args} variant={variant} />
-          </View>
+          <ButtonIcon key={variant} {...args} variant={variant} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
 
 export const ByState: Story = {
   args: {
+    variant: 'primary',
+    size: 'md',
+    loading: false,
+    disabled: false,
+    transparent: false,
+    selected: false,
     icon: Chat3,
   },
   render: function Render(args) {
     return (
-      <>
-        <View style={{ margin: 6 }}>
-          <Text size="sm">Loading</Text>
-          <ButtonIcon {...args} label="loading" loading />
-        </View>
-        <View style={{ margin: 6 }}>
-          <Text size="sm">Disabled</Text>
-          <ButtonIcon {...args} label="disabled" disabled />
-        </View>
-        <View style={{ margin: 6 }}>
-          <Text size="sm">Selected</Text>
-          <ButtonIcon {...args} label="selected" selected />
-        </View>
-        <View style={{ margin: 6 }}>
-          <Text size="sm">Transparent</Text>
-          <ButtonIcon {...args} label="transparent" transparent />
-        </View>
-      </>
+      <Stack direction="row" gap="xxs">
+        {availableStates.map((state) => (
+          <ButtonIcon key={state} {...args} label={state} {...{ [state]: true }} />
+        ))}
+      </Stack>
     )
   },
 }

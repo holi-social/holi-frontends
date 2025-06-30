@@ -7,7 +7,8 @@ import React from 'react'
 import { Hearts, Pencil } from '@holi/icons/src/generated'
 
 import { ChipAction } from './ChipAction'
-import { View } from 'react-native'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { Stack } from 'holi-bricks/components/stack'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
@@ -21,6 +22,7 @@ const disabledProps = [
   'aria-disabled',
   'tabIndex',
   'onPress',
+  'testID',
 ]
 
 const meta: Meta<typeof ChipAction> = {
@@ -29,6 +31,8 @@ const meta: Meta<typeof ChipAction> = {
   argTypes: {
     children: { description: 'Text label', required: true },
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
+    iconTrailing: { ...controlWithLabel },
+    iconLeading: { ...controlWithLabel },
   },
   args: {
     children: 'Chip',
@@ -43,22 +47,11 @@ export const Default: Story = {
   argTypes: {
     color: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },
-    iconLeading: {
-      table: {
-        disable: true,
-      },
-    },
-    iconTrailing: {
-      table: {
-        disable: true,
-      },
-    },
   },
   args: {
     color: Colors.green,
     onPress: action('Pressed!'),
     size: 'md',
-    iconTrailing: Pencil,
   },
   render: function Render(args) {
     const [{ selected }, updateArgs] = useArgs()
@@ -72,31 +65,25 @@ export const Default: Story = {
 }
 
 export const ByColor: Story = {
-  args: {
-    iconTrailing: Pencil,
-  },
   render: function Render(args) {
     return (
-      <View style={{ gap: 6, flexDirection: 'row' }}>
+      <Stack direction="row" gap="xxs">
         {availableColors.map((c) => (
           <ChipAction key={c} {...args} color={c} />
         ))}
-      </View>
+      </Stack>
     )
   },
 }
 
 export const BySize: Story = {
-  args: {
-    iconTrailing: Pencil,
-  },
   render: function Render(args) {
     return (
-      <View style={{ gap: 6, flexDirection: 'row' }}>
+      <Stack direction="row" gap="xxs">
         {availableSizes.map((s) => (
           <ChipAction key={s} {...args} size={s} color="blue" />
         ))}
-      </View>
+      </Stack>
     )
   },
 }
@@ -112,13 +99,13 @@ export const ByIcons: Story = {
   },
   render: function Render(args) {
     return (
-      <View style={{ gap: 6, flexDirection: 'row' }}>
+      <Stack direction="row" gap="xxs">
         <ChipAction {...args} />
         <ChipAction {...args} iconLeading={Hearts} />
         <ChipAction {...args} iconTrailing={Pencil} />
         <ChipAction {...args} iconLeading={Hearts} iconTrailing={Pencil} />
         <ChipAction {...{ ...args, ...{ children: undefined } }} iconLeading={Hearts} />
-      </View>
+      </Stack>
     )
   },
 }

@@ -5,29 +5,34 @@ import React from 'react'
 import { Chat3 } from '@holi/icons/src/generated'
 import { CompactCard } from 'holi-bricks/components/compactCard/CompactCard'
 import { View } from 'react-native'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { Stack } from 'holi-bricks/components/stack'
 
 const disabledProps = [
   'aria-hidden',
   'aria-label',
   'aria-labelledby',
   'aria-disabled',
-  'topLabelIcon',
-  'topIcon',
-  'bottomIcon',
   'chips',
   'imageSrc',
   'avatar',
-  'buttonIcon',
+  'children',
 ]
 
 const buttonIconVariants = ['primary', 'secondary', 'tertiary'] as const
 
 const meta: Meta<typeof CompactCard> = {
-  title: 'Patterns/CompactCard',
+  title: 'Components/Card/CompactCard',
   component: CompactCard,
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
     buttonIconVariant: { control: 'select', options: buttonIconVariants },
+    topIcon: { ...controlWithLabel },
+    bottomIcon: { ...controlWithLabel },
+    buttonIcon: { ...controlWithLabel },
+    topLabelIcon: { ...controlWithLabel },
+    topLabelRightIcon: { ...controlWithLabel },
+    date: { control: 'date' },
   },
   args: {
     title: 'Title can be this amount of lines, and will be truncated if it grows too much',
@@ -41,6 +46,7 @@ const meta: Meta<typeof CompactCard> = {
     topLabelIcon: Chat3,
     date: new Date().toISOString(),
     imageLabel: 'Image label',
+    fullHeight: false,
   },
 }
 
@@ -64,13 +70,13 @@ export const Default: Story = {
 export const CalendarVsAvatar: Story = {
   render: function Render(args) {
     return (
-      <View style={{ gap: 6, flexDirection: 'row' }}>
+      <Stack gap="xxs" direction="row">
         <CompactCard {...args} date={new Date().toISOString()} />
         <CompactCard
           {...args}
           avatar={{ initials: 'TP', label: 'pick me', source: 'https://picsum.photos/id/64/100/100' }}
         />
-      </View>
+      </Stack>
     )
   },
 }
@@ -80,23 +86,6 @@ export const WithImage: Story = {
     return (
       <View style={{ gap: 6, flexDirection: 'row' }}>
         <CompactCard {...args} imageSrc={'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg'} />
-      </View>
-    )
-  },
-}
-
-export const WithoutTopLabel: Story = {
-  render: function Render(args) {
-    return (
-      <View style={{ gap: 6, flexDirection: 'row' }}>
-        <CompactCard
-          {...args}
-          topLabelIcon={undefined}
-          topLabelRightIcon={undefined}
-          topLabel={undefined}
-          buttonIcon={undefined}
-          imageSrc={'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg'}
-        />
       </View>
     )
   },
@@ -114,7 +103,7 @@ export const ByBottomRowType: Story = {
           <CompactCard {...args}>
             <CompactCard.FooterChips
               chips={[
-                { color: 'green', size: 'sm', iconLeading: Chat3, children: 'Label1' },
+                { color: 'green', size: 'md', iconLeading: Chat3, children: 'Label1' },
                 { color: 'blue', size: 'md', iconLeading: Chat3, children: 'Label2' },
               ]}
             />
