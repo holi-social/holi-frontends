@@ -6,6 +6,7 @@ import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import { LOCATION_PRECISION, LOCATION_RADIUS } from '@holi/core/typesense/constants'
 
 interface UseFilteredVolunteeringEngagementsProps {
   filters: VolunteeringFilters
@@ -44,8 +45,8 @@ export const useFilteredVolunteeringEngagements = ({
     if (filters.location) {
       const { latitude, longitude } = filters.location.coordinates || {}
       if (latitude && longitude) {
-        filterBy.push(`location_lat_lng:(${latitude},${longitude},30 km)`)
-        sortBy.push(`location_lat_lng(${latitude},${longitude},precision:5km):asc`)
+        filterBy.push(`location_lat_lng:(${latitude},${longitude},${LOCATION_RADIUS})`)
+        sortBy.push(`location_lat_lng(${latitude},${longitude},precision:${LOCATION_PRECISION}):asc`)
       }
     }
 

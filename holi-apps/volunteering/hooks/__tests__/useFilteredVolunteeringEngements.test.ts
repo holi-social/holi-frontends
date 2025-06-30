@@ -252,7 +252,7 @@ describe('useFilteredVolunteeringEngagements', () => {
 
       expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
         parameters: {
-          filter_by: 'type:=[volunteering,task]&&location_lat_lng:(1,2,30 km)',
+          filter_by: 'type:=[volunteering,task]&&location_lat_lng:(1,2,30km)',
           sort_by: 'location_lat_lng(1,2,precision:5km):asc',
           per_page: 10,
         },
@@ -296,7 +296,7 @@ describe('useFilteredVolunteeringEngagements', () => {
       expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
         parameters: {
           filter_by:
-            'type:=[volunteering,task]&&(topics_v2:=[housing,human-rights]||skills_v2:=[translation,tutoring-coaching])&&location_lat_lng:(1,2,30 km)',
+            'type:=[volunteering,task]&&(topics_v2:=[housing,human-rights]||skills_v2:=[translation,tutoring-coaching])&&location_lat_lng:(1,2,30km)',
           sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
           per_page: 10,
         },

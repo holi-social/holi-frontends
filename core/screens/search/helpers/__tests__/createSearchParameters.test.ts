@@ -55,8 +55,8 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '1,1,1,1,100,10',
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
-      filter_by: 'type:=[volunteering,task] && location_lat_lng:(52, 13, 30 km)',
-      sort_by: 'location_lat_lng(52, 13):asc',
+      filter_by: 'type:=[volunteering,task] && location_lat_lng:(52,13,30km)',
+      sort_by: 'location_lat_lng(52,13,precision:5km):asc',
       per_page: 10,
     })
   })
@@ -77,8 +77,8 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '1,1,1,1,100,10',
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
-      filter_by: 'type:=[volunteering,task] && location_lat_lng:(52, 13, 30 km)',
-      sort_by: 'location_lat_lng(52, 13):asc',
+      filter_by: 'type:=[volunteering,task] && location_lat_lng:(52,13,30km)',
+      sort_by: 'location_lat_lng(52,13,precision:5km):asc',
       per_page: 10,
     })
   })

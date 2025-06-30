@@ -1,4 +1,5 @@
 import type { SearchFacet, SearchFilter } from '@holi/core/screens/search/types'
+import { LOCATION_PRECISION, LOCATION_RADIUS } from '@holi/core/typesense/constants'
 import type { SearchParams } from '@holi/core/typesense/types'
 
 const PAGE_SIZE = 10
@@ -37,8 +38,8 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
   if (location && location.coordinates && facet !== 'profile') {
     const { latitude, longitude } = location.coordinates
 
-    locationFilter = `location_lat_lng:(${latitude}, ${longitude}, 30 km)`
-    sort_by = `location_lat_lng(${latitude}, ${longitude}):asc`
+    locationFilter = `location_lat_lng:(${latitude},${longitude},${LOCATION_RADIUS})`
+    sort_by = `location_lat_lng(${latitude},${longitude},precision:${LOCATION_PRECISION}):asc`
   }
 
   const filter_by = locationFilter ? `${config.filter_by} && ${locationFilter}` : config.filter_by

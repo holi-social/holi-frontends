@@ -1,4 +1,5 @@
 import type { PlaceDetails } from '@holi/core/geolocation/typings'
+import { LOCATION_RADIUS } from '@holi/core/typesense/constants'
 import { useMemo } from 'react'
 
 export const useMicroactionParameters = (pageSize: number, location?: PlaceDetails) => {
@@ -10,7 +11,7 @@ export const useMicroactionParameters = (pageSize: number, location?: PlaceDetai
 
     const { lat, lon } = location?.geolocation.properties || {}
     if (lat && lon) {
-      filterBy.push(`(location_lat_lng:(${lat},${lon},30 km) || location_type:=[remote])`)
+      filterBy.push(`(location_lat_lng:(${lat},${lon},${LOCATION_RADIUS}) || location_type:=[remote])`)
     } else {
       filterBy.push('location_type:=[remote]')
     }
