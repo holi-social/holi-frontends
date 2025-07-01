@@ -1007,6 +1007,7 @@
   "search.location.notFound": "Standort wurde nicht gefunden",
   "search.location.placeholder": "Stadt, Bezirk oder Postleitzahl...",
   "search.location.save": "Standort speichern",
+  "search.location.save.germanyWide": "Bundesweit suchen",
   "search.noResults.all": "Keine Ergebnisse für <0>{{searchString}}</0>",
   "search.noResults.description": "Versuch es mal mit anderer Schreibweise, anderen Stichworten oder einer kürzeren Suche.",
   "search.noResults.headline": "Hoppla! Wir haben keine Treffer für \"{{query}}\" gefunden.",

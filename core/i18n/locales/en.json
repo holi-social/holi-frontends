@@ -1007,6 +1007,7 @@
   "search.location.notFound": "Location not found",
   "search.location.placeholder": "City, district or ZIP code...",
   "search.location.save": "Save location",
+  "search.location.save.germanyWide": "Search Germany-wide",
   "search.noResults.all": "No results for <0>{{searchString}}</0>",
   "search.noResults.description": "Try checking the spelling, using different keywords or using a shorter search query",
   "search.noResults.headline": "Sorry, we didn't find \"{{query}}\"",
