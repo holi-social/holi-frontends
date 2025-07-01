@@ -52,6 +52,7 @@ const TaskDetails = () => {
               favoritableId={id}
               favoritableType={FavoritableType.Task}
               typename={'Task'}
+              tintColor={tintColor}
               isFavorite={data?.isFavorite}
               onError={(error) =>
                 displayError(

@@ -119,7 +119,7 @@ const InsightDetailPage = () => {
         },
       }),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      headerRight: () => {
+      headerRight: ({ tintColor }) => {
         return (
           insight && (
             <Stack direction="row" gap="md">
@@ -128,6 +128,7 @@ const InsightDetailPage = () => {
                   favoritableId={insight.id}
                   favoritableType={FavoritableType.Insight}
                   typename={insight.__typename}
+                  tintColor={tintColor}
                   isFavorite={insight.isFavorite ?? false}
                   onError={(error) =>
                     displayError(

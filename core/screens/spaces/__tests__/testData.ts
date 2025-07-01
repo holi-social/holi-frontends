@@ -211,6 +211,7 @@ export const task: Task = {
   created: '2024-04-12T07:39:03Z',
   skills: [],
   impact: 'test-impact',
+  isFavorite: false,
 }
 
 const tasks = [1, 2, 3].map((id) => ({
