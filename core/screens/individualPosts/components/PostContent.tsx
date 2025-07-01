@@ -73,27 +73,25 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
             </View>
           ))}
         </View>
-        {!isPoll && (
-          <View style={styles.contentSection}>
-            <HoliHeading
-              level="1"
-              size="m"
-              numberOfLines={3}
-              loading={loadingTranslation}
-              skeletonOptions={{ numberOfLines: 1 }}
-            >
-              {title}
-            </HoliHeading>
-            <HoliRichTextOutput
-              text={description}
-              allowAllLinks
-              users={post.mentionedUsers || []}
-              loading={loadingTranslation}
-              skeletonOptions={{ numberOfLines: 3 }}
-              style={styles.description}
-            />
-          </View>
-        )}
+        <View style={styles.contentSection}>
+          <HoliHeading
+            level="1"
+            size="m"
+            numberOfLines={3}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 1 }}
+          >
+            {title}
+          </HoliHeading>
+          <HoliRichTextOutput
+            text={description}
+            allowAllLinks
+            users={post.mentionedUsers || []}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+            style={styles.description}
+          />
+        </View>
         {!isPoll && isTranslatable && (
           <HoliTranslate
             primaryText={{ text: description, setText: setDescription }}
@@ -116,12 +114,16 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
             style={styles.carousel}
           />
         )}
-        {!isPoll && !!post.linkPreview && (
+        {isPoll && (
+          <View style={{ marginTop: Spacing.xs }}>
+            <PollComponent poll={post.poll!} bordered={false} hideTitle />
+          </View>
+        )}
+        {!!post.linkPreview && (
           <View style={styles.blockContainer}>
             <HoliLinkPreview previewData={post.linkPreview} />
           </View>
         )}
-        {isPoll && <PollComponent poll={post.poll!} bordered={false} />}
       </View>
     </>
   )
