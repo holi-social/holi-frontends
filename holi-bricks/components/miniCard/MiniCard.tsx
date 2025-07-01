@@ -47,72 +47,70 @@ export const MiniCard = ({
   }
 
   return (
-    <View>
-      <Stack
-        direction="column"
-        padding="3xs"
-        backgroundColor="support"
-        borderRadius="md"
-        gap="3xs"
-        borderWidth="sm"
-        borderColor="support"
-        borderStyle="solid"
-        flex={1}
-        width={146}
-      >
-        {/* Card Cover */}
-        <Stack alignItems="center" justifyContent="center">
-          <Stack borderColor="default" borderRadius="xs" borderStyle="solid" borderWidth="sm" overflow="hidden">
-            <Image
-              source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
-              width={130}
-              height={130}
-              alt={imageLabel || title}
-              onError={handleImageError}
-              resizeMode="cover"
-            />
-          </Stack>
-
-          {/* on top of the image */}
-          {(chipIcon || chipLabel) && (
-            <View style={styles.topLeft}>
-              <ChipLabel color="white" iconLeading={chipIcon} size="sm">
-                {chipLabel}
-              </ChipLabel>
-            </View>
-          )}
-          {chipCounterIcon && (
-            <View style={styles.bottomRight}>
-              {chipCounter && (
-                <Text color="support" size="xs">
-                  {chipCounter}
-                </Text>
-              )}
-              <HoliIcon icon={chipCounterIcon} color="support" size={16} />
-            </View>
-          )}
+    <Stack
+      direction="column"
+      padding="3xs"
+      backgroundColor="support"
+      borderRadius="md"
+      gap="3xs"
+      borderWidth="sm"
+      borderColor="support"
+      borderStyle="solid"
+      flex={1}
+      width={146}
+    >
+      {/* Card Cover */}
+      <Stack alignItems="center" justifyContent="center">
+        <Stack borderColor="default" borderRadius="xs" borderStyle="solid" borderWidth="sm" overflow="hidden">
+          <Image
+            source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
+            width={130}
+            height={130}
+            alt={imageLabel || title}
+            onError={handleImageError}
+            resizeMode="cover"
+          />
         </Stack>
 
-        {/* Card Body */}
-        <Stack gap="xs" padding="4xs" flex={1} justifyContent="space-between">
-          {/* title */}
-          <TextLink ellipsizeMode="tail" size="sm" numberOfLines={3} role="presentation">
-            {title}
-          </TextLink>
-
-          {/* bottom row */}
-          <Stack gap="3xs" direction="row" justifyContent="space-between">
-            <Stack direction="row" gap="4xs" flexShrink={1}>
-              {bottomIconLeft && <HoliIcon icon={bottomIconLeft} size={16} color="support" />}
-              <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
-                {bottomLabel}
+        {/* on top of the image */}
+        {(chipIcon || chipLabel) && (
+          <View style={styles.topLeft}>
+            <ChipLabel color="white" iconLeading={chipIcon} size="sm">
+              {chipLabel}
+            </ChipLabel>
+          </View>
+        )}
+        {chipCounterIcon && (
+          <View style={styles.bottomRight}>
+            {chipCounter && (
+              <Text color="support" size="xs">
+                {chipCounter}
               </Text>
-            </Stack>
-            {bottomIconRight && <HoliIcon icon={bottomIconRight} size={16} />}
+            )}
+            <HoliIcon icon={chipCounterIcon} color="support" size={16} />
+          </View>
+        )}
+      </Stack>
+
+      {/* Card Body */}
+      <Stack gap="xs" padding="4xs" flex={1} justifyContent="space-between">
+        {/* title */}
+        <TextLink ellipsizeMode="tail" size="sm" numberOfLines={3} role="presentation">
+          {title}
+        </TextLink>
+
+        {/* bottom row */}
+        <Stack gap="3xs" direction="row" justifyContent="space-between">
+          <Stack direction="row" gap="4xs" flexShrink={1}>
+            {bottomIconLeft && <HoliIcon icon={bottomIconLeft} size={16} color="support" />}
+            <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
+              {bottomLabel}
+            </Text>
           </Stack>
+          {bottomIconRight && <HoliIcon icon={bottomIconRight} size={16} />}
         </Stack>
       </Stack>
-    </View>
+    </Stack>
   )
 }
 

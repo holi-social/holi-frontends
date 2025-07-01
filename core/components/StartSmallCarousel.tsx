@@ -94,19 +94,23 @@ const StartSmallCarousel = () => {
             }
           )}
         >
-          <MiniCard
-            title={item.title}
-            chipLabel={
-              item.commitment_duration
-                ? t(`volunteering.engagement.commitment_duration.${item.commitment_duration}`)
-                : undefined
-            }
-            bottomIconLeft={item.location_type === 'remote' ? GlobalFilled : item.location ? MapPin2Filled : undefined}
-            bottomLabel={
-              item.location_type === 'remote' ? t('volunteering.engagement.location_type.remote') : item.location
-            }
-            imageSrc={item.image_url}
-          />
+          <View style={{ height: '100%' }}>
+            <MiniCard
+              title={item.title}
+              chipLabel={
+                item.commitment_duration
+                  ? t(`volunteering.engagement.commitment_duration.${item.commitment_duration}`)
+                  : undefined
+              }
+              bottomIconLeft={
+                item.location_type === 'remote' ? GlobalFilled : item.location ? MapPin2Filled : undefined
+              }
+              bottomLabel={
+                item.location_type === 'remote' ? t('volunteering.engagement.location_type.remote') : item.location
+              }
+              imageSrc={item.image_url}
+            />
+          </View>
         </HoliLinkTracked>
       )}
       {...listProps}
