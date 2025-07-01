@@ -2,15 +2,21 @@ import { type FavoritableType, useFavoriteV2Mutation, useUnfavoriteV2Mutation } 
 import { useCallback } from 'react'
 import type { ApolloError } from '@apollo/client'
 
+interface MutationOptions {
+  __typename: string
+  onError?: (error: ApolloError) => void
+  onCompleted?: () => void
+}
+
 export const useFavoriting = (
   favoritableId: string,
   favoritableType: FavoritableType,
-  __typename: string,
-  onError?: (error: ApolloError) => void
+  { __typename, onError, onCompleted }: MutationOptions
 ) => {
   const [favoriteMutation, { loading: isFavoriting }] = useFavoriteV2Mutation({
     variables: { favoritableId, favoritableType },
     onError,
+    onCompleted,
     update: (cache) => {
       cache.modify({
         id: cache.identify({ __typename, id: favoritableId }),
@@ -26,6 +32,7 @@ export const useFavoriting = (
   const [unfavoriteMutation, { loading: isUnfavoriting }] = useUnfavoriteV2Mutation({
     variables: { favoritableId, favoritableType },
     onError,
+    onCompleted,
     update: (cache) => {
       cache.modify({
         id: cache.identify({ __typename, id: favoritableId }),

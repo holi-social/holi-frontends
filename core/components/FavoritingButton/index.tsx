@@ -18,6 +18,7 @@ type FavoritingButtonProps = {
   tintColor?: string
   isFavorite?: boolean
   onError?: (error: ApolloError) => void
+  onCompleted?: () => void
 }
 
 export const FavoritingButton = ({
@@ -27,6 +28,7 @@ export const FavoritingButton = ({
   tintColor,
   isFavorite = false,
   onError,
+  onCompleted,
 }: FavoritingButtonProps) => {
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -34,7 +36,11 @@ export const FavoritingButton = ({
 
   const [showSnackbar, setShowSnackbar] = useState(false)
 
-  const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, typename, onError)
+  const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
+    __typename: typename,
+    onError,
+    onCompleted,
+  })
 
   const favoriteHandler = async () => {
     if (isLoggedIn) {
