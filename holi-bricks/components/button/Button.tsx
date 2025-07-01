@@ -1,6 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
+import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useCallback, useState } from 'react'
@@ -25,20 +25,21 @@ export type ButtonVariant = Extract<ButtonVariantBaseType, 'primary' | 'secondar
 
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
-export type ButtonProps = AccessibilityProps & {
-  label: string
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
-  variant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'danger'>
-  disabled?: boolean
-  size?: ButtonSize
-  loading?: boolean
-  loadingLabel?: string
-  transparent?: boolean
-  selected?: boolean
-  icon?: HoliIconType
-  inline?: boolean
-  testID?: string
-}
+export type ButtonProps = AccessibilityProps &
+  LayoutProps & {
+    label: string
+    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+    variant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'danger'>
+    disabled?: boolean
+    size?: ButtonSize
+    loading?: boolean
+    loadingLabel?: string
+    transparent?: boolean
+    selected?: boolean
+    icon?: HoliIconType
+    inline?: boolean
+    testID?: string
+  }
 
 export const Button = ({
   label,
@@ -94,9 +95,10 @@ export const Button = ({
       onPress={handlePress}
       onHoverIn={() => setIsHovered(true)}
       onHoverOut={() => setIsHovered(false)}
-      style={({ pressed }) =>
-        !transparent ? [styles.button(!disabled && isHovered, !disabled && !!pressed, inline)] : undefined
-      }
+      style={({ pressed }) => [
+        ...(!transparent ? [styles.button(!disabled && isHovered, !disabled && !!pressed, inline)] : []),
+        ...[layoutStyle(rest)],
+      ]}
       disabled={isSpinning || disabled}
       testID={testID}
       {...accessibilityProps(rest)}
