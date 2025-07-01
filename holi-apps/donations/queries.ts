@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { Project, ProjectsResponse } from '@holi-apps/donations/typings'
+import type { Project, ProjectsResponse } from '@holi-apps/donations/typings'
 
 export const projectFragment = gql`
   fragment Project on AppDonations_Project {
@@ -15,6 +15,9 @@ export const projectFragment = gql`
       url
       width
       height
+    }
+    initiative {
+      name
     }
   }
 `

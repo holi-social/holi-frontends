@@ -16,6 +16,8 @@ import { Spacing } from 'holi-bricks/foundations'
 import { ArrowRightS } from '@holi/icons/src/generated'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
+const ICON_SIZE = 20
+
 type RecoSliderProps = {
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,6 +35,8 @@ type RecoSliderProps = {
   viewTrackingParams?: TrackableFlatListParams
   size?: 'sm' | 'md'
   seeMoreTrackingEvent?: TrackingEvent
+  headerTitleSeeMoreTrackingEvent?: TrackingEvent
+  headerTitleTrackingEvent?: TrackingEvent
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -49,6 +53,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   testID,
   viewTrackingParams,
   seeMoreTrackingEvent,
+  headerTitleSeeMoreTrackingEvent,
+  headerTitleTrackingEvent,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -58,7 +64,14 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
   const handleHeaderTitlePress = () => {
     if (seeAllPath) {
-      if (seeMoreTrackingEvent) track(seeMoreTrackingEvent)
+      if (headerTitleTrackingEvent) track(headerTitleTrackingEvent)
+      navigate(seeAllPath)
+    }
+  }
+
+  const handleSeeMoreHeaderTitlePress = () => {
+    if (seeAllPath) {
+      if (headerTitleSeeMoreTrackingEvent) track(headerTitleSeeMoreTrackingEvent)
       navigate(seeAllPath)
     }
   }
@@ -148,25 +161,30 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
         >
           <Stack width={'100%'} direction="row" gap="xxs" justifyContent="center" alignItems="flex-start">
             <Stack justifyContent="center" alignItems="center">
-              <HoliIcon icon={icon} size={20} color="support" />
+              <HoliIcon icon={icon} size={ICON_SIZE} color="support" />
             </Stack>
+
             <Stack direction="column" flex={1}>
               <Text size="xl" headingLevel="3">
                 {heading}
               </Text>
-              <Text size="sm" color="support">
-                {subline}
-              </Text>
             </Stack>
+
             {(seeAllPath || onPressSeeMore) && (
               <Stack direction="row">
-                <TextLink size="sm" role="none" onPress={handleSeeMore}>
+                <TextLink size="sm" role="none" onPress={handleSeeMoreHeaderTitlePress}>
                   {t('global.seeMore')}
                 </TextLink>
-                <HoliIcon icon={ArrowRightS} size={20} />
+                <HoliIcon icon={ArrowRightS} size={ICON_SIZE} />
               </Stack>
             )}
           </Stack>
+        </Stack>
+
+        <Stack direction="row" padding={{ left: 'lg' }}>
+          <Text size="sm" color="support">
+            {subline}
+          </Text>
         </Stack>
       </Stack>
 

@@ -1,0 +1,22 @@
+{
+  "download": {
+    "includeSourceLang": true,
+    "files": {
+      "conditions": "equals: ${file}, holi-core",
+      "output": "core/i18n/locales/${lang}.json"
+    }
+  },
+  "upload": {
+    "type": "json",
+    "features": ["plural_postfix_us"],
+    "importAsNew": true,
+    "deprecate": "project",
+    "files": [
+      {
+        "file": "holi-core",
+        "lang": "${autodetectLang}",
+        "pattern": "core/i18n/locales/*.json"
+      }
+    ]
+  }
+}

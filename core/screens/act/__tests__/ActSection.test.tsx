@@ -320,7 +320,7 @@ describe('ActHome Section', () => {
       </MockedProvider>
     )
     expect(await screen.findByTestId('donations-reco-slider-heading-button'))
-    const donationsRecos = await screen.findAllByTestId('donations-reco-slider-card')
+    const donationsRecos = await screen.findAllByTestId('donations-list-item')
     expect(donationsRecos.length).toBe(5)
   })
 
