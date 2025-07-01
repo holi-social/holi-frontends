@@ -17,8 +17,8 @@ import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
@@ -78,8 +78,22 @@ const StartSmallCarousel = () => {
 
   const ListComponent = (
     <TrackableFlatList
-      renderItem={({ item }) => (
-        <HoliLink href={linkFromLocator(item.type, item.link_locators)} label={item.title}>
+      renderItem={({ item, index }) => (
+        <HoliLinkTracked
+          href={linkFromLocator(item.type, item.link_locators)}
+          label={item.title}
+          trackingEvent={TrackingEvent.RecommendationPressed(
+            item.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+            item.id,
+            index,
+            {
+              commitmentType: item.commitment_label,
+              locationType: item.location_type,
+              source: item.source,
+              sourceSection: 'Micro Action',
+            }
+          )}
+        >
           <MiniCard
             title={item.title}
             chipLabel={
@@ -93,7 +107,7 @@ const StartSmallCarousel = () => {
             }
             imageSrc={item.image_url}
           />
-        </HoliLink>
+        </HoliLinkTracked>
       )}
       {...listProps}
       listItemTrackingEvent={listItemTrackingEvent}
