@@ -1617,7 +1617,9 @@ export type Query = {
   discoverSpaces: Array<Maybe<DiscoverSpaces>>
   discoverSpacesDefaultTopicsV2: Array<Scalars['String']['output']>
   discussionById: Discussion
+  favorite: UserFavorite
   favorites: UserFavoritePaged
+  favoritesByType: UserFavoritePaged
   feed: FeedItemPaged
   feedInsights: InsightPreviewPaged
   feedPostCategories: FeedPostCategoryPaged
@@ -1813,7 +1815,17 @@ export type QueryDiscussionByIdArgs = {
   id: Scalars['UUID']['input']
 }
 
+export type QueryFavoriteArgs = {
+  favoritableId: Scalars['String']['input']
+}
+
 export type QueryFavoritesArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QueryFavoritesByTypeArgs = {
+  favoritableType: FavoritableType
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -2285,6 +2297,7 @@ export type Task = {
   impact?: Maybe<Scalars['String']['output']>
   interactionSignupLink?: Maybe<Scalars['String']['output']>
   interactionType?: Maybe<InteractionType>
+  isFavorite: Scalars['Boolean']['output']
   location?: Maybe<Scalars['String']['output']>
   locationType: LocationType
   name: Scalars['String']['output']
@@ -3117,6 +3130,42 @@ export type UnfavoriteV2Mutation = {
   unfavoriteV2: { __typename?: 'Result'; success: boolean }
 }
 
+export type FavoriteExternalVolunteeringOpportunityQueryVariables = Exact<{
+  favoritableId: Scalars['String']['input']
+}>
+
+export type FavoriteExternalVolunteeringOpportunityQuery = {
+  __typename?: 'Query'
+  favorite: {
+    __typename?: 'UserFavorite'
+    id: string
+    favoritableId: string
+    favoritableType: string
+    favoritable:
+      | { __typename: 'ExternalVolunteeringOpportunity'; externalId: string }
+      | { __typename: 'Insight' }
+      | { __typename: 'Task' }
+  }
+}
+
+export type FavoriteByFavoritableIdQueryVariables = Exact<{
+  favoritableId: Scalars['String']['input']
+}>
+
+export type FavoriteByFavoritableIdQuery = {
+  __typename?: 'Query'
+  favorite: {
+    __typename?: 'UserFavorite'
+    id: string
+    favoritableId: string
+    favoritableType: string
+    favoritable:
+      | { __typename: 'ExternalVolunteeringOpportunity'; externalId: string }
+      | { __typename: 'Insight'; id: string; isFavorite: boolean }
+      | { __typename: 'Task'; id: string; isFavorite: boolean }
+  }
+}
+
 export type FavoritesQueryVariables = Exact<{
   offset?: Scalars['Int']['input']
   limit?: Scalars['Int']['input']
@@ -3146,6 +3195,64 @@ export type FavoritesQuery = {
             creator?: { __typename?: 'User'; fullName: string; avatar?: string }
           }
         | { __typename?: 'Task' }
+    }>
+  }
+}
+
+export type FavoritesByTypeQueryVariables = Exact<{
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+  favoritableType: FavoritableType
+}>
+
+export type FavoritesByTypeQuery = {
+  __typename?: 'Query'
+  favoritesByType: {
+    __typename?: 'UserFavoritePaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'UserFavorite'
+      id: string
+      favoritableId: string
+      favoritableType: string
+      favoritable:
+        | { __typename: 'ExternalVolunteeringOpportunity'; externalId: string }
+        | {
+            __typename: 'Insight'
+            id: string
+            title: string
+            description: string
+            datePublished: any
+            headerImage?: string
+            headerImageBlurhash?: string
+            topicV2?: string
+            isFavorite: boolean
+          }
+        | {
+            __typename: 'Task'
+            id: string
+            name: string
+            description: string
+            impact?: string
+            created: any
+            slotsAvailable: number
+            slotsTaken: number
+            visibility: VisibilityType
+            locationType: LocationType
+            interactionType?: InteractionType
+            location?: string
+            regularity: Regularity
+            duration?: Duration
+            timeframeStartDate?: any
+            timeframeEndDate?: any
+            skillsV2: Array<string>
+            thumbnail?: string
+            thumbnailBlurhash?: string
+            contactEmail: string
+            contactPhone?: string
+            interactionSignupLink?: string
+            isFavorite: boolean
+          }
     }>
   }
 }
@@ -4781,6 +4888,7 @@ export type TaskByIdQuery = {
     timeframeStartDate?: any
     timeframeEndDate?: any
     visibility: VisibilityType
+    isFavorite: boolean
     locationType: LocationType
     interactionType?: InteractionType
     contactEmail: string
@@ -5751,6 +5859,167 @@ export type UnfavoriteV2MutationOptions = Apollo.BaseMutationOptions<
   UnfavoriteV2Mutation,
   UnfavoriteV2MutationVariables
 >
+export const FavoriteExternalVolunteeringOpportunityDocument = gql`
+    query FavoriteExternalVolunteeringOpportunity($favoritableId: String!) {
+  favorite(favoritableId: $favoritableId) {
+    id
+    favoritable {
+      __typename
+      ... on ExternalVolunteeringOpportunity {
+        externalId
+      }
+    }
+    favoritableId
+    favoritableType
+  }
+}
+    `
+
+/**
+ * __useFavoriteExternalVolunteeringOpportunityQuery__
+ *
+ * To run a query within a React component, call `useFavoriteExternalVolunteeringOpportunityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteExternalVolunteeringOpportunityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoriteExternalVolunteeringOpportunityQuery({
+ *   variables: {
+ *      favoritableId: // value for 'favoritableId'
+ *   },
+ * });
+ */
+export function useFavoriteExternalVolunteeringOpportunityQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FavoriteExternalVolunteeringOpportunityQuery,
+    FavoriteExternalVolunteeringOpportunityQueryVariables
+  > &
+    ({ variables: FavoriteExternalVolunteeringOpportunityQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    FavoriteExternalVolunteeringOpportunityQuery,
+    FavoriteExternalVolunteeringOpportunityQueryVariables
+  >(FavoriteExternalVolunteeringOpportunityDocument, options)
+}
+export function useFavoriteExternalVolunteeringOpportunityLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FavoriteExternalVolunteeringOpportunityQuery,
+    FavoriteExternalVolunteeringOpportunityQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    FavoriteExternalVolunteeringOpportunityQuery,
+    FavoriteExternalVolunteeringOpportunityQueryVariables
+  >(FavoriteExternalVolunteeringOpportunityDocument, options)
+}
+export function useFavoriteExternalVolunteeringOpportunitySuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        FavoriteExternalVolunteeringOpportunityQuery,
+        FavoriteExternalVolunteeringOpportunityQueryVariables
+      >
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    FavoriteExternalVolunteeringOpportunityQuery,
+    FavoriteExternalVolunteeringOpportunityQueryVariables
+  >(FavoriteExternalVolunteeringOpportunityDocument, options)
+}
+export type FavoriteExternalVolunteeringOpportunityQueryHookResult = ReturnType<
+  typeof useFavoriteExternalVolunteeringOpportunityQuery
+>
+export type FavoriteExternalVolunteeringOpportunityLazyQueryHookResult = ReturnType<
+  typeof useFavoriteExternalVolunteeringOpportunityLazyQuery
+>
+export type FavoriteExternalVolunteeringOpportunitySuspenseQueryHookResult = ReturnType<
+  typeof useFavoriteExternalVolunteeringOpportunitySuspenseQuery
+>
+export type FavoriteExternalVolunteeringOpportunityQueryResult = Apollo.QueryResult<
+  FavoriteExternalVolunteeringOpportunityQuery,
+  FavoriteExternalVolunteeringOpportunityQueryVariables
+>
+export const FavoriteByFavoritableIdDocument = gql`
+    query FavoriteByFavoritableId($favoritableId: String!) {
+  favorite(favoritableId: $favoritableId) {
+    id
+    favoritable {
+      __typename
+      ... on Insight {
+        id
+        isFavorite
+      }
+      ... on Task {
+        id
+        isFavorite
+      }
+      ... on ExternalVolunteeringOpportunity {
+        externalId
+      }
+    }
+    favoritableId
+    favoritableType
+  }
+}
+    `
+
+/**
+ * __useFavoriteByFavoritableIdQuery__
+ *
+ * To run a query within a React component, call `useFavoriteByFavoritableIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoriteByFavoritableIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoriteByFavoritableIdQuery({
+ *   variables: {
+ *      favoritableId: // value for 'favoritableId'
+ *   },
+ * });
+ */
+export function useFavoriteByFavoritableIdQuery(
+  baseOptions: Apollo.QueryHookOptions<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables> &
+    ({ variables: FavoriteByFavoritableIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
+    FavoriteByFavoritableIdDocument,
+    options
+  )
+}
+export function useFavoriteByFavoritableIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
+    FavoriteByFavoritableIdDocument,
+    options
+  )
+}
+export function useFavoriteByFavoritableIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
+    FavoriteByFavoritableIdDocument,
+    options
+  )
+}
+export type FavoriteByFavoritableIdQueryHookResult = ReturnType<typeof useFavoriteByFavoritableIdQuery>
+export type FavoriteByFavoritableIdLazyQueryHookResult = ReturnType<typeof useFavoriteByFavoritableIdLazyQuery>
+export type FavoriteByFavoritableIdSuspenseQueryHookResult = ReturnType<typeof useFavoriteByFavoritableIdSuspenseQuery>
+export type FavoriteByFavoritableIdQueryResult = Apollo.QueryResult<
+  FavoriteByFavoritableIdQuery,
+  FavoriteByFavoritableIdQueryVariables
+>
 export const FavoritesDocument = gql`
     query Favorites($offset: Int! = 0, $limit: Int! = 10) {
   favorites(offset: $offset, limit: $limit) {
@@ -5819,6 +6088,104 @@ export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>
 export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>
 export type FavoritesSuspenseQueryHookResult = ReturnType<typeof useFavoritesSuspenseQuery>
 export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>
+export const FavoritesByTypeDocument = gql`
+    query FavoritesByType($offset: Int! = 0, $limit: Int! = 10, $favoritableType: FavoritableType!) {
+  favoritesByType(
+    favoritableType: $favoritableType
+    offset: $offset
+    limit: $limit
+  ) {
+    data {
+      id
+      favoritableId
+      favoritableType
+      favoritable {
+        __typename
+        ... on Insight {
+          id
+          title
+          description
+          datePublished
+          headerImage
+          headerImageBlurhash
+          topicV2
+          isFavorite
+        }
+        ... on Task {
+          id
+          name
+          description
+          impact
+          created
+          slotsAvailable
+          slotsTaken
+          visibility
+          locationType
+          interactionType
+          location
+          regularity
+          duration
+          timeframeStartDate
+          timeframeEndDate
+          skillsV2
+          thumbnail
+          thumbnailBlurhash
+          contactEmail
+          contactPhone
+          interactionSignupLink
+          isFavorite
+        }
+        ... on ExternalVolunteeringOpportunity {
+          externalId
+        }
+      }
+    }
+    totalResults
+  }
+}
+    `
+
+/**
+ * __useFavoritesByTypeQuery__
+ *
+ * To run a query within a React component, call `useFavoritesByTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoritesByTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoritesByTypeQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *      favoritableType: // value for 'favoritableType'
+ *   },
+ * });
+ */
+export function useFavoritesByTypeQuery(
+  baseOptions: Apollo.QueryHookOptions<FavoritesByTypeQuery, FavoritesByTypeQueryVariables> &
+    ({ variables: FavoritesByTypeQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>(FavoritesByTypeDocument, options)
+}
+export function useFavoritesByTypeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>(FavoritesByTypeDocument, options)
+}
+export function useFavoritesByTypeSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>(FavoritesByTypeDocument, options)
+}
+export type FavoritesByTypeQueryHookResult = ReturnType<typeof useFavoritesByTypeQuery>
+export type FavoritesByTypeLazyQueryHookResult = ReturnType<typeof useFavoritesByTypeLazyQuery>
+export type FavoritesByTypeSuspenseQueryHookResult = ReturnType<typeof useFavoritesByTypeSuspenseQuery>
+export type FavoritesByTypeQueryResult = Apollo.QueryResult<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>
 export const ValidateSpaceDocument = gql`
     mutation ValidateSpace($input: ValidateSpaceInput!) {
   validateSpace(input: $input) {
@@ -7348,6 +7715,7 @@ export const TaskByIdDocument = gql`
     timeframeStartDate
     timeframeEndDate
     visibility
+    isFavorite
     locationType
     interactionType
     contactEmail

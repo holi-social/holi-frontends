@@ -1,3 +1,39 @@
+query FavoriteExternalVolunteeringOpportunity($favoritableId: String!) {
+  favorite(favoritableId: $favoritableId) {
+    id
+    favoritable {
+      __typename
+      ... on ExternalVolunteeringOpportunity {
+        externalId
+      }
+    }
+    favoritableId
+    favoritableType
+  }
+}
+
+query FavoriteByFavoritableId($favoritableId: String!) {
+  favorite(favoritableId: $favoritableId) {
+    id
+    favoritable {
+      __typename
+      ... on Insight {
+        id
+        isFavorite
+      }
+      ... on Task {
+        id
+        isFavorite
+      }
+      ... on ExternalVolunteeringOpportunity {
+        externalId
+      }
+    }
+    favoritableId
+    favoritableType
+  }
+}
+
 query Favorites($offset: Int! = 0, $limit: Int! = 10) {
   favorites(offset: $offset, limit: $limit) {
     data {
@@ -20,6 +56,57 @@ query Favorites($offset: Int! = 0, $limit: Int! = 10) {
           }
           headerImage
           headerImageBlurhash
+        }
+      }
+    }
+    totalResults
+  }
+}
+
+query FavoritesByType($offset: Int! = 0, $limit: Int! = 10, $favoritableType: FavoritableType!) {
+  favoritesByType(favoritableType: $favoritableType, offset: $offset, limit: $limit) {
+    data {
+      id
+      favoritableId
+      favoritableType
+      favoritable {
+        __typename
+        ... on Insight {
+          id
+          title
+          description
+          datePublished
+          headerImage
+          headerImageBlurhash
+          topicV2
+          isFavorite
+        }
+        ... on Task {
+          id
+          name
+          description
+          impact
+          created
+          slotsAvailable
+          slotsTaken
+          visibility
+          locationType
+          interactionType
+          location
+          regularity
+          duration
+          timeframeStartDate
+          timeframeEndDate
+          skillsV2
+          thumbnail
+          thumbnailBlurhash
+          contactEmail
+          contactPhone
+          interactionSignupLink
+          isFavorite
+        }
+        ... on ExternalVolunteeringOpportunity {
+          externalId
         }
       }
     }
