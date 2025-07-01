@@ -80,14 +80,14 @@ export const MiniCard = ({
             </ChipLabel>
           </View>
         )}
-        {chipCounterIcon && (
-          <View style={styles.bottomRight}>
+        {(chipCounterIcon || chipCounter) && (
+          <View style={styles.bottomRight(!!chipCounter)}>
             {chipCounter && (
               <Text color="support" size="xs">
                 {chipCounter}
               </Text>
             )}
-            <HoliIcon icon={chipCounterIcon} color="support" size={16} />
+            {chipCounterIcon && <HoliIcon icon={chipCounterIcon} color="support" size={16} />}
           </View>
         )}
       </Stack>
@@ -120,18 +120,18 @@ const stylesheet = createStyleSheet((theme) => ({
     top: 4,
     left: 4,
   },
-  bottomRight: {
+  bottomRight: (withLabel: boolean) => ({
     position: 'absolute',
     bottom: 4,
     right: 4,
     borderRadius: BorderRadius.pill,
-    padding: Spacing['4xs'],
     backgroundColor: theme.colors.bg.support,
     flexDirection: 'row',
     gap: Spacing['4xs'],
     paddingVertical: Spacing['4xs'],
-    paddingHorizontal: Spacing['4xs'],
-  },
+    paddingRight: Spacing['4xs'],
+    paddingLeft: withLabel ? Spacing['3xs'] : Spacing['4xs'],
+  }),
   bottomLeft: {
     position: 'absolute',
     bottom: 4,

@@ -6,6 +6,7 @@ import { Chat3 } from '@holi/icons/src/generated'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { View } from 'react-native'
 
 const disabledProps = ['aria-hidden', 'aria-label', 'aria-labelledby', 'aria-disabled', 'fallbackImageHashKey']
 
@@ -35,7 +36,11 @@ type Story = StoryObj<typeof MiniCard>
 
 export const Default: Story = {
   render: function Render(args) {
-    return <MiniCard {...args} />
+    return (
+      <View>
+        <MiniCard {...args} />
+      </View>
+    )
   },
 }
 
