@@ -18,7 +18,7 @@ import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/Vol
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { FavoritingButton } from '@holi/core/components/FavoritingButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType, useFavoriteExternalVolunteeringOpportunityQuery } from '@holi/api/graphql/graphql-codegen'
 
 const isIos = Platform.OS === 'ios'
 
@@ -28,6 +28,15 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
+
+  const {
+    data: { favorite } = {},
+    error,
+    refetch: refetchFavorite,
+  } = useFavoriteExternalVolunteeringOpportunityQuery({
+    variables: { favoritableId: engagementId },
+  })
+  const isFavorite = !!favorite && !error
 
   return (
     <Screen
@@ -52,12 +61,12 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                 favoritableType={FavoritableType.ExternalVolunteeringOpportunity}
                 tintColor={tintColor}
                 typename={'Typesense_Document'}
-                isFavorite={false} // TODO: add isFavorite
+                isFavorite={isFavorite}
+                onCompleted={refetchFavorite}
                 onError={(error) =>
                   displayError(
                     error,
-                    // eslint-disable-next-line no-constant-condition
-                    false
+                    isFavorite
                       ? 'Failed to add the volunteering from favorites'
                       : 'Failed to remove the volunteering from favorites',
                     {

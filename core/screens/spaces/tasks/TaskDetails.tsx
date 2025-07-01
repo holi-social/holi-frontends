@@ -52,12 +52,13 @@ const TaskDetails = () => {
               favoritableId={id}
               favoritableType={FavoritableType.Task}
               typename={'Task'}
-              isFavorite={false} // TODO: add isFavorite
+              isFavorite={data?.isFavorite}
               onError={(error) =>
                 displayError(
                   error,
-                  // eslint-disable-next-line no-constant-condition
-                  false ? 'Failed to add the task from favorites' : 'Failed to remove the task from favorites',
+                  data?.isFavorite
+                    ? 'Failed to add the task from favorites'
+                    : 'Failed to remove the task from favorites',
                   {
                     location: 'TaskDetails.favoriteTask',
                     favoritableId: id,
@@ -72,7 +73,7 @@ const TaskDetails = () => {
           </HoliTransition.FadeRight>
         </Stack>
       ),
-    [displayError, id, isOwner, spaceName]
+    [data?.isFavorite, displayError, id, isOwner, spaceName]
   )
 
   useTrackOnce(

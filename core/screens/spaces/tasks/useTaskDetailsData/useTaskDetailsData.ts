@@ -162,6 +162,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       visibility: data?.taskById?.visibility === VisibilityType.Members ? 'private' : undefined,
       infoList,
       coverImage,
+      isFavorite: data?.taskById?.isFavorite,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',
