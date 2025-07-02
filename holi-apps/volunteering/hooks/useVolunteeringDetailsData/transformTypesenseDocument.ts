@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
 import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
-import { Global, MapPin2, Refresh } from '@holi/icons/src/generated'
+import { AiEstimatedTime, Global, MapPin2, Refresh } from '@holi/icons/src/generated'
 import {
   VOLUNTEERING_IMG_SOURCES_MAPPING,
   type VolunteeringDetailsScreenData,
@@ -45,12 +45,21 @@ export const transformTypesenseDocument = (
         }
       : undefined
 
-  const commitmentInfo = document.commitment_label
+  const commitmentRegularity = engagement.commitment_label
     ? {
         icon: Refresh,
         title: t(`volunteering.engagement.commitment_label.${engagement.commitment_label}`),
       }
     : undefined
+  const commitmentDuration =
+    engagement.commitment_duration && engagement.commitment_duration !== 'INDETERMINATE'
+      ? {
+          icon: AiEstimatedTime,
+          title: t(`volunteering.engagement.commitment_duration.${engagement.commitment_duration}`),
+          subtitle: t('volunteeringDetails.timeAI'),
+          subtitleColor: 'informative',
+        }
+      : undefined
 
   const coverImage = document.image_url
     ? {
@@ -67,7 +76,9 @@ export const transformTypesenseDocument = (
     },
   }
 
-  const infoList = [locationInfo, commitmentInfo].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
+  const infoList = [locationInfo, commitmentRegularity, commitmentDuration].filter(
+    (detail) => detail !== undefined
+  ) as DetailsScreenInfoList[]
 
   return {
     title: engagement.title,
