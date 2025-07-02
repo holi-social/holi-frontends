@@ -1,7 +1,7 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, type ListRenderItem, StyleSheet, View } from 'react-native'
+import { FlatList, type ListRenderItem, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
@@ -48,6 +48,11 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
     navigate(seeAllPath)
   }
 
+  const handleLearnMorePress = () => {
+    track(TrackingEvent.ChallengeCard.AllChallengesVisited('home', 'all'))
+    navigate(seeAllPath)
+  }
+
   const listProps = {
     horizontal: true,
     style: styles.itemsContainer,
@@ -72,19 +77,17 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
 
   return (
     <HoliContainer noPadding>
-      <Stack
-        direction="row"
-        gap="xxs"
-        justifyContent="space-between"
-        margin={{ bottom: '4xs' }}
-        onPress={handleHeaderTitlePress}
-      >
-        <Text size="xl" headingLevel="3">
-          {heading}
-        </Text>
-        <TextLink size="md" role="none">
-          {t('global.learnMore')}
-        </TextLink>
+      <Stack direction="row" gap="xxs" justifyContent="space-between" margin={{ bottom: '4xs' }}>
+        <Pressable onPress={handleHeaderTitlePress}>
+          <Text size="xl" headingLevel="3">
+            {heading}
+          </Text>
+        </Pressable>
+        <Pressable onPress={handleLearnMorePress}>
+          <TextLink size="md" role="none">
+            {t('global.learnMore')}
+          </TextLink>
+        </Pressable>
       </Stack>
       {ListComponent}
     </HoliContainer>

@@ -256,19 +256,14 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
                       key={title}
                       title={t(title)}
                       description={t(description)}
-                      imageSource={icon.default.src}
+                      imageSource={icon}
                       size="lm"
                       outlined={false}
                       alignItems="flex-start"
                     />
                   ) : (
                     <Stack key={title} direction="row" gap="xs" margin={'3xs'} alignItems="flex-start">
-                      <SelectorCardContent
-                        title={t(title)}
-                        description={t(description)}
-                        imageSource={icon.default.src}
-                        size="lm"
-                      />
+                      <SelectorCardContent title={t(title)} description={t(description)} imageSource={icon} size="lm" />
                     </Stack>
                   )
                 )}

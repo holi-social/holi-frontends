@@ -60,19 +60,22 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#90ddff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 24,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 24,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#90ddff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 24,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 24,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -87,20 +90,23 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 11,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 13.2,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 11,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 13.2,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               SU
@@ -324,6 +330,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="ignore-connection-request-button"
@@ -351,20 +358,23 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.connection.ignore
@@ -427,6 +437,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="accept-connection-request-button"
@@ -454,20 +465,23 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.connection.accept

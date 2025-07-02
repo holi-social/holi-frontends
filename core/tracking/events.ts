@@ -547,7 +547,7 @@ export namespace TrackingEvent {
   })
 
   export const RecommendationViewed = (
-    type: RecommendationType | 'challenge',
+    type: RecommendationType | 'challenges',
     otherProperties: RecommendationProperties = {}
   ): TrackingEvent => ({
     ...versionOne,

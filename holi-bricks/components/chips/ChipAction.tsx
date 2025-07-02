@@ -2,8 +2,8 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundat
 
 import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { Color } from 'holi-bricks/foundations'
-import { Spacing } from 'holi-bricks/foundations'
+import type { Color, LayoutProps } from 'holi-bricks/foundations'
+import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { type GestureResponderEvent, Pressable } from 'react-native'
 
@@ -15,18 +15,19 @@ import { pill } from './styles'
 
 type ChipColor = Color | 'white'
 
-export type ChipActionProps = AccessibilityProps & {
-  onPress?: (event: GestureResponderEvent) => void | Promise<void>
-  children?: string
-  selected?: boolean
-  disabled?: boolean
-  color?: ChipColor
-  size?: ChipSize
-  iconLeading?: HoliIconType
-  iconTrailing?: HoliIconType
-  'aria-label'?: string
-  testID?: string
-}
+export type ChipActionProps = AccessibilityProps &
+  LayoutProps & {
+    onPress?: (event: GestureResponderEvent) => void | Promise<void>
+    children?: string
+    selected?: boolean
+    disabled?: boolean
+    color?: ChipColor
+    size?: ChipSize
+    iconLeading?: HoliIconType
+    iconTrailing?: HoliIconType
+    'aria-label'?: string
+    testID?: string
+  }
 
 export const ChipAction = ({
   onPress,
@@ -51,7 +52,7 @@ export const ChipAction = ({
       {...accessibilityProps(rest)}
       aria-checked={selected}
       role={role}
-      style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
+      style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color), layoutStyle(rest)]}
       testID={testID}
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={styles.text.color} />}

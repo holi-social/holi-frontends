@@ -11,28 +11,31 @@ import {
   type TextStyle,
 } from 'react-native'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
+import { type LayoutProps, layoutStyle } from 'holi-bricks/foundations'
 
 // Change import in HOLI-10369
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
 
-export interface TextProps extends React.PropsWithChildren {
-  size: TextSize
-  /**
-   * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
-   */
-  selectable?: boolean
-  numberOfLines?: number
-  /** Managed Theme color. */
-  color?: FillColors
-  /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
-  colorOverride?: TextStyle['color']
-  textAlign?: TextStyle['textAlign']
-  ellipsizeMode?: RNTextProps['ellipsizeMode']
-  headingLevel?: TextHeadingLevel
-  bold?: boolean
-  testID?: string
-}
+export type TextProps = AccessibilityProps &
+  LayoutProps &
+  React.PropsWithChildren & {
+    size: TextSize
+    /**
+     * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
+     */
+    selectable?: boolean
+    numberOfLines?: number
+    /** Managed Theme color. */
+    color?: FillColors
+    /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
+    colorOverride?: TextStyle['color']
+    textAlign?: TextStyle['textAlign']
+    ellipsizeMode?: RNTextProps['ellipsizeMode']
+    headingLevel?: TextHeadingLevel
+    bold?: boolean
+    testID?: string
+  }
 
 // Change import in HOLI-10369
 const createAccessibilityProps = (headingLevel?: TextHeadingLevel): AccessibilityProps & AccessibilityPropsWeb => {
@@ -82,7 +85,10 @@ export const Text = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, selectable, colorOverride, textAlign, bold) as unknown as TextStyle}
+      style={[
+        styles.text(color, selectable, colorOverride, textAlign, bold) as unknown as TextStyle,
+        layoutStyle(rest),
+      ]}
     >
       {children}
     </RNText>

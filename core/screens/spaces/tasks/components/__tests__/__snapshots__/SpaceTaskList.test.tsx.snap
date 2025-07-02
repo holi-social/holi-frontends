@@ -587,22 +587,25 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           >
             <View
               style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "flex-start",
-                  "backgroundColor": "#d9f4ff",
-                  "borderColor": "#90ddff",
-                  "borderRadius": 50,
-                  "borderWidth": 1,
-                  "color": "#262424",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "gap": 4,
-                  "maxWidth": "100%",
-                  "minHeight": 24,
-                  "overflow": "hidden",
-                  "paddingHorizontal": 8,
-                }
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "backgroundColor": "#d9f4ff",
+                    "borderColor": "#90ddff",
+                    "borderRadius": 50,
+                    "borderWidth": 1,
+                    "color": "#262424",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "gap": 4,
+                    "maxWidth": "100%",
+                    "minHeight": 24,
+                    "overflow": "hidden",
+                    "paddingHorizontal": 8,
+                  },
+                  {},
+                ]
               }
             >
               <Text
@@ -610,20 +613,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 role="none"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 13,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.104,
-                    "lineHeight": 15.6,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 13,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 skill.emergency-care
@@ -631,22 +637,25 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </View>
             <View
               style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "flex-start",
-                  "backgroundColor": "#d9f4ff",
-                  "borderColor": "#90ddff",
-                  "borderRadius": 50,
-                  "borderWidth": 1,
-                  "color": "#262424",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "gap": 4,
-                  "maxWidth": "100%",
-                  "minHeight": 24,
-                  "overflow": "hidden",
-                  "paddingHorizontal": 8,
-                }
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "backgroundColor": "#d9f4ff",
+                    "borderColor": "#90ddff",
+                    "borderRadius": 50,
+                    "borderWidth": 1,
+                    "color": "#262424",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "gap": 4,
+                    "maxWidth": "100%",
+                    "minHeight": 24,
+                    "overflow": "hidden",
+                    "paddingHorizontal": 8,
+                  },
+                  {},
+                ]
               }
             >
               <Text
@@ -654,20 +663,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 role="none"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 13,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.104,
-                    "lineHeight": 15.6,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 13,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 skill.event-planning
@@ -686,20 +698,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             role="none"
             selectable={true}
             style={
-              {
-                "color": "#676565",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
-                "fontVariant": [
-                  "lining-nums",
-                  "tabular-nums",
-                ],
-                "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
-                "textAlign": undefined,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#676565",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": -0.12,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {},
+              ]
             }
             testID="task-description"
           >
@@ -1328,22 +1343,25 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           >
             <View
               style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "flex-start",
-                  "backgroundColor": "#d9f4ff",
-                  "borderColor": "#90ddff",
-                  "borderRadius": 50,
-                  "borderWidth": 1,
-                  "color": "#262424",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "gap": 4,
-                  "maxWidth": "100%",
-                  "minHeight": 24,
-                  "overflow": "hidden",
-                  "paddingHorizontal": 8,
-                }
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "backgroundColor": "#d9f4ff",
+                    "borderColor": "#90ddff",
+                    "borderRadius": 50,
+                    "borderWidth": 1,
+                    "color": "#262424",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "gap": 4,
+                    "maxWidth": "100%",
+                    "minHeight": 24,
+                    "overflow": "hidden",
+                    "paddingHorizontal": 8,
+                  },
+                  {},
+                ]
               }
             >
               <Text
@@ -1351,20 +1369,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 role="none"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 13,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.104,
-                    "lineHeight": 15.6,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 13,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 skill.emergency-care
@@ -1372,22 +1393,25 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </View>
             <View
               style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "flex-start",
-                  "backgroundColor": "#d9f4ff",
-                  "borderColor": "#90ddff",
-                  "borderRadius": 50,
-                  "borderWidth": 1,
-                  "color": "#262424",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "gap": 4,
-                  "maxWidth": "100%",
-                  "minHeight": 24,
-                  "overflow": "hidden",
-                  "paddingHorizontal": 8,
-                }
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "backgroundColor": "#d9f4ff",
+                    "borderColor": "#90ddff",
+                    "borderRadius": 50,
+                    "borderWidth": 1,
+                    "color": "#262424",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "gap": 4,
+                    "maxWidth": "100%",
+                    "minHeight": 24,
+                    "overflow": "hidden",
+                    "paddingHorizontal": 8,
+                  },
+                  {},
+                ]
               }
             >
               <Text
@@ -1395,20 +1419,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 role="none"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 13,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.104,
-                    "lineHeight": 15.6,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 13,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 skill.event-planning
@@ -1427,20 +1454,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             role="none"
             selectable={true}
             style={
-              {
-                "color": "#676565",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
-                "fontVariant": [
-                  "lining-nums",
-                  "tabular-nums",
-                ],
-                "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
-                "textAlign": undefined,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#676565",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": -0.12,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {},
+              ]
             }
             testID="task-description"
           >
@@ -2069,22 +2099,25 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           >
             <View
               style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "flex-start",
-                  "backgroundColor": "#d9f4ff",
-                  "borderColor": "#90ddff",
-                  "borderRadius": 50,
-                  "borderWidth": 1,
-                  "color": "#262424",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "gap": 4,
-                  "maxWidth": "100%",
-                  "minHeight": 24,
-                  "overflow": "hidden",
-                  "paddingHorizontal": 8,
-                }
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "backgroundColor": "#d9f4ff",
+                    "borderColor": "#90ddff",
+                    "borderRadius": 50,
+                    "borderWidth": 1,
+                    "color": "#262424",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "gap": 4,
+                    "maxWidth": "100%",
+                    "minHeight": 24,
+                    "overflow": "hidden",
+                    "paddingHorizontal": 8,
+                  },
+                  {},
+                ]
               }
             >
               <Text
@@ -2092,20 +2125,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 role="none"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 13,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.104,
-                    "lineHeight": 15.6,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 13,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 skill.emergency-care
@@ -2113,22 +2149,25 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             </View>
             <View
               style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "flex-start",
-                  "backgroundColor": "#d9f4ff",
-                  "borderColor": "#90ddff",
-                  "borderRadius": 50,
-                  "borderWidth": 1,
-                  "color": "#262424",
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "gap": 4,
-                  "maxWidth": "100%",
-                  "minHeight": 24,
-                  "overflow": "hidden",
-                  "paddingHorizontal": 8,
-                }
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "backgroundColor": "#d9f4ff",
+                    "borderColor": "#90ddff",
+                    "borderRadius": 50,
+                    "borderWidth": 1,
+                    "color": "#262424",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "gap": 4,
+                    "maxWidth": "100%",
+                    "minHeight": 24,
+                    "overflow": "hidden",
+                    "paddingHorizontal": 8,
+                  },
+                  {},
+                ]
               }
             >
               <Text
@@ -2136,20 +2175,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 role="none"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 13,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.104,
-                    "lineHeight": 15.6,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 13,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 skill.event-planning
@@ -2168,20 +2210,23 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             role="none"
             selectable={true}
             style={
-              {
-                "color": "#676565",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
-                "fontVariant": [
-                  "lining-nums",
-                  "tabular-nums",
-                ],
-                "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
-                "textAlign": undefined,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#676565",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": -0.12,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {},
+              ]
             }
             testID="task-description"
           >

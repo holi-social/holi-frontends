@@ -78,7 +78,7 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
   }, [refreshing, fetchChallenges])
 
   const listItemTrackingEvent: ListItemTrackingEvent<Challenge> = ({ title, id }) => {
-    return TrackingEvent.RecommendationViewed('challenge', { title, id })
+    return TrackingEvent.RecommendationViewed('challenges', { title, id })
   }
 
   const listItemIdentifier: ListItemIdentifier<Challenge> = ({ id }) => {

@@ -56,7 +56,10 @@ variables:
     - if: $CI_COMMIT_BRANCH
       when: manual
   automatically_on_scheduled_e2e_test_run:
-    - if: $CI_PIPELINE_SOURCE == "schedule" &&  $CI_RUN_E2E_TESTS == "true"
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $CI_RUN_E2E_TESTS == "true"
+      when: on_success
+  automatically_update_translations:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $CI_UPDATE_TRANSLATIONS == "true"
       when: on_success
 
 default:
@@ -85,10 +88,32 @@ install_deps:
         - yarn.lock
         - .gitlab-ci.yml
 
+update_translations:
+  stage: build
+  needs:
+    - job: install_deps
+      optional: true
+  allow_failure: true
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-rw]
+  script:
+    - corepack enable
+    - yarn install --immutable --immutable-cache
+    - git config user.email "ci@holi.social"
+    - git config user.name "CI Bot"
+    # Using project access token until CI jobs are allowed to push themselves
+    # See https://gitlab.com/gitlab-org/gitlab/-/issues/389060
+    - git remote set-url origin https://oauth2:${GITLAB_CI_UPDATE_TRANSLATION_PUSH_TOKEN}@gitlab.holi.team/app/holi-frontends.git
+    - LOCALAZY_API_KEY_READ=$LOCALAZY_API_KEY_READ BRANCH=$CI_COMMIT_BRANCH scripts/download_translations.sh
+  rules:
+    - !reference [.rule_templates, automatically_update_translations]
+
 lint_compile_test:
   stage: build
   needs:
     - job: install_deps
+      optional: true
+    - job: update_translations
       optional: true
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   cache: !reference [.yarn-cache-rw]

@@ -5,7 +5,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
-import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
+import DonationCarousel from '@holi-apps/donations/components/DonationCarousel'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import EventCarousel from '@holi-apps/events/components/EventCarousel'
 import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
@@ -79,7 +79,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
         <>
           {displayDonations && (
             <ErrorBoundary>
-              <DonationUpdates cardWidth={cardWidth} />
+              <DonationCarousel cardWidth={cardWidth} />
             </ErrorBoundary>
           )}
         </>

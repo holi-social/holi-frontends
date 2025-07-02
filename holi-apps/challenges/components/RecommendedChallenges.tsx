@@ -68,7 +68,7 @@ const RecommendedChallenges = () => {
   }
 
   const listItemTrackingEvent: ListItemTrackingEvent<Challenge> = ({ title, id }) => {
-    return TrackingEvent.RecommendationViewed('challenge', { title, id })
+    return TrackingEvent.RecommendationViewed('challenges', { title, id })
   }
 
   const listItemIdentifier: ListItemIdentifier<Challenge> = ({ id }) => {
@@ -93,8 +93,10 @@ const RecommendedChallenges = () => {
       heading={t('challenges.recommendations.title')}
       subline={t('challenges.recommendations.subline')}
       seeAllPath={createInAppChallengesPath()}
+      headerTitleTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'title-bar')}
+      headerTitleSeeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'all')}
       onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
-      seeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'all')}
+      seeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'more-card')}
       labelSeeMore={t('challenges.carousel.seeMore')}
       loading={isLoading}
     />

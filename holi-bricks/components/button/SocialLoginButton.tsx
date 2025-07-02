@@ -1,6 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
+import { type LayoutProps, Spacing, layoutStyle } from 'holi-bricks/foundations'
 import { TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useCallback, useState } from 'react'
@@ -27,15 +27,16 @@ const iconsByProvider = {
   Apple: LogoApple,
 }
 
-export type SocialLoginButtonProps = AccessibilityProps & {
-  label: string
-  provider: SocialLoginButtonProvider
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
-  disabled?: boolean
-  loading?: boolean
-  selected?: boolean
-  testID?: string
-}
+export type SocialLoginButtonProps = AccessibilityProps &
+  LayoutProps & {
+    label: string
+    provider: SocialLoginButtonProvider
+    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+    disabled?: boolean
+    loading?: boolean
+    selected?: boolean
+    testID?: string
+  }
 
 export const SocialLoginButton = ({
   label,
@@ -83,7 +84,7 @@ export const SocialLoginButton = ({
       onPress={handlePress}
       onHoverIn={() => setIsHovered(true)}
       onHoverOut={() => setIsHovered(false)}
-      style={({ pressed }) => [styles.button(!disabled && isHovered, !disabled && !!pressed)]}
+      style={({ pressed }) => [styles.button(!disabled && isHovered, !disabled && !!pressed), layoutStyle(rest)]}
       disabled={isSpinning || disabled}
       testID={testID}
       {...accessibilityProps(rest)}
