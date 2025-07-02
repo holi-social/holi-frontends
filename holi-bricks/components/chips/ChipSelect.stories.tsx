@@ -4,9 +4,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Colors } from 'holi-bricks/foundations'
 import React from 'react'
 
-import { ChipSelect } from './ChipSelect'
+import { ChipSelect, type ChipSelectColor } from './ChipSelect'
 
-const availableColors = Object.values(Colors)
+const availableColors = [...Object.values(Colors), 'yellowLight' as ChipSelectColor]
 const availableSizes = ['md', 'lg'] as const
 const disabledProps = [
   'accessible',
@@ -39,10 +39,15 @@ const meta: Meta<typeof ChipSelect> = {
         },
       },
     },
+    counter: {
+      type: 'string',
+      description: 'Optional counter',
+    },
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'Chip',
+    counter: '',
     disabled: false,
     selected: false,
   },
@@ -141,6 +146,28 @@ export const ByAvatar: Story = {
             source: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
           }}
         />
+      </>
+    )
+  },
+}
+
+export const ByCounter: Story = {
+  argTypes: {
+    selectedColor: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+    avatar: { control: false },
+  },
+  args: {
+    selectedColor: 'yellowLight',
+    size: 'md',
+    selected: true,
+  },
+  render: function Render(args) {
+    return (
+      <>
+        <ChipSelect {...args} />
+        <ChipSelect {...args} counter="42" />
+        <ChipSelect {...args} counter="999" selected={false} />
       </>
     )
   },
