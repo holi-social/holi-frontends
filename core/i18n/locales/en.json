@@ -577,6 +577,7 @@
   "insights.reactions.comment.like": "Thank {{name}} for sharing the comment",
   "insights.reactions.comment.like.noUser": "React to this comment with ‘Thanks for sharing’",
   "insights.reactions.comment.unlike": "Remove ‘Thanks for sharing’ off this comment",
+  "insights.reactions.post.drawerTitle": "Reactions",
   "insights.reactions.post.like": "Thank {{name}} for sharing the post",
   "insights.reactions.post.like.noUser": "React to this post with ‘Thanks for sharing’",
   "insights.reactions.post.loginRedirect.text": "To react to this post, you have to sign up first",

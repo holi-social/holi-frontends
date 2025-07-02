@@ -1,5 +1,5 @@
+import React from 'react'
 import { useMutation } from '@apollo/client'
-import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ViewStyle } from 'react-native'
 
@@ -21,6 +21,8 @@ import {
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import PostReactionCount from '@holi/core/screens/individualPosts/components/PostResponseBar/PostReactionCount'
+import ReactionsDrawer from '@holi/core/components/ReactionsDrawer'
+import { HandHeartThinFilledDarker } from '@holi/icons/src/generated'
 
 export interface FeedPostReactionsProps {
   post: FeedPost | Post
@@ -131,17 +133,38 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
     }
   }
 
+  const [drawerVisible, setDrawerVisible] = React.useState(false)
+
+  const openDrawer = () => setDrawerVisible(true)
+  const closeDrawer = () => setDrawerVisible(false)
+
+  const users =
+    post.reactors?.data?.filter(Boolean).map((u) => ({
+      id: u.id,
+      fullName: u.fullName,
+      avatarUrl: u.avatar || '',
+    })) || []
+
   return (
-    <PostReactionCount
-      onPress={reactOnPost}
-      type="post"
-      count={heartReactions}
-      active={currentUserHasReacted}
-      fullName={authorName}
-      style={style}
-      showCount={showCount}
-      testID={`btn-react-to-${isFeedPost ? 'feed-' : ''}post-HEART`}
-    />
+    <>
+      <PostReactionCount
+        onPress={showCount ? openDrawer : reactOnPost}
+        onCountPress={showCount ? openDrawer : undefined}
+        type="post"
+        count={heartReactions}
+        active={currentUserHasReacted}
+        fullName={authorName}
+        style={style}
+        showCount={showCount}
+        testID={`btn-react-to-${isFeedPost ? 'feed-' : ''}post-HEART`}
+      />
+      <ReactionsDrawer
+        visible={drawerVisible}
+        onClose={closeDrawer}
+        users={users}
+        reactionIcon={<HandHeartThinFilledDarker />}
+      />
+    </>
   )
 }
 
