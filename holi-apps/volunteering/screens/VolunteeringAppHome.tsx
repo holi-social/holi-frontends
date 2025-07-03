@@ -21,6 +21,7 @@ import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { Text } from 'holi-bricks/components/text'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
+import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -83,6 +84,7 @@ const VolunteeringAppHome = () => {
       >
         <VolunteeringFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} />
       </HoliModal>
+      <VolunteeringListingHeader />
 
       <VolunteeringFilterRow onSubmit={() => {}} filters={filters} />
 
