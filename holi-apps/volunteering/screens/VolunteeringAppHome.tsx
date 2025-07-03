@@ -16,6 +16,9 @@ import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import { Screen } from '@holi/core/components/Screen'
+import { Stack } from 'holi-bricks/components/stack'
+
+const isWeb = Platform.OS === 'web'
 
 const VolunteeringAppHome = () => {
   const { t } = useTranslation()
@@ -44,6 +47,13 @@ const VolunteeringAppHome = () => {
     />
   )
 
+  const headerComponent = (
+    <Stack backgroundColor="main">
+      <VolunteeringListingHeader />
+      <VolunteeringFilterRow onSubmit={() => {}} filters={filters} />
+    </Stack>
+  )
+
   return (
     <Screen
       preset="scroll"
@@ -51,11 +61,11 @@ const VolunteeringAppHome = () => {
         title: t('volunteering.app.name'),
         headerTitleAlign: 'center',
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-        headerRight: () =>
-          Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton,
+        headerRight: () => (isWeb ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
       }}
       testID="volunteering-list-container"
       noContainerPaddingWeb={true}
+      StickyTopComponent={isWeb && headerComponent}
     >
       <HoliModal
         shown={filterModalShown}
@@ -68,9 +78,7 @@ const VolunteeringAppHome = () => {
         <VolunteeringFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} />
       </HoliModal>
 
-      <VolunteeringListingHeader />
-
-      <VolunteeringFilterRow onSubmit={() => {}} filters={filters} />
+      {!isWeb && headerComponent}
 
       <VolunteeringListingDiscovery
         filters={filters}
