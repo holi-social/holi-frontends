@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, Platform } from 'react-native'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { useTranslation } from 'react-i18next'
@@ -90,6 +90,7 @@ export const VolunteeringFilterRow = ({ filters /*, onSubmit*/ }: VolunteeringFi
       style={mixins.container}
       contentContainerStyle={{
         paddingVertical: Spacing.xs,
+        paddingRight: Platform.OS != 'web' ? Spacing.xs * 2 : undefined,
         gap: Spacing['4xs'],
       }}
     />

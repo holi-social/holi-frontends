@@ -1,7 +1,7 @@
 import type React from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 
-import { Text } from 'holi-bricks/components/text'
+import { TextLink } from 'holi-bricks/components/text'
 
 import type { PartnerProps } from '@holi-apps/volunteering/types'
 import AvatarPile, { type AvatarPileProps } from 'holi-bricks/components/avatar/AvatarPile'
@@ -35,7 +35,7 @@ export const PartnerListInfoRow = ({ rowText, partners, onPress, linkLabel }: Pa
           }
         />
         <View style={{ flex: 1 }}>
-          <Text size="md">{rowText}</Text>
+          <TextLink size="md">{rowText}</TextLink>
         </View>
       </View>
     </Pressable>
