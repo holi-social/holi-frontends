@@ -72,6 +72,30 @@ describe('StartSmallCarousel', () => {
     expect(toJSON()).toBeNull()
   })
 
+  it('should render loaded micro actions and heading', async () => {
+    render(
+      <MockedProvider
+        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
+        addTypename={true}
+        defaultOptions={defaultOptions}
+        cache={createCache()}
+      >
+        <StartSmallCarousel />
+      </MockedProvider>
+    )
+
+    await screen.findByText(results.engagements[0].title)
+
+    // Headers
+    expect(screen.getByText('act.startSmall.title')).toBeOnTheScreen()
+    expect(screen.getByText('act.startSmall.subline')).toBeOnTheScreen()
+
+    // Results
+    results.engagements.forEach((engagement) => {
+      expect(screen.getByText(engagement.title)).toBeOnTheScreen()
+    })
+  })
+
   it('should track pressing cards', async () => {
     const user = userEvent.setup()
     const engagement = results.engagements[0]
@@ -97,5 +121,72 @@ describe('StartSmallCarousel', () => {
         sourceSection: 'Micro Action',
       })
     )
+  })
+
+  it('should navigate to detail pages', async () => {
+    const user = userEvent.setup()
+    const engagement = results.engagements[0]
+
+    render(
+      <MockedProvider
+        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
+        addTypename={true}
+        defaultOptions={defaultOptions}
+        cache={createCache()}
+      >
+        <StartSmallCarousel />
+      </MockedProvider>
+    )
+
+    await user.press(await screen.findByText(engagement.title))
+
+    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+  })
+
+  it('should fetch more results on button click', async () => {
+    const user = userEvent.setup()
+    const fetchNextPage = jest.fn()
+    mockUseMicroactions.mockReturnValue({
+      ...results,
+      fetchNextPage,
+    })
+
+    render(
+      <MockedProvider
+        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
+        addTypename={true}
+        defaultOptions={defaultOptions}
+        cache={createCache()}
+      >
+        <StartSmallCarousel />
+      </MockedProvider>
+    )
+
+    await user.press(await screen.findByText('act.startSmall.showMore'))
+    expect(fetchNextPage).toHaveBeenCalled()
+  })
+
+  it('should not render load-more-button if nothing more can be fetched', async () => {
+    const fetchNextPage = jest.fn()
+    mockUseMicroactions.mockReturnValue({
+      ...results,
+      canFetchMore: false,
+      fetchNextPage,
+    })
+
+    render(
+      <MockedProvider
+        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
+        addTypename={true}
+        defaultOptions={defaultOptions}
+        cache={createCache()}
+      >
+        <StartSmallCarousel />
+      </MockedProvider>
+    )
+
+    await screen.findByText(results.engagements[0].title)
+    expect(screen.queryByText('act.startSmall.showMore')).toBeNull()
+    expect(fetchNextPage).not.toHaveBeenCalled()
   })
 })
