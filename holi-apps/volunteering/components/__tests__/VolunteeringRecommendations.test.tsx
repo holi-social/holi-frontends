@@ -1,7 +1,6 @@
 import React from 'react'
 import { VolunteeringRecommendations } from '@holi-apps/volunteering/components/VolunteeringRecommendations'
 import { render, screen, userEvent } from '@testing-library/react-native'
-import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { TrackingEvent } from '@holi/core/tracking'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
@@ -9,11 +8,6 @@ import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/hel
 const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
   useVolunteeringRecos: jest.fn(),
-}))
-
-const mockUseRecosSubtitle = jest.mocked(useRecosSubtitle)
-jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
-  useRecosSubtitle: jest.fn(),
 }))
 
 describe('VolunteeringRecommendations', () => {
@@ -27,7 +21,6 @@ describe('VolunteeringRecommendations', () => {
   beforeEach(() => {
     jest.useFakeTimers()
     mockUseVolunteeringRecos.mockReturnValue(results)
-    mockUseRecosSubtitle.mockReturnValue('Recos subtitle')
   })
 
   afterEach(async () => {
@@ -50,9 +43,7 @@ describe('VolunteeringRecommendations', () => {
     render(<VolunteeringRecommendations />)
 
     // Header
-    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
-    expect(screen.getByText('Recos subtitle')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.recommended.title')).toBeOnTheScreen()
 
     // Results
     expect(screen.getAllByRole('link')).toHaveLength(10)

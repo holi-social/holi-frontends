@@ -6,10 +6,6 @@ import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hook
 import { FilteredVolunteeringEngagements } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagements'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
-  useRecosSubtitle: jest.fn(),
-}))
-
 const mockUseFilteredVolunteeringEngagements = jest.mocked(useFilteredVolunteeringEngagements)
 jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements', () => ({
   useFilteredVolunteeringEngagements: jest.fn(),
@@ -75,8 +71,6 @@ describe('FilteredVolunteeringEngagements', () => {
     render(<FilteredVolunteeringEngagements filters={filters} />)
 
     // Header
-    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
 
     // Results

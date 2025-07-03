@@ -7,17 +7,16 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 
 import { Button } from 'holi-bricks/components/button'
-import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { Spacing } from 'holi-bricks/foundations'
+import { Text } from 'holi-bricks/components/text'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -52,8 +51,18 @@ export const VolunteeringEngagementList = ({
 
   return (
     <View style={[mixins.container, styles.list]}>
-      {engagements.length > 0 && <VolunteeringListingHeader isFiltering={isFiltering} totalResults={totalResults} />}
-      <HoliBox padding={[24, 0, 24, 0]}>
+      {isFiltering ? (
+        <Text size="md" color="support" margin={{ bottom: 'xxs' }}>
+          {t('volunteering.filter.result', {
+            count: totalResults,
+          })}
+        </Text>
+      ) : (
+        <Text size="xxl" margin={{ bottom: 'xxs' }}>
+          {t('volunteering.recommended.title')}
+        </Text>
+      )}
+      <HoliBox padding={[0, 0, 24, 0]}>
         {noResults && (
           <View style={mixins.container}>
             <HoliNoResults
@@ -92,7 +101,6 @@ export const VolunteeringEngagementList = ({
 
 const stylesheet = createStyleSheet((theme) => ({
   list: {
-    paddingTop: dimensions.topBarHeight,
     backgroundColor: theme.colors.bg.main,
   },
   headingRow: {
