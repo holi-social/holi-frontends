@@ -17,8 +17,8 @@ import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
@@ -78,22 +78,40 @@ const StartSmallCarousel = () => {
 
   const ListComponent = (
     <TrackableFlatList
-      renderItem={({ item }) => (
-        <HoliLink href={linkFromLocator(item.type, item.link_locators)} label={item.title}>
-          <MiniCard
-            title={item.title}
-            chipLabel={
-              item.commitment_duration
-                ? t(`volunteering.engagement.commitment_duration.${item.commitment_duration}`)
-                : undefined
+      renderItem={({ item, index }) => (
+        <HoliLinkTracked
+          href={linkFromLocator(item.type, item.link_locators)}
+          label={item.title}
+          trackingEvent={TrackingEvent.RecommendationPressed(
+            item.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+            item.id,
+            index,
+            {
+              commitmentType: item.commitment_label,
+              locationType: item.location_type,
+              source: item.source,
+              sourceSection: 'Micro Action',
             }
-            bottomIconLeft={item.location_type === 'remote' ? GlobalFilled : item.location ? MapPin2Filled : undefined}
-            bottomLabel={
-              item.location_type === 'remote' ? t('volunteering.engagement.location_type.remote') : item.location
-            }
-            imageSrc={item.image_url}
-          />
-        </HoliLink>
+          )}
+        >
+          <View style={{ height: '100%' }}>
+            <MiniCard
+              title={item.title}
+              chipLabel={
+                item.commitment_duration
+                  ? t(`volunteering.engagement.commitment_duration.${item.commitment_duration}`)
+                  : undefined
+              }
+              bottomIconLeft={
+                item.location_type === 'remote' ? GlobalFilled : item.location ? MapPin2Filled : undefined
+              }
+              bottomLabel={
+                item.location_type === 'remote' ? t('volunteering.engagement.location_type.remote') : item.location
+              }
+              imageSrc={item.image_url}
+            />
+          </View>
+        </HoliLinkTracked>
       )}
       {...listProps}
       listItemTrackingEvent={listItemTrackingEvent}
