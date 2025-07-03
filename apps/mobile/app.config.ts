@@ -29,7 +29,7 @@ requiredEnvVar('APP_VARIANT')
 let appName: string, iOSBundleIdentifier: string, androidPackage: string, googleServicesFile: string
 switch (process.env.APP_VARIANT) {
   case 'production':
-    appName = 'holi'
+    appName = 'holi.social'
     iOSBundleIdentifier = 'social.holi'
     androidPackage = 'social.holi.app'
     googleServicesFile = './google-services.json'

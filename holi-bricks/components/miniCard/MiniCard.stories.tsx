@@ -11,7 +11,7 @@ import { View } from 'react-native'
 const disabledProps = ['aria-hidden', 'aria-label', 'aria-labelledby', 'aria-disabled', 'fallbackImageHashKey']
 
 const meta: Meta<typeof MiniCard> = {
-  title: 'Patterns/MiniCard',
+  title: 'Components/MiniCard',
   component: MiniCard,
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),

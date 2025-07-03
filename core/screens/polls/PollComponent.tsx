@@ -31,9 +31,10 @@ export type PollComponentProps = {
   type?: 'regular' | 'good_deed'
   bordered?: boolean
   onPress?: () => void
+  hideTitle?: boolean
 }
 
-const PollComponent = ({ poll, type = 'regular', onPress, bordered = true }: PollComponentProps) => {
+const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideTitle = false }: PollComponentProps) => {
   const { track } = useTracking()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -114,13 +115,15 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true }: Pol
 
   return (
     <View style={styles.container}>
-      <HoliButton transparent label={poll.questionText} onPress={onPress} inline>
-        <View style={styles.pollTitle}>
-          <HoliHeading level="3" size="s">
-            {poll.questionText}
-          </HoliHeading>
-        </View>
-      </HoliButton>
+      {!hideTitle && (
+        <HoliButton transparent label={poll.questionText} onPress={onPress} inline>
+          <View style={styles.pollTitle}>
+            <HoliHeading level="3" size="s">
+              {poll.questionText}
+            </HoliHeading>
+          </View>
+        </HoliButton>
+      )}
 
       {!userHasVoted?.userHasVotedByPollId && !!choices ? (
         // if not voted yet

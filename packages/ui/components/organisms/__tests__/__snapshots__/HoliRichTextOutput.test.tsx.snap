@@ -6,20 +6,23 @@ exports[`HoliRichTextOutput full text starting with word followed by colon is no
   role="none"
   selectable={true}
   style={
-    {
-      "color": "#676565",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontVariant": [
-        "lining-nums",
-        "tabular-nums",
-      ],
-      "fontWeight": "400",
-      "letterSpacing": -0.128,
-      "lineHeight": 23.68,
-      "textAlign": undefined,
-      "userSelect": "auto",
-    }
+    [
+      {
+        "color": "#676565",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontVariant": [
+          "lining-nums",
+          "tabular-nums",
+        ],
+        "fontWeight": "400",
+        "letterSpacing": -0.128,
+        "lineHeight": 23.68,
+        "textAlign": undefined,
+        "userSelect": "auto",
+      },
+      {},
+    ]
   }
   testID="the-rich-text-output-element"
 >
@@ -33,20 +36,23 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
   role="none"
   selectable={true}
   style={
-    {
-      "color": "#676565",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontVariant": [
-        "lining-nums",
-        "tabular-nums",
-      ],
-      "fontWeight": "400",
-      "letterSpacing": -0.128,
-      "lineHeight": 23.68,
-      "textAlign": undefined,
-      "userSelect": "auto",
-    }
+    [
+      {
+        "color": "#676565",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontVariant": [
+          "lining-nums",
+          "tabular-nums",
+        ],
+        "fontWeight": "400",
+        "letterSpacing": -0.128,
+        "lineHeight": 23.68,
+        "textAlign": undefined,
+        "userSelect": "auto",
+      },
+      {},
+    ]
   }
   testID="the-rich-text-output-element"
 >
@@ -57,20 +63,23 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
     role="link"
     selectable={false}
     style={
-      {
-        "color": "#5b60d6",
-        "fontFamily": "InstrumentSans-Medium",
-        "fontSize": 16,
-        "fontVariant": [
-          "lining-nums",
-          "tabular-nums",
-        ],
-        "fontWeight": "500",
-        "letterSpacing": -0.192,
-        "lineHeight": 23.68,
-        "textAlign": undefined,
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#5b60d6",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontSize": 16,
+          "fontVariant": [
+            "lining-nums",
+            "tabular-nums",
+          ],
+          "fontWeight": "500",
+          "letterSpacing": -0.192,
+          "lineHeight": 23.68,
+          "textAlign": undefined,
+          "userSelect": "auto",
+        },
+        {},
+      ]
     }
   >
     http://www.google.de

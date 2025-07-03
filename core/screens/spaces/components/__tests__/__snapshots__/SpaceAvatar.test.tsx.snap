@@ -3,19 +3,22 @@
 exports[`React tree renders correctly 1`] = `
 <View
   style={
-    {
-      "alignItems": "center",
-      "backgroundColor": "#ffffff",
-      "borderColor": "#262424",
-      "borderRadius": 8,
-      "borderWidth": 1,
-      "display": "flex",
-      "height": 64,
-      "justifyContent": "center",
-      "overflow": "hidden",
-      "position": "relative",
-      "width": 64,
-    }
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#262424",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "display": "flex",
+        "height": 64,
+        "justifyContent": "center",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 64,
+      },
+      {},
+    ]
   }
   testID="space-avatar"
 >
@@ -37,6 +40,7 @@ exports[`React tree renders correctly 1`] = `
           "width": 64,
         },
         {},
+        {},
       ]
     }
   />
@@ -46,19 +50,22 @@ exports[`React tree renders correctly 1`] = `
 exports[`React tree renders initials with colored background, when given image prop is empty 1`] = `
 <View
   style={
-    {
-      "alignItems": "center",
-      "backgroundColor": "#abff8b",
-      "borderColor": "#262424",
-      "borderRadius": 8,
-      "borderWidth": 1,
-      "display": "flex",
-      "height": 64,
-      "justifyContent": "center",
-      "overflow": "hidden",
-      "position": "relative",
-      "width": 64,
-    }
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "#abff8b",
+        "borderColor": "#262424",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "display": "flex",
+        "height": 64,
+        "justifyContent": "center",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 64,
+      },
+      {},
+    ]
   }
   testID="space-avatar"
 >
@@ -74,20 +81,23 @@ exports[`React tree renders initials with colored background, when given image p
       role="none"
       selectable={true}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 28,
-          "fontVariant": [
-            "lining-nums",
-            "tabular-nums",
-          ],
-          "fontWeight": "400",
-          "letterSpacing": -0.896,
-          "lineHeight": 33.6,
-          "textAlign": undefined,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 28,
+            "fontVariant": [
+              "lining-nums",
+              "tabular-nums",
+            ],
+            "fontWeight": "400",
+            "letterSpacing": -0.896,
+            "lineHeight": 33.6,
+            "textAlign": undefined,
+            "userSelect": "auto",
+          },
+          {},
+        ]
       }
     >
       SP

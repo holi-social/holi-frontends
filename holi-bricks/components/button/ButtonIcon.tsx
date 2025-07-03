@@ -1,5 +1,5 @@
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
+import { Spacing, layoutStyle } from 'holi-bricks/foundations'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
@@ -19,6 +19,7 @@ import {
   getButtonVariantStyle,
 } from './helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
+import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
@@ -38,6 +39,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   icon,
   testID,
   color,
+  ...rest
 }: ButtonIconProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
@@ -78,9 +80,10 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
       onPress={handlePress}
       onHoverIn={() => !disabled && setIsHovered(true)}
       onHoverOut={() => !disabled && setIsHovered(false)}
-      style={({ pressed }) => !transparent && [styles.button(isHovered, pressed)]}
+      style={({ pressed }) => [!transparent && styles.button(isHovered, pressed), layoutStyle(rest)]}
       disabled={isDisabled}
       testID={testID}
+      {...accessibilityProps(rest)}
     >
       <View style={!transparent && styles.content}>
         {isSpinning ? (

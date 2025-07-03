@@ -5,7 +5,7 @@ import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundat
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { Text } from 'holi-bricks/components/text/Text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { BorderRadius, Spacing, mono } from 'holi-bricks/foundations'
+import { BorderRadius, type LayoutProps, Spacing, layoutStyle, mono } from 'holi-bricks/foundations'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import React, { useCallback, useState } from 'react'
 import { Platform, View } from 'react-native'
@@ -27,17 +27,18 @@ export const AvatarSizesValues = {
 export type AvatarSizes = keyof typeof AvatarSizesValues
 export type AvatarShape = 'square' | 'circle'
 export type AvatarBorder = 'strong' | 'light'
-export type AvatarProps = {
-  border?: AvatarBorder
-  shape?: AvatarShape
-  size?: AvatarSizes
-  label: string
-  icon?: HoliIconType
-  source?: MultiPlatformImageSource
-  initials?: string
-  testID?: string
-  imgPlaceholder?: string
-}
+export type AvatarProps = AccessibilityProps &
+  LayoutProps & {
+    border?: AvatarBorder
+    shape?: AvatarShape
+    size?: AvatarSizes
+    label: string
+    icon?: HoliIconType
+    source?: MultiPlatformImageSource
+    initials?: string
+    testID?: string
+    imgPlaceholder?: string
+  }
 
 const avatarSizeToTextSize = {
   xs: 'xxs',
@@ -58,7 +59,7 @@ export const Avatar = ({
   imgPlaceholder,
   icon,
   ...rest
-}: AvatarProps & AccessibilityProps) => {
+}: AvatarProps) => {
   const { styles } = useStyles(stylesheet, { border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
@@ -93,7 +94,7 @@ export const Avatar = ({
   return (
     <View
       {...accessibilityProps(rest)}
-      style={styles.avatar(firstTwoLetters, Boolean(!errorLoading && source))}
+      style={[styles.avatar(firstTwoLetters, Boolean(!errorLoading && source)), layoutStyle(rest)]}
       testID={testID}
     >
       {renderContent()}

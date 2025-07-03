@@ -44,20 +44,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           role="heading"
           selectable={true}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 28,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.896,
-              "lineHeight": 33.6,
-              "textAlign": "left",
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 28,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.896,
+                "lineHeight": 33.6,
+                "textAlign": "left",
+                "userSelect": "auto",
+              },
+              {},
+            ]
           }
           testID="holi-modal-content-heading"
         >
@@ -180,19 +183,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#ffffff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#ffffff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <Image
@@ -211,6 +217,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {},
                             {},
                           ]
                         }
@@ -383,19 +390,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#8b95ff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <View
@@ -410,20 +420,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           role="none"
                           selectable={true}
                           style={
-                            {
-                              "color": "#262424",
-                              "fontFamily": "InstrumentSans-Regular",
-                              "fontSize": 36,
-                              "fontVariant": [
-                                "lining-nums",
-                                "tabular-nums",
-                              ],
-                              "fontWeight": "400",
-                              "letterSpacing": -1.44,
-                              "lineHeight": 43.199999999999996,
-                              "textAlign": undefined,
-                              "userSelect": "auto",
-                            }
+                            [
+                              {
+                                "color": "#262424",
+                                "fontFamily": "InstrumentSans-Regular",
+                                "fontSize": 36,
+                                "fontVariant": [
+                                  "lining-nums",
+                                  "tabular-nums",
+                                ],
+                                "fontWeight": "400",
+                                "letterSpacing": -1.44,
+                                "lineHeight": 43.199999999999996,
+                                "textAlign": undefined,
+                                "userSelect": "auto",
+                              },
+                              {},
+                            ]
                           }
                         >
                           M
@@ -597,19 +610,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#ffffff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#ffffff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <Image
@@ -628,6 +644,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {},
                             {},
                           ]
                         }
@@ -800,19 +817,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#8b95ff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <View
@@ -827,20 +847,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           role="none"
                           selectable={true}
                           style={
-                            {
-                              "color": "#262424",
-                              "fontFamily": "InstrumentSans-Regular",
-                              "fontSize": 36,
-                              "fontVariant": [
-                                "lining-nums",
-                                "tabular-nums",
-                              ],
-                              "fontWeight": "400",
-                              "letterSpacing": -1.44,
-                              "lineHeight": 43.199999999999996,
-                              "textAlign": undefined,
-                              "userSelect": "auto",
-                            }
+                            [
+                              {
+                                "color": "#262424",
+                                "fontFamily": "InstrumentSans-Regular",
+                                "fontSize": 36,
+                                "fontVariant": [
+                                  "lining-nums",
+                                  "tabular-nums",
+                                ],
+                                "fontWeight": "400",
+                                "letterSpacing": -1.44,
+                                "lineHeight": 43.199999999999996,
+                                "textAlign": undefined,
+                                "userSelect": "auto",
+                              },
+                              {},
+                            ]
                           }
                         >
                           S
@@ -1014,19 +1037,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#ffffff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#ffffff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <Image
@@ -1045,6 +1071,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {},
                             {},
                           ]
                         }
@@ -1217,19 +1244,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#8b95ff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <View
@@ -1244,20 +1274,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           role="none"
                           selectable={true}
                           style={
-                            {
-                              "color": "#262424",
-                              "fontFamily": "InstrumentSans-Regular",
-                              "fontSize": 36,
-                              "fontVariant": [
-                                "lining-nums",
-                                "tabular-nums",
-                              ],
-                              "fontWeight": "400",
-                              "letterSpacing": -1.44,
-                              "lineHeight": 43.199999999999996,
-                              "textAlign": undefined,
-                              "userSelect": "auto",
-                            }
+                            [
+                              {
+                                "color": "#262424",
+                                "fontFamily": "InstrumentSans-Regular",
+                                "fontSize": 36,
+                                "fontVariant": [
+                                  "lining-nums",
+                                  "tabular-nums",
+                                ],
+                                "fontWeight": "400",
+                                "letterSpacing": -1.44,
+                                "lineHeight": 43.199999999999996,
+                                "textAlign": undefined,
+                                "userSelect": "auto",
+                              },
+                              {},
+                            ]
                           }
                         >
                           D
@@ -1433,19 +1466,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   >
                     <View
                       style={
-                        {
-                          "alignItems": "center",
-                          "backgroundColor": "#ffffff",
-                          "borderColor": "#262424",
-                          "borderRadius": 1000,
-                          "borderWidth": 1,
-                          "display": "flex",
-                          "height": 128,
-                          "justifyContent": "center",
-                          "overflow": "hidden",
-                          "position": "relative",
-                          "width": 128,
-                        }
+                        [
+                          {
+                            "alignItems": "center",
+                            "backgroundColor": "#ffffff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 128,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "position": "relative",
+                            "width": 128,
+                          },
+                          {},
+                        ]
                       }
                     >
                       <Image
@@ -1464,6 +1500,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {},
                             {},
                           ]
                         }
@@ -2134,6 +2171,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             "paddingHorizontal": 16,
             "width": "100%",
           },
+          {},
         ]
       }
       testID="holi-modal-content-close-btn"
@@ -2161,20 +2199,23 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             role="presentation"
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Medium",
-                "fontSize": 15,
-                "fontVariant": [
-                  "lining-nums",
-                  "tabular-nums",
-                ],
-                "fontWeight": "500",
-                "letterSpacing": -0.03,
-                "lineHeight": 21,
-                "textAlign": undefined,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {},
+              ]
             }
           >
             user.cards.modal.close

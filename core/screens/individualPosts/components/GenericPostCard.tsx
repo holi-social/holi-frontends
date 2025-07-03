@@ -139,66 +139,62 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
                 )}
               </View>
             )}
-            {!isPoll && (
-              <View style={styles.contentSection}>
-                <HoliHeading
-                  level="2"
-                  size="s"
-                  numberOfLines={3}
-                  skeletonOptions={{ numberOfLines: 1 }}
-                  loading={loadingTranslation}
-                >
-                  {title}
-                </HoliHeading>
-              </View>
-            )}
+            <View style={styles.contentSection}>
+              <HoliHeading
+                level="2"
+                size="s"
+                numberOfLines={3}
+                skeletonOptions={{ numberOfLines: 1 }}
+                loading={loadingTranslation}
+              >
+                {title}
+              </HoliHeading>
+            </View>
           </View>
         </HoliButton>
 
+        <View style={styles.description}>
+          <HoliReadMore
+            numberOfLines={NUMBER_OF_LINES}
+            color="gray300"
+            bold={false}
+            onReadMoreSideEffect={() =>
+              track(
+                TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title, {
+                  id: feedPost.author.id,
+                  name: feedPost.author.fullName,
+                  role: feedPost.author.role,
+                })
+              )
+            }
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
+            style={styles.readMore}
+          >
+            <HoliRichTextOutput
+              text={description}
+              allowAllLinks
+              onPressText={() => {
+                goToDetailView()
+              }}
+              color="support"
+              users={feedPost.mentionedUsers}
+            />
+          </HoliReadMore>
+          {showTranslation && (
+            <HoliTranslate
+              primaryText={{ text: description, setText: setDescription }}
+              secondaryText={{ text: title, setText: setTitle }}
+              loading={loadingTranslation}
+              setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.ContentTranslated('feed_post', feedPost.id)}
+            />
+          )}
+        </View>
+
         {isPoll && (
           <View style={{ marginTop: Spacing.xs }}>
-            <PollComponent poll={feedPost.poll!} type={type} onPress={goToDetailView} bordered={false} />
-          </View>
-        )}
-
-        {!isPoll && (
-          <View style={styles.description}>
-            <HoliReadMore
-              numberOfLines={NUMBER_OF_LINES}
-              color="gray300"
-              bold={false}
-              onReadMoreSideEffect={() =>
-                track(
-                  TrackingEvent.FeedPosts.read(feedPost.id, feedPost.title, {
-                    id: feedPost.author.id,
-                    name: feedPost.author.fullName,
-                    role: feedPost.author.role,
-                  })
-                )
-              }
-              loading={loadingTranslation}
-              skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
-              style={styles.readMore}
-            >
-              <HoliRichTextOutput
-                text={description}
-                allowAllLinks
-                onPressText={() => {
-                  goToDetailView()
-                }}
-                color="support"
-                users={feedPost.mentionedUsers}
-              />
-            </HoliReadMore>
-            {showTranslation && (
-              <HoliTranslate
-                primaryText={{ text: description, setText: setDescription }}
-                secondaryText={{ text: title, setText: setTitle }}
-                loading={loadingTranslation}
-                setLoading={setLoadingTranslation}
-                trackingEvent={TrackingEvent.ContentTranslated('feed_post', feedPost.id)}
-              />
-            )}
+            <PollComponent poll={feedPost.poll!} type={type} onPress={goToDetailView} bordered={false} hideTitle />
           </View>
         )}
 

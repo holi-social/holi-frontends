@@ -107,20 +107,23 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -239,20 +242,23 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#bdbcbc",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#bdbcbc",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -426,20 +432,23 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -614,20 +623,23 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#bdbcbc",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#bdbcbc",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -801,20 +813,23 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -989,20 +1004,23 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#bdbcbc",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#bdbcbc",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -1176,20 +1194,23 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
           role="none"
           selectable={false}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "none",
+              },
+              {},
+            ]
           }
         >
           Test
@@ -1233,20 +1254,23 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
       role="none"
       selectable={true}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 13,
-          "fontVariant": [
-            "lining-nums",
-            "tabular-nums",
-          ],
-          "fontWeight": "400",
-          "letterSpacing": 0.104,
-          "lineHeight": 15.6,
-          "textAlign": undefined,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 13,
+            "fontVariant": [
+              "lining-nums",
+              "tabular-nums",
+            ],
+            "fontWeight": "400",
+            "letterSpacing": 0.104,
+            "lineHeight": 15.6,
+            "textAlign": undefined,
+            "userSelect": "auto",
+          },
+          {},
+        ]
       }
     >
       Test error

@@ -8,23 +8,25 @@ import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
-import { BorderRadius, Spacing } from 'holi-bricks/foundations'
+import { BorderRadius, type LayoutProps, Spacing } from 'holi-bricks/foundations'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
+import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
-export interface MiniCardProps {
-  title: string
-  chipLabel?: string
-  bottomLabel?: string
-  imageSrc?: MultiPlatformImageSource
-  chipIcon?: HoliIconType
-  chipCounterIcon?: HoliIconType
-  chipCounter?: string
-  imageLabel?: string
-  fallbackImageHashKey?: string
-  bottomIconRight?: HoliIconType
-  bottomIconLeft?: HoliIconType
-}
+export type MiniCardProps = AccessibilityProps &
+  LayoutProps & {
+    title: string
+    chipLabel?: string
+    bottomLabel?: string
+    imageSrc?: MultiPlatformImageSource
+    chipIcon?: HoliIconType
+    chipCounterIcon?: HoliIconType
+    chipCounter?: string
+    imageLabel?: string
+    fallbackImageHashKey?: string
+    bottomIconRight?: HoliIconType
+    bottomIconLeft?: HoliIconType
+  }
 
 export const MiniCard = ({
   title,

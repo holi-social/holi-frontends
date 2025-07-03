@@ -6,42 +6,44 @@ import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundation
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
 import { makeBorderWidth, type BorderSizeToEdge } from 'holi-bricks/foundations/dimensions/borderWidth'
 import type { BackgroundColors, BorderColors, ElevationLevel } from 'holi-bricks/foundations/colors/themes/types'
+import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 type FlexAlignments = 'flex-end' | 'flex-start' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
-interface StackProps extends React.PropsWithChildren {
-  gap?: SpacingSize
-  direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse'
-  backgroundColor?: BackgroundColors
-  alignContent?: FlexAlignments
-  alignItems?: 'flex-end' | 'flex-start' | 'center' | 'stretch' | 'baseline'
-  justifyContent?: FlexAlignments
-  alignSelf?: 'flex-end' | 'flex-start' | 'center' | 'auto' | 'stretch' | 'baseline'
-  textAlign?: 'left' | 'right' | 'center'
-  padding?: SizeToEdge
-  margin?: SizeToEdge
-  borderRadius?: RadiusToEdge
-  borderWidth?: BorderSizeToEdge
-  borderStyle?: 'solid' | 'dotted' | 'dashed'
-  borderColor?: BorderColors
-  flex?: number
-  shouldRender?: boolean
-  onPress?: () => void
-  disabled?: boolean
-  accessibilityLabel?: string
-  accessibilityRole?: AccessibilityRole
-  testID?: string
-  maxWidth?: BreakpointsSize
-  maxHeight?: DimensionValue
-  minWidth?: DimensionValue
-  minHeight?: DimensionValue
-  height?: DimensionValue
-  width?: DimensionValue
-  wrap?: FlexStyle['flexWrap']
-  flexShrink?: FlexStyle['flexShrink']
-  overflow?: 'hidden' | 'visible'
-  aspectRatio?: number | string
-  elevation?: ElevationLevel
-}
+type StackProps = AccessibilityProps &
+  React.PropsWithChildren & {
+    gap?: SpacingSize
+    direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse'
+    backgroundColor?: BackgroundColors
+    alignContent?: FlexAlignments
+    alignItems?: 'flex-end' | 'flex-start' | 'center' | 'stretch' | 'baseline'
+    justifyContent?: FlexAlignments
+    alignSelf?: 'flex-end' | 'flex-start' | 'center' | 'auto' | 'stretch' | 'baseline'
+    textAlign?: 'left' | 'right' | 'center'
+    padding?: SizeToEdge
+    margin?: SizeToEdge
+    borderRadius?: RadiusToEdge
+    borderWidth?: BorderSizeToEdge
+    borderStyle?: 'solid' | 'dotted' | 'dashed'
+    borderColor?: BorderColors
+    flex?: number
+    shouldRender?: boolean
+    onPress?: () => void
+    disabled?: boolean
+    accessibilityLabel?: string
+    accessibilityRole?: AccessibilityRole
+    testID?: string
+    maxWidth?: BreakpointsSize
+    maxHeight?: DimensionValue
+    minWidth?: DimensionValue
+    minHeight?: DimensionValue
+    height?: DimensionValue
+    width?: DimensionValue
+    wrap?: FlexStyle['flexWrap']
+    flexShrink?: FlexStyle['flexShrink']
+    overflow?: 'hidden' | 'visible'
+    aspectRatio?: number | string
+    elevation?: ElevationLevel
+  }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
   const { styles } = useStyles(containerStylesheet)
@@ -56,6 +58,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
       accessibilityState={otherProps.disabled ? { disabled: true } : undefined}
       accessibilityLabel={otherProps.accessibilityLabel}
       testID={otherProps?.testID}
+      {...accessibilityProps(otherProps)}
     >
       {children}
     </Wrapper>
