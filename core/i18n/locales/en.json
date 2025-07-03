@@ -1,4 +1,5 @@
 {
+  "20": "20",
   "act.events.createdBy": "by",
   "act.events.detail.organisationNameFallback": "External Initiative",
   "act.events.filter.heading": "Filter events",
@@ -408,6 +409,7 @@
   "global.videoCall.add.button": "Add video call",
   "global.visitLinkButton.label": "Learn more",
   "global.yes": "Yes",
+  "goodDeeds.name": "Good Deeds",
   "goodnews.app.name": "Good News",
   "goodnews.app.subline": "curated by goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Load more articles",
@@ -626,7 +628,7 @@
   "metatags.volunteering.og.title": "Find volunteer work",
   "metatags.volunteering.title": "Find volunteer work",
   "modal.backdrop": "Close dialogue",
-  "modal.close": "Close dialogue",
+  "modal.close": "Close",
   "monthNames": [
     "January",
     "February",
@@ -751,6 +753,19 @@
   "onboarding.welcome.forward": "Let's go",
   "onboarding.welcome.hero": "Image collage symbolizing social and environmental action with holi.social logo.",
   "onboarding.welcome.title": "The App\n of Good Deeds",
+  "personalGoodDeedCounter.drawer.default.banner.title": "You collected already",
+  "personalGoodDeedCounter.drawer.default.title": "How to collect good deeds",
+  "personalGoodDeedCounter.drawer.empty.campaignHint": "<span figma-seg=\"s0\">We’re on a mission to reach </span><b figma-seg=\"s1\">#1MioGuteTaten</b><span figma-seg=\"s2\"> — and it starts with you.</span>",
+  "personalGoodDeedCounter.drawer.empty.h2": "How to collect good deeds",
+  "personalGoodDeedCounter.drawer.empty.text": "Your first good deed is just one step away. Start collecting your good deeds — and be part of a community working together to make the world a little better, one action at a time.",
+  "personalGoodDeedCounter.drawer.empty.title": "Your first good deed is just one step away",
+  "personalGoodDeedCounter.drawer.guest.button": "Create account",
+  "personalGoodDeedCounter.drawer.guest.campaignHint": "<span figma-seg=\"s0\">We’re aiming for </span><b figma-seg=\"s1\">#1MioGuteTaten</b><span figma-seg=\"s2\"> — and you can be part of it!</span>",
+  "personalGoodDeedCounter.drawer.guest.text": "You’re welcome to explore our good deeds as a guest — but to start collecting your own, you’ll need an account.",
+  "personalGoodDeedCounter.drawer.guest.title": "Join the community!",
+  "personalGoodDeedCounter.drawer.listItem.challenges": "Join a challenge",
+  "personalGoodDeedCounter.drawer.listItem.posts": "Create a “Good Deed” post",
+  "personalGoodDeedCounter.label": "Deeds",
   "postedOnHoli": "posted on Holi",
   "postedVia": "posted via {{source}}",
   "privacy.visibility.private": "Private",
@@ -1622,7 +1637,6 @@
   "spaces.tasks.contactOrganization.cta.link": "Sign up",
   "spaces.tasks.contactOrganization.cta.ready": "I'll do it!",
   "spaces.tasks.contactOrganization.description": "Chat directly with the task owner to learn more, ask questions, and see how you can contribute. No commitments – just a chance to connect.",
-  "spaces.tasks.contactOrganization.modal.close": "Close",
   "spaces.tasks.contactOrganization.snackbar": "You're doing it!",
   "spaces.tasks.contactOrganization.thanks.image.alt": "Illustration of a high five",
   "spaces.tasks.contactOrganization.thanks.subtitle": "We appreciate you taking over this task. Your help makes a real difference!",
@@ -1848,7 +1862,7 @@
   "volunteering.filter.commitmentLabelModal.title": "Commitment",
   "volunteering.filter.heading": "Filter opportunities",
   "volunteering.filter.interestsModal.saveButton": "Save interests",
-  "volunteering.filter.interestsModal.title": "Interests ",
+  "volunteering.filter.interestsModal.title": "Interests",
   "volunteering.filter.location.label": "Location",
   "volunteering.filter.location.placeholder": "Address, district, city or country…",
   "volunteering.filter.locationModal.saveButton": "Save location",
@@ -1892,5 +1906,6 @@
   "volunteering.recommended.title": "Recommended Volunteering",
   "volunteeringDetails.timeAI": "Auto-estimated from description",
   "webview.error": "Loading the page failed!",
-  "wizard.stepsCount": "Step {{current}} of {{total}}"
+  "wizard.stepsCount": "Step {{current}} of {{total}}",
+  "{{count.personalGoodDeeds}}": "20"
 }

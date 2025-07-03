@@ -1,4 +1,5 @@
 {
+  "20": "20",
   "act.events.createdBy": "von",
   "act.events.detail.organisationNameFallback": "Externe Initiative",
   "act.events.filter.heading": "Events filtern",
@@ -408,6 +409,7 @@
   "global.videoCall.add.button": "Videokonferenz hinzufügen",
   "global.visitLinkButton.label": "Mehr erfahren",
   "global.yes": "Ja",
+  "goodDeeds.name": "Good Deeds",
   "goodnews.app.name": "Gute Nachrichten",
   "goodnews.app.subline": "kuratiert von goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Weitere Artikel lesen",
@@ -626,7 +628,7 @@
   "metatags.volunteering.og.title": "Ehrenamt finden: Freiwilligenarbeit & ehrenamtliche Tätigkeiten",
   "metatags.volunteering.title": "Ehrenamt finden: Freiwilligenarbeit & ehrenamtliche Tätigkeiten",
   "modal.backdrop": "Dialog schließen",
-  "modal.close": "Dialog schließen",
+  "modal.close": "Close",
   "monthNames": [
     "Januar",
     "Februar",
@@ -751,6 +753,19 @@
   "onboarding.welcome.forward": "Los geht's",
   "onboarding.welcome.hero": "Bildcollage zu sozialem und ökologischem Engagement mit holi.social-Logo.",
   "onboarding.welcome.title": "Die App\n der guten Taten",
+  "personalGoodDeedCounter.drawer.default.banner.title": "You collected already",
+  "personalGoodDeedCounter.drawer.default.title": "How to collect good deeds",
+  "personalGoodDeedCounter.drawer.empty.campaignHint": "<span figma-seg=\"s0\">We’re on a mission to reach </span><b figma-seg=\"s1\">#1MioGuteTaten</b><span figma-seg=\"s2\"> — and it starts with you.</span>",
+  "personalGoodDeedCounter.drawer.empty.h2": "How to collect good deeds",
+  "personalGoodDeedCounter.drawer.empty.text": "Your first good deed is just one step away. Start collecting your good deeds — and be part of a community working together to make the world a little better, one action at a time.",
+  "personalGoodDeedCounter.drawer.empty.title": "Your first good deed is just one step away",
+  "personalGoodDeedCounter.drawer.guest.button": "Konto erstellen",
+  "personalGoodDeedCounter.drawer.guest.campaignHint": "<span figma-seg=\"s0\">We’re aiming for </span><b figma-seg=\"s1\">#1MioGuteTaten</b><span figma-seg=\"s2\"> — and you can be part of it!</span>",
+  "personalGoodDeedCounter.drawer.guest.text": "You’re welcome to explore our good deeds as a guest — but to start collecting your own, you’ll need an account.",
+  "personalGoodDeedCounter.drawer.guest.title": "Join the community!",
+  "personalGoodDeedCounter.drawer.listItem.challenges": "Join a challenge",
+  "personalGoodDeedCounter.drawer.listItem.posts": "Create a “Good Deed” post",
+  "personalGoodDeedCounter.label": "Deeds",
   "postedOnHoli": "Veröffentlicht auf Holi",
   "postedVia": "Veröffentlicht via {{source}}",
   "privacy.visibility.private": "Mitwirkende",
@@ -1622,7 +1637,6 @@
   "spaces.tasks.contactOrganization.cta.link": "Jetzt anmelden",
   "spaces.tasks.contactOrganization.cta.ready": "Ich mach's!",
   "spaces.tasks.contactOrganization.description": "Meld dich direkt bei der Kontaktperson – frag nach, tausch dich aus und finde heraus, wie du unterstützen kannst. Ganz unverbindlich!",
-  "spaces.tasks.contactOrganization.modal.close": "Schließen",
   "spaces.tasks.contactOrganization.snackbar": "Du machst das!",
   "spaces.tasks.contactOrganization.thanks.image.alt": "Illustration eines High-Fives",
   "spaces.tasks.contactOrganization.thanks.subtitle": "Super, dass du dabei bist! Deine Hilfe zählt und macht einen echten Unterschied.",
@@ -1892,5 +1906,6 @@
   "volunteering.recommended.title": "Empfohlenes Ehrenamt",
   "volunteeringDetails.timeAI": "Automatisch geschätzt aus der Beschreibung",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
-  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}",
+  "{{count.personalGoodDeeds}}": "20"
 }
