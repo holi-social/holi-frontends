@@ -21,6 +21,7 @@ export const Screen = (props: ScreenProps) => {
     contentContainerStyle,
     scrollViewProps,
     style,
+    noContainerPaddingWeb,
   } = props as ScrollScreenProps
 
   const { styles, theme } = useStyles(stylesheet)
@@ -32,7 +33,7 @@ export const Screen = (props: ScreenProps) => {
       testID={testID}
       style={[styles.padding(padding), styles.container, { backgroundColor: theme.colors.bg[backgroundColor] }]}
     >
-      <HoliContainer flex={1}>
+      <HoliContainer flex={1} noPadding={noContainerPaddingWeb}>
         <View
           style={[
             styles.flex1,
@@ -44,7 +45,7 @@ export const Screen = (props: ScreenProps) => {
         >
           {StickyTopComponent && (
             <View style={[styles.stickyTopWeb(headerHeight), { position: 'fixed' }]} onLayout={stickyTopLayout}>
-              <HoliContainer>{StickyTopComponent}</HoliContainer>
+              <HoliContainer noPadding={noContainerPaddingWeb}>{StickyTopComponent}</HoliContainer>
             </View>
           )}
 
@@ -64,7 +65,7 @@ export const Screen = (props: ScreenProps) => {
               ]}
               onLayout={stickyBottomLayout}
             >
-              <HoliContainer>{StickyBottomComponent}</HoliContainer>
+              <HoliContainer noPadding={noContainerPaddingWeb}>{StickyBottomComponent}</HoliContainer>
             </View>
           )}
         </View>
