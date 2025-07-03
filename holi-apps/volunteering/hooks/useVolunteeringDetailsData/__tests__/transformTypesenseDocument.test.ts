@@ -1,6 +1,6 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
-import { Global, MapPin2, Refresh } from '@holi/icons/src/generated'
+import { AiEstimatedTime, Global, MapPin2, Refresh } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 
 jest.mock('react-i18next', () => ({
@@ -25,6 +25,7 @@ describe('transformDocument', () => {
     organizer_name: 'Test Organization',
     external_url: 'https://example.com/volunteering',
     commitment_label: 'recurring',
+    commitment_duration: 'HOURS_1to2',
     location_type: 'onsite',
   }
 
@@ -50,6 +51,12 @@ describe('transformDocument', () => {
         {
           title: 'volunteering.engagement.commitment_label.recurring',
           icon: Refresh,
+        },
+        {
+          icon: AiEstimatedTime,
+          subtitle: 'volunteeringDetails.timeAI',
+          subtitleColor: 'informative',
+          title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
         },
       ],
       coverImage: undefined,
@@ -188,6 +195,32 @@ describe('transformDocument', () => {
       {
         title: 'volunteering.engagement.location_type.remote',
         icon: Global,
+      },
+      {
+        title: 'volunteering.engagement.commitment_label.recurring',
+        icon: Refresh,
+      },
+      {
+        icon: AiEstimatedTime,
+        subtitle: 'volunteeringDetails.timeAI',
+        subtitleColor: 'informative',
+        title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
+      },
+    ])
+  })
+
+  it('should ignore indeterminate duration', () => {
+    const docWithoutOrgName: TypesenseDocument = {
+      ...baseDocument,
+      commitment_duration: 'INDETERMINATE',
+    }
+
+    const { t } = useTranslation()
+    const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
+    expect(result.infoList).toEqual([
+      {
+        title: 'Berlin, Germany',
+        icon: MapPin2,
       },
       {
         title: 'volunteering.engagement.commitment_label.recurring',

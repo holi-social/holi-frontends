@@ -14,28 +14,31 @@ import { FooterDate } from 'holi-bricks/components/compactCard/footer/FooterDate
 import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
 import type { CompoundCompactCard } from 'holi-bricks/components/compactCard/types'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 
-export interface CompactCardProps {
-  title: string
-  subtitle?: string
-  topLabel?: string
-  topLabelIcon?: HoliIconType
-  imageSrc?: MultiPlatformImageSource
-  date?: string
-  maxWidth?: DimensionValue
-  fixedWidth?: DimensionValue
-  topIcon?: HoliIconType
-  bottomIcon?: HoliIconType
-  buttonIcon?: HoliIconType
-  topLabelRightIcon?: HoliIconType
-  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
-  buttonIconVariant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
-  minHeight?: number
-  children?: React.ReactNode
-  fullHeight?: boolean
-  imageLabel: string
-  fallbackImageHashKey?: string
-}
+export type CompactCardProps = AccessibilityProps &
+  LayoutProps & {
+    title: string
+    subtitle?: string
+    topLabel?: string
+    topLabelIcon?: HoliIconType
+    imageSrc?: MultiPlatformImageSource
+    date?: string
+    maxWidth?: DimensionValue
+    fixedWidth?: DimensionValue
+    topIcon?: HoliIconType
+    bottomIcon?: HoliIconType
+    buttonIcon?: HoliIconType
+    topLabelRightIcon?: HoliIconType
+    avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
+    buttonIconVariant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
+    minHeight?: number
+    children?: React.ReactNode
+    fullHeight?: boolean
+    imageLabel: string
+    fallbackImageHashKey?: string
+  }
 
 export const CompactCard = (({
   title,
@@ -57,13 +60,17 @@ export const CompactCard = (({
   fullHeight,
   imageLabel,
   fallbackImageHashKey,
+  ...rest
 }: CompactCardProps) => {
   const date = startDate ? new Date(startDate) : undefined
   const { styles } = useStyles(stylesheet)
   const hasTopLabel = topLabel || topLabelIcon || topLabelRightIcon || buttonIcon
 
   return (
-    <View style={styles.cardContainer(maxWidth, fixedWidth, fullHeight)}>
+    <View
+      style={[styles.cardContainer(maxWidth, fixedWidth, fullHeight), layoutStyle(rest)]}
+      {...accessibilityProps(rest)}
+    >
       <Stack
         direction="row"
         padding="3xs"

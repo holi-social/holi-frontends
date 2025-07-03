@@ -4,18 +4,20 @@ import { View } from 'react-native'
 
 import { Text, type TextSize } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { BorderRadius, Spacing } from 'holi-bricks/foundations'
+import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import type { UnistylesTheme } from 'react-native-unistyles'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 type CalendarIconSize = 'sm' | 'md' | 'lg'
 
-export type CalendarIconProps = {
-  day: number
-  month: number
-  disabled?: boolean
-  size?: CalendarIconSize
-  colored?: boolean
-}
+export type CalendarIconProps = AccessibilityProps &
+  LayoutProps & {
+    day: number
+    month: number
+    disabled?: boolean
+    size?: CalendarIconSize
+    colored?: boolean
+  }
 
 export const CalendarIcon = ({
   day,
@@ -23,7 +25,8 @@ export const CalendarIcon = ({
   disabled = false,
   size = 'md',
   colored = true,
-}: React.PropsWithChildren<CalendarIconProps>) => {
+  ...rest
+}: CalendarIconProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet, { size })
   const textSizes: Record<CalendarIconSize, TextSize> = {
@@ -38,7 +41,7 @@ export const CalendarIcon = ({
   }
 
   return (
-    <View style={styles.wrapper(disabled)}>
+    <View style={[styles.wrapper(disabled), layoutStyle(rest)]} {...accessibilityProps(rest)}>
       <View style={styles.month(disabled, colored)}>
         <Text size="xs" colorOverride={styles.month(disabled, colored).color}>
           {getMonthName(month)}

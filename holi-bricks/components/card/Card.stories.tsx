@@ -30,7 +30,7 @@ type StoryArgs = {
 }
 
 const meta: Meta<StoryArgs> = {
-  title: 'Patterns/Card',
+  title: 'Components/Card',
   component: Card as unknown as ComponentType<StoryArgs>,
   args: {
     title: 'This is a Card',

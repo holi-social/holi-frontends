@@ -69,19 +69,22 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         >
           <View
             style={
-              {
-                "alignItems": "center",
-                "backgroundColor": "#ffffff",
-                "borderColor": "#262424",
-                "borderRadius": 8,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 40,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 40,
-              }
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#ffffff",
+                  "borderColor": "#262424",
+                  "borderRadius": 8,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 40,
+                },
+                {},
+              ]
             }
             testID="space-avatar"
           >
@@ -101,6 +104,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                     "height": 40,
                     "width": 40,
                   },
+                  {},
                   {},
                 ]
               }
@@ -324,6 +328,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="decline-connection-request-button"
@@ -351,20 +356,23 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.connection.decline
@@ -427,6 +435,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="accept-connection-request-button"
@@ -454,20 +463,23 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.connection.accept
@@ -550,19 +562,22 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
         >
           <View
             style={
-              {
-                "alignItems": "center",
-                "backgroundColor": "#ffffff",
-                "borderColor": "#262424",
-                "borderRadius": 8,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 40,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 40,
-              }
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#ffffff",
+                  "borderColor": "#262424",
+                  "borderRadius": 8,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 40,
+                },
+                {},
+              ]
             }
             testID="space-avatar"
           >
@@ -582,6 +597,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                     "height": 40,
                     "width": 40,
                   },
+                  {},
                   {},
                 ]
               }
@@ -820,6 +836,7 @@ I would like to join!
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="decline-connection-request-button"
@@ -847,20 +864,23 @@ I would like to join!
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.connection.decline
@@ -923,6 +943,7 @@ I would like to join!
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
+              {},
             ]
           }
           testID="accept-connection-request-button"
@@ -950,20 +971,23 @@ I would like to join!
                 role="presentation"
                 selectable={false}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "500",
-                    "letterSpacing": -0.03,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {},
+                  ]
                 }
               >
                 notifications.space.connection.accept

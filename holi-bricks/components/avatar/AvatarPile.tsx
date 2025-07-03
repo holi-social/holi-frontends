@@ -4,6 +4,8 @@ import { View } from 'react-native'
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { layoutStyle } from 'holi-bricks/foundations'
+import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 type Avatars = Pick<AvatarProps, 'initials' | 'label' | 'source' | 'imgPlaceholder'>
 interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'imgPlaceholder'> {
@@ -17,12 +19,13 @@ const AvatarPile = ({
   border,
   shape,
   icon,
+  ...rest
 }: AvatarPileProps) => {
   const { styles } = useStyles(stylesheet)
   const overlapDistance = AvatarSizesValues[size] / -2.4
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={[styles.container, layoutStyle(rest)]} testID={testID} {...accessibilityProps(rest)}>
       {avatars?.map((avatar, idx) => {
         return (
           <View style={styles.overlap(idx, overlapDistance)} key={avatar.source || `avatar-${avatar.initials}-${idx}`}>

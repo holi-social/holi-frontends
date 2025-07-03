@@ -72,19 +72,22 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
     >
       <View
         style={
-          {
-            "alignItems": "center",
-            "backgroundColor": "#ffffff",
-            "borderColor": "#262424",
-            "borderRadius": 1000,
-            "borderWidth": 1,
-            "display": "flex",
-            "height": 40,
-            "justifyContent": "center",
-            "overflow": "hidden",
-            "position": "relative",
-            "width": 40,
-          }
+          [
+            {
+              "alignItems": "center",
+              "backgroundColor": "#ffffff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 40,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "position": "relative",
+              "width": 40,
+            },
+            {},
+          ]
         }
       >
         <Image
@@ -104,6 +107,7 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
                 "height": 40,
                 "width": 40,
               },
+              {},
               {},
             ]
           }
@@ -224,6 +228,7 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               "padding": 8,
               "width": 32,
             },
+            {},
           ]
         }
         testID="ignore-connection-request-button"
@@ -387,6 +392,7 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               "padding": 8,
               "width": 32,
             },
+            {},
           ]
         }
         testID="accept-connection-request-button"
@@ -536,19 +542,22 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
     >
       <View
         style={
-          {
-            "alignItems": "center",
-            "backgroundColor": "#ffffff",
-            "borderColor": "#262424",
-            "borderRadius": 1000,
-            "borderWidth": 1,
-            "display": "flex",
-            "height": 40,
-            "justifyContent": "center",
-            "overflow": "hidden",
-            "position": "relative",
-            "width": 40,
-          }
+          [
+            {
+              "alignItems": "center",
+              "backgroundColor": "#ffffff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 40,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "position": "relative",
+              "width": 40,
+            },
+            {},
+          ]
         }
       >
         <Image
@@ -568,6 +577,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                 "height": 40,
                 "width": 40,
               },
+              {},
               {},
             ]
           }
@@ -688,6 +698,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               "padding": 8,
               "width": 32,
             },
+            {},
           ]
         }
         testID="ignore-connection-request-button"
@@ -851,6 +862,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               "padding": 8,
               "width": 32,
             },
+            {},
           ]
         }
         testID="accept-connection-request-button"
@@ -1180,19 +1192,22 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               >
                 <View
                   style={
-                    {
-                      "alignItems": "center",
-                      "backgroundColor": "#ffffff",
-                      "borderColor": "#262424",
-                      "borderRadius": 1000,
-                      "borderWidth": 1,
-                      "display": "flex",
-                      "height": 48,
-                      "justifyContent": "center",
-                      "overflow": "hidden",
-                      "position": "relative",
-                      "width": 48,
-                    }
+                    [
+                      {
+                        "alignItems": "center",
+                        "backgroundColor": "#ffffff",
+                        "borderColor": "#262424",
+                        "borderRadius": 1000,
+                        "borderWidth": 1,
+                        "display": "flex",
+                        "height": 48,
+                        "justifyContent": "center",
+                        "overflow": "hidden",
+                        "position": "relative",
+                        "width": 48,
+                      },
+                      {},
+                    ]
                   }
                 >
                   <Image
@@ -1212,6 +1227,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                           "height": 48,
                           "width": 48,
                         },
+                        {},
                         {},
                       ]
                     }

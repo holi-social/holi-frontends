@@ -11,20 +11,23 @@ import {
   Text,
   type TextStyle,
 } from 'react-native'
+import { layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 
-export interface TextLinkProps extends AccessibilityProps, React.PropsWithChildren {
-  size: TextLinkSize
-  numberOfLines?: number
-  /** Managed Theme color. */
-  color?: TextProps['color']
-  /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
-  colorOverride?: ColorValue
-  textAlign?: TextStyle['textAlign']
-  ellipsizeMode?: TextProps['ellipsizeMode']
-  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
-}
+export type TextLinkProps = AccessibilityProps &
+  LayoutProps &
+  React.PropsWithChildren & {
+    size: TextLinkSize
+    numberOfLines?: number
+    /** Managed Theme color. */
+    color?: TextProps['color']
+    /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
+    colorOverride?: ColorValue
+    textAlign?: TextStyle['textAlign']
+    ellipsizeMode?: TextProps['ellipsizeMode']
+    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+  }
 
 export const TextLink = ({
   size,
@@ -50,7 +53,7 @@ export const TextLink = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, colorOverride, textAlign) as unknown as TextStyle}
+      style={[styles.text(color, colorOverride, textAlign) as unknown as TextStyle, layoutStyle(rest)]}
       onPress={onPress}
     >
       {children}

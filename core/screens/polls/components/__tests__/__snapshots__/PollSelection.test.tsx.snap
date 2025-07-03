@@ -169,20 +169,23 @@ exports[`PollSelection renders poll selection correctly 1`] = `
             role="none"
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
-                "fontVariant": [
-                  "lining-nums",
-                  "tabular-nums",
-                ],
-                "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
-                "textAlign": undefined,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": -0.12,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {},
+              ]
             }
           >
             Choice 1
@@ -358,20 +361,23 @@ exports[`PollSelection renders poll selection correctly 1`] = `
             role="none"
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
-                "fontVariant": [
-                  "lining-nums",
-                  "tabular-nums",
-                ],
-                "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
-                "textAlign": undefined,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": -0.12,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {},
+              ]
             }
           >
             Choice 2
@@ -553,20 +559,23 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
           role="none"
           selectable={true}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 15,
-              "fontVariant": [
-                "lining-nums",
-                "tabular-nums",
-              ],
-              "fontWeight": "400",
-              "letterSpacing": -0.12,
-              "lineHeight": 21,
-              "textAlign": undefined,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "auto",
+              },
+              {},
+            ]
           }
         >
           Choice 1

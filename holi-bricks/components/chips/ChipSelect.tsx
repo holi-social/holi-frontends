@@ -1,8 +1,8 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { Color } from 'holi-bricks/foundations'
-import { Spacing } from 'holi-bricks/foundations'
+import type { Color, LayoutProps } from 'holi-bricks/foundations'
+import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 import React, { type ReactNode } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
@@ -16,16 +16,17 @@ import { chipSizeToTextSize, type ChipSelectSize } from './size'
 import { pill } from './styles'
 import { Avatar } from 'holi-bricks/components/avatar'
 
-type ChipSelectProps = AccessibilityProps & {
-  onPress: (event: GestureResponderEvent) => void
-  children?: ReactNode
-  selected?: boolean
-  disabled?: boolean
-  selectedColor?: Color
-  size?: ChipSelectSize
-  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
-  testID?: string
-}
+type ChipSelectProps = AccessibilityProps &
+  LayoutProps & {
+    onPress: (event: GestureResponderEvent) => void
+    children?: ReactNode
+    selected?: boolean
+    disabled?: boolean
+    selectedColor?: Color
+    size?: ChipSelectSize
+    avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
+    testID?: string
+  }
 
 const sizeToIconSize: Record<ChipSelectSize, number> = {
   md: 18,
@@ -56,7 +57,10 @@ export const ChipSelect = ({
       {...accessibilityProps(rest)}
       role={role}
       aria-checked={selected}
-      style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
+      style={({ hovered, focused }) => [
+        styles.chip(!!hovered, !disabled && !!focused, selectedColor),
+        layoutStyle(rest),
+      ]}
       testID={testID}
     >
       {avatar && (
