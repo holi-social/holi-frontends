@@ -11,6 +11,7 @@
     "features": ["plural_postfix_us"],
     "importAsNew": true,
     "deprecate": "project",
+    "excludeKeys": ["REGEX:ugc.*"],
     "files": [
       {
         "file": "holi-core",
