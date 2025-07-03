@@ -164,7 +164,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       coverImage,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
-        title: data?.taskById?.space?.name || data?.taskById?.name || '??',
+        title: data?.taskById?.space?.title || data?.taskById?.name || '??',
         subtitle: data?.taskById?.creator?.fullName,
         onPress: () => navigate('/spaces/' + data?.taskById?.space?.id),
         mainAvatar: {

@@ -1622,6 +1622,7 @@
   "spaces.tasks.contactOrganization.cta.link": "Sign up",
   "spaces.tasks.contactOrganization.cta.ready": "I'll do it!",
   "spaces.tasks.contactOrganization.description": "Chat directly with the task owner to learn more, ask questions, and see how you can contribute. No commitments – just a chance to connect.",
+  "spaces.tasks.contactOrganization.modal.close": "Close",
   "spaces.tasks.contactOrganization.snackbar": "You're doing it!",
   "spaces.tasks.contactOrganization.thanks.image.alt": "Illustration of a high five",
   "spaces.tasks.contactOrganization.thanks.subtitle": "We appreciate you taking over this task. Your help makes a real difference!",
