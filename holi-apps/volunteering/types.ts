@@ -29,9 +29,12 @@ export type PartnerProps = {
   buttonText?: string
 }
 
+/** Query parameters to be used in the URL */
 export type VolunteeringFilterParams = {
   topic?: string[]
   skill?: string[]
+  commitment?: string[]
+  duration?: string[]
   geolocationId?: string
 }
 
@@ -39,4 +42,6 @@ export type VolunteeringFilters = {
   location?: GeolocationSuggestion
   topics?: string[]
   skills?: string[]
+  commitmentLabels?: string[]
+  commitmentDurations?: string[]
 }

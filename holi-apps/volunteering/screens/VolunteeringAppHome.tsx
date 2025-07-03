@@ -16,10 +16,11 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { VolunteeringFilterForm } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { Text } from 'holi-bricks/components/text'
+import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -56,9 +57,9 @@ const VolunteeringAppHome = () => {
     )
     setScreenOptions({
       headerTitle: () => (
-        <HoliHeading level="2" size="s">
+        <Text headingLevel="2" size="lg">
           {title}
-        </HoliHeading>
+        </Text>
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
@@ -82,6 +83,8 @@ const VolunteeringAppHome = () => {
       >
         <VolunteeringFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} />
       </HoliModal>
+
+      <VolunteeringFilterRow onSubmit={() => {}} filters={filters} />
 
       <VolunteeringListingDiscovery
         filters={filters}
