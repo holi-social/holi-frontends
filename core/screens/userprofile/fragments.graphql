@@ -1,0 +1,33 @@
+fragment FavoriteInsight on Insight {
+  __typename
+  id
+  title
+  description
+  datePublished
+  initiatives {
+    link
+  }
+  creator {
+    fullName
+    avatar
+  }
+  headerImage
+  headerImageBlurhash
+  isFavorite
+}
+
+fragment FavoriteTask on Task {
+  __typename
+  id
+  name
+  description
+  created
+  thumbnail
+  thumbnailBlurhash
+  isFavorite
+}
+
+fragment FavoriteExternalVolunteeringOpportunity on ExternalVolunteeringOpportunity {
+  __typename
+  externalId
+}
