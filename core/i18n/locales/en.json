@@ -409,7 +409,11 @@
   "global.videoCall.add.button": "Add video call",
   "global.visitLinkButton.label": "Learn more",
   "global.yes": "Yes",
+  "goodDeed.rewardsMessage.button": "Claim",
+  "goodDeed.rewardsMessage.link": "More about #1MioguteTaten",
+  "goodDeed.rewardsMessage.text": "Your contribution counts as a good deed - for you and our joint million.",
   "goodDeeds.name": "Good Deeds",
+  "goodDeedsCounter.label.single": "Good Deed",
   "goodnews.app.name": "Good News",
   "goodnews.app.subline": "curated by goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Load more articles",
@@ -1906,6 +1910,5 @@
   "volunteering.recommended.title": "Recommended Volunteering",
   "volunteeringDetails.timeAI": "Auto-estimated from description",
   "webview.error": "Loading the page failed!",
-  "wizard.stepsCount": "Step {{current}} of {{total}}",
-  "{{count.personalGoodDeeds}}": "20"
+  "wizard.stepsCount": "Step {{current}} of {{total}}"
 }

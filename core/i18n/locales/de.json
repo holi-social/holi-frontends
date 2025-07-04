@@ -409,7 +409,11 @@
   "global.videoCall.add.button": "Videokonferenz hinzufügen",
   "global.visitLinkButton.label": "Mehr erfahren",
   "global.yes": "Ja",
+  "goodDeed.rewardsMessage.button": "Einsammeln",
+  "goodDeed.rewardsMessage.link": "Mehr über #1MioguteTaten",
+  "goodDeed.rewardsMessage.text": "Dein Beitrag zählt als gute Tat – für dich und unsere gemeinsame Million.",
   "goodDeeds.name": "Good Deeds",
+  "goodDeedsCounter.label.single": "Gute Tat",
   "goodnews.app.name": "Gute Nachrichten",
   "goodnews.app.subline": "kuratiert von goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Weitere Artikel lesen",
@@ -1880,7 +1884,7 @@
   "volunteering.filter.topics.multiSelectionLabel": "Themen",
   "volunteering.filter.topics.placeholder": "Alle Themen",
   "volunteering.listing.error": "Laden von Projekten ist fehlgeschlagen",
-  "volunteering.listing.nothingFound.subtitle": "Zu viele Filter? Entferne ein paar, um mehr zu sehen.",
+  "volunteering.listing.nothingFound.subtitle": "Versuche, einige der ausgewählten Filter zu entfernen, um mehr Ergebnisse zu erhalten",
   "volunteering.listing.nothingFound.title": "Zu deiner Auswahl gibt’s aktuell nichts Passendes.",
   "volunteering.listing.partnerModal.Aktion Mensch.buttonText": "Besuche aktion-mensch.de",
   "volunteering.listing.partnerModal.Aktion Mensch.headline": "Inklusion ist unsere Herzensangelegenheit",
@@ -1906,6 +1910,5 @@
   "volunteering.recommended.title": "Empfohlenes Ehrenamt",
   "volunteeringDetails.timeAI": "Automatisch geschätzt aus der Beschreibung",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
-  "wizard.stepsCount": "Schritt {{current}} von {{total}}",
-  "{{count.personalGoodDeeds}}": "20"
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
 }
