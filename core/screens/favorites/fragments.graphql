@@ -25,6 +25,10 @@ fragment FavoriteTask on Task {
   thumbnail
   thumbnailBlurhash
   isFavorite
+  space {
+    id
+    name
+  }
 }
 
 fragment FavoriteExternalVolunteeringOpportunity on ExternalVolunteeringOpportunity {
