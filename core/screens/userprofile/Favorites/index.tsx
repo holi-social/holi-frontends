@@ -2,18 +2,9 @@ import React, {} from 'react'
 import { useTranslation } from 'react-i18next'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { isSSR } from '@holi/core/helpers/isSSR'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { Screen } from '@holi/core/components/Screen'
-import {
-  FavoritableType,
-  type FavoriteInsightFragment,
-  type FavoriteTaskFragment,
-  type Typesense_Document,
-  useFavoritesQuery,
-  useTypesense_MultiSearchQuery,
-} from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import { CompactCard } from 'holi-bricks/components/compactCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
@@ -22,81 +13,7 @@ import { BookmarkFill } from '@holi/icons/src/generated'
 import { SectionList } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { Stack } from 'holi-bricks/components/stack'
-
-const useFavoritesTypesenseDocuments = (favoriteVolunteeringOpportunityIds: string[]) => {
-  const {
-    data: { typesense_multiSearch } = {},
-  } = useTypesense_MultiSearchQuery({
-    variables: {
-      input: {
-        searches: [
-          {
-            q: '*',
-            filter_by: `type:=[volunteering] && id:=[${favoriteVolunteeringOpportunityIds.join(', ')}]`,
-            limit: 100,
-          },
-        ],
-      },
-    },
-    skip: favoriteVolunteeringOpportunityIds.length === 0,
-  })
-
-  return (
-    typesense_multiSearch?.results.reduce((acc: Typesense_Document[], result) => {
-      if (result.__typename === 'Typesense_SearchResponseSuccess') {
-        const hits = result.hits ?? []
-        acc.push(...(hits.map(({ document }) => document) ?? []))
-      }
-      return acc
-    }, []) ?? []
-  )
-}
-
-type FavoriteItem = FavoriteInsightFragment | FavoriteTaskFragment | Typesense_Document
-
-const useFavorites = (): FavoriteItem[] => {
-  const { displayError } = useErrorHandling()
-
-  const {
-    data: {
-      favorites: { data: favorites = [] } = {},
-    } = {},
-  } = useFavoritesQuery({
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
-      displayError(error, 'Failed to load favorites', {
-        location: 'Favorites.favoritesQuery',
-      })
-    },
-    variables: {
-      offset: 0,
-      limit: 100, // limit it 100 for first iteration
-    },
-  })
-  const favoriteVolunteeringOpportunityIds = favorites.reduce((acc: string[], { favoritable }) => {
-    if (favoritable.__typename === 'ExternalVolunteeringOpportunity') {
-      acc.push('volunteering_' + favoritable.externalId)
-    }
-    return acc
-  }, [])
-
-  const typesenseDocuments = useFavoritesTypesenseDocuments(favoriteVolunteeringOpportunityIds)
-
-  return favorites.reduce((acc: FavoriteItem[], { favoritable }) => {
-    if (favoritable.__typename === 'ExternalVolunteeringOpportunity') {
-      const typesenseDoc = typesenseDocuments.find(
-        (document) => document.id === 'volunteering_' + favoritable.externalId
-      )
-
-      if (typesenseDoc) {
-        acc.push(typesenseDoc)
-      }
-    } else {
-      acc.push(favoritable)
-    }
-    return acc
-  }, [])
-}
+import { fromTypesenseId, type FavoriteItem, useFavorites } from './hooks'
 
 const Favorites = () => {
   const { t, i18n } = useTranslation()
@@ -167,7 +84,7 @@ const Favorites = () => {
                     <Stack margin={{ top: 'xxs' }}>
                       <HoliLinkTracked
                         key={favorite.id}
-                        href={`/tasks/${favorite.id}`}
+                        href={`/spaces/${favorite.space.name}/tasks/${favorite.id}`}
                         label={favorite.name}
                         trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
                           type: FavoritableType.Task,
@@ -197,8 +114,8 @@ const Favorites = () => {
                     <Stack margin={{ top: 'xxs' }}>
                       <HoliLinkTracked
                         key={favorite.id}
-                        href={`/volunteering/${favorite.id}`}
-                        label={favorite.title_en ?? favorite.title_de ?? ''}
+                        href={`/volunteering/${fromTypesenseId(favorite.id)}`}
+                        label={favorite.title}
                         trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
                           type: FavoritableType.ExternalVolunteeringOpportunity,
                           id: favorite.id,
@@ -208,8 +125,8 @@ const Favorites = () => {
                         <CompactCard
                           topLabelRightIcon={BookmarkFill}
                           topLabel={favorite.commitment_label}
-                          subtitle={favorite.description_en ?? favorite.description_de ?? ''}
-                          title={favorite.title_en ?? favorite.title_de ?? ''}
+                          subtitle={favorite.description}
+                          title={favorite.title}
                           avatar={{
                             source: favorite.organizer_image_url,
                             label: favorite.organizer_name ?? '',

@@ -1,4 +1,4 @@
-#import "@holi/core/screens/userprofile/fragments.graphql"
+#import "./fragments.graphql"
 
 query FavoriteExternalVolunteeringOpportunity($favoritableId: String!) {
   favorite(favoritableId: $favoritableId) {

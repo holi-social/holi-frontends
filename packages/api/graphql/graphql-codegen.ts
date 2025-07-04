@@ -3099,6 +3099,36 @@ export type LinkFragmentFragment = {
   icon?: string
 }
 
+export type FavoriteInsightFragment = {
+  __typename: 'Insight'
+  id: string
+  title: string
+  description: string
+  datePublished: any
+  headerImage?: string
+  headerImageBlurhash?: string
+  isFavorite: boolean
+  initiatives: Array<{ __typename?: 'Initiative'; link: string }>
+  creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+}
+
+export type FavoriteTaskFragment = {
+  __typename: 'Task'
+  id: string
+  name: string
+  description: string
+  created: any
+  thumbnail?: string
+  thumbnailBlurhash?: string
+  isFavorite: boolean
+  space: { __typename?: 'Space'; id: string; name: string }
+}
+
+export type FavoriteExternalVolunteeringOpportunityFragment = {
+  __typename: 'ExternalVolunteeringOpportunity'
+  externalId: string
+}
+
 export type FavoriteMutationVariables = Exact<{
   favoritableId: Scalars['UUID']['input']
   favoritableType: FavoritableType
@@ -3182,6 +3212,7 @@ export type FavoriteByFavoritableIdQuery = {
           thumbnail?: string
           thumbnailBlurhash?: string
           isFavorite: boolean
+          space: { __typename?: 'Space'; id: string; name: string }
         }
   }
 }
@@ -3224,6 +3255,7 @@ export type FavoritesQuery = {
             thumbnail?: string
             thumbnailBlurhash?: string
             isFavorite: boolean
+            space: { __typename?: 'Space'; id: string; name: string }
           }
     }>
   }
@@ -4944,35 +4976,6 @@ export type DeleteTaskMutationVariables = Exact<{
 
 export type DeleteTaskMutation = { __typename?: 'Mutation'; deleteTask: { __typename?: 'Result'; success: boolean } }
 
-export type FavoriteInsightFragment = {
-  __typename: 'Insight'
-  id: string
-  title: string
-  description: string
-  datePublished: any
-  headerImage?: string
-  headerImageBlurhash?: string
-  isFavorite: boolean
-  initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-  creator?: { __typename?: 'User'; fullName: string; avatar?: string }
-}
-
-export type FavoriteTaskFragment = {
-  __typename: 'Task'
-  id: string
-  name: string
-  description: string
-  created: any
-  thumbnail?: string
-  thumbnailBlurhash?: string
-  isFavorite: boolean
-}
-
-export type FavoriteExternalVolunteeringOpportunityFragment = {
-  __typename: 'ExternalVolunteeringOpportunity'
-  externalId: string
-}
-
 export type FullUserFragment = {
   __typename?: 'User'
   id: string
@@ -5384,6 +5387,47 @@ export const PostFragmentFragmentDoc = gql`
     ${FullUserAvatarFragmentDoc}
 ${PostImageDataFragmentDoc}
 ${LinkFragmentFragmentDoc}`
+export const FavoriteInsightFragmentDoc = gql`
+    fragment FavoriteInsight on Insight {
+  __typename
+  id
+  title
+  description
+  datePublished
+  initiatives {
+    link
+  }
+  creator {
+    fullName
+    avatar
+  }
+  headerImage
+  headerImageBlurhash
+  isFavorite
+}
+    `
+export const FavoriteTaskFragmentDoc = gql`
+    fragment FavoriteTask on Task {
+  __typename
+  id
+  name
+  description
+  created
+  thumbnail
+  thumbnailBlurhash
+  isFavorite
+  space {
+    id
+    name
+  }
+}
+    `
+export const FavoriteExternalVolunteeringOpportunityFragmentDoc = gql`
+    fragment FavoriteExternalVolunteeringOpportunity on ExternalVolunteeringOpportunity {
+  __typename
+  externalId
+}
+    `
 export const SpaceCardFragmentDoc = gql`
     fragment SpaceCard on Space {
   title
@@ -5640,43 +5684,6 @@ export const MemberSpacesFragmentDoc = gql`
   totalResults
 }
     ${UserAvatarFragmentDoc}`
-export const FavoriteInsightFragmentDoc = gql`
-    fragment FavoriteInsight on Insight {
-  __typename
-  id
-  title
-  description
-  datePublished
-  initiatives {
-    link
-  }
-  creator {
-    fullName
-    avatar
-  }
-  headerImage
-  headerImageBlurhash
-  isFavorite
-}
-    `
-export const FavoriteTaskFragmentDoc = gql`
-    fragment FavoriteTask on Task {
-  __typename
-  id
-  name
-  description
-  created
-  thumbnail
-  thumbnailBlurhash
-  isFavorite
-}
-    `
-export const FavoriteExternalVolunteeringOpportunityFragmentDoc = gql`
-    fragment FavoriteExternalVolunteeringOpportunity on ExternalVolunteeringOpportunity {
-  __typename
-  externalId
-}
-    `
 export const FullUserFragmentDoc = gql`
     fragment FullUser on User {
   id
