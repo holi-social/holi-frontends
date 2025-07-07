@@ -36,6 +36,8 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { SURVEY_URL } from '@holi/core/constants/urls'
+import { Stack } from 'holi-bricks/components/stack'
+import { ChipGoodDeeds } from 'holi-bricks/components/chips/ChipGoodDeeds'
 
 const FeedListItem = memo(
   ({
@@ -137,7 +139,10 @@ const HomeFeed = () => {
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <HoliLogo color={tintColor} />
+          <Stack direction="row" gap="3xs" alignItems="center">
+            <HoliLogo color={tintColor} />
+            <ChipGoodDeeds counter={20} />
+          </Stack>
         </HoliTransition.FadeLeft>
       ),
       headerRight: () => (
