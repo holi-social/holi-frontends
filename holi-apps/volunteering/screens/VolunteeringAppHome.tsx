@@ -1,18 +1,13 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { Filter3 } from '@holi/icons/src/generated'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
 
-import { VolunteeringFilterForm } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import { Screen } from '@holi/core/components/Screen'
@@ -23,34 +18,12 @@ const isWeb = Platform.OS === 'web'
 const VolunteeringAppHome = () => {
   const { t } = useTranslation()
 
-  const [filterModalShown, setFilterModalShown] = useState(false)
-  const closeModal = useCallback(() => {
-    setFilterModalShown(false)
-  }, [])
-
-  const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } =
-    useVolunteeringFilters(closeModal)
-
-  const filterButton = (
-    <HoliButtonBell
-      label={t('volunteering.filter.heading')}
-      icon={Filter3}
-      showBell={isFiltering}
-      onPress={() => {
-        // if pressed too soon, the state is set to true, but the modal is not shown.
-        // crude mechanism to recover from this state.
-        // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-        if (filterModalShown) setFilterModalShown(false)
-        setFilterModalShown(true)
-      }}
-      testID="btn-to-volunteering-filter-modal"
-    />
-  )
+  const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } = useVolunteeringFilters()
 
   const headerComponent = (
     <Stack backgroundColor="main">
       <VolunteeringListingHeader />
-      <VolunteeringFilterRow onSubmit={() => {}} filters={filters} />
+      <VolunteeringFilterRow onSubmit={submit} filters={filters} />
     </Stack>
   )
 
@@ -61,23 +34,11 @@ const VolunteeringAppHome = () => {
         title: t('volunteering.app.name'),
         headerTitleAlign: 'center',
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-        headerRight: () => (isWeb ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
       }}
       testID="volunteering-list-container"
       noContainerPaddingWeb={true}
       StickyTopComponent={isWeb && headerComponent}
     >
-      <HoliModal
-        shown={filterModalShown}
-        onDismiss={closeModal}
-        testID="volunteering-filter-modal"
-        label={t('volunteering.filter.heading')}
-        autoHeight={false}
-        relativeHeight={1}
-      >
-        <VolunteeringFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} />
-      </HoliModal>
-
       {!isWeb && headerComponent}
 
       <VolunteeringListingDiscovery

@@ -1,19 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FlatList, Platform } from 'react-native'
-import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { useTranslation } from 'react-i18next'
 import partition from 'lodash.partition'
 import { ArrowDownS, Edit2 } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
+import { filterTranslationKeyMapping } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
 
 export interface VolunteeringFilterRowProps {
   filters: VolunteeringFilters
   onSubmit: (filters?: VolunteeringFilters) => void
 }
-
-type VolunteeringFilterKey = keyof VolunteeringFilters
 
 const isFilterSelected = (filterKey: VolunteeringFilterKey, filters: VolunteeringFilters) => {
   const value = filters[filterKey]
@@ -42,15 +42,6 @@ interface FilterChipProps {
 
 const buildArrayLabel = (label: string, count: number) => (count > 1 ? `${label} + ${count - 1}` : label)
 
-// TODO(SF) probably move somewhere shared?
-const filterTranslationKeyMapping: { [key in VolunteeringFilterKey]: string } = {
-  topics: 'topic',
-  skills: 'skill',
-  location: 'location',
-  commitmentLabels: 'volunteering.engagement.commitment_label',
-  commitmentDurations: 'volunteering.engagement.commitment_duration',
-}
-
 const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
   const { t } = useTranslation()
   const selected = isFilterSelected(filterKey, filters)
@@ -77,22 +68,35 @@ const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
   )
 }
 
-export const VolunteeringFilterRow = ({ filters /*, onSubmit*/ }: VolunteeringFilterRowProps) => {
+export const VolunteeringFilterRow = ({ filters, onSubmit }: VolunteeringFilterRowProps) => {
   const mixins = useStyleMixins()
   const chipOrder = getFilterChipOrder(filters)
-  const toggleModal = () => {}
+
+  const [selectedFilter, setSelectedFilter] = useState<VolunteeringFilterKey | undefined>()
 
   return (
-    <FlatList
-      horizontal={true}
-      data={chipOrder}
-      renderItem={({ item }) => <FilterChip key={item} filterKey={item} filters={filters} onPress={toggleModal} />}
-      style={mixins.container}
-      contentContainerStyle={{
-        paddingVertical: Spacing.xs,
-        paddingRight: Platform.OS != 'web' ? Spacing.xs * 2 : undefined,
-        gap: Spacing['4xs'],
-      }}
-    />
+    <>
+      <FlatList
+        horizontal={true}
+        data={chipOrder}
+        renderItem={({ item }) => (
+          <FilterChip key={item} filterKey={item} filters={filters} onPress={() => setSelectedFilter(item)} />
+        )}
+        style={mixins.container}
+        contentContainerStyle={{
+          paddingVertical: Spacing.xs,
+          paddingRight: Platform.OS != 'web' ? Spacing.xs * 2 : undefined,
+          gap: Spacing['4xs'],
+        }}
+      />
+      {selectedFilter && (
+        <VolunteeringFilterModal
+          filterKey={selectedFilter}
+          filters={filters}
+          onSubmit={onSubmit}
+          closeModal={() => setSelectedFilter(undefined)}
+        />
+      )}
+    </>
   )
 }

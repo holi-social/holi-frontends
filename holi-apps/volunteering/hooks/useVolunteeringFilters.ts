@@ -88,16 +88,8 @@ const useDiscoveryV1Filters = (): FilterHook => {
   return { filters, setFilters: onFilterChange, clearFilters, isFiltering, ...geolocationProps }
 }
 
-export const useVolunteeringFilters = (onSubmit: () => void) => {
+export const useVolunteeringFilters = () => {
   const { setFilters, ...filterProps } = useDiscoveryV1Filters()
-
-  const submit = useCallback(
-    (filters?: VolunteeringFilters) => {
-      setFilters(filters)
-      onSubmit()
-    },
-    [onSubmit, setFilters]
-  )
 
   useEffect(() => {
     if (filterProps.loadingGeolocation) {
@@ -108,5 +100,5 @@ export const useVolunteeringFilters = (onSubmit: () => void) => {
     }
   }, [filterProps, setFilters])
 
-  return { ...filterProps, submit }
+  return { ...filterProps, submit: setFilters }
 }

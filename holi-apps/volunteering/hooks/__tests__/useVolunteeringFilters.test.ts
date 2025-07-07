@@ -17,8 +17,6 @@ jest.mock('@holi/core/geolocation/hooks/useGeolocationDetails', () => ({
 }))
 
 describe('useVolunteeringFilters', () => {
-  const onSubmit = jest.fn()
-
   beforeEach(() => {
     mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
       loadingGeolocation: false,
@@ -26,7 +24,7 @@ describe('useVolunteeringFilters', () => {
     mockParameters({})
   })
   it('should update filter state on submit', () => {
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters).toEqual({
       topics: [],
@@ -41,7 +39,7 @@ describe('useVolunteeringFilters', () => {
   })
   it('should update query parameters on submit', () => {
     const { mockUseUpdateParams } = mockParameters({})
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     act(() => {
       result.current.submit({ topics: ['elderly-care'], location: { id: 'locationId', label: 'Hamburg' } })
@@ -49,20 +47,9 @@ describe('useVolunteeringFilters', () => {
 
     expect(mockUseUpdateParams).toHaveBeenCalledWith({ topic: ['elderly-care'], geolocationId: 'locationId' })
   })
-  it('should call submit callback on submit', () => {
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
-
-    expect(onSubmit).not.toHaveBeenCalled()
-
-    act(() => {
-      result.current.submit({ topics: ['elderly-care'] })
-    })
-
-    expect(onSubmit).toHaveBeenCalled()
-  })
   it('should prefill filters from query parameters', () => {
     mockParameters({ topic: ['elderly-care'] })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
   })
@@ -71,13 +58,13 @@ describe('useVolunteeringFilters', () => {
       topic: ['elderly-people', 'diversity-genderequality'],
       skill: ['conflict-management', 'discipline'],
     })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters).toEqual({ topics: ['elderly-care', 'gender-equality'], skills: ['other'] })
   })
   it('should expose function to clear filters', () => {
     const { mockUseUpdateParams } = mockParameters({ topic: ['elderly-care'] })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
 
@@ -94,7 +81,7 @@ describe('useVolunteeringFilters', () => {
   })
   it('should fetch geolocation if location id is given', () => {
     mockParameters({ geolocationId: 'locationId' })
-    renderHook(() => useVolunteeringFilters(onSubmit))
+    renderHook(() => useVolunteeringFilters())
 
     expect(mockUseGeolocationDetailsWithSuggestion).toHaveBeenCalledWith('locationId', expect.any(Function))
   })
@@ -124,7 +111,7 @@ describe('useVolunteeringFilters', () => {
         label: 'Hamburg, Germany',
       },
     })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters.location).toEqual({
       id: 'locationId',
@@ -136,7 +123,7 @@ describe('useVolunteeringFilters', () => {
     mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
       loadingGeolocation: true,
     })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.loadingGeolocation).toBeTruthy()
   })
@@ -147,12 +134,12 @@ describe('useVolunteeringFilters', () => {
       loadingGeolocation: false,
       geolocationError: testError,
     })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.geolocationError).toEqual(testError)
   })
   it('should expose flag if filtering', () => {
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.isFiltering).toBeFalsy()
 
@@ -165,7 +152,7 @@ describe('useVolunteeringFilters', () => {
 
   it('should correctly prefill commitment durations', () => {
     mockParameters({ duration: ['HOURS_1to2'] })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters).toEqual({
       topics: [],
@@ -176,7 +163,7 @@ describe('useVolunteeringFilters', () => {
 
   it('should correctly prefill commitment labels', () => {
     mockParameters({ commitment: ['one-time'] })
-    const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+    const { result } = renderHook(() => useVolunteeringFilters())
 
     expect(result.current.filters).toEqual({
       topics: [],

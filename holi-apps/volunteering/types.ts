@@ -45,3 +45,5 @@ export type VolunteeringFilters = {
   commitmentLabels?: string[]
   commitmentDurations?: string[]
 }
+
+export type VolunteeringFilterKey = keyof VolunteeringFilters
