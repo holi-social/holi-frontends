@@ -5,20 +5,12 @@ import { Colors } from 'holi-bricks/foundations'
 import React from 'react'
 
 import { ChipSelect } from './ChipSelect'
+import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableColors = Object.values(Colors)
 const availableSizes = ['md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID', 'avatar']
 
 const meta: Meta<typeof ChipSelect> = {
   title: 'Components/Chips/Chip Select',
@@ -35,7 +27,7 @@ const meta: Meta<typeof ChipSelect> = {
         image: {
           initials: 'TP',
           label: 'no, pick me',
-          imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+          imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg',
         },
       },
     },
@@ -77,11 +69,11 @@ export const ByColor: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack gap="xxs" direction="row">
         {availableColors.map((c) => (
           <ChipSelect key={c} {...args} selectedColor={c} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
@@ -89,11 +81,11 @@ export const ByColor: Story = {
 export const BySize: Story = {
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableSizes.map((s) => (
           <ChipSelect key={s} {...args} size={s} selectedColor="blue" />
         ))}
-      </>
+      </Stack>
     )
   },
 }
@@ -110,10 +102,10 @@ export const BySelection: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         <ChipSelect {...args} />
         <ChipSelect {...args} selected />
-      </>
+      </Stack>
     )
   },
 }
@@ -130,7 +122,7 @@ export const ByAvatar: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         <ChipSelect {...args} />
         <ChipSelect {...args} avatar={{ initials: 'TP', label: 'pick me' }} />
         <ChipSelect
@@ -141,7 +133,7 @@ export const ByAvatar: Story = {
             source: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
           }}
         />
-      </>
+      </Stack>
     )
   },
 }

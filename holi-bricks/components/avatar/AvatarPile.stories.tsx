@@ -3,7 +3,7 @@ import React from 'react'
 
 import { HandHeartThinFilledRaised } from '@holi/icons/src/generated'
 import AvatarPile from 'holi-bricks/components/avatar/AvatarPile'
-import { View } from 'react-native'
+import { Stack } from 'holi-bricks/components/stack'
 
 const availableShapes = ['circle', 'square'] as const
 const availableBorders = ['strong', 'light'] as const
@@ -31,6 +31,11 @@ const meta: Meta<typeof AvatarPile> = {
     testID: 'holi-user-avatar-pile',
     border: 'light',
     shape: 'circle',
+  },
+  argTypes: {
+    testID: {
+      table: { disable: true },
+    },
   },
 }
 
@@ -64,13 +69,11 @@ export const Default: Story = {
 export const ByShape: Story = {
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableShapes.map((shape) => (
-          <View key={shape} style={{ margin: 6 }}>
-            <AvatarPile {...args} shape={shape} />
-          </View>
+          <AvatarPile key={shape} {...args} shape={shape} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
@@ -78,13 +81,11 @@ export const ByShape: Story = {
 export const ByBorder: Story = {
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableBorders.map((border) => (
-          <View key={border} style={{ margin: 6 }}>
-            <AvatarPile {...args} border={border} />
-          </View>
+          <AvatarPile key={border} {...args} border={border} />
         ))}
-      </>
+      </Stack>
     )
   },
 }

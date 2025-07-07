@@ -2,15 +2,16 @@
 import React, { type ComponentType } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Card } from './Card'
-import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import * as Icons from '@holi/icons/src/generated'
 import { controlWithLabel, toIconName } from 'holi-bricks/storybook/icons-to-story'
 import { buildCompoundPreview } from 'holi-bricks/storybook/buildCompoundPreview'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
 type StoryArgs = {
   testID?: string
+  fullHeight: boolean
 
   showHeader: boolean
   showImage: boolean
@@ -30,17 +31,20 @@ type StoryArgs = {
 }
 
 const meta: Meta<StoryArgs> = {
-  title: 'Components/Card',
+  title: 'Components/Card/Card',
   component: Card as unknown as ComponentType<StoryArgs>,
   args: {
     title: 'This is a Card',
     subtitle: 'Card subtitle goes here',
+    fullHeight: false,
     topLabel: 'Label',
     topLabelLeftIcon: Icons.HeartFilled,
     topLabelRightIcon: Icons.ArrowLeft,
     titleIcon: Icons.ArrowLeft,
     showHeader: true,
+    showFooter: true,
     showImage: true,
+    showContent: true,
     content: 'This is the main content inside the card body. You can write anything here.',
     alt: 'Image Description',
     source: 'https://loremflickr.com/420/240',
