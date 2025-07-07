@@ -37,7 +37,8 @@ import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { SURVEY_URL } from '@holi/core/constants/urls'
 import { Stack } from 'holi-bricks/components/stack'
-import { ChipGoodDeeds } from 'holi-bricks/components/chips/ChipGoodDeeds'
+import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 const FeedListItem = memo(
   ({
@@ -107,6 +108,7 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
+  const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
@@ -141,7 +143,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="3xs" alignItems="center">
             <HoliLogo color={tintColor} />
-            <ChipGoodDeeds counter={20} />
+            {showGoodDeedChip && <ChipGoodDeeds counter={20} />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -158,7 +160,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
+  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink, showGoodDeedChip])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)

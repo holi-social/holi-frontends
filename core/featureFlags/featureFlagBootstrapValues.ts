@@ -31,6 +31,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.SOCIAL_LOGIN]: true,
     [FeatureFlagKey.PETITIONS]: true,
     [FeatureFlagKey.START_SMALL_CAROUSEL]: true,
+    [FeatureFlagKey.REWARDS_PHASE_1]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -49,6 +50,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.SOCIAL_LOGIN]: null,
     [FeatureFlagKey.PETITIONS]: null,
     [FeatureFlagKey.START_SMALL_CAROUSEL]: null,
+    [FeatureFlagKey.REWARDS_PHASE_1]: null,
   },
 }
 

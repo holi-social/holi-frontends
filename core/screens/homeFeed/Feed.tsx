@@ -38,7 +38,8 @@ import { SURVEY_URL } from '@holi/core/constants/urls'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import { Stack } from 'holi-bricks/components/stack'
-import { ChipGoodDeeds } from 'holi-bricks/components/chips/ChipGoodDeeds'
+import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -51,6 +52,8 @@ const HomeFeed = () => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
+  const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+
   const { refreshControlProps } = useRefreshContext()
 
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, insightsCreators } = useFeedQuery()
@@ -182,7 +185,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="3xs" alignItems="center">
             <HoliLogo color={tintColor} />
-            <ChipGoodDeeds counter={20} />
+            {showGoodDeedChip && <ChipGoodDeeds counter={20} />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -199,7 +202,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
+  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink, showGoodDeedChip])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 

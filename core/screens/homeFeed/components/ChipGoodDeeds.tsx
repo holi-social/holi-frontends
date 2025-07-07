@@ -4,7 +4,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { Pressable } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ChallengesFilled, DraftFilled, GoodDeeds, Information } from '@holi/icons/src/generated'
+import { ChallengesFilled, DraftFilled, GoodDeeds, GoodDeedsV2, Information } from '@holi/icons/src/generated'
 import { Trans, useTranslation } from 'react-i18next'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -19,11 +19,14 @@ export const ChipGoodDeeds = ({ counter = 0 }: ChipGoodDeedsProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const modalState = useModalState()
+  const modalStateEmpty = useModalState() // modal for logged in users without any good deeds yet
+  const modalStateDefault = useModalState() // modal for logged in users with at least one good deed
+  const modalStateGuest = useModalState() // modal for guest users
 
   return (
     <>
-      <Pressable onPress={modalState.show} style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}>
+      {/* todo: differentiate between three states "guest", "empty", "default" */}
+      <Pressable onPress={modalStateDefault.show} style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}>
         <HoliIcon icon={GoodDeeds} size={18} />
         <Text size="sm" selectable={false}>
           {counter > 0 ? `${counter} ${t('personalGoodDeedCounter.label')}` : t('goodDeeds.name')}
@@ -31,8 +34,45 @@ export const ChipGoodDeeds = ({ counter = 0 }: ChipGoodDeedsProps) => {
         <HoliIcon icon={Information} size={18} />
       </Pressable>
 
-      <HoliModal label={'Filter Events'} {...modalState} shown={modalState.visible} autoHeight>
-        <HoliModalContentWrapper actionButtonText={t('global.gotIt')} onActionButtonPress={() => {}}>
+      {/* modal for guests */}
+      <HoliModal
+        label={'Join the community'}
+        onDismiss={modalStateGuest.hide}
+        shown={modalStateGuest.visible}
+        autoHeight
+      >
+        {/* todo: navigate to account creation */}
+        <HoliModalContentWrapper
+          actionButtonText={t('personalGoodDeedCounter.drawer.guest.button')}
+          onActionButtonPress={modalStateGuest.hide}
+        >
+          <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
+            <Stack gap="3xs">
+              <Text size="3xl">{t('personalGoodDeedCounter.drawer.guest.title')}</Text>
+              <Text size="md">{t('personalGoodDeedCounter.drawer.guest.text')}</Text>
+            </Stack>
+
+            <Text size="md">
+              <Trans
+                i18nKey="personalGoodDeedCounter.drawer.guest.campaignHint"
+                components={{
+                  span: <span />,
+                  b: <b />,
+                }}
+              />
+            </Text>
+          </Stack>
+        </HoliModalContentWrapper>
+      </HoliModal>
+
+      {/* modal for logged in users without any good deeds yet */}
+      <HoliModal
+        label={'How to collect good deeds'}
+        onDismiss={modalStateEmpty.hide}
+        shown={modalStateEmpty.visible}
+        autoHeight
+      >
+        <HoliModalContentWrapper actionButtonText={t('modal.close')} onActionButtonPress={modalStateEmpty.hide}>
           <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
             <Stack gap="3xs">
               <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.title')}</Text>
@@ -67,6 +107,63 @@ export const ChipGoodDeeds = ({ counter = 0 }: ChipGoodDeedsProps) => {
           </Stack>
         </HoliModalContentWrapper>
       </HoliModal>
+
+      {/* modal for logged in users with at least one good deed */}
+      <HoliModal
+        label={'Your good deeds'}
+        onDismiss={modalStateDefault.hide}
+        shown={modalStateDefault.visible}
+        autoHeight
+      >
+        <HoliModalContentWrapper actionButtonText={t('modal.close')} onActionButtonPress={modalStateDefault.hide}>
+          <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
+            <Stack
+              gap="4xs"
+              padding="xs"
+              backgroundColor="blueLight"
+              borderRadius="xs"
+              borderStyle="solid"
+              borderColor="main"
+              borderWidth="sm"
+              alignItems="center"
+            >
+              <Text size="xl">{t('personalGoodDeedCounter.drawer.default.banner.title')}</Text>
+              <Stack
+                borderRadius="pill"
+                backgroundColor="support"
+                direction="row"
+                alignItems="center"
+                gap="4xs"
+                padding={{ top: '4xs', bottom: '4xs', left: 'xs', right: 'xs' }}
+                borderColor="main"
+                borderStyle="solid"
+                borderWidth="sm"
+              >
+                <HoliIcon icon={GoodDeedsV2} size={40} />
+                <Text size="xxl" selectable={false}>
+                  {counter} {t('goodDeeds.name')}
+                </Text>
+              </Stack>
+            </Stack>
+
+            <Stack gap="xs">
+              <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.h2')}</Text>
+
+              <Stack gap="3xs">
+                <Stack direction="row" gap="3xs">
+                  <HoliIcon icon={ChallengesFilled} />
+                  <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
+                </Stack>
+
+                <Stack direction="row" gap="3xs">
+                  <HoliIcon icon={DraftFilled} />
+                  <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
+                </Stack>
+              </Stack>
+            </Stack>
+          </Stack>
+        </HoliModalContentWrapper>
+      </HoliModal>
     </>
   )
 }
@@ -75,13 +172,13 @@ const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean) => {
     return {
       ...pill,
+      backgroundColor: theme.colors.bg.support,
       borderColor: theme.colors.border.support,
       borderWidth: 1,
       outlineColor: theme.colors.border.main,
       outlineWidth: 1,
       outlineStyle: hovered ? 'solid' : 'none',
       boxShadow: focused ? theme.colors.focus : 'none',
-      alignSelf: 'flex-start',
       paddingHorizontal: Spacing['3xs'],
       minHeight: Spacing.lg,
     }
