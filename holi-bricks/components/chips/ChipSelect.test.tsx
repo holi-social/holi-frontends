@@ -10,6 +10,16 @@ describe('ChipSelect', () => {
     expect(screen.root).toHaveTextContent('Hai')
   })
 
+  it('should render counter', () => {
+    render(
+      <ChipSelect onPress={jest.fn()} counter="42">
+        Hai
+      </ChipSelect>
+    )
+
+    expect(screen.root).toHaveTextContent('42')
+  })
+
   it('should raise press event', () => {
     const mockPressHandler = jest.fn()
     render(<ChipSelect onPress={mockPressHandler}>Click me!</ChipSelect>)
