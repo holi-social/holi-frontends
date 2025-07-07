@@ -1,22 +1,15 @@
 import React from 'react'
 import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
-import { render, screen, act } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text'
 import type { RootNavigatorProps } from '@holi/mobile/navigation/RootNavigator'
-import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 const mockUseOnboardingInitialization = jest.mocked(useOnboardingInitialization)
 const mockUseOnboardingRedirect = jest.mocked(useOnboardingRedirect)
-const mockInitNotifications = jest.mocked(initNotifications)
-
 jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
   useOnboardingInitialization: jest.fn(),
   useOnboardingRedirect: jest.fn(),
-}))
-
-jest.mock('@holi/mobile/notifications/initNotifications', () => ({
-  initNotifications: jest.fn().mockResolvedValue(undefined),
 }))
 
 const MockedRootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) => (
@@ -34,10 +27,10 @@ describe('OnboardingAwaitingNavigator', () => {
       onboardingState: null,
     })
   }
-  const mockFinishedInitialization = (onboardingState: 'finished' | 'onboarding' | null = 'finished') => {
+  const mockFinishedInitialization = () => {
     mockUseOnboardingInitialization.mockReturnValue({
       isLoading: false,
-      onboardingState,
+      onboardingState: 'finished',
     })
   }
 
@@ -46,9 +39,6 @@ describe('OnboardingAwaitingNavigator', () => {
     mockUseOnboardingRedirect.mockReturnValue({
       showOnboardingOnStartup: false,
     })
-    mockInitNotifications.mockClear()
-    // Ensure initNotifications always returns a resolved promise
-    mockInitNotifications.mockResolvedValue(undefined)
   })
 
   it('should render null while onboarding is initializing', () => {
@@ -57,190 +47,84 @@ describe('OnboardingAwaitingNavigator', () => {
     render(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
     expect(screen.toJSON()).toBeNull()
-    expect(mockInitNotifications).not.toHaveBeenCalled()
   })
 
-  it('should call onReady when onboarding is initialized', async () => {
-    const onReadyMock = jest.fn().mockResolvedValue(true)
+  it('should call onReady when onboarding is initialized', () => {
+    const onReadyMock = jest.fn()
 
     render(<OnboardingAwaitingNavigator onReady={onReadyMock} />)
 
     expect(onReadyMock).toHaveBeenCalled()
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
   })
 
-  it('should call onReady callback only once', async () => {
-    const onReadyMock = jest.fn().mockResolvedValue(true)
+  it('should call onReady callback only once', () => {
+    const onReadyMock = jest.fn()
 
-    // Onboarding initialized > onReady called and initNotifications called
+    // Onboarding initialized > onReady called
     mockFinishedInitialization()
 
     const { rerender } = render(<OnboardingAwaitingNavigator onReady={onReadyMock} />)
 
     expect(onReadyMock).toHaveBeenCalled()
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
 
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
-
-    // Onboarding re-initializing > no call to onReady or initNotifications
+    // Onboarding re-initializing > no call
     onReadyMock.mockClear()
-    mockInitNotifications.mockClear()
     mockIsInitializing()
 
     rerender(<OnboardingAwaitingNavigator onReady={onReadyMock} />)
 
     expect(onReadyMock).not.toHaveBeenCalled()
-    expect(mockInitNotifications).not.toHaveBeenCalled()
 
-    // Onboarding re-initialized > no call to onReady or initNotifications again
+    // Onboarding re-initialized > no call
     mockFinishedInitialization()
 
     rerender(<OnboardingAwaitingNavigator onReady={onReadyMock} />)
 
     expect(onReadyMock).not.toHaveBeenCalled()
-
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
-
-    // initNotifications should not be called again due to notificationsInitialized state
-    expect(mockInitNotifications).not.toHaveBeenCalled()
   })
 
-  it('should not render null again after initialized once', async () => {
+  it('should not render null again after initialized once', () => {
     // First render: initializing > null
     mockIsInitializing()
 
-    const { rerender } = render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
+    const { rerender } = render(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
     expect(screen.toJSON()).toBeNull()
-    expect(mockInitNotifications).not.toHaveBeenCalled()
 
-    // Second render: finish initialization > RootNavigator and initNotifications
+    // Second render: finish initialization > RootNavigator
     mockFinishedInitialization()
 
-    rerender(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
+    rerender(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
     expect(screen.getByText('something else')).toBeTruthy()
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
 
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
-
-    // Third render: re-initializing > RootNavigator, but no new initNotifications call
+    // Third render: re-initializing > RootNavigator
     mockIsInitializing()
-    mockInitNotifications.mockClear()
 
-    rerender(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
-
-    expect(screen.getByText('something else')).toBeTruthy()
-    expect(mockInitNotifications).not.toHaveBeenCalled()
-  })
-
-  it('should render RootNavigator once onboarding is initialized and call initNotifications', async () => {
-    render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
+    rerender(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
     expect(screen.getByText('something else')).toBeTruthy()
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
-
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
   })
 
-  it('should call initNotifications only when onboardingState is "finished"', async () => {
-    // Case 1: onboardingState is null (initializing)
-    mockUseOnboardingInitialization.mockReturnValue({
-      isLoading: true,
-      onboardingState: null,
-    })
-    render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
-    expect(mockInitNotifications).not.toHaveBeenCalled()
-    screen.unmount()
-    mockInitNotifications.mockClear()
+  it('should render RootNavigator once onboarding is initialized', () => {
+    render(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
-    // Case 2: onboardingState is 'onboarding'
-    mockUseOnboardingInitialization.mockReturnValue({
-      isLoading: false,
-      onboardingState: 'onboarding',
-    })
-    render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
-    expect(mockInitNotifications).not.toHaveBeenCalled()
-    screen.unmount()
-    mockInitNotifications.mockClear()
-
-    // Case 3: onboardingState is 'finished'
-    mockUseOnboardingInitialization.mockReturnValue({
-      isLoading: false,
-      onboardingState: 'finished',
-    })
-    render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
-
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
-
-    screen.unmount()
-  })
-
-  it('should call initNotifications only once even if re-rendered with finished state', async () => {
-    mockUseOnboardingInitialization.mockReturnValue({
-      isLoading: false,
-      onboardingState: 'finished',
-    })
-    const { rerender } = render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
-
-    // Wait for any pending promises to resolve the first initNotifications call
-    await act(async () => {
-      await Promise.resolve()
-    })
-
-    // Rerender with the same finished state
-    mockInitNotifications.mockClear() // Clear mock to verify it's not called again
-    rerender(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
-
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
-
-    expect(mockInitNotifications).not.toHaveBeenCalled() // Should not be called again
+    expect(screen.getByText('something else')).toBeTruthy()
   })
 
   it('should pass truthy showOnboarding prop to RootNavigator if onboarding is required', () => {
     mockUseOnboardingRedirect.mockReturnValue({
       showOnboardingOnStartup: true,
     })
-    mockUseOnboardingInitialization.mockReturnValue({
-      isLoading: false,
-      onboardingState: 'onboarding',
-    })
 
-    render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
+    render(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
     expect(screen.getByText('onboarding')).toBeTruthy()
-    expect(mockInitNotifications).not.toHaveBeenCalled()
   })
 
-  it('should pass falsy showOnboarding prop to RootNavigator if onboarding is not required', async () => {
-    render(<OnboardingAwaitingNavigator onReady={jest.fn().mockResolvedValue(true)} />)
+  it('should pass falsy showOnboarding prop to RootNavigator if onboarding is not required', () => {
+    render(<OnboardingAwaitingNavigator onReady={jest.fn()} />)
 
     expect(screen.getByText('something else')).toBeTruthy()
-    expect(mockInitNotifications).toHaveBeenCalledTimes(1)
-
-    // Wait for any pending promises
-    await act(async () => {
-      await Promise.resolve()
-    })
   })
 })
