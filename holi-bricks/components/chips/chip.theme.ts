@@ -11,7 +11,6 @@ export const darkChipTheme = {
         yellowLight: yellow[800],
       },
     },
-    backgroundCounter: mono[600],
   },
   chipAction: {
     text: mono[300],
@@ -52,7 +51,6 @@ export const lightChipTheme = {
         yellowLight: yellow[300],
       },
     },
-    backgroundCounter: mono[300],
   },
   chipAction: {
     text: black,

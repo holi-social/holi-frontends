@@ -2,7 +2,7 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundat
 import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { Color, LayoutProps } from 'holi-bricks/foundations'
-import { BorderRadius, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 import React, { type ReactNode } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
@@ -13,6 +13,7 @@ import type { AvatarProps } from 'holi-bricks/components/avatar'
 import { chipSizeToTextSize, type ChipSelectSize } from './size'
 import { pill } from './styles'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { Stack } from 'holi-bricks/components/stack'
 
 export type ChipSelectColor = Color | 'yellowLight'
 
@@ -76,9 +77,20 @@ export const ChipSelect = ({
         </Text>
       )}
       {counter && (
-        <View style={styles.counter}>
-          <Text size="xs">{counter}</Text>
-        </View>
+        <Stack
+          backgroundColor="muted"
+          borderRadius="pill"
+          padding={{
+            top: '5xs',
+            bottom: '5xs',
+            left: '4xs',
+            right: '4xs',
+          }}
+        >
+          <Text size="xs" margin={{ left: '5xs', right: '5xs' }}>
+            {counter}
+          </Text>
+        </Stack>
       )}
       <HoliIcon icon={icon} size={iconSize} colorOverride={theme.components.chipSelect.text} />
     </Pressable>
@@ -136,11 +148,5 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       },
     },
-  },
-  counter: {
-    backgroundColor: theme.components.chipSelect.backgroundCounter,
-    paddingVertical: Spacing['5xs'],
-    paddingHorizontal: Spacing['3xs'] - 2,
-    borderRadius: BorderRadius.pill,
   },
 }))
