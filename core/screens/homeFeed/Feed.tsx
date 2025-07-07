@@ -37,6 +37,8 @@ import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext
 import { SURVEY_URL } from '@holi/core/constants/urls'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
+import { Stack } from 'holi-bricks/components/stack'
+import { ChipGoodDeeds } from 'holi-bricks/components/chips/ChipGoodDeeds'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -178,7 +180,10 @@ const HomeFeed = () => {
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <HoliLogo color={tintColor} />
+          <Stack direction="row" gap="3xs" alignItems="center">
+            <HoliLogo color={tintColor} />
+            <ChipGoodDeeds counter={20} />
+          </Stack>
         </HoliTransition.FadeLeft>
       ),
       headerRight: () => (
