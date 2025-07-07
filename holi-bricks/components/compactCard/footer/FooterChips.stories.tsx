@@ -7,7 +7,7 @@ import { FooterChips } from 'holi-bricks/components/compactCard/footer/FooterChi
 import { Chat3 } from '@holi/icons/src/generated'
 
 const meta: Meta<typeof FooterChips> = {
-  title: 'Components/CompactCard/Footer/FooterChips',
+  title: 'Components/Card/CompactCard/Footer/FooterChips',
   component: FooterChips,
   args: {
     chips: [

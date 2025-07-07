@@ -6,14 +6,17 @@ import { AddCircleFill } from '@holi/icons/src/generated'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
-const disabledProps = ['aria-hidden', 'aria-label', 'aria-labelledby', 'aria-disabled', 'onPress', 'icon']
+const disabledProps = [...accessibilityAttributes, 'onPress', 'show', 'onDismiss']
 
 const meta: Meta<typeof Snackbar> = {
   title: 'Components/Snackbar',
   component: Snackbar,
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
+    icon: { ...controlWithLabel },
   },
   args: {
     label: 'Notification goes here',

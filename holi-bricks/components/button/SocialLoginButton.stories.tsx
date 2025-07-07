@@ -1,25 +1,14 @@
 import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
 import { SocialLoginButton } from 'holi-bricks/components/button'
+import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 import React from 'react'
 
-import { View } from 'react-native'
-
 const availableProviders = ['Google', 'Facebook', 'Apple'] as const
+const availableStates = ['loading', 'disabled', 'selected']
 
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-  'testID',
-  'tabIndex',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID']
 
 const meta: Meta<typeof SocialLoginButton> = {
   title: 'Components/Button/SocialLoginButton',
@@ -58,33 +47,38 @@ export const Default: Story = {
 }
 
 export const ByProvider: Story = {
+  args: {
+    label: 'Label',
+    loading: false,
+    disabled: false,
+    selected: false,
+  },
   render: function Render(args) {
     return (
-      <>
+      <Stack gap="xxs">
         {availableProviders.map((provider) => (
-          <View key={provider} style={{ margin: 6 }}>
-            <SocialLoginButton {...args} provider={provider} label={`Continue with ${provider}`} />
-          </View>
+          <SocialLoginButton key={provider} {...args} provider={provider} label={`Continue with ${provider}`} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
 
 export const ByState: Story = {
-  render: function Render() {
+  args: {
+    label: 'Label',
+    loading: false,
+    disabled: false,
+    selected: false,
+    provider: 'Google',
+  },
+  render: function Render(args) {
     return (
-      <>
-        <View style={{ margin: 6 }}>
-          <SocialLoginButton label="loading" loading provider="Google" />
-        </View>
-        <View style={{ margin: 6 }}>
-          <SocialLoginButton label="disabled" disabled provider="Google" />
-        </View>
-        <View style={{ margin: 6 }}>
-          <SocialLoginButton label="selected" selected provider="Google" />
-        </View>
-      </>
+      <Stack gap="xxs">
+        {availableStates.map((state) => (
+          <SocialLoginButton key={state} {...args} label={state} {...{ [state]: true }} />
+        ))}
+      </Stack>
     )
   },
 }
