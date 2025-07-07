@@ -1,6 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { Text } from 'holi-bricks/components/text/Text'
-import { Spacing } from 'holi-bricks/foundations'
+import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { createContext } from 'react'
@@ -10,14 +10,15 @@ import type { SelectorCardInputType } from './SelectorCard'
 
 type OptionsState = { [key: string]: boolean }
 
-type SelectorProps = AccessibilityProps & {
-  title?: string
-  inputType?: SelectorCardInputType
-  row?: boolean
-  onSelect?: (id: string) => void
-  onChange?: (selectedOptions: string[]) => void
-  initiallySelectedOptions?: string[]
-}
+type SelectorProps = AccessibilityProps &
+  LayoutProps & {
+    title?: string
+    inputType?: SelectorCardInputType
+    row?: boolean
+    onSelect?: (id: string) => void
+    onChange?: (selectedOptions: string[]) => void
+    initiallySelectedOptions?: string[]
+  }
 
 type SelectorContextType = {
   selectedOptions: OptionsState
@@ -59,7 +60,7 @@ export const Selector = ({
   )
 
   return (
-    <View {...accessibilityProps(rest)} style={styles.container}>
+    <View {...accessibilityProps(rest)} style={[styles.container, layoutStyle(rest)]}>
       {title && <Text size="lg">{title}</Text>}
       <SelectorContext.Provider value={{ contextOnPress: onPress, selectedOptions, inputType }}>
         <View style={[styles.cardContainer, row && styles.row]}>{children}</View>

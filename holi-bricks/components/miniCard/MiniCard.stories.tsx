@@ -7,6 +7,7 @@ import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
 import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
+import { View } from 'react-native'
 
 const disabledProps = [...accessibilityAttributes, 'fallbackImageHashKey']
 
@@ -36,7 +37,11 @@ type Story = StoryObj<typeof MiniCard>
 
 export const Default: Story = {
   render: function Render(args) {
-    return <MiniCard {...args} />
+    return (
+      <View>
+        <MiniCard {...args} />
+      </View>
+    )
   },
 }
 

@@ -216,19 +216,22 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#abff8b",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 48,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 48,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#abff8b",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 48,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -243,20 +246,23 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 20,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 24,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               NO
@@ -370,6 +376,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               "padding": 10,
               "width": 40,
             },
+            {},
           ]
         }
         testID="btn-to-invite"
@@ -515,19 +522,22 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#8b95ff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 48,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 48,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#8b95ff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 48,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -542,20 +552,23 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 20,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 24,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               CO
@@ -702,6 +715,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               "padding": 10,
               "width": 40,
             },
+            {},
           ]
         }
         testID="btn-to-invite"
@@ -847,19 +861,22 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#8b95ff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 48,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 48,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#8b95ff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 48,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -874,20 +891,23 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 20,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 24,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               CO
@@ -1115,19 +1135,22 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#8b95ff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 48,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 48,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#8b95ff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 48,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -1142,20 +1165,23 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 20,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 24,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               FO
@@ -1302,6 +1328,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               "padding": 10,
               "width": 40,
             },
+            {},
           ]
         }
         testID="btn-to-invite"
@@ -1447,19 +1474,22 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#8b95ff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 48,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 48,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#8b95ff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 48,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -1474,20 +1504,23 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 20,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 24,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               ME
@@ -1651,19 +1684,22 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "#abff8b",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 48,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 48,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#abff8b",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 48,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 48,
+              },
+              {},
+            ]
           }
         >
           <View
@@ -1678,20 +1714,23 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               role="none"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 20,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": 0.2,
-                  "lineHeight": 24,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {},
+                ]
               }
             >
               AD

@@ -7,23 +7,25 @@ import { createStyleSheet } from 'holi-bricks/styles'
 import { useStyles } from 'react-native-unistyles'
 import type React from 'react'
 import { Pressable, View } from 'react-native'
-import { Spacing } from 'holi-bricks/foundations'
+import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
-interface SnackbarProps {
-  label: string
-  variant?: 'error' | 'warning' | 'success'
-  icon?: HoliIconType
-  actionLabel?: string
-  onPress?: () => void
-  showDismiss?: boolean
-  persistent?: boolean
-  duration?: 'short' | 'medium' | 'long'
-  positionTowardsParent?: 'above' | 'below'
-  show?: boolean
-  onDismiss?: () => void
-}
+type SnackbarProps = AccessibilityProps &
+  LayoutProps & {
+    label: string
+    variant?: 'error' | 'warning' | 'success'
+    icon?: HoliIconType
+    actionLabel?: string
+    onPress?: () => void
+    showDismiss?: boolean
+    persistent?: boolean
+    duration?: 'short' | 'medium' | 'long'
+    positionTowardsParent?: 'above' | 'below'
+    show?: boolean
+    onDismiss?: () => void
+  }
 
 export const Snackbar = ({
   label,
@@ -37,6 +39,7 @@ export const Snackbar = ({
   positionTowardsParent: position = 'below',
   show = true,
   onDismiss,
+  ...rest
 }: SnackbarProps) => {
   const { styles } = useStyles(stylesheet)
 
@@ -91,9 +94,10 @@ export const Snackbar = ({
   if (!visible) return null
   return (
     <Pressable
-      style={styles.snackbar(position)}
+      style={[styles.snackbar(position), layoutStyle(rest)]}
       onHoverIn={pauseTimer} // dont close snackbar while hovering
       onHoverOut={startTimer} // reset timer to close snackbar
+      {...accessibilityProps(rest)}
     >
       <Stack
         backgroundColor="selected"

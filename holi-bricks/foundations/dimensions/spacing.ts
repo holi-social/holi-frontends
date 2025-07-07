@@ -24,7 +24,27 @@ export type SizeToEdge =
       right?: SpacingSize
     }
 
-const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
+export type LayoutProps = {
+  margin?: SizeToEdge
+}
+
+type Margins = {
+  margin?: number
+  marginTop?: number
+  marginBottom?: number
+  marginLeft?: number
+  marginRight?: number
+}
+
+type Paddings = {
+  padding?: number
+  paddingTop?: number
+  paddingBottom?: number
+  paddingLeft?: number
+  paddingRight?: number
+}
+
+const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge): Margins | Paddings => {
   if (!size) return {}
 
   if (typeof size === 'string') {
@@ -42,5 +62,9 @@ const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
   }
 }
 
-export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding', padding)
-export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin)
+export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding', padding) as Paddings
+export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin) as Margins
+
+export const layoutStyle = (props: LayoutProps) => {
+  return makeMargin(props.margin)
+}

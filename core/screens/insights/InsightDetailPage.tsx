@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
-import { memo, useMemo, useState } from 'react'
+import { memo, useMemo, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
@@ -52,6 +52,8 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking/events'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -70,6 +72,8 @@ const InsightDetailPage = () => {
   const { width: screenWidth } = useClientWindowDimensions()
   const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
   const carouselMarginHorizontal = screenWidth < dimensions.breakpointL ? Spacing.xs : 0
+  const { track } = useTracking()
+  const hasTrackedScreenView = useRef(false)
 
   const {
     data: { insightById: insight } = {},
@@ -93,6 +97,13 @@ const InsightDetailPage = () => {
   const setScreenOptions = useSetScreenOptions()
 
   useOnRefresh(refetch)
+
+  useEffect(() => {
+    if (insight?.title && insightId && !hasTrackedScreenView.current) {
+      hasTrackedScreenView.current = true
+      track(TrackingEvent.InsightDetailPage.viewed(insightId, insight.title))
+    }
+  }, [insight?.title, insightId, track])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({

@@ -239,7 +239,7 @@ const CreateOrEditTask = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceUserConnectionType.Member}
-      forceRestrict={!isAdmin && !isTaskOwner}
+      forceRestrict={isEditing ? !isAdmin && !isTaskOwner : false}
       redirectRoute={`/spaces/${spaceIdOrNameParam}`}
     >
       <SpaceFormScreenLayout

@@ -3,6 +3,8 @@ import { Stack } from 'holi-bricks/components/stack'
 import { _CardImage } from 'holi-bricks/components/card/Card.Image'
 import { _CardHeader } from 'holi-bricks/components/card/Card.Header'
 import { _CardContent } from 'holi-bricks/components/card/Card.Content'
+import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import type { LayoutProps } from 'holi-bricks/foundations'
 
 const isDev = process.env.NODE_ENV === 'development'
 function getDisplayName(type: unknown): string | undefined {
@@ -22,14 +24,15 @@ type AllowedCardChildren =
   | React.ReactElement<typeof _CardImage>
   | null
 
-export interface CardProps {
-  testID?: string
-  children: AllowedCardChildren | AllowedCardChildren[]
-  onPress?(): void
-  fullHeight?: boolean
-}
+export type CardProps = AccessibilityProps &
+  LayoutProps & {
+    testID?: string
+    children: AllowedCardChildren | AllowedCardChildren[]
+    onPress?(): void
+    fullHeight?: boolean
+  }
 
-const CardWrapper = ({ children, testID, onPress, fullHeight }: CardProps) => {
+const CardWrapper = ({ children, testID, onPress, fullHeight, ...rest }: CardProps) => {
   if (isDev) {
     React.Children.forEach(children, (child) => {
       if (!React.isValidElement(child)) return
@@ -55,6 +58,7 @@ const CardWrapper = ({ children, testID, onPress, fullHeight }: CardProps) => {
       minWidth={340}
       onPress={onPress}
       height={fullHeight ? '100%' : undefined}
+      {...rest}
     >
       {children}
     </Stack>
