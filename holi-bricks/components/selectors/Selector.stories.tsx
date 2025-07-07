@@ -5,6 +5,7 @@ import React from 'react'
 import { Chat3, Megaphone, OpenArm, StarRounded } from '@holi/icons/src/generated'
 
 import { SelectableCard, SelectableChip } from './Selectable'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const meta: Meta<typeof Selector> = {
   title: 'Components/Selectors/Selector',
@@ -19,19 +20,7 @@ const meta: Meta<typeof Selector> = {
 
 type Story = StoryObj<typeof Selector>
 
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'children',
-  'onSelect',
-  'onChange',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'children', 'onSelect', 'onChange']
 
 export const SelectorCards: Story = {
   argTypes: {

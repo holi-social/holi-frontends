@@ -577,6 +577,14 @@ export namespace TrackingEvent {
     })
   }
 
+  export const InsightDetailPage = {
+    viewed: (insightId: string, title: string): TrackingEvent => ({
+      name: 'insightDetailPage_viewed',
+      properties: { insightId, title },
+      ...versionOne,
+    }),
+  }
+
   export namespace ChallengeCard {
     export const CardPressed = (challengeId: string, title: string, index: number, screen: string): TrackingEvent => ({
       name: 'challengeCard_pressed',

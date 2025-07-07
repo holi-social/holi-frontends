@@ -9,7 +9,7 @@ const endDate = new Date()
 endDate.setTime(endDate.getTime() + 60 * 60 * 1000)
 
 const meta: Meta<typeof FooterDate> = {
-  title: 'Components/CompactCard/Footer/FooterDate',
+  title: 'Components/Card/CompactCard/Footer/FooterDate',
   component: FooterDate,
   argTypes: {
     startDate: {
