@@ -6,23 +6,12 @@ import React from 'react'
 import { Chat3 } from '@holi/icons/src/generated'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableVariants = ['primary', 'secondary', 'tertiary'] as const
 const availableStates = ['loading', 'disabled', 'selected', 'transparent']
 const availableSizes = ['sm', 'md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-  'testID',
-  'color',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID', 'color']
 
 const meta: Meta<typeof ButtonIcon> = {
   title: 'Components/Button/ButtonIcon',

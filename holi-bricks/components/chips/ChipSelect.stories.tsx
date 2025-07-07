@@ -6,22 +6,11 @@ import React from 'react'
 
 import { ChipSelect } from './ChipSelect'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableColors = Object.values(Colors)
 const availableSizes = ['md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-  'testID',
-  'avatar',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID', 'avatar']
 
 const meta: Meta<typeof ChipSelect> = {
   title: 'Components/Chips/Chip Select',

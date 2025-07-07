@@ -2,24 +2,13 @@ import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
 import { SocialLoginButton } from 'holi-bricks/components/button'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 import React from 'react'
 
 const availableProviders = ['Google', 'Facebook', 'Apple'] as const
 const availableStates = ['loading', 'disabled', 'selected']
 
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-  'testID',
-  'tabIndex',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID']
 
 const meta: Meta<typeof SocialLoginButton> = {
   title: 'Components/Button/SocialLoginButton',

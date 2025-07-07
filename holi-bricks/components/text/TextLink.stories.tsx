@@ -2,23 +2,14 @@ import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Stack } from 'holi-bricks/components/stack'
 import { type TextProps, TextLink, type TextLinkSize } from 'holi-bricks/components/text'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import React from 'react'
 
 const availableColors = Object.keys(lightTheme.colors.fill) as TextProps['color'][]
 
 const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress']
 
 const meta: Meta<typeof TextLink> = {
   title: 'Components/Text/TextLink',

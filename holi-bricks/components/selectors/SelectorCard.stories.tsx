@@ -5,21 +5,10 @@ import React, { useState } from 'react'
 import Cloud from '@holi/icons/src/generated/Cloud'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableInputTypes = ['radio', 'checkbox', 'switch', 'none'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'image',
-  'onPress',
-  'testID',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'image', 'onPress', 'testID']
 
 const meta: Meta<typeof SelectorCard> = {
   title: 'Components/Selectors/Selector Card',

@@ -7,20 +7,11 @@ import { Cloud, Heart } from '@holi/icons/src/generated'
 import { ChipLabel } from './ChipLabel'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'testID',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'testID']
 
 const meta: Meta<typeof ChipLabel> = {
   title: 'Components/Chips/Chip Label',

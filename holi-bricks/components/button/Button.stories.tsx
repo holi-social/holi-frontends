@@ -5,24 +5,12 @@ import React from 'react'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableVariants = ['primary', 'secondary', 'danger'] as const
 const availableStates = ['loading', 'disabled', 'selected', 'transparent']
 const availableSizes = ['sm', 'md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-  'loadingLabel',
-  'testID',
-  'tabIndex',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'loadingLabel', 'testID']
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button/Button',

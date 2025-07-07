@@ -12,7 +12,7 @@ export type AccessibilityProps = {
 }
 
 type AccessibilityAttributes = keyof AccessibilityProps
-const acccessibilityProps: AccessibilityAttributes[] = [
+export const accessibilityAttributes: AccessibilityAttributes[] = [
   'accessible',
   'id',
   'role',
@@ -26,7 +26,7 @@ const acccessibilityProps: AccessibilityAttributes[] = [
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const accessibilityProps = (props: { [k: string]: any }): AccessibilityProps => {
   return Object.keys(props).reduce((previous, key) => {
-    if (acccessibilityProps.includes(key as AccessibilityAttributes)) {
+    if (accessibilityAttributes.includes(key as AccessibilityAttributes)) {
       return { ...previous, ...{ [key]: props[key] } }
     } else {
       return previous

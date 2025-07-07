@@ -7,8 +7,9 @@ import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
-const disabledProps = ['aria-hidden', 'aria-label', 'aria-labelledby', 'aria-disabled', 'onPress', 'show', 'onDismiss']
+const disabledProps = [...accessibilityAttributes, 'onPress', 'show', 'onDismiss']
 
 const meta: Meta<typeof Snackbar> = {
   title: 'Components/Snackbar',

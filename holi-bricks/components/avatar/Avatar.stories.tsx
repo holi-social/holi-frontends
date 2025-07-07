@@ -3,20 +3,10 @@ import { Avatar } from 'holi-bricks/components/avatar/Avatar'
 
 import { Chat3 } from '@holi/icons/src/generated'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableSizes = ['xs', 'sm', 'md', 'lg'] as const
-const disabledProps = [
-  'testID',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'imgPlaceholder',
-  'accessible',
-  'id',
-  'role',
-  'tabIndex',
-]
+const disabledProps = [...accessibilityAttributes, 'testID', 'imgPlaceholder', 'id']
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar/Avatar',

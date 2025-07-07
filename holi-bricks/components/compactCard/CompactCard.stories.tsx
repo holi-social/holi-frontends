@@ -7,17 +7,9 @@ import { CompactCard } from 'holi-bricks/components/compactCard/CompactCard'
 import { View } from 'react-native'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
-const disabledProps = [
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'chips',
-  'imageSrc',
-  'avatar',
-  'children',
-]
+const disabledProps = [...accessibilityAttributes, 'chips', 'imageSrc', 'avatar', 'children']
 
 const buttonIconVariants = ['primary', 'secondary', 'tertiary'] as const
 

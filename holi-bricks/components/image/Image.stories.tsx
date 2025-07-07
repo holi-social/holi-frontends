@@ -1,19 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Image } from './Image'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onError',
-  'onLoadEnd',
-  'fallbackSource',
-]
+const disabledProps = [...accessibilityAttributes, 'onError', 'onLoadEnd', 'fallbackSource']
 
 const meta: Meta<typeof Image> = {
   title: 'Components/Image',

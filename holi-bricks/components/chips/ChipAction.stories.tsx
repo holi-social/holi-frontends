@@ -9,21 +9,11 @@ import { Hearts, Pencil } from '@holi/icons/src/generated'
 import { ChipAction } from './ChipAction'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-  'testID',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID']
 
 const meta: Meta<typeof ChipAction> = {
   title: 'Components/Chips/Chip Action',
