@@ -206,6 +206,18 @@ const config: ExpoConfig = {
         resizeMode: 'contain',
       },
     ],
+    [
+      // Might be removed when upgrading to Expo 53
+      'expo-build-properties',
+      {
+        android: {
+          compileSdkVersion: 35,
+          defaultConfig: {
+            targetSdkVersion: 35,
+          },
+        },
+      },
+    ],
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {
