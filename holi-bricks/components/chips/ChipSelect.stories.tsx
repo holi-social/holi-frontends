@@ -4,11 +4,11 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Colors } from 'holi-bricks/foundations'
 import React from 'react'
 
-import { ChipSelect } from './ChipSelect'
+import { ChipSelect, type ChipSelectColor } from './ChipSelect'
 import { Stack } from 'holi-bricks/components/stack'
 import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
-const availableColors = Object.values(Colors)
+const availableColors = [...Object.values(Colors), 'yellowLight' as ChipSelectColor]
 const availableSizes = ['md', 'lg'] as const
 const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID', 'avatar']
 
@@ -31,10 +31,15 @@ const meta: Meta<typeof ChipSelect> = {
         },
       },
     },
+    counter: {
+      type: 'string',
+      description: 'Optional counter',
+    },
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'Chip',
+    counter: '',
     disabled: false,
     selected: false,
   },
@@ -134,6 +139,28 @@ export const ByAvatar: Story = {
           }}
         />
       </Stack>
+    )
+  },
+}
+
+export const ByCounter: Story = {
+  argTypes: {
+    selectedColor: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+    avatar: { control: false },
+  },
+  args: {
+    selectedColor: 'yellowLight',
+    size: 'md',
+    selected: true,
+  },
+  render: function Render(args) {
+    return (
+      <>
+        <ChipSelect {...args} />
+        <ChipSelect {...args} counter="42" />
+        <ChipSelect {...args} counter="999" selected={false} />
+      </>
     )
   },
 }
