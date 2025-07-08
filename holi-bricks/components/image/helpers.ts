@@ -6,7 +6,7 @@ import coverGreen from '@holi/ui/assets/img/placeholder/placeholder-green.svg'
 import coverYellow from '@holi/ui/assets/img/placeholder/placeholder-yellow.svg'
 import coverPurple from '@holi/ui/assets/img/placeholder/placeholder-purple.svg'
 import coverBlue from '@holi/ui/assets/img/placeholder/placeholder-blue.svg'
-import { config } from 'holi-bricks/styles/init'
+import { config } from 'holi-bricks/config'
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded
 const debugMode = false

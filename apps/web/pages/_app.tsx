@@ -7,7 +7,7 @@ import 'raf/polyfill'
 import React, { type ReactElement, type ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { initializeBricks } from 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/config'
 import { isProduction } from '@holi/core/helpers/environment'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'

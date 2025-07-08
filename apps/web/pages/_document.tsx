@@ -9,7 +9,7 @@ import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
-import { initializeBricks } from 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/config'
 import { isProduction } from '@holi/core/helpers/environment'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { environmentId } from '@holi/web/environment'

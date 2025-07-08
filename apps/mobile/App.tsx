@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
 import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
-import { initializeBricks } from 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/config'
 import { initializeMobileApolloClient } from '@holi/api/graphql/client'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'

@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import { initializeBricks } from 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
