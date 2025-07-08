@@ -29,8 +29,8 @@ const sizeToBorderWidth = (size?: BorderSizeToEdge) => {
   }
 
   return {
-    ...(size.top && { borderStartWidth: BorderWidth[size.top] }),
-    ...(size.bottom && { borderEndWidth: BorderWidth[size.bottom] }),
+    ...(size.top && { borderTopWidth: BorderWidth[size.top] }),
+    ...(size.bottom && { borderBottomWidth: BorderWidth[size.bottom] }),
     ...(size.left && { borderLeftWidth: BorderWidth[size.left] }),
     ...(size.right && { borderRightWidth: BorderWidth[size.right] }),
   }

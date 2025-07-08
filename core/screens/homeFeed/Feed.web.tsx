@@ -7,7 +7,6 @@ import { useInView } from 'react-intersection-observer'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -20,10 +19,8 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import { Text } from 'holi-bricks/components/text'
 import { simpleColumnSortingByIndex } from '@holi/core/screens/homeFeed/helpers'
 import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
@@ -35,7 +32,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
-import { SURVEY_URL } from '@holi/core/constants/urls'
 import { Stack } from 'holi-bricks/components/stack'
 import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
@@ -107,7 +103,6 @@ const HomeFeed = () => {
   const numberOfColumns = useBreakpointMatcher() || 2
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
   const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
@@ -143,24 +138,19 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="3xs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <ChipGoodDeeds counter={20} />}
+            {showGoodDeedChip && <ChipGoodDeeds counter={undefined} />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
       headerRight: () => (
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
-            {displayFeedbackLink && (
-              <HoliLink external href={SURVEY_URL} label={t('homeFeed.feedback')}>
-                <Text size="sm">{t('homeFeed.feedback')}</Text>
-              </HoliLink>
-            )}
             <NotificationAndSearchHeader />
           </View>
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink, showGoodDeedChip])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)

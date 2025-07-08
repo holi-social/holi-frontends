@@ -9,7 +9,6 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
-  View,
   useWindowDimensions,
 } from 'react-native'
 
@@ -17,7 +16,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
-import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Button, type ButtonVariant } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
@@ -42,6 +40,7 @@ export interface HoliConfirmationProps extends ModalProps {
   label: string
   title: string
   description: string
+  secondDescription?: string | React.ReactNode
   primaryButtonVariant?: ButtonVariant
   secondaryButtonVariant?: ButtonVariant
   onPrimary?: () => boolean | void
@@ -99,6 +98,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   label,
   title,
   description,
+  secondDescription,
   primaryButtonVariant = 'primary',
   secondaryButtonVariant = 'secondary',
   onPrimary,
@@ -131,33 +131,46 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
     >
       <Stack justifyContent="center" flex={1}>
         <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
-
-        <View style={styles.modalView(isSmallDevice, screenWidth, smallDeviceWidth)}>
-          <View style={styles.topContent}>
-            <View style={styles.titleContainer}>
-              <Text headingLevel="3" size="lg">
-                {title}
-              </Text>
-              <TouchableOpacity
-                accessibilityLabel={t('confirmation.dismiss')}
-                accessibilityRole="button"
-                testID={`${testID}-confirmation-dismiss`}
-                onPress={() => {
-                  if (onDismiss) onDismiss()
-                }}
-              >
-                <HoliIcon size={24} icon={Close} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.description} testID={`${testID}-confirmation-description`}>
-              <Text size="md" color="support">
-                {description}
-              </Text>
-            </View>
-
-            <View style={styles.buttonContainer}>
+        {/* maxWidth: 460 */}
+        <Stack
+          maxWidth="sm"
+          margin="md"
+          alignSelf="center"
+          backgroundColor="support"
+          borderWidth="sm"
+          borderRadius="xl"
+          borderColor="support"
+          minWidth={isSmallDevice ? screenWidth * 0.9 : smallDeviceWidth}
+        >
+          <Stack padding="md" gap="xs">
+            <Stack gap="3xs">
+              <Stack alignItems="center" direction="row" justifyContent="space-between">
+                <Text headingLevel="3" size="xxl">
+                  {title}
+                </Text>
+                <TouchableOpacity
+                  accessibilityLabel={t('confirmation.dismiss')}
+                  accessibilityRole="button"
+                  testID={`${testID}-confirmation-dismiss`}
+                  onPress={() => {
+                    if (onDismiss) onDismiss()
+                  }}
+                >
+                  <HoliIcon size={24} icon={Close} />
+                </TouchableOpacity>
+              </Stack>
+              <Stack testID={`${testID}-confirmation-description`}>
+                <Text size="md">{description}</Text>
+              </Stack>
+              {!!secondDescription && (
+                <Stack testID={`${testID}-confirmation-description-part-two`}>
+                  <Text size="md">{secondDescription}</Text>
+                </Stack>
+              )}
+            </Stack>
+            <Stack direction="row" wrap="wrap" gap="xxs">
               {(onSecondary || onDismiss) && (
-                <View style={styles.button}>
+                <Stack flex={1}>
                   <Button
                     variant={secondaryButtonVariant}
                     label={secondaryText || t('confirmation.dismiss')}
@@ -170,10 +183,10 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
                     }}
                     testID={`${testID}-confirmation-secondary`}
                   />
-                </View>
+                </Stack>
               )}
               {onPrimary && (
-                <View style={styles.button}>
+                <Stack flex={1}>
                   <Button
                     label={primaryText || t('confirmation.confirm')}
                     onPress={() => {
@@ -182,12 +195,12 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
                     variant={primaryButtonVariant}
                     testID={`${testID}-confirmation-primary`}
                   />
-                </View>
+                </Stack>
               )}
-            </View>
-          </View>
+            </Stack>
+          </Stack>
           {footerComponent}
-        </View>
+        </Stack>
       </Stack>
     </ModalBasic>
   )
@@ -197,45 +210,10 @@ export default HoliConfirmation
 
 const stylesheet = createStyleSheet((theme) => {
   return {
-    topContent: {
-      padding: Spacing.md,
-    },
-    modalContainer: {
-      justifyContent: 'center',
-      flex: 1,
-    },
-    titleContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
     backdrop: {
       opacity: 0.4,
       backgroundColor: theme.colors.bg.selected,
       ...StyleSheet.absoluteFillObject,
-    },
-    modalView: (isSmallDevice: boolean, screenWidth: number, smallDeviceWidth: number) => ({
-      maxWidth: 460,
-      margin: Spacing.md,
-      alignSelf: 'center',
-      backgroundColor: theme.colors.bg.support,
-      borderWidth: 1,
-      borderRadius: Spacing.md,
-      borderColor: theme.colors.border.support,
-      minWidth: isSmallDevice ? screenWidth * 0.9 : smallDeviceWidth,
-    }),
-    description: {
-      marginTop: Spacing['4xs'],
-    },
-    buttonContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      marginTop: Spacing.md,
-      gap: Spacing.xxs,
-    },
-    button: {
-      flexGrow: 1,
     },
   }
 })

@@ -10,60 +10,59 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { Stack } from 'holi-bricks/components/stack'
 import { pill } from 'holi-bricks/components/chips/styles'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 
 type ChipGoodDeedsProps = {
   counter?: number
 }
 
-export const ChipGoodDeeds = ({ counter = 0 }: ChipGoodDeedsProps) => {
+export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
+  const { isLoggedIn } = useLoggedInUser()
+  const { openSignupModal } = useSignupModal()
 
   const modalStateEmpty = useModalState() // modal for logged in users without any good deeds yet
   const modalStateDefault = useModalState() // modal for logged in users with at least one good deed
-  const modalStateGuest = useModalState() // modal for guest users
+
+  const showCorrectModal = () => {
+    if (!isLoggedIn) {
+      safelyOpenSignupModal()
+    } else if (counter && counter > 0) {
+      modalStateDefault.show()
+    } else {
+      modalStateEmpty.show()
+    }
+  }
+
+  const safelyOpenSignupModal = () => {
+    const secondDescription = (
+      <Trans
+        i18nKey="personalGoodDeedCounter.drawer.guest.campaignHint"
+        components={{
+          span: <Text size="md" />,
+          b: <Text size="lg" />,
+        }}
+      />
+    )
+    openSignupModal({
+      title: t('personalGoodDeedCounter.drawer.guest.title'),
+      description: t('personalGoodDeedCounter.drawer.guest.text'),
+      secondDescription: secondDescription,
+      trackTrigger: 'COLLECT_GOOD_DEEDS',
+    })
+  }
 
   return (
     <>
-      {/* todo: differentiate between three states "guest", "empty", "default" */}
-      <Pressable onPress={modalStateDefault.show} style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}>
+      <Pressable onPress={showCorrectModal} style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}>
         <HoliIcon icon={GoodDeeds} size={18} />
         <Text size="sm" selectable={false}>
-          {counter > 0 ? `${counter} ${t('personalGoodDeedCounter.label')}` : t('goodDeeds.name')}
+          {counter && counter > 0 ? `${counter} ${t('personalGoodDeedCounter.label')}` : t('goodDeeds.name')}
         </Text>
         <HoliIcon icon={Information} size={18} />
       </Pressable>
-
-      {/* modal for guests */}
-      <HoliModal
-        label={'Join the community'}
-        onDismiss={modalStateGuest.hide}
-        shown={modalStateGuest.visible}
-        autoHeight
-      >
-        {/* todo: navigate to account creation */}
-        <HoliModalContentWrapper
-          actionButtonText={t('personalGoodDeedCounter.drawer.guest.button')}
-          onActionButtonPress={modalStateGuest.hide}
-        >
-          <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
-            <Stack gap="3xs">
-              <Text size="3xl">{t('personalGoodDeedCounter.drawer.guest.title')}</Text>
-              <Text size="md">{t('personalGoodDeedCounter.drawer.guest.text')}</Text>
-            </Stack>
-
-            <Text size="md">
-              <Trans
-                i18nKey="personalGoodDeedCounter.drawer.guest.campaignHint"
-                components={{
-                  span: <span />,
-                  b: <b />,
-                }}
-              />
-            </Text>
-          </Stack>
-        </HoliModalContentWrapper>
-      </HoliModal>
 
       {/* modal for logged in users without any good deeds yet */}
       <HoliModal
