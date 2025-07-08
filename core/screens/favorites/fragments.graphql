@@ -19,16 +19,6 @@ fragment FavoriteInsight on Insight {
 fragment FavoriteTask on Task {
   __typename
   id
-  name
-  description
-  created
-  thumbnail
-  thumbnailBlurhash
-  isFavorite
-  space {
-    id
-    name
-  }
 }
 
 fragment FavoriteExternalVolunteeringOpportunity on ExternalVolunteeringOpportunity {

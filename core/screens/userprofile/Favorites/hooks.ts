@@ -1,6 +1,5 @@
 import {
   type FavoriteInsightFragment,
-  type FavoriteTaskFragment,
   useFavoritesQuery,
   useTypesense_MultiSearchQuery,
 } from '@holi/api/graphql/graphql-codegen'
@@ -9,55 +8,64 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { useState } from 'react'
 
-export const useFavoritesTypesenseDocuments = (favoriteVolunteeringOpportunityIds: string[]) => {
+const useFavoritesTypesenseDocuments = (typesenseIds: string[]) => {
   const language = useUserLanguage()
+  /**
+   * use state on purpose to avoid showing a blank screen when a user unfavorites an item
+   * and we refetch the typesense documents so, the data from the previous query fetch is not available.
+   * This way we "caching" the data in the state till the new query fetch is completed.
+   */
+  const [documents, setDocuments] = useState<LocalizedTypesenseDocument[]>([])
 
-  const {
-    data: { typesense_multiSearch } = {},
-  } = useTypesense_MultiSearchQuery({
+  const { loading } = useTypesense_MultiSearchQuery({
     variables: {
       input: {
         searches: [
           {
             q: '*',
-            filter_by: `type:=[volunteering] && id:=[${favoriteVolunteeringOpportunityIds.join(', ')}]`,
+            filter_by: `type:=[volunteering, task] && id:=[${typesenseIds.join(', ')}]`,
             limit: 100,
           },
         ],
       },
     },
-    skip: favoriteVolunteeringOpportunityIds.length === 0,
+    onCompleted: (data) => {
+      setDocuments(
+        data.typesense_multiSearch?.results.reduce((acc: LocalizedTypesenseDocument[], result) => {
+          if (result.__typename === 'Typesense_SearchResponseSuccess') {
+            const hits = result.hits ?? []
+            acc.push(...(hits.map(({ document }) => localizeTypesenseDocument(document, language)) ?? []))
+          }
+          return acc
+        }, []) ?? []
+      )
+    },
   })
 
-  return (
-    typesense_multiSearch?.results.reduce((acc: LocalizedTypesenseDocument[], result) => {
-      if (result.__typename === 'Typesense_SearchResponseSuccess') {
-        const hits = result.hits ?? []
-        acc.push(...(hits.map(({ document }) => localizeTypesenseDocument(document, language)) ?? []))
-      }
-      return acc
-    }, []) ?? []
-  )
+  return { documents, loading }
 }
 
-export type FavoriteItem = FavoriteInsightFragment | FavoriteTaskFragment | LocalizedTypesenseDocument
+export type FavoriteItem = FavoriteInsightFragment | (LocalizedTypesenseDocument & { favoriteId: string })
 
-export const toTypesenseId = (id: string) => {
-  return id.startsWith('volunteering_') ? id : 'volunteering_' + id
+export const toTypesenseId = (id: string, type: string) => {
+  return type === 'volunteering' ? 'volunteering_' + id : 'task_' + id
 }
 
 export const fromTypesenseId = (id: string) => {
-  return id.startsWith('volunteering_') ? id.split('_')[1] : id
+  return id.split('_')[1]
 }
 
-export const useFavorites = (): FavoriteItem[] => {
+export const useFavorites = () => {
   const { displayError } = useErrorHandling()
 
   const {
     data: {
       favorites: { data: favorites = [] } = {},
     } = {},
+    loading: favoritesLoading,
+    refetch,
   } = useFavoritesQuery({
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     onError: (error) => {
@@ -70,25 +78,48 @@ export const useFavorites = (): FavoriteItem[] => {
       limit: 100, // limit it 100 for first iteration
     },
   })
-  const favoriteVolunteeringOpportunityIds = favorites.reduce((acc: string[], { favoritable }) => {
+
+  const favoriteTypesenseIds = favorites.reduce((acc: string[], { favoritable }) => {
     if (favoritable.__typename === 'ExternalVolunteeringOpportunity') {
-      acc.push(toTypesenseId(favoritable.externalId))
+      acc.push(toTypesenseId(favoritable.externalId, 'volunteering'))
+    } else if (favoritable.__typename === 'Task') {
+      acc.push(toTypesenseId(favoritable.id, 'task'))
     }
     return acc
   }, [])
 
-  const typesenseDocuments = useFavoritesTypesenseDocuments(favoriteVolunteeringOpportunityIds)
+  const { documents: typesenseDocuments, loading: typesenseDocumentsLoading } =
+    useFavoritesTypesenseDocuments(favoriteTypesenseIds)
 
-  return favorites.reduce((acc: FavoriteItem[], { favoritable }) => {
-    if (favoritable.__typename === 'ExternalVolunteeringOpportunity') {
-      const typesenseDoc = typesenseDocuments.find((document) => document.id === toTypesenseId(favoritable.externalId))
-
-      if (typesenseDoc) {
-        acc.push(typesenseDoc)
+  const favoriteItems = favorites.reduce((acc: FavoriteItem[], { favoritable, id }) => {
+    switch (favoritable.__typename) {
+      case 'Insight':
+        acc.push(favoritable)
+        break
+      case 'ExternalVolunteeringOpportunity': {
+        const typesenseDoc = typesenseDocuments.find(
+          (document) => document.id === toTypesenseId(favoritable.externalId, 'volunteering')
+        )
+        if (typesenseDoc) acc.push({ ...typesenseDoc, favoriteId: id })
+        break
       }
-    } else {
-      acc.push(favoritable)
+      case 'Task': {
+        const typesenseDoc = typesenseDocuments.find(
+          (document) => document.id === toTypesenseId(favoritable.id, 'task')
+        )
+        if (typesenseDoc) acc.push({ ...typesenseDoc, favoriteId: id })
+        break
+      }
+      default:
+        break
     }
+
     return acc
   }, [])
+
+  return {
+    favoriteItems,
+    refetch,
+    loading: favoritesLoading || typesenseDocumentsLoading,
+  }
 }

@@ -1,6 +1,9 @@
 import type React from 'react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useFavoriting } from '@holi/core/components/FavoritingButton/helpers/useFavoriting'
+import {
+  type FavoritingMutationOptions,
+  useFavoriting,
+} from '@holi/core/components/FavoritingButton/helpers/useFavoriting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -9,26 +12,26 @@ import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Pressable } from 'react-native'
 import type { FavoritableType } from '@holi/api/graphql/graphql-codegen'
-import type { ApolloError } from '@apollo/client'
+import { Spacing, type SpacingSize } from 'holi-bricks/foundations'
 
-type FavoritingButtonProps = {
+interface FavoritingButtonProps extends FavoritingMutationOptions {
   favoritableId: string
   favoritableType: FavoritableType
-  typename: string
+  size?: SpacingSize
   tintColor?: string
   isFavorite?: boolean
-  onError?: (error: ApolloError) => void
-  onCompleted?: () => void
 }
 
 export const FavoritingButton = ({
   favoritableId,
   favoritableType,
-  typename,
+  __typename,
+  size = 'md',
   tintColor,
   isFavorite = false,
   onError,
   onCompleted,
+  onUpdate,
 }: FavoritingButtonProps) => {
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -37,9 +40,10 @@ export const FavoritingButton = ({
   const [showSnackbar, setShowSnackbar] = useState(false)
 
   const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
-    __typename: typename,
+    __typename,
     onError,
     onCompleted,
+    onUpdate,
   })
 
   const favoriteHandler = async () => {
@@ -79,11 +83,11 @@ export const FavoritingButton = ({
 
       {isFavorite ? (
         <Pressable onPress={unfavoriteHandler}>
-          <HoliIcon icon={BookmarkFill} colorOverride={tintColor} />
+          <HoliIcon icon={BookmarkFill} colorOverride={tintColor} size={Spacing[size]} />
         </Pressable>
       ) : (
         <Pressable onPress={favoriteHandler}>
-          <HoliIcon icon={BookmarkLine} colorOverride={tintColor} />
+          <HoliIcon icon={BookmarkLine} colorOverride={tintColor} size={Spacing[size]} />
         </Pressable>
       )}
     </>
