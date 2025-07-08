@@ -1,5 +1,5 @@
 import 'holi-bricks/components/text/fonts/style.css'
-import 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/styles/init'
 
 import i18n, { initI18n } from '@holi/core/i18n'
 import '@holi/storybook/storybook.css'
@@ -8,6 +8,7 @@ import '@holi/web/styles/common.css'
 import { withTheme } from './ThemeWrapper'
 
 const awaitI18nInitialization = initI18n()
+initializeBricks()
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
