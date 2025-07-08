@@ -127,7 +127,7 @@ const InsightDetailPage = () => {
                 <FavoritingButton
                   favoritableId={insight.id}
                   favoritableType={FavoritableType.Insight}
-                  typename={insight.__typename}
+                  __typename={insight.__typename}
                   tintColor={tintColor}
                   isFavorite={insight.isFavorite ?? false}
                   onError={(error) =>
