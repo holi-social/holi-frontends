@@ -1,5 +1,5 @@
 import 'holi-bricks/components/text/fonts/style.css'
-import { initializeBricks } from 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/config'
 
 import i18n, { initI18n } from '@holi/core/i18n'
 import '@holi/storybook/storybook.css'
