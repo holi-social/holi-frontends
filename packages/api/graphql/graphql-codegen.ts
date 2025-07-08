@@ -646,8 +646,16 @@ export enum ExternalLinkType {
   Whatsapp = 'WHATSAPP',
 }
 
+/** ExternalVolunteeringOpportunity(external_id) */
+export type ExternalVolunteeringOpportunity = {
+  __typename?: 'ExternalVolunteeringOpportunity'
+  externalId: Scalars['String']['output']
+}
+
 export enum FavoritableType {
+  ExternalVolunteeringOpportunity = 'EXTERNAL_VOLUNTEERING_OPPORTUNITY',
   Insight = 'INSIGHT',
+  Task = 'TASK',
 }
 
 export type FeedItem = {
@@ -908,6 +916,8 @@ export type InsightPreviewPaged = {
   totalResults: Scalars['Int']['output']
 }
 
+export type InsightTaskExternalVolunteeringOpportunity = ExternalVolunteeringOpportunity | Insight | Task
+
 export type InspirationPostCategory = {
   __typename?: 'InspirationPostCategory'
   id: Scalars['UUID']['output']
@@ -1030,7 +1040,9 @@ export type Mutation = {
   deleteSpace: Result
   deleteSpacePost: Space
   deleteTask: Result
+  /** @deprecated use newer api with string favoritable ids to favorite all the things, keep for <=1.57.1 */
   favorite: Result
+  favoriteV2: Result
   generateAppointmentIcsFile: Scalars['String']['output']
   getImagekitAuthParams: ImageKitAuthParams
   inviteToSpaceByEmail: Result
@@ -1040,7 +1052,9 @@ export type Mutation = {
   registerDevice: Result
   removeReactionFromComment: Comment
   reportContent: Result
+  /** @deprecated use newer api with string favoritable ids to favorite all the things, keep for <=1.57.1 */
   unfavorite: Result
+  unfavoriteV2: Result
   unsubscribeFromNewsletter: Result
   updateAppointment: Appointment
   /** @deprecated Deprecated in favor of 'updateAuthenticatedUserV2'. */
@@ -1167,6 +1181,11 @@ export type MutationFavoriteArgs = {
   favoritableType: FavoritableType
 }
 
+export type MutationFavoriteV2Args = {
+  favoritableId: Scalars['String']['input']
+  favoritableType: FavoritableType
+}
+
 export type MutationGenerateAppointmentIcsFileArgs = {
   appointmentId: Scalars['UUID']['input']
 }
@@ -1204,6 +1223,11 @@ export type MutationReportContentArgs = {
 
 export type MutationUnfavoriteArgs = {
   favoritableId: Scalars['UUID']['input']
+  favoritableType: FavoritableType
+}
+
+export type MutationUnfavoriteV2Args = {
+  favoritableId: Scalars['String']['input']
   favoritableType: FavoritableType
 }
 
@@ -1593,9 +1617,9 @@ export type Query = {
   discoverSpaces: Array<Maybe<DiscoverSpaces>>
   discoverSpacesDefaultTopicsV2: Array<Scalars['String']['output']>
   discussionById: Discussion
-  /** @deprecated This query is deprecated. Please switch to using the 'favorites' query instead. */
-  favoriteInsights: InsightPaged
+  favorite: UserFavorite
   favorites: UserFavoritePaged
+  favoritesByType: UserFavoritePaged
   feed: FeedItemPaged
   feedInsights: InsightPreviewPaged
   feedPostCategories: FeedPostCategoryPaged
@@ -1618,6 +1642,8 @@ export type Query = {
   post: FeedPost
   postById?: Maybe<Post>
   postsByUserId: FeedPostPaged
+  recommendedSpaces: SpacePaged
+  recommendedTasks: TaskPaged
   /** @deprecated Deprecated since 1.53. */
   sdgs: SdgPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
@@ -1651,6 +1677,7 @@ export type Query = {
   userById?: Maybe<User>
   userByName: UserPaged
   userHasVotedByPollId: Scalars['Boolean']['output']
+  userSuggestions: UserPaged
   usersByChatIdentities: UserPaged
 }
 
@@ -1788,12 +1815,17 @@ export type QueryDiscussionByIdArgs = {
   id: Scalars['UUID']['input']
 }
 
-export type QueryFavoriteInsightsArgs = {
+export type QueryFavoriteArgs = {
+  favoritableId: Scalars['String']['input']
+}
+
+export type QueryFavoritesArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-export type QueryFavoritesArgs = {
+export type QueryFavoritesByTypeArgs = {
+  favoritableType: FavoritableType
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -1886,6 +1918,16 @@ export type QueryPostsByUserIdArgs = {
   userId: Scalars['UUID']['input']
 }
 
+export type QueryRecommendedSpacesArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QueryRecommendedTasksArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
 export type QuerySdgsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -1960,6 +2002,11 @@ export type QueryUserByNameArgs = {
 
 export type QueryUserHasVotedByPollIdArgs = {
   id: Scalars['UUID']['input']
+}
+
+export type QueryUserSuggestionsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 export type QueryUsersByChatIdentitiesArgs = {
@@ -2250,6 +2297,7 @@ export type Task = {
   impact?: Maybe<Scalars['String']['output']>
   interactionSignupLink?: Maybe<Scalars['String']['output']>
   interactionType?: Maybe<InteractionType>
+  isFavorite: Scalars['Boolean']['output']
   location?: Maybe<Scalars['String']['output']>
   locationType: LocationType
   name: Scalars['String']['output']
@@ -2850,8 +2898,8 @@ export enum UserConnectionStatus {
 /** UserFavorite(id, user, favoritable_id, favoritable_type, created_at) */
 export type UserFavorite = {
   __typename?: 'UserFavorite'
-  favoritable: Insight
-  favoritableId: Scalars['UUID']['output']
+  favoritable: InsightTaskExternalVolunteeringOpportunity
+  favoritableId: Scalars['String']['output']
   favoritableType: Scalars['String']['output']
   id: Scalars['UUID']['output']
 }
@@ -3066,17 +3114,20 @@ export type FavoritesQuery = {
       id: string
       favoritableId: string
       favoritableType: string
-      favoritable: {
-        __typename: 'Insight'
-        id: string
-        title: string
-        description: string
-        datePublished: any
-        headerImage?: string
-        headerImageBlurhash?: string
-        initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-        creator?: { __typename?: 'User'; fullName: string; avatar?: string }
-      }
+      favoritable:
+        | { __typename?: 'ExternalVolunteeringOpportunity' }
+        | {
+            __typename: 'Insight'
+            id: string
+            title: string
+            description: string
+            datePublished: any
+            headerImage?: string
+            headerImageBlurhash?: string
+            initiatives: Array<{ __typename?: 'Initiative'; link: string }>
+            creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+          }
+        | { __typename?: 'Task' }
     }>
   }
 }

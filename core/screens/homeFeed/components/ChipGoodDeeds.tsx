@@ -39,7 +39,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
   const safelyOpenSignupModal = () => {
     const secondDescription = (
       <Trans
-        i18nKey="personalGoodDeedCounter.drawer.guest.campaignHint"
+        i18nKey="personalGoodDeedCounter.drawer.campaignHint"
         components={{
           span: <Text size="md" />,
           b: <Text size="lg" />,
@@ -96,7 +96,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
 
             <Text size="md">
               <Trans
-                i18nKey="personalGoodDeedCounter.drawer.guest.campaignHint"
+                i18nKey="personalGoodDeedCounter.drawer.campaignHint"
                 components={{
                   span: <span />,
                   b: <b />,

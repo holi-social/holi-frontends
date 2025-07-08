@@ -106,6 +106,8 @@ const HomeFeed = () => {
   const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
+  // const { loading, error, data } = useQuery(useGetRewardsCounterQuery) // todo: generate and import from codegen
+  const counter = 20 // todo: data.counter
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
   const { track } = useTracking()
 
@@ -138,7 +140,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="3xs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <ChipGoodDeeds counter={undefined} />}
+            {showGoodDeedChip && <ChipGoodDeeds counter={counter} />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
