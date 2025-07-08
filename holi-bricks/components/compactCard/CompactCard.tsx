@@ -148,7 +148,7 @@ CompactCard.FooterProgressBar = FooterProgressBar
 const stylesheet = createStyleSheet(() => ({
   cardContainer: (maxWidth?: DimensionValue, width?: DimensionValue, fullHeight?: boolean) => ({
     maxWidth: maxWidth ?? '100%',
-    width: width ?? undefined,
+    width: width ?? '100%',
     height: fullHeight ? '100%' : undefined,
   }),
 }))
