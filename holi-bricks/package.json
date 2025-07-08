@@ -1,22 +1,22 @@
 {
   "name": "holi-bricks",
   "version": "0.0.1",
-  "main": "index.ts",
+  "main": "storybook/mobile/index.ts",
   "license": "MIT",
   "scripts": {
     "eas-build-pre-install": "corepack enable",
-    "web": "storybook dev -p 6006 -c storybook",
-    "build": "storybook build -c storybook",
-    "storybook-generate": "sb-rn-get-stories --config-path ondevice",
-    "storybook": "cross-env STORYBOOK_ENABLED='true' expo start",
+    "web": "storybook dev -p 6006 -c storybook/web",
+    "build": "storybook build -c storybook/web",
+    "storybook-generate": "sb-rn-get-stories --config-path storybook/mobile",
+    "storybook": "expo start",
     "build_ios": "npx eas-cli build --profile development-simulator --platform ios",
     "build_android": "npx eas-cli build --profile development-simulator --platform android",
-    "ios": "cross-env STORYBOOK_ENABLED='true' expo start --ios",
-    "android": "cross-env STORYBOOK_ENABLED='true' expo start --android",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
     "clean": "npx rimraf storybook-static",
     "clean:all": "yarn clean && npx rimraf node_modules",
     "lint": "TIMING=1 eslint .",
-    "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook --project-token $CHROMATIC_BRICKS_PROJECT_TOKEN --exit-zero-on-changes"
+    "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook/web --project-token $CHROMATIC_BRICKS_PROJECT_TOKEN --exit-zero-on-changes"
   },
   "peerDependencies": {
     "@react-native-community/datetimepicker": "8.2.0",
@@ -61,7 +61,6 @@
     "babel-plugin-react-docgen-typescript": "^1.5.1",
     "babel-plugin-react-native-web": "^0.19.12",
     "chromatic": "^11.16.1",
-    "cross-env": "^7.0.3",
     "eslint": "^8.33.0",
     "storybook": "^8.5.8",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
