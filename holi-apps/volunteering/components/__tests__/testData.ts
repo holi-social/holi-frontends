@@ -9,13 +9,13 @@ export const emptyFilters: VolunteeringFilters = {
   commitmentDurations: undefined,
 }
 
-const location: GeolocationSuggestion = {
+export const testLocation: GeolocationSuggestion = {
   id: '42',
   label: 'Hamburg, Germany',
 }
 
 export const fullFilters: VolunteeringFilters = {
-  location,
+  location: testLocation,
   topics: ['migration-refugees', 'mobility-transport'],
   skills: ['food-service', 'finances-taxes', 'fundraising'],
   commitmentDurations: ['DAYS_1'],

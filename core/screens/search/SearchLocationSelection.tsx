@@ -65,7 +65,11 @@ export const SearchLocationSelection = ({
                 level={GeolocationLevel.CITY}
                 selected={selectedLocation}
                 onChange={setSelectedLocation}
-                inputProps={{ autoFocus: true }}
+                inputProps={{
+                  autoFocus: true,
+                  inputMode: 'search',
+                  returnKeyType: 'search',
+                }}
                 allowClearingInput
               />
               <View style={styles.buttonContainer}>

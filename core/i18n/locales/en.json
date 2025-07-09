@@ -1873,7 +1873,7 @@
   "volunteering.filter.commitmentLabelsModal.title": "Commitment",
   "volunteering.filter.heading": "Filter opportunities",
   "volunteering.filter.location.label": "Location",
-  "volunteering.filter.location.placeholder": "Address, district, city or country…",
+  "volunteering.filter.location.placeholder": "City, district or ZIP code…",
   "volunteering.filter.locationModal.saveButton": "Save location",
   "volunteering.filter.locationModal.title": "Location",
   "volunteering.filter.notFound.description": "We couldn't find any opportunity to match your filters.",

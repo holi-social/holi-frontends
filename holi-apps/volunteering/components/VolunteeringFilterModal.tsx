@@ -11,6 +11,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
 
 export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
   filterKey: T
@@ -21,7 +22,6 @@ export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
 
 type ArrayFilter = string[] | undefined
 type LocationFilter = GeolocationSuggestion | undefined
-type FilterValue = ArrayFilter | LocationFilter
 
 export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
   filterKey,
@@ -30,8 +30,8 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
   closeModal,
 }: VolunteeringFilterModalProps<T>) => {
   const { t } = useTranslation()
-  const [selection, setSelection] = useState<FilterValue>(filters[filterKey])
-  const searchableOptions = ['topics', 'skills'].includes(filterKey)
+  const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(filters[filterKey])
+  const searchableOptions = ['topics', 'skills', 'location'].includes(filterKey)
 
   const submitSelection = useCallback(() => {
     onSubmit({
@@ -55,6 +55,8 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
         onActionButtonPress={submitSelection}
         scrollable={true}
         buttonStyle={{ paddingTop: Spacing.xs }}
+        style={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
       >
         <Stack padding={{ left: 'xs', right: 'xs' }} gap="xxs">
           <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -67,15 +69,16 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
             </Pressable>
           </Stack>
 
-          {/* TODO(SF) location */}
-          {filterKey !== 'location' ? (
+          {filterKey === 'location' ? (
+            <VolunteeringLocationFilterSelection selected={selection as LocationFilter} onSelect={setSelection} />
+          ) : (
             <VolunteeringArrayFilterSelection
               filterKey={filterKey}
               selected={selection as ArrayFilter}
               onSelect={setSelection}
               searchable={searchableOptions}
             />
-          ) : null}
+          )}
         </Stack>
       </HoliModalContentWrapper>
     </HoliModal>
