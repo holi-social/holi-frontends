@@ -92,6 +92,7 @@ export const Snackbar = ({
   }, [show, startTimer])
 
   if (!visible) return null
+
   return (
     <Pressable
       style={[styles.snackbar(position), layoutStyle(rest)]}
@@ -110,10 +111,13 @@ export const Snackbar = ({
       >
         <Stack direction="row" gap="3xs" flexShrink={1} alignItems="center">
           {icon && <HoliIcon icon={icon} color={iconColor} colorOverride={iconColorOverride} />}
-          <Text size="sm" color="selected">
-            {label}
-          </Text>
+          <Stack flexShrink={1}>
+            <Text size="sm" color="selected">
+              {label}
+            </Text>
+          </Stack>
         </Stack>
+
         <Stack direction="row" gap="3xs" alignItems="center">
           {actionLabel && (
             <View style={{ maxWidth: Spacing['4xl'] }}>
@@ -122,6 +126,7 @@ export const Snackbar = ({
               </TextLink>
             </View>
           )}
+          
           {showDismiss && (
             <ButtonIcon
               icon={Close}
