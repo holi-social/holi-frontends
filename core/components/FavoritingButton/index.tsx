@@ -13,6 +13,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Pressable } from 'react-native'
 import type { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import { Spacing, type SpacingSize } from 'holi-bricks/foundations'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 
 interface FavoritingButtonProps extends FavoritingMutationOptions {
   favoritableId: string
@@ -37,7 +38,7 @@ export const FavoritingButton = ({
   const { openSignupModal } = useSignupModal()
   const { t } = useTranslation()
 
-  const [showSnackbar, setShowSnackbar] = useState(false)
+  const [snackbarVisible, setSnackbarVisibility] = useState(false)
 
   const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
     __typename,
@@ -47,21 +48,22 @@ export const FavoritingButton = ({
   })
 
   const favoriteHandler = async () => {
-    if (isLoggedIn) {
-      const success = await favorite()
-      setShowSnackbar(success)
-    } else {
+    if (!isLoggedIn) {
       openSignupModal({
         title: t('loginRedirect.title'),
         description: t('insights.insight.login.prompt.message'),
         trackTrigger: 'FAVORITE_ON_INSIGHT',
       })
+      return
     }
+
+    const success = await favorite()
+    setSnackbarVisibility(success)
   }
 
   const unfavoriteHandler = async () => {
     const success = await unfavorite()
-    setShowSnackbar(success)
+    setSnackbarVisibility(success)
   }
 
   return (
@@ -69,7 +71,15 @@ export const FavoritingButton = ({
       <Snackbar
         label={
           isFavorite ? (
-            <Trans t={t} i18nKey="insights.insight.favorite.add.success" components={{ underline: <u /> }} />
+            <Trans
+              t={t}
+              i18nKey="insights.insight.favorite.add.success"
+              components={{
+                underline: (
+                  <HoliTextLink href="/profile/settings/favorites" label="Go to favorites" size="sm" color="selected" />
+                ),
+              }}
+            />
           ) : (
             t('insights.insight.favorite.remove.success')
           )
@@ -77,8 +87,8 @@ export const FavoritingButton = ({
         persistent
         icon={isFavorite ? BookmarkFill : BookmarkLine}
         showDismiss
-        onDismiss={() => setShowSnackbar(false)}
-        show={showSnackbar}
+        onDismiss={() => setSnackbarVisibility(false)}
+        show={snackbarVisible}
       />
 
       {isFavorite ? (
