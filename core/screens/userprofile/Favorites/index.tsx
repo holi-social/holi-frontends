@@ -4,19 +4,50 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { Screen } from '@holi/core/components/Screen'
-import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType, useUnfavoriteV2Mutation } from '@holi/api/graphql/graphql-codegen'
 import { CompactCard } from 'holi-bricks/components/compactCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { Text } from 'holi-bricks/components/text'
-import { SectionList, View } from 'react-native'
+import { Platform, Pressable, SectionList, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { Stack } from 'holi-bricks/components/stack'
 import { type FavoriteItem, fromTypesenseId, useFavorites } from './hooks'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
-import { FavoritingButton } from '@holi/core/components/FavoritingButton'
 import { FavoritesListEmpyState } from '@holi/core/screens/favorites/components/FavoritesListEmpyState'
 import { Spacing } from 'holi-bricks/foundations'
+import { useFocusEffect } from '@holi/core/helpers/useFocusEffect/index'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { BookmarkFill } from '@holi/icons/src/generated'
+
+const isWeb = Platform.OS === 'web'
+
+const UnfavoriteButton = ({
+  favoritableId,
+  favoritableType,
+  onCompleted,
+}: {
+  favoritableId: string
+  favoritableType: FavoritableType
+  onCompleted: () => void
+}) => {
+  const [unfavoriteMutation] = useUnfavoriteV2Mutation({ onCompleted })
+
+  return (
+    <Pressable
+      onPress={() =>
+        unfavoriteMutation({
+          variables: {
+            favoritableId,
+            favoritableType,
+          },
+        })
+      }
+    >
+      <HoliIcon icon={BookmarkFill} size={Spacing['xs']} />
+    </Pressable>
+  )
+}
 
 const Favorites = () => {
   const { t, i18n } = useTranslation()
@@ -39,19 +70,23 @@ const Favorites = () => {
     )
     .filter((section) => section.data.length > 0)
 
+  useFocusEffect(() => {
+    refetchFavorites()
+  })
+
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
       <LoginProtection>
         <Screen
-          preset="auto"
+          preset="fixed"
           headerOptions={{
             title: t('profile.settings.favorites.title'),
             headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
           }}
-          padding={{ bottom: 'sm' }}
         >
           <SectionList
             sections={sectionListData}
+            keyExtractor={(item) => item.id}
             renderItem={({ item: favorite }) => {
               switch (favorite.__typename) {
                 case 'Insight':
@@ -82,12 +117,9 @@ const Favorites = () => {
                       </HoliLinkTracked>
 
                       <View style={{ position: 'absolute', top: Spacing['3xs'], right: Spacing['xxs'], zIndex: 1000 }}>
-                        <FavoritingButton
+                        <UnfavoriteButton
                           favoritableId={favorite.id}
                           favoritableType={FavoritableType.Insight}
-                          size="xs"
-                          isFavorite={true}
-                          __typename={'Insight'}
                           onCompleted={() => refetchFavorites()}
                         />
                       </View>
@@ -97,18 +129,23 @@ const Favorites = () => {
                 case 'Typesense_Document':
                   return (
                     <Stack margin={{ top: 'xxs' }}>
-                      <VolunteeringRecoCard engagement={favorite} index={0} />
-                      <View style={{ position: 'absolute', top: Spacing['3xs'], right: Spacing['xxs'], zIndex: 1000 }}>
-                        <FavoritingButton
+                      <VolunteeringRecoCard
+                        engagement={favorite}
+                        index={0}
+                        trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
+                          type: FavoritableType.Insight,
+                          id: favorite.id,
+                        })}
+                      />
+
+                      <View style={{ position: 'absolute', top: Spacing['3xs'], right: Spacing['xxs'], zIndex: 10 }}>
+                        <UnfavoriteButton
                           favoritableId={fromTypesenseId(favorite.id)}
                           favoritableType={
                             favorite.type === 'volunteering'
                               ? FavoritableType.ExternalVolunteeringOpportunity
                               : FavoritableType.Task
                           }
-                          size="xs"
-                          isFavorite={true}
-                          __typename={favorite.type === 'volunteering' ? 'ExternalVolunteeringOpportunity' : 'Task'}
                           onCompleted={() => refetchFavorites()}
                         />
                       </View>
@@ -129,6 +166,9 @@ const Favorites = () => {
                 <FavoritesListEmpyState />
               </Stack>
             }
+            stickySectionHeadersEnabled={false}
+            style={{ height: '100%' }}
+            contentContainerStyle={{ paddingBottom: Spacing.md, paddingHorizontal: isWeb ? 0 : Spacing.xs }}
           />
         </Screen>
       </LoginProtection>
