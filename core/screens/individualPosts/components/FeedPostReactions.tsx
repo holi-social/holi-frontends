@@ -20,8 +20,8 @@ import {
 } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import PostReactionCount from '@holi/core/screens/individualPosts/components/PostResponseBar/PostReactionCount'
 import ReactButton from '@holi/core/components/reactions/ReactButton'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
 export interface FeedPostReactionsProps {
   post: FeedPost | Post
@@ -30,7 +30,7 @@ export interface FeedPostReactionsProps {
   showCount?: boolean
 }
 
-const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, style, showCount = true }) => {
+const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, showCount = true }) => {
   const { t } = useTranslation()
   const { isLoggedIn, user } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -139,18 +139,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   }
 
   if (showCount) {
-    return (
-      <PostReactionCount
-        onPress={reactOnPost}
-        type="post"
-        count={heartReactions}
-        active={currentUserHasReacted}
-        fullName={authorName}
-        style={style}
-        showCount={showCount}
-        testID={`btn-react-to-${isFeedPost ? 'feed-' : ''}post-HEART`}
-      />
-    )
+    return <ReactionCount count={heartReactions} />
   } else {
     return <ReactButton onPress={reactOnPost} active={currentUserHasReacted} label={label} />
   }

@@ -1,20 +1,18 @@
-import type React from 'react'
-import { type SyntheticEvent, useState } from 'react'
-import { type GestureResponderEvent, type NativeMouseEvent, type NativeSyntheticEvent, Pressable } from 'react-native'
+import React from 'react'
+import { useState } from 'react'
+import { Pressable } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ReactionSupportColored, ReactionSupport, ReactionSupportOutline } from '@holi/icons/src/generated'
 
-export type MouseEnterOutEvent = NativeSyntheticEvent<NativeMouseEvent>
-
-export interface PostReactionCountProps {
+export interface ReactButtonProps {
   active?: boolean
-  onPress: (event: SyntheticEvent | GestureResponderEvent) => void
+  onPress: () => void
   label: string
 }
 
-const PostReactionCount: React.FC<PostReactionCountProps> = ({ active = false, onPress, label }) => {
+const ReactButton = ({ active = false, onPress, label }: ReactButtonProps) => {
   const [hovered, setHovered] = useState(false)
 
   const icon = active
@@ -33,11 +31,11 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({ active = false, o
     }
   }, [scale])
 
-  const handlePress = (event: SyntheticEvent | GestureResponderEvent) => {
+  const handlePress = () => {
     scale.value = withSpring(1.5, {}, () => {
       scale.value = withSpring(1)
     })
-    onPress(event)
+    onPress()
   }
 
   return (
@@ -54,4 +52,4 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({ active = false, o
   )
 }
 
-export default PostReactionCount
+export default ReactButton
