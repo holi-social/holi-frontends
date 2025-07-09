@@ -14,8 +14,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
-  HandHeartThinFilledDarker,
-  HandHeartThinFilledRaised,
+  ReactionSupportColored,
   ReactionSupport,
   ReactionSupportOutline,
   SupportReaction,
@@ -32,8 +31,6 @@ export interface PostReactionCountProps {
   count?: number
   active?: boolean
   onPress?: (event: SyntheticEvent | GestureResponderEvent) => void
-  onMouseEnter?: (event: MouseEnterOutEvent) => void
-  onMouseOut?: (event: MouseEnterOutEvent) => void
   style?: ViewStyle
   testID?: string
   showCount?: boolean
@@ -45,8 +42,6 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({
   count = 0,
   active = false,
   onPress = () => null,
-  onMouseEnter = () => null,
-  onMouseOut = () => null,
   showCount = true,
   style,
   testID,
@@ -61,28 +56,12 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({
   const activeText = t(`insights.reactions.${type}.unlike`)
   const labelText = active ? activeText : notActiveText
 
-  const onNativeMouseEnter = useCallback(
-    (event: NativeSyntheticEvent<NativeMouseEvent> | MouseEnterOutEvent) => {
-      setHovered(true)
-      onMouseEnter?.(event as MouseEnterOutEvent)
-    },
-    [onMouseEnter, setHovered]
-  )
-
-  const onNativeMouseOut = useCallback(
-    (event: NativeSyntheticEvent<NativeMouseEvent> | MouseEnterOutEvent) => {
-      setHovered(false)
-      onMouseOut?.(event as MouseEnterOutEvent)
-    },
-    [onMouseOut, setHovered]
-  )
-
   const icon = active
     ? hovered
-      ? HandHeartThinFilledRaised // active and hovered
+      ? ReactionSupportColored // active and hovered
       : ReactionSupport // active and !hovered
     : hovered
-      ? HandHeartThinFilledDarker // !active and hovered
+      ? ReactionSupportColored // !active and hovered
       : ReactionSupportOutline // !active and !hovered
 
   const scale = useSharedValue(1)
@@ -111,8 +90,8 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({
     <HoliButton
       label={labelText}
       onPress={handlePress}
-      onMouseEnter={onNativeMouseEnter}
-      onMouseOut={onNativeMouseOut}
+      onMouseEnter={() => setHovered(true)}
+      onMouseOut={() => setHovered(false)}
       disabled={showCount === true} // TODO: remove this once we have implement the reactors list
       transparent
       style={[styles.outer, style]}
