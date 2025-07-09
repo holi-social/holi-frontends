@@ -30,6 +30,8 @@ export const SearchLocationSelection = ({
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { styles } = useStyles(stylesheet)
 
+  const buttonLabel = selectedLocation ? t('search.location.save') : t('search.location.save.germanyWide')
+
   const onSave = () => {
     onLocationChange(selectedLocation)
     setLocationModalVisible(false)
@@ -75,7 +77,7 @@ export const SearchLocationSelection = ({
                   icon={ArrowLeft}
                 />
                 <View style={styles.saveButton}>
-                  <Button label={t('search.location.save')} onPress={onSave} />
+                  <Button label={buttonLabel} onPress={onSave} />
                 </View>
               </View>
             </View>

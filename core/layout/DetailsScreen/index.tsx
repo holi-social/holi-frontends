@@ -20,6 +20,7 @@ import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/ima
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 import { Spacing } from 'holi-bricks/foundations'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -27,6 +28,7 @@ export type DetailsScreenInfoList = {
   subtitle?: string
   onPress?(): void
   showExternalIcon?: boolean
+  subtitleColor?: FillColors
 }
 
 export type DetailsScreenChips = {
@@ -84,7 +86,7 @@ const BodyContentRenderer = ({ content }: { content?: string }) => {
     return isHtml(content) ? (
       <HtmlRenderer content={content} />
     ) : (
-      <HoliRichTextOutput text={content as string} color="main" />
+      <HoliRichTextOutput text={content as string} color="main" allowAllLinks />
     )
   }
 
@@ -206,7 +208,7 @@ export const DetailsScreen = ({
                     <Stack flex={1}>
                       <TextComp size="md">{detail?.title}</TextComp>
                       {detail?.subtitle && (
-                        <Text color="support" size="sm">
+                        <Text color={detail?.subtitleColor ?? 'support'} size="sm">
                           {detail?.subtitle}
                         </Text>
                       )}

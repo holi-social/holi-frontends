@@ -4,9 +4,10 @@ import React from 'react'
 
 import { CompactCard } from 'holi-bricks/components/compactCard/CompactCard'
 import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
+import { Stack } from 'holi-bricks/components/stack'
 
 const meta: Meta<typeof FooterProgressBar> = {
-  title: 'Components/CompactCard/Footer/FooterProgressBar',
+  title: 'Components/Card/CompactCard/Footer/FooterProgressBar',
   component: FooterProgressBar,
   args: {
     progressBarLeft: '23% funded',
@@ -19,7 +20,11 @@ type Story = StoryObj<typeof FooterProgressBar>
 
 export const Default: Story = {
   render: function Render(args) {
-    return <CompactCard.FooterProgressBar {...args} />
+    return (
+      <Stack width={200}>
+        <CompactCard.FooterProgressBar {...args} />
+      </Stack>
+    )
   },
 }
 

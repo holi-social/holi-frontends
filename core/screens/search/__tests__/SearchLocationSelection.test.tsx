@@ -178,7 +178,7 @@ describe('SearchLocationSelection', () => {
     const clearButton = screen.getByLabelText('location.placesAutocomplete.clear')
     await user.press(clearButton)
 
-    await user.press(screen.getByText('search.location.save'))
+    await user.press(screen.getByText('search.location.save.germanyWide'))
 
     expect(onLocationChange).toHaveBeenCalledWith(undefined)
   })

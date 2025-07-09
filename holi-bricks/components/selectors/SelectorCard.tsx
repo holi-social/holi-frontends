@@ -1,6 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { BorderRadius, Spacing } from 'holi-bricks/foundations'
+import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { type FlexStyle, type GestureResponderEvent, Pressable, View } from 'react-native'
 
@@ -13,6 +13,7 @@ import { SelectorCardContent, type SelectorCardContentProps } from './SelectorCa
 export type SelectorCardInputType = 'radio' | 'checkbox' | 'switch' | 'none'
 
 export type SelectorCardProps = AccessibilityProps &
+  LayoutProps &
   SelectorCardContentProps & {
     onPress?: (event: GestureResponderEvent) => void | Promise<void>
     disabled?: boolean
@@ -59,6 +60,7 @@ export const SelectorCard = ({
           outlined,
           alignItems
         ),
+        layoutStyle(rest),
       ]}
       testID={testID}
     >

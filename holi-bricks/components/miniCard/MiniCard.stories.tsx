@@ -6,11 +6,13 @@ import { Chat3 } from '@holi/icons/src/generated'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
+import { View } from 'react-native'
 
-const disabledProps = ['aria-hidden', 'aria-label', 'aria-labelledby', 'aria-disabled', 'fallbackImageHashKey']
+const disabledProps = [...accessibilityAttributes, 'fallbackImageHashKey']
 
 const meta: Meta<typeof MiniCard> = {
-  title: 'Patterns/MiniCard',
+  title: 'Components/Card/MiniCard',
   component: MiniCard,
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
@@ -35,7 +37,11 @@ type Story = StoryObj<typeof MiniCard>
 
 export const Default: Story = {
   render: function Render(args) {
-    return <MiniCard {...args} />
+    return (
+      <View>
+        <MiniCard {...args} />
+      </View>
+    )
   },
 }
 

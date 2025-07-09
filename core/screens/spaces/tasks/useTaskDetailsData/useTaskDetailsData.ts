@@ -65,7 +65,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   })
   const refetchData = useRateLimit(() => refetch({ id: taskId }))
   const isAdmin = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
-  const isOwner = loginState.isLoggedIn && isAdmin
+  const isOwner = loginState.isLoggedIn && (isAdmin || loginState.user.id === data?.taskById?.creator.id)
 
   const skills =
     data?.taskById?.skillsV2?.map<DetailsScreenChips>((skill) => {
@@ -165,7 +165,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       isFavorite: data?.taskById?.isFavorite,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
-        title: data?.taskById?.space?.name || data?.taskById?.name || '??',
+        title: data?.taskById?.space?.title || data?.taskById?.name || '??',
         subtitle: data?.taskById?.creator?.fullName,
         onPress: () => navigate('/spaces/' + data?.taskById?.space?.id),
         mainAvatar: {

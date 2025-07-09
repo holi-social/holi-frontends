@@ -1,0 +1,14 @@
+import { Meta, IconGallery, IconItem } from "@storybook/addon-docs/blocks";
+import * as Icons from "@holi/icons/src/generated";
+
+<Meta title="Foundations/Icons" />
+
+# Iconography
+
+<IconGallery>
+  {Object.entries(Icons).map(([name, IconComponent]) => (
+    <IconItem key={name} name={name}>
+      <IconComponent />
+    </IconItem>
+  ))}
+</IconGallery>
