@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -21,16 +20,13 @@ import {
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import ReactButton from '@holi/core/components/reactions/ReactButton'
-import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
-export interface FeedPostReactionsProps {
+export interface PostReactButtonProps {
   post: FeedPost | Post
   onChange?: () => void
-  style?: ViewStyle
-  showCount?: boolean
 }
 
-const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, showCount = true }) => {
+const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => {
   const { t } = useTranslation()
   const { isLoggedIn, user } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -38,7 +34,6 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   const { track } = useTracking()
 
   const isFeedPost = post.__typename === 'FeedPost'
-  const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
   const authorName = isFeedPost ? (post as FeedPost).author.fullName : (post as Post).creator.fullName
 
@@ -138,11 +133,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
     }
   }
 
-  if (showCount) {
-    return <ReactionCount count={heartReactions} />
-  } else {
-    return <ReactButton onPress={reactOnPost} active={currentUserHasReacted} label={label} />
-  }
+  return <ReactButton onPress={reactOnPost} active={currentUserHasReacted} label={label} />
 }
 
-export default FeedPostReactions
+export default PostReactButton

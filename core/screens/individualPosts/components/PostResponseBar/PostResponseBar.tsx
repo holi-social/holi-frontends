@@ -14,9 +14,10 @@ import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Text } from 'holi-bricks/components/text'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
-import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
+import PostReactButton from '@holi/core/screens/individualPosts/components/PostReactButton'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { Stack } from 'holi-bricks/components/stack'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
 interface PostResponseBarProps {
   post: FeedPost | Post
@@ -66,7 +67,7 @@ const PostResponseBar = ({ post, onCommentPress, style }: PostResponseBarProps) 
             </View>
           )}
         </Pressable>
-        <FeedPostReactions post={post} />
+        <ReactionCount count={post.reactions.HEART} />
       </Stack>
       <HoliDivider />
       <Stack margin={{ top: '4xs' }} direction="row" justifyContent="space-between">
@@ -81,7 +82,7 @@ const PostResponseBar = ({ post, onCommentPress, style }: PostResponseBarProps) 
           />
           <ButtonIcon onPress={onShare} icon={Share} size="lg" color="default" transparent label={t('global.share')} />
         </Stack>
-        <FeedPostReactions post={post} showCount={false} />
+        <PostReactButton post={post} />
       </Stack>
     </View>
   )
