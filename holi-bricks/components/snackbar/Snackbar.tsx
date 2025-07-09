@@ -88,6 +88,7 @@ export const Snackbar = ({
   }, [show, startTimer])
 
   if (!visible) return null
+
   return (
     <Modal transparent visible={visible} animationType="fade" onRequestClose={onDismiss}>
       <Stack flex={1} justifyContent="flex-end" alignItems="center" padding={{ bottom: 'xl' }}>
@@ -106,9 +107,11 @@ export const Snackbar = ({
           >
             <Stack direction="row" gap="3xs" flexShrink={1} alignItems="center">
               {icon && <HoliIcon icon={icon} color={iconColor} colorOverride={iconColorOverride} />}
-              <Text size="sm" color="selected">
-                {label}
-              </Text>
+              <Stack flexShrink={1}>
+                <Text size="sm" color="selected">
+                  {label}
+                </Text>
+              </Stack>
             </Stack>
             <Stack direction="row" gap="3xs" alignItems="center">
               {actionLabel && (
