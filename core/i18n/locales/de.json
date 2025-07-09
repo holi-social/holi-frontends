@@ -342,6 +342,12 @@
   "favorites.noResults.title": "Noch keine Favoriten gespeichert",
   "favorites.remove.favorite.button": "Aus Favoriten entfernen",
   "favorites.seeAll.button": "Alle Favoriten einsehen",
+  "favoritesOverview": {
+    "sectionTitle": {
+      "insights": "Insights",
+      "volunteering": "Ehrenamt"
+    }
+  },
   "filePicker.error.maxFileSize": "Die hochgeladene Datei ist größer als {{size}}MB",
   "global.add": "Hinzufügen",
   "global.and": "und",
@@ -763,11 +769,11 @@
   "personalGoodDeedCounter.drawer.empty.text": "Deine erste gute Tat ist nur einen Schritt entfernt. Starte jetzt und sammle deine guten Taten – gemeinsam mit einer Community, die die Welt Stück für Stück besser macht.",
   "personalGoodDeedCounter.drawer.empty.title": "Deine erste gute Tat ist nur einen Schritt entfernt",
   "personalGoodDeedCounter.drawer.guest.button": "Konto erstellen",
-  "personalGoodDeedCounter.drawer.guest.text": "You’re welcome to explore our good deeds as a guest — but to start collecting your own, you’ll need an account.",
+  "personalGoodDeedCounter.drawer.guest.text": "You're welcome to explore good deeds as a guest – but you'll need an account to make them count!",
   "personalGoodDeedCounter.drawer.guest.title": "Werde Teil der Community!",
   "personalGoodDeedCounter.drawer.listItem.challenges": "Nimm an einer Challenge teil",
   "personalGoodDeedCounter.drawer.listItem.posts": "Create a “Good Deed” post",
-  "personalGoodDeedCounter.label": "Deeds",
+  "personalGoodDeedCounter.label": "Taten",
   "postedOnHoli": "Veröffentlicht auf Holi",
   "postedVia": "Veröffentlicht via {{source}}",
   "privacy.visibility.private": "Mitwirkende",
@@ -1854,9 +1860,9 @@
   "volunteering.engagement.commitment_label.recurring": "Regelmäßig",
   "volunteering.engagement.location_type.onsite": "Vor Ort",
   "volunteering.engagement.location_type.remote": "Remote",
-  "volunteering.engagement.organization": "bei {{organization}}",
+  "volunteering.engagement.organization": "von {{organization}}",
   "volunteering.engagement.thumbnail.label": "Ehrenamt Cover Bild",
-  "volunteering.engagement.title": "{{title}} bei {{organization}}",
+  "volunteering.engagement.title": "{{title}} von {{organization}}",
   "volunteering.engagementDetail.contactsDrawer.email": "E-Mail",
   "volunteering.engagementDetail.contactsDrawer.phone": "Telefonnummer",
   "volunteering.engagementDetail.contactsDrawer.website": "Webseite",

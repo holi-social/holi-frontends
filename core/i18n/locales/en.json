@@ -342,6 +342,12 @@
   "favorites.noResults.title": "No favourites saved yet",
   "favorites.remove.favorite.button": "Remove from favourites",
   "favorites.seeAll.button": "See all favourites",
+  "favoritesOverview": {
+    "sectionTitle": {
+      "insights": "Insights",
+      "volunteering": "Volunteering"
+    }
+  },
   "filePicker.error.maxFileSize": "The file you uploaded is bigger than {{size}}MB",
   "global.add": "Add",
   "global.and": "and",
@@ -763,7 +769,7 @@
   "personalGoodDeedCounter.drawer.empty.text": "Your first good deed is just one step away. Start collecting your good deeds — and be part of a community working together to make the world a little better, one action at a time.",
   "personalGoodDeedCounter.drawer.empty.title": "Your first good deed is just one step away",
   "personalGoodDeedCounter.drawer.guest.button": "Create account",
-  "personalGoodDeedCounter.drawer.guest.text": "You’re welcome to explore our good deeds as a guest — but to start collecting your own, you’ll need an account.",
+  "personalGoodDeedCounter.drawer.guest.text": "You're welcome to explore good deeds as a guest – but you'll need an account to make them count!",
   "personalGoodDeedCounter.drawer.guest.title": "Join the community!",
   "personalGoodDeedCounter.drawer.listItem.challenges": "Join a challenge",
   "personalGoodDeedCounter.drawer.listItem.posts": "Create a “Good Deed” post",
