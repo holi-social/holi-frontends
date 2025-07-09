@@ -21,6 +21,7 @@ import {
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import PostReactionCount from '@holi/core/screens/individualPosts/components/PostResponseBar/PostReactionCount'
+import ReactButton from '@holi/core/components/reactions/ReactButton'
 
 export interface FeedPostReactionsProps {
   post: FeedPost | Post
@@ -40,6 +41,12 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
   const authorName = isFeedPost ? (post as FeedPost).author.fullName : (post as Post).creator.fullName
+
+  const notActiveLabel = authorName
+    ? t('insights.reactions.post.like', { name: authorName })
+    : t('insights.reactions.post.like.noUser')
+  const activeLabel = t('insights.reactions.post.unlike')
+  const label = currentUserHasReacted ? activeLabel : notActiveLabel
 
   const [updateFeedPostReaction] = useMutation(UpdateFeedPostReactionMutation, {
     onCompleted: () => onChange?.(),
@@ -131,18 +138,22 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
     }
   }
 
-  return (
-    <PostReactionCount
-      onPress={reactOnPost}
-      type="post"
-      count={heartReactions}
-      active={currentUserHasReacted}
-      fullName={authorName}
-      style={style}
-      showCount={showCount}
-      testID={`btn-react-to-${isFeedPost ? 'feed-' : ''}post-HEART`}
-    />
-  )
+  if (showCount) {
+    return (
+      <PostReactionCount
+        onPress={reactOnPost}
+        type="post"
+        count={heartReactions}
+        active={currentUserHasReacted}
+        fullName={authorName}
+        style={style}
+        showCount={showCount}
+        testID={`btn-react-to-${isFeedPost ? 'feed-' : ''}post-HEART`}
+      />
+    )
+  } else {
+    return <ReactButton onPress={reactOnPost} active={currentUserHasReacted} label={label} />
+  }
 }
 
 export default FeedPostReactions
