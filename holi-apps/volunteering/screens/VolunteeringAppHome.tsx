@@ -12,6 +12,7 @@ import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/Volunt
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 
 const isWeb = Platform.OS === 'web'
 
@@ -19,6 +20,8 @@ const VolunteeringAppHome = () => {
   const { t } = useTranslation()
 
   const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } = useVolunteeringFilters()
+
+  const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
   const headerComponent = (
     <Stack backgroundColor="main">
@@ -38,6 +41,7 @@ const VolunteeringAppHome = () => {
       testID="volunteering-list-container"
       noContainerPaddingWeb={true}
       StickyTopComponent={isWeb && headerComponent}
+      scrollViewProps={throttledScrollEventProps}
     >
       {!isWeb && headerComponent}
 
