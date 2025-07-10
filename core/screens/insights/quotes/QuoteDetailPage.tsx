@@ -18,9 +18,8 @@ import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { Text } from 'holi-bricks/components/text'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -31,6 +30,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { Stack } from 'holi-bricks/components/stack'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
 export type QuoteDetailPageParams = {
   insightId: string
@@ -124,7 +125,9 @@ const QuoteDetailPage = () => {
             <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={quote.linkPreview.icon} link={quote.link} />
               <HoliGap size="s" />
-              <HoliHeading level="1">{quote.linkPreview.title}</HoliHeading>
+              <Text headingLevel="1" size="3xl" numberOfLines={3}>
+                {quote.linkPreview.title}
+              </Text>
             </View>
 
             <View style={[mixins.container, styles.section, styles.curvedTop, styles.curvedBottom]}>
@@ -137,18 +140,21 @@ const QuoteDetailPage = () => {
                   initials={insight!.creator?.avatarLabel}
                 />
 
-                <HoliHeading level="3">{t('insights.quotes.detail.subtitle')}</HoliHeading>
+                <Text size="lg" headingLevel="3">
+                  {t('insights.quotes.detail.subtitle')}
+                </Text>
               </View>
 
               <HoliGap size="s" />
-              <QuoteCard.QuoteOnly quote={quote} quoteColor="#A3DAFC" />
+              <QuoteCard.QuoteOnly quote={quote} quoteColor="#A3DAFC" hideReactions />
               <HoliGap size="s" />
-              <HoliText>{quote.comment}</HoliText>
-              {!!quote && (
-                <View style={styles.reaction}>
-                  <InsightReactions item={quote} itemType={ItemType.QUOTE} />
-                </View>
-              )}
+              <Text size="sm" margin={{ bottom: 'xs' }}>
+                {quote.comment}
+              </Text>
+              <Stack direction="row" justifyContent="space-between">
+                <ReactionCount count={quote.reactions.HEART} />
+                <InsightReactions item={quote} itemType={ItemType.QUOTE} />
+              </Stack>
             </View>
           </>
         ) : (
@@ -240,10 +246,6 @@ const getStyles = (theme: HoliTheme) =>
         native: { position: 'absolute', bottom: 40 },
         web: { position: 'fixed', bottom: 82 },
       }),
-    },
-    reaction: {
-      width: '100%',
-      alignItems: 'flex-end',
     },
   })
 

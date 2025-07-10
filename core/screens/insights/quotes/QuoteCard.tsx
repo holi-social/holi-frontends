@@ -22,6 +22,7 @@ export interface QuoteCardProps {
   quoteColor?: string
   numberOfLines?: number
   style?: ViewStyle
+  hideReactions?: boolean
 }
 
 export interface SourceCardProps {
@@ -35,7 +36,7 @@ export interface QuoteAndSourceCardProps {
   quoteColor: string
 }
 
-const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, style }) => {
+const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, style, hideReactions = false }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -51,10 +52,12 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
           {quote.author} ∙ {quote.authorProfession}
         </Text>
       </View>
-      <Stack direction="row" justifyContent="space-between">
-        <ReactionCount count={quote.reactions.HEART} />
-        <InsightReactions item={quote} itemType={ItemType.QUOTE} />
-      </Stack>
+      {!hideReactions && (
+        <Stack direction="row" justifyContent="space-between">
+          <ReactionCount count={quote.reactions.HEART} />
+          <InsightReactions item={quote} itemType={ItemType.QUOTE} />
+        </Stack>
+      )}
     </View>
   )
 }

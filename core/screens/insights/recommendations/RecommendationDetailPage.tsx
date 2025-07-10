@@ -16,9 +16,7 @@ import { type InsightWithRecommendationResponse, insightWithRecommendation } fro
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -29,6 +27,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { Stack } from 'holi-bricks/components/stack'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
+import { Text } from 'holi-bricks/components/text'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -125,9 +127,9 @@ const RecommendationDetailPage = () => {
             <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={recommendation.linkPreview.icon} link={recommendation.link} />
               <HoliGap size="s" />
-              <HoliHeading level="1" size="l" numberOfLines={3}>
+              <Text headingLevel="1" size="3xl" numberOfLines={3}>
                 {recommendation.linkPreview.title}
-              </HoliHeading>
+              </Text>
             </View>
             <View style={styles.comment}>
               {creator && (
@@ -139,10 +141,16 @@ const RecommendationDetailPage = () => {
                     label={creator.fullName ?? ''}
                     initials={creator.avatarLabel || ''}
                   />
-                  <HoliText bold>{t('insights.recommendations.creator_reason')}</HoliText>
+                  <Text size="lg">{t('insights.recommendations.creator_reason')}</Text>
                 </View>
               )}
-              <HoliText>{recommendation.comment}</HoliText>
+              <Text size="sm" margin={{ bottom: 'xs' }}>
+                {recommendation.comment}
+              </Text>
+              <Stack direction="row" justifyContent="space-between">
+                <ReactionCount count={recommendation.reactions.HEART} />
+                <InsightReactions item={recommendation} itemType={ItemType.RECOMMENDATION} />
+              </Stack>
             </View>
           </View>
         ) : (
