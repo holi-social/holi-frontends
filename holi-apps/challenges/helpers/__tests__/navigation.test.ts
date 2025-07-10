@@ -1,7 +1,26 @@
-import { createExternalChallengesPath, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import {
+  createExternalChallengesPath,
+  createInAppChallengesPath,
+  setHasSeen,
+  handlePromoState,
+  removeShowPromoKey,
+} from '@holi-apps/challenges/helpers/navigation'
 
 jest.mock('@holi/core/helpers/config', () => ({
   challengeAppBaseUrl: 'https://challenges.holi.social',
+}))
+
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  setItem: jest.fn(() => Promise.resolve()),
+  getItem: jest.fn((key) => {
+    if (key === 'promoSeen_123') {
+      return Promise.resolve('true')
+    }
+    return Promise.resolve(null)
+  }),
+  removeItem: jest.fn(() => Promise.resolve()),
+  getAllKeys: jest.fn(() => Promise.resolve(['promoSeen_123', 'promoSeen_456', 'otherKey'])),
+  multiRemove: jest.fn(() => Promise.resolve()),
 }))
 
 describe('createInAppChallengesPath', () => {
@@ -40,5 +59,41 @@ describe('createExternalChallengesPath', () => {
   it('should properly handle query parameters', () => {
     const uri = createExternalChallengesPath('%2Fchallenges%2Flist%3FrefererPath%3D%2F')
     expect(uri).toEqual('https://challenges.holi.social/challenges/list?refererPath=/')
+  })
+})
+
+describe('promo state functions', () => {
+  const AsyncStorage = require('@react-native-async-storage/async-storage')
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('setHasSeen should store challenge-specific flag', async () => {
+    await setHasSeen('123')
+    expect(AsyncStorage.setItem).toHaveBeenCalledWith('promoSeen_123', 'true')
+  })
+
+  it('handlePromoState should return false for seen challenges', async () => {
+    const result = await handlePromoState('123')
+    expect(result).toBe(false)
+    expect(AsyncStorage.getItem).toHaveBeenCalledWith('promoSeen_123')
+  })
+
+  it('handlePromoState should return true for unseen challenges', async () => {
+    const result = await handlePromoState('456')
+    expect(result).toBe(true)
+    expect(AsyncStorage.getItem).toHaveBeenCalledWith('promoSeen_456')
+  })
+
+  it('removeShowPromoKey should remove specific challenge key', async () => {
+    await removeShowPromoKey('123')
+    expect(AsyncStorage.removeItem).toHaveBeenCalledWith('promoSeen_123')
+  })
+
+  it('removeShowPromoKey should remove all promo keys when no challenge ID is provided', async () => {
+    await removeShowPromoKey()
+    expect(AsyncStorage.getAllKeys).toHaveBeenCalled()
+    expect(AsyncStorage.multiRemove).toHaveBeenCalledWith(['promoSeen_123', 'promoSeen_456'])
   })
 })

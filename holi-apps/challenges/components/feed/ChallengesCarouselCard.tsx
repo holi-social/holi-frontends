@@ -27,7 +27,7 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
 
   useEffect(() => {
     const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`)
+      const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
       setDetailUrl(url)
     }
     initUrl()
@@ -40,7 +40,7 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
         href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
         onPress={() => {
-          setHasSeen()
+          setHasSeen(challenge.id)
         }}
       >
         <View style={styles.imageContainer}>

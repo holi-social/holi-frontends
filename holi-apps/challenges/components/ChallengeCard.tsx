@@ -35,7 +35,7 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
 
   useEffect(() => {
     const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`)
+      const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
       setDetailUrl(url)
     }
     initUrl()
@@ -52,7 +52,7 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
         href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
         onPress={() => {
-          setHasSeen()
+          setHasSeen(challenge.id)
         }}
       >
         <HoliGap size="xxs" />
