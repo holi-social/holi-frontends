@@ -18,17 +18,18 @@ export const createInAppChallengesPath = (path?: string, extraParams?: Record<st
   return `${appRoute}?${params.toString()}`
 }
 
+export async function setHasSeen() {
+  await AsyncStorage.setItem('promoSeen', 'true')
+}
+
 export async function handlePromoState() {
   const key = 'promoSeen'
   const hasSeen = await AsyncStorage.getItem(key)
 
-  if (!hasSeen || hasSeen === 'false') {
-    await AsyncStorage.setItem(key, 'true')
-
-    return true
+  if (hasSeen === 'true') {
+    return false
   }
-
-  return false
+  return true
 }
 
 export async function appendShowPromo(url: string) {

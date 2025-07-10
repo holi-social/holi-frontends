@@ -10,7 +10,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
-import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath, setHasSeen } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
@@ -51,6 +51,9 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
         label={challenge.title}
         href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
+        onPress={() => {
+          setHasSeen()
+        }}
       >
         <HoliGap size="xxs" />
         <View style={styles.headline}>
