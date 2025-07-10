@@ -1,25 +1,25 @@
 import { useMutation } from '@apollo/client'
 import { capitalize } from 'lodash'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import type { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
   UpdateInitiativeReactionMutation,
-  UpdateInitiativeReactionResponse,
+  type UpdateInitiativeReactionResponse,
   UpdateQuoteReactionMutation,
-  UpdateQuoteReactionResponse,
+  type UpdateQuoteReactionResponse,
   UpdateRecommendationReactionMutation,
-  UpdateRecommendationReactionResponse,
+  type UpdateRecommendationReactionResponse,
 } from '@holi/core/screens/insights/mutations'
-import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import type { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
+import ReactButton from '@holi/core/components/reactions/ReactButton'
 
 export enum ItemType {
   QUOTE = 'QUOTE',
@@ -33,15 +33,22 @@ export interface InsightReactionsProps {
   style?: ViewStyle
 }
 
-const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, style }) => {
+const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType }) => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
-  const heartReactions = item.reactions.HEART
   const currentUserHasReacted = !!item.myReaction.HEART
+
+  const fullName = ItemType.QUOTE ? (item as Quote).author : undefined
+  // TODO: these translations don't exist :/
+  const notActiveText = fullName
+    ? t('insights.reactions.insight.like', { name: fullName })
+    : t('insights.reactions.insight.like.noUser')
+  const activeText = t('insights.reactions.insight.unlike')
+  const labelText = currentUserHasReacted ? activeText : notActiveText
 
   let mutation
   switch (itemType) {
@@ -87,17 +94,7 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, sty
     })
   }
 
-  return (
-    <HoliReactionsCount
-      onPress={reactOnItem}
-      type="insight"
-      count={heartReactions}
-      active={currentUserHasReacted}
-      fullName={ItemType.QUOTE ? (item as Quote).author : undefined}
-      style={style}
-      testID={`btn-react-to-insight-${itemType.toLowerCase()}-HEART`}
-    />
-  )
+  return <ReactButton onPress={reactOnItem} active={currentUserHasReacted} label={labelText} />
 }
 
 export default InsightReactions
