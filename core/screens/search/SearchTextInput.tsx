@@ -62,6 +62,7 @@ export function SearchTextInput({ filter, onQueryChange }: SearchBoxProps) {
           disabled={submitDisabled}
           onPress={submitQuery}
           loading={searchResults.isLoading}
+          testID="btn-submit-search"
         />
       }
       testID="search"

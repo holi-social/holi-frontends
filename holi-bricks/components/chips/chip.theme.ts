@@ -1,4 +1,4 @@
-import { black, byShade, mono, white } from 'holi-bricks/foundations'
+import { black, byShade, mono, white, yellow } from 'holi-bricks/foundations'
 
 export const darkChipTheme = {
   chipSelect: {
@@ -8,6 +8,7 @@ export const darkChipTheme = {
     selected: {
       background: {
         ...byShade('700'),
+        yellowLight: yellow[800],
       },
     },
   },
@@ -47,6 +48,7 @@ export const lightChipTheme = {
     selected: {
       background: {
         ...byShade('400'),
+        yellowLight: yellow[300],
       },
     },
   },

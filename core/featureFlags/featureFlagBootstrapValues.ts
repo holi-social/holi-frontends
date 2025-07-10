@@ -23,7 +23,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.STORAGE]: 'on',
     [FeatureFlagKey.THEME_TOGGLE]: false, // not yet fully done
     [FeatureFlagKey.VIDEO_CALL]: 'on',
-    [FeatureFlagKey.FEEDBACK_LINK]: 'on',
     [FeatureFlagKey.POST_TRANSLATION]: false,
     [FeatureFlagKey.TASK_CONTACT_CTA]: false,
     [FeatureFlagKey.EVENTS]: false,
@@ -42,7 +41,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.STORAGE]: null,
     [FeatureFlagKey.THEME_TOGGLE]: null,
     [FeatureFlagKey.VIDEO_CALL]: null,
-    [FeatureFlagKey.FEEDBACK_LINK]: null,
     [FeatureFlagKey.POST_TRANSLATION]: null,
     [FeatureFlagKey.TASK_CONTACT_CTA]: null,
     [FeatureFlagKey.EVENTS]: null,

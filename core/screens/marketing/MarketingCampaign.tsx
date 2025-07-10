@@ -7,7 +7,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 const MarketingCampaign = () => {
   const { theme } = useTheme()
   const webViewRef = useRef<WebView>(null)
-  const uri = 'https://holi.social/gute-taten' //TODO: This is a temporary URL for the marketing campaign, we need to change it to the actual URL once we have the marketing campaign page
+  const uri = 'https://holi.social/1million'
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
