@@ -43,11 +43,10 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType }) =
   const currentUserHasReacted = !!item.myReaction.HEART
 
   const fullName = ItemType.QUOTE ? (item as Quote).author : undefined
-  // TODO: these translations don't exist :/
   const notActiveText = fullName
-    ? t('insights.reactions.insight.like', { name: fullName })
-    : t('insights.reactions.insight.like.noUser')
-  const activeText = t('insights.reactions.insight.unlike')
+    ? t('insights.reactions.like', { name: fullName })
+    : t('insights.reactions.like.noUser')
+  const activeText = t('insights.reactions.unlike')
   const labelText = currentUserHasReacted ? activeText : notActiveText
 
   let mutation
