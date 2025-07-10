@@ -35,6 +35,7 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { Stack } from 'holi-bricks/components/stack'
 import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
 const FeedListItem = memo(
   ({
@@ -106,8 +107,8 @@ const HomeFeed = () => {
   const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
-  // const { loading, error, data } = useQuery(useGetRewardsCounterQuery) // todo: generate and import from codegen
-  const counter = 20 // todo: data.counter
+  const { data } = useGetRewardsCounterQuery()
+  const counter = data?.rewards_counter.counter
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
   const { track } = useTracking()
 
@@ -152,7 +153,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip, counter])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)

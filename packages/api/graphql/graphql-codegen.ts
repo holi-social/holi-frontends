@@ -1644,6 +1644,7 @@ export type Query = {
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
+  rewards_counter: Rewards_RewardsCounter
   /** @deprecated Deprecated since 1.53. */
   sdgs: SdgPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
@@ -2088,6 +2089,11 @@ export enum Regularity {
 export type Result = {
   __typename?: 'Result'
   success: Scalars['Boolean']['output']
+}
+
+export type Rewards_RewardsCounter = {
+  __typename?: 'Rewards_RewardsCounter'
+  counter?: Maybe<Scalars['Int']['output']>
 }
 
 /**
@@ -3145,6 +3151,13 @@ export type UnfavoriteMutationVariables = Exact<{
 }>
 
 export type UnfavoriteMutation = { __typename?: 'Mutation'; unfavorite: { __typename?: 'Result'; success: boolean } }
+
+export type GetRewardsCounterQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetRewardsCounterQuery = {
+  __typename?: 'Query'
+  rewards_counter: { __typename?: 'Rewards_RewardsCounter'; counter?: number }
+}
 
 export type SpaceCardFragment = {
   __typename?: 'Space'
@@ -5740,6 +5753,59 @@ export function useUnfavoriteMutation(
 export type UnfavoriteMutationHookResult = ReturnType<typeof useUnfavoriteMutation>
 export type UnfavoriteMutationResult = Apollo.MutationResult<UnfavoriteMutation>
 export type UnfavoriteMutationOptions = Apollo.BaseMutationOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
+export const GetRewardsCounterDocument = gql`
+    query GetRewardsCounter {
+  rewards_counter {
+    counter
+  }
+}
+    `
+
+/**
+ * __useGetRewardsCounterQuery__
+ *
+ * To run a query within a React component, call `useGetRewardsCounterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRewardsCounterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRewardsCounterQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRewardsCounterQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(GetRewardsCounterDocument, options)
+}
+export function useGetRewardsCounterLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
+    GetRewardsCounterDocument,
+    options
+  )
+}
+export function useGetRewardsCounterSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
+    GetRewardsCounterDocument,
+    options
+  )
+}
+export type GetRewardsCounterQueryHookResult = ReturnType<typeof useGetRewardsCounterQuery>
+export type GetRewardsCounterLazyQueryHookResult = ReturnType<typeof useGetRewardsCounterLazyQuery>
+export type GetRewardsCounterSuspenseQueryHookResult = ReturnType<typeof useGetRewardsCounterSuspenseQuery>
+export type GetRewardsCounterQueryResult = Apollo.QueryResult<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
 export const ValidateSpaceDocument = gql`
     mutation ValidateSpace($input: ValidateSpaceInput!) {
   validateSpace(input: $input) {
