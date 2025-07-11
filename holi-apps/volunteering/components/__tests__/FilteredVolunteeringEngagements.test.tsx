@@ -139,8 +139,8 @@ describe('FilteredVolunteeringEngagements', () => {
   it('should display message if loading filters failed', () => {
     render(<FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if loading results failed', async () => {
@@ -163,8 +163,8 @@ describe('FilteredVolunteeringEngagements', () => {
     })
     render(<FilteredVolunteeringEngagements filters={filters} />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if no results were found', async () => {
