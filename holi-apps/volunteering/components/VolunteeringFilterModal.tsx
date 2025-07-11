@@ -45,7 +45,6 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
     <HoliModal
       shown={true}
       onDismiss={closeModal}
-      testID="volunteering-filter-modal"
       label={t(`volunteering.filter.${filterKey}Modal.title`)}
       autoHeight={!searchableOptions}
       headerStyle={{ paddingBottom: 0 }}
