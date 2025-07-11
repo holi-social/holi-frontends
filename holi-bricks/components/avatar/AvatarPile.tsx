@@ -8,7 +8,7 @@ import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 type Avatars = Pick<AvatarProps, 'initials' | 'label' | 'source' | 'imgPlaceholder'>
-interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'imgPlaceholder'> {
+export interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'imgPlaceholder'> {
   avatars: Avatars[]
 }
 

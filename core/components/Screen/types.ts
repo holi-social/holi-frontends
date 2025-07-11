@@ -55,6 +55,8 @@ export interface BaseScreenProps {
   contentContainerPadding?: ScreenPadding
   children: ReactNode | ReactNode[]
   testID?: string
+  /** Disables padding of HoliContainer (web only) */
+  noContainerPaddingWeb?: boolean
 }
 
 export interface FixedScreenProps extends BaseScreenProps {

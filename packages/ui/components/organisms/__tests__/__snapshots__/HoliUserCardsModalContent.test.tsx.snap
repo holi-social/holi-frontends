@@ -2115,13 +2115,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   </RCTScrollView>
   <View
     style={
-      {
-        "alignSelf": "center",
-        "maxWidth": 400,
-        "paddingBottom": 24,
-        "paddingHorizontal": 24,
-        "width": "100%",
-      }
+      [
+        {
+          "alignSelf": "center",
+          "maxWidth": 400,
+          "paddingBottom": 24,
+          "paddingHorizontal": 24,
+          "width": "100%",
+        },
+        undefined,
+      ]
     }
   >
     <View
