@@ -45,6 +45,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
     <HoliModal
       shown={true}
       onDismiss={closeModal}
+      testID="volunteering-filter-modal"
       label={t(`volunteering.filter.${filterKey}Modal.title`)}
       autoHeight={!searchableOptions}
       headerStyle={{ paddingBottom: 0 }}
@@ -56,7 +57,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
         buttonStyle={{ paddingTop: Spacing.xs }}
         style={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
-        testID="volunteering-filter-modal"
+        testID={`volunteering-filter-modal-${filterKey}`}
       >
         <Stack padding={{ left: 'xs', right: 'xs' }} gap="xxs">
           <Stack direction="row" justifyContent="space-between" alignItems="center">

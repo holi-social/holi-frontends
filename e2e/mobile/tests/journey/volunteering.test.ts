@@ -50,7 +50,7 @@ const assertFilteringWorks = async () => {
   await tapOnElementWithTestId('topics--animal-welfare')
 
   // click filter confirmation button
-  await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
+  await tapOnElementWithTestId('volunteering-filter-modal-topics-close-btn')
 
   // check if the volunteering app home is shown with filtered results
   await waitForElementWithTestId('volunteering-list-filtered')

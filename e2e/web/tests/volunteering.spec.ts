@@ -97,7 +97,7 @@ const testFilteringByLocation = async (browser: Browser, page: Page) => {
   await checkAccessibility(page, false)
 
   // click filter confirmation button and check if we are in the correct page with the filter queries
-  await clickElementByTestId(page, 'volunteering-filter-modal-close-btn')
+  await clickElementByTestId(page, 'volunteering-filter-modal-location-close-btn')
 
   // check if the filtered volunteering container is shown
   await testDisplaysFilterResultsCommon(page)
