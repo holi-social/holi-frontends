@@ -3,12 +3,12 @@ import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 export const stories = [
-  '../components/**/*.mdx',
-  '../patterns/**/*.mdx',
-  '../foundations/**/*.mdx',
-  '../components/**/*.stories.@(js|jsx|ts|tsx)',
-  '../patterns/**/*.stories.@(js|jsx|ts|tsx)',
-  '../foundations/**/*.stories.@(js|jsx|ts|tsx)',
+  '../../components/**/*.mdx',
+  '../../patterns/**/*.mdx',
+  '../../foundations/**/*.mdx',
+  '../../components/**/*.stories.@(js|jsx|ts|tsx)',
+  '../../patterns/**/*.stories.@(js|jsx|ts|tsx)',
+  '../../foundations/**/*.stories.@(js|jsx|ts|tsx)',
 ]
 
 const config: StorybookConfig = {

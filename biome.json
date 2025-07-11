@@ -23,7 +23,8 @@
       "e2e/web/playwright-report",
       "**/*.json",
       "**/__mocks__/**",
-      "coverage"
+      "coverage",
+      "holi-bricks/storybook/mobile/storybook.requires.ts"
     ]
   },
   "organizeImports": { "enabled": true },
