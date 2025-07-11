@@ -6,10 +6,6 @@ import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hook
 import { FilteredVolunteeringEngagements } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagements'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
-  useRecosSubtitle: jest.fn(),
-}))
-
 const mockUseFilteredVolunteeringEngagements = jest.mocked(useFilteredVolunteeringEngagements)
 jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements', () => ({
   useFilteredVolunteeringEngagements: jest.fn(),
@@ -75,8 +71,6 @@ describe('FilteredVolunteeringEngagements', () => {
     render(<FilteredVolunteeringEngagements filters={filters} />)
 
     // Header
-    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
 
     // Results
@@ -145,8 +139,8 @@ describe('FilteredVolunteeringEngagements', () => {
   it('should display message if loading filters failed', () => {
     render(<FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if loading results failed', async () => {
@@ -157,7 +151,7 @@ describe('FilteredVolunteeringEngagements', () => {
       <FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} clearFilters={clearFilters} />
     )
 
-    await user.press(screen.getByLabelText('search.filter.reset'))
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })
@@ -169,8 +163,8 @@ describe('FilteredVolunteeringEngagements', () => {
     })
     render(<FilteredVolunteeringEngagements filters={filters} />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if no results were found', async () => {
@@ -183,7 +177,7 @@ describe('FilteredVolunteeringEngagements', () => {
 
     render(<FilteredVolunteeringEngagements filters={filters} clearFilters={clearFilters} />)
 
-    await user.press(screen.getByLabelText('search.filter.reset'))
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })

@@ -138,7 +138,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
               secondText={t('donations.donationListing.search.empty.headline')}
               style={[styles.noResultsMessage]}
             >
-              <Button label={t('search.filter.reset')} onPress={resetSearch} />
+              <Button label={t('search.filter.reset_one')} onPress={resetSearch} />
             </HoliNoResults>
           </HoliContainer>
         )}
