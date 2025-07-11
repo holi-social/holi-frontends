@@ -64,8 +64,8 @@ const Favorites = () => {
         return acc
       },
       [
-        { title: t('profile.settings.favorites.volunteering.title'), data: [] as FavoriteItem[] },
-        { title: t('profile.settings.favorites.insights.title'), data: [] as FavoriteItem[] },
+        { title: t('favoritesOverview.sectionTitle.volunteering'), data: [] as FavoriteItem[] },
+        { title: t('favoritesOverview.sectionTitle.insights'), data: [] as FavoriteItem[] },
       ] as const
     )
     .filter((section) => section.data.length > 0)
