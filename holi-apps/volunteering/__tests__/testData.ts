@@ -12,6 +12,7 @@ export const emptyFilters: VolunteeringFilters = {
 export const testLocation: GeolocationSuggestion = {
   id: '42',
   label: 'Hamburg, Germany',
+  coordinates: { latitude: 1, longitude: 2 },
 }
 
 export const fullFilters: VolunteeringFilters = {

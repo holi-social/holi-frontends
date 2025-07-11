@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
-import { emptyFilters, fullFilters } from '@holi-apps/volunteering/components/__tests__/testData'
+import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 
 describe('VolunteeringFilterRow', () => {
   beforeAll(() => {

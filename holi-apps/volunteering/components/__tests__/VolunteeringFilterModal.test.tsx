@@ -3,7 +3,7 @@ import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/Volu
 import { render, screen, userEvent } from '@testing-library/react-native'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
 import { filterTranslationKeyMapping } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
-import { emptyFilters, fullFilters } from '@holi-apps/volunteering/components/__tests__/testData'
+import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 import { testLocation } from '@holi/core/screens/onboarding/hooks/__tests__/useUserData.test'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 

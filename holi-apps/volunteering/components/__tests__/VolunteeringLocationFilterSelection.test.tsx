@@ -2,7 +2,7 @@ import React from 'react'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
-import { testLocation } from '@holi-apps/volunteering/components/__tests__/testData'
+import { testLocation } from '@holi-apps/volunteering/__tests__/testData'
 
 const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
 jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
