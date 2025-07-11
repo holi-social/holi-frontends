@@ -62,6 +62,7 @@ const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
       iconTrailing={filterKey === 'location' ? Edit2 : ArrowDownS}
       aria-label={t('volunteering.filter.openModal', { filter: filterName })}
       onPress={onPress}
+      testID={`volunteering-filter-${filterKey}`}
     >
       {label}
     </ChipAction>

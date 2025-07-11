@@ -41,28 +41,19 @@ const assertListItemExisting = async () => {
 
 const assertFilteringWorks = async () => {
   // swipe up to make header visible again
-  await scrollToElementWithTestId('btn-to-volunteering-filter-modal', 'up', { maxAttempts: 5 })
+  await scrollToElementWithTestId('volunteering-filter-topics', 'up', { maxAttempts: 5 })
 
-  // open filter modal
-  await tapOnElementWithTestId('btn-to-volunteering-filter-modal')
-
-  // Tap on modal heading to close keyboard
-  await tapOnElementWithTestId('volunteering-filter-heading')
-
-  // open topics dropdown
-  await tapOnElementWithTestId('volunteering-filter-topics-input')
+  // open topics modal
+  await tapOnElementWithTestId('volunteering-filter-topics')
 
   // click on first topic in the list
-  await tapOnElementWithTestId('volunteering-filter-topics-item')
-
-  // Tap on modal heading to close keyboard & select
-  await tapOnElementWithTestId('volunteering-filter-heading')
+  await tapOnElementWithTestId('topics--animal-welfare')
 
   // click filter confirmation button
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
 
-  // check if the volunteering app home is shown
-  await waitForElementWithTestId('volunteering-list-container')
+  // check if the volunteering app home is shown with filtered results
+  await waitForElementWithTestId('volunteering-list-filtered')
 }
 
 const navigateToDetailview = async () => {

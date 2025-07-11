@@ -86,7 +86,7 @@ const testDisplaysFilterResultsCommon = async (page: Page) => {
 }
 
 const testFilteringByLocation = async (browser: Browser, page: Page) => {
-  await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
+  await clickElementByTestId(page, 'volunteering-filter-location')
 
   // enter location
   const locationInput = await locateElementByTestId(page, 'volunteering-filter-location-input')
