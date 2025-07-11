@@ -18,6 +18,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
 import * as Appcues from '@appcues/react-native'
 import { appcuesAccountId, appcuesAppId } from '@holi/core/helpers/config'
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 const logger = getLogger('AppInit')
 
@@ -51,7 +52,7 @@ const App = () => {
 
   const init = async () => {
     try {
-      await Promise.all([initI18n(), initAuth(), Appcues.setup(appcuesAccountId, appcuesAppId)])
+      await Promise.all([initI18n(), initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
