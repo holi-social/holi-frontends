@@ -110,7 +110,7 @@ describe('VolunteeringEngagementList', () => {
 
     render(<VolunteeringEngagementList engagements={engagements} loadingFailed={true} clearFilters={clearFilters} />)
 
-    await user.press(screen.getByLabelText('search.filter.reset'))
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })
@@ -128,7 +128,7 @@ describe('VolunteeringEngagementList', () => {
 
     render(<VolunteeringEngagementList engagements={[]} clearFilters={clearFilters} />)
 
-    await user.press(screen.getByLabelText('search.filter.reset'))
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })

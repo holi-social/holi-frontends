@@ -48,7 +48,7 @@ const FilteredSpacesList: React.FC<Props> = ({ pageSize }) => {
         style={styles.noResults}
       >
         <Button
-          label={t('search.filter.reset')}
+          label={t('search.filter.reset_other')}
           onPress={() => navigate('/spaces?tab=discover')}
           inline
           testID="spaces-filter-reset"

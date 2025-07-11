@@ -173,7 +173,7 @@ describe('VolunteeringFilterModal', () => {
       <VolunteeringFilterModal filterKey={filterKey} filters={fullFilters} onSubmit={onSubmit} closeModal={jest.fn()} />
     )
 
-    await user.press(screen.getByText('search.filter.reset'))
+    await user.press(screen.getByText('search.filter.reset_one'))
 
     expect(onSubmit).not.toHaveBeenCalled()
   })
@@ -193,7 +193,7 @@ describe('VolunteeringFilterModal', () => {
         />
       )
 
-      await user.press(screen.getByText('search.filter.reset'))
+      await user.press(screen.getByText('search.filter.reset_one'))
       await user.press(screen.getByText(`volunteering.filter.${filterKey}Modal.saveButton`))
 
       expect(onSubmit).toHaveBeenCalledWith({

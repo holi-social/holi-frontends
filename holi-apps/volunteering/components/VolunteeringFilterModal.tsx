@@ -63,7 +63,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
             <Text size="lg">{t(`volunteering.filter.${filterKey}Modal.title`)}</Text>
             <Pressable onPress={() => setSelection(undefined)}>
               <Stack direction="row" gap="4xs" padding={{ top: '3xs', bottom: '3xs' }}>
-                <TextLink size="sm">{t('search.filter.reset')}</TextLink>
+                <TextLink size="sm">{t('search.filter.reset_one')}</TextLink>
                 <HoliIcon icon={Delete} size={20} />
               </Stack>
             </Pressable>

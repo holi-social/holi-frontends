@@ -59,7 +59,7 @@ export const VolunteeringEngagementList = ({
             </Stack>
           </Stack>
 
-          <Button label={t('search.filter.reset', { count: 2 })} onPress={clearFilters} icon={Delete} />
+          <Button label={t('search.filter.reset_other')} onPress={clearFilters} icon={Delete} />
         </Stack>
       </HoliContainer>
     )
