@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { type ReactNode } from 'react'
+import React, { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -16,6 +16,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
+import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { FeedPost } from '@holi/core/screens/individualPosts/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface CommentsProps {
   commentableId: string
@@ -27,6 +31,7 @@ interface CommentsProps {
   initialOpenThread?: string
   reactionButton?: ReactNode
   isDiscussion?: boolean
+  post: FeedPost | Post
 }
 
 const Comments = ({
@@ -38,9 +43,13 @@ const Comments = ({
   initialOpenThread,
   reactionButton,
   isDiscussion = true,
+  post,
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const {
     data: { commentable } = {},
     refetch,
@@ -92,6 +101,9 @@ const Comments = ({
             )}
             {reactionButton}
           </View>
+          <View style={styles.reactionContainer}>
+            <FeedPostReactions post={post} showCount={false} />
+          </View>
           <View style={styles.commentersLine}>
             <VerticalLine style={parentCommentId ? styles.commentersLineReplies : {}} />
           </View>
@@ -115,6 +127,8 @@ const Comments = ({
 }
 
 const Skeleton = () => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   return (
     <View style={styles.skeletonContainer}>
       <HoliSkeleton height={Spacing.sm} width={Spacing.sm} borderRadius={12} />
@@ -123,33 +137,43 @@ const Skeleton = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  commenters: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  commentersContainerSingle: {
-    marginLeft: Spacing['3xs'],
-  },
-  commentersContainerMany: {
-    marginLeft: 2,
-  },
-  commentersLine: {
-    marginLeft: Spacing.sm,
-    marginVertical: Spacing['3xs'],
-  },
-  commentersLineReplies: {
-    marginLeft: Spacing['3xs'],
-    marginVertical: Spacing['3xs'],
-  },
-  commentsContainer: {
-    gap: Spacing.xs,
-  },
-  skeletonContainer: {
-    flexDirection: 'row',
-    gap: Spacing.xxs,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    commenters: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    commentersContainerSingle: {
+      marginLeft: Spacing['3xs'],
+    },
+    commentersContainerMany: {
+      marginLeft: 2,
+    },
+    commentersLine: {
+      marginLeft: Spacing.sm,
+      marginVertical: Spacing['3xs'],
+    },
+    commentersLineReplies: {
+      marginLeft: Spacing['3xs'],
+      marginVertical: Spacing['3xs'],
+    },
+    commentsContainer: {
+      gap: Spacing.xs,
+    },
+    skeletonContainer: {
+      flexDirection: 'row',
+      gap: Spacing.xxs,
+    },
+    reactionContainer: {
+      borderTopWidth: 1,
+      borderColor: theme.colors.background30,
+      marginLeft: Spacing.sm,
+      marginTop: Spacing.xs,
+      paddingTop: Spacing.xxs,
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+    },
+  })
 
 export default Comments
