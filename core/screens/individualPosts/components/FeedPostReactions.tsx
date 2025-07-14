@@ -136,7 +136,16 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
 
   const [drawerVisible, setDrawerVisible] = React.useState(false)
 
-  const openDrawer = () => setDrawerVisible(true)
+  const openDrawer = () => {
+    if (!isLoggedIn) {
+      openSignupModal({
+        description: t('insights.reactions.post.loginRedirect.text'),
+        trackTrigger: 'REACT_ON_POST',
+      })
+      return
+    }
+    setDrawerVisible(true)
+  }
   const closeDrawer = () => setDrawerVisible(false)
 
   const users =
