@@ -31,7 +31,7 @@ interface CommentsProps {
   initialOpenThread?: string
   reactionButton?: ReactNode
   isDiscussion?: boolean
-  post: FeedPost | Post
+  post?: FeedPost | Post
 }
 
 const Comments = ({
@@ -101,9 +101,7 @@ const Comments = ({
             )}
             {reactionButton}
           </View>
-          <View style={styles.reactionContainer}>
-            <FeedPostReactions post={post} showCount={false} />
-          </View>
+          <View style={styles.reactionContainer}>{post && <FeedPostReactions post={post} showCount={false} />}</View>
           <View style={styles.commentersLine}>
             <VerticalLine style={parentCommentId ? styles.commentersLineReplies : {}} />
           </View>
