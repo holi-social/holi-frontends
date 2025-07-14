@@ -63,7 +63,6 @@ const navigateToDetailview = async () => {
   await waitForElementWithTestId('volunteering-detailview-container', 40000)
 
   // go back to items listing
-  await scrollToElementWithTestId('nav-button-back', 'up')
   await tapOnElementWithTestId('nav-button-back', 0)
 }
 
