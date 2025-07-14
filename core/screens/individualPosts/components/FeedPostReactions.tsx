@@ -22,7 +22,8 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import PostReactionCount from '@holi/core/screens/individualPosts/components/PostResponseBar/PostReactionCount'
 import ReactionsDrawer from '@holi/core/components/ReactionsDrawer'
-import { HandHeartThinFilledDarker } from '@holi/icons/src/generated'
+import { SupportReaction } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 
 export interface FeedPostReactionsProps {
   post: FeedPost | Post
@@ -162,7 +163,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
         visible={drawerVisible}
         onClose={closeDrawer}
         users={users}
-        reactionIcon={<HandHeartThinFilledDarker />}
+        reactionIcon={<HoliIcon icon={SupportReaction} size={26} />}
       />
     </>
   )
