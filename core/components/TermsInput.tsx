@@ -91,6 +91,7 @@ export const TermsInput = ({
           inputMode: 'search',
           returnKeyType: 'search',
           accessibilityRole: 'search',
+          role: 'searchbox',
         }}
       />
       {!!hint && (
