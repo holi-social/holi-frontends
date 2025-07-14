@@ -70,6 +70,7 @@ export const VolunteeringArrayFilterSelection = ({
             inputMode: 'search',
             returnKeyType: 'search',
             accessibilityRole: 'search',
+            role: 'searchbox',
           }}
         />
       )}

@@ -69,6 +69,7 @@ export const SearchLocationSelection = ({
                   autoFocus: true,
                   inputMode: 'search',
                   returnKeyType: 'search',
+                  role: 'searchbox',
                 }}
                 allowClearingInput
               />

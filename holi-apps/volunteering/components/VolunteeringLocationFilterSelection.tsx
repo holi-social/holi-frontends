@@ -24,6 +24,7 @@ export const VolunteeringLocationFilterSelection = ({ selected, onSelect }: Volu
       onChange={onSelect}
       inputProps={{
         inputMode: 'search',
+        role: 'searchbox',
         returnKeyType: 'search',
         'aria-label': t('volunteering.filter.location.label'),
       }}
