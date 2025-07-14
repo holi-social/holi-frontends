@@ -2,7 +2,7 @@ import type React from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import UserListItem from './UserListItem'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useMemo } from 'react'
@@ -38,7 +38,7 @@ const ReactionsDrawer: React.FC<ReactionsDrawerProps> = ({ visible, onClose, use
       autoHeight={true}
       testID="reactions-drawer"
     >
-      <HoliBox padding={[0, Spacing['lg']]}>
+      <HoliContainer>
         <View style={styles.headerRow}>
           <HoliHeading level="2">{t('insights.reactions.post.drawerTitle')}</HoliHeading>
           {reactionIcon && <View style={styles.icon}>{reactionIcon}</View>}
@@ -51,7 +51,7 @@ const ReactionsDrawer: React.FC<ReactionsDrawerProps> = ({ visible, onClose, use
             </HoliLink>
           ))}
         </ScrollView>
-      </HoliBox>
+      </HoliContainer>
     </HoliModal>
   )
 }
