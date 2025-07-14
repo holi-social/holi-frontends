@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-native'
-import { stories } from 'holi-bricks/storybook/main'
+import { stories } from 'holi-bricks/storybook/web/main'
 
 const main: StorybookConfig = {
   stories,

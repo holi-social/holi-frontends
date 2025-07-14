@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import 'holi-bricks/styles/init'
+import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
@@ -16,6 +16,8 @@ jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 require('react-native-reanimated').setUpTests()
 
 require('@shopify/flash-list/jestSetup')
+
+initializeBricks()
 
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()

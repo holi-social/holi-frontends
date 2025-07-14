@@ -1,7 +1,7 @@
 module.exports = {
   extends: ['../.eslintrc.js'],
   root: false,
-  ignorePatterns: ['storybook-static', 'ondevice/storybook.requires.ts'],
+  ignorePatterns: ['storybook-static', 'storybook/mobile/storybook.requires.ts'],
   rules: {
     'no-restricted-imports': [
       'error',
