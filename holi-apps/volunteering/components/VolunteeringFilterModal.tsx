@@ -31,7 +31,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
 }: VolunteeringFilterModalProps<T>) => {
   const { t } = useTranslation()
   const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(filters[filterKey])
-  const searchableOptions = ['topics', 'skills', 'location'].includes(filterKey)
+  const longListOfOptions = ['topics', 'skills', 'location'].includes(filterKey)
 
   const submitSelection = useCallback(() => {
     onSubmit({
@@ -47,7 +47,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
       onDismiss={closeModal}
       testID="volunteering-filter-modal"
       label={t(`volunteering.filter.${filterKey}Modal.title`)}
-      autoHeight={!searchableOptions}
+      autoHeight={!longListOfOptions}
       headerStyle={{ paddingBottom: 0 }}
     >
       <HoliModalContentWrapper
@@ -77,7 +77,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
               filterKey={filterKey}
               selected={selection as ArrayFilter}
               onSelect={setSelection}
-              searchable={searchableOptions}
+              longListOfOptions={longListOfOptions}
             />
           )}
         </Stack>
