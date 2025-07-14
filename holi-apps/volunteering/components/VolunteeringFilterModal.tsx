@@ -57,6 +57,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
         buttonStyle={{ paddingTop: Spacing.xs }}
         style={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
+        testID={`volunteering-filter-modal-${filterKey}`}
       >
         <Stack padding={{ left: 'xs', right: 'xs' }} gap="xxs">
           <Stack direction="row" justifyContent="space-between" alignItems="center">

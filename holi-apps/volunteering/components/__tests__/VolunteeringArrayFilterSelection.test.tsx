@@ -47,9 +47,9 @@ describe('VolunteeringArrayFilterSelection', () => {
 
     render(<VolunteeringArrayFilterSelection filterKey="topics" selected={[]} onSelect={jest.fn()} searchable={true} />)
 
-    expect(screen.getByRole('search')).toBeOnTheScreen()
+    expect(screen.getByRole('searchbox')).toBeOnTheScreen()
 
-    await user.type(screen.getByRole('search'), 'option 1')
+    await user.type(screen.getByRole('searchbox'), 'option 1')
 
     assertOptionsInOrder(['Option 1', 'Option 10', 'Option 11'])
   })

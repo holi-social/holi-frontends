@@ -18,6 +18,7 @@ export const VolunteeringLocationFilterSelection = ({ selected, onSelect }: Volu
       label=""
       placeholder={t('volunteering.filter.location.placeholder')}
       id="volunteering-filter-location"
+      testID="volunteering-filter-location"
       level={GeolocationLevel.CITY}
       selected={selected}
       onChange={onSelect}
