@@ -50,31 +50,36 @@ const Favorites = () => {
           {groupedFavorites.insights.length > 0 ? (
             <Stack direction="column" gap="xxs" margin={{ top: 'xs' }}>
               <Text size="xl">{t('profile.settings.favorites.insights.title')}</Text>
-              {groupedFavorites.insights.map((favorite) => (
-                <HoliLinkTracked
-                  key={favorite.id}
-                  href={`/insights/${favorite.favoritable.id}`}
-                  label={favorite.favoritable.title}
-                  trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
-                    type: 'Insight',
-                    id: favorite.favoritable.id,
-                  })}
-                  isFullHeight
-                >
-                  <CompactCard
-                    topLabelRightIcon={BookmarkFill}
-                    topLabel={favorite.favoritable.datePublished}
-                    subtitle={favorite.favoritable.description}
-                    title={favorite.favoritable.title}
-                    avatar={{
-                      source: favorite.favoritable.creator?.avatar,
-                      label: favorite.favoritable.creator?.fullName || '',
-                    }}
-                    imageSrc={favorite.favoritable.headerImage}
-                    imageLabel={t('act.events.thumbnail.label')}
-                  />
-                </HoliLinkTracked>
-              ))}
+              {groupedFavorites.insights.map((favorite) => {
+                const favoritable = favorite.favoritable
+                if (favoritable.__typename !== 'Insight') return null
+
+                return (
+                  <HoliLinkTracked
+                    key={favorite.id}
+                    href={`/insights/${favoritable.id}`}
+                    label={favoritable.title}
+                    trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
+                      type: 'Insight',
+                      id: favoritable.id,
+                    })}
+                    isFullHeight
+                  >
+                    <CompactCard
+                      topLabelRightIcon={BookmarkFill}
+                      topLabel={favoritable.datePublished}
+                      subtitle={favoritable.description}
+                      title={favoritable.title}
+                      avatar={{
+                        source: favoritable.creator?.avatar,
+                        label: favoritable.creator?.fullName || '',
+                      }}
+                      imageSrc={favoritable.headerImage}
+                      imageLabel={t('act.events.thumbnail.label')}
+                    />
+                  </HoliLinkTracked>
+                )
+              })}
             </Stack>
           ) : (
             <FavoritesListEmpyState />
