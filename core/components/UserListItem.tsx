@@ -7,14 +7,31 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native'
 interface UserListItemProps {
   avatarUrl: string
   fullName: string
+  avatarLabel: string
+  avatarBlurhash?: string
+  avatarDefaultColor?: string
   onPress?: () => void
 }
 
-const UserListItem: React.FC<UserListItemProps> = ({ avatarUrl, fullName, onPress }) => {
+const UserListItem: React.FC<UserListItemProps> = ({
+  avatarUrl,
+  fullName,
+  avatarLabel,
+  avatarBlurhash,
+  avatarDefaultColor,
+  onPress,
+}) => {
   const Container = onPress ? TouchableOpacity : View
+
   return (
     <Container style={styles.container} onPress={onPress}>
-      <HoliAvatar imageSrc={avatarUrl} label={fullName} initials={fullName} />
+      <HoliAvatar
+        imageSrc={avatarUrl}
+        label={fullName}
+        initials={avatarLabel}
+        imageBlurhash={avatarBlurhash}
+        defaultColor={avatarDefaultColor}
+      />
       <HoliText style={styles.name}>{fullName}</HoliText>
     </Container>
   )

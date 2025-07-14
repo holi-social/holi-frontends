@@ -10,17 +10,14 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useTranslation } from 'react-i18next'
-
-interface User {
-  id: string
-  fullName: string
-  avatarUrl: string
-}
+import type { User } from '@holi/core/domain/shared/types'
 
 interface ReactionsDrawerProps {
   visible: boolean
   onClose: () => void
-  users: User[]
+  users: (Pick<User, 'id' | 'fullName' | 'avatar' | 'avatarLabel' | 'avatarBlurhash' | 'avatarDefaultColor'> & {
+    avatarUrl?: string
+  })[]
   reactionIcon?: React.ReactNode
 }
 
@@ -47,7 +44,13 @@ const ReactionsDrawer: React.FC<ReactionsDrawerProps> = ({ visible, onClose, use
         <ScrollView contentContainerStyle={styles.listContent}>
           {users.map((user) => (
             <HoliLink href={`/profile/${user.id}`} key={user.id} label="" onPress={onClose}>
-              <UserListItem avatarUrl={user.avatarUrl} fullName={user.fullName} />
+              <UserListItem
+                avatarUrl={user.avatarUrl || user.avatar || ''}
+                fullName={user.fullName}
+                avatarLabel={user.avatarLabel || ''}
+                avatarBlurhash={user.avatarBlurhash}
+                avatarDefaultColor={user.avatarDefaultColor}
+              />
             </HoliLink>
           ))}
         </ScrollView>

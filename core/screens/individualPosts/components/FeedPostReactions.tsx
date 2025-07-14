@@ -152,7 +152,11 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
     post.reactors?.data?.filter(Boolean).map((u) => ({
       id: u.id,
       fullName: u.fullName,
+      avatar: u.avatar,
       avatarUrl: u.avatar || '',
+      avatarLabel: u.avatarLabel,
+      avatarBlurhash: u.avatarBlurhash,
+      avatarDefaultColor: u.avatarDefaultColor,
     })) || []
 
   return (
