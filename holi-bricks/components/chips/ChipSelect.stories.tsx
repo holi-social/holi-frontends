@@ -4,21 +4,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Colors } from 'holi-bricks/foundations'
 import React from 'react'
 
-import { ChipSelect } from './ChipSelect'
+import { ChipSelect, type ChipSelectColor } from './ChipSelect'
+import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
-const availableColors = Object.values(Colors)
+const availableColors = [...Object.values(Colors), 'yellowLight' as ChipSelectColor]
 const availableSizes = ['md', 'lg'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'onPress', 'testID', 'avatar']
 
 const meta: Meta<typeof ChipSelect> = {
   title: 'Components/Chips/Chip Select',
@@ -35,14 +27,19 @@ const meta: Meta<typeof ChipSelect> = {
         image: {
           initials: 'TP',
           label: 'no, pick me',
-          imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+          imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg',
         },
       },
+    },
+    counter: {
+      type: 'string',
+      description: 'Optional counter',
     },
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'Chip',
+    counter: '',
     disabled: false,
     selected: false,
   },
@@ -77,11 +74,11 @@ export const ByColor: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack gap="xxs" direction="row">
         {availableColors.map((c) => (
           <ChipSelect key={c} {...args} selectedColor={c} />
         ))}
-      </>
+      </Stack>
     )
   },
 }
@@ -89,11 +86,11 @@ export const ByColor: Story = {
 export const BySize: Story = {
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         {availableSizes.map((s) => (
           <ChipSelect key={s} {...args} size={s} selectedColor="blue" />
         ))}
-      </>
+      </Stack>
     )
   },
 }
@@ -110,10 +107,10 @@ export const BySelection: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         <ChipSelect {...args} />
         <ChipSelect {...args} selected />
-      </>
+      </Stack>
     )
   },
 }
@@ -130,7 +127,7 @@ export const ByAvatar: Story = {
   },
   render: function Render(args) {
     return (
-      <>
+      <Stack direction="row" gap="xxs">
         <ChipSelect {...args} />
         <ChipSelect {...args} avatar={{ initials: 'TP', label: 'pick me' }} />
         <ChipSelect
@@ -141,6 +138,28 @@ export const ByAvatar: Story = {
             source: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
           }}
         />
+      </Stack>
+    )
+  },
+}
+
+export const ByCounter: Story = {
+  argTypes: {
+    selectedColor: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+    avatar: { control: false },
+  },
+  args: {
+    selectedColor: 'yellowLight',
+    size: 'md',
+    selected: true,
+  },
+  render: function Render(args) {
+    return (
+      <>
+        <ChipSelect {...args} />
+        <ChipSelect {...args} counter="42" />
+        <ChipSelect {...args} counter="999" selected={false} />
       </>
     )
   },

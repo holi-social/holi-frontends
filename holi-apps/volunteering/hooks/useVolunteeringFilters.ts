@@ -32,6 +32,8 @@ const useDiscoveryV1Filters = (): FilterHook => {
   const topics = slugsToTopicsV2(topicParams)
   const skills = slugsToSkillsV2(skillParams)
   const [geolocationId] = useParam('geolocationId', singleParamConfig)
+  const [commitmentDurations] = useParam('duration', arrayParamConfig)
+  const [commitmentLabels] = useParam('commitment', arrayParamConfig)
   const updateParams = useUpdateParams(webReplaceQueryConfig)
 
   const { displayError } = useErrorHandling()
@@ -48,13 +50,27 @@ const useDiscoveryV1Filters = (): FilterHook => {
     location: geolocationProps.geolocationSuggestion,
     topics,
     skills,
+    commitmentDurations,
+    commitmentLabels,
   })
-  const isFiltering = !!(filters.location || filters.topics?.length || filters.skills?.length)
+  const isFiltering = !!(
+    filters.location ||
+    filters.topics?.length ||
+    filters.skills?.length ||
+    filters.commitmentDurations?.length ||
+    filters.commitmentLabels?.length
+  )
 
   const onFilterChange = useCallback(
-    ({ topics, skills, location }: VolunteeringFilters = {}) => {
-      setFilters({ topics, skills, location })
-      updateParams({ topic: topics, skill: skills, geolocationId: location?.id })
+    ({ topics, skills, location, commitmentDurations, commitmentLabels }: VolunteeringFilters = {}) => {
+      setFilters({ topics, skills, location, commitmentDurations, commitmentLabels })
+      updateParams({
+        topic: topics,
+        skill: skills,
+        geolocationId: location?.id,
+        duration: commitmentDurations,
+        commitment: commitmentLabels,
+      })
     },
     [updateParams]
   )
@@ -64,22 +80,16 @@ const useDiscoveryV1Filters = (): FilterHook => {
       topic: undefined,
       skill: undefined,
       geolocationId: undefined,
+      duration: undefined,
+      commitment: undefined,
     })
   }, [updateParams])
 
   return { filters, setFilters: onFilterChange, clearFilters, isFiltering, ...geolocationProps }
 }
 
-export const useVolunteeringFilters = (onSubmit: () => void) => {
+export const useVolunteeringFilters = () => {
   const { setFilters, ...filterProps } = useDiscoveryV1Filters()
-
-  const submit = useCallback(
-    (filters?: VolunteeringFilters) => {
-      setFilters(filters)
-      onSubmit()
-    },
-    [onSubmit, setFilters]
-  )
 
   useEffect(() => {
     if (filterProps.loadingGeolocation) {
@@ -90,5 +100,5 @@ export const useVolunteeringFilters = (onSubmit: () => void) => {
     }
   }, [filterProps, setFilters])
 
-  return { ...filterProps, submit }
+  return { ...filterProps, submit: setFilters }
 }

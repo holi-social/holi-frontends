@@ -1,16 +1,11 @@
 import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
+const volunteeringOrTaskHitSelector = [byTestId('search-hit-volunteering'), byTestId('search-hit-task')].join(',')
+
 test.describe('@Search', () => {
   test('user journey', async ({ page }) => {
     await page.goto('/search')
-
-    const oldSearch = await locateElementByTestId(page, 'search-content')
-    const oldSearchVisible = await oldSearch.isVisible()
-    if (oldSearchVisible) {
-      // Abort as test only handles new search variant
-      return
-    }
 
     // Volunteering is selected by default
     await page.waitForSelector(byTestId('holi-tabs-button-volunteering-active'))
@@ -24,7 +19,9 @@ test.describe('@Search', () => {
     // Test search by query
     const emailInput = await locateElementByTestId(page, 'search-input')
     await emailInput.fill('t') // very short query to ensure there are always results
-    await page.waitForSelector(byTestId('search-hit-volunteering'))
+    await clickElementByTestId(page, 'btn-submit-search')
+
+    await page.waitForSelector(volunteeringOrTaskHitSelector)
 
     // Check accessibility
     await checkAccessibility(page)
@@ -40,6 +37,6 @@ test.describe('@Search', () => {
 
     await clickElementByTestId(page, 'holi-tabs-button-volunteering-inactive')
     await page.waitForSelector(byTestId('holi-tabs-button-volunteering-active'))
-    await page.waitForSelector(byTestId('search-hit-volunteering'))
+    await page.waitForSelector(volunteeringOrTaskHitSelector)
   })
 })

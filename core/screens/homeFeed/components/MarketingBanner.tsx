@@ -17,11 +17,12 @@ const MarketingBanner: React.FC<MarketingBannerProps> = ({ frameId }) => {
       Appcues.identify(user.id, {
         geolocation: user.geolocationId,
         location: user.location,
+        isEmployee: user.isEmployee,
       })
     } else {
       Appcues.anonymous()
     }
-  }, [user?.id, user?.geolocationId, user?.location])
+  }, [user?.id, user?.geolocationId, user?.location, user?.isEmployee])
 
   return <AppcuesFrameView frameID={frameId} />
 }

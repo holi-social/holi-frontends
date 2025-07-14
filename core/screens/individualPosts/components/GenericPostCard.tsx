@@ -56,6 +56,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
   const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
   const [title, setTitle] = useState<string>(post.title)
   const [loadingTranslation, setLoadingTranslation] = useState(false)
+  const [isDeleted, setIsDeleted] = useState(false)
 
   const { deletePost: deleteSpacePost, isLoadingPostDeletion: isLoadingSpacePostDeletion } = useDeletePost(
     post as Post,
@@ -84,6 +85,9 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const type = feedPost.category?.slug === 'good-deed' ? 'good_deed' : 'regular'
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
+    if (isDeleted) {
+      return null
+    }
     return (
       <View style={styles.container}>
         {showVisibilityBadge && (
@@ -111,7 +115,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
         />
         {isLoggedIn && (
           <View style={styles.postDrawer}>
-            <PostDrawer post={feedPost}>
+            <PostDrawer post={feedPost} onDelete={() => setIsDeleted(true)}>
               <HoliIcon icon={MoreFilled} />
             </PostDrawer>
           </View>

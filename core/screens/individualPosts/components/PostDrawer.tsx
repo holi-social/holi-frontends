@@ -12,11 +12,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { type DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Delete, Edit2, Flag, Share } from '@holi/icons/src/generated'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 
@@ -35,8 +35,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { navigate } = useRouting()
   const { navigateWithAuth } = useAuthRequiredNavigation()
   const { track } = useTracking()
-
-  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false)
+  const [isLoadingFeedPostDeletion, setIsLoadingFeedPostDeletion] = useState(false)
 
   const [deleteFeedPost] = useMutation<DeleteFeedPostResponse>(deleteFeedPostMutation, {
     onCompleted: onDelete,
@@ -48,17 +47,17 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   })
 
   const handleDelete = () => {
-    setShowDeleteConfirmationModal(false)
+    setIsLoadingFeedPostDeletion(true)
     deleteFeedPost({
       variables: { postId: post.id },
-      refetchQueries: [{ query: myPostsQuery }],
-    }).then(() => {
-      openToast(t('individuals.post.delete.success'), HoliToastType.SUCCESS)
+      refetchQueries: [{ query: myPostsQuery }, { query: feedQuery }],
     })
-  }
-
-  const deleteFeedPostActionHandler = () => {
-    setShowDeleteConfirmationModal(true)
+      .then(() => {
+        openToast(t('individuals.post.delete.success'), HoliToastType.SUCCESS)
+      })
+      .finally(() => {
+        setIsLoadingFeedPostDeletion(false)
+      })
   }
 
   const editFeedPostActionHandler = () => {
@@ -104,10 +103,22 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
             <HoliActionDrawer.Action
               icon={Delete}
               title={t('global.delete')}
+              isLoading={isLoadingFeedPostDeletion}
               testID="btn-delete-post"
-              handleAction={deleteFeedPostActionHandler}
               variant="danger"
-            />
+              showConfirmation
+            >
+              <HoliActionDrawer.Confirmation
+                title={t('insights.post.delete.confirmation.title')}
+                description={t('insights.post.delete.confirmation.description')}
+                confirmText={t('confirmation.delete')}
+                dismissText={t('global.dismiss')}
+                handleConfirmation={handleDelete}
+                buttonVariant="danger"
+                hasDismissBtn
+                requireLogin
+              />
+            </HoliActionDrawer.Action>
           </>
         ) : (
           <HoliActionDrawer.Action
@@ -120,17 +131,6 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           />
         )}
       </HoliActionDrawer.Drawer>
-      <HoliConfirmation
-        show={showDeleteConfirmationModal}
-        label={t('individuals.post.delete.dialog.title')}
-        title={t('individuals.post.delete.dialog.title')}
-        description={t('individuals.post.delete.dialog.message')}
-        onDismiss={() => setShowDeleteConfirmationModal(false)}
-        secondaryText={t('individuals.post.delete.cancel.button')}
-        primaryText={t('individuals.post.delete.confirmation.button')}
-        testID="post-delete-dialog"
-        onPrimary={handleDelete}
-      />
     </>
   )
 }

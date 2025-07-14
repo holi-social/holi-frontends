@@ -6,9 +6,9 @@ require('ts-node/register')
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.58.5', // user-facing value visible in stores
-  iosBuildNumber: '1.58.5', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 169, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.59.2', // user-facing value visible in stores
+  iosBuildNumber: '1.59.2', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 172, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -204,6 +204,18 @@ const config: ExpoConfig = {
         image: './assets/splash.png',
         imageWidth: 220,
         resizeMode: 'contain',
+      },
+    ],
+    [
+      // Might be removed when upgrading to Expo 53
+      'expo-build-properties',
+      {
+        android: {
+          compileSdkVersion: 35,
+          defaultConfig: {
+            targetSdkVersion: 35,
+          },
+        },
       },
     ],
   ],

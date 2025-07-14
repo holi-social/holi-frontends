@@ -10,7 +10,6 @@ export enum FeatureFlagKey {
   STORAGE = 'STORAGE', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   THEME_TOGGLE = 'THEME_TOGGLE', // boolean
   VIDEO_CALL = 'VIDEO_CALL', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
-  FEEDBACK_LINK = 'feedback-link', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   POST_TRANSLATION = 'POST_TRANSLATION', // boolean
   TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
   CHALLENGES_CAROUSEL = 'CHALLENGES_CAROUSEL', // boolean

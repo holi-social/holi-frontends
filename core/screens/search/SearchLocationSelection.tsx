@@ -30,6 +30,8 @@ export const SearchLocationSelection = ({
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { styles } = useStyles(stylesheet)
 
+  const buttonLabel = selectedLocation ? t('search.location.save') : t('search.location.save.germanyWide')
+
   const onSave = () => {
     onLocationChange(selectedLocation)
     setLocationModalVisible(false)
@@ -63,7 +65,11 @@ export const SearchLocationSelection = ({
                 level={GeolocationLevel.CITY}
                 selected={selectedLocation}
                 onChange={setSelectedLocation}
-                inputProps={{ autoFocus: true }}
+                inputProps={{
+                  autoFocus: true,
+                  inputMode: 'search',
+                  returnKeyType: 'search',
+                }}
                 allowClearingInput
               />
               <View style={styles.buttonContainer}>
@@ -75,7 +81,7 @@ export const SearchLocationSelection = ({
                   icon={ArrowLeft}
                 />
                 <View style={styles.saveButton}>
-                  <Button label={t('search.location.save')} onPress={onSave} />
+                  <Button label={buttonLabel} onPress={onSave} />
                 </View>
               </View>
             </View>

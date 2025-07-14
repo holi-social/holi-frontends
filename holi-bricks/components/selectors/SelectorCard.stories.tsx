@@ -1,25 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
-import { Spacing } from 'holi-bricks/foundations'
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
 
 import Cloud from '@holi/icons/src/generated/Cloud'
+import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
+import { Stack } from 'holi-bricks/components/stack'
+import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
 const availableInputTypes = ['radio', 'checkbox', 'switch', 'none'] as const
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'image',
-  'icon',
-  'onPress',
-]
+const disabledProps = [...accessibilityAttributes, 'id', 'image', 'onPress', 'testID']
 
 const meta: Meta<typeof SelectorCard> = {
   title: 'Components/Selectors/Selector Card',
@@ -38,17 +27,14 @@ const meta: Meta<typeof SelectorCard> = {
   },
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
+    icon: { ...controlWithLabel },
+    switchSize: { control: 'select', options: ['small', 'medium', 'large'] },
   },
 }
 
 type Story = StoryObj<typeof SelectorCard>
 
 export const Playground: Story = {
-  argTypes: {
-    icon: { table: { disable: true } },
-    imageSource: { table: { disable: true } },
-    onPress: { table: { disable: true } },
-  },
   args: {
     title: 'Title',
     description: 'Description',
@@ -87,30 +73,20 @@ export const ByInputType: Story = {
     }
 
     return (
-      <View style={styles.container}>
+      <Stack gap="xxs">
         {availableInputTypes.map((inputType) => (
-          <View key={inputType} style={styles.item}>
-            <SelectorCard
-              {...args}
-              title={inputType}
-              inputType={inputType}
-              onPress={() => handleOnPress(inputType)}
-              selected={selectedStates[inputType] || false}
-            />
-          </View>
+          <SelectorCard
+            key={inputType}
+            {...args}
+            title={inputType}
+            inputType={inputType}
+            onPress={() => handleOnPress(inputType)}
+            selected={selectedStates[inputType] || false}
+          />
         ))}
-      </View>
+      </Stack>
     )
   },
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  item: {
-    marginBottom: Spacing.xxs,
-  },
-})
 
 export default meta

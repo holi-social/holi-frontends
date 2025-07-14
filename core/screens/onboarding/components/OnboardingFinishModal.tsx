@@ -18,6 +18,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 const isWeb = Platform.OS === 'web'
 
@@ -38,6 +39,11 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
   const { show: showDocModal, modalProps } = useDocumentModal()
 
   const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : 'onboarding/legalDocuments'
+
+  const handleAccept = () => {
+    hide()
+    initNotifications()
+  }
 
   return (
     <HoliModal label="" shown={visible} style={styles.modal} testID={testID}>
@@ -93,7 +99,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
           <HoliBox padding={[Spacing.lg, 0, Spacing.xs + bottom, 0]}>
             <Button
               label={t('onboarding.communityGuidelines.acceptButton')}
-              onPress={hide}
+              onPress={handleAccept}
               testID={`${testID}-btn-submit`}
             />
           </HoliBox>

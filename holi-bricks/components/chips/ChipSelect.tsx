@@ -8,13 +8,14 @@ import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
-// TODO: Change this import to new avatar when finished.
-// eslint-disable-next-line no-restricted-imports
 import type { AvatarProps } from 'holi-bricks/components/avatar'
 
 import { chipSizeToTextSize, type ChipSelectSize } from './size'
 import { pill } from './styles'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { Stack } from 'holi-bricks/components/stack'
+
+export type ChipSelectColor = Color | 'yellowLight'
 
 type ChipSelectProps = AccessibilityProps &
   LayoutProps & {
@@ -22,10 +23,11 @@ type ChipSelectProps = AccessibilityProps &
     children?: ReactNode
     selected?: boolean
     disabled?: boolean
-    selectedColor?: Color
+    selectedColor?: ChipSelectColor
     size?: ChipSelectSize
     avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
     testID?: string
+    counter?: string
   }
 
 const sizeToIconSize: Record<ChipSelectSize, number> = {
@@ -43,6 +45,7 @@ export const ChipSelect = ({
   avatar,
   role = 'switch',
   testID,
+  counter,
   ...rest
 }: ChipSelectProps) => {
   const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
@@ -73,13 +76,29 @@ export const ChipSelect = ({
           {children}
         </Text>
       )}
+      {counter && (
+        <Stack
+          backgroundColor="muted"
+          borderRadius="pill"
+          padding={{
+            top: '5xs',
+            bottom: '5xs',
+            left: '4xs',
+            right: '4xs',
+          }}
+        >
+          <Text size="xs" margin={{ left: '5xs', right: '5xs' }}>
+            {counter}
+          </Text>
+        </Stack>
+      )}
       <HoliIcon icon={icon} size={iconSize} colorOverride={theme.components.chipSelect.text} />
     </Pressable>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  chip: (hovered: boolean, focused: boolean, color: Color) => {
+  chip: (hovered: boolean, focused: boolean, color: ChipSelectColor) => {
     return {
       ...pill,
       color: theme.components.chipSelect.text,

@@ -1,0 +1,169 @@
+import React from 'react'
+import { render, screen, userEvent } from '@testing-library/react-native'
+import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
+import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
+
+describe('VolunteeringFilterRow', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
+  it('should render filter chips in correct order', () => {
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    const filters = screen.getAllByRole('switch')
+    expect(filters[0]).toHaveTextContent('location')
+    expect(filters[1]).toHaveTextContent('topics')
+    expect(filters[2]).toHaveTextContent('commitmentDurations')
+    expect(filters[3]).toHaveTextContent('commitmentLabels')
+    expect(filters[4]).toHaveTextContent('skills')
+  })
+
+  it('should use correct label for unselected filters', () => {
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    expect(screen.getByText('volunteering.filter.location.label')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.topics.label')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.commitmentDurations.label')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.commitmentLabels.label')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.skills.label')).toBeOnTheScreen()
+  })
+
+  it('should sort selected filter chips to the front', () => {
+    render(
+      <VolunteeringFilterRow
+        filters={{
+          topics: ['migration-refugees'],
+          commitmentLabels: ['recurring'],
+        }}
+        onSubmit={jest.fn()}
+      />
+    )
+
+    const filters = screen.getAllByRole('switch')
+    expect(filters[0]).toHaveTextContent('topic')
+    expect(filters[1]).toHaveTextContent('commitment_label')
+    expect(filters[2]).toHaveTextContent('location')
+    expect(filters[3]).toHaveTextContent('commitmentDurations')
+    expect(filters[4]).toHaveTextContent('skills')
+  })
+
+  it('should use correct label for selected filters', () => {
+    render(<VolunteeringFilterRow filters={fullFilters} onSubmit={jest.fn()} />)
+
+    expect(screen.getByText('Hamburg, Germany')).toBeOnTheScreen()
+    expect(screen.getByText('topic.migration-refugees + 1')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.commitment_duration.DAYS_1')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.commitment_label.recurring')).toBeOnTheScreen()
+    expect(screen.getByText('skill.food-service + 2')).toBeOnTheScreen()
+  })
+
+  it('should not render filter modal if not filter is selected', () => {
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    expect(screen.queryByTestId('volunteering-filter-modal')).not.toBeOnTheScreen()
+  })
+
+  interface FilterTestData {
+    filterKey: 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills'
+    labelText: string
+    existingFilterButtonText: string
+    expectedValue: string
+  }
+  const testData: FilterTestData[] = [
+    {
+      filterKey: 'topics',
+      labelText: 'topic.animal-welfare',
+      existingFilterButtonText: 'topic.migration-refugees + 1',
+      expectedValue: 'animal-welfare',
+    },
+    {
+      filterKey: 'commitmentDurations',
+      labelText: 'volunteering.engagement.commitment_duration.MINUTES_10to15',
+      existingFilterButtonText: 'volunteering.engagement.commitment_duration.DAYS_1',
+      expectedValue: 'MINUTES_10to15',
+    },
+    {
+      filterKey: 'commitmentLabels',
+      labelText: 'volunteering.engagement.commitment_label.one-time',
+      existingFilterButtonText: 'volunteering.engagement.commitment_label.recurring',
+      expectedValue: 'one-time',
+    },
+    {
+      filterKey: 'skills',
+      labelText: 'skill.administration',
+      existingFilterButtonText: 'skill.food-service + 2',
+      expectedValue: 'administration',
+    },
+  ]
+  it.each(testData)('should open modal when selecting $filterKey filter', async ({ filterKey }) => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
+
+    expect(screen.getByTestId('volunteering-filter-modal')).toBeOnTheScreen()
+    expect(screen.getByText(`volunteering.filter.${filterKey}Modal.title`)).toBeOnTheScreen()
+  })
+
+  it.each(testData)('should apply $filterKey filter', async ({ filterKey, labelText, expectedValue }) => {
+    const onSubmit = jest.fn()
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={onSubmit} />)
+
+    // Open modal
+    await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
+    // Select option
+    await user.press(screen.getByText(labelText))
+    // Save
+    await user.press(screen.getByText(`volunteering.filter.${filterKey}Modal.saveButton`))
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      [filterKey]: [expectedValue],
+    })
+  })
+
+  it.each(testData)(
+    'should apply $filterKey selection to existing filter',
+    async ({ filterKey, labelText, existingFilterButtonText, expectedValue }) => {
+      const onSubmit = jest.fn()
+      const user = userEvent.setup()
+
+      render(<VolunteeringFilterRow filters={fullFilters} onSubmit={onSubmit} />)
+
+      // Open modal
+      await user.press(screen.getByText(existingFilterButtonText))
+      // Select option
+      await user.press(screen.getByText(labelText))
+      // Save
+      await user.press(screen.getByText(`volunteering.filter.${filterKey}Modal.saveButton`))
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...fullFilters,
+        [filterKey]: [...(fullFilters[filterKey] ?? []), expectedValue],
+      })
+    }
+  )
+
+  it.each(testData)('should close modal after selecting $filterKey filter', async ({ filterKey }) => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    // Open modal
+    await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
+
+    expect(screen.getByTestId('volunteering-filter-modal')).toBeOnTheScreen()
+
+    // Close modal
+    await user.press(screen.getByLabelText(`volunteering.filter.${filterKey}Modal.saveButton`))
+
+    expect(screen.queryByTestId('volunteering-filter-modal')).not.toBeOnTheScreen()
+  })
+})

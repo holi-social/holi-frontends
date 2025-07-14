@@ -30,15 +30,17 @@ export const useFilteredVolunteeringEngagements = ({
       sortBy.push([`_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`])
     }
 
-    const optionalFilters = []
     if (filters.topics?.length) {
-      optionalFilters.push(`topics_v2:=[${filters.topics.join(',')}]`)
+      filterBy.push(`topics_v2:=[${filters.topics.join(',')}]`)
     }
     if (filters.skills?.length) {
-      optionalFilters.push(`skills_v2:=[${filters.skills.join(',')}]`)
+      filterBy.push(`skills_v2:=[${filters.skills.join(',')}]`)
     }
-    if (optionalFilters.length) {
-      filterBy.push(`(${optionalFilters.join('||')})`)
+    if (filters.commitmentLabels?.length) {
+      filterBy.push(`commitment_label:=[${filters.commitmentLabels.join(',')}]`)
+    }
+    if (filters.commitmentDurations?.length) {
+      filterBy.push(`commitment_duration:=[${filters.commitmentDurations.join(',')}]`)
     }
 
     if (filters.location) {
@@ -54,7 +56,14 @@ export const useFilteredVolunteeringEngagements = ({
       sort_by: sortBy.join(','),
       per_page: pageSize,
     }
-  }, [filters.location, filters.skills, filters.topics, pageSize])
+  }, [
+    filters.commitmentDurations,
+    filters.commitmentLabels,
+    filters.location,
+    filters.skills,
+    filters.topics,
+    pageSize,
+  ])
 
   const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,

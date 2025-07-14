@@ -16,7 +16,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import Image from './components/Image'
 import type { ListProps } from './types'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { VisibilityType } from '@holi/api/graphql/graphql-codegen'
+import { SpaceUserConnectionType, VisibilityType } from '@holi/api/graphql/graphql-codegen'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
@@ -39,7 +39,8 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
     </View>
   )
 
-  const isTaskOwner = loginState.isLoggedIn && isCollaborator && loginState.user.id === task.creator.id
+  const isAdmin = task?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
+  const isTaskOwner = loginState.isLoggedIn && (loginState.user.id === task.creator.id || isAdmin)
 
   return (
     <HoliCardComponent.CardContainer hasBorder borderColor="foreground30at12Percent" borderRadius={16}>
