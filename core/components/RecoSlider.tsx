@@ -116,6 +116,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     horizontal: true,
     contentContainerStyle: {
       paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+      paddingLeft: Spacing.xs,
+      paddingRight: Spacing.xs,
       gap: Spacing['3xs'],
     },
     data,
@@ -143,14 +145,12 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   )
 
   return (
-    <Stack
-      padding={{ left: 'xs', right: 'xs' }}
-      gap="sm"
-      minHeight="auto"
-      flex={1}
-      testID={testID || `${name}-reco-slider`}
-    >
-      <Stack onPress={handleHeaderTitlePress} testID={`${name}-reco-slider-heading-button`}>
+    <Stack gap="sm" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
+      <Stack
+        onPress={handleHeaderTitlePress}
+        testID={`${name}-reco-slider-heading-button`}
+        padding={{ left: 'xs', right: 'xs' }}
+      >
         <Stack
           direction="row"
           justifyContent="space-between"
