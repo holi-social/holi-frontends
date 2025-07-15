@@ -11,7 +11,7 @@ export type StepStatus = 'upcoming' | 'active' | 'done'
 
 interface ProgressStepperProps {
   step: number
-  label: string
+  label?: string
   status: StepStatus
   isLast?: boolean
   isFirst?: boolean
@@ -29,32 +29,33 @@ export const ProgressStepper = ({ step, label, status, isLast = false, isFirst =
         <View style={styles.line(isFirst)} />
 
         {/* Step Circle */}
-        {/* <View style={[styles.circle, isActive && styles.circleActive, isCompleted && styles.circleCompleted]}>
-          {isCompleted ? (
-            <HoliIcon icon={Check} size={16} color="main" />
-          ) : (
-            <Text size="md" color={isActive ? 'selected' : 'informative'}>
-              {step}
-            </Text>
-          )}
-        </View> */}
         <Stack
-          width={24}
-          height={24}
+          padding={isActive ? '4xs' : undefined}
+          width={28}
+          height={28}
           borderRadius="pill"
-          borderWidth={isActive ? 'xl' : 'sm'}
-          borderColor={'purpleDefault'}
           justifyContent="center"
           alignItems="center"
-          backgroundColor={isActive ? 'purpleDark' : isCompleted ? 'purpleDefault' : 'support'}
+          backgroundColor={isActive ? 'purpleDefault' : undefined}
         >
-          {isCompleted ? (
-            <HoliIcon icon={Check} size={16} color={isActive || isCompleted ? 'selected' : 'informative'} />
-          ) : (
-            <Text size="xs" color={isActive || isCompleted ? 'selected' : 'informative'}>
-              {step}
-            </Text>
-          )}
+          <Stack
+            width={Spacing.md}
+            height={Spacing.md}
+            borderRadius="pill"
+            borderWidth="sm"
+            borderColor="purpleDefault"
+            justifyContent="center"
+            alignItems="center"
+            backgroundColor={isActive ? 'purpleDark' : isCompleted ? 'purpleDefault' : 'support'}
+          >
+            {isCompleted ? (
+              <HoliIcon icon={Check} size={16} color={isActive || isCompleted ? 'selected' : 'informative'} />
+            ) : (
+              <Text size="xs" color={isActive || isCompleted ? 'selected' : 'informative'}>
+                {step}
+              </Text>
+            )}
+          </Stack>
         </Stack>
 
         {/* Line to next step */}

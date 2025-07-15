@@ -269,6 +269,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           icon={Check}
           onPress={() => {
             setStatus('doing')
+            // todo: start good deeds counter animation
           }}
         />
         <Button
@@ -277,6 +278,53 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           icon={Close}
           onPress={() => {
             setStatus(undefined)
+          }}
+        />
+      </Stack>
+    </Stack>
+  )
+
+  const progressCardDone = (
+    <Stack
+      padding={{ left: 'xs', right: 'xs', bottom: 'xxs', top: 'xxs' }}
+      gap="xs"
+      backgroundColor="purpleLight"
+      borderColor="main"
+      borderRadius="md"
+      borderStyle="solid"
+      borderWidth="sm"
+      direction="row"
+    >
+      <Stack>
+        {/* todo: animate high five using lottie */}
+        <Stack
+          backgroundColor="greenLight"
+          borderColor="main"
+          borderRadius={'md'}
+          borderStyle="solid"
+          borderWidth={'sm'}
+          height={158}
+          width={110}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Image
+            source={require('@holi/ui/assets/img/volunteering/high five.gif')}
+            width={0}
+            height={0}
+            alt={'high five'}
+          />
+        </Stack>
+      </Stack>
+      <Stack flexShrink={1} gap="xs">
+        <Stack gap="3xs">
+          <Text size="lg">Great that you did this!</Text>
+          <Text size="md">You made the world a little better. Do you think about what to do next?</Text>
+        </Stack>
+        <Button
+          label="Find more good deeds"
+          onPress={() => {
+            // navigate to good deeds
           }}
         />
       </Stack>
@@ -359,9 +407,9 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               <Stack padding="md" gap="md">
                 {/* rocket image */}
                 <Stack alignItems="center">
-                  {/* todo: animate */}
+                  {/* todo: animate rocket using lottie */}
                   <Image
-                    source={require('@holi/ui/assets/img/volunteering/rocket-animation-loop.svg')}
+                    source={require('@holi/ui/assets/img/volunteering/rocket animation.gif')}
                     width={0}
                     height={0}
                     alt={'rocket animation'}
@@ -374,7 +422,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                     <ProgressStepper
                       key={index}
                       step={index + 1}
-                      label={step.label}
                       status={step.status as StepStatus}
                       isLast={index === stepsPhaseTwo.length - 1}
                       isFirst={index === 0}
@@ -560,7 +607,15 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
         placeholderImage={document?.placeholderImage}
-        progressCard={status === 'planned' ? progressCardContact : status === 'contacted' ? progressCardDo : undefined}
+        progressCard={
+          status === 'planned'
+            ? progressCardContact
+            : status === 'contacted'
+              ? progressCardDo
+              : status === 'doing'
+                ? progressCardDone
+                : undefined
+        }
         status={status}
         visibility="public" // todo: to be removed
       />
@@ -591,9 +646,9 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         <Stack padding="md" gap="md">
           {/* image */}
           <Stack alignItems="center">
-            {/* todo: animate and change illustration */}
+            {/* todo: animate rocket using lottie */}
             <Image
-              source={require('@holi/ui/assets/img/volunteering/rocket-animation-loop.svg')}
+              source={require('@holi/ui/assets/img/volunteering/rocket animation.gif')}
               width={0}
               height={0}
               alt={'illustration'}
@@ -606,7 +661,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               <ProgressStepper
                 key={index}
                 step={index + 1}
-                label={step.label}
                 status={step.status as StepStatus}
                 isLast={index === stepsPhaseTwo.length - 1}
                 isFirst={index === 0}
