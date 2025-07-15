@@ -21,7 +21,7 @@ export const useNotificationsInit = () => {
   useEffect(() => {
     // Skip if still loading auth state
     if (isLoading) return
-    alert('useNotificationsInit')
+
     const checkAndInitNotifications = async () => {
       try {
         // Check if notifications were already initialized
@@ -29,9 +29,7 @@ export const useNotificationsInit = () => {
 
         if (alreadyInitialized !== 'true' && !initialized.current) {
           logger.debug('useNotificationsInit', 'Initializing notifications')
-          await initNotifications().then(() => {
-            alert('Notifications initialized')
-          })
+          await initNotifications()
           await AsyncStore.setItem(NOTIFICATIONS_INITIALIZED_KEY, 'true')
           initialized.current = true
         }
