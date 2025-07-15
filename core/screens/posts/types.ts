@@ -63,6 +63,7 @@ export interface Post {
   mentions?: User[]
   numberOfComments: number
   commenters: Paged<User>
+  reactors: Paged<User>
   myReaction: ReactionCounts
   reactions: ReactionCounts
   isPublic?: boolean

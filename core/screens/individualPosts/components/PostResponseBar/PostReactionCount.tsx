@@ -32,6 +32,7 @@ export interface PostReactionCountProps {
   count?: number
   active?: boolean
   onPress?: (event: SyntheticEvent | GestureResponderEvent) => void
+  onCountPress?: (event: SyntheticEvent | GestureResponderEvent) => void
   onMouseEnter?: (event: MouseEnterOutEvent) => void
   onMouseOut?: (event: MouseEnterOutEvent) => void
   style?: ViewStyle
@@ -45,6 +46,7 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({
   count = 0,
   active = false,
   onPress = () => null,
+  onCountPress = () => null,
   onMouseEnter = () => null,
   onMouseOut = () => null,
   showCount = true,
@@ -103,39 +105,55 @@ const PostReactionCount: React.FC<PostReactionCountProps> = ({
     [onPress, scale]
   )
 
+  const handleCountPress = useCallback(
+    (event: SyntheticEvent | GestureResponderEvent) => {
+      onCountPress(event)
+    },
+    [onCountPress]
+  )
+
   if (showCount && count === 0) {
     return <View style={[styles.outer, style, { height: 26 }]} />
   }
 
   return (
-    <HoliButton
-      label={labelText}
-      onPress={handlePress}
-      onMouseEnter={onNativeMouseEnter}
-      onMouseOut={onNativeMouseOut}
-      disabled={showCount === true} // TODO: remove this once we have implement the reactors list
-      transparent
-      style={[styles.outer, style]}
-      contentStyle={styles.container}
-      testID={testID}
-    >
+    <View style={[styles.outer, style]}>
       {showCount && (
-        <View style={styles.text}>
-          <Text
-            selectable={false}
-            size="xs"
-            colorOverride={lightTheme.colors.fill.default}
-            testID={`${testID}-counter`}
-            bold
-          >
-            {count}
-          </Text>
-        </View>
+        <HoliButton
+          label={t('insights.reactions.post.viewReactions')}
+          onPress={handleCountPress}
+          transparent
+          style={styles.countButton}
+          testID={`${testID}-count-button`}
+        >
+          <View style={styles.text}>
+            <Text
+              selectable={false}
+              size="xs"
+              colorOverride={lightTheme.colors.fill.default}
+              testID={`${testID}-counter`}
+              bold
+            >
+              {count}
+            </Text>
+          </View>
+        </HoliButton>
       )}
-      <Animated.View style={animatedStyle}>
-        {showCount ? <HoliIcon icon={SupportReaction} size={26} /> : <HoliIcon icon={icon} size={24} />}
-      </Animated.View>
-    </HoliButton>
+      <HoliButton
+        label={labelText}
+        onPress={handlePress}
+        onMouseEnter={onNativeMouseEnter}
+        onMouseOut={onNativeMouseOut}
+        transparent
+        style={styles.iconButton}
+        contentStyle={styles.iconContainer}
+        testID={`${testID}-icon-button`}
+      >
+        <Animated.View style={animatedStyle}>
+          {showCount ? <HoliIcon icon={SupportReaction} size={26} /> : <HoliIcon icon={icon} size={24} />}
+        </Animated.View>
+      </HoliButton>
+    </View>
   )
 }
 
@@ -145,9 +163,20 @@ const getStyles = () =>
   StyleSheet.create({
     outer: {
       width: 'auto',
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     container: {
       flexDirection: 'row',
+      alignItems: 'center',
+    },
+    countButton: {
+      width: 'auto',
+    },
+    iconButton: {
+      width: 'auto',
+    },
+    iconContainer: {
       alignItems: 'center',
     },
     text: {

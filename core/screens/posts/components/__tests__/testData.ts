@@ -76,6 +76,10 @@ export const post: Post = {
       },
     ],
   },
+  reactors: {
+    totalResults: 0,
+    data: [],
+  },
   links: [],
   mentions: [],
   myReaction: {
