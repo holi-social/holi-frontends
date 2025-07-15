@@ -85,6 +85,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const type = feedPost.category?.slug === 'good-deed' ? 'good_deed' : 'regular'
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
+    const goToCommentView = () => navigate(`/feed-posts/${feedPost.slug}/comment`)
     if (isDeleted) {
       return null
     }
@@ -242,13 +243,14 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           </View>
         )}
 
-        <PostResponseBar post={feedPost} onCommentPress={goToDetailView} />
+        <PostResponseBar post={feedPost} onCommentPress={goToCommentView} />
       </View>
     )
   } else {
     const spacePost = post as Post
     const isCurrentUserPostCreator = spacePost.creator.id === user?.id
     const goToDetailView = () => navigate(`/posts/${spacePost.id}`)
+    const goToCommentView = () => navigate(`/posts/${spacePost.id}/comment`)
 
     return (
       <View style={styles.container}>
@@ -404,7 +406,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
             <PostLocationCard location={spacePost.location} geolocation={spacePost.geolocation} />
           </View>
         )}
-        <PostResponseBar post={spacePost} onCommentPress={goToDetailView} />
+        <PostResponseBar post={spacePost} onCommentPress={goToCommentView} />
       </View>
     )
   }
