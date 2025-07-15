@@ -158,12 +158,15 @@ const InsightDetailPage = () => {
 
               <HoliTransition.FadeRight visible index={1}>
                 <Pressable onPress={shareLink}>
-                  <HoliIcon icon={Share} />
+                  <HoliIcon icon={Share} colorOverride={tintColor} />
                 </Pressable>
               </HoliTransition.FadeRight>
             </Stack>
           )
         )
+      },
+      navigationCustomOptions: {
+        footerShown: false,
       },
     })
   }, [insight, setScreenOptions, colors.light, colors.dark, shareLink, displayError, t])
