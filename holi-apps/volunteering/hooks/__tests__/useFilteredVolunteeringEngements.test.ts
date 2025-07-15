@@ -1,4 +1,4 @@
-import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
 import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -39,6 +39,20 @@ export const makeTypesenseEngagementHits = (length: number): SearchResponseHit[]
   )
 
 describe('useFilteredVolunteeringEngagements', () => {
+  const facetCounts = {
+    topics_v2: {
+      'migration-refugees': 1,
+    },
+    skills_v2: {
+      fundraising: 2,
+    },
+    commitment_label: {
+      recurring: 3,
+    },
+    commitment_duration: {
+      DAYS_1: 4,
+    },
+  }
   const searchResult = {
     state: {
       isLoading: false,
@@ -48,6 +62,7 @@ describe('useFilteredVolunteeringEngagements', () => {
       totalNrOfPages: 13,
       currentPage: 1,
       parameters: {},
+      facetCounts,
     },
     isFetchingMore: false,
     fetchNextPage: jest.fn(),
@@ -95,6 +110,7 @@ describe('useFilteredVolunteeringEngagements', () => {
       parameters: {
         filter_by: 'type:=[volunteering,task]&&topics_v2:=[disability-inclusion]',
         sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`,
+        facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
         per_page: 10,
       },
       skip: true,
@@ -114,6 +130,7 @@ describe('useFilteredVolunteeringEngagements', () => {
       expect(engagements[i].id).toEqual(i.toString())
       expect(engagements[i].title).toEqual(`Titel ${i}`)
     }
+    expect(result.current.facetCounts).toEqual(facetCounts)
   })
 
   it('should expose flag if more results can be fetched', () => {
@@ -177,6 +194,7 @@ describe('useFilteredVolunteeringEngagements', () => {
           canFetchMore: false,
           currentPage: 1,
           parameters: {},
+          facetCounts: {},
         },
         isFetchingMore: false,
         fetchNextPage: jest.fn(),
@@ -235,6 +253,7 @@ describe('useFilteredVolunteeringEngagements', () => {
             sort_by: topicsSkillsEmbedding
               ? `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`
               : '',
+            facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
             per_page: 10,
           },
           skip: false,
@@ -255,6 +274,7 @@ describe('useFilteredVolunteeringEngagements', () => {
         parameters: {
           filter_by: 'type:=[volunteering,task]&&location_lat_lng:(1,2,30 km)',
           sort_by: 'location_lat_lng(1,2,precision:5km):asc',
+          facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
           per_page: 10,
         },
         skip: false,
@@ -278,6 +298,7 @@ describe('useFilteredVolunteeringEngagements', () => {
           filter_by:
             'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]',
           sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`,
+          facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
           per_page: 10,
         },
         skip: false,
@@ -300,6 +321,7 @@ describe('useFilteredVolunteeringEngagements', () => {
           filter_by:
             'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
           sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
+          facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
           per_page: 10,
         },
         skip: false,

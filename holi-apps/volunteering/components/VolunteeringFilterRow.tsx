@@ -9,10 +9,13 @@ import { Spacing } from 'holi-bricks/foundations'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
 import { filterTranslationKeyMapping } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
+import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
 
 export interface VolunteeringFilterRowProps {
   filters: VolunteeringFilters
   onSubmit: (filters?: VolunteeringFilters) => void
+  loadingFilters?: boolean
 }
 
 const isFilterSelected = (filterKey: VolunteeringFilterKey, filters: VolunteeringFilters) => {
@@ -69,9 +72,14 @@ const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
   )
 }
 
-export const VolunteeringFilterRow = ({ filters, onSubmit }: VolunteeringFilterRowProps) => {
+export const VolunteeringFilterRow = ({ filters, onSubmit, loadingFilters }: VolunteeringFilterRowProps) => {
   const mixins = useStyleMixins()
   const chipOrder = getFilterChipOrder(filters)
+  const { facetCounts } = useFilteredVolunteeringEngagements({
+    filters,
+    loadingFilters,
+    pageSize: ENGAGEMENT_PAGE_SIZE,
+  })
 
   const [selectedFilter, setSelectedFilter] = useState<VolunteeringFilterKey | undefined>()
 
@@ -96,6 +104,7 @@ export const VolunteeringFilterRow = ({ filters, onSubmit }: VolunteeringFilterR
           filters={filters}
           onSubmit={onSubmit}
           closeModal={() => setSelectedFilter(undefined)}
+          facetCounts={facetCounts}
         />
       )}
     </>

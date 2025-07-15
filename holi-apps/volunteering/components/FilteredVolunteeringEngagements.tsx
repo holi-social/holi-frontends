@@ -8,7 +8,7 @@ import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCall
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
-import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
 
 interface FilteredVolunteeringEngagementsProps {
   filters: VolunteeringFilters

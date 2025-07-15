@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { act } from 'react'
 import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
@@ -46,22 +46,26 @@ describe('VolunteeringFilterModal', () => {
   })
 
   describe('Array filters', () => {
-    const arrayFilterTestData: { filterKey: VolunteeringFilterKey; option: string }[] = [
+    const arrayFilterTestData: { filterKey: VolunteeringFilterKey; option: string; facet: string }[] = [
       {
         filterKey: 'topics',
         option: 'migration-refugees',
+        facet: 'topics_v2',
       },
       {
         filterKey: 'skills',
         option: 'fundraising',
+        facet: 'skills_v2',
       },
       {
         filterKey: 'commitmentLabels',
         option: 'recurring',
+        facet: 'commitment_label',
       },
       {
         filterKey: 'commitmentDurations',
         option: 'DAYS_1',
+        facet: 'commitment_duration',
       },
     ]
     it.each(arrayFilterTestData)('should render title and filter options for $filterKey', ({ filterKey }) => {
@@ -72,12 +76,36 @@ describe('VolunteeringFilterModal', () => {
           filters={emptyFilters}
           onSubmit={jest.fn()}
           closeModal={jest.fn()}
+          facetCounts={{}}
         />
       )
 
-      expect(screen.getByText(`volunteering.filter.${filterKey}Modal.title`))
+      expect(screen.getByText(`volunteering.filter.${filterKey}Modal.title`)).toBeOnTheScreen()
       expect(screen.getAllByRole('switch')[0]).toHaveTextContent(expectedI18nKey)
     })
+
+    it.each(arrayFilterTestData)(
+      'should render options with facet counts for $filterKey',
+      ({ filterKey, option, facet }) => {
+        const expectedI18nKey = filterTranslationKeyMapping[filterKey]
+        render(
+          <VolunteeringFilterModal
+            filterKey={filterKey}
+            filters={emptyFilters}
+            onSubmit={jest.fn()}
+            closeModal={jest.fn()}
+            facetCounts={{
+              [facet]: {
+                [option]: 42,
+              },
+            }}
+          />
+        )
+
+        expect(screen.getByText(`volunteering.filter.${filterKey}Modal.title`)).toBeOnTheScreen()
+        expect(screen.getByTestId(`${filterKey}--${option}`)).toHaveTextContent(`${expectedI18nKey}.${option}42`)
+      }
+    )
 
     it.each(arrayFilterTestData)('should not call onSubmit on press of %s option', async ({ filterKey, option }) => {
       const i18nKey = filterTranslationKeyMapping[filterKey]
@@ -90,6 +118,7 @@ describe('VolunteeringFilterModal', () => {
           filters={emptyFilters}
           onSubmit={onSubmit}
           closeModal={jest.fn()}
+          facetCounts={{}}
         />
       )
 
@@ -111,6 +140,7 @@ describe('VolunteeringFilterModal', () => {
             filters={emptyFilters}
             onSubmit={onSubmit}
             closeModal={jest.fn()}
+            facetCounts={{}}
           />
         )
 
@@ -132,10 +162,11 @@ describe('VolunteeringFilterModal', () => {
           filters={fullFilters}
           onSubmit={jest.fn()}
           closeModal={jest.fn()}
+          facetCounts={{}}
         />
       )
 
-      expect(screen.getByText('volunteering.filter.locationModal.title'))
+      expect(screen.getByText('volunteering.filter.locationModal.title')).toBeOnTheScreen()
       expect(screen.getByRole('combobox')).toHaveProp('value', testLocation.label)
     })
 
@@ -149,11 +180,14 @@ describe('VolunteeringFilterModal', () => {
           filters={emptyFilters}
           onSubmit={onSubmit}
           closeModal={jest.fn()}
+          facetCounts={{}}
         />
       )
 
       // Simulate location selection
-      mockUsePlacesAutocomplete.mock.calls[0][0].onChange?.(testLocation)
+      act(() => {
+        mockUsePlacesAutocomplete.mock.calls[0][0].onChange?.(testLocation)
+      })
 
       await user.press(screen.getByText('volunteering.filter.locationModal.saveButton'))
 
@@ -170,7 +204,13 @@ describe('VolunteeringFilterModal', () => {
     const user = userEvent.setup()
 
     render(
-      <VolunteeringFilterModal filterKey={filterKey} filters={fullFilters} onSubmit={onSubmit} closeModal={jest.fn()} />
+      <VolunteeringFilterModal
+        filterKey={filterKey}
+        filters={fullFilters}
+        onSubmit={onSubmit}
+        closeModal={jest.fn()}
+        facetCounts={{}}
+      />
     )
 
     await user.press(screen.getByText('search.filter.reset_one'))
@@ -190,6 +230,7 @@ describe('VolunteeringFilterModal', () => {
           filters={fullFilters}
           onSubmit={onSubmit}
           closeModal={jest.fn()}
+          facetCounts={{}}
         />
       )
 
@@ -208,10 +249,14 @@ describe('VolunteeringFilterModal', () => {
     const user = userEvent.setup()
 
     render(
-      <VolunteeringFilterModal filterKey="topics" filters={emptyFilters} onSubmit={jest.fn()} closeModal={closeModal} />
+      <VolunteeringFilterModal
+        filterKey="topics"
+        filters={emptyFilters}
+        onSubmit={jest.fn()}
+        closeModal={closeModal}
+        facetCounts={{}}
+      />
     )
-
-    screen.debug()
 
     await user.press(screen.getByTestId('btn-to-close-volunteering-filter-modal'))
 
@@ -223,7 +268,13 @@ describe('VolunteeringFilterModal', () => {
     const user = userEvent.setup()
 
     render(
-      <VolunteeringFilterModal filterKey="topics" filters={emptyFilters} onSubmit={onSubmit} closeModal={jest.fn()} />
+      <VolunteeringFilterModal
+        filterKey="topics"
+        filters={emptyFilters}
+        onSubmit={onSubmit}
+        closeModal={jest.fn()}
+        facetCounts={{}}
+      />
     )
 
     await user.press(screen.getByTestId('btn-to-close-volunteering-filter-modal'))
@@ -236,7 +287,13 @@ describe('VolunteeringFilterModal', () => {
     const user = userEvent.setup()
 
     render(
-      <VolunteeringFilterModal filterKey="topics" filters={emptyFilters} onSubmit={jest.fn()} closeModal={closeModal} />
+      <VolunteeringFilterModal
+        filterKey="topics"
+        filters={emptyFilters}
+        onSubmit={jest.fn()}
+        closeModal={closeModal}
+        facetCounts={{}}
+      />
     )
 
     await user.press(screen.getByText('volunteering.filter.topicsModal.saveButton'))

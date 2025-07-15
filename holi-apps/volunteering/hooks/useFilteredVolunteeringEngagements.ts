@@ -55,6 +55,7 @@ export const useFilteredVolunteeringEngagements = ({
       filter_by: filterBy.join('&&'),
       sort_by: sortBy.join(','),
       per_page: pageSize,
+      facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
     }
   }, [
     filters.commitmentDurations,
@@ -88,5 +89,6 @@ export const useFilteredVolunteeringEngagements = ({
     canFetchMore: state.canFetchMore,
     fetchNextPage,
     totalResults: state.totalResults,
+    facetCounts: state.facetCounts,
   }
 }

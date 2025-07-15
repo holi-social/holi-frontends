@@ -2,12 +2,12 @@ import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
-import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
 import { FilteredVolunteeringEngagements } from '@holi-apps/volunteering/components/FilteredVolunteeringEngagements'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 const mockUseFilteredVolunteeringEngagements = jest.mocked(useFilteredVolunteeringEngagements)
-jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements', () => ({
+jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements', () => ({
   useFilteredVolunteeringEngagements: jest.fn(),
 }))
 
@@ -18,6 +18,7 @@ describe('FilteredVolunteeringEngagements', () => {
     canFetchMore: true,
     fetchNextPage: jest.fn(),
     totalResults: 123,
+    facetCounts: {},
   }
   const filters: VolunteeringFilters = {
     topics: ['disability-inclusion'],
