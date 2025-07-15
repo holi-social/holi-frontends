@@ -447,6 +447,14 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+    wantToDoIt: (
+      engagementId: string,
+      otherProperties: Record<string, string | number | undefined> = {}
+    ): TrackingEvent => ({
+      name: 'pressedVolunteeringEngagementWantToDoItButton',
+      properties: { engagementId, ...otherProperties },
+      ...versionOne,
+    }),
   }
 
   export const SpacePosts = {
