@@ -1,24 +1,26 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform } from 'react-native'
+import { Alert, Linking, Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { white } from 'holi-bricks/foundations'
-import { ExternalLink, MailLine, PhoneLine } from '@holi/icons/src/generated'
+import { ExternalLink, FileCopy, MailLine, PhoneLine } from '@holi/icons/src/generated'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { useTheme } from '@holi/ui/styles/theme'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { ButtonTracked } from '@holi/core/components/Trackable'
+import { ButtonIconTracked, ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 import { Text } from 'holi-bricks/components/text'
-import { ButtonIcon } from 'holi-bricks/components/button'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Image } from 'holi-bricks/components/image'
+import Clipboard from '@react-native-clipboard/clipboard'
+import { logError } from '@holi/core/errors/helpers'
 
 const isIos = Platform.OS === 'ios'
 
@@ -29,6 +31,40 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const { show, props: modalProps } = useModalState()
   const modalState = useModalState()
   const { styles } = useStyles(stylesheet)
+
+  const email = 'test.email@gmail.com' // todo: document?.email
+  const phoneNumber = '0152' // todo: document?.phonenumber
+  const website = document?.externalUrl
+
+  const sendEmail = () => {
+    const mailtoUrl = `mailto:${email}`
+    Linking.openURL(mailtoUrl).catch((err) => {
+      logError(err, 'Error opening mail app on ' + Platform.OS, {
+        location: 'VolunteeringDetailsScreen.sendMail',
+        email,
+      })
+    })
+  }
+
+  const callNumber = () => {
+    const telUrl = `tel:${phoneNumber}`
+    Linking.openURL(telUrl).catch((err) => {
+      logError(err, 'Error opening phone dialer on ' + Platform.OS, {
+        location: 'VolunteeringDetailsScreen.callNumber',
+        phoneNumber,
+      })
+    })
+  }
+
+  const openWebsite = () => {
+    if (document?.externalUrl) {
+      if (Platform.OS === 'web') {
+        Linking.openURL(document?.externalUrl)
+      } else {
+        show()
+      }
+    }
+  }
 
   return (
     <Screen
@@ -78,7 +114,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               })}
               icon={ExternalLink}
               variant="secondary"
-              label={t('volunteering.engagementDetail.getInTouch')} // todo: change in localazy to "Visit partner's page"
+              label="Visit partner’s page" // todo: localazy
               onPress={() => {
                 if (document?.externalUrl) {
                   if (Platform.OS === 'web') {
@@ -121,52 +157,142 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
 
               {/* contact information */}
               <Stack gap="3xs">
-                {/* email */}
-                <Stack
-                  borderColor="default"
-                  borderRadius="xs"
-                  borderStyle="solid"
-                  borderWidth="sm"
-                  padding="xs"
-                  direction="row"
-                  justifyContent="space-between"
-                  gap="xs"
-                  backgroundColor="support"
-                >
-                  <Stack gap="4xs" flexShrink={1}>
-                    <Text size="xs" color="support">
-                      Email
-                    </Text>
-                    {/* todo: use contactData from VO */}
-                    <Text size="md">fullName.test@gmail.com</Text>
+                {email && (
+                  <Stack
+                    borderColor="default"
+                    borderRadius="xs"
+                    borderStyle="solid"
+                    borderWidth="sm"
+                    padding="xs"
+                    direction="row"
+                    justifyContent="space-between"
+                    gap="xs"
+                    backgroundColor="support"
+                  >
+                    <Stack gap="4xs" flexShrink={1}>
+                      <Text size="xs" color="support">
+                        {/* localazy */}
+                        Email
+                      </Text>
+                      <Text size="md">{email}</Text>
+                    </Stack>
+                    {Platform.OS === 'web' ? (
+                      <Stack flexShrink={1}>
+                        <Button
+                          icon={FileCopy}
+                          label="Copy"
+                          variant="secondary"
+                          onPress={() => {
+                            Clipboard.setString(email)
+                            Alert.alert('Copied', `${email} has been copied to the clipboard.`)
+                          }}
+                        />
+                      </Stack>
+                    ) : (
+                      <ButtonIcon icon={MailLine} label="email" variant="secondary" onPress={sendEmail} />
+                    )}
                   </Stack>
-                  {/* todo: open email */}
-                  <ButtonIcon icon={MailLine} label="email" variant="secondary" />
-                </Stack>
+                )}
 
-                {/* phone number */}
-                <Stack
-                  borderColor="default"
-                  borderRadius="xs"
-                  borderStyle="solid"
-                  borderWidth="sm"
-                  padding="xs"
-                  direction="row"
-                  justifyContent="space-between"
-                  gap="xs"
-                  backgroundColor="support"
-                >
-                  <Stack gap="4xs" flexShrink={1}>
-                    <Text size="xs" color="support">
-                      Phone number
-                    </Text>
-                    {/* todo: use contactData from VO */}
-                    <Text size="md">+49 123 4567890</Text>
+                {phoneNumber && (
+                  <Stack
+                    borderColor="default"
+                    borderRadius="xs"
+                    borderStyle="solid"
+                    borderWidth="sm"
+                    padding="xs"
+                    direction="row"
+                    justifyContent="space-between"
+                    gap="xs"
+                    backgroundColor="support"
+                  >
+                    <Stack gap="4xs" flexShrink={1}>
+                      <Text size="xs" color="support">
+                        {/* localazy */}
+                        Phone number
+                      </Text>
+                      <Text size="md">{phoneNumber}</Text>
+                    </Stack>
+                    {Platform.OS === 'web' ? (
+                      <Stack flexShrink={1}>
+                        <Button
+                          icon={FileCopy}
+                          label="Copy"
+                          variant="secondary"
+                          onPress={() => {
+                            Clipboard.setString(phoneNumber)
+                            Alert.alert('Copied', `${phoneNumber} has been copied to the clipboard.`)
+                          }}
+                        />
+                      </Stack>
+                    ) : (
+                      <ButtonIcon icon={PhoneLine} label="phone number" variant="secondary" onPress={callNumber} />
+                    )}
                   </Stack>
-                  {/* todo: open phone */}
-                  <ButtonIcon icon={PhoneLine} label="email" variant="secondary" />
-                </Stack>
+                )}
+
+                {website && (
+                  <Stack
+                    borderColor="default"
+                    borderRadius="xs"
+                    borderStyle="solid"
+                    borderWidth="sm"
+                    padding="xs"
+                    direction="row"
+                    justifyContent="space-between"
+                    gap="xs"
+                    backgroundColor="support"
+                  >
+                    <Stack gap="4xs" flexShrink={1}>
+                      <Text size="xs" color="support">
+                        {/* localazy */}
+                        Website
+                      </Text>
+                      <Text size="md">{document?.externalUrl}</Text>
+                    </Stack>
+                    <ButtonIconTracked
+                      trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
+                        commitmentType: document?.commitmentType,
+                        locationType: document?.locationType,
+                        source: document?.source,
+                      })}
+                      variant="secondary"
+                      icon={ExternalLink}
+                      label={t('volunteering.engagementDetail.getInTouch')}
+                      onPress={openWebsite}
+                      testID="volunteering-engagement-get-in-touch-btn"
+                    />
+                  </Stack>
+                )}
               </Stack>
+
+              {/* todo: remove unused code */}
+              {/* button */}
+              {/* {website && (
+                <ButtonTracked
+                  trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
+                    commitmentType: document?.commitmentType,
+                    locationType: document?.locationType,
+                    source: document?.source,
+                  })}
+                  size="lg"
+                  icon={ExternalLink}
+                  label={t('volunteering.engagementDetail.getInTouch')}
+                  onPress={() => {
+                    if (document?.externalUrl) {
+                      if (Platform.OS === 'web') {
+                        Linking.openURL(document?.externalUrl)
+                      } else {
+                        show()
+                      }
+                    }
+                  }}
+                  testID="volunteering-engagement-get-in-touch-btn"
+                />
+              )}
+              {email && !website && (
+                <Button label="Write e-mail to the initiator" size="lg" icon={ExternalLink} onPress={sendEmail} />
+              )} */}
             </Stack>
           </HoliModal>
         </>
