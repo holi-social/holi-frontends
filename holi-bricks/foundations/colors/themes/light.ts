@@ -4,6 +4,31 @@ import { lightChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { lightSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
 import { blue, green, mono, orange, purple, red, transparent, yellow } from 'holi-bricks/foundations'
 
+const decorative = {
+  black: mono[800],
+  white: mono[100],
+  greyLight: mono[300],
+  greyDark: mono[600],
+  yellowLight: yellow[300],
+  yellowDefault: yellow[400],
+  yellowDark: yellow[600],
+  purpleLight: purple[300],
+  purpleDefault: purple[400],
+  purpleDark: purple[600],
+  greenLight: green[300],
+  greenDefault: green[400],
+  greenDark: green[600],
+  blueLight: blue[300],
+  blueDefault: blue[400],
+  blueDark: blue[600],
+  orangeLight: orange[300],
+  orangeDefault: orange[400],
+  orangeDark: orange[600],
+  redLight: red[300],
+  redDefault: red[400],
+  redDark: red[600],
+}
+
 export const lightTheme = {
   shadows: {
     200: {
@@ -23,6 +48,7 @@ export const lightTheme = {
       selected: mono[800],
       muted: mono[300],
       overlay: transparent.mono800.at12,
+      ...decorative,
     },
     fill: {
       main: mono[800],
@@ -40,31 +66,9 @@ export const lightTheme = {
       support: mono[400],
       default: mono[300],
       muted: mono[100],
+      ...decorative,
     },
-    decorative: {
-      black: mono[800],
-      white: mono[100],
-      greyLight: mono[300],
-      greyDark: mono[600],
-      yellowLight: yellow[300],
-      yellowDefault: yellow[400],
-      yellowDark: yellow[600],
-      purpleLight: purple[300],
-      purpleDefault: purple[400],
-      purpleDark: purple[600],
-      greenLight: green[300],
-      greenDefault: green[400],
-      greenDark: green[600],
-      blueLight: blue[300],
-      blueDefault: blue[400],
-      blueDark: blue[600],
-      orangeLight: orange[300],
-      orangeDefault: orange[400],
-      orangeDark: orange[600],
-      redLight: red[300],
-      redDefault: red[400],
-      redDark: red[600],
-    },
+    decorative,
   },
   components: {
     button: lightButtonTheme,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Alert, Linking, Platform } from 'react-native'
+import { Linking, Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
@@ -19,7 +19,6 @@ import { Text } from 'holi-bricks/components/text'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Image } from 'holi-bricks/components/image'
-import Clipboard from '@react-native-clipboard/clipboard'
 import { logError } from '@holi/core/errors/helpers'
 
 const isIos = Platform.OS === 'ios'
@@ -29,7 +28,8 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
-  const modalState = useModalState()
+  const commitmentModal = useModalState()
+  const reachedOutModal = useModalState()
   const { styles } = useStyles(stylesheet)
 
   const email = 'test.email@gmail.com' // todo: document?.email
@@ -103,7 +103,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                 source: document?.source,
               })}
               label={'I want to do it'} // todo: localazy
-              onPress={modalState.show}
+              onPress={commitmentModal.show}
               testID="volunteering-engagement-want-to-do-it-btn"
             />
             <ButtonTracked
@@ -128,8 +128,8 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
             />
           </Stack>
           <HoliModal
-            shown={modalState.visible}
-            onDismiss={modalState.hide}
+            shown={commitmentModal.visible}
+            onDismiss={commitmentModal.hide}
             autoHeight
             label="I want to do it"
             backgroundColor={styles.modalBackground.backgroundColor}
@@ -150,6 +150,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               <Stack gap="3xs">
                 {/* todo: localazy */}
                 <Text size="3xl">Ready? Let’s go!</Text>
+                {/* todo: localazy */}
                 <Text size="md">
                   Take the first step and reach out to the contact person to exchange on how you can support:
                 </Text>
@@ -183,8 +184,14 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                           label="Copy"
                           variant="secondary"
                           onPress={() => {
-                            Clipboard.setString(email)
-                            Alert.alert('Copied', `${email} has been copied to the clipboard.`)
+                            navigator.clipboard
+                              .writeText(email)
+                              .then(() => alert('Copied!'))
+                              .catch((err) =>
+                                logError(err, 'Failed to copy', {
+                                  location: 'VolunteeringDetailsScreen.sendMail',
+                                })
+                              )
                           }}
                         />
                       </Stack>
@@ -220,8 +227,14 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                           label="Copy"
                           variant="secondary"
                           onPress={() => {
-                            Clipboard.setString(phoneNumber)
-                            Alert.alert('Copied', `${phoneNumber} has been copied to the clipboard.`)
+                            navigator.clipboard
+                              .writeText(phoneNumber)
+                              .then(() => alert('Copied!'))
+                              .catch((err) =>
+                                logError(err, 'Failed to copy', {
+                                  location: 'VolunteeringDetailsScreen.sendMail',
+                                })
+                              )
                           }}
                         />
                       </Stack>
@@ -293,6 +306,49 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               {email && !website && (
                 <Button label="Write e-mail to the initiator" size="lg" icon={ExternalLink} onPress={sendEmail} />
               )} */}
+            </Stack>
+          </HoliModal>
+
+          <HoliModal
+            shown={reachedOutModal.visible}
+            onDismiss={reachedOutModal.hide}
+            autoHeight
+            label="Did you reach out?"
+            backgroundColor={styles.modalBackground.backgroundColor}
+          >
+            <Stack padding="md" gap="md">
+              {/* image */}
+              <Stack alignItems="center">
+                {/* todo: animate and change illustration */}
+                <Image
+                  source={require('@holi/ui/assets/img/volunteering/rocket-animation-loop.svg')}
+                  width={0}
+                  height={0}
+                  alt={'illustration'}
+                />
+              </Stack>
+
+              {/* heading */}
+              <Stack gap="3xs">
+                <Text size="3xl">Did you reach out?</Text>
+                <Text size="md">Let us know, if you contacted the initiator to get more details.</Text>
+              </Stack>
+
+              {/* buttons */}
+              <Stack gap="xxs">
+                <ButtonTracked
+                  trackingEvent={TrackingEvent.Volunteering.reachedOut(engagementId, {
+                    commitmentType: document?.commitmentType,
+                    locationType: document?.locationType,
+                    source: document?.source,
+                  })}
+                  size="lg"
+                  label={'Yes, I reached out'} // todo: localazy
+                  onPress={() => {}}
+                  testID="volunteering-engagement-get-in-touch-btn"
+                />
+                <Button label="No, not yet" variant="secondary" size="lg" onPress={reachedOutModal.hide} />
+              </Stack>
             </Stack>
           </HoliModal>
         </>
