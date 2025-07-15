@@ -60,6 +60,7 @@ export const lightTheme = {
       positive: green[700],
       warning: orange[600],
       danger: red[600],
+      ...decorative,
     },
     border: {
       main: mono[800],

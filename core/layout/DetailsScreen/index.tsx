@@ -21,6 +21,7 @@ import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/autho
 import { Spacing } from 'holi-bricks/foundations'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
+import { ChipStatus } from '@holi-apps/volunteering/components/ChipStatus'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -49,6 +50,8 @@ type BodyContent = {
   content: string
 }
 
+export type VolunteeringEngagementStatus = 'planned' | 'contacted' | 'doing' | 'done'
+
 export type DetailsScreenData = {
   date?: Date | string
   bodyContent?: BodyContent | BodyContent[]
@@ -68,6 +71,8 @@ export type DetailsScreenData = {
   placeholderImage?: MultiPlatformImageSource
   descriptionTitle?: string
   additionalContent?: ReactNode | ReactNode[]
+  progressCard?: ReactNode
+  status?: VolunteeringEngagementStatus
 }
 
 type DetailsScreenProps = DetailsScreenData
@@ -107,6 +112,8 @@ export const DetailsScreen = ({
   _footer = null,
   placeholderImage,
   additionalContent,
+  progressCard,
+  status,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
 
@@ -156,19 +163,26 @@ export const DetailsScreen = ({
         {/* written content */}
         <Stack
           margin={{ bottom: '4xl' }}
-          padding={{ left: 'xs', right: 'xs', bottom: 'sm' }}
+          padding={{ left: 'xs', right: 'xs', bottom: 'sm', top: 'xs' }}
           borderRadius={{
             bottomLeft: 'md',
             bottomRight: 'md',
           }}
           backgroundColor="support"
         >
-          {/* visibility label (public or private) */}
-          <Stack direction="row" shouldRender={!!visibility} gap="xxs" alignItems="center" padding={{ top: 'sm' }}>
-            <HoliIcon size={14} icon={visibility == 'public' ? Global : Lock} />
-            <Text headingLevel="1" size="xs">
-              {t(`privacy.visibility.${visibility}`)}
-            </Text>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            {/* visibility label (public or private) */}
+            <Stack direction="row" shouldRender={!!visibility} gap="xxs" alignItems="center">
+              <HoliIcon size={14} icon={visibility == 'public' ? Global : Lock} />
+              <Text headingLevel="1" size="xs">
+                {t(`privacy.visibility.${visibility}`)}
+              </Text>
+            </Stack>
+            {status && (
+              <Stack>
+                <ChipStatus status={status} />
+              </Stack>
+            )}
           </Stack>
 
           <Stack padding={{ top: 'md' }} gap="sm">
@@ -189,6 +203,11 @@ export const DetailsScreen = ({
                 {title}
               </Text>
             </Stack>
+
+            {/* progress card */}
+            {progressCard && <Stack>{progressCard}</Stack>}
+
+            {/* seo description */}
 
             {/* organizational information */}
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>

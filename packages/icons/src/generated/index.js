@@ -1,4 +1,7 @@
+export { default as OneOfThree } from './OneOfThree'
 export { default as SupportReaction } from './SupportReaction'
+export { default as ThreeOfThree } from './ThreeOfThree'
+export { default as TwoOfThree } from './TwoOfThree'
 export { default as AccountCircleFilled } from './AccountCircleFilled'
 export { default as AccountCircle } from './AccountCircle'
 export { default as AddBoxFilled } from './AddBoxFilled'
