@@ -6,6 +6,8 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Snackbar, type SnackbarProps } from 'holi-bricks/components/snackbar/Snackbar'
+import { useRouteChange } from '@holi/core/navigation/hooks/useRouteChange'
+import { useCallback } from 'react'
 
 const initialSnackbarOptions: SnackbarProps = {
   label: '',
@@ -47,6 +49,13 @@ export const SnackbarGlobal = () => {
   const { navigationCustomOptions } = useScreenOptions()
   const footerOffset = navigationCustomOptions?.footerShown ? dimensions.bottomBarHeight : 0
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
+
+  // Close snackbar when route changes
+  useRouteChange(
+    useCallback(() => {
+      setSnackbarOptions({ visible: false })
+    }, [])
+  )
 
   // Generate hash from options to trigger animation
   const optionsHash = createObjectHash(options)
