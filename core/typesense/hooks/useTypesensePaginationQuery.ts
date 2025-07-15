@@ -1,7 +1,10 @@
 import { useQuery } from '@apollo/client'
-import { Typesense_MultiSearchDocument } from '@holi/api/graphql/graphql-codegen'
+import {
+  Typesense_MultiSearchDocument,
+  type Typesense_SearchResponseFacetCounts,
+} from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
-import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
+import type { SearchParams, SearchResponseHit, TypesenseFacetCounts } from '@holi/core/typesense/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const INITIAL_PAGE = 1
@@ -22,6 +25,7 @@ export interface TypesensePaginationState {
   currentPage: number
   parameters: SearchParams
   error?: Error
+  facetCounts: TypesenseFacetCounts
 }
 
 export interface UseTypesensePaginationQueryHook {
@@ -38,7 +42,16 @@ const emptyState: Omit<TypesensePaginationState, 'parameters'> = {
   totalResults: 0,
   currentPage: 0,
   canFetchMore: false,
+  facetCounts: {},
 }
+
+const transformFacetCounts = (facetCounts?: Typesense_SearchResponseFacetCounts[]) =>
+  Object.fromEntries(
+    facetCounts?.map(({ counts, field_name }) => {
+      const count_entries = counts.map(({ count, value }) => [value, count])
+      return [field_name, Object.fromEntries(count_entries)]
+    }) ?? []
+  )
 
 export const useTypesensePaginationQuery = ({
   parameters,
@@ -109,6 +122,7 @@ export const useTypesensePaginationQuery = ({
           currentPage: results.page,
           canFetchMore,
           parameters,
+          facetCounts: transformFacetCounts(results.facet_counts),
         }
       }
     }

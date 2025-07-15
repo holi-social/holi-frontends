@@ -7,6 +7,7 @@ import {
   type Typesense_SearchResponseError,
   type Typesense_Document,
   Typesense_DocumentType,
+  type Typesense_MultiSearchResponse,
 } from '@holi/api/graphql/graphql-codegen'
 import {
   useTypesensePaginationQuery,
@@ -70,6 +71,7 @@ const testResponse: Typesense_SearchResponse = {
   out_of: 1234,
   request_params: {},
   search_time_ms: 0,
+  facet_counts: [],
   __typename: 'Typesense_SearchResponseSuccess',
 }
 
@@ -364,5 +366,72 @@ describe('useTypesensePaginationQuery', () => {
 
     expect(result.current.state.isLoading).toBeFalsy()
     expect(result.current.state.hits).toHaveLength(0)
+  })
+
+  it('should transform facet counts', async () => {
+    const actualFacetCounts = [
+      {
+        counts: [
+          {
+            count: 36,
+            value: 'negotiable',
+            highlighted: '',
+          },
+          {
+            count: 33,
+            value: 'one-time',
+            highlighted: '',
+          },
+          {
+            count: 28,
+            value: 'recurring',
+            highlighted: '',
+          },
+        ],
+        field_name: 'commitment_label',
+      },
+      {
+        counts: [
+          {
+            count: 42,
+            value: 'HOURS_1to2',
+            highlighted: '',
+          },
+          {
+            count: 29,
+            value: 'HOURS_2to4',
+            highlighted: '',
+          },
+          {
+            count: 31,
+            value: 'HOURS_4to6',
+            highlighted: '',
+          },
+        ],
+        field_name: 'commitment_duration',
+      },
+    ]
+    const expectedFacetCounts = {
+      commitment_label: {
+        negotiable: 36,
+        'one-time': 33,
+        recurring: 28,
+      },
+      commitment_duration: {
+        HOURS_1to2: 42,
+        HOURS_2to4: 29,
+        HOURS_4to6: 31,
+      },
+    }
+
+    const response: Typesense_MultiSearchResponse['results'][number] = {
+      ...testResponse,
+      facet_counts: actualFacetCounts,
+    }
+    const { result } = renderQueryHook({ response })
+
+    await act(jest.runOnlyPendingTimersAsync)
+
+    expect(result.current.state.facetCounts).toEqual(expectedFacetCounts)
   })
 })
