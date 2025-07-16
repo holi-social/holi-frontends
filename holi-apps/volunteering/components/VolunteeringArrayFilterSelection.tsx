@@ -18,22 +18,25 @@ interface VolunteeringArrayFilterSelectionProps {
   filterKey: keyof Omit<VolunteeringFilters, 'location'>
   selected?: string[]
   onSelect: (items: string[]) => void
-  searchable?: boolean
+  longListOfOptions?: boolean
 }
 
 export const VolunteeringArrayFilterSelection = ({
   filterKey,
   selected = [],
   onSelect,
-  searchable = false,
+  longListOfOptions = false,
 }: VolunteeringArrayFilterSelectionProps) => {
   const { t } = useTranslation()
   const options: VolunteeringArrayFilterOption[] = useVolunteeringFilterOptions(filterKey)
 
   const sortedOptions = useMemo(() => {
+    if (!longListOfOptions) {
+      return options
+    }
     const [selectedOptions, unselectedOptions] = partition(options, (option) => selected.includes(option.term))
     return [...selectedOptions, ...unselectedOptions]
-  }, [options, selected])
+  }, [options, selected, longListOfOptions])
   const [filterString, setFilterString] = useState('')
 
   const filteredOptions = useMemo(
@@ -59,7 +62,7 @@ export const VolunteeringArrayFilterSelection = ({
 
   return (
     <Stack gap="xxs" flex={1}>
-      {searchable && (
+      {longListOfOptions && (
         <HoliTextInput
           aria-label={t(`volunteering.filter.${filterKey}.placeholder`)}
           value={filterString}
@@ -70,6 +73,7 @@ export const VolunteeringArrayFilterSelection = ({
             inputMode: 'search',
             returnKeyType: 'search',
             accessibilityRole: 'search',
+            role: 'searchbox',
           }}
         />
       )}

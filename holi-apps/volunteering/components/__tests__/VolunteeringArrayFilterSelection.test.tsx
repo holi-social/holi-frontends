@@ -35,21 +35,41 @@ describe('VolunteeringArrayFilterSelection', () => {
     assertOptionsInOrder(['Option 0', 'Option 1', 'Option 2', 'Option 3', 'Option 4'])
   })
 
-  it('sorts selected options to the front', () => {
-    render(<VolunteeringArrayFilterSelection filterKey="topics" selected={selectedOptions} onSelect={jest.fn()} />)
+  it("sorts selected options to the front if it's a long list of options", () => {
+    render(
+      <VolunteeringArrayFilterSelection
+        filterKey="topics"
+        selected={selectedOptions}
+        onSelect={jest.fn()}
+        longListOfOptions={true}
+      />
+    )
 
     assertOptionsInOrder(['Option 2', 'Option 4', 'Option 0', 'Option 1', 'Option 3'])
   })
 
-  it('allows filtering options', async () => {
+  it('does not sort selected options to the front for short lists', () => {
+    render(<VolunteeringArrayFilterSelection filterKey="topics" selected={selectedOptions} onSelect={jest.fn()} />)
+
+    assertOptionsInOrder(['Option 0', 'Option 1', 'Option 2', 'Option 3', 'Option 4'])
+  })
+
+  it('allows filtering options of long lists', async () => {
     mockUseVolunteeringFilterOptions.mockReturnValue(createOptions(12))
     const user = userEvent.setup()
 
-    render(<VolunteeringArrayFilterSelection filterKey="topics" selected={[]} onSelect={jest.fn()} searchable={true} />)
+    render(
+      <VolunteeringArrayFilterSelection
+        filterKey="topics"
+        selected={[]}
+        onSelect={jest.fn()}
+        longListOfOptions={true}
+      />
+    )
 
-    expect(screen.getByRole('search')).toBeOnTheScreen()
+    expect(screen.getByRole('searchbox')).toBeOnTheScreen()
 
-    await user.type(screen.getByRole('search'), 'option 1')
+    await user.type(screen.getByRole('searchbox'), 'option 1')
 
     assertOptionsInOrder(['Option 1', 'Option 10', 'Option 11'])
   })

@@ -54,7 +54,7 @@ export function SearchTextInput({ filter, onQueryChange }: SearchBoxProps) {
         onSubmitEditing: submitQuery,
         inputMode: 'search',
         returnKeyType: 'search',
-        accessibilityRole: 'search',
+        role: 'searchbox',
       }}
       trailingComponent={
         <Button

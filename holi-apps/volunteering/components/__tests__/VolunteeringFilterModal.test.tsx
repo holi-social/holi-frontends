@@ -211,6 +211,8 @@ describe('VolunteeringFilterModal', () => {
       <VolunteeringFilterModal filterKey="topics" filters={emptyFilters} onSubmit={jest.fn()} closeModal={closeModal} />
     )
 
+    screen.debug()
+
     await user.press(screen.getByTestId('btn-to-close-volunteering-filter-modal'))
 
     expect(closeModal).toHaveBeenCalled()

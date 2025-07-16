@@ -18,6 +18,7 @@ const releaseInfoNotification: NotificationReleaseInfo = {
       creator: { id: '123', avatarLabel: 'foo', avatarDefaultColor: 'red', fullName: 'Peter', identity: 'peter' },
       numberOfComments: 0,
       commenters: { totalResults: 0, data: [] },
+      reactors: { totalResults: 0, data: [] },
       myReaction: { HEART: 1 },
       reactions: { HEART: 10 },
       __typename: 'FeedPost',

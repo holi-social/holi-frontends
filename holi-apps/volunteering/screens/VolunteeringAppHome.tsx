@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -13,8 +12,6 @@ import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/Vo
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
-
-const isWeb = Platform.OS === 'web'
 
 const VolunteeringAppHome = () => {
   const { t } = useTranslation()
@@ -40,11 +37,9 @@ const VolunteeringAppHome = () => {
       }}
       testID="volunteering-list-container"
       noContainerPaddingWeb={true}
-      StickyTopComponent={isWeb && headerComponent}
+      StickyTopComponent={headerComponent}
       scrollViewProps={throttledScrollEventProps}
     >
-      {!isWeb && headerComponent}
-
       <VolunteeringListingDiscovery
         filters={filters}
         clearFilters={clearFilters}

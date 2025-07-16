@@ -8,6 +8,7 @@ import {
   Platform,
   StyleSheet,
   type ViewStyle,
+  View,
 } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
@@ -25,6 +26,7 @@ export interface HoliReactionsCountProps {
   count?: number
   active?: boolean
   onPress?: (event: SyntheticEvent | GestureResponderEvent) => void
+  onCountPress?: (event: SyntheticEvent | GestureResponderEvent) => void
   onMouseEnter?: (event: MouseEnterOutEvent) => void
   onMouseOut?: (event: MouseEnterOutEvent) => void
   style?: ViewStyle
@@ -37,6 +39,7 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
   count = 0,
   active = false,
   onPress = () => null,
+  onCountPress = () => null,
   onMouseEnter = () => null,
   onMouseOut = () => null,
   style,
@@ -95,28 +98,45 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
     [onPress, scale]
   )
 
+  const handleCountPress = useCallback(
+    (event: SyntheticEvent | GestureResponderEvent) => {
+      onCountPress(event)
+    },
+    [onCountPress]
+  )
+
   return (
-    <HoliButton
-      label={labelText}
-      onPress={handlePress}
-      onMouseEnter={onNativeMouseEnter}
-      onMouseOut={onNativeMouseOut}
-      transparent
-      style={[styles.outer, style]}
-      contentStyle={styles.container}
-      testID={testID}
-    >
-      <HoliText
-        selectable={false}
-        style={[styles.text, (active || hovered) && !theme.dark && { color: theme.colors.black300 }]}
-        testID={`${testID}-counter`}
+    <View style={[styles.outer, style]}>
+      <HoliButton
+        label={t('insights.reactions.post.viewReactions')}
+        onPress={handleCountPress}
+        transparent
+        style={styles.countButton}
+        testID={`${testID}-count-button`}
       >
-        {count}
-      </HoliText>
-      <Animated.View style={animatedStyle}>
-        <HoliIcon icon={icon} />
-      </Animated.View>
-    </HoliButton>
+        <HoliText
+          selectable={false}
+          style={[styles.text, (active || hovered) && !theme.dark && { color: theme.colors.black300 }]}
+          testID={`${testID}-counter`}
+        >
+          {count}
+        </HoliText>
+      </HoliButton>
+      <HoliButton
+        label={labelText}
+        onPress={handlePress}
+        onMouseEnter={onNativeMouseEnter}
+        onMouseOut={onNativeMouseOut}
+        transparent
+        style={styles.iconButton}
+        contentStyle={styles.iconContainer}
+        testID={`${testID}-icon-button`}
+      >
+        <Animated.View style={animatedStyle}>
+          <HoliIcon icon={icon} />
+        </Animated.View>
+      </HoliButton>
+    </View>
   )
 }
 
@@ -126,9 +146,20 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     outer: {
       width: 'auto',
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     container: {
       flexDirection: 'row',
+      alignItems: 'center',
+    },
+    countButton: {
+      width: 'auto',
+    },
+    iconButton: {
+      width: 'auto',
+    },
+    iconContainer: {
       alignItems: 'center',
     },
     text: {

@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
@@ -25,13 +26,16 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
   const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
   const [detailUrl, setDetailUrl] = useState('')
 
-  useEffect(() => {
-    const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
-      setDetailUrl(url)
-    }
-    initUrl()
+  const updatePromoState = useCallback(async () => {
+    const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
+    setDetailUrl(url)
   }, [challenge.id])
+
+  useFocusEffect(
+    useCallback(() => {
+      updatePromoState()
+    }, [updatePromoState])
+  )
 
   return (
     <View style={styles.container}>

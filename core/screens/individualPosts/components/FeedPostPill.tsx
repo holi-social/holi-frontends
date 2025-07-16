@@ -24,7 +24,7 @@ const placeholderSettingPresentationByPostSetting: Record<PostSetting, SettingPr
     label: 'individuals.post.category.label.category',
   },
   topic: {
-    label: 'individuals.post.category.label.topic',
+    label: 'individuals.post.category.label.topic_one',
   },
 }
 
