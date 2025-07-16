@@ -7,9 +7,9 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { Spacing } from 'holi-bricks/foundations'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIcon, type HoliIconProps } from '@holi/icons/src/HoliIcon'
 
-export interface HeaderBackButtonProps {
+export interface HeaderBackButtonProps extends Pick<HoliIconProps, 'shadow'> {
   label?: string
   tintColor?: string
   icon?: HoliIconType
@@ -26,6 +26,7 @@ const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
   onPress,
   testID = 'nav-button-back',
   fallbackRoute,
+  shadow,
   ...props
 }) => {
   const { navigateBack } = useRouting()
@@ -40,7 +41,7 @@ const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
       testID={testID}
       {...props}
     >
-      <HoliIcon icon={icon} size={Spacing.md} colorOverride={tintColor} />
+      <HoliIcon icon={icon} size={Spacing.md} colorOverride={tintColor} shadow={shadow} />
     </HoliButton>
   )
 }
