@@ -76,7 +76,7 @@ const useFeedPostCategories = () => {
     'good-deed': {
       idx: 6,
       name: t('individuals.post.category.name.goodDeed'),
-      label: t('individuals.post.category.label.goodDeed'),
+      label: t('individuals.post.category.name.goodDeed'),
       secondaryLabel: t('individuals.post.category.label.goodDeed'),
       description: t('individuals.post.category.description.goodDeed'),
       image: require('@holi/ui/assets/img/posts/category-good-deed-illustrations.svg'),
