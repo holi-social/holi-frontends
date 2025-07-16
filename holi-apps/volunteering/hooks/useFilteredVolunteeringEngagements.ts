@@ -28,7 +28,7 @@ export const useFilteredVolunteeringEngagements = ({
     }
   }, [filters, pageSize])
 
-  const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
+  const { state, isLoading, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,
     skip: loadingFilters,
     onError: (error) => {
@@ -46,7 +46,7 @@ export const useFilteredVolunteeringEngagements = ({
   useOnRefresh(refetch)
 
   return {
-    isLoading: state.isLoading || loadingFilters,
+    isLoading: isLoading || loadingFilters,
     engagements,
     canFetchMore: state.canFetchMore,
     fetchNextPage,

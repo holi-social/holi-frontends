@@ -27,7 +27,7 @@ export const useVolunteeringRecos = ({ pageSize, displayErrors }: UseVolunteerin
     },
   })
 
-  const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
+  const { state, isLoading, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,
     skip: isLoadingParameters,
     onError: (error) => {
@@ -45,7 +45,7 @@ export const useVolunteeringRecos = ({ pageSize, displayErrors }: UseVolunteerin
   useOnRefresh(refetch)
 
   return {
-    isLoading: state.isLoading || isLoadingParameters,
+    isLoading: isLoading || isLoadingParameters,
     engagements,
     canFetchMore: state.canFetchMore,
     fetchNextPage,

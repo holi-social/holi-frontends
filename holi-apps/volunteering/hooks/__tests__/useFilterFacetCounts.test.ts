@@ -1,13 +1,16 @@
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
+import {
+  type TypesensePaginationState,
+  useTypesensePaginationMultiQuery,
+} from '@holi/core/typesense/hooks/useTypesensePaginationMultiQuery'
 import { renderHook } from '@testing-library/react-native'
-import { fullFilters } from '@holi-apps/volunteering/__tests__/testData'
+import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 
-const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
-jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
-  useTypesensePaginationQuery: jest.fn(),
+const mockUseTypesensePaginationMultiQuery = jest.mocked(useTypesensePaginationMultiQuery)
+jest.mock('@holi/core/typesense/hooks/useTypesensePaginationMultiQuery', () => ({
+  useTypesensePaginationMultiQuery: jest.fn(),
 }))
 
 const mockUseOnRefresh = jest.mocked(useOnRefresh)
@@ -21,50 +24,55 @@ jest.mock('@holi/core/errors/hooks', () => ({
 }))
 
 describe('useFilterFacetCounts', () => {
-  const facetCounts = {
-    topics_v2: {
-      'migration-refugees': 1,
+  const facetCounts: TypesensePaginationState['facetCounts'][] = [
+    {
+      topics_v2: {
+        'migration-refugees': 1,
+      },
     },
-    skills_v2: {
-      fundraising: 2,
+    {
+      skills_v2: {
+        fundraising: 2,
+      },
     },
-    commitment_label: {
-      recurring: 3,
+    {
+      commitment_label: {
+        recurring: 3,
+      },
     },
-    commitment_duration: {
-      DAYS_1: 4,
+    {
+      commitment_duration: {
+        DAYS_1: 4,
+      },
     },
-  }
-  const searchResult = {
-    state: {
-      isLoading: false,
+  ]
+  const searchResults = {
+    isLoading: false,
+    states: facetCounts.map((result) => ({
       hits: [],
       canFetchMore: true,
       totalResults: 123,
       totalNrOfPages: 13,
       currentPage: 1,
       parameters: {},
-      facetCounts,
-    },
+      facetCounts: result,
+    })),
     isFetchingMore: false,
-    fetchNextPage: jest.fn(),
+    fetchNextPages: jest.fn(),
     refetch: jest.fn(),
   }
 
   beforeEach(() => {
-    mockUseTypesensePaginationQuery.mockReturnValue(searchResult)
+    mockUseTypesensePaginationMultiQuery.mockReturnValue(searchResults)
     mockUseErrorHandling.mockReturnValue({
       displayError: jest.fn(),
     })
   })
 
   it('should expose loading flag while loading resluts', () => {
-    mockUseTypesensePaginationQuery.mockReturnValue({
-      ...searchResult,
-      state: {
-        ...searchResult.state,
-        isLoading: true,
-      },
+    mockUseTypesensePaginationMultiQuery.mockReturnValue({
+      ...searchResults,
+      isLoading: true,
     })
 
     const { result } = renderHook(() => useFilterFacetCounts({ filters: fullFilters, loadingFilters: true }))
@@ -81,30 +89,39 @@ describe('useFilterFacetCounts', () => {
   it('should skip query execution while loading parameters', () => {
     renderHook(() => useFilterFacetCounts({ filters: fullFilters, loadingFilters: true }))
 
-    expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-      parameters: {
-        filter_by:
-          'type:=[volunteering,task]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
-        facet_by: 'topics_v2',
-        per_page: 0,
-        max_facet_values: 29,
-      },
+    expect(useTypesensePaginationMultiQuery).toHaveBeenCalledWith({
+      parameterList: expect.any(Array),
       skip: true,
       onError: expect.any(Function),
     })
   })
 
-  it('should expose facets', () => {
+  it('should expose merged facet counts', () => {
+    const expectedFacetCounts = {
+      topics_v2: {
+        'migration-refugees': 1,
+      },
+      skills_v2: {
+        fundraising: 2,
+      },
+      commitment_label: {
+        recurring: 3,
+      },
+      commitment_duration: {
+        DAYS_1: 4,
+      },
+    }
+
     const { result } = renderHook(() => useFilterFacetCounts({ filters: fullFilters }))
 
     expect(result.current.isLoading).toBeFalsy()
-    expect(result.current.facetCounts).toEqual(facetCounts)
+    expect(result.current.facetCounts).toEqual(expectedFacetCounts)
   })
 
   it('should refetch facet counts on refresh', () => {
     const refetch = jest.fn()
-    mockUseTypesensePaginationQuery.mockReturnValue({
-      ...searchResult,
+    mockUseTypesensePaginationMultiQuery.mockReturnValue({
+      ...searchResults,
       refetch,
     })
 
@@ -117,23 +134,9 @@ describe('useFilterFacetCounts', () => {
     const testError = new Error('Search error')
     const displayError = jest.fn()
     mockUseErrorHandling.mockReturnValue({ displayError })
-    mockUseTypesensePaginationQuery.mockImplementation(({ onError }) => {
+    mockUseTypesensePaginationMultiQuery.mockImplementation(({ onError }) => {
       onError?.(testError)
-      return {
-        state: {
-          isLoading: false,
-          hits: [],
-          totalResults: 0,
-          totalNrOfPages: 0,
-          canFetchMore: false,
-          currentPage: 1,
-          parameters: {},
-          facetCounts: {},
-        },
-        isFetchingMore: false,
-        fetchNextPage: jest.fn(),
-        refetch: jest.fn(),
-      }
+      return searchResults
     })
 
     renderHook(() => useFilterFacetCounts({ filters: fullFilters }))
@@ -143,17 +146,79 @@ describe('useFilterFacetCounts', () => {
     })
   })
 
-  it('should create correct parameters when filtering by all filters', () => {
-    renderHook(() => useFilterFacetCounts({ filters: fullFilters }))
-
-    expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-      parameters: {
+  it('should create correct parameters with full filters', () => {
+    const expectedParameterList = [
+      {
         filter_by:
           'type:=[volunteering,task]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
         facet_by: 'topics_v2',
         per_page: 0,
         max_facet_values: 29,
       },
+      {
+        filter_by:
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        facet_by: 'skills_v2',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+      {
+        filter_by:
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        facet_by: 'commitment_label',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+      {
+        filter_by:
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&location_lat_lng:(1,2,30 km)',
+        facet_by: 'commitment_duration',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+    ]
+
+    renderHook(() => useFilterFacetCounts({ filters: fullFilters }))
+
+    expect(useTypesensePaginationMultiQuery).toHaveBeenCalledWith({
+      parameterList: expectedParameterList,
+      skip: false,
+      onError: expect.any(Function),
+    })
+  })
+
+  it('should create correct parameters with empty filters', () => {
+    const expectedParameterList = [
+      {
+        filter_by: 'type:=[volunteering,task]',
+        facet_by: 'topics_v2',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+      {
+        filter_by: 'type:=[volunteering,task]',
+        facet_by: 'skills_v2',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+      {
+        filter_by: 'type:=[volunteering,task]',
+        facet_by: 'commitment_label',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+      {
+        filter_by: 'type:=[volunteering,task]',
+        facet_by: 'commitment_duration',
+        per_page: 0,
+        max_facet_values: 29,
+      },
+    ]
+
+    renderHook(() => useFilterFacetCounts({ filters: emptyFilters }))
+
+    expect(useTypesensePaginationMultiQuery).toHaveBeenCalledWith({
+      parameterList: expectedParameterList,
       skip: false,
       onError: expect.any(Function),
     })

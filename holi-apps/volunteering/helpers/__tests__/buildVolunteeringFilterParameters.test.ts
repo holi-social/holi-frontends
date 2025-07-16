@@ -99,7 +99,6 @@ describe('buildVolunteeringFilterParameters', () => {
         filter_by: excludeFilterQuery,
         sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
       })
-      //
     }
   )
 })

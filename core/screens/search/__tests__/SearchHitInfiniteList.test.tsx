@@ -37,27 +37,28 @@ describe('SearchHitInfiniteList', () => {
     query: '',
   }
   const searchResults: SearchResults = {
-    isLoading: false,
     hits,
     totalResults: 4,
     totalNrOfPages: 2,
     currentPage: 1,
     canFetchMore: true,
     parameters: createSearchParameters(filter),
+    facetCounts: {},
   }
   const emptySearchResults: SearchResults = {
-    isLoading: false,
     hits: [],
     totalResults: 0,
     totalNrOfPages: 0,
     currentPage: 1,
     canFetchMore: false,
     parameters: createSearchParameters(filter),
+    facetCounts: {},
   }
 
   beforeEach(() => {
     jest.useFakeTimers()
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults,
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
@@ -99,9 +100,9 @@ describe('SearchHitInfiniteList', () => {
 
   it('should render loader when results are empty and loading', async () => {
     mockUseSearchResults.mockReturnValue({
+      isLoading: true,
       searchResults: {
         ...emptySearchResults,
-        isLoading: true,
       },
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
@@ -115,6 +116,7 @@ describe('SearchHitInfiniteList', () => {
 
   it('should render loader when results are empty and loading parameters', async () => {
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults: emptySearchResults,
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
@@ -128,6 +130,7 @@ describe('SearchHitInfiniteList', () => {
 
   it('should render search examples when results and filter are empty', async () => {
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults: { ...emptySearchResults },
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
@@ -140,6 +143,7 @@ describe('SearchHitInfiniteList', () => {
 
   it('should display text for empty search results', async () => {
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults: emptySearchResults,
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
@@ -158,9 +162,9 @@ describe('SearchHitInfiniteList', () => {
 
   it('should not render loader in footer if all pages were loaded', async () => {
     mockUseSearchResults.mockReturnValue({
+      isLoading: true,
       searchResults: {
         ...searchResults,
-        isLoading: true,
         canFetchMore: false,
       },
       fetchNextPage: jest.fn(),
@@ -208,11 +212,13 @@ describe('SearchHitInfiniteList', () => {
 
     // Mock more hits to be returned when scrolling
     mockUseSearchResults.mockReturnValueOnce({
+      isLoading: false,
       searchResults,
       fetchNextPage,
       refetch: jest.fn(),
     })
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults: {
         ...searchResults,
         currentPage: 2,
@@ -260,6 +266,7 @@ describe('SearchHitInfiniteList', () => {
   it('should refetch on pull-to-refresh', () => {
     const refetch = jest.fn()
     mockUseSearchResults.mockReturnValueOnce({
+      isLoading: false,
       searchResults,
       fetchNextPage: jest.fn(),
       refetch,

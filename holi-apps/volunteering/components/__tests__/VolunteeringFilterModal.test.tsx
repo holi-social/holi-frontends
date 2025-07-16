@@ -2,7 +2,7 @@ import React, { act } from 'react'
 import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
-import { filterTranslationKeyMapping } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
+import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 import { testLocation } from '@holi/core/screens/onboarding/hooks/__tests__/useUserData.test'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
@@ -69,7 +69,7 @@ describe('VolunteeringFilterModal', () => {
       },
     ]
     it.each(arrayFilterTestData)('should render title and filter options for $filterKey', ({ filterKey }) => {
-      const expectedI18nKey = filterTranslationKeyMapping[filterKey]
+      const expectedI18nKey = filterKeyToTranslationKeyMapping[filterKey]
       render(
         <VolunteeringFilterModal
           filterKey={filterKey}
@@ -87,7 +87,7 @@ describe('VolunteeringFilterModal', () => {
     it.each(arrayFilterTestData)(
       'should render options with facet counts for $filterKey',
       ({ filterKey, option, facet }) => {
-        const expectedI18nKey = filterTranslationKeyMapping[filterKey]
+        const expectedI18nKey = filterKeyToTranslationKeyMapping[filterKey]
         render(
           <VolunteeringFilterModal
             filterKey={filterKey}
@@ -108,7 +108,7 @@ describe('VolunteeringFilterModal', () => {
     )
 
     it.each(arrayFilterTestData)('should not call onSubmit on press of %s option', async ({ filterKey, option }) => {
-      const i18nKey = filterTranslationKeyMapping[filterKey]
+      const i18nKey = filterKeyToTranslationKeyMapping[filterKey]
       const onSubmit = jest.fn()
       const user = userEvent.setup()
 
@@ -130,7 +130,7 @@ describe('VolunteeringFilterModal', () => {
     it.each(arrayFilterTestData)(
       'should call onSubmit callback with correct payload on save after %s selection change',
       async ({ filterKey, option }) => {
-        const i18nKey = filterTranslationKeyMapping[filterKey]
+        const i18nKey = filterKeyToTranslationKeyMapping[filterKey]
         const onSubmit = jest.fn()
         const user = userEvent.setup()
 
