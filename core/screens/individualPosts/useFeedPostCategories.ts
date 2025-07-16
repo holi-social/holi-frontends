@@ -70,8 +70,8 @@ const useFeedPostCategories = () => {
     'good-deed': {
       idx: 6,
       name: t('individuals.post.category.name.goodDeed'),
-      label: t('individuals.post.category.name.goodDeed'),
-      description: t('individuals.post.category.name.goodDeed'),
+      label: t('individuals.post.category.label.goodDeed'),
+      description: t('individuals.post.category.description.goodDeed'),
       image: require('@holi/ui/assets/img/posts/category-good-deed-illustrations.svg'),
     },
   }
@@ -80,13 +80,9 @@ const useFeedPostCategories = () => {
     const categoryPresentation = categoryPresentationBySlug[category.slug]
     if (!categoryPresentation) return acc
 
-    const isGoodDeed = category.slug === 'good-deed'
     const isFounderUpdate = category.slug === 'founder-update'
-    const canSeeGoodDeed =
-      user?.role === 'COMMUNITY_MANAGER' || user?.role === 'EDITOR' || user?.role === 'COMMUNITY_TEAM'
     const canSeeFounderUpdate = user?.role === 'CO_FOUNDER'
-
-    if ((isGoodDeed && !canSeeGoodDeed) || (isFounderUpdate && !canSeeFounderUpdate)) return acc
+    if (isFounderUpdate && !canSeeFounderUpdate) return acc
 
     acc.push({
       idx: categoryPresentation.idx,
@@ -99,9 +95,16 @@ const useFeedPostCategories = () => {
     return acc
   }, [])
 
+  const mapCategorySlugToLabel = (slug: string) => {
+    const categoryPresentation = categoryPresentationBySlug[slug]
+    if (!categoryPresentation) return slug
+    return categoryPresentation.label
+  }
+
   return {
     loading: loading,
     categories: presentableCategories?.sort((a, b) => a.idx - b.idx) ?? null,
+    mapCategorySlugToLabel,
   }
 }
 
