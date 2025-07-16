@@ -164,7 +164,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
-  const categoryLabel = categories?.find((category) => category.id === selectedCategoryId)?.label ?? selectedCategoryId
+  const categoryLabel =
+    categories?.find((category) => category.id === selectedCategoryId)?.secondaryLabel ?? selectedCategoryId
 
   const descriptionPlaceholder =
     categories?.find((category) => category.id === selectedCategoryId)?.description ??
