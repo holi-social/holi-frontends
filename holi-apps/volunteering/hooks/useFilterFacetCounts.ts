@@ -3,7 +3,7 @@ import { filterKeyToFacetMapping, MAX_FACET_COUNT } from '@holi-apps/volunteerin
 import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
+import { useTypesensePaginationMultiQuery } from '@holi/core/typesense/hooks/useTypesensePaginationMultiQuery'
 import { useMemo } from 'react'
 
 interface UseFilterFacetCountsProps {
@@ -39,8 +39,8 @@ export const useFilterFacetCounts = ({ filters, loadingFilters = false }: UseFil
     return facets.map((facet) => buildParametersForFacet(filters, facet))
   }, [filters])
 
-  const { state, refetch } = useTypesensePaginationQuery({
-    parameters: parameterList[0], // TODO(SF) execute for all
+  const { states, isLoading, refetch } = useTypesensePaginationMultiQuery({
+    parameterList,
     skip: loadingFilters,
     onError: (error) => {
       displayError(error, 'Error retrieving filter facet counts', {
@@ -51,8 +51,17 @@ export const useFilterFacetCounts = ({ filters, loadingFilters = false }: UseFil
 
   useOnRefresh(refetch)
 
+  const facetCounts = useMemo(() => {
+    return states.reduce((mapping, response) => {
+      return {
+        ...mapping,
+        ...response.facetCounts,
+      }
+    }, {})
+  }, [states])
+
   return {
-    isLoading: state.isLoading || loadingFilters,
-    facetCounts: state.facetCounts,
+    isLoading: isLoading || loadingFilters,
+    facetCounts,
   }
 }

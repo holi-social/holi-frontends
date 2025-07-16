@@ -33,14 +33,15 @@ describe('SearchTextInput', () => {
 
   beforeEach(() => {
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults: {
-        isLoading: false,
         hits: [],
         totalNrOfPages: 0,
         totalResults: 0,
         canFetchMore: false,
         currentPage: 0,
         parameters: {},
+        facetCounts: {},
       },
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),

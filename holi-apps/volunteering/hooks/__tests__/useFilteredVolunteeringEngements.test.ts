@@ -40,8 +40,8 @@ export const makeTypesenseEngagementHits = (length: number): SearchResponseHit[]
 
 describe('useFilteredVolunteeringEngagements', () => {
   const searchResult = {
+    isLoading: false,
     state: {
-      isLoading: false,
       hits: makeTypesenseEngagementHits(10),
       canFetchMore: true,
       totalResults: 123,
@@ -70,9 +70,9 @@ describe('useFilteredVolunteeringEngagements', () => {
   it('should expose loading flag while loading resluts', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       ...searchResult,
+      isLoading: true,
       state: {
         ...searchResult.state,
-        isLoading: true,
       },
     })
 
@@ -170,8 +170,8 @@ describe('useFilteredVolunteeringEngagements', () => {
     mockUseTypesensePaginationQuery.mockImplementation(({ onError }) => {
       onError?.(testError)
       return {
+        isLoading: false,
         state: {
-          isLoading: false,
           hits: [],
           totalResults: 0,
           totalNrOfPages: 0,
