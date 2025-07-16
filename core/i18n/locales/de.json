@@ -591,6 +591,7 @@
   "insights.reactions.comment.unlike": "„Danke für das Teilen“ von diesem Kommentar entfernen",
   "insights.reactions.like": "Thank {{name}} for sharing",
   "insights.reactions.like.noUser": "React to this with ‘Thanks for sharing’",
+  "insights.reactions.post.drawerTitle": "Reaktionen",
   "insights.reactions.post.like": "{{name}} für das Teilen des Posts danken",
   "insights.reactions.post.like.noUser": "Post mit „Danke für das Teilen“ markieren",
   "insights.reactions.post.loginRedirect.text": "Um auf diesen Post zu reagieren, musst du dich erst registrieren.",
