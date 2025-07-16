@@ -8,9 +8,8 @@ import { ArrowDownS, Edit2 } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
-import { filterTranslationKeyMapping } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
-import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
-import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
+import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
+import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
 
 export interface VolunteeringFilterRowProps {
   filters: VolunteeringFilters
@@ -54,7 +53,7 @@ const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
 
   const label = selected
     ? Array.isArray(field)
-      ? buildArrayLabel(t(`${filterTranslationKeyMapping[filterKey]}.${field[0]}`), field.length)
+      ? buildArrayLabel(t(`${filterKeyToTranslationKeyMapping[filterKey]}.${field[0]}`), field.length)
       : field?.label // Geolocation
     : filterName
 
@@ -75,10 +74,9 @@ const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
 export const VolunteeringFilterRow = ({ filters, onSubmit, loadingFilters }: VolunteeringFilterRowProps) => {
   const mixins = useStyleMixins()
   const chipOrder = getFilterChipOrder(filters)
-  const { facetCounts } = useFilteredVolunteeringEngagements({
+  const { facetCounts } = useFilterFacetCounts({
     filters,
     loadingFilters,
-    pageSize: ENGAGEMENT_PAGE_SIZE,
   })
 
   const [selectedFilter, setSelectedFilter] = useState<VolunteeringFilterKey | undefined>()

@@ -18,7 +18,6 @@ describe('FilteredVolunteeringEngagements', () => {
     canFetchMore: true,
     fetchNextPage: jest.fn(),
     totalResults: 123,
-    facetCounts: {},
   }
   const filters: VolunteeringFilters = {
     topics: ['disability-inclusion'],

@@ -4,8 +4,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import { buildVolunteeringFilterParameters } from '@holi-apps/volunteering/helpers/buildVolunteeringFilterParameters'
 
 interface UseFilteredVolunteeringEngagementsProps {
   filters: VolunteeringFilters
@@ -22,49 +22,11 @@ export const useFilteredVolunteeringEngagements = ({
   const language = useUserLanguage()
 
   const parameters = useMemo(() => {
-    const sortBy = []
-    const filterBy = ['type:=[volunteering,task]']
-
-    if (filters.topics?.length || filters.skills?.length) {
-      const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding({ topics: filters.topics, skills: filters.skills })
-      sortBy.push([`_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`])
-    }
-
-    if (filters.topics?.length) {
-      filterBy.push(`topics_v2:=[${filters.topics.join(',')}]`)
-    }
-    if (filters.skills?.length) {
-      filterBy.push(`skills_v2:=[${filters.skills.join(',')}]`)
-    }
-    if (filters.commitmentLabels?.length) {
-      filterBy.push(`commitment_label:=[${filters.commitmentLabels.join(',')}]`)
-    }
-    if (filters.commitmentDurations?.length) {
-      filterBy.push(`commitment_duration:=[${filters.commitmentDurations.join(',')}]`)
-    }
-
-    if (filters.location) {
-      const { latitude, longitude } = filters.location.coordinates || {}
-      if (latitude && longitude) {
-        filterBy.push(`location_lat_lng:(${latitude},${longitude},30 km)`)
-        sortBy.push(`location_lat_lng(${latitude},${longitude},precision:5km):asc`)
-      }
-    }
-
     return {
-      filter_by: filterBy.join('&&'),
-      sort_by: sortBy.join(','),
+      ...buildVolunteeringFilterParameters(filters),
       per_page: pageSize,
-      facet_by: 'topics_v2,skills_v2,commitment_label,commitment_duration',
     }
-  }, [
-    filters.commitmentDurations,
-    filters.commitmentLabels,
-    filters.location,
-    filters.skills,
-    filters.topics,
-    pageSize,
-  ])
+  }, [filters, pageSize])
 
   const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,
@@ -89,6 +51,5 @@ export const useFilteredVolunteeringEngagements = ({
     canFetchMore: state.canFetchMore,
     fetchNextPage,
     totalResults: state.totalResults,
-    facetCounts: state.facetCounts,
   }
 }

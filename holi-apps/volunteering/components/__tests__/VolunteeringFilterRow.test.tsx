@@ -2,26 +2,37 @@ import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
-import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
+import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 
-const mockUseFilteredVolunteeringEngagements = jest.mocked(useFilteredVolunteeringEngagements)
-jest.mock('@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements', () => ({
-  useFilteredVolunteeringEngagements: jest.fn(),
+const mockUseFilterFacetCounts = jest.mocked(useFilterFacetCounts)
+jest.mock('@holi-apps/volunteering/hooks/useFilterFacetCounts', () => ({
+  useFilterFacetCounts: jest.fn(),
 }))
+
+const facetCounts = {
+  topics_v2: {
+    'migration-refugees': 1,
+  },
+  skills_v2: {
+    fundraising: 2,
+  },
+  commitment_label: {
+    recurring: 3,
+  },
+  commitment_duration: {
+    DAYS_1: 4,
+  },
+}
 
 const results = {
   isLoading: false,
-  engagements: [],
-  canFetchMore: true,
-  fetchNextPage: jest.fn(),
-  totalResults: 123,
-  facetCounts: {},
+  facetCounts,
 }
 
 describe('VolunteeringFilterRow', () => {
   beforeEach(() => {
     jest.useFakeTimers()
-    mockUseFilteredVolunteeringEngagements.mockReturnValue(results)
+    mockUseFilterFacetCounts.mockReturnValue(results)
   })
 
   afterAll(() => {
