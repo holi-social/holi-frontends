@@ -11,6 +11,7 @@ export type FeedPostCategories = {
   idx: number // sorting index
   name: string
   label: string
+  secondaryLabel: string
   description: string
   image: NodeRequire
 }[]
@@ -30,12 +31,13 @@ const useFeedPostCategories = () => {
 
   const categoryPresentationBySlug: Record<
     string,
-    { idx: number; name: string; label: string; description: string; image: NodeRequire }
+    { idx: number; name: string; label: string; secondaryLabel: string; description: string; image: NodeRequire }
   > = {
     'topic-for-conversation': {
       idx: 1,
       name: t('individuals.post.category.name.conversationTopic'),
       label: t('individuals.post.category.label.conversationTopic'),
+      secondaryLabel: t('individuals.post.category.label.conversationTopic'),
       description: t('individuals.post.category.description.conversationTopic'),
       image: require('@holi/ui/assets/img/posts/category-topic-for-conversation-illustrations.svg'),
     },
@@ -43,6 +45,7 @@ const useFeedPostCategories = () => {
       idx: 2,
       name: t('individuals.post.category.name.experience'),
       label: t('individuals.post.category.label.experience'),
+      secondaryLabel: t('individuals.post.category.label.experience'),
       description: t('individuals.post.category.description.experience'),
       image: require('@holi/ui/assets/img/posts/category-personal-experience-illustrations.svg'),
     },
@@ -50,6 +53,7 @@ const useFeedPostCategories = () => {
       idx: 3,
       name: t('individuals.post.category.name.recommendation'),
       label: t('individuals.post.category.label.recommendation'),
+      secondaryLabel: t('individuals.post.category.label.recommendation'),
       description: t('individuals.post.category.description.recommendation'),
       image: require('@holi/ui/assets/img/posts/category-recommendation-illustrations.svg'),
     },
@@ -57,6 +61,7 @@ const useFeedPostCategories = () => {
       idx: 4,
       name: t('individuals.post.category.name.awareness'),
       label: t('individuals.post.category.label.awareness'),
+      secondaryLabel: t('individuals.post.category.label.awareness'),
       description: t('individuals.post.category.description.awareness'),
       image: require('@holi/ui/assets/img/posts/category-raise-awareness-illustrations.svg'),
     },
@@ -64,14 +69,16 @@ const useFeedPostCategories = () => {
       idx: 5,
       name: t('individuals.post.category.name.foundersUpdate'),
       label: t('individuals.post.category.name.foundersUpdate'),
+      secondaryLabel: t('individuals.post.category.label.foundersUpdate'),
       description: t('individuals.post.category.name.foundersUpdate'),
       image: require('@holi/ui/assets/img/posts/category-founders-update-illustrations.svg'),
     },
     'good-deed': {
       idx: 6,
       name: t('individuals.post.category.name.goodDeed'),
-      label: t('individuals.post.category.name.goodDeed'),
-      description: t('individuals.post.category.name.goodDeed'),
+      label: t('individuals.post.category.label.goodDeed'),
+      secondaryLabel: t('individuals.post.category.label.goodDeed'),
+      description: t('individuals.post.category.description.goodDeed'),
       image: require('@holi/ui/assets/img/posts/category-good-deed-illustrations.svg'),
     },
   }
@@ -80,28 +87,32 @@ const useFeedPostCategories = () => {
     const categoryPresentation = categoryPresentationBySlug[category.slug]
     if (!categoryPresentation) return acc
 
-    const isGoodDeed = category.slug === 'good-deed'
     const isFounderUpdate = category.slug === 'founder-update'
-    const canSeeGoodDeed =
-      user?.role === 'COMMUNITY_MANAGER' || user?.role === 'EDITOR' || user?.role === 'COMMUNITY_TEAM'
     const canSeeFounderUpdate = user?.role === 'CO_FOUNDER'
-
-    if ((isGoodDeed && !canSeeGoodDeed) || (isFounderUpdate && !canSeeFounderUpdate)) return acc
+    if (isFounderUpdate && !canSeeFounderUpdate) return acc
 
     acc.push({
       idx: categoryPresentation.idx,
       id: category.id,
       name: categoryPresentation.name,
       label: categoryPresentation.label,
+      secondaryLabel: categoryPresentation.secondaryLabel,
       description: categoryPresentation.description,
       image: categoryPresentation.image,
     })
     return acc
   }, [])
 
+  const mapCategorySlugToLabel = (slug: string) => {
+    const categoryPresentation = categoryPresentationBySlug[slug]
+    if (!categoryPresentation) return slug
+    return categoryPresentation.label
+  }
+
   return {
     loading: loading,
     categories: presentableCategories?.sort((a, b) => a.idx - b.idx) ?? null,
+    mapCategorySlugToLabel,
   }
 }
 
