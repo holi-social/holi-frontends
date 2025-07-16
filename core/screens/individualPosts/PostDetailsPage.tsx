@@ -236,6 +236,7 @@ const PostDetailsPage = () => {
                   initialOpenThread={commentId}
                   reactionButton={<ReactionCount count={post.reactions.HEART} />}
                   isDiscussion={false}
+                  post={post}
                 />
               </View>
             </>

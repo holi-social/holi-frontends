@@ -60,6 +60,12 @@ export const PostFragment = gql`
     reactions {
       HEART
     }
+    reactors(limit: 50) {
+      totalResults
+      data {
+        ...FullUserAvatar
+      }
+    }
     isPublic
     language
   }
@@ -102,6 +108,12 @@ export const PostDetailsFragment = gql`
     }
     reactions {
       HEART
+    }
+    reactors(limit: 50) {
+      totalResults
+      data {
+        ...FullUserAvatar
+      }
     }
     isPublic
     language

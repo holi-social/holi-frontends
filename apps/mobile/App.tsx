@@ -1,12 +1,14 @@
 import * as SplashScreen from 'expo-splash-screen'
-import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
-import 'holi-bricks/styles/init'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
+import { initializeBricks } from 'holi-bricks/config'
 import { initializeMobileApolloClient } from '@holi/api/graphql/client'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
+import { isProduction } from '@holi/core/helpers/environment'
+
 import { getLogger } from '@holi/core/helpers/logging'
 import { initI18n } from '@holi/core/i18n'
 import RootProvider from '@holi/core/providers/RootProvider'
@@ -18,6 +20,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
 import * as Appcues from '@appcues/react-native'
 import { appcuesAccountId, appcuesAppId } from '@holi/core/helpers/config'
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 const logger = getLogger('AppInit')
 
@@ -34,6 +37,7 @@ registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
 logger.debug('App', 'starting app with config', config)
 
 const apolloClient = initializeMobileApolloClient()
+initializeBricks({ isProduction })
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
@@ -51,7 +55,7 @@ const App = () => {
 
   const init = async () => {
     try {
-      await Promise.all([initI18n(), initAuth(), Appcues.setup(appcuesAccountId, appcuesAppId)])
+      await Promise.all([initI18n(), initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {

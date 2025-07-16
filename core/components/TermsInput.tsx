@@ -1,5 +1,5 @@
 import { ChipSelect } from 'holi-bricks/components/chips'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 import partition from 'lodash.partition'
 
@@ -8,7 +8,7 @@ import { Information, Search } from '@holi/icons/src/generated'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { useTheme } from '@holi/ui/styles/theme'
 import type { TermType } from '@holi/core/domain/shared/types'
-import { type TermWithLabel, useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
+import { useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
 import { Text } from 'holi-bricks/components/text'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 
@@ -37,43 +37,36 @@ export const TermsInput = ({
 }: TermsInputProps) => {
   const sortedOptions = useSortedTerms(termType)
   const [filterString, setFilterString] = useState<string>('')
-  const [orderedOptions, setOrderedOptions] = useState<TermWithLabel[]>([])
-  const [filteredOptions, setFilteredOptions] = useState<TermWithLabel[]>([])
   const { height: deviceHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const { colors } = theme
 
-  useEffect(() => {
-    /*
-    We need to determine the right order when opening the layer:
-    * currently selected items go to the top, alphabetically sorted by translation
-    * currently unselected items go below, alphabetically sorted by translation
-    This order is kept until the selection process is done and the layer is closed.
-    */
+  const orderedOptions = useMemo(() => {
     const [selectedOptions, unselectedOptions] = partition(sortedOptions, (option) => selected.includes(option.term))
 
-    setOrderedOptions([...selectedOptions, ...unselectedOptions])
-  }, [sortedOptions, selected])
+    return [...selectedOptions, ...unselectedOptions]
+  }, [selected, sortedOptions])
 
-  useEffect(
+  const filteredOptions = useMemo(
     () =>
-      setFilteredOptions(
-        filterString === ''
-          ? orderedOptions
-          : orderedOptions.filter((term) => term.label.toLowerCase().includes(filterString.toLowerCase()))
-      ),
-    [orderedOptions, filterString]
+      filterString === ''
+        ? orderedOptions
+        : orderedOptions.filter((term) => term.label.toLowerCase().includes(filterString.toLowerCase())),
+    [filterString, orderedOptions]
   )
 
-  const updateValues = (term: string) => {
-    if (selected.includes(term)) {
-      // remove the value
-      onSelect?.(selected.filter((selectedTerm) => selectedTerm !== term))
-    } else if (selected.length < 6) {
-      // add the value
-      onSelect?.([...selected, term])
-    }
-  }
+  const updateValues = useCallback(
+    (term: string) => {
+      if (selected.includes(term)) {
+        // remove the value
+        onSelect?.(selected.filter((selectedTerm) => selectedTerm !== term))
+      } else if (selected.length < 6) {
+        // add the value
+        onSelect?.([...selected, term])
+      }
+    },
+    [onSelect, selected]
+  )
 
   return (
     <View style={[styles.container, { minHeight: deviceHeight }]} testID={testID || 'terms-list'}>
@@ -94,6 +87,12 @@ export const TermsInput = ({
         onChange={(text: string) => setFilterString(text)}
         trailingIcon={Search}
         style={styles.input}
+        inputProps={{
+          inputMode: 'search',
+          returnKeyType: 'search',
+          accessibilityRole: 'search',
+          role: 'searchbox',
+        }}
       />
       {!!hint && (
         <View style={styles.hintContainer}>

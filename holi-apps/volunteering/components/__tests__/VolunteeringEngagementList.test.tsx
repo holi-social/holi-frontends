@@ -4,19 +4,12 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { makeTaskDocument, makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import { Text } from 'holi-bricks/components/text'
-import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
-
-const mockUseRecosSubtitle = jest.mocked(useRecosSubtitle)
-jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
-  useRecosSubtitle: jest.fn(),
-}))
 
 describe('VolunteeringEngagementList', () => {
   const engagements = makeVolunteeringDocuments(10)
 
   beforeEach(() => {
     jest.useFakeTimers()
-    mockUseRecosSubtitle.mockReturnValue('Recos subtitle')
   })
 
   afterEach(async () => {
@@ -41,16 +34,12 @@ describe('VolunteeringEngagementList', () => {
   it('should render header for engagement recos', () => {
     render(<VolunteeringEngagementList engagements={engagements} />)
 
-    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
-    expect(screen.getByText('Recos subtitle')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.recommended.title')).toBeOnTheScreen()
   })
 
-  it('should render header for filtered engagements', () => {
+  it('should render result count for filtered engagements', () => {
     render(<VolunteeringEngagementList engagements={engagements} isFiltering={true} totalResults={123} />)
 
-    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
   })
 
@@ -111,8 +100,8 @@ describe('VolunteeringEngagementList', () => {
   it('should display message if loading filters failed', () => {
     render(<VolunteeringEngagementList engagements={engagements} loadingFailed={true} />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if loading results failed', async () => {
@@ -121,7 +110,7 @@ describe('VolunteeringEngagementList', () => {
 
     render(<VolunteeringEngagementList engagements={engagements} loadingFailed={true} clearFilters={clearFilters} />)
 
-    await user.press(screen.getByLabelText('search.filter.reset'))
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })
@@ -129,8 +118,8 @@ describe('VolunteeringEngagementList', () => {
   it('should display message if no results were found', () => {
     render(<VolunteeringEngagementList engagements={[]} />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
-    expect(screen.getByText('volunteering.filter.notFound.description')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
   it('should allow to reset filters if no results were found', async () => {
@@ -139,7 +128,7 @@ describe('VolunteeringEngagementList', () => {
 
     render(<VolunteeringEngagementList engagements={[]} clearFilters={clearFilters} />)
 
-    await user.press(screen.getByLabelText('search.filter.reset'))
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })

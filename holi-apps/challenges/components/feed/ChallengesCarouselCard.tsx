@@ -8,7 +8,7 @@ import { Text } from 'holi-bricks/components/text'
 
 import { CarouselCardImage } from '@holi-apps/challenges/components/feed/CarouselCardImage'
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath, setHasSeen } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 interface ChallengesCarouselCardProps {
@@ -27,7 +27,7 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
 
   useEffect(() => {
     const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`)
+      const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
       setDetailUrl(url)
     }
     initUrl()
@@ -39,6 +39,9 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
         label={challenge.title}
         href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
+        onPress={() => {
+          setHasSeen(challenge.id)
+        }}
       >
         <View style={styles.imageContainer}>
           <CarouselCardImage key={challenge.id} challenge={challenge} width={cardWidth} />

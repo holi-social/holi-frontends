@@ -1,13 +1,12 @@
 /* eslint-disable no-restricted-imports */
 import { PixelRatio, Platform } from 'react-native'
-import { isProduction } from '@holi/core/helpers/environment'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image/type'
 import coverGreen from '@holi/ui/assets/img/placeholder/placeholder-green.svg'
 import coverYellow from '@holi/ui/assets/img/placeholder/placeholder-yellow.svg'
 import coverPurple from '@holi/ui/assets/img/placeholder/placeholder-purple.svg'
 import coverBlue from '@holi/ui/assets/img/placeholder/placeholder-blue.svg'
-
+import { config } from 'holi-bricks/config'
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded
 const debugMode = false
@@ -48,7 +47,7 @@ export const buildProxiedImageUrl = (
   encodedOriginalUrl: string,
   fillDown = true
 ) => {
-  const imagesUrl = isProduction ? 'https://images.holi.social' : 'https://dev-images.holi.social'
+  const imagesUrl = config.isProduction ? 'https://images.holi.social' : 'https://dev-images.holi.social'
   const width = calculatedWidth ? ':' + calculatedWidth : ':'
   const height = calculatedHeight ? ':' + calculatedHeight : ''
   if (fillDown) {
