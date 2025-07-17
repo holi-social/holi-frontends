@@ -3099,6 +3099,36 @@ export type LinkFragmentFragment = {
   icon?: string
 }
 
+export type FavoriteInsightFragment = {
+  __typename: 'Insight'
+  id: string
+  title: string
+  description: string
+  datePublished: any
+  headerImage?: string
+  headerImageBlurhash?: string
+  isFavorite: boolean
+  initiatives: Array<{ __typename?: 'Initiative'; link: string }>
+  creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+}
+
+export type FavoriteTaskFragment = {
+  __typename: 'Task'
+  id: string
+  name: string
+  description: string
+  created: any
+  thumbnail?: string
+  thumbnailBlurhash?: string
+  isFavorite: boolean
+  space: { __typename?: 'Space'; id: string; name: string }
+}
+
+export type FavoriteExternalVolunteeringOpportunityFragment = {
+  __typename: 'ExternalVolunteeringOpportunity'
+  externalId: string
+}
+
 export type FavoriteMutationVariables = Exact<{
   favoritableId: Scalars['UUID']['input']
   favoritableType: FavoritableType
@@ -3143,8 +3173,8 @@ export type FavoriteExternalVolunteeringOpportunityQuery = {
     favoritableType: string
     favoritable:
       | { __typename: 'ExternalVolunteeringOpportunity'; externalId: string }
-      | { __typename: 'Insight' }
-      | { __typename: 'Task' }
+      | { __typename?: 'Insight' }
+      | { __typename?: 'Task' }
   }
 }
 
@@ -3161,8 +3191,29 @@ export type FavoriteByFavoritableIdQuery = {
     favoritableType: string
     favoritable:
       | { __typename: 'ExternalVolunteeringOpportunity'; externalId: string }
-      | { __typename: 'Insight'; id: string; isFavorite: boolean }
-      | { __typename: 'Task'; id: string; isFavorite: boolean }
+      | {
+          __typename: 'Insight'
+          id: string
+          title: string
+          description: string
+          datePublished: any
+          headerImage?: string
+          headerImageBlurhash?: string
+          isFavorite: boolean
+          initiatives: Array<{ __typename?: 'Initiative'; link: string }>
+          creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+        }
+      | {
+          __typename: 'Task'
+          id: string
+          name: string
+          description: string
+          created: any
+          thumbnail?: string
+          thumbnailBlurhash?: string
+          isFavorite: boolean
+          space: { __typename?: 'Space'; id: string; name: string }
+        }
   }
 }
 
@@ -3182,40 +3233,6 @@ export type FavoritesQuery = {
       favoritableId: string
       favoritableType: string
       favoritable:
-        | { __typename?: 'ExternalVolunteeringOpportunity' }
-        | {
-            __typename: 'Insight'
-            id: string
-            title: string
-            description: string
-            datePublished: any
-            headerImage?: string
-            headerImageBlurhash?: string
-            initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-            creator?: { __typename?: 'User'; fullName: string; avatar?: string }
-          }
-        | { __typename?: 'Task' }
-    }>
-  }
-}
-
-export type FavoritesByTypeQueryVariables = Exact<{
-  offset?: Scalars['Int']['input']
-  limit?: Scalars['Int']['input']
-  favoritableType: FavoritableType
-}>
-
-export type FavoritesByTypeQuery = {
-  __typename?: 'Query'
-  favoritesByType: {
-    __typename?: 'UserFavoritePaged'
-    totalResults: number
-    data: Array<{
-      __typename?: 'UserFavorite'
-      id: string
-      favoritableId: string
-      favoritableType: string
-      favoritable:
         | { __typename: 'ExternalVolunteeringOpportunity'; externalId: string }
         | {
             __typename: 'Insight'
@@ -3225,33 +3242,20 @@ export type FavoritesByTypeQuery = {
             datePublished: any
             headerImage?: string
             headerImageBlurhash?: string
-            topicV2?: string
             isFavorite: boolean
+            initiatives: Array<{ __typename?: 'Initiative'; link: string }>
+            creator?: { __typename?: 'User'; fullName: string; avatar?: string }
           }
         | {
             __typename: 'Task'
             id: string
             name: string
             description: string
-            impact?: string
             created: any
-            slotsAvailable: number
-            slotsTaken: number
-            visibility: VisibilityType
-            locationType: LocationType
-            interactionType?: InteractionType
-            location?: string
-            regularity: Regularity
-            duration?: Duration
-            timeframeStartDate?: any
-            timeframeEndDate?: any
-            skillsV2: Array<string>
             thumbnail?: string
             thumbnailBlurhash?: string
-            contactEmail: string
-            contactPhone?: string
-            interactionSignupLink?: string
             isFavorite: boolean
+            space: { __typename?: 'Space'; id: string; name: string }
           }
     }>
   }
@@ -5383,6 +5387,47 @@ export const PostFragmentFragmentDoc = gql`
     ${FullUserAvatarFragmentDoc}
 ${PostImageDataFragmentDoc}
 ${LinkFragmentFragmentDoc}`
+export const FavoriteInsightFragmentDoc = gql`
+    fragment FavoriteInsight on Insight {
+  __typename
+  id
+  title
+  description
+  datePublished
+  initiatives {
+    link
+  }
+  creator {
+    fullName
+    avatar
+  }
+  headerImage
+  headerImageBlurhash
+  isFavorite
+}
+    `
+export const FavoriteTaskFragmentDoc = gql`
+    fragment FavoriteTask on Task {
+  __typename
+  id
+  name
+  description
+  created
+  thumbnail
+  thumbnailBlurhash
+  isFavorite
+  space {
+    id
+    name
+  }
+}
+    `
+export const FavoriteExternalVolunteeringOpportunityFragmentDoc = gql`
+    fragment FavoriteExternalVolunteeringOpportunity on ExternalVolunteeringOpportunity {
+  __typename
+  externalId
+}
+    `
 export const SpaceCardFragmentDoc = gql`
     fragment SpaceCard on Space {
   title
@@ -5864,16 +5909,13 @@ export const FavoriteExternalVolunteeringOpportunityDocument = gql`
   favorite(favoritableId: $favoritableId) {
     id
     favoritable {
-      __typename
-      ... on ExternalVolunteeringOpportunity {
-        externalId
-      }
+      ...FavoriteExternalVolunteeringOpportunity
     }
     favoritableId
     favoritableType
   }
 }
-    `
+    ${FavoriteExternalVolunteeringOpportunityFragmentDoc}`
 
 /**
  * __useFavoriteExternalVolunteeringOpportunityQuery__
@@ -5949,23 +5991,17 @@ export const FavoriteByFavoritableIdDocument = gql`
     id
     favoritable {
       __typename
-      ... on Insight {
-        id
-        isFavorite
-      }
-      ... on Task {
-        id
-        isFavorite
-      }
-      ... on ExternalVolunteeringOpportunity {
-        externalId
-      }
+      ...FavoriteInsight
+      ...FavoriteTask
+      ...FavoriteExternalVolunteeringOpportunity
     }
     favoritableId
     favoritableType
   }
 }
-    `
+    ${FavoriteInsightFragmentDoc}
+${FavoriteTaskFragmentDoc}
+${FavoriteExternalVolunteeringOpportunityFragmentDoc}`
 
 /**
  * __useFavoriteByFavoritableIdQuery__
@@ -6021,35 +6057,24 @@ export type FavoriteByFavoritableIdQueryResult = Apollo.QueryResult<
   FavoriteByFavoritableIdQueryVariables
 >
 export const FavoritesDocument = gql`
-    query Favorites($offset: Int! = 0, $limit: Int! = 10) {
+    query Favorites($offset: Int! = 0, $limit: Int! = 20) {
   favorites(offset: $offset, limit: $limit) {
     data {
       id
       favoritableId
       favoritableType
       favoritable {
-        ... on Insight {
-          __typename
-          id
-          title
-          description
-          datePublished
-          initiatives {
-            link
-          }
-          creator {
-            fullName
-            avatar
-          }
-          headerImage
-          headerImageBlurhash
-        }
+        ...FavoriteInsight
+        ...FavoriteTask
+        ...FavoriteExternalVolunteeringOpportunity
       }
     }
     totalResults
   }
 }
-    `
+    ${FavoriteInsightFragmentDoc}
+${FavoriteTaskFragmentDoc}
+${FavoriteExternalVolunteeringOpportunityFragmentDoc}`
 
 /**
  * __useFavoritesQuery__
@@ -6088,104 +6113,6 @@ export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>
 export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>
 export type FavoritesSuspenseQueryHookResult = ReturnType<typeof useFavoritesSuspenseQuery>
 export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>
-export const FavoritesByTypeDocument = gql`
-    query FavoritesByType($offset: Int! = 0, $limit: Int! = 10, $favoritableType: FavoritableType!) {
-  favoritesByType(
-    favoritableType: $favoritableType
-    offset: $offset
-    limit: $limit
-  ) {
-    data {
-      id
-      favoritableId
-      favoritableType
-      favoritable {
-        __typename
-        ... on Insight {
-          id
-          title
-          description
-          datePublished
-          headerImage
-          headerImageBlurhash
-          topicV2
-          isFavorite
-        }
-        ... on Task {
-          id
-          name
-          description
-          impact
-          created
-          slotsAvailable
-          slotsTaken
-          visibility
-          locationType
-          interactionType
-          location
-          regularity
-          duration
-          timeframeStartDate
-          timeframeEndDate
-          skillsV2
-          thumbnail
-          thumbnailBlurhash
-          contactEmail
-          contactPhone
-          interactionSignupLink
-          isFavorite
-        }
-        ... on ExternalVolunteeringOpportunity {
-          externalId
-        }
-      }
-    }
-    totalResults
-  }
-}
-    `
-
-/**
- * __useFavoritesByTypeQuery__
- *
- * To run a query within a React component, call `useFavoritesByTypeQuery` and pass it any options that fit your needs.
- * When your component renders, `useFavoritesByTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFavoritesByTypeQuery({
- *   variables: {
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
- *      favoritableType: // value for 'favoritableType'
- *   },
- * });
- */
-export function useFavoritesByTypeQuery(
-  baseOptions: Apollo.QueryHookOptions<FavoritesByTypeQuery, FavoritesByTypeQueryVariables> &
-    ({ variables: FavoritesByTypeQueryVariables; skip?: boolean } | { skip: boolean })
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>(FavoritesByTypeDocument, options)
-}
-export function useFavoritesByTypeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>(FavoritesByTypeDocument, options)
-}
-export function useFavoritesByTypeSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>(FavoritesByTypeDocument, options)
-}
-export type FavoritesByTypeQueryHookResult = ReturnType<typeof useFavoritesByTypeQuery>
-export type FavoritesByTypeLazyQueryHookResult = ReturnType<typeof useFavoritesByTypeLazyQuery>
-export type FavoritesByTypeSuspenseQueryHookResult = ReturnType<typeof useFavoritesByTypeSuspenseQuery>
-export type FavoritesByTypeQueryResult = Apollo.QueryResult<FavoritesByTypeQuery, FavoritesByTypeQueryVariables>
 export const ValidateSpaceDocument = gql`
     mutation ValidateSpace($input: ValidateSpaceInput!) {
   validateSpace(input: $input) {

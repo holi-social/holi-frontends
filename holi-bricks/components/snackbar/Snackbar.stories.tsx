@@ -24,7 +24,7 @@ const meta: Meta<typeof Snackbar> = {
     icon: AddCircleFill,
     actionLabel: 'Action',
     onPress: () => {},
-    showDismiss: true,
+    dismissible: true,
     persistent: true,
     duration: 'medium',
   },
