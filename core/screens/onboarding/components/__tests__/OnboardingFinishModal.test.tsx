@@ -4,7 +4,6 @@ import { useDocumentModal } from '@holi/core/screens/onboarding/components/Docum
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
 import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
-import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 const mockUseOnboardingFinishModalState = useOnboardingFinishModalState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState', () => ({
@@ -23,10 +22,6 @@ jest.mock('@holi/core/screens/onboarding/components/DocumentModal', () => {
     useDocumentModal: jest.fn(),
   }
 })
-
-jest.mock('@holi/mobile/notifications/initNotifications', () => ({
-  initNotifications: jest.fn(),
-}))
 
 describe('OnboardingFinishModal', () => {
   beforeEach(() => {
@@ -65,7 +60,7 @@ describe('OnboardingFinishModal', () => {
     expect(showDocModal).toHaveBeenCalledWith('communityGuidelines')
   })
 
-  it('should close modal and prompt for notification permission, on dismiss', async () => {
+  it('should close modal, on dismiss', async () => {
     const hideModal = jest.fn()
     mockUseOnboardingFinishModalState.mockReturnValue({ visible: true, hide: hideModal })
     const user = userEvent.setup()
@@ -75,6 +70,5 @@ describe('OnboardingFinishModal', () => {
     await user.press(screen.getByText('onboarding.communityGuidelines.acceptButton'))
 
     expect(hideModal).toHaveBeenCalled()
-    expect(initNotifications).toHaveBeenCalled()
   })
 })
