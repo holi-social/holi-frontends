@@ -169,7 +169,7 @@ const CommentView = ({
               <CommentText comment={comment} />
             </View>
 
-            <View style={[styles.reactionsBar, !onPressComment && styles.reactionsBarWithoutComment]}>
+            <View style={styles.reactionsBar}>
               {!!onPressComment && (
                 <HoliButton
                   transparent
@@ -293,9 +293,6 @@ const getStyles = (theme: HoliTheme) =>
     replies: {
       marginTop: Spacing['3xs'],
       marginLeft: Spacing.xs,
-    },
-    reactionsBarWithoutComment: {
-      justifyContent: 'flex-end',
     },
     addComment: {
       flexDirection: 'row',
