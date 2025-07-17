@@ -460,12 +460,6 @@ const getStyles = (theme: HoliTheme) =>
       right: Spacing.xs,
       zIndex: 1,
     },
-    reactionsBar: {
-      marginTop: Spacing.xxs,
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
     clickableArea: {
       gap: Spacing.xs,
       marginTop: Spacing.xs,
