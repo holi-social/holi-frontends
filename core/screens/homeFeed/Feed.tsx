@@ -32,6 +32,7 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
+import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -161,6 +162,8 @@ const HomeFeed = () => {
   }
 
   useScrollToTop(ref)
+
+  useNotificationsInit()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
