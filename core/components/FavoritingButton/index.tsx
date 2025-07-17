@@ -1,91 +1,104 @@
 import type React from 'react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useFavoriting } from '@holi/core/components/FavoritingButton/helpers/useFavoriting'
+import {
+  type FavoritingMutationOptions,
+  useFavoriting,
+} from '@holi/core/components/FavoritingButton/helpers/useFavoriting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
-import { useState } from 'react'
+import { HoliIcon, type HoliIconProps } from '@holi/icons/src/HoliIcon'
+import { setSnackbarOptions } from '@holi/core/components/SnackbarGlobal'
 import { Trans, useTranslation } from 'react-i18next'
 import { Pressable } from 'react-native'
 import type { FavoritableType } from '@holi/api/graphql/graphql-codegen'
-import type { ApolloError } from '@apollo/client'
+import { Spacing, type SpacingSize } from 'holi-bricks/foundations'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
+import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
 
-type FavoritingButtonProps = {
+interface FavoritingButtonProps extends FavoritingMutationOptions, Pick<HoliIconProps, 'shadow'> {
   favoritableId: string
   favoritableType: FavoritableType
-  typename: string
+  size?: SpacingSize
   tintColor?: string
   isFavorite?: boolean
-  onError?: (error: ApolloError) => void
-  onCompleted?: () => void
 }
 
 export const FavoritingButton = ({
   favoritableId,
   favoritableType,
-  typename,
+  __typename,
+  size = 'md',
   tintColor,
   isFavorite = false,
   onError,
   onCompleted,
+  onUpdate,
+  shadow,
 }: FavoritingButtonProps) => {
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const { t } = useTranslation()
 
-  const [showSnackbar, setShowSnackbar] = useState(false)
-
   const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
-    __typename: typename,
+    __typename,
     onError,
     onCompleted,
+    onUpdate,
   })
 
   const favoriteHandler = async () => {
-    if (isLoggedIn) {
-      const success = await favorite()
-      setShowSnackbar(success)
-    } else {
+    if (!isLoggedIn) {
       openSignupModal({
         title: t('loginRedirect.title'),
         description: t('insights.insight.login.prompt.message'),
         trackTrigger: 'FAVORITE_ON_INSIGHT',
+      })
+      return
+    }
+
+    const success = await favorite()
+    if (success) {
+      setSnackbarOptions({
+        label: (
+          <Trans
+            t={t}
+            i18nKey="favorites.favoriteSaved"
+            components={{
+              b: <HoliTextLink href="/profile/settings/favorites" label="Go to favorites" size="sm" color="selected" />,
+              span: <HoliFigmaSpanPlaceholder />,
+            }}
+          />
+        ),
+        variant: 'success',
+        icon: BookmarkFill,
+        dismissible: true,
+        visible: true,
+        offset: Spacing.xl,
       })
     }
   }
 
   const unfavoriteHandler = async () => {
     const success = await unfavorite()
-    setShowSnackbar(success)
+    if (success) {
+      setSnackbarOptions({
+        label: t('favorites.favoriteRemoved'),
+        variant: 'success',
+        icon: BookmarkLine,
+        dismissible: true,
+        visible: true,
+        offset: Spacing.xl,
+      })
+    }
   }
 
-  return (
-    <>
-      <Snackbar
-        label={
-          isFavorite ? (
-            <Trans t={t} i18nKey="insights.insight.favorite.add.success" components={{ underline: <u /> }} />
-          ) : (
-            t('insights.insight.favorite.remove.success')
-          )
-        }
-        persistent
-        icon={isFavorite ? BookmarkFill : BookmarkLine}
-        showDismiss
-        onDismiss={() => setShowSnackbar(false)}
-        show={showSnackbar}
-      />
-
-      {isFavorite ? (
-        <Pressable onPress={unfavoriteHandler}>
-          <HoliIcon icon={BookmarkFill} colorOverride={tintColor} />
-        </Pressable>
-      ) : (
-        <Pressable onPress={favoriteHandler}>
-          <HoliIcon icon={BookmarkLine} colorOverride={tintColor} />
-        </Pressable>
-      )}
-    </>
+  return isFavorite ? (
+    <Pressable onPress={unfavoriteHandler}>
+      <HoliIcon icon={BookmarkFill} colorOverride={tintColor} size={Spacing[size]} shadow={shadow} />
+    </Pressable>
+  ) : (
+    <Pressable onPress={favoriteHandler}>
+      <HoliIcon icon={BookmarkLine} colorOverride={tintColor} size={Spacing[size]} shadow={shadow} />
+    </Pressable>
   )
 }

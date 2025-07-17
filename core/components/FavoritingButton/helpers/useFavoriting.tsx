@@ -1,17 +1,18 @@
 import { type FavoritableType, useFavoriteV2Mutation, useUnfavoriteV2Mutation } from '@holi/api/graphql/graphql-codegen'
 import { useCallback } from 'react'
-import type { ApolloError } from '@apollo/client'
+import type { ApolloCache, ApolloError } from '@apollo/client'
 
-interface MutationOptions {
+export interface FavoritingMutationOptions {
   __typename: string
   onError?: (error: ApolloError) => void
   onCompleted?: () => void
+  onUpdate?: (cache: ApolloCache<unknown>) => void
 }
 
 export const useFavoriting = (
   favoritableId: string,
   favoritableType: FavoritableType,
-  { __typename, onError, onCompleted }: MutationOptions
+  { __typename, onError, onCompleted, onUpdate }: FavoritingMutationOptions
 ) => {
   const [favoriteMutation, { loading: isFavoriting }] = useFavoriteV2Mutation({
     variables: { favoritableId, favoritableType },
@@ -26,6 +27,7 @@ export const useFavoriting = (
           },
         },
       })
+      onUpdate?.(cache)
     },
   })
 
@@ -42,6 +44,7 @@ export const useFavoriting = (
           },
         },
       })
+      onUpdate?.(cache)
     },
   })
 

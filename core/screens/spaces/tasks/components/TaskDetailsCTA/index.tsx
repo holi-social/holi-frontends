@@ -215,9 +215,9 @@ export const TaskDetailsCTA = ({
       <Snackbar
         label={t('spaces.tasks.contactOrganization.snackbar')}
         icon={CheckboxCircleFilled}
-        showDismiss
+        dismissible
         onDismiss={() => setShowSnackbar(false)}
-        show={showSnackbar}
+        visible={showSnackbar}
       />
       <HoliActionDrawer.Drawer
         renderCustomButton={(onPress, testID) => (

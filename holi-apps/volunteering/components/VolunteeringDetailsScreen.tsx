@@ -60,7 +60,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                 favoritableId={engagementId}
                 favoritableType={FavoritableType.ExternalVolunteeringOpportunity}
                 tintColor={tintColor}
-                typename={'Typesense_Document'}
+                __typename={'Typesense_Document'}
                 isFavorite={isFavorite}
                 onCompleted={refetchFavorite}
                 onError={(error) =>
