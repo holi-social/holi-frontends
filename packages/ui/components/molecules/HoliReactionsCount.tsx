@@ -23,8 +23,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { Text } from 'holi-bricks/components/text'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-// color only used for this component
-export const REACTION_PINK_COLOR = '#D47BC5'
+export const REACTION_PINK_COLOR = '#D47BC5' // color only used for this component
 
 export type MouseEnterOutEvent = NativeSyntheticEvent<NativeMouseEvent>
 
