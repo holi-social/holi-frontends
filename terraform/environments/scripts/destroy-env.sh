@@ -31,7 +31,7 @@ retry() {
   done
 }
 
-cd "$(dirname "$0")"/..
+pushd "$(dirname "$0")"/..
 
 TF_LOG_PATH=terraform-init.log       terraform init
 TF_LOG_PATH=terraform-version.log    terraform version
@@ -39,3 +39,5 @@ TF_LOG_PATH=terraform-workspace.log  terraform workspace select -or-create=true 
 TF_LOG_PATH=terraform-destroy.log    retry terraform destroy -auto-approve -var="image_tag=dummy"
 TF_LOG_PATH=terraform-ws-default.log terraform workspace select default
 TF_LOG_PATH=terraform-ws-delete.log  terraform workspace delete "$1"
+
+popd

@@ -14,7 +14,7 @@ KEEP_ARTIFACTS=$7
 echo "Loading environment from \"${ENVIRONMENT_FILE}\""
 # shellcheck disable=SC1090
 . "${ENVIRONMENT_FILE}"
-cd apps/mobile
+pushd apps/mobile
 corepack enable
 yarn install --immutable --immutable-cache
 
@@ -39,3 +39,5 @@ if [ "$KEEP_ARTIFACTS" = "true" ]; then
   mkdir -p artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"
   curl -o artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"/"$(basename "$ARTIFACT_URL")" "$ARTIFACT_URL"
 fi
+
+popd
