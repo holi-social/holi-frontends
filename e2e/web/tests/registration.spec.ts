@@ -68,7 +68,7 @@ test.describe('@Registration', () => {
         // Expect skills
         await Promise.all(userData.skills.map((slug) => page.waitForSelector(byTestId(`skills--${slug}`))))
       },
-      { userData, expectedScreen: 'spaces-container' }
+      { userData }
     )
   })
 })

@@ -42,8 +42,7 @@ export const continueAsGuest = async () => {
     // Skip through all onboarding steps and continue as guet
     await skipOnboardingSteps()
     await tapOnElementWithTestId(testIdContinueAsGuest)
-    // User will land on act screen after onboarding > navigate to home feed
-    await tapOnElementWithTestId('btn-to-home-view')
+    // User will land on home screen after onboarding
   }
 
   await waitForHomeScreen()
@@ -108,8 +107,6 @@ export const register = async ({
   // Finish account setup
   if (!skipAccountSetup) {
     await finishAccountSetup()
-
-    await waitForHomeScreen()
   }
 }
 
