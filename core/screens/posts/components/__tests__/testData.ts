@@ -22,6 +22,10 @@ export const comment: Comment = {
   },
   replies: [],
   totalReplies: 0,
+  reactors: {
+    totalResults: 0,
+    data: [],
+  },
 }
 
 const comment2: Comment = {
@@ -45,6 +49,10 @@ const comment2: Comment = {
   },
   replies: [],
   totalReplies: 0,
+  reactors: {
+    totalResults: 0,
+    data: [],
+  },
 }
 
 export const comments: Comment[] = [comment, comment2]
