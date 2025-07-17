@@ -30,14 +30,14 @@ const ReactionsDrawer: React.FC<ReactionsDrawerProps> = ({ visible, onClose, use
     <HoliModal
       shown={visible}
       onDismiss={onClose}
-      label={t('insights.reactions.post.drawerTitle')}
+      label={t('global.reactions')}
       relativeHeight={0.6}
       autoHeight={true}
       testID="reactions-drawer"
     >
       <HoliContainer>
         <View style={styles.headerRow}>
-          <HoliHeading level="2">{t('insights.reactions.post.drawerTitle')}</HoliHeading>
+          <HoliHeading level="2">{t('global.reactions')}</HoliHeading>
           {reactionIcon && <View style={styles.icon}>{reactionIcon}</View>}
           <HoliText style={styles.count}>{users.length}</HoliText>
         </View>

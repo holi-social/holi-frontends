@@ -44,6 +44,12 @@ export const CommentFragment = gql`
     reactions {
       HEART
     }
+    reactors(limit: 50) {
+      totalResults
+      data {
+        ...FullUserAvatar
+      }
+    }
     totalReplies
     replies {
       id

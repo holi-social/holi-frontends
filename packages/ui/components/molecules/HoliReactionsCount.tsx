@@ -1,5 +1,5 @@
 import type React from 'react'
-import { type SyntheticEvent, useCallback, useMemo, useState } from 'react'
+import { type SyntheticEvent, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   type GestureResponderEvent,
@@ -13,10 +13,17 @@ import {
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HandHeartThin, HandHeartThinFilledDarker, HandHeartThinFilledRaised } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import {
+  HandHeartThin,
+  HandHeartThinFilledDarker,
+  HandHeartThinFilledRaised,
+  SupportReaction,
+} from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
+import Spacing from '@holi/ui/foundations/Spacing'
+
+export const REACTION_PINK_COLOR = '#D47BC5' // color only used for this component
 
 export type MouseEnterOutEvent = NativeSyntheticEvent<NativeMouseEvent>
 
@@ -31,6 +38,7 @@ export interface HoliReactionsCountProps {
   onMouseOut?: (event: MouseEnterOutEvent) => void
   style?: ViewStyle
   testID?: string
+  text?: string
 }
 
 const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
@@ -44,10 +52,9 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
   onMouseOut = () => null,
   style,
   testID,
+  text,
 }) => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
   const [hovered, setHovered] = useState(false)
 
   const notActiveText = fullName
@@ -107,21 +114,25 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
 
   return (
     <View style={[styles.outer, style]}>
-      <HoliButton
-        label={t('insights.reactions.post.viewReactions')}
-        onPress={handleCountPress}
-        transparent
-        style={styles.countButton}
-        testID={`${testID}-count-button`}
-      >
-        <HoliText
-          selectable={false}
-          style={[styles.text, (active || hovered) && !theme.dark && { color: theme.colors.black300 }]}
-          testID={`${testID}-counter`}
+      {!text && (
+        <HoliButton
+          label={t('global.like')}
+          onPress={handleCountPress}
+          transparent
+          style={styles.countButton}
+          testID={`${testID}-count-button`}
         >
-          {count}
-        </HoliText>
-      </HoliButton>
+          <Text
+            selectable={false}
+            size="md"
+            color={active || hovered ? 'main' : 'default'}
+            testID={`${testID}-counter`}
+          >
+            {count}
+          </Text>
+        </HoliButton>
+      )}
+
       <HoliButton
         label={labelText}
         onPress={handlePress}
@@ -132,52 +143,72 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
         contentStyle={styles.iconContainer}
         testID={`${testID}-icon-button`}
       >
-        <Animated.View style={animatedStyle}>
-          <HoliIcon icon={icon} />
-        </Animated.View>
+        {text && (
+          <Text size="sm" color={'main'} colorOverride={active ? REACTION_PINK_COLOR : undefined} bold>
+            {text}
+          </Text>
+        )}
+        {text ? (
+          <></>
+        ) : (
+          <Animated.View style={animatedStyle}>
+            <HoliIcon icon={icon} size={Spacing.md} />
+          </Animated.View>
+        )}
       </HoliButton>
+      {!!text && !!count && (
+        <HoliButton
+          label={t('global.like')}
+          onPress={handleCountPress}
+          transparent
+          style={styles.countButton}
+          testID={`${testID}-count-button`}
+          contentStyle={styles.iconContainer}
+        >
+          <HoliIcon icon={SupportReaction} size={26} />
+          <Text selectable={false} size="xs" color={hovered ? 'main' : 'default'} testID={`${testID}-counter`}>
+            {count}
+          </Text>
+        </HoliButton>
+      )}
     </View>
   )
 }
 
 export default HoliReactionsCount
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    outer: {
-      width: 'auto',
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    container: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    countButton: {
-      width: 'auto',
-    },
-    iconButton: {
-      width: 'auto',
-    },
-    iconContainer: {
-      alignItems: 'center',
-    },
-    text: {
-      color: theme.colors.foreground20,
-      lineHeight: 24,
-      marginRight: 8,
-      marginBottom: -2,
-    },
-    visuallyHidden: {
-      ...Platform.select({
-        native: {
-          display: 'none',
-        },
-        default: {
-          // only hiding the element on web to prefetch the icon within first network call
-          visibility: 'hidden',
-          position: 'fixed',
-        },
-      }),
-    },
-  })
+const styles = StyleSheet.create({
+  outer: {
+    width: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing['3xs'],
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  countButton: {
+    width: 'auto',
+  },
+  iconButton: {
+    width: 'auto',
+  },
+  iconContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: Spacing['4xs'],
+  },
+  visuallyHidden: {
+    ...Platform.select({
+      native: {
+        display: 'none',
+      },
+      default: {
+        // only hiding the element on web to prefetch the icon within first network call
+        visibility: 'hidden',
+        position: 'fixed',
+      },
+    }),
+  },
+})
