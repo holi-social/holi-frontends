@@ -129,7 +129,7 @@ const InsightDetailPage = () => {
           headerTransparent: true,
         },
       }),
-      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} shadow="dark" />,
       headerRight: ({ tintColor }) => {
         return (
           insight && (
@@ -141,6 +141,7 @@ const InsightDetailPage = () => {
                   __typename={insight.__typename}
                   tintColor={tintColor}
                   isFavorite={insight.isFavorite ?? false}
+                  shadow="dark"
                   onError={(error) =>
                     displayError(
                       error,
@@ -158,7 +159,7 @@ const InsightDetailPage = () => {
 
               <HoliTransition.FadeRight visible index={1}>
                 <Pressable onPress={shareLink}>
-                  <HoliIcon icon={Share} colorOverride={tintColor} />
+                  <HoliIcon icon={Share} colorOverride={tintColor} shadow="dark" />
                 </Pressable>
               </HoliTransition.FadeRight>
             </Stack>

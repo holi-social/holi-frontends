@@ -6,7 +6,7 @@ import {
 } from '@holi/core/components/FavoritingButton/helpers/useFavoriting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { BookmarkFill, BookmarkLine } from '@holi/icons/src/generated'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { HoliIcon, type HoliIconProps } from '@holi/icons/src/HoliIcon'
 import { setSnackbarOptions } from '@holi/core/components/SnackbarGlobal'
 import { Trans, useTranslation } from 'react-i18next'
 import { Pressable } from 'react-native'
@@ -15,7 +15,7 @@ import { Spacing, type SpacingSize } from 'holi-bricks/foundations'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
 
-interface FavoritingButtonProps extends FavoritingMutationOptions {
+interface FavoritingButtonProps extends FavoritingMutationOptions, Pick<HoliIconProps, 'shadow'> {
   favoritableId: string
   favoritableType: FavoritableType
   size?: SpacingSize
@@ -33,6 +33,7 @@ export const FavoritingButton = ({
   onError,
   onCompleted,
   onUpdate,
+  shadow,
 }: FavoritingButtonProps) => {
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -93,11 +94,11 @@ export const FavoritingButton = ({
 
   return isFavorite ? (
     <Pressable onPress={unfavoriteHandler}>
-      <HoliIcon icon={BookmarkFill} colorOverride={tintColor} size={Spacing[size]} />
+      <HoliIcon icon={BookmarkFill} colorOverride={tintColor} size={Spacing[size]} shadow={shadow} />
     </Pressable>
   ) : (
     <Pressable onPress={favoriteHandler}>
-      <HoliIcon icon={BookmarkLine} colorOverride={tintColor} size={Spacing[size]} />
+      <HoliIcon icon={BookmarkLine} colorOverride={tintColor} size={Spacing[size]} shadow={shadow} />
     </Pressable>
   )
 }
