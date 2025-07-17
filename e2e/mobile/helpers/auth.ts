@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { navigateBackToHomeScreen, waitForActScreen, waitForHomeScreen } from '../helpers/navigation'
+import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
@@ -109,12 +109,7 @@ export const register = async ({
   if (!skipAccountSetup) {
     await finishAccountSetup()
 
-    if (!userData?.content) {
-      // User will land on act screen after onboarding > navigate to home feed
-      await waitForActScreen()
-      await tapOnElementWithTestId('btn-to-home-view')
-      await waitForHomeScreen()
-    }
+    await waitForHomeScreen()
   }
 }
 
@@ -145,8 +140,6 @@ const skipOnboardingSteps = async () => {
   // Skip through all onboarding steps
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
-  await waitForElementWithTestId('onboarding-content-selection')
-  await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
   // Wait for each screen to prevent pressing the same button twice
   await waitForElementWithTestId('onboarding-location-selection')
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
@@ -160,12 +153,6 @@ const skipOnboardingSteps = async () => {
 const fillOutOnboarding = async (userData: OnboardingUserData) => {
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
-  // Handle content selection
-  await waitForElementWithTestId('onboarding-content-selection')
-  if (userData.content) {
-    await tapOnElementWithTestId(userData.content)
-  }
-  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
   // Handle location selection
   await waitForElementWithTestId('onboarding-location-selection')
   if (userData.location) {

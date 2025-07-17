@@ -93,7 +93,6 @@ const skipOnboardingInitialSteps = async (page: Page) => {
   ])
 
   const onboardingStepsToSkip = [
-    'onboarding-content-selection',
     'onboarding-location-selection',
     'onboarding-interests-selection',
     'onboarding-skills-selection',
@@ -109,13 +108,6 @@ const fillOutOnboarding = async (page: Page, userData: OnboardingUserData) => {
     page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-onboarding'),
   ])
-
-  // Handle content selection
-  await page.waitForSelector(byTestId('onboarding-content-selection'))
-  if (userData.content) {
-    await clickElementByTestId(page, userData.content)
-  }
-  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
 
   if (isRunningLocally()) {
     await page.getByRole('button', { name: 'Skip' }).click()
