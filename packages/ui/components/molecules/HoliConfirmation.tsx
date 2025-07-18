@@ -152,9 +152,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
                   accessibilityLabel={t('confirmation.dismiss')}
                   accessibilityRole="button"
                   testID={`${testID}-confirmation-dismiss`}
-                  onPress={() => {
-                    if (onDismiss) onDismiss()
-                  }}
+                  onPress={onDismiss}
                 >
                   <HoliIcon size={24} icon={Close} />
                 </TouchableOpacity>

@@ -37,19 +37,18 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
   }
 
   const safelyOpenSignupModal = () => {
-    const secondDescription = (
-      <Trans
-        i18nKey="personalGoodDeedCounter.drawer.campaignHint"
-        components={{
-          span: <Text size="md" />,
-          b: <Text size="lg" />,
-        }}
-      />
-    )
     openSignupModal({
       title: t('personalGoodDeedCounter.drawer.guest.title'),
       description: t('personalGoodDeedCounter.drawer.guest.text'),
-      secondDescription: secondDescription,
+      secondDescription: (
+        <Trans
+          i18nKey="personalGoodDeedCounter.drawer.campaignHint"
+          components={{
+            span: <Text size="md" />,
+            b: <Text size="lg" />,
+          }}
+        />
+      ),
       trackTrigger: 'COLLECT_GOOD_DEEDS',
     })
   }
@@ -66,7 +65,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
 
       {/* modal for logged in users without any good deeds yet */}
       <HoliModal
-        label={'How to collect good deeds'}
+        label={t('personalGoodDeedCounter.drawer.empty.h2')}
         onDismiss={modalStateEmpty.hide}
         shown={modalStateEmpty.visible}
         autoHeight
@@ -109,7 +108,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
 
       {/* modal for logged in users with at least one good deed */}
       <HoliModal
-        label={'Your good deeds'}
+        label={t('personalGoodDeedCounter.drawer.default.banner.title')}
         onDismiss={modalStateDefault.hide}
         shown={modalStateDefault.visible}
         autoHeight
