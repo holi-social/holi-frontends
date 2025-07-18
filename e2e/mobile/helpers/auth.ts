@@ -4,7 +4,6 @@ import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigati
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
-  scrollToElementWithTestId,
   tapOnElement,
   tapOnElementWithTestId,
   tapOnLoginLinkInText,
@@ -70,8 +69,10 @@ export const login = async (
   await fillFieldByTestId('ory-identifier-input', email)
   await fillFieldByTestId('ory-password-input', password)
 
+  // Close the keyboard by clicking on the header
+  await tapOnElementWithTestId('heading')
+
   // Submit the form
-  await scrollToElementWithTestId('ory-submit-password', 'down')
   await tapOnElementWithTestId('ory-submit-password')
 
   if (expectHomeScreen) {
@@ -103,8 +104,10 @@ export const register = async ({
   await fillFieldByTestId('ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
 
+  // Close the keyboard by clicking on the header
+  await tapOnElementWithTestId('create-account-logo')
+
   // Submit the form
-  await scrollToElementWithTestId('ory-submit-password', 'down')
   await tapOnElementWithTestId('ory-submit-password')
 
   // Finish account setup
