@@ -6,7 +6,7 @@ set -e
 # enable full debug output in terraform, which is only written to logfiles
 export TF_LOG=TRACE
 
-pushd "$(dirname "$0")"/..
+cd "$(dirname "$0")"/..
 
 WORKSPACE=$1
 TAG=$2
@@ -17,4 +17,4 @@ TF_LOG_PATH=terraform-workspace.log terraform workspace select -or-create=true "
 TF_LOG_PATH=terraform-plan.log terraform plan -var="image_tag=$TAG" -out plan -no-color | tee tfplan.plain
 TF_LOG_PATH=terraform-apply.log terraform apply -auto-approve -parallelism=50 plan
 
-popd
+cd -
