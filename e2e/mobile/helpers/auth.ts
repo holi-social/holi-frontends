@@ -4,6 +4,7 @@ import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigati
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
+  scrollToElementWithTestId,
   tapOnElement,
   tapOnElementWithTestId,
   tapOnLoginLinkInText,
@@ -70,6 +71,7 @@ export const login = async (
   await fillFieldByTestId('ory-password-input', password)
 
   // Submit the form
+  await scrollToElementWithTestId('ory-submit-password', 'down')
   await tapOnElementWithTestId('ory-submit-password')
 
   if (expectHomeScreen) {
