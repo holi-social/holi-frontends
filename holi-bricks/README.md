@@ -19,4 +19,9 @@ Make sure you have the following tools installed:
   - `yarn android` to launch storybook on android simulator or device
   - `yarn ios` to launch storybook on ios simulator or device
 
-  Note: To run Storybook on devices/simulator you will need the latest dev builds installed https://expo.dev/accounts/holistic-foundation/projects/holi-bricks/development-builds
+  Note: To run Storybook on devices/simulator you will need the latest dev builds installed <https://expo.dev/accounts/holistic-foundation/projects/holi-bricks/development-builds>
+
+New Development builds can be created using:
+
+- `yarn build_ios`: iOS simulator build
+- `yarn build_android`: Android build

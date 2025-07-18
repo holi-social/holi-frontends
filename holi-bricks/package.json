@@ -75,6 +75,7 @@
     "expo": "^52.0.46",
     "expo-constants": "17.0.8",
     "expo-dev-client": "~5.0.2",
+    "expo-font": "~13.0.4",
     "expo-image": "~2.0.7",
     "next": "^14.2.7",
     "react": "18.3.1",
