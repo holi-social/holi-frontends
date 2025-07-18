@@ -87,7 +87,10 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const type = feedPost.category?.slug === 'good-deed' ? 'good_deed' : 'regular'
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
-    const goToCommentView = () => navigate(`/feed-posts/${feedPost.slug}/comment`)
+    const goToCommentView = () => {
+      if (feedPost?.totalComments) goToDetailView()
+      else navigate(`/feed-posts/${feedPost.slug}/comment`)
+    }
 
     if (isDeleted) {
       return null
