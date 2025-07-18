@@ -5,12 +5,7 @@ import { Pressable, View, type AccessibilityRole, type DimensionValue, type Flex
 import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
 import { makeBorderWidth, type BorderSizeToEdge } from 'holi-bricks/foundations/dimensions/borderWidth'
-import type {
-  BackgroundColors,
-  BorderColors,
-  DecorativeColors,
-  ElevationLevel,
-} from 'holi-bricks/foundations/colors/themes/types'
+import type { BackgroundColors, BorderColors, ElevationLevel } from 'holi-bricks/foundations/colors/themes/types'
 import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { resolveBackgroundColor } from 'holi-bricks/components/stack/helpers'
 
@@ -19,7 +14,7 @@ type StackProps = AccessibilityProps &
   React.PropsWithChildren & {
     gap?: SpacingSize
     direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse'
-    backgroundColor?: BackgroundColors | DecorativeColors
+    backgroundColor?: BackgroundColors
     alignContent?: FlexAlignments
     alignItems?: 'flex-end' | 'flex-start' | 'center' | 'stretch' | 'baseline'
     justifyContent?: FlexAlignments
