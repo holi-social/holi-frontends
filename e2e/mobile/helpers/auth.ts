@@ -104,6 +104,7 @@ export const register = async ({
   await fillFieldByTestId('ory-password-input', password)
 
   // Submit the form
+  await scrollToElementWithTestId('ory-submit-password', 'down')
   await tapOnElementWithTestId('ory-submit-password')
 
   // Finish account setup
