@@ -117,7 +117,7 @@ const stylesheet = createStyleSheet((theme) => ({
           fontFeatureSettings: '"ss12", "ss11", "ss10", "ss07", "ss05", "ss04", "ss08", "ss03", "liga" 0',
         },
       }),
-      ...(bold && { fontWeight: '500' }),
+      ...(bold && { fontWeight: '600' }),
       variants: {
         size: {
           '4xl': {
