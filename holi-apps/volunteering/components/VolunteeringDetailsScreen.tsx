@@ -21,6 +21,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Image } from 'holi-bricks/components/image'
 import { logError } from '@holi/core/errors/helpers'
 import { ProgressStepper, type StepStatus } from 'holi-bricks/components/progressStepper/ProgressStepper'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const isIos = Platform.OS === 'ios'
 
@@ -32,6 +33,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const commitmentModal = useModalState()
   const reachedOutModal = useModalState()
   const { styles } = useStyles(stylesheet)
+  const { navigate } = useRouting()
 
   const email = 'test.email@gmail.com' // todo: document?.email
   const phoneNumber = '0152' // todo: document?.phonenumber
@@ -316,17 +318,12 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           />
         </Stack>
       </Stack>
-      <Stack flexShrink={1} gap="xs">
+      <Stack flexShrink={1} gap="xs" justifyContent="space-between">
         <Stack gap="3xs">
           <Text size="lg">Great that you did this!</Text>
           <Text size="md">You made the world a little better. Do you think about what to do next?</Text>
         </Stack>
-        <Button
-          label="Find more good deeds"
-          onPress={() => {
-            // navigate to good deeds
-          }}
-        />
+        <Button label="Find more good deeds" onPress={() => navigate('/act')} />
       </Stack>
     </Stack>
   )
@@ -362,7 +359,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               width="100%"
               gap="xxs"
             >
-              <ButtonTracked // todo: add tracking event in posthog
+              <ButtonTracked
                 trackingEvent={TrackingEvent.Volunteering.wantToDoIt(engagementId, {
                   commitmentType: document?.commitmentType,
                   locationType: document?.locationType,
@@ -617,7 +614,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                 : undefined
         }
         status={status}
-        visibility="public" // todo: to be removed
       />
       {document?.externalUrl && Platform.OS !== 'web' && (
         <HoliModal

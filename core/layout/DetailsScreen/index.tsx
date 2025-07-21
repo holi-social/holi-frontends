@@ -207,8 +207,6 @@ export const DetailsScreen = ({
             {/* progress card */}
             {progressCard && <Stack>{progressCard}</Stack>}
 
-            {/* seo description */}
-
             {/* organizational information */}
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>
               {infoList?.map((detail, index) => {
