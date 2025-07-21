@@ -458,12 +458,17 @@ export namespace TrackingEvent {
 
     filterSelectionSaved: (
       filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills',
-      selectedValues: string[] = []
+      selectedValues?: string | string[]
     ): TrackingEvent => ({
       name: 'filterSelectionSaved',
       properties: { filterCategory, selectedValues },
       ...versionOne,
     }),
+
+    clearFiltersPressed: {
+      name: 'clearFiltersPressed',
+      ...versionOne,
+    },
   }
 
   export const SpacePosts = {

@@ -37,7 +37,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
   const longListOfOptions = ['topics', 'skills', 'location'].includes(filterKey)
 
   const submitSelection = useCallback(() => {
-    const trackedSelection = selection && 'label' in selection ? [selection.label] : selection
+    const trackedSelection = selection && 'label' in selection ? selection.label : selection
     track(TrackingEvent.Volunteering.filterSelectionSaved(filterKey, trackedSelection))
     onSubmit({
       ...filters,

@@ -200,7 +200,7 @@ describe('VolunteeringFilterModal', () => {
       await user.press(screen.getByText('volunteering.filter.locationModal.saveButton'))
 
       expect(mockTrack).toHaveBeenCalledWith(
-        TrackingEvent.Volunteering.filterSelectionSaved('location', [testLocation.label])
+        TrackingEvent.Volunteering.filterSelectionSaved('location', testLocation.label)
       )
     })
   })

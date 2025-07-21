@@ -6,7 +6,6 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 
-import { Button } from 'holi-bricks/components/button'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { Spacing } from 'holi-bricks/foundations'
@@ -15,6 +14,8 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Delete } from '@holi/icons/src/generated'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -59,7 +60,12 @@ export const VolunteeringEngagementList = ({
             </Stack>
           </Stack>
 
-          <Button label={t('search.filter.reset_other')} onPress={clearFilters} icon={Delete} />
+          <ButtonTracked
+            label={t('search.filter.reset_other')}
+            onPress={clearFilters}
+            icon={Delete}
+            trackingEvent={TrackingEvent.Volunteering.clearFiltersPressed}
+          />
         </Stack>
       </HoliContainer>
     )
