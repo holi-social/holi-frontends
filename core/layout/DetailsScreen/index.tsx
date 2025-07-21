@@ -50,7 +50,7 @@ type BodyContent = {
   content: string
 }
 
-export type VolunteeringEngagementStatus = 'planned' | 'contacted' | 'doing' | 'done'
+export type VolunteeringEngagementStatus = 'planned' | 'contacted' | 'doing'
 
 export type DetailsScreenData = {
   date?: Date | string

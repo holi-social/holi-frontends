@@ -12,7 +12,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIconTracked, ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
-import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
+import { DetailsScreen, type VolunteeringEngagementStatus } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 import { Text } from 'holi-bricks/components/text'
@@ -22,6 +22,8 @@ import { Image } from 'holi-bricks/components/image'
 import { logError } from '@holi/core/errors/helpers'
 import { ProgressStepper, type StepStatus } from 'holi-bricks/components/progressStepper/ProgressStepper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 const isIos = Platform.OS === 'ios'
 
@@ -39,7 +41,8 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const phoneNumber = '0152' // todo: document?.phonenumber
   const website = document?.externalUrl
 
-  const [status, setStatus] = useState<undefined | 'planned' | 'contacted' | 'doing' | 'done'>(undefined)
+  const [status, setStatus] = useState<undefined | VolunteeringEngagementStatus>(undefined)
+  const [showExitModal, setShowExitModal] = useState(false)
 
   const stepsPhaseTwo = [
     { label: 'Plan', status: 'done' },
@@ -234,56 +237,75 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         icon={Check}
         onPress={() => {
           setStatus('contacted')
+          // todo: update status in backend
         }}
       />
     </Stack>
   )
 
   const progressCardDo = (
-    <Stack
-      padding={{ left: 'xs', right: 'xs', bottom: 'xxs', top: 'xxs' }}
-      gap="xs"
-      backgroundColor="purpleLight"
-      borderColor="main"
-      borderRadius="md"
-      borderStyle="solid"
-      borderWidth="sm"
-    >
-      <Stack direction="row" alignSelf="center">
-        {stepsPhaseThree.map((step, index) => (
-          <ProgressStepper
-            key={index}
-            step={index + 1}
-            label={step.label}
-            status={step.status as StepStatus}
-            isLast={index === stepsPhaseTwo.length - 1}
-            isFirst={index === 0}
+    <>
+      <Stack
+        padding={{ left: 'xs', right: 'xs', bottom: 'xxs', top: 'xxs' }}
+        gap="xs"
+        backgroundColor="purpleLight"
+        borderColor="main"
+        borderRadius="md"
+        borderStyle="solid"
+        borderWidth="sm"
+      >
+        <Stack direction="row" alignSelf="center">
+          {stepsPhaseThree.map((step, index) => (
+            <ProgressStepper
+              key={index}
+              step={index + 1}
+              label={step.label}
+              status={step.status as StepStatus}
+              isLast={index === stepsPhaseTwo.length - 1}
+              isFirst={index === 0}
+            />
+          ))}
+        </Stack>
+        <Stack gap="3xs">
+          <Text size="lg">Carry out</Text>
+          <Text size="md">Let us know if you committed to take this engagement on.</Text>
+        </Stack>
+        <Stack gap="3xs">
+          <Button
+            label="I’m on it"
+            icon={Check}
+            onPress={() => {
+              setStatus('doing')
+              // todo: update status in backend
+              // todo: start good deeds counter animation
+            }}
           />
-        ))}
+          <Button
+            label="I don’t do it"
+            variant="secondary"
+            icon={Close}
+            onPress={() => {
+              setShowExitModal(true)
+            }}
+          />
+        </Stack>
       </Stack>
-      <Stack gap="3xs">
-        <Text size="lg">Carry out</Text>
-        <Text size="md">Let us know if you committed to take this engagement on.</Text>
-      </Stack>
-      <Stack gap="3xs">
-        <Button
-          label="I’m on it"
-          icon={Check}
-          onPress={() => {
-            setStatus('doing')
-            // todo: start good deeds counter animation
-          }}
-        />
-        <Button
-          label="I don’t do it"
-          variant="secondary"
-          icon={Close}
-          onPress={() => {
-            setStatus(undefined)
-          }}
-        />
-      </Stack>
-    </Stack>
+
+      <HoliConfirmation
+        show={showExitModal}
+        label={'End the process'}
+        title={'Do you want to end the process?'}
+        description={'If you won’t do this, your progress will be lost and you won’t receive the good deed.'}
+        secondaryText={'Keep'}
+        primaryText={'End process'}
+        onPrimary={() => {
+          setStatus(undefined)
+          setShowExitModal(false)
+          // todo: remove VO from ongoing good deeds
+        }}
+        onDismiss={() => setShowExitModal(false)}
+      />
+    </>
   )
 
   const progressCardDone = (
@@ -396,172 +418,174 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                 commitmentModal.hide()
                 reachedOutModal.show()
                 setStatus('planned')
+                // todo: update status in backend
               }}
               autoHeight
               label="I want to do it"
               backgroundColor={styles.modalBackground.backgroundColor}
             >
-              <Stack padding="md" gap="md">
-                {/* rocket image */}
-                <Stack alignItems="center">
-                  {/* todo: animate rocket using lottie */}
-                  <Image
-                    source={require('@holi/ui/assets/img/volunteering/rocket animation.gif')}
-                    width={0}
-                    height={0}
-                    alt={'rocket animation'}
-                  />
-                </Stack>
-
-                {/* progress steps */}
-                <Stack direction="row" alignSelf="center">
-                  {stepsPhaseTwo.map((step, index) => (
-                    <ProgressStepper
-                      key={index}
-                      step={index + 1}
-                      status={step.status as StepStatus}
-                      isLast={index === stepsPhaseTwo.length - 1}
-                      isFirst={index === 0}
+              <HoliContainer>
+                <Stack padding="md" gap="md">
+                  {/* rocket image */}
+                  <Stack alignItems="center">
+                    {/* todo: animate rocket using lottie */}
+                    <Image
+                      source={require('@holi/ui/assets/img/volunteering/rocket animation.gif')}
+                      width={0}
+                      height={0}
+                      alt={'rocket animation'}
                     />
-                  ))}
-                </Stack>
+                  </Stack>
 
-                {/* heading */}
-                <Stack gap="3xs">
-                  {/* todo: localazy */}
-                  <Text size="3xl">Ready? Let’s go!</Text>
-                  {/* todo: localazy */}
-                  <Text size="md">
-                    Take the first step and reach out to the contact person to exchange on how you can support:
-                  </Text>
-                </Stack>
-
-                {/* contact information */}
-                <Stack gap="3xs">
-                  {email && (
-                    <Stack
-                      borderColor="default"
-                      borderRadius="xs"
-                      borderStyle="solid"
-                      borderWidth="sm"
-                      padding="xs"
-                      direction="row"
-                      justifyContent="space-between"
-                      gap="xs"
-                      backgroundColor="support"
-                    >
-                      <Stack gap="4xs" flexShrink={1}>
-                        <Text size="xs" color="support">
-                          {/* localazy */}
-                          Email
-                        </Text>
-                        <Text size="md">{email}</Text>
-                      </Stack>
-                      {Platform.OS === 'web' ? (
-                        <Stack flexShrink={1}>
-                          <Button
-                            icon={FileCopy}
-                            label="Copy"
-                            variant="secondary"
-                            onPress={() => {
-                              navigator.clipboard
-                                .writeText(email)
-                                .then(() => alert('Copied!'))
-                                .catch((err) =>
-                                  logError(err, 'Failed to copy', {
-                                    location: 'VolunteeringDetailsScreen.sendMail',
-                                  })
-                                )
-                            }}
-                          />
-                        </Stack>
-                      ) : (
-                        <ButtonIcon icon={MailLine} label="email" variant="secondary" onPress={sendEmail} />
-                      )}
-                    </Stack>
-                  )}
-
-                  {phoneNumber && (
-                    <Stack
-                      borderColor="default"
-                      borderRadius="xs"
-                      borderStyle="solid"
-                      borderWidth="sm"
-                      padding="xs"
-                      direction="row"
-                      justifyContent="space-between"
-                      gap="xs"
-                      backgroundColor="support"
-                    >
-                      <Stack gap="4xs" flexShrink={1}>
-                        <Text size="xs" color="support">
-                          {/* localazy */}
-                          Phone number
-                        </Text>
-                        <Text size="md">{phoneNumber}</Text>
-                      </Stack>
-                      {Platform.OS === 'web' ? (
-                        <Stack flexShrink={1}>
-                          <Button
-                            icon={FileCopy}
-                            label="Copy"
-                            variant="secondary"
-                            onPress={() => {
-                              navigator.clipboard
-                                .writeText(phoneNumber)
-                                .then(() => alert('Copied!'))
-                                .catch((err) =>
-                                  logError(err, 'Failed to copy', {
-                                    location: 'VolunteeringDetailsScreen.sendMail',
-                                  })
-                                )
-                            }}
-                          />
-                        </Stack>
-                      ) : (
-                        <ButtonIcon icon={PhoneLine} label="phone number" variant="secondary" onPress={callNumber} />
-                      )}
-                    </Stack>
-                  )}
-
-                  {website && (
-                    <Stack
-                      borderColor="default"
-                      borderRadius="xs"
-                      borderStyle="solid"
-                      borderWidth="sm"
-                      padding="xs"
-                      direction="row"
-                      justifyContent="space-between"
-                      gap="xs"
-                      backgroundColor="support"
-                    >
-                      <Stack gap="4xs" flexShrink={1}>
-                        <Text size="xs" color="support">
-                          {/* localazy */}
-                          Website
-                        </Text>
-                        <Text size="md">{document?.externalUrl}</Text>
-                      </Stack>
-                      <ButtonIconTracked
-                        trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
-                          commitmentType: document?.commitmentType,
-                          locationType: document?.locationType,
-                          source: document?.source,
-                        })}
-                        variant="secondary"
-                        icon={ExternalLink}
-                        label={t('volunteering.engagementDetail.getInTouch')}
-                        onPress={openWebsite}
-                        testID="volunteering-engagement-get-in-touch-btn"
+                  {/* progress steps */}
+                  <Stack direction="row" alignSelf="center">
+                    {stepsPhaseTwo.map((step, index) => (
+                      <ProgressStepper
+                        key={index}
+                        step={index + 1}
+                        status={step.status as StepStatus}
+                        isLast={index === stepsPhaseTwo.length - 1}
+                        isFirst={index === 0}
                       />
-                    </Stack>
-                  )}
-                </Stack>
+                    ))}
+                  </Stack>
 
-                {/* todo: remove unused code */}
-                {/* button */}
-                {/* {website && (
+                  {/* heading */}
+                  <Stack gap="3xs">
+                    {/* todo: localazy */}
+                    <Text size="3xl">Ready? Let’s go!</Text>
+                    {/* todo: localazy */}
+                    <Text size="md">
+                      Take the first step and reach out to the contact person to exchange on how you can support:
+                    </Text>
+                  </Stack>
+
+                  {/* contact information */}
+                  <Stack gap="3xs">
+                    {email && (
+                      <Stack
+                        borderColor="default"
+                        borderRadius="xs"
+                        borderStyle="solid"
+                        borderWidth="sm"
+                        padding="xs"
+                        direction="row"
+                        justifyContent="space-between"
+                        gap="xs"
+                        backgroundColor="support"
+                      >
+                        <Stack gap="4xs" flexShrink={1}>
+                          <Text size="xs" color="support">
+                            {/* localazy */}
+                            Email
+                          </Text>
+                          <Text size="md">{email}</Text>
+                        </Stack>
+                        {Platform.OS === 'web' ? (
+                          <Stack flexShrink={1}>
+                            <Button
+                              icon={FileCopy}
+                              label="Copy"
+                              variant="secondary"
+                              onPress={() => {
+                                navigator.clipboard
+                                  .writeText(email)
+                                  .then(() => alert('Copied!'))
+                                  .catch((err) =>
+                                    logError(err, 'Failed to copy', {
+                                      location: 'VolunteeringDetailsScreen.sendMail',
+                                    })
+                                  )
+                              }}
+                            />
+                          </Stack>
+                        ) : (
+                          <ButtonIcon icon={MailLine} label="email" variant="secondary" onPress={sendEmail} />
+                        )}
+                      </Stack>
+                    )}
+
+                    {phoneNumber && (
+                      <Stack
+                        borderColor="default"
+                        borderRadius="xs"
+                        borderStyle="solid"
+                        borderWidth="sm"
+                        padding="xs"
+                        direction="row"
+                        justifyContent="space-between"
+                        gap="xs"
+                        backgroundColor="support"
+                      >
+                        <Stack gap="4xs" flexShrink={1}>
+                          <Text size="xs" color="support">
+                            {/* localazy */}
+                            Phone number
+                          </Text>
+                          <Text size="md">{phoneNumber}</Text>
+                        </Stack>
+                        {Platform.OS === 'web' ? (
+                          <Stack flexShrink={1}>
+                            <Button
+                              icon={FileCopy}
+                              label="Copy"
+                              variant="secondary"
+                              onPress={() => {
+                                navigator.clipboard
+                                  .writeText(phoneNumber)
+                                  .then(() => alert('Copied!'))
+                                  .catch((err) =>
+                                    logError(err, 'Failed to copy', {
+                                      location: 'VolunteeringDetailsScreen.sendMail',
+                                    })
+                                  )
+                              }}
+                            />
+                          </Stack>
+                        ) : (
+                          <ButtonIcon icon={PhoneLine} label="phone number" variant="secondary" onPress={callNumber} />
+                        )}
+                      </Stack>
+                    )}
+
+                    {website && (
+                      <Stack
+                        borderColor="default"
+                        borderRadius="xs"
+                        borderStyle="solid"
+                        borderWidth="sm"
+                        padding="xs"
+                        direction="row"
+                        justifyContent="space-between"
+                        gap="xs"
+                        backgroundColor="support"
+                      >
+                        <Stack gap="4xs" flexShrink={1}>
+                          <Text size="xs" color="support">
+                            {/* localazy */}
+                            Website
+                          </Text>
+                          <Text size="md">{document?.externalUrl}</Text>
+                        </Stack>
+                        <ButtonIconTracked
+                          trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
+                            commitmentType: document?.commitmentType,
+                            locationType: document?.locationType,
+                            source: document?.source,
+                          })}
+                          variant="secondary"
+                          icon={ExternalLink}
+                          label={t('volunteering.engagementDetail.getInTouch')}
+                          onPress={openWebsite}
+                          testID="volunteering-engagement-get-in-touch-btn"
+                        />
+                      </Stack>
+                    )}
+                  </Stack>
+
+                  {/* todo: remove unused code */}
+                  {/* button */}
+                  {/* {website && (
                 <ButtonTracked
                   trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
                     commitmentType: document?.commitmentType,
@@ -586,7 +610,8 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               {email && !website && (
                 <Button label="Write e-mail to the initiator" size="lg" icon={ExternalLink} onPress={sendEmail} />
               )} */}
-              </Stack>
+                </Stack>
+              </HoliContainer>
             </HoliModal>
           </>
         ) : undefined
@@ -683,6 +708,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               onPress={() => {
                 reachedOutModal.hide()
                 setStatus('contacted')
+                // todo: update status in backend
               }}
               testID="volunteering-engagement-get-in-touch-btn"
             />

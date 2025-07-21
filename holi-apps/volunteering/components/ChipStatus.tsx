@@ -8,7 +8,7 @@ import type { Color, LayoutProps } from 'holi-bricks/foundations'
 import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { OneOfThree, TwoOfThree, ThreeOfThree, CheckboxCircleFilled } from '@holi/icons/src/generated'
+import { OneOfThree, TwoOfThree, CheckboxCircleFilled } from '@holi/icons/src/generated'
 import type { VolunteeringEngagementStatus } from '@holi/core/layout/DetailsScreen'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
@@ -22,14 +22,15 @@ export type ChipStatusProps = AccessibilityProps &
     size?: ChipSize
   }
 
+type chipStatusColor = 'blue' | 'orange' | 'purple' | 'green'
+
 const STATUS_MAP: Record<
   VolunteeringEngagementStatus,
-  { label: string; icon: HoliIconType; color: 'blue' | 'orange' | 'purple' | 'green'; iconColor?: FillColors }
+  { label: string; icon: HoliIconType; color: chipStatusColor; iconColor?: FillColors }
 > = {
   planned: { label: 'Planned', icon: OneOfThree, color: 'blue' },
   contacted: { label: 'Contacted', icon: TwoOfThree, color: 'orange' },
-  doing: { label: 'Doing', icon: ThreeOfThree, color: 'purple' },
-  done: { label: 'Done', icon: CheckboxCircleFilled, color: 'green', iconColor: 'greenDark' },
+  doing: { label: 'Helping', icon: CheckboxCircleFilled, color: 'green', iconColor: 'greenDark' },
 }
 
 export const ChipStatus = ({ status, size = 'md', ...rest }: ChipStatusProps) => {
@@ -45,7 +46,7 @@ export const ChipStatus = ({ status, size = 'md', ...rest }: ChipStatusProps) =>
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  chip: (color: 'blue' | 'orange' | 'purple' | 'green') => ({
+  chip: (color: chipStatusColor) => ({
     ...pill,
     backgroundColor: theme.colors.decorative[`${color}Light`],
     borderColor: theme.colors.decorative[`${color}Dark`],
