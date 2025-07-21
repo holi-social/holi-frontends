@@ -72,7 +72,7 @@ const getStyles = (theme: HoliTheme) =>
       marginLeft: Spacing['3xs'],
     },
     icon: {
-      marginLeft: Spacing.md,
+      marginLeft: Spacing.xs,
     },
     listContent: {
       paddingTop: Spacing.sm,
