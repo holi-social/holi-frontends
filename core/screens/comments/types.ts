@@ -1,4 +1,5 @@
 import { User } from '@holi/core/domain/shared/types'
+import { Paged } from '@holi/core/types'
 
 export enum ReactionType {
   HEART = 'HEART',
@@ -23,6 +24,7 @@ export interface Comment {
   reactions: ReactionCounts
   parentCommentId?: string
   replies: Comment[]
+  reactors: Paged<User>
   totalReplies: number
   language?: string
 }

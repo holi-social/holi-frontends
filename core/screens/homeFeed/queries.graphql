@@ -1,0 +1,5 @@
+query GetRewardsCounter {
+  rewards_counter {
+    counter
+  }
+}

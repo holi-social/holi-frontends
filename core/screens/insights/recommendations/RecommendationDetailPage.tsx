@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -12,6 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
+import WebViewHandler from '@holi/core/screens/insights/components/WebViewHandler'
 import { type InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
@@ -49,6 +49,7 @@ const RecommendationDetailPage = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
+  const [showWebView, setShowWebView] = useState(false)
 
   const {
     data: { insightById } = {},
@@ -83,7 +84,9 @@ const RecommendationDetailPage = () => {
     })}`,
   })
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
+    if (showWebView) return
+
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: false,
@@ -91,26 +94,37 @@ const RecommendationDetailPage = () => {
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
       ),
-      headerRight: () => {
-        return (
-          <HoliActionDrawer.Drawer
-            label={t('global.moreOptions')}
-            buttonElement={<HoliIcon icon={MoreFilled} colorOverride={colors.black300} />}
-          >
-            <HoliActionDrawer.Action
-              icon={Share}
-              title={t('global.share')}
-              testID="btn-share-insight"
-              handleAction={shareLink}
-            />
-          </HoliActionDrawer.Drawer>
-        )
-      },
+      headerRight: () => (
+        <HoliActionDrawer.Drawer
+          label={t('global.moreOptions')}
+          buttonElement={<HoliIcon icon={MoreFilled} colorOverride={colors.black300} />}
+        >
+          <HoliActionDrawer.Action
+            icon={Share}
+            title={t('global.share')}
+            testID="btn-share-insight"
+            handleAction={shareLink}
+          />
+        </HoliActionDrawer.Drawer>
+      ),
       headerLeft: ({ tintColor }) => (
         <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
       ),
     })
-  }, [t, setScreenOptions, shareLink, colors.black300, insightId])
+  }, [showWebView, setScreenOptions, t, colors.black300, insightId, shareLink])
+
+  if (showWebView && recommendation) {
+    return (
+      <WebViewHandler
+        url={recommendation.link}
+        visible={true}
+        onClose={() => setShowWebView(false)}
+        shareAction={shareLink}
+        sourceType="recommendation"
+        insightId={insightId}
+      />
+    )
+  }
 
   return (
     <>
@@ -165,7 +179,7 @@ const RecommendationDetailPage = () => {
             role="link"
             label={t('insights.recommendations.open_link')}
             icon={ShareBox}
-            onPress={() => Linking.openURL(recommendation?.link || '')}
+            onPress={() => setShowWebView(true)}
           />
         </View>
       )}

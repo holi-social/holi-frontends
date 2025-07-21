@@ -24,7 +24,6 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 
 describe('onboardingUserDataAsyncStore', () => {
   const fullUserData: OnboardingUserData = {
-    content: 'SPACES',
     location: {
       id: 'location1',
       label: 'Location name',
@@ -40,7 +39,6 @@ describe('onboardingUserDataAsyncStore', () => {
   }
   const fullUserDataJSON = JSON.stringify(fullUserData)
   const minimalUserData: OnboardingUserData = {
-    content: undefined,
     location: undefined,
     interests: [],
     skills: [],

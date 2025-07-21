@@ -8,6 +8,7 @@ import {
   waitForElementWithTestId,
 } from '../../helpers/selectors'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import { waitForHomeScreen } from '@holi/e2e-mobile/helpers/navigation'
 
 describe('@RegistrationJourney', () => {
   const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
@@ -44,7 +45,6 @@ describe('@RegistrationJourney', () => {
   it('performs full onboarding', async () => {
     // Register filling out user data in onboarding
     const userData: OnboardingUserData = {
-      content: 'SPACES',
       location: {
         label: 'Hamburg, Germany',
         id: '51223999b85500244059f052ea9271c64a40f00101f9013ef5000000000000c00208',
@@ -54,8 +54,8 @@ describe('@RegistrationJourney', () => {
     }
     await registerNewUser({ userData })
 
-    // Expect being redirected to selected content type SPACES
-    await waitForElementWithTestId('spaces-container')
+    // Expect being redirected to home feed
+    await waitForHomeScreen()
 
     // Navigate to profile
     await tapOnElementWithTestId('btn-to-profile-view')

@@ -18,6 +18,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
+import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 
 type PostContentProps = {
   post: FeedPost
@@ -35,6 +36,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
 
   const [description, setDescription] = useState(post.description)
   const [title, setTitle] = useState(post.title)
+  const { mapCategorySlugToLabel } = useFeedPostCategories()
 
   const isTranslatable = post.language && post.language !== i18n.language
   const isPoll = !!post?.poll
@@ -61,7 +63,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           {post.category && (
             <View style={[styles.pill, styles.categoryPill]}>
               <HoliText size="small" numberOfLines={1}>
-                {post.category.label}
+                {mapCategorySlugToLabel(post.category.slug)}
               </HoliText>
             </View>
           )}

@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -33,13 +34,16 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
   const [detailUrl, setDetailUrl] = useState('')
   const submissions = challenge.submissions.slice(0, 2)
 
-  useEffect(() => {
-    const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
-      setDetailUrl(url)
-    }
-    initUrl()
+  const updatePromoState = useCallback(async () => {
+    const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
+    setDetailUrl(url)
   }, [challenge.id])
+
+  useFocusEffect(
+    useCallback(() => {
+      updatePromoState()
+    }, [updatePromoState])
+  )
 
   if (!challenge.submissions.length) {
     return null

@@ -12,6 +12,7 @@ query TaskById($id: UUID!) {
     timeframeStartDate
     timeframeEndDate
     visibility
+    isFavorite
     locationType
     interactionType
     contactEmail

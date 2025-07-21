@@ -1,7 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
-
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -9,10 +7,9 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 import HoliConfirmation, { type HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform.web'
+import { Stack } from 'holi-bricks/components/stack'
 
 export interface SignupGuardModalProps extends Partial<HoliConfirmationProps> {
   trackTrigger?: SignupModalPressedTrigger
@@ -24,6 +21,7 @@ export const SignupGuardModal = ({
   label,
   title,
   description,
+  subline,
   primaryText,
   secondaryText,
   onPrimary,
@@ -37,8 +35,6 @@ export const SignupGuardModal = ({
   const { navigate } = useRouting()
   const { props } = useConfirmationState()
   const { track } = useTracking()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
   const primaryHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'signUp'))
 
@@ -72,6 +68,7 @@ export const SignupGuardModal = ({
       label={label || t('loginRedirect.title')}
       title={title || t('loginRedirect.title')}
       description={description || t('loginRedirect.text')}
+      subline={subline}
       primaryText={primaryText || t('loginRedirect.btnConfirm')}
       secondaryText={secondaryText || t('loginRedirect.btnCancel')}
       onPrimary={primaryHandler}
@@ -80,7 +77,14 @@ export const SignupGuardModal = ({
       primaryButtonVariant={primaryButtonType}
       testID={testID}
       footerComponent={
-        <View style={styles.footerContainer}>
+        <Stack
+          padding={{ left: 'md', right: 'md', top: 'sm', bottom: 'md' }}
+          justifyContent="center"
+          alignItems="center"
+          borderWidth={{ top: 'sm' }}
+          borderStyle="solid"
+          borderColor="default"
+        >
           <AlreadyHaveAccountText
             onPress={() => {
               enableRedirect()
@@ -92,20 +96,8 @@ export const SignupGuardModal = ({
                 : TrackingEvent.Auth.LoginButtonPressed
             }
           />
-        </View>
+        </Stack>
       }
     />
   )
 }
-
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    footerContainer: {
-      paddingHorizontal: Spacing.md,
-      paddingVertical: Spacing.sm,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderTopWidth: 1,
-      borderColor: theme.colors.gray100,
-    },
-  })

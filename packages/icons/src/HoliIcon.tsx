@@ -15,6 +15,7 @@ export type HoliIconProps = {
   testID?: string
   style?: StyleProp<ViewStyle>
   accessibilityLabel?: string
+  shadow?: 'light' | 'dark'
 }
 
 export const HoliIcon: React.FC<HoliIconProps> = ({
@@ -25,6 +26,7 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
   testID,
   style,
   accessibilityLabel,
+  shadow,
 }: HoliIconProps) => {
   const { styles } = useStyles(stylesheet)
   const width = typeof size === 'number' ? size : size.width
@@ -32,6 +34,17 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
 
   return (
     <View testID={testID} style={style} accessibilityLabel={accessibilityLabel}>
+      {!!shadow && (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <SvgIcon
+            width={width * 1.1}
+            height={height * 1.1}
+            color={shadow === 'dark' ? 'black' : 'white'}
+            opacity="0.2"
+            transform="translate(-1, 1)"
+          />
+        </View>
+      )}
       <SvgIcon width={width} height={height} color={styles.icon(color, colorOverride).color} />
     </View>
   )

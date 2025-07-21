@@ -1,10 +1,10 @@
 import { type Browser, type BrowserContext, type Page, test as baseTest } from '@playwright/test'
 
-import { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import { withRandomUserSession } from './helpers'
 import {
-  E2ETestSpaceResponse,
-  E2ETestSpaceTaskResponse,
+  type E2ETestSpaceResponse,
+  type E2ETestSpaceTaskResponse,
   type User,
   createSpace,
   createSpaceTask,

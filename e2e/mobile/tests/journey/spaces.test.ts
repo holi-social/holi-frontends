@@ -76,9 +76,6 @@ describe('@Spaces', () => {
     // login
     await login()
 
-    // on Android, the user gets navigated to spaces and the onboarding modal is opening immediately after login
-    await leaveSpaceOnboardingModal()
-
     await tapOnElementWithTestId('btn-to-spaces')
 
     await leaveSpaceOnboardingModal()
