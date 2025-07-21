@@ -16,10 +16,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
-import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import PostReactButton from '@holi/core/screens/individualPosts/components/PostReactButton'
 
 interface CommentsProps {
   commentableId: string
@@ -101,7 +101,7 @@ const Comments = ({
             )}
             {reactionButton}
           </View>
-          <View style={styles.reactionContainer}>{post && <FeedPostReactions post={post} showCount={false} />}</View>
+          <View style={styles.reactionContainer}>{post && <PostReactButton post={post} />}</View>
           <View style={styles.commentersLine}>
             <VerticalLine style={parentCommentId ? styles.commentersLineReplies : {}} />
           </View>
