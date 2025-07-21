@@ -15,7 +15,7 @@ import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment
 import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComment'
 import { type Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Comments as CommentsIcon, Delete, Flag } from '@holi/icons/src/generated'
+import { Comments as CommentsIcon, Delete, Flag, SupportReaction } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -25,7 +25,10 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Comments from './Comments'
-import { Avatar, type AvatarSizes } from 'holi-bricks/components/avatar'
+import { type AvatarSizes } from 'holi-bricks/components/avatar'
+import { Text } from 'holi-bricks/components/text'
+import ReactionsDrawer from '@holi/core/components/ReactionsDrawer'
+import { User } from '@holi/api/graphql/graphql-codegen'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
@@ -49,6 +52,7 @@ const CommentView = ({
   ...props
 }: CommentProps) => {
   const [isRepliesOpen, setIsRepliesOpen] = useState(false)
+  const [showCount, setShowCount] = useState(false)
   const { user: loggedInUser, isLoggedIn } = useLoggedInUser()
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
@@ -99,136 +103,143 @@ const CommentView = ({
   const formattedDate = getFormattedDate(comment.created, i18n.language)
 
   return (
-    <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
-      <View style={styles.header}>
-        <View style={styles.mediaHeaderLink}>
-          <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
-            <HoliMediaAuthorHeader
-              author={creator}
-              date={avatarSize !== 'xs' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
-              avatarSize={avatarSize}
-              role={creator.role}
-            />
-          </HoliLink>
-        </View>
-
-        <HoliColumn>
-          <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
-            {/* reporting own content makes no sense, so we hide this option */}
-            {!isCurrentUserCommentCreator && (
-              <HoliActionDrawer.Action
-                icon={Flag}
-                title={t('global.report')}
-                testID="report-comment-button"
-                handleAction={() =>
-                  navigateWithAuth(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
-                }
+    <>
+      <View style={[styles.wrapper, style]} {...props} testID={'comment-item'}>
+        <View style={styles.header}>
+          <View style={styles.mediaHeaderLink}>
+            <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
+              <HoliMediaAuthorHeader
+                author={creator}
+                date={avatarSize !== 'xs' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
+                avatarSize={avatarSize}
+                role={creator.role}
               />
-            )}
-            {/* deleting only allowed for own content */}
-            {isCurrentUserCommentCreator && (
-              <HoliActionDrawer.Action
-                isLoading={isLoadingDeleteComment}
-                icon={Delete}
-                title={t('comment.delete.title')}
-                variant="danger"
-                testID="delete-comment-button"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('comment.delete.title')}
-                  description={t('comment.delete.confirmation.description')}
-                  dismissText={t('comment.delete.confirmation.dismiss')}
-                  confirmText={t('comment.delete.confirmation.confirm')}
-                  testID="delete-comment"
-                  handleConfirmation={deleteComment}
-                  buttonVariant="danger"
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
-            )}
-          </HoliActionDrawer.Drawer>
-        </HoliColumn>
-      </View>
-
-      <View style={styles.body}>
-        <VerticalLine style={avatarSize === 'xs' ? styles.commentConnectorMicro : styles.commentConnector} />
-        <View style={styles.commentContent}>
-          <View style={styles.text}>
-            {avatarSize === 'xs' && (
-              <HoliText size="small" color="gray300" style={{ marginBottom: 12 }}>
-                {formattedDate}
-              </HoliText>
-            )}
-            <CommentText comment={comment} />
+            </HoliLink>
           </View>
 
-          <View style={[styles.reactionsBar, !onPressComment && styles.reactionsBarWithoutComment]}>
-            {!!onPressComment && (
+          <HoliColumn>
+            <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
+              {/* reporting own content makes no sense, so we hide this option */}
+              {!isCurrentUserCommentCreator && (
+                <HoliActionDrawer.Action
+                  icon={Flag}
+                  title={t('global.report')}
+                  testID="report-comment-button"
+                  handleAction={() =>
+                    navigateWithAuth(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
+                  }
+                />
+              )}
+              {/* deleting only allowed for own content */}
+              {isCurrentUserCommentCreator && (
+                <HoliActionDrawer.Action
+                  isLoading={isLoadingDeleteComment}
+                  icon={Delete}
+                  title={t('comment.delete.title')}
+                  variant="danger"
+                  testID="delete-comment-button"
+                  showConfirmation
+                >
+                  <HoliActionDrawer.Confirmation
+                    title={t('comment.delete.title')}
+                    description={t('comment.delete.confirmation.description')}
+                    dismissText={t('comment.delete.confirmation.dismiss')}
+                    confirmText={t('comment.delete.confirmation.confirm')}
+                    testID="delete-comment"
+                    handleConfirmation={deleteComment}
+                    buttonVariant="danger"
+                    hasDismissBtn
+                    requireLogin
+                  />
+                </HoliActionDrawer.Action>
+              )}
+            </HoliActionDrawer.Drawer>
+          </HoliColumn>
+        </View>
+
+        <View style={styles.body}>
+          <VerticalLine style={avatarSize === 'xs' ? styles.commentConnectorMicro : styles.commentConnector} />
+          <View style={styles.commentContent}>
+            <View style={styles.text}>
+              {avatarSize === 'xs' && (
+                <HoliText size="small" color="gray300" style={{ marginBottom: 12 }}>
+                  {formattedDate}
+                </HoliText>
+              )}
+              <CommentText comment={comment} />
+            </View>
+
+            <View style={styles.reactionsBar}>
+              {!!onPressComment && (
+                <HoliButton
+                  transparent
+                  inline
+                  label={t('comments.create_comment_button')}
+                  contentStyle={styles.addComment}
+                  onPress={() => {
+                    if (loggedInUser) onPressComment()
+                    else
+                      openSignupModal({
+                        description: t(
+                          isInsight
+                            ? 'insight.discussion.comment.loginRedirect.text'
+                            : 'comments.react.loginRedirect.text'
+                        ),
+                        trackTrigger: isInsight ? 'REPLY_COMMENT_ON_INSIGHT' : 'REPLY_COMMENT_ON_POST',
+                      })
+                  }}
+                >
+                  <Text size="sm" bold>
+                    {t('comments.create_comment_button')}
+                  </Text>
+                </HoliButton>
+              )}
+
+              <HoliReactionsCount
+                onPress={reactOnComment}
+                onCountPress={() => setShowCount(true)}
+                type="comment"
+                count={heartReactions}
+                active={currentUserHasReacted}
+                fullName={comment.creator.fullName}
+                testID="btn-react-to-comment-HEART"
+                text={t('comments.like_comment_button')}
+              />
+            </View>
+            {comment.totalReplies > 0 && !isRepliesOpen && (
               <HoliButton
                 transparent
-                inline
-                label={t('comments.create_comment_button')}
-                contentStyle={styles.addComment}
-                onPress={() => {
-                  if (loggedInUser) onPressComment()
-                  else
-                    openSignupModal({
-                      description: t(
-                        isInsight
-                          ? 'insight.discussion.comment.loginRedirect.text'
-                          : 'comments.react.loginRedirect.text'
-                      ),
-                      trackTrigger: isInsight ? 'REPLY_COMMENT_ON_INSIGHT' : 'REPLY_COMMENT_ON_POST',
-                    })
-                }}
+                label={t('comments.response', { count: comment.totalReplies })}
+                contentStyle={styles.commentsBar}
+                onPress={() => setIsRepliesOpen(true)}
               >
-                {!!loggedInUser && (
-                  <Avatar
-                    source={loggedInUser.avatar}
-                    imgPlaceholder={loggedInUser.avatarBlurhash}
-                    label={loggedInUser.fullName ?? ''}
-                    initials={loggedInUser.avatarLabel}
-                    size="xs"
-                  />
-                )}
+                <HoliIcon icon={CommentsIcon} />
                 <HoliText disabled size="small" color="gray300">
-                  {t('comments.create_comment_button')}
+                  {t('comments.response', { count: comment.totalReplies })}
                 </HoliText>
               </HoliButton>
             )}
-
-            <HoliReactionsCount
-              onPress={reactOnComment}
-              type="comment"
-              count={heartReactions}
-              active={currentUserHasReacted}
-              fullName={comment.creator.fullName}
-              testID="btn-react-to-comment-HEART"
-            />
+            {comment.totalReplies > 0 && isRepliesOpen && (
+              <View style={styles.replies}>
+                <Comments
+                  commentableType={commentableType}
+                  commentableId={commentableId}
+                  parentCommentId={comment.id}
+                />
+              </View>
+            )}
           </View>
-          {comment.totalReplies > 0 && !isRepliesOpen && (
-            <HoliButton
-              transparent
-              label={t('comments.response', { count: comment.totalReplies })}
-              contentStyle={styles.commentsBar}
-              onPress={() => setIsRepliesOpen(true)}
-            >
-              <HoliIcon icon={CommentsIcon} />
-              <HoliText disabled size="small" color="gray300">
-                {t('comments.response', { count: comment.totalReplies })}
-              </HoliText>
-            </HoliButton>
-          )}
-          {comment.totalReplies > 0 && isRepliesOpen && (
-            <View style={styles.replies}>
-              <Comments commentableType={commentableType} commentableId={commentableId} parentCommentId={comment.id} />
-            </View>
-          )}
         </View>
       </View>
-    </View>
+      {showCount && (
+        <ReactionsDrawer
+          visible={showCount}
+          onClose={() => setShowCount(false)}
+          users={comment.reactors.data as User[]}
+          reactionIcon={<HoliIcon icon={SupportReaction} size={26} />}
+        />
+      )}
+    </>
   )
 }
 
@@ -267,7 +278,10 @@ const getStyles = (theme: HoliTheme) =>
       marginLeft: Spacing.xs,
       alignItems: 'center',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
+      gap: Spacing.sm,
+      marginBottom: Spacing['3xs'],
+      height: Spacing.md,
     },
     commentsBar: {
       marginTop: Spacing['3xs'],
@@ -280,15 +294,11 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: Spacing['3xs'],
       marginLeft: Spacing.xs,
     },
-    reactionsBarWithoutComment: {
-      justifyContent: 'flex-end',
-    },
     addComment: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       gap: 6,
-      marginBottom: Spacing['3xs'],
     },
   })
 

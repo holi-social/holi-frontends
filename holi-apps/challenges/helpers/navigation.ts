@@ -18,38 +18,48 @@ export const createInAppChallengesPath = (path?: string, extraParams?: Record<st
   return `${appRoute}?${params.toString()}`
 }
 
-export async function handlePromoState() {
-  const key = 'promoSeen'
-  const hasSeen = await AsyncStorage.getItem(key)
+const PROMO_SEEN_PREFIX = 'promoSeen_'
 
-  if (!hasSeen || hasSeen === 'false') {
-    await AsyncStorage.setItem(key, 'true')
-
-    return true
-  }
-
-  return false
+export async function setHasSeen(challengeId: string) {
+  await AsyncStorage.setItem(`${PROMO_SEEN_PREFIX}${challengeId}`, 'true')
 }
 
-export async function appendShowPromo(url: string) {
+export async function handlePromoState(challengeId: string) {
+  const key = `${PROMO_SEEN_PREFIX}${challengeId}`
+  const hasSeen = await AsyncStorage.getItem(key)
+
+  if (hasSeen === 'true') {
+    return false
+  }
+  return true
+}
+
+export async function appendShowPromo(url: string, challengeId: string) {
   const [base, query = ''] = url.split('?')
   const params = new URLSearchParams(query)
-  const showPromo = await handlePromoState()
+  const showPromo = await handlePromoState(challengeId)
 
   params.set('showPromo', showPromo.toString())
 
   return `${base}?${params.toString()}`
 }
 
-export async function removeShowPromoKey() {
-  const key = 'promoSeen'
-  await AsyncStorage.removeItem(key)
-  // Verify removal
-  const check = await AsyncStorage.getItem(key)
+export async function removeShowPromoKey(challengeId?: string) {
+  if (challengeId) {
+    const key = `${PROMO_SEEN_PREFIX}${challengeId}`
+    await AsyncStorage.removeItem(key)
+    // Verify removal
+    const check = await AsyncStorage.getItem(key)
 
-  if (check !== null) {
-    // Force remove if still exists
-    await AsyncStorage.clear()
+    if (check !== null) {
+      // Force remove specific key if still exists
+      await AsyncStorage.removeItem(key)
+    }
+  } else {
+    // Clear all promo keys
+    const allKeys = await AsyncStorage.getAllKeys()
+    const promoKeys = allKeys.filter((key) => key.startsWith(PROMO_SEEN_PREFIX))
+    await AsyncStorage.multiRemove(promoKeys)
   }
   return true
 }

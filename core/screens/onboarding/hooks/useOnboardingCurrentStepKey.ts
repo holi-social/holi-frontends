@@ -6,7 +6,6 @@ import { useFocusEffect } from '@holi/core/helpers'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OnboardingStepKeys = [
   'WELCOME_SCREEN',
-  'CONTENT_SELECTION',
   'LOCATION_SELECTION',
   'INTERESTS_SELECTION',
   'SKILLS_SELECTION',
@@ -22,11 +21,6 @@ export interface OnboardingStepItem extends HoliStepperItem {
 
 export const onboardingSteps: OnboardingStepItem[] = [
   { key: 'WELCOME_SCREEN' },
-  {
-    key: 'CONTENT_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
   {
     key: 'LOCATION_SELECTION',
     progressBar: { skippable: true },

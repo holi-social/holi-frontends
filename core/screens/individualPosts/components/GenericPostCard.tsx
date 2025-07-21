@@ -37,6 +37,7 @@ import SpaceFeedFollow from '@holi/core/screens/spaces/details/components/SpaceF
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
 import PostResponseBar from '@holi/core/screens/individualPosts/components/PostResponseBar/PostResponseBar'
+import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -57,6 +58,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
   const [title, setTitle] = useState<string>(post.title)
   const [loadingTranslation, setLoadingTranslation] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
+  const { mapCategorySlugToLabel } = useFeedPostCategories()
 
   const { deletePost: deleteSpacePost, isLoadingPostDeletion: isLoadingSpacePostDeletion } = useDeletePost(
     post as Post,
@@ -85,6 +87,11 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const type = feedPost.category?.slug === 'good-deed' ? 'good_deed' : 'regular'
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
+    const goToCommentView = () => {
+      if (feedPost?.totalComments) goToDetailView()
+      else navigate(`/feed-posts/${feedPost.slug}/comment`)
+    }
+
     if (isDeleted) {
       return null
     }
@@ -130,9 +137,9 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           <View style={styles.clickableArea}>
             {showPills && (
               <View style={styles.pillContainer}>
-                {showCategory && (
+                {showCategory && feedPost.category && (
                   <ChipLabel size="sm" color="yellow">
-                    {feedPost.category?.label}
+                    {mapCategorySlugToLabel(feedPost.category.slug)}
                   </ChipLabel>
                 )}
                 {feedPost.topicsV2 && feedPost.topicsV2?.length > 0 && (
@@ -242,13 +249,14 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           </View>
         )}
 
-        <PostResponseBar post={feedPost} onCommentPress={goToDetailView} />
+        <PostResponseBar post={feedPost} onCommentPress={goToCommentView} />
       </View>
     )
   } else {
     const spacePost = post as Post
     const isCurrentUserPostCreator = spacePost.creator.id === user?.id
     const goToDetailView = () => navigate(`/posts/${spacePost.id}`)
+    const goToCommentView = () => navigate(`/posts/${spacePost.id}/comment`)
 
     return (
       <View style={styles.container}>
@@ -404,7 +412,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
             <PostLocationCard location={spacePost.location} geolocation={spacePost.geolocation} />
           </View>
         )}
-        <PostResponseBar post={spacePost} onCommentPress={goToDetailView} />
+        <PostResponseBar post={spacePost} onCommentPress={goToCommentView} />
       </View>
     )
   }
@@ -454,12 +462,6 @@ const getStyles = (theme: HoliTheme) =>
       top: Spacing.xs,
       right: Spacing.xs,
       zIndex: 1,
-    },
-    reactionsBar: {
-      marginTop: Spacing.xxs,
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
     },
     clickableArea: {
       gap: Spacing.xs,

@@ -530,6 +530,7 @@ We maintain a snapshot of the current translations in `core/i18n/locales` which 
 The translation snapshot can be manually updated using `yarn i18n:download`.
 
 If it's necessary to change keys during development, you can either add them in Localazy via UI (make sure to select the file `holi-core`!) or adjust the JSON files in `core/i18n/locales` and upload them via `yarn i18n:upload`.
+Note: If the keys were exported from Figma, the best way would be to notify design to adjust the keys there, so future designs won't introduce the old keys again.
 
 Message keys should include prefixes separated by `.` for grouping translations e.g. by screen and be represented in a flat JSON structure.
 

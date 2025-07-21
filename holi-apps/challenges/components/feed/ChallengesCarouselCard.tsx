@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
@@ -8,7 +9,7 @@ import { Text } from 'holi-bricks/components/text'
 
 import { CarouselCardImage } from '@holi-apps/challenges/components/feed/CarouselCardImage'
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath, setHasSeen } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 interface ChallengesCarouselCardProps {
@@ -25,13 +26,16 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
   const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
   const [detailUrl, setDetailUrl] = useState('')
 
-  useEffect(() => {
-    const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`)
-      setDetailUrl(url)
-    }
-    initUrl()
+  const updatePromoState = useCallback(async () => {
+    const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
+    setDetailUrl(url)
   }, [challenge.id])
+
+  useFocusEffect(
+    useCallback(() => {
+      updatePromoState()
+    }, [updatePromoState])
+  )
 
   return (
     <View style={styles.container}>
@@ -39,6 +43,9 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
         label={challenge.title}
         href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
+        onPress={() => {
+          setHasSeen(challenge.id)
+        }}
       >
         <View style={styles.imageContainer}>
           <CarouselCardImage key={challenge.id} challenge={challenge} width={cardWidth} />

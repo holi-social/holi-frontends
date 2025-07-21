@@ -72,7 +72,10 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEv
         title={engagement.title}
         subtitle={
           engagement.organizer_name
-            ? t('volunteering.engagement.organization', { organization: engagement.organizer_name })
+            ? t('volunteering.engagement.organization', {
+                organization: engagement.organizer_name,
+                interpolation: { escapeValue: false },
+              })
             : ''
         }
         imageSrc={engagement.image_url}

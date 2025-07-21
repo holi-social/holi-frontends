@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -10,7 +11,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
-import { appendShowPromo, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { appendShowPromo, createInAppChallengesPath, setHasSeen } from '@holi-apps/challenges/helpers/navigation'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
@@ -33,13 +34,16 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
   const [detailUrl, setDetailUrl] = useState('')
   const submissions = challenge.submissions.slice(0, 2)
 
-  useEffect(() => {
-    const initUrl = async () => {
-      const url = await appendShowPromo(`/challenges/${challenge.id}`)
-      setDetailUrl(url)
-    }
-    initUrl()
+  const updatePromoState = useCallback(async () => {
+    const url = await appendShowPromo(`/challenges/${challenge.id}`, challenge.id)
+    setDetailUrl(url)
   }, [challenge.id])
+
+  useFocusEffect(
+    useCallback(() => {
+      updatePromoState()
+    }, [updatePromoState])
+  )
 
   if (!challenge.submissions.length) {
     return null
@@ -51,6 +55,9 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
         label={challenge.title}
         href={createInAppChallengesPath(detailUrl)}
         trackingEvent={trackingEvent}
+        onPress={() => {
+          setHasSeen(challenge.id)
+        }}
       >
         <HoliGap size="xxs" />
         <View style={styles.headline}>

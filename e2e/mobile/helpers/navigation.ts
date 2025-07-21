@@ -1,6 +1,6 @@
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from './selectors'
 
-const homeScreenTestId = 'home-feed-insights-heading'
+const homeScreenTestId = 'home-feed-listing'
 
 export const waitForHomeScreen = async (timeout?: number) => waitForElementWithTestId(homeScreenTestId, timeout)
 

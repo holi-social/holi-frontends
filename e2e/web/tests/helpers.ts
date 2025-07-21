@@ -93,7 +93,6 @@ const skipOnboardingInitialSteps = async (page: Page) => {
   ])
 
   const onboardingStepsToSkip = [
-    'onboarding-content-selection',
     'onboarding-location-selection',
     'onboarding-interests-selection',
     'onboarding-skills-selection',
@@ -109,13 +108,6 @@ const fillOutOnboarding = async (page: Page, userData: OnboardingUserData) => {
     page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-onboarding'),
   ])
-
-  // Handle content selection
-  await page.waitForSelector(byTestId('onboarding-content-selection'))
-  if (userData.content) {
-    await clickElementByTestId(page, userData.content)
-  }
-  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
 
   if (isRunningLocally()) {
     await page.getByRole('button', { name: 'Skip' }).click()
@@ -241,7 +233,7 @@ const registerNewUserAccount = async (
     email,
     password,
     userData,
-    expectedScreen = 'act-home',
+    expectedScreen = 'home-feed-listing',
   }: {
     email?: string
     password?: string
@@ -258,7 +250,7 @@ const registerNewUserAccount = async (
   })
   await page.waitForSelector(byTestId('community-guidelines-modal-btn-submit'))
   await clickElementByTestId(page, 'community-guidelines-modal-btn-submit')
-  // wait for expected screen (usually act home) - registration succeeded
+  // wait for expected screen (usually home feed) - registration succeeded
   await page.waitForSelector(byTestId(expectedScreen))
   return newAccount
 }

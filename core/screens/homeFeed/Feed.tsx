@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -18,10 +17,7 @@ import GenericPostCard from '@holi/core/screens/individualPosts/components/Gener
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
-import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import { Text } from 'holi-bricks/components/text'
 import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
@@ -34,9 +30,9 @@ import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
-import { SURVEY_URL } from '@holi/core/constants/urls'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
+import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -48,7 +44,6 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
-  const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
   const { refreshControlProps } = useRefreshContext()
 
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, insightsCreators } = useFeedQuery()
@@ -168,6 +163,8 @@ const HomeFeed = () => {
 
   useScrollToTop(ref)
 
+  useNotificationsInit()
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
@@ -184,17 +181,12 @@ const HomeFeed = () => {
       headerRight: () => (
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
-            {displayFeedbackLink && (
-              <HoliLink external href={SURVEY_URL} label={t('homeFeed.feedback')}>
-                <Text size="sm">{t('homeFeed.feedback')}</Text>
-              </HoliLink>
-            )}
             <NotificationAndSearchHeader />
           </View>
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
+  }, [navigate, t, setScreenOptions, colors.black300])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 

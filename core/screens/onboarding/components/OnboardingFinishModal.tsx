@@ -18,7 +18,6 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
-import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 const isWeb = Platform.OS === 'web'
 
@@ -42,7 +41,6 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
 
   const handleAccept = () => {
     hide()
-    initNotifications()
   }
 
   return (
