@@ -4,6 +4,31 @@ import { darkChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { darkSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
 import { blue, green, mono, orange, purple, red, transparent, yellow } from 'holi-bricks/foundations'
 
+const decorative = {
+  black: mono[800],
+  white: mono[100],
+  greyLight: mono[300],
+  greyDark: mono[600],
+  yellowLight: yellow[300],
+  yellowDefault: yellow[400],
+  yellowDark: yellow[600],
+  purpleLight: purple[300],
+  purpleDefault: purple[400],
+  purpleDark: purple[600],
+  greenLight: green[300],
+  greenDefault: green[400],
+  greenDark: green[600],
+  blueLight: blue[300],
+  blueDefault: blue[400],
+  blueDark: blue[600],
+  orangeLight: orange[300],
+  orangeDefault: orange[400],
+  orangeDark: orange[600],
+  redLight: red[300],
+  redDefault: red[400],
+  redDark: red[600],
+}
+
 export const darkTheme = {
   shadows: {
     200: {
@@ -23,6 +48,7 @@ export const darkTheme = {
       selected: mono[100],
       muted: mono[600],
       overlay: transparent.mono100.at8,
+      ...decorative,
     },
     fill: {
       main: mono[200],
@@ -34,37 +60,16 @@ export const darkTheme = {
       positive: green[600],
       warning: orange[400],
       danger: red[400],
+      ...decorative,
     },
     border: {
       main: mono[200],
       support: mono[500],
       default: mono[600],
       muted: mono[700],
+      ...decorative,
     },
-    decorative: {
-      black: mono[800],
-      white: mono[100],
-      greyLight: mono[300],
-      greyDark: mono[600],
-      yellowLight: yellow[300],
-      yellowDefault: yellow[400],
-      yellowDark: yellow[600],
-      purpleLight: purple[300],
-      purpleDefault: purple[400],
-      purpleDark: purple[600],
-      greenLight: green[300],
-      greenDefault: green[400],
-      greenDark: green[600],
-      blueLight: blue[300],
-      blueDefault: blue[400],
-      blueDark: blue[600],
-      orangeLight: orange[300],
-      orangeDefault: orange[400],
-      orangeDark: orange[600],
-      redLight: red[300],
-      redDefault: red[400],
-      redDark: red[600],
-    },
+    decorative,
   },
   components: {
     button: darkButtonTheme,

@@ -17,6 +17,7 @@ import GenericPostCard from '@holi/core/screens/individualPosts/components/Gener
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
@@ -32,6 +33,10 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
+import { Stack } from 'holi-bricks/components/stack'
+import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 
 const HomeFeed = () => {
@@ -44,9 +49,13 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
+  const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+
   const { refreshControlProps } = useRefreshContext()
 
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, insightsCreators } = useFeedQuery()
+  const { data } = useGetRewardsCounterQuery()
+  const counter = data?.rewards_counter.counter
 
   const { track } = useTracking()
   const navigation = useNavigation()
@@ -175,7 +184,10 @@ const HomeFeed = () => {
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <HoliLogo color={tintColor} />
+          <Stack direction="row" gap="3xs" alignItems="center">
+            <HoliLogo color={tintColor} />
+            {showGoodDeedChip && <ChipGoodDeeds counter={counter} />}
+          </Stack>
         </HoliTransition.FadeLeft>
       ),
       headerRight: () => (
@@ -186,7 +198,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip, counter])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 
