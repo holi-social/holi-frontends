@@ -1,0 +1,23 @@
+mutation Favorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
+  favorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+
+mutation Unfavorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
+  unfavorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+
+mutation FavoriteV2($favoritableId: String!, $favoritableType: FavoritableType!) {
+  favoriteV2(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}
+
+mutation UnfavoriteV2($favoritableId: String!, $favoritableType: FavoritableType!) {
+  unfavoriteV2(favoritableId: $favoritableId, favoritableType: $favoritableType) {
+    success
+  }
+}

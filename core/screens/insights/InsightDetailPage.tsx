@@ -7,7 +7,7 @@ import { memo, useMemo, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import type { Discussion } from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType, type Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -18,7 +18,6 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
@@ -31,7 +30,7 @@ import type { Poll } from '@holi/core/screens/polls/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
 import type { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { MoreFilled } from '@holi/icons/src/generated'
+import { Share } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -52,6 +51,12 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { Stack } from 'holi-bricks/components/stack'
+import { useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType } from '@holi/core/hooks/useShareLink'
+import { FavoritingButton } from '@holi/core/components/FavoritingButton'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking/events'
 
@@ -64,6 +69,7 @@ const { useUUIDParam } = createParamHooks<InsightDetailPageParams>()
 const InsightDetailPage = () => {
   const [insightId] = useUUIDParam('insightId')
   const { t, i18n } = useTranslation()
+  const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
   const [curatorModalShown, setCuratorModalShown] = useState(false)
@@ -96,6 +102,15 @@ const InsightDetailPage = () => {
   })
   const setScreenOptions = useSetScreenOptions()
 
+  const [, shareLink] = useShareLink({
+    link: `/insights/${insight?.id}`,
+    linkType: LinkType.UNIVERSAL,
+    message: `${t('insights.insight.share.message', {
+      title: insight?.title,
+      interpolation: { escapeValue: false },
+    })}`,
+  })
+
   useOnRefresh(refetch)
 
   useEffect(() => {
@@ -114,18 +129,48 @@ const InsightDetailPage = () => {
           headerTransparent: true,
         },
       }),
-      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} shadow="dark" />,
       headerRight: ({ tintColor }) => {
         return (
           insight && (
-            <InsightDrawer insight={insight}>
-              <HoliIcon icon={MoreFilled} colorOverride={tintColor} />
-            </InsightDrawer>
+            <Stack direction="row" gap="md">
+              <HoliTransition.FadeRight visible index={0}>
+                <FavoritingButton
+                  favoritableId={insight.id}
+                  favoritableType={FavoritableType.Insight}
+                  __typename={insight.__typename}
+                  tintColor={tintColor}
+                  isFavorite={insight.isFavorite ?? false}
+                  shadow="dark"
+                  onError={(error) =>
+                    displayError(
+                      error,
+                      insight.isFavorite
+                        ? 'Failed to add the insight from favorites'
+                        : 'Failed to remove the insight from favorites',
+                      {
+                        location: 'InsightDetailPage.favoriteInsight',
+                        favoritableId: insight.id,
+                      }
+                    )
+                  }
+                />
+              </HoliTransition.FadeRight>
+
+              <HoliTransition.FadeRight visible index={1}>
+                <Pressable onPress={shareLink}>
+                  <HoliIcon icon={Share} colorOverride={tintColor} shadow="dark" />
+                </Pressable>
+              </HoliTransition.FadeRight>
+            </Stack>
           )
         )
       },
+      navigationCustomOptions: {
+        footerShown: false,
+      },
     })
-  }, [insight, setScreenOptions, colors.light, colors.dark])
+  }, [insight, setScreenOptions, colors.light, colors.dark, shareLink, displayError, t])
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []

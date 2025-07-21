@@ -14,9 +14,10 @@ interface VolunteeringRecoCardProps {
   engagement: LocalizedTypesenseDocument
   index: number
   fixedWidth?: DimensionValue
+  trackingEvent?: TrackingEvent
 }
 
-export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: VolunteeringRecoCardProps) => {
+export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEvent }: VolunteeringRecoCardProps) => {
   const { t } = useTranslation()
   const isRemote = engagement.location_type === 'remote'
   const link = linkFromLocator(engagement.type, engagement.link_locators)
@@ -50,17 +51,20 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth }: Voluntee
     <HoliLinkTracked
       href={link}
       label={linkLabel}
-      trackingEvent={TrackingEvent.RecommendationPressed(
-        engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
-        engagement.id,
-        index,
-        {
-          commitmentType: engagement.commitment_label,
-          locationType: engagement.location_type,
-          source: engagement.source,
-          sourceSection: 'Volunteering',
-        }
-      )}
+      trackingEvent={
+        trackingEvent ??
+        TrackingEvent.RecommendationPressed(
+          engagement.type === 'task' ? 'space_task' : 'volunteering_opportunity',
+          engagement.id,
+          index,
+          {
+            commitmentType: engagement.commitment_label,
+            locationType: engagement.location_type,
+            source: engagement.source,
+            sourceSection: 'Volunteering',
+          }
+        )
+      }
       isFullHeight={!!fixedWidth}
       testID={`${engagement.type}-reco-card`}
     >
