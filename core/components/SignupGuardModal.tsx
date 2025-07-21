@@ -21,7 +21,7 @@ export const SignupGuardModal = ({
   label,
   title,
   description,
-  secondDescription,
+  subline,
   primaryText,
   secondaryText,
   onPrimary,
@@ -68,7 +68,7 @@ export const SignupGuardModal = ({
       label={label || t('loginRedirect.title')}
       title={title || t('loginRedirect.title')}
       description={description || t('loginRedirect.text')}
-      secondDescription={secondDescription}
+      subline={subline}
       primaryText={primaryText || t('loginRedirect.btnConfirm')}
       secondaryText={secondaryText || t('loginRedirect.btnCancel')}
       onPrimary={primaryHandler}

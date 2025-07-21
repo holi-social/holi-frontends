@@ -40,7 +40,7 @@ export interface HoliConfirmationProps extends ModalProps {
   label: string
   title: string
   description: string
-  secondDescription?: string | React.ReactNode
+  subline?: string | React.ReactNode
   primaryButtonVariant?: ButtonVariant
   secondaryButtonVariant?: ButtonVariant
   onPrimary?: () => boolean | void
@@ -98,7 +98,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   label,
   title,
   description,
-  secondDescription,
+  subline,
   primaryButtonVariant = 'primary',
   secondaryButtonVariant = 'secondary',
   onPrimary,
@@ -160,9 +160,9 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
               <Stack testID={`${testID}-confirmation-description`}>
                 <Text size="md">{description}</Text>
               </Stack>
-              {!!secondDescription && (
+              {!!subline && (
                 <Stack testID={`${testID}-confirmation-description-part-two`}>
-                  <Text size="md">{secondDescription}</Text>
+                  <Text size="md">{subline}</Text>
                 </Stack>
               )}
             </Stack>

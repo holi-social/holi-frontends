@@ -40,7 +40,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
     openSignupModal({
       title: t('personalGoodDeedCounter.drawer.guest.title'),
       description: t('personalGoodDeedCounter.drawer.guest.text'),
-      secondDescription: (
+      subline: (
         <Trans
           i18nKey="personalGoodDeedCounter.drawer.campaignHint"
           components={{

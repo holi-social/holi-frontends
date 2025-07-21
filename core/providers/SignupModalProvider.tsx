@@ -12,7 +12,7 @@ export type SignupModalProps = {
   label?: string
   title?: string
   description?: string
-  secondDescription?: string | React.ReactNode
+  subline?: string | React.ReactNode
   confirmText?: string
   dismissText?: string
   redirectPath?: string
