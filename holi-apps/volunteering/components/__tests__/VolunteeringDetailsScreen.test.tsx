@@ -1,4 +1,5 @@
-import React from 'react'
+import type React from 'react'
+import { MockedProvider } from '@apollo/client/testing'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
@@ -9,6 +10,7 @@ import type { TFunction } from 'i18next'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
+import { FavoriteExternalVolunteeringOpportunityDocument } from '@holi/api/graphql/graphql-codegen'
 
 const engagementId = 'test-id'
 
@@ -35,6 +37,18 @@ const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
   commitment_label: 'negotiable',
   commitment_duration: 'HOURS_1to2',
 })
+
+const favoriteRequest = {
+  request: {
+    query: FavoriteExternalVolunteeringOpportunityDocument,
+    variables: { favoritableId: engagementId },
+  },
+  result: {
+    data: {
+      favorite: null,
+    },
+  },
+}
 
 const t: TFunction = ((k: string) => k) as TFunction
 
@@ -93,6 +107,14 @@ describe('VolunteeringDetailsScreen', () => {
     await act(jest.runOnlyPendingTimersAsync)
   })
 
+  const renderComponent = () => {
+    render(
+      <MockedProvider mocks={[favoriteRequest]} addTypename={false}>
+        <VolunteeringDetailsScreen engagementId={engagementId} />
+      </MockedProvider>
+    )
+  }
+
   it('should render correctly (en)', async () => {
     const document = engagementTypesenseDocument(engagementId)
     const data = transformTypesenseDocument(t, 'en', document)
@@ -101,7 +123,7 @@ describe('VolunteeringDetailsScreen', () => {
       document: data,
     })
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+    renderComponent()
     await act(jest.runAllTimersAsync)
 
     expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 424))
@@ -124,7 +146,7 @@ describe('VolunteeringDetailsScreen', () => {
       document: data,
     })
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+    renderComponent()
     await act(jest.runAllTimersAsync)
 
     expect(screen.getByText(document.title_de!)).toBeVisible()
@@ -139,7 +161,7 @@ describe('VolunteeringDetailsScreen', () => {
       document: data,
     })
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+    renderComponent()
 
     await act(jest.runAllTimersAsync)
 
@@ -158,7 +180,7 @@ describe('VolunteeringDetailsScreen', () => {
       document: data,
     })
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+    renderComponent()
 
     await act(jest.runAllTimersAsync)
 

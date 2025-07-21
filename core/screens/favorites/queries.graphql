@@ -1,0 +1,42 @@
+#import "./fragments.graphql"
+
+query FavoriteExternalVolunteeringOpportunity($favoritableId: String!) {
+  favorite(favoritableId: $favoritableId) {
+    id
+    favoritable {
+      ...FavoriteExternalVolunteeringOpportunity
+    }
+    favoritableId
+    favoritableType
+  }
+}
+
+query FavoriteByFavoritableId($favoritableId: String!) {
+  favorite(favoritableId: $favoritableId) {
+    id
+    favoritable {
+      __typename
+      ...FavoriteInsight
+      ...FavoriteTask
+      ...FavoriteExternalVolunteeringOpportunity
+    }
+    favoritableId
+    favoritableType
+  }
+}
+
+query Favorites($offset: Int! = 0, $limit: Int! = 20) {
+  favorites(offset: $offset, limit: $limit) {
+    data {
+      id
+      favoritableId
+      favoritableType
+      favoritable {
+        ...FavoriteInsight
+        ...FavoriteTask
+        ...FavoriteExternalVolunteeringOpportunity
+      }
+    }
+    totalResults
+  }
+}

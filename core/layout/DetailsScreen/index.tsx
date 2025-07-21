@@ -68,6 +68,7 @@ export type DetailsScreenData = {
   placeholderImage?: MultiPlatformImageSource
   descriptionTitle?: string
   additionalContent?: ReactNode | ReactNode[]
+  isFavorite?: boolean
 }
 
 type DetailsScreenProps = DetailsScreenData

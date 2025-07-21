@@ -19,6 +19,7 @@ import PosthogProvider, { type PosthogProviderProps } from '@holi/core/tracking/
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
+import { SnackbarGlobal } from '@holi/core/components/SnackbarGlobal'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -58,6 +59,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
               </PortalProvider>
             </ToastProvider>
 
+            <SnackbarGlobal />
             <TrackingConsentModal />
           </ApolloProvider>
         </SafeAreaProvider>
