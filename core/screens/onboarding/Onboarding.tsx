@@ -14,7 +14,6 @@ import { Spacing, mono } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { getRouteForContentType } from './helpers/getRouteForContentType'
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
   type OnboardingStepItem,
@@ -24,7 +23,6 @@ import {
 } from './hooks/useOnboardingCurrentStepKey'
 import { useUserData } from './hooks/useUserData'
 import { ChipsSelection } from './steps/ChipsSelection'
-import { ContentSelection } from './steps/ContentSelection'
 import { CreateAccount } from './steps/CreateAccount'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
@@ -48,11 +46,9 @@ const Onboarding = () => {
   const { isLoggedIn } = useLoggedInUser()
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-  const { userData, updateContent, updateLocation, updateInterests, updateSkills, clearInterests, clearSkills } =
-    useUserData()
+  const { userData, updateLocation, updateInterests, updateSkills, clearInterests, clearSkills } = useUserData()
 
-  const routeForSelectedContentType = getRouteForContentType(userData.content)
-  const redirect = useRedirect(routeForSelectedContentType)
+  const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -83,8 +79,6 @@ const Onboarding = () => {
 
   const clearSelection = (key: OnboardingStepKey) => {
     switch (key) {
-      case 'CONTENT_SELECTION':
-        return updateContent(undefined)
       case 'LOCATION_SELECTION':
         return updateLocation(undefined)
       case 'INTERESTS_SELECTION':
@@ -98,10 +92,6 @@ const Onboarding = () => {
   // therefore this callback hooks into HoliStepper.onChange
   const trackOnboardingStepCompletion = (key: OnboardingStepKey, buttonPressed: StepperButtonType) => {
     switch (key) {
-      case 'CONTENT_SELECTION': {
-        track(OnboardingStepCompleted('contentSelection', [userData.content as string], buttonPressed))
-        break
-      }
       case 'LOCATION_SELECTION': {
         track(OnboardingStepCompleted('locationSelection', [userData.location?.label as string], buttonPressed))
         break
@@ -124,19 +114,9 @@ const Onboarding = () => {
           <Intro
             onContinue={() => {
               track(OnboardingStepCompleted('welcome', ['continue'], 'continue'))
-              setCurrentStep('CONTENT_SELECTION')
+              setCurrentStep('LOCATION_SELECTION')
             }}
           />
-        )
-      case 'CONTENT_SELECTION':
-        return (
-          <View style={styles.stepWrapper}>
-            <ContentSelection
-              onChange={updateContent}
-              selectedOption={userData.content}
-              testID="onboarding-content-selection"
-            />
-          </View>
         )
       case 'LOCATION_SELECTION':
         return (
