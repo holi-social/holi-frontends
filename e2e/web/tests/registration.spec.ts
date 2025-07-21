@@ -44,7 +44,6 @@ test.describe('@Registration', () => {
 
   test('should perform full onboarding', async ({ userHandler }) => {
     const userData: OnboardingUserData = {
-      content: 'SPACES',
       location: {
         label: 'Hamburg, Germany',
         id: '51223999b85500244059f052ea9271c64a40f00101f9013ef5000000000000c00208',
@@ -69,7 +68,7 @@ test.describe('@Registration', () => {
         // Expect skills
         await Promise.all(userData.skills.map((slug) => page.waitForSelector(byTestId(`skills--${slug}`))))
       },
-      { userData, expectedScreen: 'spaces-container' }
+      { userData }
     )
   })
 })

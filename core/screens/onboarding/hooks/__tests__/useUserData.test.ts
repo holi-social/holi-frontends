@@ -27,13 +27,11 @@ export const testLocation = {
   },
 }
 const fullUserData: OnboardingUserData = {
-  content: 'SPACES',
   location: testLocation,
   interests: ['migration-refugees', 'youth-development'],
   skills: ['legal-assistance'],
 }
 const initialUserData: OnboardingUserData = {
-  content: undefined,
   location: undefined,
   interests: [],
   skills: [],
@@ -65,22 +63,6 @@ describe('useUserData', () => {
     expect(result.current.userData).toEqual(initialUserData)
 
     await waitFor(() => expect(result.current.userData).toEqual(fullUserData))
-  })
-
-  it('should update content selection', () => {
-    const { result } = renderHook(() => useUserData())
-
-    expect(result.current.userData.content).toBeUndefined()
-
-    act(() => {
-      result.current.updateContent('SPACES')
-    })
-
-    expect(result.current.userData.content).toEqual('SPACES')
-    expect(mockStoreOnboardingUserDataAsyncStore).toHaveBeenCalledWith({
-      ...initialUserData,
-      content: 'SPACES',
-    })
   })
 
   it('should update location', () => {

@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type ImageStyle, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -13,6 +12,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
+import WebViewHandler from '@holi/core/screens/insights/components/WebViewHandler'
 import { type InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -50,6 +50,7 @@ const QuoteDetailPage = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const [showWebView, setShowWebView] = useState(false)
 
   const {
     data: { insightById: insight } = {},
@@ -80,7 +81,9 @@ const QuoteDetailPage = () => {
     })}`,
   })
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
+    if (showWebView) return
+
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: false,
@@ -105,7 +108,20 @@ const QuoteDetailPage = () => {
         <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
       ),
     })
-  }, [quote, setScreenOptions, shareLink, t, colors.black300, theme.colors.background10, insightId])
+  }, [showWebView, setScreenOptions, shareLink, t, colors.black300, insightId])
+
+  if (showWebView && quote) {
+    return (
+      <WebViewHandler
+        url={quote.link}
+        visible={true}
+        onClose={() => setShowWebView(false)}
+        shareAction={shareLink}
+        sourceType="quote"
+        insightId={insightId}
+      />
+    )
+  }
 
   return (
     <>
@@ -162,7 +178,7 @@ const QuoteDetailPage = () => {
           <HoliButtonLoading
             icon={ShareBox}
             label={t('global.visitLinkButton.label')}
-            onPress={() => Linking.openURL(quote.link)}
+            onPress={() => setShowWebView(true)}
           />
         )}
       </View>

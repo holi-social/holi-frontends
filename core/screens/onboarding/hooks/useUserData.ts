@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react'
 
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import type { ContentValue, OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import {
   getOnboardingUserDataAsyncStore,
   storeOnboardingUserDataAsyncStore,
@@ -11,11 +11,6 @@ import { slugsToSkillsV2, slugsToTopicsV2 } from '@holi/core/domain/shared/types
 interface SetUserDataAction {
   type: 'SET_USER_DATA'
   payload: OnboardingUserData
-}
-
-interface UpdateContentAction {
-  type: 'UPDATE_CONTENT'
-  payload: ContentValue | undefined
 }
 
 interface UpdateLocationAction {
@@ -33,15 +28,9 @@ interface UpdateSkillsAction {
   payload: string[]
 }
 
-type OnboardingAction =
-  | SetUserDataAction
-  | UpdateContentAction
-  | UpdateLocationAction
-  | UpdateInterestsAction
-  | UpdateSkillsAction
+type OnboardingAction = SetUserDataAction | UpdateLocationAction | UpdateInterestsAction | UpdateSkillsAction
 
 const initialUserData = {
-  content: undefined,
   location: undefined,
   interests: [],
   skills: [],
@@ -52,9 +41,6 @@ const reducer = (state: OnboardingUserData, action: OnboardingAction) => {
   switch (action.type) {
     case 'SET_USER_DATA':
       updatedUserData = action.payload
-      break
-    case 'UPDATE_CONTENT':
-      updatedUserData = { ...state, content: action.payload }
       break
     case 'UPDATE_LOCATION':
       updatedUserData = { ...state, location: action.payload }
@@ -100,10 +86,6 @@ export const useUserData = () => {
     [userData]
   )
 
-  const updateContent = (content: ContentValue | undefined) => {
-    dispatch({ type: 'UPDATE_CONTENT', payload: content })
-  }
-
   const updateLocation = (location: GeolocationSuggestion | undefined) => {
     dispatch({ type: 'UPDATE_LOCATION', payload: location })
   }
@@ -126,7 +108,6 @@ export const useUserData = () => {
 
   return {
     userData,
-    updateContent,
     updateLocation,
     updateInterests,
     updateSkills,

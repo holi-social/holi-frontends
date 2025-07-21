@@ -87,7 +87,10 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     const type = feedPost.category?.slug === 'good-deed' ? 'good_deed' : 'regular'
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
-    const goToCommentView = () => navigate(`/feed-posts/${feedPost.slug}/comment`)
+    const goToCommentView = () => {
+      if (feedPost?.totalComments) goToDetailView()
+      else navigate(`/feed-posts/${feedPost.slug}/comment`)
+    }
 
     if (isDeleted) {
       return null
@@ -459,12 +462,6 @@ const getStyles = (theme: HoliTheme) =>
       top: Spacing.xs,
       right: Spacing.xs,
       zIndex: 1,
-    },
-    reactionsBar: {
-      marginTop: Spacing.xxs,
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
     },
     clickableArea: {
       gap: Spacing.xs,
