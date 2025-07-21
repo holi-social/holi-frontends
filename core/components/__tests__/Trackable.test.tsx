@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text'
-import React from 'react'
+import type React from 'react'
 
 import {
   ButtonTracked,
@@ -9,8 +9,9 @@ import {
   HoliLinkTracked,
   HoliTextLinkTracked,
   TextLinkTracked,
-  TrackableBaseProps,
-  TrackableProps,
+  type TrackableBaseProps,
+  type TrackableProps,
+  ChipActionTracked,
 } from '@holi/core/components/Trackable'
 
 export const testTrackingEvent = {
@@ -80,6 +81,10 @@ describe('Trackable', () => {
       name: 'ButtonTracked',
       renderComponent: (props) => <ButtonTracked label="click me" {...props} />,
       handlesLoadingState: true,
+    },
+    {
+      name: 'ChipActionTracked',
+      renderComponent: (props) => <ChipActionTracked {...props}>click me</ChipActionTracked>,
     },
   ]
 
