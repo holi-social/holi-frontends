@@ -43,7 +43,6 @@ describe('NamesSelection', () => {
     pronouns: '',
   } as User
   const userData: OnboardingUserData = {
-    content: 'SPACES',
     location: {
       id: '1',
       label: 'Hamburg, Germany',

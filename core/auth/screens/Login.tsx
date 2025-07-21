@@ -60,7 +60,7 @@ const Login = () => {
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: () => (
-        <Text headingLevel="1" size="lg">
+        <Text headingLevel="1" size="lg" testID="heading">
           {t('auth.login')}
         </Text>
       ),
