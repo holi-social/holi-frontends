@@ -6,13 +6,15 @@ import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightR
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import useInitiativeLinkNavigation from '@holi/core/screens/insights/initiatives/useInitiativeLinkNavigation'
-import { Initiative } from '@holi/core/screens/insights/types'
+import type { Initiative } from '@holi/core/screens/insights/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Image } from 'holi-bricks/components/image'
+import { Text } from 'holi-bricks/components/text'
+
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Stack } from 'holi-bricks/components/stack'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
 interface InitiativeCardProps {
   insightId: string
@@ -34,48 +36,47 @@ const InitiativeCard = ({ initiative, insightId }: InitiativeCardProps) => {
       }}
       testID="feed-insight-image-link"
     >
-      <View>
+      <View style={styles.content}>
         {!errorLoadingImage && initiative.linkPreview.image && (
-          <>
-            <HoliImage
-              source={{ uri: initiative.linkPreview.image }}
-              label={initiative.link}
-              style={styles.image}
+          <View style={styles.imageWrapper}>
+            <Image
+              source={initiative.linkPreview.image}
+              alt={initiative.link}
+              height={160}
+              width={400}
               resizeMode="cover"
               onError={() => setErrorLoadingImage(true)}
+              stretch
             />
-            <HoliGap size="s" />
-          </>
+          </View>
         )}
         {(errorLoadingImage || !initiative.linkPreview.image) && (
           <View style={styles.imageWrapper}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
-              label={initiative.link}
+            <Image
+              source={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
+              alt={initiative.link}
               width={88}
               height={88}
-              isSvg
             />
-            <HoliGap size="s" />
           </View>
         )}
-        <View style={styles.description}>
+        <View>
           <ExternalContentCategoryBadge category={initiative.category} />
           <HoliGap size="s" />
 
           {initiative.linkPreview.title && (
-            <>
-              <HoliHeading level="2" selectable size="s" numberOfLines={3}>
-                {initiative.linkPreview.title}
-              </HoliHeading>
-              <HoliGap size="s" />
-            </>
+            <Text headingLevel="2" size="lg" numberOfLines={3} margin={{ bottom: 'sm' }}>
+              {initiative.linkPreview.title}
+            </Text>
           )}
 
           <LinkInfo icon={initiative.linkPreview.icon} link={initiative.link} />
         </View>
       </View>
-      <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} style={styles.reaction} />
+      <Stack direction="row" justifyContent="space-between" margin={{ top: 'xs' }}>
+        <ReactionCount count={initiative.reactions.HEART} />
+        <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} />
+      </Stack>
     </Pressable>
   )
 }
@@ -91,10 +92,12 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       flex: 1,
-      height: 380,
       ...Platform.select({
         web: { marginBottom: 4 },
       }),
+    },
+    content: {
+      flexGrow: 1,
     },
     imageWrapper: {
       borderRadius: Spacing['3xs'],
@@ -104,14 +107,7 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       backgroundColor: theme.colors.gray100,
       marginBottom: Spacing.xs,
-    },
-    image: {
-      borderRadius: Spacing['3xs'],
-      width: '100%',
-      height: 160,
-    },
-    description: {
-      paddingHorizontal: Spacing['3xs'],
+      overflow: 'hidden',
     },
     hovered: {
       borderColor: theme.colors.black300,
@@ -121,10 +117,5 @@ const getStyles = (theme: HoliTheme) =>
         height: 3,
       },
       shadowOpacity: 0.12,
-    },
-    reaction: {
-      position: 'absolute',
-      bottom: 12,
-      right: 16,
     },
   })

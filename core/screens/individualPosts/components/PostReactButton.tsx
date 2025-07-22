@@ -1,7 +1,6 @@
-import React from 'react'
 import { useMutation } from '@apollo/client'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -20,19 +19,14 @@ import {
 } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import PostReactionCount from '@holi/core/screens/individualPosts/components/PostResponseBar/PostReactionCount'
-import ReactionsDrawer from '@holi/core/components/ReactionsDrawer'
-import { SupportReaction } from '@holi/icons/src/generated'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import ReactButton from '@holi/core/components/reactions/ReactButton'
 
-export interface FeedPostReactionsProps {
+export interface PostReactButtonProps {
   post: FeedPost | Post
   onChange?: () => void
-  style?: ViewStyle
-  showCount?: boolean
 }
 
-const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, style, showCount = true }) => {
+const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => {
   const { t } = useTranslation()
   const { isLoggedIn, user } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -40,9 +34,14 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   const { track } = useTracking()
 
   const isFeedPost = post.__typename === 'FeedPost'
-  const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
   const authorName = isFeedPost ? (post as FeedPost).author.fullName : (post as Post).creator.fullName
+
+  const notActiveLabel = authorName
+    ? t('insights.reactions.post.like', { name: authorName })
+    : t('insights.reactions.post.like.noUser')
+  const activeLabel = t('insights.reactions.post.unlike')
+  const label = currentUserHasReacted ? activeLabel : notActiveLabel
 
   const [updateFeedPostReaction] = useMutation(UpdateFeedPostReactionMutation, {
     onCompleted: () => onChange?.(),
@@ -134,52 +133,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
     }
   }
 
-  const [drawerVisible, setDrawerVisible] = React.useState(false)
-
-  const openDrawer = () => {
-    if (!isLoggedIn) {
-      openSignupModal({
-        description: t('insights.reactions.post.loginRedirect.text'),
-        trackTrigger: 'REACT_ON_POST',
-      })
-      return
-    }
-    setDrawerVisible(true)
-  }
-  const closeDrawer = () => setDrawerVisible(false)
-
-  const users =
-    post.reactors?.data?.filter(Boolean).map((u) => ({
-      id: u.id,
-      fullName: u.fullName,
-      avatar: u.avatar,
-      avatarUrl: u.avatar || '',
-      avatarLabel: u.avatarLabel,
-      avatarBlurhash: u.avatarBlurhash,
-      avatarDefaultColor: u.avatarDefaultColor,
-    })) || []
-
-  return (
-    <>
-      <PostReactionCount
-        onPress={showCount ? openDrawer : reactOnPost}
-        onCountPress={showCount ? openDrawer : undefined}
-        type="post"
-        count={heartReactions}
-        active={currentUserHasReacted}
-        fullName={authorName}
-        style={style}
-        showCount={showCount}
-        testID={`btn-react-to-${isFeedPost ? 'feed-' : ''}post-HEART`}
-      />
-      <ReactionsDrawer
-        visible={drawerVisible}
-        onClose={closeDrawer}
-        users={users}
-        reactionIcon={<HoliIcon icon={SupportReaction} size={26} />}
-      />
-    </>
-  )
+  return <ReactButton onPress={reactOnPost} active={currentUserHasReacted} label={label} />
 }
 
-export default FeedPostReactions
+export default PostReactButton

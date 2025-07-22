@@ -15,10 +15,8 @@ import { type InsightWithInitiativeResponse, insightWithInitiative } from '@holi
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -28,6 +26,10 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { Stack } from 'holi-bricks/components/stack'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
+import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
+import { Text } from 'holi-bricks/components/text'
 
 export type InitiativeDetailPageParams = {
   insightId: string
@@ -120,9 +122,9 @@ const InitiativeDetailPage = () => {
             <View style={[mixins.container, styles.section, styles.curvedBottom, styles.header]}>
               <LinkInfo icon={initiative.linkPreview.icon} link={initiative.link} />
               <HoliGap size="s" />
-              <HoliHeading level="1" size="l" numberOfLines={3}>
+              <Text headingLevel="1" size="3xl" numberOfLines={3}>
                 {initiative.linkPreview.title}
-              </HoliHeading>
+              </Text>
             </View>
             {initiative.comment && (
               <View style={styles.recommendationComment}>
@@ -136,10 +138,16 @@ const InitiativeDetailPage = () => {
                     isSvg
                     style={styles.logo}
                   />
-                  <HoliText bold>{t('insights.recommendations.creator_reason')}</HoliText>
+                  <Text size="lg">{t('insights.recommendations.creator_reason')}</Text>
                 </View>
 
-                <HoliText>{initiative.comment}</HoliText>
+                <Text size="md" margin={{ bottom: 'xs' }}>
+                  {initiative.comment}
+                </Text>
+                <Stack direction="row" justifyContent="space-between">
+                  <ReactionCount count={initiative.reactions.HEART} />
+                  <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} />
+                </Stack>
               </View>
             )}
           </>
