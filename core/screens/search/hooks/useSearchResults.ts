@@ -8,7 +8,7 @@ import { useMemo } from 'react'
 export const useSearchResults = (filter: SearchFilter) => {
   const { displayError } = useErrorHandling()
   const parameters = useMemo(() => createSearchParameters(filter), [filter])
-  const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
+  const { state, isLoading, fetchNextPage, refetch } = useTypesensePaginationQuery({
     parameters,
     skip: isEmptyFilter(filter),
     onError: (error) => {
@@ -19,6 +19,7 @@ export const useSearchResults = (filter: SearchFilter) => {
   })
 
   return {
+    isLoading,
     searchResults: state,
     fetchNextPage,
     refetch,

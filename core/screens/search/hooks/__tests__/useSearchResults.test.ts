@@ -36,12 +36,12 @@ describe('useSearchResults', () => {
   const hits = createSearchHits(10)
   const state = {
     hits,
-    isLoading: false,
     totalNrOfPages: 0,
     totalResults: 0,
     canFetchMore: false,
     currentPage: 0,
     parameters,
+    facetCounts: {},
   }
 
   beforeEach(() => {
@@ -50,6 +50,7 @@ describe('useSearchResults', () => {
     })
     mockUseTypesensePaginationQuery.mockReturnValue({
       state,
+      isLoading: false,
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
@@ -76,6 +77,7 @@ describe('useSearchResults', () => {
     const fetchNextPage = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
       state,
+      isLoading: false,
       isFetchingMore: false,
       fetchNextPage,
       refetch: jest.fn(),
@@ -92,6 +94,7 @@ describe('useSearchResults', () => {
     const refetch = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
       state,
+      isLoading: false,
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
       refetch,
@@ -110,6 +113,7 @@ describe('useSearchResults', () => {
       onError?.(error)
       return {
         state,
+        isLoading: false,
         isFetchingMore: false,
         fetchNextPage: jest.fn(),
         refetch: jest.fn(),

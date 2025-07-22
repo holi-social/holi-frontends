@@ -54,13 +54,13 @@ describe('useVolunteeringRecos', () => {
     per_page: 10,
   }
   const results = {
-    isLoading: false,
     hits: createHits(10),
     totalResults: 123,
     totalNrOfPages: 13,
     canFetchMore: true,
     currentPage: 1,
     parameters,
+    facetCounts: {},
   }
 
   beforeEach(() => {
@@ -70,6 +70,7 @@ describe('useVolunteeringRecos', () => {
       parameters,
     })
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       state: results,
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
@@ -90,14 +91,15 @@ describe('useVolunteeringRecos', () => {
       parameters: {},
     })
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       state: {
-        isLoading: false,
         hits: [],
         totalResults: 0,
         totalNrOfPages: 0,
         canFetchMore: false,
         currentPage: 1,
         parameters: {},
+        facetCounts: {},
       },
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
@@ -126,14 +128,15 @@ describe('useVolunteeringRecos', () => {
 
   it('should expose loading flag while loading results', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: true,
       state: {
-        isLoading: true,
         hits: [],
         totalResults: 0,
         totalNrOfPages: 0,
         canFetchMore: false,
         currentPage: 1,
         parameters,
+        facetCounts: {},
       },
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
@@ -184,6 +187,7 @@ describe('useVolunteeringRecos', () => {
 
   it('should expose flag if more results can be fetched', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       state: results,
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
@@ -198,14 +202,15 @@ describe('useVolunteeringRecos', () => {
   it('should expose flag if nothing more can be fetched', () => {
     const fetchNextPage = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       state: {
-        isLoading: false,
         hits: createHits(3),
         totalResults: 3,
         totalNrOfPages: 0,
         canFetchMore: false,
         currentPage: 1,
         parameters,
+        facetCounts: {},
       },
       isFetchingMore: false,
       fetchNextPage,
@@ -220,6 +225,7 @@ describe('useVolunteeringRecos', () => {
   it('should allow fetching more results', () => {
     const fetchNextPage = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       state: results,
       isFetchingMore: false,
       fetchNextPage,
@@ -236,6 +242,7 @@ describe('useVolunteeringRecos', () => {
   it('should refetch results on refresh', () => {
     const refetch = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       state: results,
       isFetchingMore: false,
       fetchNextPage: jest.fn(),
@@ -273,14 +280,15 @@ describe('useVolunteeringRecos', () => {
     mockUseTypesensePaginationQuery.mockImplementation(({ onError }) => {
       onError?.(testError)
       return {
+        isLoading: false,
         state: {
-          isLoading: false,
           hits: [],
           totalResults: 0,
           totalNrOfPages: 0,
           canFetchMore: false,
           currentPage: 1,
           parameters,
+          facetCounts: {},
         },
         isFetchingMore: false,
         fetchNextPage: jest.fn(),
@@ -322,14 +330,15 @@ describe('useVolunteeringRecos', () => {
     mockUseTypesensePaginationQuery.mockImplementation(({ onError }) => {
       onError?.(testError)
       return {
+        isLoading: false,
         state: {
-          isLoading: false,
           hits: [],
           totalResults: 0,
           totalNrOfPages: 0,
           canFetchMore: false,
           currentPage: 1,
           parameters,
+          facetCounts: {},
         },
         isFetchingMore: false,
         fetchNextPage: jest.fn(),

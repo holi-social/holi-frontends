@@ -41,8 +41,8 @@ interface SearchHitInfiniteListProps {
 export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
-  const { searchResults, fetchNextPage, refetch } = useSearchResults(filter)
-  const isLoading = loadingParameters || searchResults.isLoading
+  const { searchResults, isLoading: loadingResults, fetchNextPage, refetch } = useSearchResults(filter)
+  const isLoading = loadingParameters || loadingResults
 
   const fullRefresh = useOnRefresh(refetch)
 

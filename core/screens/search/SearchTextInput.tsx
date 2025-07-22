@@ -20,7 +20,7 @@ export function SearchTextInput({ filter, onQueryChange }: SearchBoxProps) {
   const [inputValue, setInputValue] = useState(filter.query)
   const debouncedQueryUpdate = useDebounce((query) => onQueryChange(query), 300)
   const debouncedMetaTracking = useDebounce((query) => metaSdk.trackEvent('Search', { searchParams: query }), 3000)
-  const { searchResults } = useSearchResults(filter)
+  const { isLoading } = useSearchResults(filter)
   const submitDisabled = useMemo(() => isEmptyFilter({ ...filter, query: inputValue }), [filter, inputValue])
 
   const submitQuery = useCallback(() => {
@@ -64,7 +64,7 @@ export function SearchTextInput({ filter, onQueryChange }: SearchBoxProps) {
           icon={Search}
           disabled={submitDisabled}
           onPress={submitQuery}
-          loading={searchResults.isLoading}
+          loading={isLoading}
           testID="btn-submit-search"
         />
       }

@@ -40,17 +40,18 @@ const createEngagementHits = (length: number): SearchResponseHit[] =>
 describe('VolunteeringSimilarRecos', () => {
   const mockDocumentId = 'volunteering_123'
   const emptyState = {
-    isLoading: false,
     hits: [],
     totalResults: 0,
     totalNrOfPages: 0,
     canFetchMore: false,
     currentPage: 1,
     parameters: {},
+    facetCounts: {},
   }
 
   it('should query recommendations with correct parameters', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       isFetchingMore: false,
       state: emptyState,
       refetch: jest.fn(),
@@ -75,6 +76,7 @@ describe('VolunteeringSimilarRecos', () => {
     mockUseTypesensePaginationQuery.mockImplementation(({ onError }) => {
       onError?.(testError)
       return {
+        isLoading: false,
         isFetchingMore: false,
         state: emptyState,
         refetch: jest.fn(),
@@ -91,6 +93,7 @@ describe('VolunteeringSimilarRecos', () => {
 
   it('should display nothing if there are no recommendations', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
+      isLoading: false,
       isFetchingMore: false,
       state: emptyState,
       refetch: jest.fn(),
@@ -105,14 +108,15 @@ describe('VolunteeringSimilarRecos', () => {
   it('should display similar recommendations', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       isFetchingMore: false,
+      isLoading: false,
       state: {
-        isLoading: false,
         hits: createEngagementHits(5),
         totalResults: 5,
         totalNrOfPages: 1,
         canFetchMore: false,
         currentPage: 1,
         parameters: {},
+        facetCounts: {},
       },
       refetch: jest.fn(),
       fetchNextPage: jest.fn(),
@@ -128,6 +132,7 @@ describe('VolunteeringSimilarRecos', () => {
     const refetch = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
       refetch,
+      isLoading: false,
       isFetchingMore: false,
       state: emptyState,
       fetchNextPage: jest.fn(),
