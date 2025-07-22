@@ -126,7 +126,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
         placeholderImage={document?.placeholderImage}
       />
-      {document?.externalUrl && Platform.OS !== 'web' && (
+      {!!document?.externalUrl && Platform.OS !== 'web' && (
         <HoliModal
           label="modal"
           animationType="slide"
