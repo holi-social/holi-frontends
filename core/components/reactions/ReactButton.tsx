@@ -4,7 +4,7 @@ import { Pressable } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ReactionSupportColored, ReactionSupport, ReactionSupportOutline } from '@holi/icons/src/generated'
+import { ReactionSupport, ReactionSupportOutline } from '@holi/icons/src/generated'
 
 export interface ReactButtonProps {
   active?: boolean
@@ -15,13 +15,7 @@ export interface ReactButtonProps {
 const ReactButton = ({ active = false, onPress, label }: ReactButtonProps) => {
   const [hovered, setHovered] = useState(false)
 
-  const icon = active
-    ? hovered
-      ? ReactionSupportColored
-      : ReactionSupport
-    : hovered
-      ? ReactionSupportColored
-      : ReactionSupportOutline
+  const icon = hovered ? ReactionSupport : active ? ReactionSupport : ReactionSupportOutline
 
   const scale = useSharedValue(1)
 
