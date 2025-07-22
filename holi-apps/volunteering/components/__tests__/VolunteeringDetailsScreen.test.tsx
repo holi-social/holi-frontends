@@ -80,8 +80,8 @@ describe('VolunteeringDetailsScreen', () => {
     mockUseFeatureFlag.mockReturnValue([true, undefined])
     mockUseTypesensePaginationQuery.mockReturnValue({
       isFetchingMore: false,
+      isLoading: false,
       state: {
-        isLoading: false,
         hits: [
           {
             document: {
@@ -97,6 +97,7 @@ describe('VolunteeringDetailsScreen', () => {
         canFetchMore: false,
         currentPage: 1,
         parameters: {},
+        facetCounts: {},
       },
       refetch: jest.fn(),
       fetchNextPage: jest.fn(),

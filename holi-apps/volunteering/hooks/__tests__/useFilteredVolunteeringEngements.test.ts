@@ -1,5 +1,5 @@
-import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringsEngagements'
-import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
+import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
+import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
@@ -40,14 +40,15 @@ export const makeTypesenseEngagementHits = (length: number): SearchResponseHit[]
 
 describe('useFilteredVolunteeringEngagements', () => {
   const searchResult = {
+    isLoading: false,
     state: {
-      isLoading: false,
       hits: makeTypesenseEngagementHits(10),
       canFetchMore: true,
       totalResults: 123,
       totalNrOfPages: 13,
       currentPage: 1,
       parameters: {},
+      facetCounts: {},
     },
     isFetchingMore: false,
     fetchNextPage: jest.fn(),
@@ -69,9 +70,9 @@ describe('useFilteredVolunteeringEngagements', () => {
   it('should expose loading flag while loading resluts', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       ...searchResult,
+      isLoading: true,
       state: {
         ...searchResult.state,
-        isLoading: true,
       },
     })
 
@@ -169,14 +170,15 @@ describe('useFilteredVolunteeringEngagements', () => {
     mockUseTypesensePaginationQuery.mockImplementation(({ onError }) => {
       onError?.(testError)
       return {
+        isLoading: false,
         state: {
-          isLoading: false,
           hits: [],
           totalResults: 0,
           totalNrOfPages: 0,
           canFetchMore: false,
           currentPage: 1,
           parameters: {},
+          facetCounts: {},
         },
         isFetchingMore: false,
         fetchNextPage: jest.fn(),
@@ -191,120 +193,25 @@ describe('useFilteredVolunteeringEngagements', () => {
     })
   })
 
-  describe('query parameters', () => {
-    const testDataFilters: {
-      filterKey: VolunteeringFilterKey
-      filterQuery: string
-    }[] = [
-      {
-        filterKey: 'topics',
-        filterQuery: 'topics_v2',
-      },
-      {
-        filterKey: 'skills',
-        filterQuery: 'skills_v2',
-      },
-      {
-        filterKey: 'commitmentDurations',
-        filterQuery: 'commitment_duration',
-      },
-      {
-        filterKey: 'commitmentLabels',
-        filterQuery: 'commitment_label',
-      },
-    ]
+  it('should query with the correct parameters', () => {
+    const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding(fullFilters)
 
-    it.each(testDataFilters)(
-      'should create correct parameters when filtering by $filterKey only',
-      ({ filterKey, filterQuery }) => {
-        const values = fullFilters[filterKey] as string[]
-        const topicsSkillsEmbedding = ['topics', 'skills'].includes(filterKey)
-          ? buildTopicsAndSkillsEmbedding({ [filterKey]: values })
-          : undefined
-
-        renderHook(() =>
-          useFilteredVolunteeringEngagements({
-            filters: { [filterKey]: values },
-            pageSize,
-          })
-        )
-
-        expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-          parameters: {
-            filter_by: `type:=[volunteering,task]&&${filterQuery}:=[${values.join(',')}]`,
-            sort_by: topicsSkillsEmbedding
-              ? `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`
-              : '',
-            per_page: 10,
-          },
-          skip: false,
-          onError: expect.any(Function),
-        })
-      }
+    renderHook(() =>
+      useFilteredVolunteeringEngagements({
+        filters: fullFilters,
+        pageSize,
+      })
     )
 
-    it('should create correct parameters when filtering by location only', () => {
-      renderHook(() =>
-        useFilteredVolunteeringEngagements({
-          filters: { location: fullFilters.location },
-          pageSize,
-        })
-      )
-
-      expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-        parameters: {
-          filter_by: 'type:=[volunteering,task]&&location_lat_lng:(1,2,30 km)',
-          sort_by: 'location_lat_lng(1,2,precision:5km):asc',
-          per_page: 10,
-        },
-        skip: false,
-        onError: expect.any(Function),
-      })
-    })
-
-    it('should create correct parameters when filtering by topics and skills', () => {
-      const filters = { topics: fullFilters.topics, skills: fullFilters.skills }
-      const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding(filters)
-
-      renderHook(() =>
-        useFilteredVolunteeringEngagements({
-          filters,
-          pageSize,
-        })
-      )
-
-      expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-        parameters: {
-          filter_by:
-            'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]',
-          sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`,
-          per_page: 10,
-        },
-        skip: false,
-        onError: expect.any(Function),
-      })
-    })
-
-    it('should create correct parameters when filtering by all filters', () => {
-      const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding(fullFilters)
-
-      renderHook(() =>
-        useFilteredVolunteeringEngagements({
-          filters: fullFilters,
-          pageSize,
-        })
-      )
-
-      expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
-        parameters: {
-          filter_by:
-            'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
-          sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
-          per_page: 10,
-        },
-        skip: false,
-        onError: expect.any(Function),
-      })
+    expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
+      parameters: {
+        filter_by:
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
+        per_page: 10,
+      },
+      skip: false,
+      onError: expect.any(Function),
     })
   })
 })

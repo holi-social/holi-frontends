@@ -51,14 +51,15 @@ describe('Search', () => {
       setLocation: jest.fn(),
     })
     mockUseSearchResults.mockReturnValue({
+      isLoading: false,
       searchResults: {
-        isLoading: false,
         hits: [],
         totalResults: 0,
         totalNrOfPages: 0,
         currentPage: 0,
         canFetchMore: false,
         parameters: {},
+        facetCounts: {},
       },
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),

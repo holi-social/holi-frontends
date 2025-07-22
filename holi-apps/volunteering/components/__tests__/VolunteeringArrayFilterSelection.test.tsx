@@ -12,6 +12,7 @@ const createOptions = (length: number) =>
   Array.from({ length }, (_, index) => ({
     term: `option-${index}`,
     label: `Option ${index}`,
+    counter: index * 2,
   }))
 
 const selectedOptions = ['option-4', 'option-2']
@@ -94,5 +95,29 @@ describe('VolunteeringArrayFilterSelection', () => {
     await user.press(screen.getByText('Option 3'))
 
     expect(onSelect).toHaveBeenCalledWith([])
+  })
+
+  it('should display and pass on facet counts', () => {
+    const facetCounts = {
+      topics_v2: {
+        'option-0': 0,
+        'option-1': 2,
+        'option-2': 4,
+        'option-3': 6,
+        'option-4': 8,
+      },
+    }
+    render(
+      <VolunteeringArrayFilterSelection
+        filterKey="topics"
+        selected={[]}
+        onSelect={jest.fn()}
+        facetCounts={facetCounts}
+      />
+    )
+
+    assertOptionsInOrder(['Option 00', 'Option 12', 'Option 24', 'Option 36', 'Option 48'])
+
+    expect(mockUseVolunteeringFilterOptions).toHaveBeenCalledWith('topics', facetCounts)
   })
 })

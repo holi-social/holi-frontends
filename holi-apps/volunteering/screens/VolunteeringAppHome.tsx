@@ -23,7 +23,7 @@ const VolunteeringAppHome = () => {
   const headerComponent = (
     <Stack backgroundColor="main">
       <VolunteeringListingHeader />
-      <VolunteeringFilterRow onSubmit={submit} filters={filters} />
+      <VolunteeringFilterRow onSubmit={submit} filters={filters} loadingFilters={loadingGeolocation} />
     </Stack>
   )
 
