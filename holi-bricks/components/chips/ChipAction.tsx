@@ -75,7 +75,7 @@ const styles = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.components.chipAction.border,
       outlineWidth: 1,
-      //outlineStyle: hovered ? 'solid' : 'none',
+      outlineStyle: hovered ? 'solid' : undefined,
       boxShadow: focused ? theme.colors.focus : 'none',
       alignSelf: 'flex-start',
       variants: {

@@ -60,7 +60,7 @@ export const Avatar = ({
   icon,
   ...rest
 }: AvatarProps) => {
-  styles.useVariants({border, shape, size })
+  styles.useVariants({ border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
   const CDN_IMAGE_DIMENSION = AvatarSizesValues[size]

@@ -1,6 +1,6 @@
 import { breakpoints } from 'holi-bricks/foundations'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
-import { UnistylesRegistry } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 type Options = Record<string, unknown> & {
   isProduction: boolean
@@ -13,14 +13,18 @@ export let config: Options = {
 export const initializeBricks = (options?: Partial<Options>) => {
   config = { ...config, ...options }
 
-  // @ts-ignore
-  UnistylesRegistry.addBreakpoints({ ...{ zero: 0 }, ...breakpoints })
-    .addThemes({
+  StyleSheet.configure({
+    settings: {
+      initialTheme: 'light',
+    },
+    themes: {
       light: lightTheme,
       // Removing dark theme until fully supported with HOLI-11770
       // dark: darkTheme,
-    })
-    .addConfig({
-      initialTheme: 'light',
-    })
+    },
+    breakpoints: {
+      ...{ zero: 0 },
+      ...breakpoints,
+    },
+  })
 }

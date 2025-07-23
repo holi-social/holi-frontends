@@ -1,7 +1,7 @@
 import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import { type GestureResponderEvent, Pressable, type Role, View } from 'react-native'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
@@ -28,7 +28,6 @@ const HoliMoreCard = ({
   bgImageSrc,
   fixedWidth,
 }: PropsWithChildren<HoliMoreCardSmallProps>) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
   return (
@@ -79,7 +78,7 @@ const HoliMoreCard = ({
 
 export default HoliMoreCard
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   image: {
     position: 'absolute',
     alignSelf: 'center',
