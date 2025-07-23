@@ -28,7 +28,7 @@ const AvatarPile = ({
     <View style={[styles.container, layoutStyle(rest)]} testID={testID} {...accessibilityProps(rest)}>
       {avatars?.map((avatar, idx) => {
         return (
-          <View style={styles.overlap(idx, overlapDistance)} key={avatar.source || `avatar-${avatar.initials}-${idx}`}>
+          <View style={styles.overlap(idx, overlapDistance)} key={avatar.label || `avatar-${avatar.initials}-${idx}`}>
             <Avatar
               border={border}
               shape={shape}
