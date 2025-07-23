@@ -52,8 +52,7 @@ const Onboarding = () => {
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
-  const routeForSelectedContentType = getRouteForContentType(userData.content)
-  const redirect = useRedirect(routeForSelectedContentType)
+  const redirect = useRedirect('/')
   const setScreenOptions = useSetScreenOptions()
 
   useEffect(() => {

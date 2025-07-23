@@ -26,6 +26,9 @@ export const useAppInit = () => {
         // Blocking, wait for required services
         await Promise.all([
           initAuth().catch((e) => logError(e, 'Error on init Auth', { location: 'initializeApp' })),
+          initNotifications().catch((e) =>
+            logError(e, 'Error on Notifications init Auth', { location: 'initializeApp' })
+          ),
           initI18n().catch((e) => logError(e, 'Error on init i18n', { location: 'initializeApp' })),
           Appcues.setup(appcuesAccountId, appcuesAppId).catch((e) =>
             logError(e, 'Error on init Appcues', { location: 'initializeApp' })
