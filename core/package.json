@@ -36,6 +36,7 @@
     "graphql-scalars": "^1.21.3",
     "jest-offline": "^1.0.1",
     "next": "^14.2.7",
+    "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-webview": "13.13.5",
     "typescript-graphql-request": "^4.4.6"

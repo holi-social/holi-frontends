@@ -96,7 +96,6 @@ const SpacesNavigator = () => {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
-        headerBackTitleVisible: false,
         headerTintColor: colors.black300,
       }}
     >

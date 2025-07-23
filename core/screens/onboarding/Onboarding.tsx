@@ -2,10 +2,8 @@ import type React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
@@ -33,6 +31,7 @@ import { useCallback, useEffect } from 'react'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 
 export type OnboardingParams = {
   flow?: string
@@ -40,8 +39,9 @@ export type OnboardingParams = {
 
 const { useParam } = createParamHooks<OnboardingParams>()
 
+
 const Onboarding = () => {
-  const setScreenOptions = useSetScreenOptions()
+  const { t } = useTranslation()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
@@ -50,12 +50,19 @@ const Onboarding = () => {
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
-  const redirect = useRedirect('/')
+  const routeForSelectedContentType = getRouteForContentType(userData.content)
+  const redirect = useRedirect(routeForSelectedContentType)
+  const setScreenOptions = useSetScreenOptions()
 
-  useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
-  }, [setScreenOptions])
-
+  useEffect(() => {
+    setScreenOptions({
+      headerShown: false,
+      animation: 'none',
+      gestureEnabled: false,
+      navigationCustomOptions: { footerShown: false },
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   usePreventBackNavigation(true)
 
   const cleanUp = async () => {
@@ -105,6 +112,7 @@ const Onboarding = () => {
             flowId={flowId}
             onLogin={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
+              redirect(true)
             }}
             onContinueAsGuest={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))

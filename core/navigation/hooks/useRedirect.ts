@@ -8,10 +8,9 @@ export const setPathToRedirect = pathToRedirect
 export const usePathToRedirect = () => useReactiveVar(pathToRedirect)
 
 export const useRedirect = (fallback?: string) => {
-  const pathToRedirect = usePathToRedirect() ?? fallback
+  const storedPath = usePathToRedirect()
   const { navigate, replaceRoute } = useRouting()
 
-  // Reset `pathToRedirect` on component destroy
   useEffect(() => {
     return () => {
       setPathToRedirect(null)
@@ -20,14 +19,18 @@ export const useRedirect = (fallback?: string) => {
 
   return useCallback(
     (replace?: boolean) => {
-      if (pathToRedirect) {
+      const targetPath = storedPath || fallback
+
+      if (targetPath) {
         if (replace) {
-          replaceRoute(pathToRedirect)
+          replaceRoute(targetPath)
         } else {
-          navigate(pathToRedirect)
+          navigate(targetPath)
         }
+        // Clear the stored path after navigation
+        setPathToRedirect(null)
       }
     },
-    [navigate, pathToRedirect, replaceRoute]
+    [navigate, replaceRoute, storedPath, fallback]
   )
 }

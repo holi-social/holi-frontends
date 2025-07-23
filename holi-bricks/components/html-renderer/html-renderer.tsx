@@ -1,18 +1,24 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import type React from 'react'
 import { useWindowDimensions } from 'react-native'
-import RenderHTML from 'react-native-render-html'
+import RenderHTML, { type HTMLSource } from 'react-native-render-html'
+// eslint-disable-next-line no-restricted-imports
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
+import { Spacing } from 'holi-bricks/foundations'
+import { Text } from 'holi-bricks/components/text'
 
 export interface HtmlRendererProps {
-  content: string
+  source: HTMLSource
   contentWidth?: number
 }
 
-export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ content, contentWidth }) => {
+export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ contentWidth, source }) => {
   const { theme } = useBricks()
   const { width } = useWindowDimensions()
-  if (!content) return null
+
+  if (!source) return null
+
   const commonTextStyle = {
     color: theme.colors.fill.main,
     fontFamily: fontFamilies.regular,
@@ -23,9 +29,11 @@ export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ content, contentWidt
 
   return (
     <RenderHTML
+      remoteLoadingView={() => <HoliLoader />}
       contentWidth={contentWidth || width}
-      source={{ html: content }}
+      source={source}
       systemFonts={[fontFamilies.regular, fontFamilies.bold]}
+      remoteErrorView={() => <Text size="md">Error while loading the 📃</Text>}
       tagsStyles={{
         div: {
           ...commonTextStyle,
@@ -35,6 +43,7 @@ export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ content, contentWidt
         },
         a: {
           ...commonTextStyle,
+          color: theme.colors.fill.informative,
           fontFamily: fontFamilies.bold,
           fontVariant: ['lining-nums', 'tabular-nums'],
           fontWeight: '500',
@@ -46,8 +55,24 @@ export const HtmlRenderer: React.FC<HtmlRendererProps> = ({ content, contentWidt
           fontWeight: '400',
           margin: 0,
         },
-        ul: commonTextStyle,
-        li: commonTextStyle,
+        ul: { ...commonTextStyle, marginBottom: Spacing['xxs'], paddingLeft: Spacing.md, margin: 0 },
+        li: { ...commonTextStyle, marginBottom: Spacing['4xs'], paddingLeft: Spacing['3xs'] },
+        h1: { ...commonTextStyle, fontSize: 20, marginBottom: Spacing['xxs'], marginTop: Spacing['xs'] },
+        h2: { ...commonTextStyle, fontSize: 18, marginBottom: Spacing['xxs'], marginTop: Spacing['xs'] },
+        h3: {
+          ...commonTextStyle,
+          fontSize: 16,
+          fontWeight: '500',
+          marginBottom: Spacing['xxs'],
+          marginTop: Spacing['xs'],
+        },
+        strong: {
+          ...commonTextStyle,
+          fontWeight: '500',
+        },
+        body: {
+          ...commonTextStyle,
+        },
       }}
       enableExperimentalMarginCollapsing
     />

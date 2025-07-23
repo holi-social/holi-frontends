@@ -10,7 +10,6 @@ import { Text, TextLink } from 'holi-bricks/components/text'
 import React, { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, useWindowDimensions, View } from 'react-native'
-
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
@@ -86,15 +85,11 @@ const BodyContentRenderer = ({ content }: { content?: string }) => {
     return content
   }
 
-  if (typeof content === 'string') {
-    return isHtml(content) ? (
-      <HtmlRenderer content={content} />
-    ) : (
-      <HoliRichTextOutput text={content as string} color="main" allowAllLinks />
-    )
-  }
-
-  return null
+  return isHtml(content) ? (
+    <HtmlRenderer source={{ html: content }} />
+  ) : (
+    <HoliRichTextOutput text={content as string} color="main" allowAllLinks />
+  )
 }
 
 export const DetailsScreen = ({
