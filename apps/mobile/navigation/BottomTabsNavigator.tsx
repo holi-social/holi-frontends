@@ -12,14 +12,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import {
-  HomeSmile2,
-  HomeSmile2Filled,
-  Megaphone,
-  MegaphoneFilled,
-  Spaces,
-  SpacesFilled,
-} from '@holi/icons/src/generated'
+import { Home, HomeFilled, Megaphone, MegaphoneFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import ActNavigator from '@holi/mobile/navigation/ActNavigator'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
@@ -77,11 +70,9 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return (
-              <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} colorOverride={unistyles.icon(focused).color} />
-            )
+            return <HoliIcon icon={focused ? HomeFilled : Home} colorOverride={unistyles.icon(focused).color} />
           },
-          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.home', 'Home')} focused={focused} />,
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.feed', 'Feed')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-home-view',
         }}

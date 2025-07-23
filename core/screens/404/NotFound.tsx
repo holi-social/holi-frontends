@@ -28,7 +28,7 @@ const NotFound = () => {
     setScreenOptions({
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
-        <HoliButton label={t('navigation.home', 'Home')} inline transparent onPress={() => navigate('/')}>
+        <HoliButton label={t('navigation.feed', 'Feed')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
             isSvg
