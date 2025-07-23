@@ -16,7 +16,7 @@ export const DocumentsFooter = ({ displayImprint = false }: DocumentsFooterProps
 
   // in Web we navigate to the legal document page in profile settings
   // but on mobile we navigate to a screen in the RootNavigator to open it as a modal
-  const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : 'onboarding/legalDocuments'
+  const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : '/onboarding/legalDocuments'
 
   return (
     <View>
