@@ -5130,6 +5130,15 @@ export type Typesense_MultiSearchQuery = {
               }
             }
           }>
+          facet_counts?: Array<{
+            __typename?: 'Typesense_SearchResponseFacetCounts'
+            field_name: string
+            counts: Array<{
+              __typename?: 'Typesense_SearchResponseFacetCountsItemCounts'
+              count: number
+              value: string
+            }>
+          }>
         }
     >
   }
@@ -8005,6 +8014,13 @@ export const Typesense_MultiSearchDocument = gql`
           document {
             ...FullTypesenseDocument
           }
+        }
+        facet_counts {
+          counts {
+            count
+            value
+          }
+          field_name
         }
       }
       ... on Typesense_SearchResponseError {

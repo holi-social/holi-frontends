@@ -10,18 +10,19 @@ import type { Quote } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { QuoteFilledOutlined } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { Image } from 'holi-bricks/components/image'
+import { Text } from 'holi-bricks/components/text'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Stack } from 'holi-bricks/components/stack'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
 export interface QuoteCardProps {
   quote: Quote
   quoteColor?: string
   numberOfLines?: number
-  showReaction?: boolean
   style?: ViewStyle
+  hideReactions?: boolean
 }
 
 export interface SourceCardProps {
@@ -33,23 +34,30 @@ export interface QuoteAndSourceCardProps {
   insightId: string
   quote: Quote
   quoteColor: string
-  showReaction?: boolean
 }
 
-const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, showReaction, style }) => {
+const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines, style, hideReactions = false }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={[styles.quoteCard, style]} testID={'quote-card-quote'}>
-      <HoliIcon icon={QuoteFilledOutlined} colorOverride={quoteColor} testID={'quote-card-quote-icon'} size={26} />
-      <HoliGap size="xs" />
-      <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
-      <HoliGap size="xs" />
-      <HoliText size="extrasmall" color="gray300" style={styles.author}>
-        {quote.author} ∙ {quote.authorProfession}
-      </HoliText>
-      {showReaction && <InsightReactions item={quote} itemType={ItemType.QUOTE} style={styles.reaction} />}
+      <View style={styles.content}>
+        <HoliIcon icon={QuoteFilledOutlined} colorOverride={quoteColor} testID={'quote-card-quote-icon'} size={26} />
+        <HoliGap size="xs" />
+        <Text numberOfLines={numberOfLines} size="sm" margin={{ bottom: 'xs' }}>
+          {quote.text}
+        </Text>
+        <Text size="xs" color="default" margin={{ bottom: '3xl' }}>
+          {quote.author} ∙ {quote.authorProfession}
+        </Text>
+      </View>
+      {!hideReactions && (
+        <Stack direction="row" justifyContent="space-between">
+          <ReactionCount count={quote.reactions.HEART} />
+          <InsightReactions item={quote} itemType={ItemType.QUOTE} />
+        </Stack>
+      )}
     </View>
   )
 }
@@ -62,19 +70,22 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote, style }) => {
     <View style={[styles.sourceCard, style]} testID={'quote-card-source'}>
       {!!quote.linkPreview.image && (
         <View style={styles.linkPreviewImageContainer}>
-          <HoliImage
-            source={{ uri: quote.linkPreview.image }}
-            label={quote.linkPreview.title}
-            style={styles.linkPreviewImage}
+          <Image
+            source={quote.linkPreview.image}
+            alt={quote.linkPreview.title}
+            width={88}
+            height={88}
+            stretch
+            resizeMode="cover"
           />
         </View>
       )}
       <View style={styles.linkPreviewDetailsContainer}>
         <ExternalContentCategoryBadge category={quote.category} />
         <View>
-          <HoliHeading level="2" size="s" selectable numberOfLines={2}>
+          <Text headingLevel="2" size="lg" numberOfLines={2}>
             {quote.linkPreview.title}
-          </HoliHeading>
+          </Text>
         </View>
         <LinkInfo link={quote.link} icon={quote.linkPreview.icon} size="sm" color="gray300" />
       </View>
@@ -82,7 +93,7 @@ const SourceCard: React.FC<SourceCardProps> = ({ quote, style }) => {
   )
 }
 
-const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteColor, showReaction }) => {
+const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quote, quoteColor }) => {
   const [hovered, setHovered] = useState(false)
   const { navigate } = useRouting()
   const { theme } = useTheme()
@@ -95,13 +106,7 @@ const QuoteAndSourceCard: React.FC<QuoteAndSourceCardProps> = ({ insightId, quot
       onHoverIn={() => setHovered(true)}
       onHoverOut={() => setHovered(false)}
     >
-      <QuoteCard
-        quote={quote}
-        quoteColor={quoteColor}
-        numberOfLines={5}
-        style={hovered ? styles.hovered : {}}
-        showReaction={showReaction}
-      />
+      <QuoteCard quote={quote} quoteColor={quoteColor} numberOfLines={5} style={hovered ? styles.hovered : {}} />
       <HoliGap size="xs" />
       <SourceCard quote={quote} style={hovered ? styles.hovered : {}} />
     </Pressable>
@@ -120,7 +125,9 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       justifyContent: 'center',
     },
-
+    content: {
+      flexGrow: 1,
+    },
     quoteCard: {
       backgroundColor: theme.colors.background10,
       padding: Spacing.xxs,
@@ -129,7 +136,6 @@ const getStyles = (theme: HoliTheme) =>
       borderColor: theme.colors.foreground10,
       flex: 1,
     },
-
     sourceCard: {
       flexDirection: 'row',
       backgroundColor: theme.colors.background10,
@@ -142,7 +148,6 @@ const getStyles = (theme: HoliTheme) =>
         web: { marginBottom: 4 },
       }),
     },
-
     hovered: {
       borderColor: theme.colors.black300,
       shadowColor: theme.colors.black300,
@@ -152,31 +157,15 @@ const getStyles = (theme: HoliTheme) =>
       },
       shadowOpacity: 0.12,
     },
-
     linkPreviewImageContainer: {
       width: 86,
       marginRight: Spacing.xxs,
+      borderRadius: Spacing['3xs'],
+      overflow: 'hidden',
     },
-
-    linkPreviewImage: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 8,
-    },
-
     linkPreviewDetailsContainer: {
       flex: 1,
       justifyContent: 'space-between',
       gap: Spacing['4xs'],
-    },
-
-    reaction: {
-      position: 'absolute',
-      bottom: 12,
-      right: 16,
-    },
-
-    author: {
-      marginBottom: 57,
     },
   })

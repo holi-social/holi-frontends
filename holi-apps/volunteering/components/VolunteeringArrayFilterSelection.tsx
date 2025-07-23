@@ -7,6 +7,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { Search } from '@holi/icons/src/generated'
 import { ChipSelect } from 'holi-bricks/components/chips'
 import { useVolunteeringFilterOptions } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
+import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
 
 interface VolunteeringArrayFilterOption {
   term: string
@@ -19,6 +20,7 @@ interface VolunteeringArrayFilterSelectionProps {
   selected?: string[]
   onSelect: (items: string[]) => void
   longListOfOptions?: boolean
+  facetCounts?: TypesenseFacetCounts
 }
 
 export const VolunteeringArrayFilterSelection = ({
@@ -26,9 +28,10 @@ export const VolunteeringArrayFilterSelection = ({
   selected = [],
   onSelect,
   longListOfOptions = false,
+  facetCounts,
 }: VolunteeringArrayFilterSelectionProps) => {
   const { t } = useTranslation()
-  const options: VolunteeringArrayFilterOption[] = useVolunteeringFilterOptions(filterKey)
+  const options: VolunteeringArrayFilterOption[] = useVolunteeringFilterOptions(filterKey, facetCounts)
 
   const sortedOptions = useMemo(() => {
     if (!longListOfOptions) {

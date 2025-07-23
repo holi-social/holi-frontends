@@ -14,12 +14,14 @@ import type { GeolocationSuggestion } from '@holi/core/geolocation/components/Pl
 import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
 
 export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
   filterKey: T
   filters: VolunteeringFilters
   onSubmit: (filters?: VolunteeringFilters) => void
   closeModal: () => void
+  facetCounts: TypesenseFacetCounts
 }
 
 type ArrayFilter = string[] | undefined
@@ -30,6 +32,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
   filters,
   onSubmit,
   closeModal,
+  facetCounts,
 }: VolunteeringFilterModalProps<T>) => {
   const { t } = useTranslation()
   const { track } = useTracking()
@@ -83,6 +86,7 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
               selected={selection as ArrayFilter}
               onSelect={setSelection}
               longListOfOptions={longListOfOptions}
+              facetCounts={facetCounts}
             />
           )}
         </Stack>

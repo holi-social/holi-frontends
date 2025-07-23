@@ -16,7 +16,7 @@ import { type FavoriteItem, fromTypesenseId, useFavorites } from './hooks'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { FavoritesListEmpyState } from '@holi/core/screens/favorites/components/FavoritesListEmpyState'
 import { Spacing } from 'holi-bricks/foundations'
-import { useFocusEffect } from '@holi/core/helpers/useFocusEffect/index'
+import { useFocusEffect } from '@holi/core/helpers/useFocusEffect'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { BookmarkFill } from '@holi/icons/src/generated'
 

@@ -19,3 +19,7 @@ export type LocalizedTypesenseDocument = Omit<
   title: string
   description: string
 }
+
+export interface TypesenseFacetCounts {
+  [key: string]: { [key: string]: number }
+}

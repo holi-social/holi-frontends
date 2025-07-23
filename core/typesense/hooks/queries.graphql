@@ -53,6 +53,13 @@ query typesense_multiSearch($input: Typesense_MultiSearchRequest_Input!) {
             ...FullTypesenseDocument
           }
         }
+        facet_counts {
+          counts {
+            count
+            value
+          }
+          field_name
+        }
       }
       ... on Typesense_SearchResponseError {
         error

@@ -4,11 +4,37 @@ import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/Volunt
 import { emptyFilters, fullFilters, testLocation } from '@holi-apps/volunteering/__tests__/testData'
 import { TrackingEvent } from '@holi/core/tracking'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
+import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 
 const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
 jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
   usePlacesAutocomplete: jest.fn(),
 }))
+
+const mockUseFilterFacetCounts = jest.mocked(useFilterFacetCounts)
+jest.mock('@holi-apps/volunteering/hooks/useFilterFacetCounts', () => ({
+  useFilterFacetCounts: jest.fn(),
+}))
+
+const facetCounts = {
+  topics_v2: {
+    'migration-refugees': 1,
+  },
+  skills_v2: {
+    fundraising: 2,
+  },
+  commitment_label: {
+    recurring: 3,
+  },
+  commitment_duration: {
+    DAYS_1: 4,
+  },
+}
+
+const results = {
+  isLoading: false,
+  facetCounts,
+}
 
 describe('VolunteeringFilterRow', () => {
   beforeEach(() => {
@@ -25,6 +51,7 @@ describe('VolunteeringFilterRow', () => {
       onClear: jest.fn(),
       noResultsText: undefined,
     })
+    mockUseFilterFacetCounts.mockReturnValue(results)
   })
 
   afterAll(() => {
