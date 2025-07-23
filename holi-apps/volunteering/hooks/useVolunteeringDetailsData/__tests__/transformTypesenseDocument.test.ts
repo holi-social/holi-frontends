@@ -1,4 +1,5 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
+import { Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
 import { AiEstimatedTime, Global, MapPin2, Refresh } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
@@ -27,6 +28,16 @@ describe('transformDocument', () => {
     commitment_label: 'recurring',
     commitment_duration: 'HOURS_1to2',
     location_type: 'onsite',
+    contact: [
+      { type: Typesense_DocumentContactType.Person, value: 'Ada Lovelace' },
+      { type: Typesense_DocumentContactType.Email, value: 'ada@lovelace.com' },
+      { type: Typesense_DocumentContactType.Phone, value: '+49 1234 1234567' },
+      {
+        label: "Ada's Website",
+        type: Typesense_DocumentContactType.Website,
+        value: 'https://www.lovelace.com',
+      },
+    ],
   }
 
   it('should transform a document with all fields correctly', () => {
@@ -72,6 +83,7 @@ describe('transformDocument', () => {
       locationType: 'onsite',
       commitmentType: 'recurring',
       source: 'Voltastics',
+      contact: baseDocument.contact,
     })
   })
 

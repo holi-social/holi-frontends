@@ -92,5 +92,6 @@ export const transformTypesenseDocument = (
     commitmentType: document.commitment_label,
     locationType: document.location_type,
     source: document.source,
+    contact: engagement.contact,
   }
 }

@@ -35,6 +35,7 @@ export const createHits = (length: number): Typesense_SearchResponseHit[] =>
       commitment_duration: '',
       commitment_label: '',
       location_type: '',
+      contact: [],
     }
     return {
       __typename: 'Typesense_SearchResponseHit',

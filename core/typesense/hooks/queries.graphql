@@ -24,6 +24,11 @@ fragment FullTypesenseDocument on Typesense_Document {
   commitment_label
   commitment_duration
   location_type
+  contact {
+    type
+    value
+    label
+  }
 }
 
 query typesense_documentById($id: String!, $documentType: String!) {

@@ -1,11 +1,13 @@
 import type { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import type { DetailsScreenData } from '@holi/core/layout/DetailsScreen'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 export type VolunteeringDetailsScreenData = DetailsScreenData & {
   externalUrl?: string
   commitmentType?: string
   locationType?: string
   source?: string
+  contact?: TypesenseDocument['contact']
 }
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
