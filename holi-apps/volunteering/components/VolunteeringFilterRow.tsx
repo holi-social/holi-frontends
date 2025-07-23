@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { FlatList, Platform } from 'react-native'
 import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
-import { ChipAction } from 'holi-bricks/components/chips'
 import { useTranslation } from 'react-i18next'
 import partition from 'lodash.partition'
 import { ArrowDownS, Edit2 } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
+import { ChipActionTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
 
@@ -58,16 +59,17 @@ const FilterChip = ({ filterKey, filters, onPress }: FilterChipProps) => {
     : filterName
 
   return (
-    <ChipAction
+    <ChipActionTracked
       color={selected ? 'white' : 'mono'}
       size="lg"
       iconTrailing={filterKey === 'location' ? Edit2 : ArrowDownS}
       aria-label={t('volunteering.filter.openModal', { filter: filterName })}
       onPress={onPress}
       testID={`volunteering-filter-${filterKey}`}
+      trackingEvent={TrackingEvent.Volunteering.filterPillPressed(filterKey)}
     >
       {label}
-    </ChipAction>
+    </ChipActionTracked>
   )
 }
 
