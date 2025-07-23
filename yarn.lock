@@ -6010,6 +6010,7 @@ __metadata:
     react-native-keyboard-controller: "npm:^1.17.5"
     react-native-phone-number-input: "npm:^2.1.0"
     react-native-reanimated-carousel: "npm:^4.0.2"
+    react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:5.4.0"
     react-native-webview: "npm:13.13.5"
     typescript-graphql-request: "npm:^4.4.6"

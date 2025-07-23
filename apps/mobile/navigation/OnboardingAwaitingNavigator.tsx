@@ -1,15 +1,18 @@
 import React, { useEffect, useState, type PropsWithChildren } from 'react'
 import { Redirect } from 'expo-router'
 import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { RootNavigator } from '@holi/mobile/navigation/RootNavigator'
-
 interface OnboardingAwaitingNavigatorProps {
   onReady?: () => Promise<boolean> | void
 }
 
-export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavigatorProps) => {
-  const { isLoading } = useOnboardingInitialization()
+// TODO: IMPORTANT move notification init inside Onboarding
+export const OnboardingAwaitingNavigator = ({
+  onReady,
+  children,
+}: PropsWithChildren<OnboardingAwaitingNavigatorProps>) => {
+  const { isLoading, onboardingState } = useOnboardingInitialization()
   const [isInitialized, setIsInitialized] = useState(false)
+  const [notificationsInitialized, setNotificationsInitialized] = useState(false)
   const { showOnboardingOnStartup } = useOnboardingRedirect()
 
   useEffect(() => {
@@ -19,38 +22,19 @@ export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavig
     }
   }, [isInitialized, isLoading, onReady])
 
-  if (isLoading && !isInitialized) {
-    return null
+  useEffect(() => {
+    if (!notificationsInitialized && onboardingState === 'finished') {
+      initNotifications().then(() => {
+        setNotificationsInitialized(true)
+      })
+    }
+  }, [onboardingState, notificationsInitialized])
+
+  if (isLoading && !isInitialized) return null
+
+  if (showOnboardingOnStartup) {
+    return <Redirect href="/onboarding" />
   }
 
   return children
 }
-
-// TODO: IMPORTANT move notification init inside Onboarding
-// export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavigatorProps) => {
-//   const { isLoading, onboardingState } = useOnboardingInitialization()
-//   const [isInitialized, setIsInitialized] = useState(false)
-//   const [notificationsInitialized, setNotificationsInitialized] = useState(false)
-//   const { showOnboardingOnStartup } = useOnboardingRedirect()
-
-//   useEffect(() => {
-//     if (!isInitialized && !isLoading) {
-//       onReady?.()
-//       setIsInitialized(true)
-//     }
-//   }, [isInitialized, isLoading, onReady])
-
-//   useEffect(() => {
-//     if (!notificationsInitialized && onboardingState === 'finished') {
-//       initNotifications().then(() => {
-//         setNotificationsInitialized(true)
-//       })
-//     }
-//   }, [onboardingState, notificationsInitialized])
-
-//   if (isLoading && !isInitialized) {
-//     return null
-//   }
-
-//   return children
-// }

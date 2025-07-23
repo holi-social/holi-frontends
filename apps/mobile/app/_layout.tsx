@@ -3,6 +3,8 @@ import { SplashScreen } from 'expo-router'
 import { AppProviders } from '@holi/mobile/lib/AppProviders'
 import { Stack, useFocusEffect } from 'expo-router'
 import { useAppInit } from '@holi/mobile/lib/initializeApp'
+import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -18,6 +20,7 @@ SplashScreen.preventAutoHideAsync()
 
 export default function Layout() {
   const { isReady, initializeApp } = useAppInit()
+  const { theme } = useBricks()
 
   useFocusEffect(() => {
     initializeApp().then(async () => {
@@ -34,7 +37,25 @@ export default function Layout() {
 
   return (
     <AppProviders>
-      <Stack screenOptions={{ headerShown: false, statusBarStyle: 'dark' }} />
+      <Stack
+        initialRouteName="(tabs)"
+        screenOptions={{
+          headerShown: false,
+          headerBackVisible: false,
+          headerBackButtonDisplayMode: 'minimal',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.colors.bg.support,
+          },
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            fontFamily: fontFamilies.regular,
+            fontSize: 16,
+            fontWeight: '600',
+            color: theme.colors.fill.main,
+          },
+        }}
+      />
     </AppProviders>
   )
 }

@@ -1,10 +1,9 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Platform } from 'react-native'
 import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 import { isAccountComplete } from '@holi/core/screens/onboarding/helpers/isAccountComplete'
@@ -105,40 +104,33 @@ export const useOnboardingRedirect = () => {
   const onboardingState = useOnboardingState()
   const pathname = usePathname()
   const { navigate } = useRouting()
-  // FIXME Using setTimeout as navigation might not be properly set up yet
-  // and is only needed on mobile
-  // Crude hack to workaround a react-navigation issue: https://github.com/react-navigation/react-navigation/issues/9170
-  // Should be fixed with react-navigation v7
-  const navigateWithTimeout = useCallback(
-    (path: string) => {
-      if (Platform.OS !== 'web') {
-        setTimeout(() => {
-          navigate(path)
-        }, 200)
-      } else {
-        navigate(path)
-      }
-    },
-    [navigate]
-  )
+
+  const shouldShowContent = useMemo(() => {
+    if (isLoading) return false
+
+    if (pathname === '/' && onboardingState === 'onboarding') return false
+    if (pathname !== '/onboarding' && (onboardingState === 'accountSetup' || onboardingState === 'emailVerification'))
+      return false
+
+    return true
+  }, [isLoading, pathname, onboardingState])
 
   useEffect(() => {
-    if (isLoading) {
-      return
-    }
+    if (isLoading) return
 
     const isOnboarding = onboardingState === 'onboarding'
     const isEmailVerification = onboardingState === 'emailVerification'
     const isAccountSetup = onboardingState === 'accountSetup'
 
     if ((isAccountSetup || isEmailVerification) && pathname !== '/onboarding') {
-      navigateWithTimeout('/onboarding')
+      navigate('/onboarding')
     } else if (isOnboarding && pathname === '/') {
-      navigateWithTimeout('/onboarding')
+      navigate('/onboarding')
     }
-  }, [isLoading, navigateWithTimeout, onboardingState, pathname])
+  }, [isLoading, navigate, onboardingState, pathname])
 
   return {
     showOnboardingOnStartup: onboardingState !== 'finished' && pathname === '/',
+    shouldShowContent,
   }
 }

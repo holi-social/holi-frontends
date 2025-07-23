@@ -10,7 +10,7 @@ import ChangeEmailVerification from '@holi/core/screens/userprofile/ChangeEmailV
 import ChangePassword from '@holi/core/screens/userprofile/ChangePassword'
 import Favorites from '@holi/core/screens/userprofile/Favorites'
 import HelpSettings from '@holi/core/screens/userprofile/HelpSettings'
-import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
+// import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import LegalDocuments from '@holi/core/screens/userprofile/LegalDocuments'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
@@ -58,7 +58,6 @@ const AuthStackNavigator = () => {
         headerShadowVisible: false,
         headerTitleAlign: 'center',
         headerTintColor: colors.black300,
-        headerBackTitleVisible: false,
         headerBackVisible: false,
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
         headerTitle: ({ children, tintColor }) => (
@@ -78,7 +77,7 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen name={RouteName.ChangeEmailVerification} component={ChangeEmailVerification} />
       <AuthStack.Screen name={RouteName.HelpSettings} component={HelpSettings} />
       <AuthStack.Screen name={RouteName.LegalDocuments} component={LegalDocuments} />
-      <AuthStack.Screen name={RouteName.Document} component={LegalDocumentItem} />
+      {/* <AuthStack.Screen name={RouteName.Document} component={LegalDocumentItem} /> */}
       <AuthStack.Screen name={RouteName.AboutHoliApp} component={AboutHoliApp} />
       <AuthStack.Screen name={RouteName.Favorites} component={Favorites} />
       <AuthStack.Screen name={RouteName.AboutMe} component={AboutMe} />

@@ -23,7 +23,7 @@ import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'
-import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
+// import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import Onboarding, { type OnboardingParams } from '@holi/core/screens/onboarding/Onboarding'
@@ -225,18 +225,18 @@ export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) =
         component={Onboarding}
         options={{ headerShown: false, gestureEnabled: false }}
       />
-      <RootStack.Screen
+      {/* <RootStack.Screen
         name={RouteName.OnboardingLegalDocuments}
+
         component={LegalDocumentItem}
         options={{ presentation: 'modal', headerLeft: () => <HeaderBackButton icon={ArrowDownS} /> }}
-      />
+      /> */}
       <RootStack.Screen
         name={RouteName.CreatePost}
         component={CreatePost}
         options={{
           animation: 'slide_from_bottom',
           headerTintColor: colors.black300,
-          headerBackTitleVisible: false,
           headerLeft: () => <HeaderBackButton />,
           headerShown: true,
           headerTitleAlign: 'center',
@@ -252,7 +252,6 @@ export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) =
           animation: 'slide_from_bottom',
           headerShown: true,
           headerTitleAlign: 'center',
-          headerBackTitleVisible: false,
           headerBackVisible: false,
           headerStyle: {
             backgroundColor: colors.background20,
