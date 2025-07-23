@@ -3,14 +3,17 @@ import { MockedProvider } from '@apollo/client/testing'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen } from '@testing-library/react-native'
 
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import type { TFunction } from 'i18next'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import { FavoriteExternalVolunteeringOpportunityDocument } from '@holi/api/graphql/graphql-codegen'
+import {
+  FavoriteExternalVolunteeringOpportunityDocument,
+  Typesense_DocumentContactType,
+} from '@holi/api/graphql/graphql-codegen'
 
 const engagementId = 'test-id'
 
@@ -36,6 +39,16 @@ const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
   location_type: 'onsite',
   commitment_label: 'negotiable',
   commitment_duration: 'HOURS_1to2',
+  contact: [
+    { type: Typesense_DocumentContactType.Person, value: 'Ada Lovelace' },
+    { type: Typesense_DocumentContactType.Email, value: 'ada@lovelace.com' },
+    { type: Typesense_DocumentContactType.Phone, value: '+49 1234 1234567' },
+    {
+      label: "Ada's Website",
+      type: Typesense_DocumentContactType.Website,
+      value: 'https://www.lovelace.com',
+    },
+  ],
 })
 
 const favoriteRequest = {
@@ -70,8 +83,6 @@ const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
 jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
   useTypesensePaginationQuery: jest.fn(),
 }))
-
-jest.mock('@holi/core/components/HoliWebView')
 
 jest.useFakeTimers()
 
@@ -137,6 +148,7 @@ describe('VolunteeringDetailsScreen', () => {
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
     expect(screen.getByText('volunteering.engagement.commitment_label.negotiable')).toBeVisible()
     expect(screen.getByText('volunteering.engagement.commitment_duration.HOURS_1to2')).toBeVisible()
+    expect(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
   })
 
   it('should render correctly (de)', async () => {
@@ -152,25 +164,6 @@ describe('VolunteeringDetailsScreen', () => {
 
     expect(screen.getByText(document.title_de!)).toBeVisible()
     expect(screen.getByText(document.description_de!)).toBeVisible()
-  })
-
-  it('tracks external link clicks (mobile)', async () => {
-    const document = engagementTypesenseDocument(engagementId)
-    const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsData.mockReturnValue({
-      isLoading: false,
-      document: data,
-    })
-
-    renderComponent()
-
-    await act(jest.runAllTimersAsync)
-
-    const user = userEvent.setup()
-    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-
-    await act(jest.runAllTimersAsync)
-    expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
   })
 
   it('renders similarity recommendations', async () => {

@@ -1,17 +1,9 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { Linking, Platform } from 'react-native'
+import { Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
-import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { white } from 'holi-bricks/foundations'
-import { ExternalLink } from '@holi/icons/src/generated'
-import HoliWebView from '@holi/core/components/HoliWebView'
-import { useTheme } from '@holi/ui/styles/theme'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { ButtonTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
@@ -19,15 +11,13 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { FavoritingButton } from '@holi/core/components/FavoritingButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FavoritableType, useFavoriteExternalVolunteeringOpportunityQuery } from '@holi/api/graphql/graphql-codegen'
+import { VolunteeringContact } from '@holi-apps/volunteering/components/VolunteeringContact'
 
 const isIos = Platform.OS === 'ios'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
   const { displayError } = useErrorHandling()
-  const { t } = useTranslation()
   const { isLoading, document } = useVolunteeringDetailsData(engagementId)
-  const { theme } = useTheme()
-  const { show, props: modalProps } = useModalState()
 
   const {
     data: { favorite } = {},
@@ -83,35 +73,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         },
       }}
       statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
-      StickyBottomComponent={
-        <Stack
-          padding={{ left: 'md', right: 'md', bottom: 'lg' }}
-          alignItems="center"
-          justifyContent="center"
-          alignSelf="center"
-          width="100%"
-        >
-          <ButtonTracked
-            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
-              commitmentType: document?.commitmentType,
-              locationType: document?.locationType,
-              source: document?.source,
-            })}
-            icon={ExternalLink}
-            label={t('volunteering.engagementDetail.getInTouch')}
-            onPress={() => {
-              if (document?.externalUrl) {
-                if (Platform.OS === 'web') {
-                  Linking.openURL(document?.externalUrl)
-                } else {
-                  show()
-                }
-              }
-            }}
-            testID="volunteering-engagement-get-in-touch-btn"
-          />
-        </Stack>
-      }
+      StickyBottomComponent={document && <VolunteeringContact engagementId={engagementId} document={document} />}
       testID="volunteering-detailview-container"
     >
       <DetailsScreen
@@ -126,22 +88,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
         placeholderImage={document?.placeholderImage}
       />
-      {document?.externalUrl && Platform.OS !== 'web' && (
-        <HoliModal
-          label="modal"
-          animationType="slide"
-          style={{ width: '100%', height: '100%', flex: 1 }}
-          shown={modalProps.shown}
-          onDismiss={modalProps.onDismiss}
-          testID={'volunteering-external-url-modal'}
-        >
-          <HoliWebView
-            theme={theme}
-            style={{ flex: 1, height: '100%', width: '100%' }}
-            webViewProps={{ setSupportMultipleWindows: false, source: { uri: document?.externalUrl } }}
-          />
-        </HoliModal>
-      )}
     </Screen>
   )
 }
