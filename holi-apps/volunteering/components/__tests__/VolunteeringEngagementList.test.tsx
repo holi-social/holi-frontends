@@ -132,4 +132,14 @@ describe('VolunteeringEngagementList', () => {
 
     expect(clearFilters).toHaveBeenCalled()
   })
+
+  it('should track press on filter reset button', async () => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringEngagementList engagements={[]} clearFilters={jest.fn()} />)
+
+    await user.press(screen.getByLabelText('search.filter.reset_other'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Volunteering.clearFiltersPressed)
+  })
 })

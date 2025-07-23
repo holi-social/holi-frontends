@@ -15,6 +15,10 @@ import type { GeolocationLevel, GeolocationSuggestion } from '@holi/core/geoloca
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
 
+type PlacesAutocompleteOption = GeolocationSuggestion & {
+  value: string
+}
+
 interface UsePlacesAutocompleteProps {
   selected?: GeolocationSuggestion
   onSubmit?: () => void
@@ -48,7 +52,7 @@ export const usePlacesAutocomplete = ({
   const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)
   const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
 
-  const placeSuggestions = (data?.geo_placesAutocomplete || [])
+  const placeSuggestions: PlacesAutocompleteOption[] = (data?.geo_placesAutocomplete || [])
     .map(({ id, name, city, state, country, coordinates }) => ({
       id,
       value: name,
