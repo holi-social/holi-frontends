@@ -5,14 +5,18 @@ repos:
         name: format:check
         language: system
         entry: corepack yarn format:check
-        pass_filenames: false
-        always_run: true
+        files: \.(js|jsx|ts|tsx)$
+        pass_filenames: true
+        # always_run: true  <-- we want this to run on added files only not on all files
+
       - id: lint
         name: lint
         language: system
         entry: corepack yarn lint
-        pass_filenames: false
-        always_run: true
+        files: \.(js|jsx|ts|tsx)$
+        pass_filenames: true
+        # always_run: true  <-- we want this to run on added files only not on all files
+
   - repo: git@gitlab.holi.team:app/holi-meta.git
     rev: 345e2cab6704f708a946c08a9eaa1ba769c455fb
     hooks:
