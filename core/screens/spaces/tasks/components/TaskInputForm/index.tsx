@@ -34,7 +34,7 @@ import { InteractionType as CGInteractionType, LocationType, VisibilityType } fr
 
 import type { TaskFormInput } from './types'
 import { useTimeFrame } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { colors } from '@holi/ui/styles/globalVars'
 import { SelectorCard } from 'holi-bricks/components/selectors'
 import { SelectorCardContent } from 'holi-bricks/components/selectors/SelectorCardContent'
@@ -127,7 +127,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
-  const { styles } = useStyles(stylesheet)
 
   const { visible: skillsFormVisibile, show: showSkillsForm, hide: hideSkillsForm } = useModalState()
 
@@ -554,7 +553,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
 export default TaskInputForm
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   marginSeparator: {
     marginTop: Spacing.xs,
   },

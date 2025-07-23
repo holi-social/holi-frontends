@@ -7,7 +7,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { Footprints, GlobalFilled, MapPin2Filled } from '@holi/icons/src/generated'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -22,7 +22,6 @@ import { HoliLinkTracked } from '@holi/core/components/Trackable'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
   const { user, isLoading: isLoadingUser } = useLoggedInUser()
   const { geolocationDetails, loadingGeolocation: isLoadingGeolocation } = useGeolocationDetails(user?.geolocationId)
 
@@ -149,7 +148,7 @@ const StartSmallCarousel = () => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   startSmallCarousel: {
     backgroundColor: theme.colors.decorative.purpleLight,
     paddingVertical: Spacing['xs'],

@@ -5,13 +5,13 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { BorderRadius, IconSize, type LayoutProps, Spacing } from 'holi-bricks/foundations'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
 import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { createStyleSheet } from 'holi-bricks/styles'
 
 export type MiniCardProps = AccessibilityProps &
   LayoutProps & {
@@ -41,7 +41,6 @@ export const MiniCard = ({
   bottomIconRight,
   bottomIconLeft,
 }: MiniCardProps) => {
-  const { styles } = useStyles(stylesheet)
   const [imageError, setImageError] = useState(false)
   const randomPlaceholderImage = useRef(pickByHash(placeholderImages, fallbackImageHashKey ?? title)).current
   const handleImageError = () => {
@@ -116,7 +115,7 @@ export const MiniCard = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   topLeft: {
     position: 'absolute',
     top: 4,

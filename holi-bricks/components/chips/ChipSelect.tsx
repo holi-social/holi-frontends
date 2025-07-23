@@ -108,8 +108,8 @@ const styles = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.components.chipSelect.border,
       outlineWidth: 1,
-      // outlineStyle: hovered ? 'solid' : 'none',
-      boxShadow: focused ? theme.colors.focus : 'none',
+      outlineStyle: hovered ? 'solid' : undefined,
+      boxShadow: focused ? theme.colors.focus : undefined,
       variants: {
         size: {
           md: {

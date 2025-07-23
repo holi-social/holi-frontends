@@ -3,7 +3,7 @@ import { Animated, View } from 'react-native'
 
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 
 import type { Choice } from '@holi/core/screens/polls/types'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -15,8 +15,6 @@ interface PollResultsProps {
 }
 
 const PollResults = ({ choice, votesSum, selected }: PollResultsProps) => {
-  const { styles } = useStyles(stylesheet)
-
   const percentageNotRounded = selected ? 100 * ((choice.votes + 1) / votesSum) : 100 * (choice.votes / votesSum)
   const percentage = Math.round(percentageNotRounded)
   const progressAnimation = useRef(new Animated.Value(percentage)).current
@@ -50,7 +48,7 @@ const PollResults = ({ choice, votesSum, selected }: PollResultsProps) => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   container: {
     marginBottom: Spacing.xs,
   },

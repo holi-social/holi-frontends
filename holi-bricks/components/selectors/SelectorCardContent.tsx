@@ -1,5 +1,5 @@
 import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { View } from 'react-native'
@@ -37,7 +37,6 @@ export const SelectorCardContent = ({
   size = 'md',
   variant = 'detailed',
 }: SelectorCardContentProps) => {
-  const { styles } = useStyles(stylesheet)
   const imageSize = imageSizes[size]
 
   return (
@@ -68,7 +67,7 @@ export const SelectorCardContent = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   imageContainer: {
     variants: {
       size: {
