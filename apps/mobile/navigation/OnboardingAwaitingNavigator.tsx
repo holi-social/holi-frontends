@@ -10,9 +10,8 @@ export const OnboardingAwaitingNavigator = ({
   onReady,
   children,
 }: PropsWithChildren<OnboardingAwaitingNavigatorProps>) => {
-  const { isLoading, onboardingState } = useOnboardingInitialization()
+  const { isLoading } = useOnboardingInitialization()
   const [isInitialized, setIsInitialized] = useState(false)
-  const [notificationsInitialized, setNotificationsInitialized] = useState(false)
   const { showOnboardingOnStartup } = useOnboardingRedirect()
 
   useEffect(() => {
@@ -21,14 +20,6 @@ export const OnboardingAwaitingNavigator = ({
       setIsInitialized(true)
     }
   }, [isInitialized, isLoading, onReady])
-
-  useEffect(() => {
-    if (!notificationsInitialized && onboardingState === 'finished') {
-      initNotifications().then(() => {
-        setNotificationsInitialized(true)
-      })
-    }
-  }, [onboardingState, notificationsInitialized])
 
   if (isLoading && !isInitialized) return null
 

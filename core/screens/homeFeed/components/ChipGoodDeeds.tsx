@@ -1,5 +1,5 @@
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { Pressable } from 'react-native'
@@ -17,7 +17,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 
 export const ChipGoodDeeds = () => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { requireLogin } = useSignupModal()
@@ -186,7 +185,7 @@ export const ChipGoodDeeds = () => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean) => {
     return {
       ...pill,
@@ -195,7 +194,7 @@ const stylesheet = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.colors.border.main,
       outlineWidth: 1,
-      outlineStyle: hovered ? 'solid' : 'none',
+      outlineStyle: hovered ? 'solid' : undefined,
       boxShadow: focused ? theme.colors.focus : 'none',
       paddingHorizontal: Spacing['3xs'],
       minHeight: Spacing.lg,
