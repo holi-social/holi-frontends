@@ -61,13 +61,11 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return (
-              <HoliIcon icon={focused ? HomeFilled : Home} colorOverride={styles.icon(focused).color} />
-            )
+            return <HoliIcon icon={focused ? HomeFilled : Home} colorOverride={styles.icon(focused).color} />
           },
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.feed', 'Feed')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          // tabBarTestID: 'btn-to-home-view',
+          tabBarButtonTestID: 'btn-to-home-view',
         }}
         listeners={{ tabPress: () => setPathname('/') }}
       />
@@ -82,7 +80,7 @@ const BottomTabsNavigator = () => {
           ),
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act', 'Act')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          // tabBarTestID: 'btn-to-act',
+          tabBarButtonTestID: 'btn-to-act',
         }}
         listeners={{ tabPress: () => setPathname('/act') }}
       />
@@ -99,7 +97,7 @@ const BottomTabsNavigator = () => {
           },
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.organize')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
-          // tabBarTestID: 'btn-to-spaces',
+          tabBarButtonTestID: 'btn-to-spaces',
         }}
         listeners={{ tabPress: () => setPathname('/spaces') }}
       />
@@ -127,7 +125,7 @@ const BottomTabsNavigator = () => {
             <BottomTabLabel label={isLoggedIn ? t('navigation.profile') : t('navigation.login')} focused={focused} />
           ),
           tabBarLabelPosition: 'below-icon',
-          // tabBarTestID: isLoggedIn ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view',
+          tabBarButtonTestID: isLoggedIn ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view',
         }}
         listeners={{ tabPress: () => setPathname('/profile') }}
       />
