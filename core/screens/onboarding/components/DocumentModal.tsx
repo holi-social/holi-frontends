@@ -42,7 +42,7 @@ export const useDocumentModal = (): UseDocumentModalReturnValue => {
 export const DocumentModal = ({ documentURL, ...modalProps }: Props) => {
   const { t } = useTranslation()
 
-  return (
+  return documentURL ? (
     <HoliModal label={t('profile.settings.legalDocuments.title')} autoHeight={false} relativeHeight={1} {...modalProps}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingVertical: Spacing.md }}>
         <HoliContainer>
@@ -50,5 +50,5 @@ export const DocumentModal = ({ documentURL, ...modalProps }: Props) => {
         </HoliContainer>
       </ScrollView>
     </HoliModal>
-  )
+  ) : null
 }
