@@ -1,5 +1,5 @@
 import Dynamic from 'next/dynamic'
-import React from 'react'
+import type React from 'react'
 
 // eslint-disable-next-line no-restricted-imports
 import { animations } from '../../lottie-animations'
@@ -8,10 +8,11 @@ const Lottie = Dynamic(() => import('lottie-react'), { ssr: false })
 
 interface HoliLottieProps {
   animType: keyof typeof animations
+  loop?: boolean
 }
 
-const HoliLottie: React.VFC<HoliLottieProps> = ({ animType }) => {
-  return <Lottie animationData={animations[animType]} />
+const HoliLottie: React.VFC<HoliLottieProps> = ({ animType, loop = true }) => {
+  return <Lottie animationData={animations[animType]} loop={loop} />
 }
 
 export default HoliLottie
