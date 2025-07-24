@@ -5,6 +5,7 @@ import { Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen
 import { render, userEvent, screen, act } from '@testing-library/react-native'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { TrackingEvent } from '@holi/core/tracking'
 
 describe('VolunteeringContact', () => {
   beforeAll(() => {
@@ -29,6 +30,7 @@ describe('VolunteeringContact', () => {
           value: 'https://www.lovelace.com',
         },
       ],
+      commitmentType: 'once',
     }
 
     it('should open contact drawer and list all information', async () => {
@@ -118,12 +120,48 @@ describe('VolunteeringContact', () => {
 
       expect(onOpenLink).toHaveBeenCalledWith('https://www.lovelace.com')
     })
+
+    it('tracks opening the drawer', async () => {
+      const user = userEvent.setup()
+
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+      await act(jest.runAllTimersAsync)
+
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Volunteering.pressed('123', {
+          commitmentType: 'once',
+          contact_info_displayed: ['person', 'email', 'phone', 'website'],
+        })
+      )
+    })
+
+    const contactDataTypes = ['person', 'email', 'phone', 'website']
+    it.each(contactDataTypes)('should track contact via %s', async (contactType) => {
+      const user = userEvent.setup()
+
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+      await act(jest.runAllTimersAsync)
+      await user.press(screen.getByLabelText(`volunteering.engagementDetail.contactsDrawer.${contactType}.cta`))
+
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Volunteering.contacted('123', {
+          commitmentType: 'once',
+          contact_info_displayed: ['person', 'email', 'phone', 'website'],
+          contact_method_selected: contactType,
+        })
+      )
+    })
   })
 
   describe('without contact info', () => {
     const document: VolunteeringDetailsScreenData = {
       title: 'Some title',
       externalUrl: 'https://www.lovelace.com',
+      commitmentType: 'recurring',
       contact: [],
     }
     it('should open drawer for web view', async () => {
@@ -162,24 +200,20 @@ describe('VolunteeringContact', () => {
       expect(onOpenLink).toHaveBeenCalledWith(document.externalUrl)
     })
 
-    // TODOSF) add later
-    // it('tracks external link clicks (mobile)', async () => {
-    //   const document = engagementTypesenseDocument(engagementId)
-    //   const data = transformTypesenseDocument(t, 'en', document)
-    //   mockUseVolunteeringDetailsData.mockReturnValue({
-    //     isLoading: false,
-    //     document: data,
-    //   })
+    it('tracks opening the webview', async () => {
+      const user = userEvent.setup()
 
-    //   renderComponent()
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
 
-    //   await act(jest.runAllTimersAsync)
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
+      await act(jest.runAllTimersAsync)
 
-    //   const user = userEvent.setup()
-    //   await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-
-    //   await act(jest.runAllTimersAsync)
-    //   expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
-    // })
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Volunteering.pressed('123', {
+          commitmentType: 'recurring',
+          contact_info_displayed: [],
+        })
+      )
+    })
   })
 })
