@@ -34,7 +34,7 @@ import * as Appcues from '@appcues/react-native'
 const OwnProfile = () => {
   Appcues.screen('Profile')
   const { track } = useTracking()
-  const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
+  const [activeTab, setActiveTab] = useState<string>(Tab.MY_VOLUNTEERING)
   const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
