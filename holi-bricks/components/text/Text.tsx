@@ -14,7 +14,7 @@ import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { type LayoutProps, layoutStyle } from 'holi-bricks/foundations'
 
 // Change import in HOLI-10369
-export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
+export type TextSize = '5xl' | '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
 
 export type TextProps = AccessibilityProps &
@@ -120,6 +120,11 @@ const stylesheet = createStyleSheet((theme) => ({
       ...(bold && { fontWeight: '600' }),
       variants: {
         size: {
+          '5xl': {
+            fontSize: 120,
+            lineHeight: 120 * 1.2,
+            letterSpacing: -4.8,
+          },
           '4xl': {
             fontSize: 36,
             lineHeight: 36 * 1.2,
