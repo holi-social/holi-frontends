@@ -1,8 +1,15 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
-import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
+import { emptyFilters, fullFilters, testLocation } from '@holi-apps/volunteering/__tests__/testData'
+import { TrackingEvent } from '@holi/core/tracking'
+import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
+
+const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
+jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
+  usePlacesAutocomplete: jest.fn(),
+}))
 
 const mockUseFilterFacetCounts = jest.mocked(useFilterFacetCounts)
 jest.mock('@holi-apps/volunteering/hooks/useFilterFacetCounts', () => ({
@@ -32,6 +39,18 @@ const results = {
 describe('VolunteeringFilterRow', () => {
   beforeEach(() => {
     jest.useFakeTimers()
+    mockUsePlacesAutocomplete.mockReturnValue({
+      loading: false,
+      error: undefined,
+      getSuggestions: jest.fn(),
+      placeSuggestions: [{ ...testLocation, value: testLocation.label }],
+      value: 'Hamburg, Germany',
+      onClose: jest.fn(),
+      onBlurHandler: jest.fn(),
+      onSubmitHandler: jest.fn(),
+      onClear: jest.fn(),
+      noResultsText: undefined,
+    })
     mockUseFilterFacetCounts.mockReturnValue(results)
   })
 
@@ -136,6 +155,37 @@ describe('VolunteeringFilterRow', () => {
 
     expect(screen.getByTestId('volunteering-filter-modal')).toBeOnTheScreen()
     expect(screen.getByText(`volunteering.filter.${filterKey}Modal.title`)).toBeOnTheScreen()
+  })
+
+  it('should open modal when selecting location filter', async () => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    await user.press(screen.getByText('volunteering.filter.location.label'))
+
+    expect(screen.getByTestId('volunteering-filter-modal')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.filter.locationModal.title')).toBeOnTheScreen()
+  })
+
+  it.each(testData)('should track press on $filterKey filter pill', async ({ filterKey }) => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Volunteering.filterPillPressed(filterKey))
+  })
+
+  it('should track press on location filter pill', async () => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+
+    await user.press(screen.getByText('volunteering.filter.location.label'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Volunteering.filterPillPressed('location'))
   })
 
   it.each(testData)('should apply $filterKey filter', async ({ filterKey, labelText, expectedValue }) => {

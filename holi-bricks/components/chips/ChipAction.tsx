@@ -4,7 +4,7 @@ import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { Color, LayoutProps } from 'holi-bricks/foundations'
 import { layoutStyle, Spacing } from 'holi-bricks/foundations'
-import React from 'react'
+import type React from 'react'
 import { type GestureResponderEvent, Pressable } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -17,7 +17,7 @@ type ChipColor = Color | 'white'
 
 export type ChipActionProps = AccessibilityProps &
   LayoutProps & {
-    onPress?: (event: GestureResponderEvent) => void | Promise<void>
+    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
     children?: string
     selected?: boolean
     disabled?: boolean

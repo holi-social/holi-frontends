@@ -6,6 +6,7 @@ import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helper
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 import { testLocation } from '@holi/core/screens/onboarding/hooks/__tests__/useUserData.test'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
 jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
@@ -152,6 +153,26 @@ describe('VolunteeringFilterModal', () => {
         })
       }
     )
+
+    it.each(arrayFilterTestData)('should track $filterKey selection on save', async ({ filterKey, option }) => {
+      const i18nKey = filterKeyToTranslationKeyMapping[filterKey]
+      const user = userEvent.setup()
+
+      render(
+        <VolunteeringFilterModal
+          filterKey={filterKey}
+          filters={emptyFilters}
+          onSubmit={jest.fn()}
+          closeModal={jest.fn()}
+          facetCounts={{}}
+        />
+      )
+
+      await user.press(screen.getByText(`${i18nKey}.${option}`))
+      await user.press(screen.getByText(`volunteering.filter.${filterKey}Modal.saveButton`))
+
+      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Volunteering.filterSelectionSaved(filterKey, [option]))
+    })
   })
 
   describe('Location filter', () => {
@@ -194,6 +215,29 @@ describe('VolunteeringFilterModal', () => {
       expect(onSubmit).toHaveBeenCalledWith({
         location: testLocation,
       })
+    })
+
+    it('should track location selection on save', async () => {
+      const user = userEvent.setup()
+
+      render(
+        <VolunteeringFilterModal
+          filterKey="location"
+          filters={emptyFilters}
+          onSubmit={jest.fn()}
+          closeModal={jest.fn()}
+          facetCounts={{}}
+        />
+      )
+
+      // Simulate location selection
+      mockUsePlacesAutocomplete.mock.calls[0][0].onChange?.(testLocation)
+
+      await user.press(screen.getByText('volunteering.filter.locationModal.saveButton'))
+
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Volunteering.filterSelectionSaved('location', testLocation.label)
+      )
     })
   })
 

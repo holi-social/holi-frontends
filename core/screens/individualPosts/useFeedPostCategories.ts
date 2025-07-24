@@ -106,7 +106,7 @@ const useFeedPostCategories = () => {
   const mapCategorySlugToLabel = (slug: string) => {
     const categoryPresentation = categoryPresentationBySlug[slug]
     if (!categoryPresentation) return slug
-    return categoryPresentation.label
+    return categoryPresentation.secondaryLabel
   }
 
   return {
