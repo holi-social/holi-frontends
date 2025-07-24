@@ -1,13 +1,13 @@
-import React from 'react'
-import { StyleSheet, View, Pressable, Linking } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { StyleSheet, View, Pressable, Linking, Animated } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { Image } from 'holi-bricks/components/image'
 
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { LinkM } from '@holi/icons/src/generated'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 
 interface RewardMessageProps {
   campaignTag?: string
@@ -23,52 +23,59 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = React.useMemo(() => getStyles(theme), [theme])
+  const fadeAnim = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start()
+  }, [fadeAnim])
 
   const handleMoreInfoPress = () => {
-    // This would link to more information about the campaign
     if (campaignTag) {
-      Linking.openURL(`https://holi.com/campaigns/${campaignTag.replace('#', '')}`)
+      Linking.openURL('https://holi.social/gute-taten')
     }
   }
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <View style={styles.content}>
-        {/* Icon would be replaced with actual SVG component */}
-        {/* This is a placeholder for the handshake heart icon */}
         <View style={styles.iconContainer}>
-          <Image
-            source={require('@holi/ui/assets/img/posts/category-illustrationsV2.svg')}
-            width={120}
-            height={120}
-            alt="Handshake Heart"
-          />
+          <HoliLottie animType="goodDeedsCounter" loop={false} />
         </View>
         <Text headingLevel="1" size="5xl" bold>
           {goodDeedCount}
         </Text>
         <View style={styles.countContainer}>
-          <Text headingLevel="2" size="3xl">
-            Good Deed
-          </Text>
+          {goodDeedCount > 1 ? (
+            <Text headingLevel="2" size="3xl">
+              {t('goodDeeds.name')}
+            </Text>
+          ) : (
+            <Text headingLevel="2" size="3xl">
+              {t('goodDeedsCounter.label.single')}
+            </Text>
+          )}
         </View>
       </View>
 
       <View style={styles.subContent}>
         <View style={styles.descriptionContainer}>
-          <Text size="xl">Your contribution counts as a good deed - for you and our joint million.</Text>
+          <Text size="xl">{t('goodDeed.rewardsMessage.text')}</Text>
         </View>
         <Pressable style={styles.moreInfoContainer} onPress={handleMoreInfoPress}>
           <Text size="lg" bold>
-            {`More about ${campaignTag}`}
+            {t('goodDeed.rewardsMessage.link')}
           </Text>
           <LinkM width={24} height={24} color={theme.colors.black300} />
         </Pressable>
       </View>
       <View style={styles.buttonContainer}>
-        <Button label={t('global.claim', 'Claim')} onPress={onClaim} size="md" />
+        <Button label={t('goodDeed.rewardsMessage.button', 'Claim')} onPress={onClaim} size="md" />
       </View>
-    </View>
+    </Animated.View>
   )
 }
 
@@ -93,12 +100,12 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       width: '100%',
       alignItems: 'center',
+      paddingHorizontal: dimensions.spacingML,
     },
     content: {
       flex: 4,
       alignItems: 'center',
       justifyContent: 'center',
-      paddingHorizontal: dimensions.spacingM,
       width: '100%',
     },
     countContainer: {
@@ -108,6 +115,8 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       alignItems: 'center',
       bottom: -16,
+      width: 200,
+      height: 130,
     },
     descriptionContainer: {
       textAlign: 'center',

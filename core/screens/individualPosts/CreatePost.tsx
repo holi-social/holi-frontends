@@ -25,6 +25,8 @@ import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Text } from 'holi-bricks/components/text'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import RewardMessage from '@holi/core/screens/individualPosts/components/RewardMessage'
+import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -51,16 +53,35 @@ const CreatePost = () => {
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
+  const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
+
+  const { data, refetch } = useGetRewardsCounterQuery()
+  const counter = data?.rewards_counter.counter
+
   useEffect(() => {
     if (!isOnboarded) {
       show()
     }
   }, [isOnboarded, show])
 
+  const goodDeedCategoryId = useMemo(() => {
+    if (!categories) return null
+    const goodDeedCategory = categories.find(
+      (category) => category.name === t('individuals.post.category.name.goodDeed')
+    )
+    return goodDeedCategory?.id || null
+  }, [categories, t])
+
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
-      openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
-      navigateBack()
+      if (selectedCategoryId === goodDeedCategoryId) {
+        refetch().then(() => {
+          setShowRewardMessage(true)
+        })
+      } else {
+        openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
+        navigateBack()
+      }
     },
     refetchQueries: [{ query: myPostsQuery }, { query: feedQuery }],
   })
@@ -103,6 +124,7 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerShown: !showRewardMessage,
       headerTitle: () => (
         <Text headingLevel="1" size="lg">
           {t('individuals.post.input.title')}
@@ -114,7 +136,7 @@ const CreatePost = () => {
       },
       headerBackVisible: false,
     })
-  }, [colors.background20, colors.black300, navigateBack, setScreenOptions, t])
+  }, [colors.background20, colors.black300, navigateBack, setScreenOptions, showRewardMessage, t])
 
   const selectCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId)
@@ -122,6 +144,23 @@ const CreatePost = () => {
 
   const handleModalClose = () => {
     setIsOnboarded().finally(hide)
+  }
+
+  const handleClaimReward = () => {
+    navigateBack()
+  }
+
+  // Handle form submission
+  const handleSubmit = () => {
+    if (selectedCategoryId === goodDeedCategoryId) {
+      createPost()
+    } else {
+      createPost()
+    }
+  }
+
+  if (showRewardMessage) {
+    return <RewardMessage goodDeedCount={counter} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
   }
 
   return (
@@ -145,7 +184,7 @@ const CreatePost = () => {
             onChangeSelectedTopics={setSelectedTopics}
             selectedLocation={selectedLocation || undefined}
             onChangeSelectedLocation={setSelectedLocation}
-            onSubmit={createPost}
+            onSubmit={handleSubmit}
             submitting={submitting}
             categories={categories}
             aspectRatio={aspectRatio}
