@@ -69,11 +69,7 @@ const createCommentWithE2EUserMention = async (user: Page) => {
 
     // go to some post and mention the test user
     await user.goto('/')
-    await user.getByRole('button', { name: 'btn-comment-to-feed-post' }).first().click()
-    // after clicking on notification we should go to post detail page and scroll to the comment
-    // notifications currently can take a while to load, therefore we're setting a long timeout here
-    await expect(user.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
-    await clickElementByTestId(user, 'post-detail-footer')
+    await user.getByText('Leave a comment...').first().click()
     await clickElementByTestId(user, 'post-comment')
 
     const input = user.getByRole('textbox') // we only have one comment input in this view
@@ -81,6 +77,7 @@ const createCommentWithE2EUserMention = async (user: Page) => {
     await clickElementByTestId(user, 'holi-rich-text-input-suggestions-item')
     await clickElementByTestId(user, 'btn-submit-comment')
 
+    await expect(user.getByTestId('comment-item')).toBeVisible()
     await expect(user.getByText(commentTextContent)).toBeVisible()
   })
 
