@@ -72,23 +72,6 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
     >
       <Text
         accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#fff",
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "textAlign": "center",
-            "userSelect": "none",
-          }
-        }
         selectable={false}
         style={
           {
@@ -135,7 +118,6 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
               },
             ]
           }
-          tintColor="#fff"
           vbHeight={24}
           vbWidth={24}
           width={20}
@@ -278,23 +260,6 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
     >
       <Text
         accessible={false}
-        collapsable={false}
-        jestAnimatedStyle={
-          {
-            "value": {},
-          }
-        }
-        jestInlineStyle={
-          {
-            "color": "#fff",
-            "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 16,
-            "fontWeight": "400",
-            "lineHeight": 22.4,
-            "textAlign": "center",
-            "userSelect": "none",
-          }
-        }
         selectable={false}
         style={
           {
@@ -341,7 +306,6 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
               },
             ]
           }
-          tintColor="#fff"
           vbHeight={24}
           vbWidth={24}
           width={20}

@@ -99,22 +99,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -179,22 +163,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -220,22 +188,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -297,22 +249,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
                 selectable={true}
                 style={
                   {
@@ -517,7 +453,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -617,22 +552,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -697,22 +616,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -738,22 +641,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -815,22 +702,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
                 selectable={true}
                 style={
                   {
@@ -1004,22 +875,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1084,22 +939,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -1125,22 +964,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -1199,22 +1022,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
                 selectable={true}
                 style={
                   {
@@ -1419,7 +1226,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -1499,22 +1305,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
                 selectable={true}
                 style={
                   {
@@ -1690,22 +1480,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1770,22 +1544,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -1811,22 +1569,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
                   selectable={true}
                   style={
                     {
@@ -1888,22 +1630,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
                 selectable={true}
                 style={
                   {
@@ -2165,24 +1891,6 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
 >
   <Text
     accessible={false}
-    collapsable={false}
-    jestAnimatedStyle={
-      {
-        "value": {},
-      }
-    }
-    jestInlineStyle={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 16,
-        "fontWeight": "400",
-        "lineHeight": 22.4,
-        "marginVertical": 16,
-        "textAlign": "center",
-        "userSelect": "auto",
-      }
-    }
     selectable={true}
     style={
       {
@@ -2201,24 +1909,6 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
   </Text>
   <Text
     accessible={false}
-    collapsable={false}
-    jestAnimatedStyle={
-      {
-        "value": {},
-      }
-    }
-    jestInlineStyle={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 21,
-        "fontWeight": "400",
-        "lineHeight": 29.4,
-        "maxWidth": 768,
-        "textAlign": "center",
-        "userSelect": "auto",
-      }
-    }
     selectable={true}
     style={
       {

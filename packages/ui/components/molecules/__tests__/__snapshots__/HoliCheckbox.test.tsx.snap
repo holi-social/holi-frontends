@@ -112,16 +112,64 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
               {
                 "color": "#262424",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -248,16 +296,64 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
               {
                 "color": "#bdbcbc",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -367,7 +463,6 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 },
               ]
             }
-            tintColor="#ffffff"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -439,16 +534,64 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
               {
                 "color": "#262424",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -559,7 +702,6 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 },
               ]
             }
-            tintColor="#bdbcbc"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -631,16 +773,64 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
               {
                 "color": "#bdbcbc",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -750,7 +940,6 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
                 },
               ]
             }
-            tintColor="#ffffff"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -822,16 +1011,64 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
               {
                 "color": "#262424",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -942,7 +1179,6 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
                 },
               ]
             }
-            tintColor="#bdbcbc"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -1014,16 +1250,64 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
               {
                 "color": "#bdbcbc",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -1133,7 +1417,6 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
                 },
               ]
             }
-            tintColor="#262424"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -1205,16 +1488,64 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
               {
                 "color": "#262424",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 15,
                 "fontVariant": [
                   "lining-nums",
                   "tabular-nums",
                 ],
                 "fontWeight": "400",
-                "letterSpacing": -0.12,
-                "lineHeight": 21,
                 "textAlign": undefined,
                 "userSelect": "none",
+                "variants": {
+                  "size": {
+                    "3xl": {
+                      "fontSize": 28,
+                      "letterSpacing": -0.896,
+                      "lineHeight": 33.6,
+                    },
+                    "4xl": {
+                      "fontSize": 36,
+                      "letterSpacing": -1.44,
+                      "lineHeight": 43.199999999999996,
+                    },
+                    "lg": {
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "letterSpacing": -0.256,
+                      "lineHeight": 22.4,
+                    },
+                    "md": {
+                      "fontSize": 16,
+                      "letterSpacing": -0.128,
+                      "lineHeight": 23.68,
+                    },
+                    "sm": {
+                      "fontSize": 15,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                    },
+                    "xl": {
+                      "fontSize": 18,
+                      "letterSpacing": -0.18,
+                      "lineHeight": 21.599999999999998,
+                    },
+                    "xs": {
+                      "fontSize": 13,
+                      "letterSpacing": 0.104,
+                      "lineHeight": 15.6,
+                    },
+                    "xxl": {
+                      "fontSize": 20,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                    },
+                    "xxs": {
+                      "fontSize": 11,
+                      "letterSpacing": 0.2,
+                      "lineHeight": 13.2,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -1266,16 +1597,64 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
           {
             "color": "#cc1820",
             "fontFamily": "InstrumentSans-Regular",
-            "fontSize": 13,
             "fontVariant": [
               "lining-nums",
               "tabular-nums",
             ],
             "fontWeight": "400",
-            "letterSpacing": 0.104,
-            "lineHeight": 15.6,
             "textAlign": undefined,
             "userSelect": "auto",
+            "variants": {
+              "size": {
+                "3xl": {
+                  "fontSize": 28,
+                  "letterSpacing": -0.896,
+                  "lineHeight": 33.6,
+                },
+                "4xl": {
+                  "fontSize": 36,
+                  "letterSpacing": -1.44,
+                  "lineHeight": 43.199999999999996,
+                },
+                "lg": {
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 16,
+                  "fontWeight": "500",
+                  "letterSpacing": -0.256,
+                  "lineHeight": 22.4,
+                },
+                "md": {
+                  "fontSize": 16,
+                  "letterSpacing": -0.128,
+                  "lineHeight": 23.68,
+                },
+                "sm": {
+                  "fontSize": 15,
+                  "letterSpacing": -0.12,
+                  "lineHeight": 21,
+                },
+                "xl": {
+                  "fontSize": 18,
+                  "letterSpacing": -0.18,
+                  "lineHeight": 21.599999999999998,
+                },
+                "xs": {
+                  "fontSize": 13,
+                  "letterSpacing": 0.104,
+                  "lineHeight": 15.6,
+                },
+                "xxl": {
+                  "fontSize": 20,
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                },
+                "xxs": {
+                  "fontSize": 11,
+                  "letterSpacing": 0.2,
+                  "lineHeight": 13.2,
+                },
+              },
+            },
           },
           {},
         ]

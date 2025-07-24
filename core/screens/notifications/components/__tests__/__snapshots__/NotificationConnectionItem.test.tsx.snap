@@ -11,44 +11,46 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
     }
     testID="notification-item"
   >
-    <View
-      accessibilityLabel="Some User"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
+    <Text
       accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      aria-label="Some User"
       role="link"
+      selectable={false}
       style={
         [
-          false,
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontVariant": [
+              "lining-nums",
+              "tabular-nums",
+            ],
+            "fontWeight": "500",
+            "textAlign": undefined,
+            "userSelect": "auto",
+            "variants": {
+              "size": {
+                "md": {
+                  "fontSize": 16,
+                  "letterSpacing": -0.192,
+                  "lineHeight": 23.68,
+                },
+                "sm": {
+                  "fontSize": 15,
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                },
+                "xs": {
+                  "fontSize": 13,
+                  "letterSpacing": 0.026,
+                  "lineHeight": 15.6,
+                },
+              },
+            },
+          },
+          {},
         ]
       }
-      testID="link"
     >
       <View
         style={
@@ -64,15 +66,51 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               {
                 "alignItems": "center",
                 "backgroundColor": "#90ddff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 24,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 24,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -94,16 +132,64 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 11,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 13.2,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -125,22 +211,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
-                "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
@@ -155,22 +225,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -186,23 +240,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 4,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
@@ -258,7 +295,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           />
         </View>
       </View>
-    </View>
+    </Text>
     <View
       style={
         [
@@ -320,14 +357,52 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             [
               {
                 "alignSelf": "center",
-                "backgroundColor": "#ffffff",
-                "borderColor": "#262424",
                 "borderRadius": 1000,
                 "borderStyle": "solid",
                 "borderWidth": 1,
-                "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
-                "paddingHorizontal": 12,
+                "variants": {
+                  "disabled": {
+                    "true": {
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#ebebeb",
+                    },
+                  },
+                  "selected": {
+                    "true": {
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#bdbcbc",
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "paddingHorizontal": 24,
+                    },
+                    "md": {
+                      "paddingHorizontal": 16,
+                    },
+                    "sm": {
+                      "paddingHorizontal": 12,
+                    },
+                  },
+                  "variant": {
+                    "danger": {
+                      "backgroundColor": "#ffebec",
+                      "borderColor": "#cc1820",
+                      "boxShadow": "0 0 0 0px #cc1820",
+                    },
+                    "primary": {
+                      "backgroundColor": "#fdfd80",
+                      "borderColor": "#262424",
+                      "boxShadow": "0 0 0 0px #262424",
+                    },
+                    "secondary": {
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#262424",
+                      "boxShadow": "0 0 0 0px #262424",
+                    },
+                  },
+                },
                 "width": "auto",
               },
               {},
@@ -362,16 +437,32 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     {
                       "color": "#262424",
                       "fontFamily": "InstrumentSans-Medium",
-                      "fontSize": 15,
                       "fontVariant": [
                         "lining-nums",
                         "tabular-nums",
                       ],
                       "fontWeight": "500",
-                      "letterSpacing": -0.03,
-                      "lineHeight": 21,
                       "textAlign": undefined,
                       "userSelect": "auto",
+                      "variants": {
+                        "size": {
+                          "md": {
+                            "fontSize": 16,
+                            "letterSpacing": -0.192,
+                            "lineHeight": 23.68,
+                          },
+                          "sm": {
+                            "fontSize": 15,
+                            "letterSpacing": -0.03,
+                            "lineHeight": 21,
+                          },
+                          "xs": {
+                            "fontSize": 13,
+                            "letterSpacing": 0.026,
+                            "lineHeight": 15.6,
+                          },
+                        },
+                      },
                     },
                     {},
                   ]
@@ -427,14 +518,52 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             [
               {
                 "alignSelf": "center",
-                "backgroundColor": "#fdfd80",
-                "borderColor": "#262424",
                 "borderRadius": 1000,
                 "borderStyle": "solid",
                 "borderWidth": 1,
-                "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
-                "paddingHorizontal": 12,
+                "variants": {
+                  "disabled": {
+                    "true": {
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#ebebeb",
+                    },
+                  },
+                  "selected": {
+                    "true": {
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#bdbcbc",
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "paddingHorizontal": 24,
+                    },
+                    "md": {
+                      "paddingHorizontal": 16,
+                    },
+                    "sm": {
+                      "paddingHorizontal": 12,
+                    },
+                  },
+                  "variant": {
+                    "danger": {
+                      "backgroundColor": "#ffebec",
+                      "borderColor": "#cc1820",
+                      "boxShadow": "0 0 0 0px #cc1820",
+                    },
+                    "primary": {
+                      "backgroundColor": "#fdfd80",
+                      "borderColor": "#262424",
+                      "boxShadow": "0 0 0 0px #262424",
+                    },
+                    "secondary": {
+                      "backgroundColor": "#ffffff",
+                      "borderColor": "#262424",
+                      "boxShadow": "0 0 0 0px #262424",
+                    },
+                  },
+                },
                 "width": "auto",
               },
               {},
@@ -469,16 +598,32 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     {
                       "color": "#262424",
                       "fontFamily": "InstrumentSans-Medium",
-                      "fontSize": 15,
                       "fontVariant": [
                         "lining-nums",
                         "tabular-nums",
                       ],
                       "fontWeight": "500",
-                      "letterSpacing": -0.03,
-                      "lineHeight": 21,
                       "textAlign": undefined,
                       "userSelect": "auto",
+                      "variants": {
+                        "size": {
+                          "md": {
+                            "fontSize": 16,
+                            "letterSpacing": -0.192,
+                            "lineHeight": 23.68,
+                          },
+                          "sm": {
+                            "fontSize": 15,
+                            "letterSpacing": -0.03,
+                            "lineHeight": 21,
+                          },
+                          "xs": {
+                            "fontSize": 13,
+                            "letterSpacing": 0.026,
+                            "lineHeight": 15.6,
+                          },
+                        },
+                      },
                     },
                     {},
                   ]
