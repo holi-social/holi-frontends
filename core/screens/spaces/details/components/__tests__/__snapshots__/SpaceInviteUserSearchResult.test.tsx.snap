@@ -108,22 +108,6 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
 exports[`SpaceInviteUserSearchResult displays text if no results where found 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontWeight": "400",
-      "lineHeight": 22.4,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -223,15 +207,51 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               {
                 "alignItems": "center",
                 "backgroundColor": "#abff8b",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 48,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 48,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -253,16 +273,64 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -281,23 +349,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -368,16 +420,59 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         style={
           [
             {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
               "borderRadius": 1000,
               "borderStyle": "solid",
               "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
               "display": "flex",
-              "height": 40,
-              "padding": 10,
-              "width": 40,
+              "variants": {
+                "disabled": {
+                  "true": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#ebebeb",
+                  },
+                },
+                "iconVariant": {
+                  "primary": {
+                    "backgroundColor": "#fdfd80",
+                    "borderColor": "#262424",
+                    "boxShadow": "0 0 0 0px #262424",
+                  },
+                  "secondary": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#262424",
+                    "boxShadow": "0 0 0 0px #262424",
+                  },
+                  "tertiary": {
+                    "backgroundColor": "none",
+                    "borderColor": "#f5f5f5",
+                    "borderWidth": 0,
+                    "boxShadow": "0 0 0 0px #f5f5f5",
+                  },
+                },
+                "selected": {
+                  "true": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#bdbcbc",
+                  },
+                },
+                "size": {
+                  "lg": {
+                    "height": 48,
+                    "padding": 12,
+                    "width": 48,
+                  },
+                  "md": {
+                    "height": 40,
+                    "padding": 10,
+                    "width": 40,
+                  },
+                  "sm": {
+                    "height": 32,
+                    "padding": 8,
+                    "width": 32,
+                  },
+                },
+              },
             },
             {},
           ]
@@ -420,7 +515,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -529,15 +623,51 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               {
                 "alignItems": "center",
                 "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 48,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 48,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -559,16 +689,64 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -587,23 +765,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -629,22 +791,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -707,16 +853,59 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         style={
           [
             {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
               "borderRadius": 1000,
               "borderStyle": "solid",
               "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
               "display": "flex",
-              "height": 40,
-              "padding": 10,
-              "width": 40,
+              "variants": {
+                "disabled": {
+                  "true": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#ebebeb",
+                  },
+                },
+                "iconVariant": {
+                  "primary": {
+                    "backgroundColor": "#fdfd80",
+                    "borderColor": "#262424",
+                    "boxShadow": "0 0 0 0px #262424",
+                  },
+                  "secondary": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#262424",
+                    "boxShadow": "0 0 0 0px #262424",
+                  },
+                  "tertiary": {
+                    "backgroundColor": "none",
+                    "borderColor": "#f5f5f5",
+                    "borderWidth": 0,
+                    "boxShadow": "0 0 0 0px #f5f5f5",
+                  },
+                },
+                "selected": {
+                  "true": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#bdbcbc",
+                  },
+                },
+                "size": {
+                  "lg": {
+                    "height": 48,
+                    "padding": 12,
+                    "width": 48,
+                  },
+                  "md": {
+                    "height": 40,
+                    "padding": 10,
+                    "width": 40,
+                  },
+                  "sm": {
+                    "height": 32,
+                    "padding": 8,
+                    "width": 32,
+                  },
+                },
+              },
             },
             {},
           ]
@@ -759,7 +948,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -868,15 +1056,51 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               {
                 "alignItems": "center",
                 "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 48,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 48,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -898,16 +1122,64 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -926,23 +1198,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -968,22 +1224,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1000,22 +1240,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#6267e7",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1032,22 +1256,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1142,15 +1350,51 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               {
                 "alignItems": "center",
                 "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 48,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 48,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -1172,16 +1416,64 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -1200,23 +1492,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1242,22 +1518,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1320,16 +1580,59 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         style={
           [
             {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
               "borderRadius": 1000,
               "borderStyle": "solid",
               "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
               "display": "flex",
-              "height": 40,
-              "padding": 10,
-              "width": 40,
+              "variants": {
+                "disabled": {
+                  "true": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#ebebeb",
+                  },
+                },
+                "iconVariant": {
+                  "primary": {
+                    "backgroundColor": "#fdfd80",
+                    "borderColor": "#262424",
+                    "boxShadow": "0 0 0 0px #262424",
+                  },
+                  "secondary": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#262424",
+                    "boxShadow": "0 0 0 0px #262424",
+                  },
+                  "tertiary": {
+                    "backgroundColor": "none",
+                    "borderColor": "#f5f5f5",
+                    "borderWidth": 0,
+                    "boxShadow": "0 0 0 0px #f5f5f5",
+                  },
+                },
+                "selected": {
+                  "true": {
+                    "backgroundColor": "#ffffff",
+                    "borderColor": "#bdbcbc",
+                  },
+                },
+                "size": {
+                  "lg": {
+                    "height": 48,
+                    "padding": 12,
+                    "width": 48,
+                  },
+                  "md": {
+                    "height": 40,
+                    "padding": 10,
+                    "width": 40,
+                  },
+                  "sm": {
+                    "height": 32,
+                    "padding": 8,
+                    "width": 32,
+                  },
+                },
+              },
             },
             {},
           ]
@@ -1372,7 +1675,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -1481,15 +1783,51 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               {
                 "alignItems": "center",
                 "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 48,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 48,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -1511,16 +1849,64 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -1539,23 +1925,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1581,22 +1951,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -1691,15 +2045,51 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               {
                 "alignItems": "center",
                 "backgroundColor": "#abff8b",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
                 "borderWidth": 1,
                 "display": "flex",
-                "height": 48,
                 "justifyContent": "center",
                 "overflow": "hidden",
                 "position": "relative",
-                "width": 48,
+                "variants": {
+                  "border": {
+                    "light": {
+                      "borderColor": "#ffffff",
+                    },
+                    "strong": {
+                      "borderColor": "#262424",
+                    },
+                  },
+                  "shape": {
+                    "circle": {
+                      "borderRadius": 1000,
+                    },
+                    "square": {
+                      "borderRadius": 8,
+                    },
+                  },
+                  "size": {
+                    "lg": {
+                      "height": 64,
+                      "width": 64,
+                    },
+                    "md": {
+                      "height": 48,
+                      "width": 48,
+                    },
+                    "sm": {
+                      "height": 40,
+                      "width": 40,
+                    },
+                    "xl": {
+                      "height": 128,
+                      "width": 128,
+                    },
+                    "xs": {
+                      "height": 24,
+                      "width": 24,
+                    },
+                  },
+                },
               },
               {},
             ]
@@ -1721,16 +2111,64 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   {
                     "color": "#262424",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
                     "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
                     "textAlign": undefined,
                     "userSelect": "auto",
+                    "variants": {
+                      "size": {
+                        "3xl": {
+                          "fontSize": 28,
+                          "letterSpacing": -0.896,
+                          "lineHeight": 33.6,
+                        },
+                        "4xl": {
+                          "fontSize": 36,
+                          "letterSpacing": -1.44,
+                          "lineHeight": 43.199999999999996,
+                        },
+                        "lg": {
+                          "fontFamily": "InstrumentSans-Medium",
+                          "fontSize": 16,
+                          "fontWeight": "500",
+                          "letterSpacing": -0.256,
+                          "lineHeight": 22.4,
+                        },
+                        "md": {
+                          "fontSize": 16,
+                          "letterSpacing": -0.128,
+                          "lineHeight": 23.68,
+                        },
+                        "sm": {
+                          "fontSize": 15,
+                          "letterSpacing": -0.12,
+                          "lineHeight": 21,
+                        },
+                        "xl": {
+                          "fontSize": 18,
+                          "letterSpacing": -0.18,
+                          "lineHeight": 21.599999999999998,
+                        },
+                        "xs": {
+                          "fontSize": 13,
+                          "letterSpacing": 0.104,
+                          "lineHeight": 15.6,
+                        },
+                        "xxl": {
+                          "fontSize": 20,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 24,
+                        },
+                        "xxs": {
+                          "fontSize": 11,
+                          "letterSpacing": 0.2,
+                          "lineHeight": 13.2,
+                        },
+                      },
+                    },
                   },
                   {},
                 ]
@@ -1749,23 +2187,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1791,22 +2213,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {

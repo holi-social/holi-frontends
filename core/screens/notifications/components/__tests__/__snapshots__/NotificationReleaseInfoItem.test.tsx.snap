@@ -4,44 +4,46 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
 <View
   testID=""
 >
-  <View
-    accessibilityLabel="Someone trip loss government property like hold staff. School line three page single. Source lay popular."
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
+  <Text
     accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    aria-label="Someone trip loss government property like hold staff. School line three page single. Source lay popular."
     role="link"
+    selectable={false}
     style={
       [
-        false,
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontVariant": [
+            "lining-nums",
+            "tabular-nums",
+          ],
+          "fontWeight": "500",
+          "textAlign": undefined,
+          "userSelect": "auto",
+          "variants": {
+            "size": {
+              "md": {
+                "fontSize": 16,
+                "letterSpacing": -0.192,
+                "lineHeight": 23.68,
+              },
+              "sm": {
+                "fontSize": 15,
+                "letterSpacing": -0.03,
+                "lineHeight": 21,
+              },
+              "xs": {
+                "fontSize": 13,
+                "letterSpacing": 0.026,
+                "lineHeight": 15.6,
+              },
+            },
+          },
+        },
+        {},
       ]
     }
-    testID="link"
   >
     <View
       style={
@@ -63,22 +65,6 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 14,
-              "fontWeight": "400",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -95,23 +81,6 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
         </Text>
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "marginTop": 4,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -143,6 +112,6 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
         testID="notification-bell"
       />
     </View>
-  </View>
+  </Text>
 </View>
 `;

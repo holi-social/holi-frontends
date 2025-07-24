@@ -82,7 +82,6 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={24}
@@ -220,7 +219,6 @@ exports[`React tree renders without new notifications badge 1`] = `
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={24}
