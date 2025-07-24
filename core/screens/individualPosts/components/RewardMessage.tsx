@@ -132,6 +132,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       paddingHorizontal: dimensions.spacingM,
       paddingVertical: dimensions.spacingL,
+      maxWidth: dimensions.breakpointS,
     },
   })
 
