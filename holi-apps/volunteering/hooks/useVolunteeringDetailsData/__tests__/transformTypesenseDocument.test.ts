@@ -24,6 +24,8 @@ describe('transformDocument', () => {
     topics_v2: ['animal-welfare', 'gender-equality'],
     skills_v2: ['it-technology', 'management-strategy'],
     organizer_name: 'Test Organization',
+    organizer_image_url: 'https://example.com/organizer/image.jpg',
+    organizer_url: 'https://example.com/organizer',
     external_url: 'https://example.com/volunteering',
     commitment_label: 'recurring',
     commitment_duration: 'HOURS_1to2',
@@ -42,7 +44,8 @@ describe('transformDocument', () => {
 
   it('should transform a document with all fields correctly', () => {
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', baseDocument)
+    const onOpenLink = jest.fn()
+    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink })
 
     expect(result).toEqual({
       title: 'English Title',
@@ -75,21 +78,53 @@ describe('transformDocument', () => {
         topTitle: 'postedVia',
         title: 'Test Organization',
         mainAvatar: {
-          source: expect.any(String), // This comes from the VOLUNTEERING_IMG_SOURCES_MAPPING
           label: 'Test Organization',
+          source: 'https://example.com/organizer/image.jpg',
         },
+        isExternalLink: true,
+        onPress: expect.any(Function),
       },
       externalUrl: 'https://example.com/volunteering',
       locationType: 'onsite',
       commitmentType: 'recurring',
       source: 'Voltastics',
       contact: baseDocument.contact,
+      partners: {
+        title: 'volunteering.engagementDetail.providedBy',
+        details: [
+          {
+            image: 'voltastics-logo.png',
+            onPress: expect.any(Function),
+            title: 'Voltastics',
+          },
+        ],
+      },
     })
+  })
+
+  it('should open correct link for organizer', () => {
+    const { t } = useTranslation()
+    const onOpenLink = jest.fn()
+    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink })
+
+    result.author?.onPress?.()
+
+    expect(onOpenLink).toHaveBeenCalledWith('https://example.com/organizer')
+  })
+
+  it('should open correct link for partner', () => {
+    const { t } = useTranslation()
+    const onOpenLink = jest.fn()
+    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink })
+
+    result.partners?.details[0]?.onPress?.()
+
+    expect(onOpenLink).toHaveBeenCalledWith('https://example.com/volunteering')
   })
 
   it('should handle German language preference correctly', () => {
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'de', baseDocument)
+    const result = transformTypesenseDocument({ t, language: 'de', document: baseDocument, onOpenLink: jest.fn() })
 
     expect(result.title).toBe('Deutscher Titel')
     expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
@@ -105,7 +140,7 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'de', docWithoutGerman)
+    const result = transformTypesenseDocument({ t, language: 'en', document: docWithoutGerman, onOpenLink: jest.fn() })
 
     expect(result.title).toBe('English Title')
     expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
@@ -119,9 +154,10 @@ describe('transformDocument', () => {
       id: 'minimal-id',
       source: 'GoVolunteer',
     }
+    const onOpenLink = jest.fn()
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', minimalDocument)
+    const result = transformTypesenseDocument({ t, language: 'en', document: minimalDocument, onOpenLink })
 
     expect(result).toEqual({
       title: '',
@@ -134,12 +170,21 @@ describe('transformDocument', () => {
         topTitle: 'postedVia',
         title: 'GoVolunteer',
         mainAvatar: {
-          source: expect.any(String),
           label: '??',
         },
+        isExternalLink: false,
       },
       externalUrl: undefined,
       source: 'GoVolunteer',
+      partners: {
+        title: 'volunteering.engagementDetail.providedBy',
+        details: [
+          {
+            image: 'govolunteer-logo.svg',
+            title: 'GoVolunteer',
+          },
+        ],
+      },
     })
   })
 
@@ -151,23 +196,17 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', documentWithImages)
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: documentWithImages,
+      onOpenLink: jest.fn(),
+    })
 
     expect(result.coverImage).toEqual({
       uri: 'https://example.com/image.jpg',
     })
     expect(result.author?.mainAvatar?.source).toBe('https://example.com/org-logo.jpg')
-  })
-
-  it('should prioritize organizer_image_url over partner logo', () => {
-    const docWithOrgImage: TypesenseDocument = {
-      ...baseDocument,
-      organizer_image_url: 'https://example.com/org-custom-logo.jpg',
-    }
-
-    const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', docWithOrgImage)
-    expect(result.author?.mainAvatar.source).toBe('https://example.com/org-custom-logo.jpg')
   })
 
   it('should handle unknown source gracefully', () => {
@@ -177,10 +216,23 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', docWithUnknownSource)
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: docWithUnknownSource,
+      onOpenLink: jest.fn(),
+    })
     expect(result.author?.title).toBe('Test Organization')
     // Should not crash when partner is undefined
-    expect(result.author?.mainAvatar?.source).toBeUndefined()
+    expect(result.partners).toEqual({
+      title: 'volunteering.engagementDetail.providedBy',
+      details: [
+        {
+          title: 'UnknownSource',
+          onPress: expect.any(Function),
+        },
+      ],
+    })
   })
 
   it('should handle missing organizer name gracefully', () => {
@@ -190,19 +242,19 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
+    const result = transformTypesenseDocument({ t, language: 'en', document: docWithoutOrgName, onOpenLink: jest.fn() })
     expect(result.author?.title).toBe('Voltastics')
     expect(result.author?.mainAvatar?.label).toBe('??')
   })
 
   it('should handle remote opportunity', () => {
-    const docWithoutOrgName: TypesenseDocument = {
+    const remoteDocument: TypesenseDocument = {
       ...baseDocument,
       location_type: 'remote',
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
+    const result = transformTypesenseDocument({ t, language: 'en', document: remoteDocument, onOpenLink: jest.fn() })
     expect(result.infoList).toEqual([
       {
         title: 'volunteering.engagement.location_type.remote',
@@ -222,13 +274,18 @@ describe('transformDocument', () => {
   })
 
   it('should ignore indeterminate duration', () => {
-    const docWithoutOrgName: TypesenseDocument = {
+    const docWithIntermediateDuration: TypesenseDocument = {
       ...baseDocument,
       commitment_duration: 'INDETERMINATE',
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: docWithIntermediateDuration,
+      onOpenLink: jest.fn(),
+    })
     expect(result.infoList).toEqual([
       {
         title: 'Berlin, Germany',

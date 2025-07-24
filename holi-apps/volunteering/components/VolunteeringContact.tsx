@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { Linking, Platform } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ButtonTracked } from '@holi/core/components/Trackable'
@@ -8,8 +8,6 @@ import { ExternalLink, FileCopy, Mail, Phone } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { Stack } from 'holi-bricks/components/stack'
-import HoliWebView from '@holi/core/components/HoliWebView'
-import { useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import type { Typesense_DocumentContact, Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
@@ -30,42 +28,33 @@ const CONTACT_ICON: { [key in Typesense_DocumentContactType]: HoliIconType } = {
 interface VolunteeringContactProps {
   document: VolunteeringDetailsScreenData
   engagementId: string
+  onOpenLink: (url?: string) => void
 }
 
-export const VolunteeringContact = ({ engagementId, document }: VolunteeringContactProps) => {
+export const VolunteeringContact = ({ engagementId, document, onOpenLink }: VolunteeringContactProps) => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const { show: showWebView, props: webViewModalProps } = useModalState()
   const { show: showContact, hide: hideContact, props: contactModalProps } = useModalState()
   const hasContactInfo = document.contact?.some(
     (contact) => contact.type !== 'website' || contact.value !== document.externalUrl
   )
-  const [webViewUrl, setWebViewUrl] = useState(document.externalUrl)
   const { openToast } = useToast()
   const { styles } = useStyles(stylesheet)
 
   const openWebView = useCallback(
     async (url: string) => {
       hideContact()
-      setWebViewUrl(url)
       // Without timeout app would freeze on iOS
-      setTimeout(showWebView, 0)
+      setTimeout(() => onOpenLink(url), 0)
     },
-    [hideContact, showWebView]
+    [hideContact, onOpenLink]
   )
 
   const onGetInTouch = useCallback(() => {
     if (hasContactInfo) {
       return showContact()
     }
-    if (document.externalUrl) {
-      if (isWeb) {
-        Linking.openURL(document.externalUrl)
-      } else {
-        openWebView(document.externalUrl)
-      }
-    }
-  }, [document.externalUrl, hasContactInfo, openWebView, showContact])
+    onOpenLink(document.externalUrl)
+  }, [document.externalUrl, hasContactInfo, onOpenLink, showContact])
 
   const onContactPress = useCallback(
     (contact: Typesense_DocumentContact) => {
@@ -152,22 +141,6 @@ export const VolunteeringContact = ({ engagementId, document }: VolunteeringCont
           </Stack>
         </HoliContainer>
       </HoliModal>
-      {webViewUrl && !isWeb && (
-        <HoliModal
-          label="modal"
-          animationType="slide"
-          style={{ width: '100%', height: '100%', flex: 1 }}
-          shown={webViewModalProps.shown}
-          onDismiss={webViewModalProps.onDismiss}
-          testID="volunteering-external-url-modal"
-        >
-          <HoliWebView
-            theme={theme}
-            style={{ flex: 1, height: '100%', width: '100%' }}
-            webViewProps={{ setSupportMultipleWindows: false, source: { uri: webViewUrl } }}
-          />
-        </HoliModal>
-      )}
     </Stack>
   )
 }

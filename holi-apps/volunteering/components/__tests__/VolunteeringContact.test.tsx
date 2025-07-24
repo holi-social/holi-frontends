@@ -6,8 +6,6 @@ import { render, userEvent, screen, act } from '@testing-library/react-native'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import Clipboard from '@react-native-clipboard/clipboard'
 
-jest.mock('@holi/core/components/HoliWebView')
-
 describe('VolunteeringContact', () => {
   beforeAll(() => {
     jest.useFakeTimers()
@@ -36,7 +34,7 @@ describe('VolunteeringContact', () => {
     it('should open contact drawer and list all information', async () => {
       const user = userEvent.setup()
 
-      render(<VolunteeringContact document={document} engagementId="123" />)
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -62,7 +60,7 @@ describe('VolunteeringContact', () => {
         ],
       }
 
-      render(<VolunteeringContact document={documentWithOtherWebsite} engagementId="123" />)
+      render(<VolunteeringContact document={documentWithOtherWebsite} engagementId="123" onOpenLink={jest.fn()} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -73,7 +71,7 @@ describe('VolunteeringContact', () => {
 
     it('should copy name of contact person', async () => {
       const user = userEvent.setup()
-      render(<VolunteeringContact document={document} engagementId="123" />)
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -85,7 +83,7 @@ describe('VolunteeringContact', () => {
 
     it('should call phone number', async () => {
       const user = userEvent.setup()
-      render(<VolunteeringContact document={document} engagementId="123" />)
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -97,7 +95,7 @@ describe('VolunteeringContact', () => {
 
     it('should send email', async () => {
       const user = userEvent.setup()
-      render(<VolunteeringContact document={document} engagementId="123" />)
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -109,7 +107,8 @@ describe('VolunteeringContact', () => {
 
     it('should open website in drawer', async () => {
       const user = userEvent.setup()
-      render(<VolunteeringContact document={document} engagementId="123" />)
+      const onOpenLink = jest.fn()
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={onOpenLink} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -117,7 +116,7 @@ describe('VolunteeringContact', () => {
       await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
       await act(jest.runAllTimersAsync)
 
-      expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
+      expect(onOpenLink).toHaveBeenCalledWith('https://www.lovelace.com')
     })
   })
 
@@ -128,13 +127,14 @@ describe('VolunteeringContact', () => {
       contact: [],
     }
     it('should open drawer for web view', async () => {
+      const onOpenLink = jest.fn()
       const user = userEvent.setup()
-      render(<VolunteeringContact document={document} engagementId="123" />)
+      render(<VolunteeringContact document={document} engagementId="123" onOpenLink={onOpenLink} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
       await act(jest.runAllTimersAsync)
 
-      expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
+      expect(onOpenLink).toHaveBeenCalledWith(document.externalUrl)
     })
 
     it('should open drawer for web view if there is no other contact info', async () => {
@@ -149,16 +149,20 @@ describe('VolunteeringContact', () => {
           },
         ],
       }
-
+      const onOpenLink = jest.fn()
       const user = userEvent.setup()
-      render(<VolunteeringContact document={documentWithSameWebsiteContact} engagementId="123" />)
+
+      render(
+        <VolunteeringContact document={documentWithSameWebsiteContact} engagementId="123" onOpenLink={onOpenLink} />
+      )
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
       await act(jest.runAllTimersAsync)
 
-      expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
+      expect(onOpenLink).toHaveBeenCalledWith(document.externalUrl)
     })
 
+    // TODOSF) add later
     // it('tracks external link clicks (mobile)', async () => {
     //   const document = engagementTypesenseDocument(engagementId)
     //   const data = transformTypesenseDocument(t, 'en', document)

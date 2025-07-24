@@ -7,10 +7,10 @@ import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVol
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 
-export const useVolunteeringDetailsData = (volunteeringId: string) => {
+export const useVolunteeringDetailsData = (volunteeringId: string, onOpenLink: (url?: string) => void) => {
   const { replaceRoute } = useRouting()
   const { t } = useTranslation()
-  const userLanguage = useUserLanguage()
+  const language = useUserLanguage()
   const { displayError } = useErrorHandling()
 
   const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(
@@ -33,6 +33,6 @@ export const useVolunteeringDetailsData = (volunteeringId: string) => {
 
   return {
     isLoading,
-    document: document ? transformTypesenseDocument(t, userLanguage, document) : undefined,
+    document: document ? transformTypesenseDocument({ t, language, document, onOpenLink }) : undefined,
   }
 }
