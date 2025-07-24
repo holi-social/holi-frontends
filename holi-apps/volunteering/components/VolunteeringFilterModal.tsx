@@ -12,6 +12,8 @@ import { Delete } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
 
 export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
@@ -33,16 +35,19 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
   facetCounts,
 }: VolunteeringFilterModalProps<T>) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(filters[filterKey])
   const longListOfOptions = ['topics', 'skills', 'location'].includes(filterKey)
 
   const submitSelection = useCallback(() => {
+    const trackedSelection = selection && 'label' in selection ? selection.label : selection
+    track(TrackingEvent.Volunteering.filterSelectionSaved(filterKey, trackedSelection))
     onSubmit({
       ...filters,
       [filterKey]: selection,
     })
     closeModal()
-  }, [closeModal, filterKey, filters, onSubmit, selection])
+  }, [closeModal, filterKey, filters, onSubmit, selection, track])
 
   return (
     <HoliModal

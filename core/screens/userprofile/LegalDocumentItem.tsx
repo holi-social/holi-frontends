@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { type DocType, parseDocType } from '@holi/core/documents/DocType'
@@ -11,6 +12,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 const { useParam } = createParamHooks<{ type: DocType }>()
 
@@ -42,7 +44,11 @@ const LegalDocumentItem = () => {
     setScreenOptions({ title: t(`profile.settings.legalDocuments.${docTypeParam}`) })
   }, [setScreenOptions, docTypeParam, t])
 
-  return docType ? <HtmlDocument fallbackToWebView url={url} onError={onDocumentLoadError(url)} /> : null
+  return docType ? (
+    <View style={{ paddingTop: Spacing.lg, paddingBottom: Spacing.xxl }}>
+      <HtmlDocument fallbackToWebView url={url} onError={onDocumentLoadError(url)} />
+    </View>
+  ) : null
 }
 
 export default LegalDocumentItem

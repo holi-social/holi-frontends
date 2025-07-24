@@ -1462,7 +1462,7 @@
   "spaces.input.update.visibility.MEMBERS.title": "Only Collaborators",
   "spaces.input.update.visibility.PUBLIC.description": "Share goals and milestones with a broader audience. Only admins can publish public Updates.",
   "spaces.input.update.visibility.PUBLIC.title": "Anyone on or off holi",
-  "spaces.input.update.visibility.description": "Your update will be visible on the Space page, collaborators area and notifications.",
+  "spaces.input.update.visibility.description": "Your update will be shown on the home feed, in \"News\" of this Space and in notifications.",
   "spaces.input.update.visibility.label": "Who can see your update?",
   "spaces.input.videoCallLink.generate": "Create new video call",
   "spaces.input.videoCallLink.loading": "Creating new video call",

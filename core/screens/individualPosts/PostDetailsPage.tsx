@@ -21,7 +21,6 @@ import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
-import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import {
@@ -47,6 +46,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -234,7 +234,7 @@ const PostDetailsPage = () => {
                   commentableId={post.id}
                   replyRoute={`/feed-posts/${post.slug}/comment`}
                   initialOpenThread={commentId}
-                  reactionButton={<FeedPostReactions post={post} />}
+                  reactionButton={<ReactionCount count={post.reactions.HEART} />}
                   isDiscussion={false}
                   post={post}
                 />

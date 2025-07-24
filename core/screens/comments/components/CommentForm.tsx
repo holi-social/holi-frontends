@@ -230,15 +230,16 @@ const CommentForm = ({
           <View style={styles.bottomBar}>
             <HoliContainer>
               <View style={styles.buttonContainer}>
-                <Button
-                  disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
-                  loading={createCommentLoading || detectLanguageLoading}
-                  label={t('comments.button')}
-                  size="sm"
-                  inline
-                  onPress={handleCommentSubmit}
-                  testID="btn-submit-comment"
-                />
+                <View>
+                  <Button
+                    disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
+                    loading={createCommentLoading || detectLanguageLoading}
+                    label={t('comments.button')}
+                    inline
+                    onPress={handleCommentSubmit}
+                    testID="btn-submit-comment"
+                  />
+                </View>
               </View>
             </HoliContainer>
           </View>

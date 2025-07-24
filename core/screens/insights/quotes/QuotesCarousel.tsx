@@ -1,7 +1,8 @@
-import React, { memo } from 'react'
+import type React from 'react'
+import { memo } from 'react'
 
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
-import { Quote } from '@holi/core/screens/insights/types'
+import type { Quote } from '@holi/core/screens/insights/types'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 
 export interface QuotesCarouselProps {
@@ -26,7 +27,6 @@ const QuotesCarousel: React.FC<QuotesCarouselProps> = ({ insightId, quotes, marg
             // use next one of the colors sequentially, repeatedly
             quoteColor={quoteIconColors[index % quoteIconColors.length]}
             insightId={insightId}
-            showReaction
           />
         ),
       }))}
