@@ -2365,6 +2365,7 @@ export type Typesense_Document = {
   location_type?: Maybe<Scalars['String']['output']>
   organizer_image_url?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
+  organizer_url?: Maybe<Scalars['String']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   source?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
@@ -5040,6 +5041,7 @@ export type FullTypesenseDocumentFragment = {
   source?: string
   organizer_name?: string
   organizer_image_url?: string
+  organizer_url?: string
   external_url?: string
   commitment_label?: string
   commitment_duration?: string
@@ -5089,6 +5091,7 @@ export type Typesense_DocumentByIdQuery = {
             source?: string
             organizer_name?: string
             organizer_image_url?: string
+            organizer_url?: string
             external_url?: string
             commitment_label?: string
             commitment_duration?: string
@@ -5144,6 +5147,7 @@ export type Typesense_MultiSearchQuery = {
               source?: string
               organizer_name?: string
               organizer_image_url?: string
+              organizer_url?: string
               external_url?: string
               commitment_label?: string
               commitment_duration?: string
@@ -5744,6 +5748,7 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   source
   organizer_name
   organizer_image_url
+  organizer_url
   external_url
   commitment_label
   commitment_duration

@@ -26,6 +26,7 @@ export const makeVolunteeringDocument = ({
     source: faker.lorem.word(),
     organizer_name: organizer ? faker.person.fullName() : undefined,
     organizer_image_url: organizer ? faker.image.url() : undefined,
+    organizer_url: organizer ? faker.internet.url() : undefined,
     location: location ? faker.location.city() : undefined,
     location_type: location ? 'onsite' : 'unknown',
     commitment_label,

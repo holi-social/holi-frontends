@@ -20,6 +20,7 @@ fragment FullTypesenseDocument on Typesense_Document {
   source
   organizer_name
   organizer_image_url
+  organizer_url
   external_url
   commitment_label
   commitment_duration

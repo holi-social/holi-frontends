@@ -35,6 +35,7 @@ const createDocument = (id = testId): Typesense_Document => ({
   location_lat_lng: [1, 2],
   organizer_image_url: '',
   organizer_name: '',
+  organizer_url: '',
   skills_v2: [],
   source: '',
   title_de: '',
