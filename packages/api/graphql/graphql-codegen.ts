@@ -842,7 +842,7 @@ export type InitiativeReactorsArgs = {
 /** Insight(id, title, description, creator, date_published, header_image, header_image_blurhash, topic, topic_v2) */
 export type Insight = {
   __typename?: 'Insight'
-  creator?: Maybe<User>
+  creator: User
   datePublished: Scalars['Date']['output']
   description: Scalars['String']['output']
   discussions: Array<Discussion>
@@ -3115,7 +3115,7 @@ export type FavoriteInsightFragment = {
   headerImageBlurhash?: string
   isFavorite: boolean
   initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-  creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+  creator: { __typename?: 'User'; fullName: string; avatar?: string }
 }
 
 export type FavoriteTaskFragment = { __typename: 'Task'; id: string }
@@ -3197,7 +3197,7 @@ export type FavoriteByFavoritableIdQuery = {
           headerImageBlurhash?: string
           isFavorite: boolean
           initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-          creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+          creator: { __typename?: 'User'; fullName: string; avatar?: string }
         }
       | { __typename: 'Task'; id: string }
   }
@@ -3230,7 +3230,7 @@ export type FavoritesQuery = {
             headerImageBlurhash?: string
             isFavorite: boolean
             initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-            creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+            creator: { __typename?: 'User'; fullName: string; avatar?: string }
           }
         | { __typename: 'Task'; id: string }
     }>
