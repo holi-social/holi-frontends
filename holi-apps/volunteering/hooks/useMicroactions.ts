@@ -14,7 +14,7 @@ interface UseMicroactionProps {
 
 export const MICROACTION_PAGE_SIZE = 5
 
-export const useMicroactions = ({ userLocation, skip }: UseMicroactionProps = {}) => {
+export const useMicroactions = ({ userLocation, skip = false }: UseMicroactionProps = {}) => {
   const language = useUserLanguage()
 
   const { parameters } = useMicroactionParameters(MICROACTION_PAGE_SIZE, userLocation)

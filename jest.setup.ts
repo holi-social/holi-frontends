@@ -6,6 +6,12 @@ import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 import i18n from '@holi/core/i18n'
 import type { TrackingEventHandler, TrackingHook } from '@holi/core/tracking/types'
 
+import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
+
+// Adds Apollo dev messages
+loadDevMessages()
+loadErrorMessages()
+
 // Added to fix the following error: https://github.com/facebook/react-native/issues/42904#issuecomment-2306382117
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
 const { Switch } = require('react-native')
