@@ -26,6 +26,7 @@ export const createHits = (length: number): Typesense_SearchResponseHit[] =>
       location_lat_lng: [1, 2],
       organizer_image_url: '',
       organizer_name: '',
+      organizer_url: '',
       skills_v2: [],
       source: '',
       title_de: '',
@@ -35,6 +36,7 @@ export const createHits = (length: number): Typesense_SearchResponseHit[] =>
       commitment_duration: '',
       commitment_label: '',
       location_type: '',
+      contact: [],
     }
     return {
       __typename: 'Typesense_SearchResponseHit',

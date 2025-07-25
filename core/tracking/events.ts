@@ -441,9 +441,17 @@ export namespace TrackingEvent {
   export const Volunteering = {
     pressed: (
       engagementId: string,
-      otherProperties: Record<string, string | number | undefined> = {}
+      otherProperties: Record<string, string | number | string[] | undefined> = {}
     ): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
+      properties: { engagementId, ...otherProperties },
+      ...versionOne,
+    }),
+    contacted: (
+      engagementId: string,
+      otherProperties: Record<string, string | number | string[] | undefined> = {}
+    ): TrackingEvent => ({
+      name: 'pressedVolunteeringContactButton',
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),

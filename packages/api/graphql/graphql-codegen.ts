@@ -842,7 +842,7 @@ export type InitiativeReactorsArgs = {
 /** Insight(id, title, description, creator, date_published, header_image, header_image_blurhash, topic, topic_v2) */
 export type Insight = {
   __typename?: 'Insight'
-  creator?: Maybe<User>
+  creator: User
   datePublished: Scalars['Date']['output']
   description: Scalars['String']['output']
   discussions: Array<Discussion>
@@ -2353,6 +2353,7 @@ export type Typesense_Document = {
   __typename?: 'Typesense_Document'
   commitment_duration?: Maybe<Scalars['String']['output']>
   commitment_label?: Maybe<Scalars['String']['output']>
+  contact?: Maybe<Array<Maybe<Typesense_DocumentContact>>>
   description_de?: Maybe<Scalars['String']['output']>
   description_en?: Maybe<Scalars['String']['output']>
   external_url?: Maybe<Scalars['String']['output']>
@@ -2364,6 +2365,7 @@ export type Typesense_Document = {
   location_type?: Maybe<Scalars['String']['output']>
   organizer_image_url?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
+  organizer_url?: Maybe<Scalars['String']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   source?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
@@ -2371,6 +2373,20 @@ export type Typesense_Document = {
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   type: Typesense_DocumentType
   user_full_name?: Maybe<Scalars['String']['output']>
+}
+
+export type Typesense_DocumentContact = {
+  __typename?: 'Typesense_DocumentContact'
+  label?: Maybe<Scalars['String']['output']>
+  type: Typesense_DocumentContactType
+  value: Scalars['String']['output']
+}
+
+export enum Typesense_DocumentContactType {
+  Email = 'email',
+  Person = 'person',
+  Phone = 'phone',
+  Website = 'website',
 }
 
 export type Typesense_DocumentLinkLocators = {
@@ -3115,7 +3131,7 @@ export type FavoriteInsightFragment = {
   headerImageBlurhash?: string
   isFavorite: boolean
   initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-  creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+  creator: { __typename?: 'User'; fullName: string; avatar?: string }
 }
 
 export type FavoriteTaskFragment = { __typename: 'Task'; id: string }
@@ -3197,7 +3213,7 @@ export type FavoriteByFavoritableIdQuery = {
           headerImageBlurhash?: string
           isFavorite: boolean
           initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-          creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+          creator: { __typename?: 'User'; fullName: string; avatar?: string }
         }
       | { __typename: 'Task'; id: string }
   }
@@ -3230,7 +3246,7 @@ export type FavoritesQuery = {
             headerImageBlurhash?: string
             isFavorite: boolean
             initiatives: Array<{ __typename?: 'Initiative'; link: string }>
-            creator?: { __typename?: 'User'; fullName: string; avatar?: string }
+            creator: { __typename?: 'User'; fullName: string; avatar?: string }
           }
         | { __typename: 'Task'; id: string }
     }>
@@ -5025,6 +5041,7 @@ export type FullTypesenseDocumentFragment = {
   source?: string
   organizer_name?: string
   organizer_image_url?: string
+  organizer_url?: string
   external_url?: string
   commitment_label?: string
   commitment_duration?: string
@@ -5036,6 +5053,12 @@ export type FullTypesenseDocumentFragment = {
     task?: string
     profile?: string
   }
+  contact?: Array<{
+    __typename?: 'Typesense_DocumentContact'
+    type: Typesense_DocumentContactType
+    value: string
+    label?: string
+  }>
 }
 
 export type Typesense_DocumentByIdQueryVariables = Exact<{
@@ -5068,6 +5091,7 @@ export type Typesense_DocumentByIdQuery = {
             source?: string
             organizer_name?: string
             organizer_image_url?: string
+            organizer_url?: string
             external_url?: string
             commitment_label?: string
             commitment_duration?: string
@@ -5079,6 +5103,12 @@ export type Typesense_DocumentByIdQuery = {
               task?: string
               profile?: string
             }
+            contact?: Array<{
+              __typename?: 'Typesense_DocumentContact'
+              type: Typesense_DocumentContactType
+              value: string
+              label?: string
+            }>
           }
         }>
       }
@@ -5117,6 +5147,7 @@ export type Typesense_MultiSearchQuery = {
               source?: string
               organizer_name?: string
               organizer_image_url?: string
+              organizer_url?: string
               external_url?: string
               commitment_label?: string
               commitment_duration?: string
@@ -5128,6 +5159,12 @@ export type Typesense_MultiSearchQuery = {
                 task?: string
                 profile?: string
               }
+              contact?: Array<{
+                __typename?: 'Typesense_DocumentContact'
+                type: Typesense_DocumentContactType
+                value: string
+                label?: string
+              }>
             }
           }>
           facet_counts?: Array<{
@@ -5711,10 +5748,16 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   source
   organizer_name
   organizer_image_url
+  organizer_url
   external_url
   commitment_label
   commitment_duration
   location_type
+  contact {
+    type
+    value
+    label
+  }
 }
     `
 export const FullEventFragmentDoc = gql`
