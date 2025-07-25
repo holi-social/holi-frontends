@@ -39,7 +39,9 @@ export const DonationCard = ({ project, index, fixedWidth }: DonationCardProps) 
       href={`/donations/${project.id}`}
       label={linkLabel}
       testID="donations-list-item"
-      trackingEvent={TrackingEvent.RecommendationPressed('donation', project.id.toString(), index)}
+      trackingEvent={TrackingEvent.RecommendationPressed('donation', project.id.toString(), index, {
+        sourceSection: 'Donations',
+      })}
       isFullHeight={!!fixedWidth}
     >
       <CompactCard
