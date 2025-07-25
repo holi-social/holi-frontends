@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Clipboard, Platform, Share } from 'react-native'
+import { Platform, Share } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
 
 import { holiNextJSApiUrl } from '@holi/api/config'
 import { useErrorHandling } from '@holi/core/errors/hooks'
