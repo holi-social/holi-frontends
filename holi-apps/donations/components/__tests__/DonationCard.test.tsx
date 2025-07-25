@@ -67,6 +67,10 @@ describe('DonationCard', () => {
 
     await user.press(screen.getByRole('link'))
 
-    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.RecommendationPressed('donation', '123', 13))
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.RecommendationPressed('donation', '123', 13, {
+        sourceSection: 'Donations',
+      })
+    )
   })
 })

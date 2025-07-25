@@ -1,7 +1,8 @@
 import type { PlaceDetails } from '@holi/core/geolocation/typings'
+import type { SearchParams } from '@holi/core/typesense/types'
 import { useMemo } from 'react'
 
-export const useMicroactionParameters = (pageSize: number, location?: PlaceDetails) => {
+export const useMicroactionParameters = (pageSize: number, location?: PlaceDetails): { parameters: SearchParams } => {
   const parameters = useMemo(() => {
     const filterBy = [
       'type:=[volunteering,task]',
