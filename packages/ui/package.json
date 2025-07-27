@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.25.4",
-    "@react-native-community/datetimepicker": "8.3.0",
+    "@react-native-community/datetimepicker": "8.4.1",
     "@storybook/react": "^7.6.10",
     "@types/tinycolor2": "1.4.6",
     "eslint": "^8.33.0",
@@ -37,7 +37,7 @@
     "react-test-renderer": "18.3.1"
   },
   "peerDependencies": {
-    "@react-native-community/datetimepicker": "8.3.0",
+    "@react-native-community/datetimepicker": "8.4.1",
     "@types/react-transition-group": "^4.4.11",
     "lottie-react": "2.4.1",
     "lottie-react-native": "6.7.2",
