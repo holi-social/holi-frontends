@@ -8,7 +8,7 @@ const languageDetector: LanguageDetectorAsyncModule = {
     // We will get back a string like "en-US". We
     // return a string like "en" to match our language
     // files.
-    callback(Localization.locale.split('-')[0])
+    callback(Localization.getLocales()[0].languageTag.split('-')[0])
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   init: () => {},
