@@ -99,7 +99,7 @@
     ]
   },
   "dependencies": {
-    "expo": "^53.0.11",
+    "expo": "^53.0.20",
     "react-native-unistyles": "^3.0.0-rc.5",
     "react-native-web": "^0.20.0"
   },
