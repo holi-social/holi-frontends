@@ -569,7 +569,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     creatorInfoButton: {
       maxWidth: dimensions.maxButtonWidth,
-      borderRadius: dimensions.spacingXs,
+      borderRadius: Spacing['3xs'],
       borderWidth: 1,
       borderColor: theme.colors.gray100,
       shadowColor: theme.colors.gray100,
@@ -580,7 +580,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     creatorInfoButtonHovered: {
       maxWidth: dimensions.maxButtonWidth,
-      borderRadius: dimensions.spacingXs,
+      borderRadius: Spacing['3xs'],
       borderWidth: 1,
       borderColor: theme.colors.black300,
       shadowColor: theme.colors.black300,

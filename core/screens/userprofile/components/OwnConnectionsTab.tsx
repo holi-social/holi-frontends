@@ -182,7 +182,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
             >
               <HoliBox
                 key={connection.id}
-                padding={[0, 0, dimensions.spacingS, 0]}
+                padding={[0, 0, Spacing.xs, 0]}
                 layout={{
                   maxWidth: dimensions.maxScreenWidth,
                   width: '100%',

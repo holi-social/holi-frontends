@@ -8,6 +8,7 @@ import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { LinkM } from '@holi/icons/src/generated'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import { Spacing } from 'holi-bricks/foundations'
 
 interface RewardMessageProps {
   campaignTag?: string
@@ -100,7 +101,7 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       width: '100%',
       alignItems: 'center',
-      paddingHorizontal: dimensions.spacingML,
+      paddingHorizontal: Spacing.md,
     },
     content: {
       flex: 4,
@@ -120,18 +121,18 @@ const getStyles = (theme: HoliTheme) =>
     },
     descriptionContainer: {
       textAlign: 'center',
-      marginBottom: dimensions.spacingS,
+      marginBottom: Spacing.xs,
       maxWidth: 320,
     },
     moreInfoContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: dimensions.spacingXxs,
+      gap: Spacing['4xs'],
     },
     buttonContainer: {
       width: '100%',
-      paddingHorizontal: dimensions.spacingM,
-      paddingVertical: dimensions.spacingL,
+      paddingHorizontal: Spacing.md,
+      paddingVertical: Spacing.xl,
       maxWidth: dimensions.breakpointS,
     },
   })

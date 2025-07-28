@@ -82,7 +82,7 @@ export const Search = () => {
       }}
       StickyTopComponent={
         <View style={styles.filterContainer}>
-          <HoliBox padding={[0, dimensions.spacingS]}>
+          <HoliBox padding={[0, Spacing.xs]}>
             <SearchTextInput filter={filter} onQueryChange={setQuery} />
             <HoliGap size="xs" />
             <SearchLocationSelection

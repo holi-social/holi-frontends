@@ -6,12 +6,12 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import AttendingChallengeEventsCardLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsCardLegacy'
 import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
+import { Spacing } from 'holi-bricks/foundations'
 
 const API_URL = apiUrl('/api/v1/events/userAttendingEvents')
 
@@ -97,11 +97,11 @@ const getStyles = (cardWidth: number) =>
       flex: 1,
       paddingLeft: 24,
       marginHorizontal: -20,
-      gap: dimensions.spacingXs,
+      gap: Spacing['3xs'],
     },
     itemContainer: {
       width: cardWidth,
-      marginRight: dimensions.spacingXxs,
+      marginRight: Spacing['4xs'],
     },
     lastItem: {
       marginRight: 44,

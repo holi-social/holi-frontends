@@ -2,7 +2,7 @@ import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import type { TrackingEvent } from '@holi/core/tracking'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
 import { Image } from 'holi-bricks/components/image'
 
 import type { Submission } from '@holi-apps/challenges/components/types'
@@ -10,6 +10,7 @@ import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigat
 import { Avatar } from 'holi-bricks/components/avatar'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { Spacing } from 'holi-bricks/foundations'
 
 const IMAGE_HEIGHT = 195
 
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     position: 'absolute',
-    bottom: dimensions.spacingXs,
-    left: dimensions.spacingXs,
+    bottom: Spacing['3xs'],
+    left: Spacing['3xs'],
   },
 })

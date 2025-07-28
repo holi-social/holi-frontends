@@ -13,6 +13,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Spacing } from 'holi-bricks/foundations'
 
 export const CategorySelectionModal: React.FC<{
   visible: boolean
@@ -90,7 +91,7 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       flexDirection: windowWidth > dimensions.breakpointXl ? 'row' : 'column',
       flexWrap: windowWidth > dimensions.breakpointXl ? 'wrap' : 'nowrap',
       justifyContent: 'space-between',
-      gap: dimensions.spacingS,
+      gap: Spacing.xs,
     } as ViewStyle,
     categorySelected: {
       borderColor: theme.colors.black300,
