@@ -13,11 +13,10 @@ interface ProgressStepperProps {
   step: number
   label?: string
   status: StepStatus
-  isLast?: boolean
-  isFirst?: boolean
+  hasNextStep?: boolean
 }
 
-export const ProgressStepper = ({ step, label, status, isLast = false, isFirst = false }: ProgressStepperProps) => {
+export const ProgressStepper = ({ step, label, status, hasNextStep = false }: ProgressStepperProps) => {
   const { styles } = useStyles(stylesheet)
   const isCompleted = status === 'done'
   const isActive = status === 'active'
@@ -25,9 +24,6 @@ export const ProgressStepper = ({ step, label, status, isLast = false, isFirst =
   return (
     <Stack alignItems="center" gap="3xs">
       <Stack direction="row" alignItems="center">
-        {/* Line from previous step */}
-        <View style={styles.line(isFirst)} />
-
         {/* Step Circle */}
         <Stack
           padding={isActive ? '4xs' : undefined}
@@ -59,7 +55,7 @@ export const ProgressStepper = ({ step, label, status, isLast = false, isFirst =
         </Stack>
 
         {/* Line to next step */}
-        <View style={styles.line(isLast)} />
+        {hasNextStep && <View style={styles.line} />}
       </Stack>
 
       {/* Label */}
@@ -71,9 +67,9 @@ export const ProgressStepper = ({ step, label, status, isLast = false, isFirst =
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  line: (hide: boolean) => ({
+  line: {
     width: Spacing.lg,
-    height: hide ? 0 : 2,
+    height: 2,
     backgroundColor: theme.colors.decorative.purpleDefault,
-  }),
+  },
 }))
