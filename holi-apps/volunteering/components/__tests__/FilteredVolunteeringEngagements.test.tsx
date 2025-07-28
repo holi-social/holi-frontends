@@ -74,7 +74,8 @@ describe('FilteredVolunteeringEngagements', () => {
     expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
 
     // Results
-    expect(screen.getAllByRole('link')).toHaveLength(10)
+    // Additional link to show partner modal
+    expect(screen.getAllByRole('link')).toHaveLength(10 + 1)
     results.engagements.forEach((engagement) => {
       expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     })

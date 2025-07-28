@@ -25,7 +25,8 @@ describe('VolunteeringEngagementList', () => {
   it('should render engagements', () => {
     render(<VolunteeringEngagementList engagements={engagements} />)
 
-    expect(screen.getAllByRole('link')).toHaveLength(10)
+    // Additional link in header to open partner modal
+    expect(screen.getAllByRole('link')).toHaveLength(10 + 1)
     engagements.forEach((engagement) => {
       expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     })
@@ -34,7 +35,7 @@ describe('VolunteeringEngagementList', () => {
   it('should render header for engagement recos', () => {
     render(<VolunteeringEngagementList engagements={engagements} />)
 
-    expect(screen.getByText('volunteering.recommended.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
   })
 
   it('should render result count for filtered engagements', () => {
