@@ -47,6 +47,7 @@ import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -64,7 +65,7 @@ const PostDetailsPage = () => {
   const { replaceRoute, navigate, navigateBack } = useRouting()
   const loginState = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
-  const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
+  const smStyle = useBreakpointMatcher([[breakpoints.sm, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { displayError } = useErrorHandling()
   const { track } = useTracking()

@@ -29,11 +29,11 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const InsightsList = () => {
   const { t } = useTranslation()
@@ -58,7 +58,7 @@ const InsightsList = () => {
   const [isWideLayout, setWideLayout] = useState<boolean>(false)
 
   useIsomorphicLayoutEffect(() => {
-    if (screenWidth >= dimensions.breakpointS) {
+    if (screenWidth >= breakpoints.sm) {
       setWideLayout(true)
     }
   }, [isWideLayout, screenWidth])

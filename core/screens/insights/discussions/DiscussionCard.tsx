@@ -17,12 +17,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import StartDiscussion from './StartDiscussion'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { breakpoints } from 'holi-bricks/foundations'
 
 type DiscussionCardProps = {
   discussion: Discussion
@@ -124,7 +124,7 @@ const getStyles = ({ colors }: HoliTheme) =>
       borderColor: colors.black300,
       borderWidth: 1,
       borderRadius: 16,
-      [`@media (min-width: ${dimensions.breakpointM}px)`]: {
+      [`@media (min-width: ${breakpoints.md}px)`]: {
         padding: Spacing.md,
       },
     },

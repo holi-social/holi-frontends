@@ -2,13 +2,12 @@ import React, { useEffect, useRef } from 'react'
 import { StyleSheet, View, Pressable, Linking, Animated } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { LinkM } from '@holi/icons/src/generated'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
-import { Spacing } from 'holi-bricks/foundations'
+import { breakpoints, Spacing } from 'holi-bricks/foundations'
 
 interface RewardMessageProps {
   campaignTag?: string
@@ -133,7 +132,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       paddingHorizontal: Spacing.md,
       paddingVertical: Spacing.xl,
-      maxWidth: dimensions.breakpointS,
+      maxWidth: breakpoints.sm,
     },
   })
 

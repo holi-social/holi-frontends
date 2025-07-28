@@ -2,10 +2,10 @@ import React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { useDebounce } from '@holi/ui/helper'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 import { TrackingConsentModalDesktop } from './TrackingConsentModalDesktop'
 import { TrackingConsentModalMobile } from './TrackingConsentModalMobile'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export { default as TrackingGeneralContentDescription } from './TrackingGeneralContentDescription'
 
@@ -14,7 +14,7 @@ const TrackingConsentModal = () => {
 
   const updateMobileViewPort = useDebounce(
     useCallback(() => {
-      setIsMobileViewPort(dimensions.breakpointL > window.innerWidth)
+      setIsMobileViewPort(breakpoints.lg > window.innerWidth)
     }, []),
     100
   )

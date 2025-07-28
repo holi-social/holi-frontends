@@ -4,10 +4,10 @@ import { useCallback, useEffect } from 'react'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 import TabButton from './TabButton'
 import type { HoliTabItem, RenderFuncOptions } from './types'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface RenderTabButtonArgs<D> {
   options: RenderFuncOptions<D>
@@ -44,8 +44,8 @@ export const renderTabButtonHelper = <D extends HoliTabItem>({
 export const useHoliTabsMarginHorizontal = () => {
   return useBreakpointMatcher([
     [0, Spacing.xs],
-    [dimensions.breakpointS, Spacing.lg],
-    [dimensions.breakpointL, Spacing['4xl']],
+    [breakpoints.sm, Spacing.lg],
+    [breakpoints.lg, Spacing['4xl']],
   ])
 }
 

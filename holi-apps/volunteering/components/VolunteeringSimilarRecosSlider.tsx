@@ -2,10 +2,9 @@ import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/Volunte
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { withProfiler } from '@sentry/react'
 import { Stack } from 'holi-bricks/components/stack'
-import { Spacing } from 'holi-bricks/foundations'
+import { breakpoints, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { FlatList } from 'react-native'
 
@@ -20,7 +19,7 @@ const VolunteeringSimilarRecosSlider: React.FC<VolunteeringSimilarRecosProps> = 
 }: VolunteeringSimilarRecosProps) => {
   const recosToRender = recos.slice(0, MAX_RECOS_COUNT)
   const { width: screenWidth } = useClientWindowDimensions()
-  const horizontal = screenWidth >= dimensions.breakpointL
+  const horizontal = screenWidth >= breakpoints.lg
   const cardWidth = useRecoCardWidth()
 
   if (horizontal) {

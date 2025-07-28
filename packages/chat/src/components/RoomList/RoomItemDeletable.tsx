@@ -11,8 +11,8 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliSwipeable from '@holi/ui/components/molecules/HoliSwipeable'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface Props {
   roomAtom: ChatRoomAtom
@@ -29,8 +29,8 @@ const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
 
   const paddingHorizontal = useBreakpointMatcher([
     [0, 16],
-    [dimensions.breakpointS, 32],
-    [dimensions.breakpointL, 64],
+    [breakpoints.sm, 32],
+    [breakpoints.lg, 64],
   ])
 
   const [isDeleting, setIsDeleting] = useState(false)

@@ -28,7 +28,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const CATEGORY_ILLUSTRATIONS = {
   GLOBAL: require('@holi/ui/assets/img/illustrations/illustration_bell.svg'),
@@ -254,7 +254,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     loaderContainer: {
       position: 'absolute',
-      top: screenWidth > dimensions.breakpointS ? '25%' : '20%',
+      top: screenWidth > breakpoints.sm ? '25%' : '20%',
       left: 0,
       right: 0,
       zIndex: 1,

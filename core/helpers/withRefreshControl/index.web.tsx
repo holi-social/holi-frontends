@@ -12,7 +12,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 
 const PULL_DIVIDER = 2
 const REFRESH_THRESHOLD = dimensions.topBarHeight
-const LOADER_TOP_OFFSET = dimensions.loaderHeight
+const LOADER_TOP_OFFSET = 66
 
 const isHoliModalOpen = () => document.querySelector('[aria-modal="true"]') !== null
 

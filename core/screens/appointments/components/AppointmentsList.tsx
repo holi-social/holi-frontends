@@ -8,9 +8,9 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { Button } from 'holi-bricks/components/button'
 import { type Appointment, type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface AppointmentsListProps {
   space: Pick<Space, 'id' | 'connectionStatusToMyself' | 'name'>
@@ -27,7 +27,7 @@ const AppointmentsList = ({ space, pastAppointments = false }: AppointmentsListP
 
   const gridBreakpoints: [number, number][] = [
     [0, 1],
-    [dimensions.breakpointM, 2],
+    [breakpoints.md, 2],
   ]
 
   const navigateToAddAppointmentPage = useCallback(() => {

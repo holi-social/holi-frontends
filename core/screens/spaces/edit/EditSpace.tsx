@@ -39,9 +39,10 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { constants, dimensions } from '@holi/ui/styles/globalVars'
+import { constants } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import { breakpoints } from 'holi-bricks/foundations'
 
 enum EditFields {
   NAME = 'NAME',
@@ -435,7 +436,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
       ...Platform.select({
         web: {
           maxWidth: '100%',
-          alignItems: windowWidth > dimensions.breakpointXl ? 'center' : undefined,
+          alignItems: windowWidth > breakpoints.xl ? 'center' : undefined,
         },
         native: {
           flexShrink: 1,
@@ -458,7 +459,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
     },
     modal: {
       backgroundColor: theme.colors.background30,
-      height: windowWidth <= dimensions.breakpointXs ? '100%' : windowWidth > dimensions.breakpointXl ? '70%' : '80%',
+      height: windowWidth <= breakpoints.xs ? '100%' : windowWidth > breakpoints.xl ? '70%' : '80%',
     },
   })
 

@@ -1,30 +1,30 @@
 import { createGridStyles, createResponsiveWidth, defaultGridBreakpoints } from '@holi/ui/components/utils/gridStyles'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const gridBreakpoints: [number, number][] = [
   [0, 1],
-  [dimensions.breakpointS, 2],
-  [dimensions.breakpointM, 3],
-  [dimensions.breakpointXxl, 4],
+  [breakpoints.sm, 2],
+  [breakpoints.md, 3],
+  [breakpoints.xxl, 4],
 ]
 
 it('should create responsive widths', () => {
   expect(createResponsiveWidth(defaultGridBreakpoints)).toStrictEqual({
     width: '100%',
-    [`@media (min-width: ${dimensions.breakpointL}px)`]: {
+    [`@media (min-width: ${breakpoints.lg}px)`]: {
       width: '50%',
     },
   })
 
   expect(createResponsiveWidth(gridBreakpoints)).toStrictEqual({
     width: '100%',
-    [`@media (min-width: ${dimensions.breakpointXxl}px)`]: {
+    [`@media (min-width: ${breakpoints.xxl}px)`]: {
       width: '25%',
     },
-    [`@media (min-width: ${dimensions.breakpointM}px)`]: {
+    [`@media (min-width: ${breakpoints.md}px)`]: {
       width: '33.333333333333336%',
     },
-    [`@media (min-width: ${dimensions.breakpointS}px)`]: {
+    [`@media (min-width: ${breakpoints.sm}px)`]: {
       width: '50%',
     },
   })
@@ -36,7 +36,7 @@ it('should create responsive styles for the <GridProvider>', () => {
     expect.objectContaining({
       fullStyles: {
         gridItem: {
-          [`@media (min-width: ${dimensions.breakpointL}px)`]: {
+          [`@media (min-width: ${breakpoints.lg}px)`]: {
             width: '50%',
           },
           padding: 6,
@@ -56,13 +56,13 @@ it('should create responsive styles for the <GridProvider>', () => {
     expect.objectContaining({
       fullStyles: {
         gridItem: {
-          [`@media (min-width: ${dimensions.breakpointXxl}px)`]: {
+          [`@media (min-width: ${breakpoints.xxl}px)`]: {
             width: '25%',
           },
-          [`@media (min-width: ${dimensions.breakpointM}px)`]: {
+          [`@media (min-width: ${breakpoints.md}px)`]: {
             width: '33.333333333333336%',
           },
-          [`@media (min-width: ${dimensions.breakpointS}px)`]: {
+          [`@media (min-width: ${breakpoints.sm}px)`]: {
             width: '50%',
           },
           padding: 6,

@@ -32,12 +32,12 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
@@ -189,7 +189,7 @@ const AppointmentDetails = () => {
 
   return (
     <ScrollView style={styles.defaultLayout} contentContainerStyle={styles.contentStyle}>
-      <View style={[mixins.container, deviceWidth < dimensions.breakpointL && styles.smallScreenPadding]}>
+      <View style={[mixins.container, deviceWidth < breakpoints.lg && styles.smallScreenPadding]}>
         <View style={styles.imageContainer}>
           {!imageError && !!appointment.thumbnail && (
             <HoliImage

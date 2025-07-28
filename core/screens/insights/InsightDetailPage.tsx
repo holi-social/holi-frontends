@@ -59,6 +59,7 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking/events'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -77,7 +78,7 @@ const InsightDetailPage = () => {
   const { colors } = theme
   const { width: screenWidth } = useClientWindowDimensions()
   const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
-  const carouselMarginHorizontal = screenWidth < dimensions.breakpointL ? Spacing.xs : 0
+  const carouselMarginHorizontal = screenWidth < breakpoints.lg ? Spacing.xs : 0
   const { track } = useTracking()
   const hasTrackedScreenView = useRef(false)
 
@@ -529,7 +530,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     contentContainer: {
       alignSelf: 'center',
       width: '100%',
-      maxWidth: dimensions.breakpointL - 128,
+      maxWidth: breakpoints.lg - 128,
     },
     bannerImage: {
       paddingHorizontal: 0,
@@ -606,14 +607,14 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      ...(screenWidth < dimensions.breakpointL && {
+      ...(screenWidth < breakpoints.lg && {
         paddingHorizontal: Spacing.xs,
       }),
       maxWidth: '95%',
     },
     posts: {
       marginBottom: 20,
-      ...(screenWidth < dimensions.breakpointL && {
+      ...(screenWidth < breakpoints.lg && {
         paddingHorizontal: Spacing.xs,
       }),
     },
