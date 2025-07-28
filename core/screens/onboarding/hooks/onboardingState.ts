@@ -1,5 +1,5 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
@@ -7,6 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 import { isAccountComplete } from '@holi/core/screens/onboarding/helpers/isAccountComplete'
+import { Platform } from 'react-native'
 
 const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const // eslint-disable-line @typescript-eslint/no-unused-vars
 export type OnboardingStateValue = (typeof onboardingValues)[number]
@@ -101,19 +102,28 @@ export const useOnboardingInitialization = () => {
 
 export const useOnboardingRedirect = () => {
   const { isLoading } = useOnboardingInitialization()
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const onboardingState = useOnboardingState()
   const pathname = usePathname()
   const { navigate } = useRouting()
 
-  const shouldShowContent = useMemo(() => {
-    if (isLoading) return false
+  // This is needed to avoid glitching on android while navigating to the onboarding screen
+  const navigateWithTimeout = useCallback(
+    (path: string) => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
 
-    if (pathname === '/' && onboardingState === 'onboarding') return false
-    if (pathname !== '/onboarding' && (onboardingState === 'accountSetup' || onboardingState === 'emailVerification'))
-      return false
-
-    return true
-  }, [isLoading, pathname, onboardingState])
+      if (Platform.OS !== 'web') {
+        timerRef.current = setTimeout(() => {
+          navigate(path)
+        }, 200)
+      } else {
+        navigate(path)
+      }
+    },
+    [navigate]
+  )
 
   useEffect(() => {
     if (isLoading) return
@@ -123,14 +133,22 @@ export const useOnboardingRedirect = () => {
     const isAccountSetup = onboardingState === 'accountSetup'
 
     if ((isAccountSetup || isEmailVerification) && pathname !== '/onboarding') {
-      navigate('/onboarding')
+      navigateWithTimeout('/onboarding')
     } else if (isOnboarding && pathname === '/') {
-      navigate('/onboarding')
+      navigateWithTimeout('/onboarding')
     }
-  }, [isLoading, navigate, onboardingState, pathname])
+  }, [isLoading, navigate, navigateWithTimeout, onboardingState, pathname])
+
+  useEffect(() => {
+    return () => {
+      const timer = timerRef.current
+      if (timer) {
+        clearTimeout(timer)
+      }
+    }
+  }, [])
 
   return {
     showOnboardingOnStartup: onboardingState !== 'finished' && pathname === '/',
-    shouldShowContent,
   }
 }
