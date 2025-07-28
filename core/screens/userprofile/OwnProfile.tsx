@@ -29,8 +29,10 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { holiNextJSApiUrl } from '@holi/api/config'
+import * as Appcues from '@appcues/react-native'
 
 const OwnProfile = () => {
+  Appcues.screen('Profile')
   const { track } = useTracking()
   const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
   const [showModal, setshowModal] = useState(false)

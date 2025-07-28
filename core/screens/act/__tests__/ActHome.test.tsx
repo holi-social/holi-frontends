@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import ActHome, { orderedSections } from '@holi/core/screens/act/ActHome'
+import ActHome, { orderedSections } from '@holi/core/screens/act/ActHome.web'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 
 const mockPosthog = jest.fn()

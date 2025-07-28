@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
-import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
+import OwnProfile from '@holi/core/screens/userprofile/OwnProfile.web'
 
 const mockUseLoggedInUser = jest.fn()
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({

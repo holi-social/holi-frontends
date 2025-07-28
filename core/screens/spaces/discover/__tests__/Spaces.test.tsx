@@ -10,7 +10,7 @@ import {
   mySpacesWithEmptyResultMock,
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
-import Spaces from '@holi/core/screens/spaces/discover/Spaces'
+import Spaces from '@holi/core/screens/spaces/discover/Spaces.web'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 import { DiscoverSpacesDefaultTopicsDocument, DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
