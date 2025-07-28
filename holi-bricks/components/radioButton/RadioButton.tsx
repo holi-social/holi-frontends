@@ -1,6 +1,6 @@
 import type React from 'react'
-import { useState } from 'react'
-import { Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
+import { type SyntheticEvent, useCallback, useState } from 'react'
+import { Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { BorderRadius, breakpoints, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
@@ -18,21 +18,45 @@ type RadioButtonProps = AccessibilityProps &
 
 export const RadioButton = ({ label, selected = false, disabled = false, onPress, ...rest }: RadioButtonProps) => {
   const [hovered, setHovered] = useState(false)
-  const { styles } = useStyles(stylesheet, { selected, hovered, disabled })
+  const [focused, setFocused] = useState(false)
+  const [active, setActive] = useState(false)
+  const { styles } = useStyles(stylesheet, { selected, hovered, disabled, focused, active })
   const { width } = useWindowDimensions()
   const leftAligned = width > breakpoints.lg
   const textColor = disabled ? 'muted' : selected || hovered ? 'main' : 'support'
+  const handlePress = useCallback(
+    (event: React.SyntheticEvent | GestureResponderEvent) => {
+      setActive(true)
+      return onPress?.(!selected, event)
+    },
+    [onPress, selected]
+  )
+  const onKeyDownCapture = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.code === 'Space') {
+        return handlePress(event)
+      }
+    },
+    [handlePress]
+  )
+  const onBlur = useCallback(() => {
+    setFocused(false)
+    setActive(false)
+  }, [])
 
   return (
     <Pressable
-      onPress={(event) => onPress?.(!selected, event)}
+      onPress={handlePress}
       onHoverIn={() => setHovered(true)}
       onHoverOut={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={onBlur}
       disabled={disabled}
       role="radio"
       aria-checked={selected}
       {...accessibilityProps(rest)}
-      style={layoutStyle(rest)}
+      style={[styles.outer, layoutStyle(rest)]}
+      {...Platform.select({ web: { onKeyDownCapture } })}
     >
       <Stack
         direction={leftAligned ? 'row' : 'row-reverse'}
@@ -53,6 +77,14 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  outer: {
+    outlineWidth: 0,
+    ...Platform.select({
+      web: {
+        outlineStyle: 'none',
+      },
+    }),
+  },
   radio: {
     color: theme.colors.bg.support,
     borderColor: theme.colors.border.support,
@@ -81,6 +113,18 @@ const stylesheet = createStyleSheet((theme) => ({
           borderColor: theme.colors.border.support,
         },
       },
+      focused: {
+        true: {
+          outlineWidth: BorderWidth.sm,
+          outlineColor: theme.colors.border.main,
+          ...Platform.select({
+            web: {
+              outlineOffset: 4,
+              outlineStyle: 'solid',
+            },
+          }),
+        },
+      },
     },
   },
   radioDot: (selected: boolean) => ({
@@ -101,6 +145,16 @@ const stylesheet = createStyleSheet((theme) => ({
       disabled: {
         true: {
           backgroundColor: selected ? theme.colors.fill.muted : undefined,
+        },
+      },
+      active: {
+        true: {
+          ...Platform.select({
+            web: {
+              width: 16,
+              height: 16,
+            },
+          }),
         },
       },
     },
