@@ -94,11 +94,23 @@ export const FavoritingButton = ({
 
   return isFavorite ? (
     <Pressable onPress={unfavoriteHandler}>
-      <HoliIcon icon={BookmarkFill} colorOverride={tintColor} size={Spacing[size]} shadow={shadow} />
+      <HoliIcon
+        icon={BookmarkFill}
+        colorOverride={tintColor}
+        size={Spacing[size]}
+        shadow={shadow}
+        testID={'unfavorite-icon-button'}
+      />
     </Pressable>
   ) : (
     <Pressable onPress={favoriteHandler}>
-      <HoliIcon icon={BookmarkLine} colorOverride={tintColor} size={Spacing[size]} shadow={shadow} />
+      <HoliIcon
+        icon={BookmarkLine}
+        colorOverride={tintColor}
+        size={Spacing[size]}
+        shadow={shadow}
+        testID={'favorite-icon-button'}
+      />
     </Pressable>
   )
 }
