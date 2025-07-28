@@ -8,7 +8,6 @@ import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/Vol
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
-import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
@@ -22,8 +21,13 @@ const VolunteeringAppHome = () => {
 
   const headerComponent = (
     <Stack backgroundColor="main">
-      <VolunteeringListingHeader />
-      <VolunteeringFilterRow onSubmit={submit} filters={filters} loadingFilters={loadingGeolocation} />
+      <VolunteeringFilterRow
+        onSubmit={submit}
+        filters={filters}
+        loadingFilters={loadingGeolocation}
+        clearFilters={clearFilters}
+        isFiltering={isFiltering}
+      />
     </Stack>
   )
 

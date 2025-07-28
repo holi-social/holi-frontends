@@ -12,6 +12,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliButton, { type HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading, { type HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 import { ChipAction, type ChipActionProps } from 'holi-bricks/components/chips/ChipAction'
+import { Stack, type StackProps } from 'holi-bricks/components/stack'
 
 export interface TrackableBaseProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
@@ -47,3 +48,4 @@ export const TextLinkTracked = Trackable<React.PropsWithChildren<TextLinkProps>>
 export const ButtonTracked = Trackable<ButtonProps>(Button)
 export const ButtonIconTracked = Trackable<ButtonIconProps>(ButtonIcon)
 export const ChipActionTracked = Trackable<ChipActionProps>(ChipAction)
+export const StackTracked = Trackable<StackProps>(Stack)

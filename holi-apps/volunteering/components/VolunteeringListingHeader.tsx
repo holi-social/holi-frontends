@@ -5,27 +5,36 @@ import InfoModal from '@holi/core/components/InfoModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { Text } from 'holi-bricks/components/text'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Stack } from 'holi-bricks/components/stack'
 
-export const VolunteeringListingHeader = () => {
+interface VolunteeringListingHeaderProps {
+  totalResults?: number
+  isFiltering?: boolean
+}
+
+export const VolunteeringListingHeader = ({
+  isFiltering = false,
+  totalResults = 0,
+}: VolunteeringListingHeaderProps) => {
   const { t } = useTranslation()
   const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
   const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
 
   return (
-    <HoliContainer>
-      <Stack gap="3xs" margin={{ bottom: '3xs' }}>
-        <Text size="3xl" margin={{ top: 'md' }}>
-          {t('volunteering.discoveryV1.headline')}
-        </Text>
-        <PartnerListInfoRow
-          rowText={t('volunteering.listing.subline')}
-          linkLabel={t('volunteering.partners.label')}
-          partners={allPartners}
-          onPress={showPartnerModal}
-        />
-      </Stack>
+    <Stack gap="3xs" margin={{ top: '3xs', bottom: 'sm' }}>
+      <Text size="3xl">
+        {isFiltering
+          ? t('volunteering.filter.result', {
+              count: totalResults,
+            })
+          : t('volunteering.discoveryV1.headline')}
+      </Text>
+      <PartnerListInfoRow
+        rowText={t('volunteering.listing.subline')}
+        linkLabel={t('volunteering.partners.label')}
+        partners={allPartners}
+        onPress={showPartnerModal}
+      />
       <InfoModal
         headline={t('volunteering.listing.partnerModal.headline')}
         items={allPartners}
@@ -34,6 +43,6 @@ export const VolunteeringListingHeader = () => {
         testID={'volunteering-partner-modal'}
         i18nPrefix={'volunteering.listing.partnerModal'}
       />
-    </HoliContainer>
+    </Stack>
   )
 }

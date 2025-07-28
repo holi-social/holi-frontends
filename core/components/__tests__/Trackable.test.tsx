@@ -12,6 +12,7 @@ import {
   type TrackableBaseProps,
   type TrackableProps,
   ChipActionTracked,
+  StackTracked,
 } from '@holi/core/components/Trackable'
 
 export const testTrackingEvent = {
@@ -35,7 +36,7 @@ describe('Trackable', () => {
     name: string
     renderComponent: (props: TrackableProps<TrackableBaseProps>) => React.JSX.Element
     handlesEventPropagation?: boolean
-    handlesLoadingState?: boolean
+    disabledWhileLoading?: boolean
   }
   const testCases: TestCase[] = [
     {
@@ -49,7 +50,7 @@ describe('Trackable', () => {
     {
       name: 'HoliButtonLoadingTracked',
       renderComponent: (props) => <HoliButtonLoadingTracked label="click me" {...props} />,
-      handlesLoadingState: true,
+      disabledWhileLoading: true,
     },
     {
       name: 'HoliLinkTracked',
@@ -80,11 +81,19 @@ describe('Trackable', () => {
     {
       name: 'ButtonTracked',
       renderComponent: (props) => <ButtonTracked label="click me" {...props} />,
-      handlesLoadingState: true,
+      disabledWhileLoading: true,
     },
     {
       name: 'ChipActionTracked',
       renderComponent: (props) => <ChipActionTracked {...props}>click me</ChipActionTracked>,
+    },
+    {
+      name: 'StackTracked',
+      renderComponent: (props) => (
+        <StackTracked {...props}>
+          <Text size="md">click me</Text>
+        </StackTracked>
+      ),
     },
   ]
 
@@ -129,7 +138,7 @@ describe('Trackable', () => {
     }
   )
 
-  it.each(testCases.filter(({ handlesLoadingState }) => !!handlesLoadingState))(
+  it.each(testCases.filter(({ disabledWhileLoading }) => !!disabledWhileLoading))(
     '$name should forward onPress result to handle loading state',
     async ({ renderComponent }) => {
       const onPress = jest.fn(() => new Promise((resolve) => setTimeout(resolve, 100)))

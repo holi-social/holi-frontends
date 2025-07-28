@@ -59,7 +59,7 @@ describe('VolunteeringFilterRow', () => {
   })
 
   it('should render filter chips in correct order', () => {
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     const filters = screen.getAllByRole('switch')
     expect(filters[0]).toHaveTextContent('location')
@@ -70,7 +70,7 @@ describe('VolunteeringFilterRow', () => {
   })
 
   it('should use correct label for unselected filters', () => {
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     expect(screen.getByText('volunteering.filter.location.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.topics.label')).toBeOnTheScreen()
@@ -87,6 +87,7 @@ describe('VolunteeringFilterRow', () => {
           commitmentLabels: ['recurring'],
         }}
         onSubmit={jest.fn()}
+        clearFilters={jest.fn()}
       />
     )
 
@@ -99,7 +100,7 @@ describe('VolunteeringFilterRow', () => {
   })
 
   it('should use correct label for selected filters', () => {
-    render(<VolunteeringFilterRow filters={fullFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={fullFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     expect(screen.getByText('Hamburg, Germany')).toBeOnTheScreen()
     expect(screen.getByText('topic.migration-refugees + 1')).toBeOnTheScreen()
@@ -108,8 +109,8 @@ describe('VolunteeringFilterRow', () => {
     expect(screen.getByText('skill.food-service + 2')).toBeOnTheScreen()
   })
 
-  it('should not render filter modal if not filter is selected', () => {
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+  it('should not render filter modal if no filter is selected', () => {
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     expect(screen.queryByTestId('volunteering-filter-modal')).not.toBeOnTheScreen()
   })
@@ -149,7 +150,7 @@ describe('VolunteeringFilterRow', () => {
   it.each(testData)('should open modal when selecting $filterKey filter', async ({ filterKey }) => {
     const user = userEvent.setup()
 
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
 
@@ -160,7 +161,7 @@ describe('VolunteeringFilterRow', () => {
   it('should open modal when selecting location filter', async () => {
     const user = userEvent.setup()
 
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     await user.press(screen.getByText('volunteering.filter.location.label'))
 
@@ -171,7 +172,7 @@ describe('VolunteeringFilterRow', () => {
   it.each(testData)('should track press on $filterKey filter pill', async ({ filterKey }) => {
     const user = userEvent.setup()
 
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
 
@@ -181,7 +182,7 @@ describe('VolunteeringFilterRow', () => {
   it('should track press on location filter pill', async () => {
     const user = userEvent.setup()
 
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     await user.press(screen.getByText('volunteering.filter.location.label'))
 
@@ -192,7 +193,7 @@ describe('VolunteeringFilterRow', () => {
     const onSubmit = jest.fn()
     const user = userEvent.setup()
 
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={onSubmit} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={onSubmit} clearFilters={jest.fn()} />)
 
     // Open modal
     await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
@@ -212,7 +213,7 @@ describe('VolunteeringFilterRow', () => {
       const onSubmit = jest.fn()
       const user = userEvent.setup()
 
-      render(<VolunteeringFilterRow filters={fullFilters} onSubmit={onSubmit} />)
+      render(<VolunteeringFilterRow filters={fullFilters} onSubmit={onSubmit} clearFilters={jest.fn()} />)
 
       // Open modal
       await user.press(screen.getByText(existingFilterButtonText))
@@ -231,7 +232,7 @@ describe('VolunteeringFilterRow', () => {
   it.each(testData)('should close modal after selecting $filterKey filter', async ({ filterKey }) => {
     const user = userEvent.setup()
 
-    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} />)
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     // Open modal
     await user.press(screen.getByText(`volunteering.filter.${filterKey}.label`))
@@ -242,5 +243,32 @@ describe('VolunteeringFilterRow', () => {
     await user.press(screen.getByLabelText(`volunteering.filter.${filterKey}Modal.saveButton`))
 
     expect(screen.queryByTestId('volunteering-filter-modal')).not.toBeOnTheScreen()
+  })
+
+  it('should not render button to clear filters if not filtering', () => {
+    render(<VolunteeringFilterRow filters={fullFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
+
+    expect(screen.queryByTestId('search.filter.reset.all')).not.toBeOnTheScreen()
+  })
+
+  it('should render button to clear filters when filtering', async () => {
+    const clearFilters = jest.fn()
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={fullFilters} onSubmit={jest.fn()} clearFilters={clearFilters} isFiltering />)
+
+    await user.press(screen.getByText('search.filter.reset.all'))
+
+    expect(clearFilters).toHaveBeenCalled()
+  })
+
+  it('should track clearing all filters', async () => {
+    const user = userEvent.setup()
+
+    render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} isFiltering />)
+
+    await user.press(screen.getByText('search.filter.reset.all'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Volunteering.clearFiltersPressed)
   })
 })
