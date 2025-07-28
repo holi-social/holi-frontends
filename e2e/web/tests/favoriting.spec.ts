@@ -7,7 +7,6 @@ const volunteeringOrTaskCardSelector = [byTestId('volunteering-reco-card'), byTe
 
 test.describe('@Favoriting', () => {
   test('shows login modal for guests', async ({ page: guest }) => {
-    await guest.goto('/')
     await guest.goto('/volunteering')
     await guest.click(volunteeringOrTaskCardSelector)
 
@@ -22,7 +21,6 @@ test.describe('@Favoriting', () => {
     let title_of_favorited_vo
 
     await test.step('user can favorite a vo in the good deeds view', async () => {
-      await user.goto('/')
       await user.goto('/volunteering')
 
       await user.click(volunteeringOrTaskCardSelector)
@@ -33,7 +31,7 @@ test.describe('@Favoriting', () => {
       await expect(user.getByTestId('unfavorite-icon-button')).toBeVisible()
     })
 
-    await test.step('use can see the favorite in the profile favorite list', async () => {
+    await test.step('user can see the favorite in the profile favorite list', async () => {
       // click confirmation toast to navigate to favorites list
       await user.getByLabel('Go to favorites').click()
 
