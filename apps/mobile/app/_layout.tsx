@@ -23,9 +23,7 @@ export default function Layout() {
   const { theme } = useBricks()
 
   useFocusEffect(() => {
-    initializeApp().then(async () => {
-      await SplashScreen.hideAsync()
-    })
+    initializeApp()
   })
 
   if (!isReady) return null
