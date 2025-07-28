@@ -53,7 +53,7 @@ const config: ExpoConfig = {
   icon: './assets/icon.png',
   jsEngine: 'hermes',
   newArchEnabled: false,
-  scheme: 'holi',
+  scheme: `appcues-${requiredEnvVar('APPCUES_APP_ID')}`,
   updates: {
     url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
     fallbackToCacheTimeout: 3000,
