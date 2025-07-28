@@ -60,6 +60,7 @@ export const darkTheme = {
       positive: green[600],
       warning: orange[400],
       danger: red[400],
+      ...decorative,
     },
     border: {
       main: mono[200],

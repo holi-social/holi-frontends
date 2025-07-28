@@ -1,38 +1,50 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import StartSmallCarousel from '@holi/core/components/StartSmallCarousel'
-import type { User } from '@holi/core/domain/shared/types'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { MockedProvider } from '@apollo/client/testing'
 import { HOLI_MEMBER1_FIXTURE } from '@holi/chat/src/test-utils'
-import { createCache } from '@holi/api/graphql/client'
-import type { DefaultOptions } from '@apollo/client'
 
 const mockUseMicroactions = jest.mocked(useMicroactions)
 jest.mock('@holi-apps/volunteering/hooks/useMicroactions', () => ({
   useMicroactions: jest.fn(),
 }))
 
-const getLoggedUserQueryMock = (user: User) => {
-  return {
+const mocks = [
+  {
     request: {
       query: authenticatedUserV2Query,
     },
     result: {
       data: {
-        authenticatedUserV2: user,
+        authenticatedUserV2: {
+          ...HOLI_MEMBER1_FIXTURE,
+          avatarDefaultColor: '#7571EC',
+          avatarLabel: 'EV',
+          avatarBlurhash: '',
+          pronouns: '',
+          location: '',
+          role: '',
+          geolocationId: '',
+          engagementLevel: '',
+          interestsV2: [],
+          skillsV2: [],
+          connectionStatusToMyself: [],
+          trackingConsentPersonalization: false,
+          trackingConsentAnalytics: false,
+          isEmployee: false,
+          email: '',
+          isOidc: false,
+          trackingConsentAdPartners: false,
+          __typename: 'AuthenticatedUser',
+        },
       },
     },
-  }
-}
-
-const defaultOptions: DefaultOptions = {
-  watchQuery: { fetchPolicy: 'no-cache' },
-  query: { fetchPolicy: 'no-cache' },
-}
+  },
+]
 
 describe('StartSmallCarousel', () => {
   const results = {
@@ -51,35 +63,44 @@ describe('StartSmallCarousel', () => {
     jest.useRealTimers()
   })
 
-  it('should render nothing while loading micro actions', () => {
+  it('should render loading card while loading micro actions', () => {
     mockUseMicroactions.mockReturnValue({
       ...results,
       engagements: [],
       isLoading: true,
     })
 
-    const { toJSON } = render(
-      <MockedProvider
-        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
+    render(
+      <MockedProvider mocks={mocks}>
         <StartSmallCarousel />
       </MockedProvider>
     )
 
-    expect(toJSON()).toBeNull()
+    // Headers
+    expect(screen.getByText('act.startSmall.title')).toBeOnTheScreen()
+    expect(screen.getByText('act.startSmall.subline')).toBeOnTheScreen()
+    expect(screen.getByText('act.startSmall.showMore')).toBeOnTheScreen()
+  })
+
+  it('should render nothing when nothing was and can be loaded', async () => {
+    mockUseMicroactions.mockReturnValue({
+      ...results,
+      engagements: [],
+      canFetchMore: false,
+    })
+
+    const { toJSON } = render(
+      <MockedProvider mocks={mocks}>
+        <StartSmallCarousel />
+      </MockedProvider>
+    )
+
+    await waitFor(() => expect(toJSON()).toBeNull())
   })
 
   it('should render loaded micro actions and heading', async () => {
     render(
-      <MockedProvider
-        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
+      <MockedProvider mocks={mocks}>
         <StartSmallCarousel />
       </MockedProvider>
     )
@@ -101,12 +122,7 @@ describe('StartSmallCarousel', () => {
     const engagement = results.engagements[0]
 
     render(
-      <MockedProvider
-        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
+      <MockedProvider mocks={mocks}>
         <StartSmallCarousel />
       </MockedProvider>
     )
@@ -128,12 +144,7 @@ describe('StartSmallCarousel', () => {
     const engagement = results.engagements[0]
 
     render(
-      <MockedProvider
-        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
+      <MockedProvider mocks={mocks}>
         <StartSmallCarousel />
       </MockedProvider>
     )
@@ -152,12 +163,7 @@ describe('StartSmallCarousel', () => {
     })
 
     render(
-      <MockedProvider
-        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
+      <MockedProvider mocks={mocks}>
         <StartSmallCarousel />
       </MockedProvider>
     )
@@ -175,12 +181,7 @@ describe('StartSmallCarousel', () => {
     })
 
     render(
-      <MockedProvider
-        mocks={[getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE)]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
+      <MockedProvider mocks={mocks}>
         <StartSmallCarousel />
       </MockedProvider>
     )

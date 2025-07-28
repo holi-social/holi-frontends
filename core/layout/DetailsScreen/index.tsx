@@ -255,12 +255,15 @@ export const DetailsScreen = ({
                 </Text>
                 {partners.details?.map((partner, index) => {
                   return (
-                    <Stack key={`partner-block-${partner.title}-${index}`} direction="row" gap="xs">
+                    <Stack
+                      key={`partner-block-${partner.title}-${index}`}
+                      direction="row"
+                      gap="xs"
+                      onPress={partner?.onPress}
+                    >
                       <Avatar shape="circle" size="xs" source={partner?.image} label={partner.title} />
                       <Stack direction="row" flex={1} justifyContent="space-between" alignItems="center">
-                        <TextLink onPress={partner?.onPress} size="md">
-                          {partner.title}
-                        </TextLink>
+                        <TextLink size="md">{partner.title}</TextLink>
                         {partner?.onPress ? <HoliIcon size={20} icon={ExternalLink} /> : null}
                       </Stack>
                     </Stack>

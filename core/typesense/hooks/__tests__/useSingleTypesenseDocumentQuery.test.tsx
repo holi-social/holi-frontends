@@ -35,6 +35,7 @@ const createDocument = (id = testId): Typesense_Document => ({
   location_lat_lng: [1, 2],
   organizer_image_url: '',
   organizer_name: '',
+  organizer_url: '',
   skills_v2: [],
   source: '',
   title_de: '',
@@ -154,14 +155,14 @@ describe('useSingleTypesenseDocumentQuery', () => {
 
     // Await initial request
     await act(jest.runOnlyPendingTimersAsync)
-    expect(result.current.document.title_de).toEqual('')
+    expect(result.current.document?.title_de).toEqual('')
 
     act(() => {
       result.current.refresh()
     })
 
     await act(jest.runOnlyPendingTimersAsync)
-    expect(result.current.document.title_de).toEqual('new title')
+    expect(result.current.document?.title_de).toEqual('new title')
   })
 
   it('should refetch on parameter change', async () => {
@@ -193,13 +194,13 @@ describe('useSingleTypesenseDocumentQuery', () => {
     // Await initial request
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(result.current.document.id).toEqual(testId)
+    expect(result.current.document?.id).toEqual(testId)
 
     rerender(nextProps)
 
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(result.current.document.id).toEqual(nextProps.id)
+    expect(result.current.document?.id).toEqual(nextProps.id)
   })
 
   it('should call onError callback', async () => {
@@ -224,7 +225,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
 
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(onError).toHaveBeenCalledWith('Test error')
+    expect(onError).toHaveBeenCalledWith(new Error('Test error'))
     expect(result.current.document).toBeUndefined()
   })
 

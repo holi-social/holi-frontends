@@ -43,7 +43,11 @@ const DonationCarousel = ({ locationQuery, cardWidth }: DonationCarouselProps) =
   const projectsToRender = projects.slice(0, PROJECT_PAGE_SIZE)
 
   const listItemTrackingEvent: ListItemTrackingEvent<Project> = ({ title, id }) => {
-    return TrackingEvent.RecommendationViewed('donation', { title, id })
+    return TrackingEvent.RecommendationViewed('donation', {
+      title,
+      id,
+      sourceSection: 'Donations',
+    })
   }
 
   const listItemIdentifier: ListItemIdentifier<Project> = ({ id }) => {

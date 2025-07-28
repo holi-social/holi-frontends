@@ -25,6 +25,7 @@ const insight: Insight = {
   },
   isFavorite: false,
   polls: [],
+  __typename: 'Insight',
 }
 
 export const createInsightList = (length = 3) =>

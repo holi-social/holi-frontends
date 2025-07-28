@@ -2,15 +2,25 @@ import { jest } from '@jest/globals'
 import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
+// @ts-ignore
+import mockClipboard from '@react-native-clipboard/clipboard/jest/clipboard-mock.js'
 
 import i18n from '@holi/core/i18n'
 import type { TrackingEventHandler, TrackingHook } from '@holi/core/tracking/types'
+
+import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
+
+// Adds Apollo dev messages
+loadDevMessages()
+loadErrorMessages()
 
 // Added to fix the following error: https://github.com/facebook/react-native/issues/42904#issuecomment-2306382117
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
 const { Switch } = require('react-native')
 // Added to fix the following error: https://stackoverflow.com/questions/70506663/invariant-violation-new-nativeeventemitter-requires-a-non-null-argument
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
+
+jest.mock('@react-native-clipboard/clipboard', () => mockClipboard)
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('react-native-reanimated').setUpTests()

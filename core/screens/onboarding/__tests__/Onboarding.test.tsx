@@ -288,13 +288,10 @@ describe('Onboarding', () => {
     expectOnboardingCleanUp()
   })
 
-  it('should redirect to selected content type', async () => {
+  it('should redirect to home feed', async () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
     mockUseOnboardingState.mockReturnValue('finished')
-    mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
-      ...defaultUserData,
-      content: 'SPACES',
-    })
+    mockGetOnboardingUserDataAsyncStore.mockResolvedValue(defaultUserData)
 
     render(
       <MockedProvider mocks={mocks}>
@@ -306,7 +303,7 @@ describe('Onboarding', () => {
       await jest.runAllTimersAsync()
     })
 
-    expect(mockUseRedirect).toHaveBeenCalledWith('/spaces?tab=discover')
+    expect(mockUseRedirect).toHaveBeenCalledWith('/')
   })
 
   it('should complete the whole flow', async () => {
@@ -319,9 +316,6 @@ describe('Onboarding', () => {
     await navigateThroughOnboarding([
       // Welcome
       { action: 'press', label: 'onboarding.welcome.forward' },
-      // Content selection
-      { action: 'press', label: 'onboarding.contentSelection.SPACES' },
-      { action: 'press', label: 'global.next' },
       // Location is prefilled
       { action: 'press', label: 'onboarding.welcome.forward' },
       // Interests
@@ -349,7 +343,6 @@ describe('Onboarding', () => {
   it('should complete the whole flow with minimal inputs', async () => {
     await navigateThroughOnboarding([
       { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'global.next' },
       { action: 'press', label: 'onboarding.location.nextButtonLabel.skip' },
       { action: 'press', label: 'onboarding.interests.nextButtonLabel.skip' },
       { action: 'press', label: 'onboarding.skills.nextButtonLabel.skip' },
@@ -382,7 +375,6 @@ describe('Onboarding', () => {
       { action: 'press', label: 'global.skip' },
       { action: 'press', label: 'global.skip' },
       { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.skip' },
       { action: 'press', label: 'auth.loginProtection.continueAsGuest' },
     ])
 
@@ -395,7 +387,6 @@ describe('Onboarding', () => {
   it('should fully track onboarding flow', async () => {
     // Prefill user data
     mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
-      content: 'VOLUNTEERING',
       interests: ['animal-welfare'],
       skills: ['creativity-design'],
       location: testLocation,
@@ -403,7 +394,6 @@ describe('Onboarding', () => {
 
     await navigateThroughOnboarding([
       { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'global.next' },
       { action: 'press', label: 'onboarding.welcome.forward' },
       { action: 'press', label: 'onboarding.welcome.forward' },
       { action: 'press', label: 'onboarding.welcome.forward' },
@@ -417,9 +407,6 @@ describe('Onboarding', () => {
     ])
 
     expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('welcome', ['continue'], 'continue'))
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.OnboardingStepCompleted('contentSelection', ['VOLUNTEERING'], 'continue')
-    )
     expect(track).toHaveBeenCalledWith(
       TrackingEvent.OnboardingStepCompleted('locationSelection', ['Hamburg, Germany'], 'continue')
     )
@@ -441,7 +428,6 @@ describe('Onboarding', () => {
   it('should clear selection on skip', async () => {
     // Prefill user data
     mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
-      content: 'VOLUNTEERING',
       interests: ['animal-welfare'],
       skills: ['creativity-design'],
       location: testLocation,
@@ -452,12 +438,10 @@ describe('Onboarding', () => {
       { action: 'press', label: 'global.skip' },
       { action: 'press', label: 'global.skip' },
       { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.skip' },
       { action: 'press', label: 'auth.loginProtection.continueAsGuest' },
     ])
 
     expect(storeOnboardingUserDataAsyncStore).toHaveBeenCalledWith({
-      content: undefined,
       location: undefined,
       interests: [],
       skills: [],
@@ -471,8 +455,8 @@ describe('Onboarding', () => {
       { action: 'press', label: 'global.back' },
     ])
 
-    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('contentSelection', [], 'skip'))
-    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('locationSelection', [], 'back'))
+    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('locationSelection', [], 'skip'))
+    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('interestsSelection', [], 'back'))
   })
 
   it('should track login', async () => {

@@ -26,6 +26,17 @@
         "projectId": "68fea4c8-87ed-40e9-a820-e3785a260a66"
       }
     },
-    "owner": "holistic-foundation"
+    "owner": "holistic-foundation",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "components/text/fonts/InstrumentSans-Regular.ttf",
+            "components/text/fonts/InstrumentSans-Medium.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }

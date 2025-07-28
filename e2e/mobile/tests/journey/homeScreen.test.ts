@@ -25,7 +25,7 @@ const assertShowsInsights = async () => {
   // go home
   await navigateBackToHomeScreen()
 
-  await waitForElementWithTestId('home-feed-insights-heading')
+  await waitForElementWithTestId('home-feed-listing')
 
   // go to insight screen
   await scrollToElementWithTestId('feed-insight-image-link', 'down')

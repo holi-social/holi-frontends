@@ -33,6 +33,8 @@ const StartSmallCarousel = () => {
     isLoading: isLoadingEngagements,
   } = useMicroactions({ userLocation: geolocationDetails, skip: isLoadingUser || isLoadingGeolocation })
 
+  const isLoading = isLoadingUser || isLoadingGeolocation || isLoadingEngagements
+
   const listProps = {
     horizontal: true,
     contentContainerStyle: {
@@ -40,27 +42,28 @@ const StartSmallCarousel = () => {
       gap: Spacing['3xs'],
     },
     data: engagements,
-    ListFooterComponent: canFetchMore ? (
-      <View style={{ flex: 1, minHeight: 261 }}>
-        <HoliMoreCard
-          role="link"
-          label={t('act.startSmall.showMore')}
-          onPress={fetchNextPage}
-          hasButton
-          bgImageSrc={require('@holi/ui/assets/img/placeholder/placeholder-blue.svg')}
-          fixedWidth={146}
-        >
-          <Button
+    ListFooterComponent:
+      canFetchMore || !engagements.length ? (
+        <View style={{ flex: 1, minHeight: 261 }}>
+          <HoliMoreCard
+            role="link"
             label={t('act.startSmall.showMore')}
-            size="sm"
             onPress={fetchNextPage}
-            loading={isLoadingEngagements}
-          />
-        </HoliMoreCard>
-      </View>
-    ) : (
-      <></>
-    ),
+            hasButton
+            bgImageSrc={require('@holi/ui/assets/img/placeholder/placeholder-blue.svg')}
+            fixedWidth={146}
+          >
+            <Button
+              label={t('act.startSmall.showMore')}
+              size="sm"
+              onPress={fetchNextPage}
+              loading={isLoadingEngagements}
+            />
+          </HoliMoreCard>
+        </View>
+      ) : (
+        <></>
+      ),
   }
 
   const listItemTrackingEvent: ListItemTrackingEvent<LocalizedTypesenseDocument> = (item) => {
@@ -119,7 +122,7 @@ const StartSmallCarousel = () => {
     />
   )
 
-  if (isLoadingUser || isLoadingGeolocation || engagements.length === 0) {
+  if (!isLoading && engagements.length === 0) {
     return null
   }
 

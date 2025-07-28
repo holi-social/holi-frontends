@@ -145,6 +145,7 @@ const nextConfig = {
     'react-native-unistyles',
     'react-native-web',
     'react-native-webview',
+    '@react-native-clipboard/clipboard',
     'recyclerlistview',
     'expo',
     'expo-modules-core',

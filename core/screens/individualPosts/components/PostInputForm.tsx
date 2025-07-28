@@ -164,7 +164,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
-  const categoryLabel = categories?.find((category) => category.id === selectedCategoryId)?.label ?? selectedCategoryId
+  const categoryLabel =
+    categories?.find((category) => category.id === selectedCategoryId)?.secondaryLabel ?? selectedCategoryId
 
   const descriptionPlaceholder =
     categories?.find((category) => category.id === selectedCategoryId)?.description ??
@@ -209,11 +210,11 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             {selectedTopics &&
               (selectedTopics?.length < 1 ? (
                 <ChipAction id="post-topic-pill" onPress={showTopicsModal} iconTrailing={Add} color="green">
-                  {t('individuals.post.category.label.topic')}
+                  {t('individuals.post.category.label.topic_one')}
                 </ChipAction>
               ) : (
                 <ChipAction id="post-topic-pill-selected" onPress={showTopicsModal} color="green">
-                  {`${selectedTopics.length} ${t('individuals.post.category.label.topic', {
+                  {`${selectedTopics.length} ${t('individuals.post.category.label.topic_other', {
                     count: selectedTopics.length,
                   })}`}
                 </ChipAction>

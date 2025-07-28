@@ -1,4 +1,5 @@
-import React from 'react'
+import type React from 'react'
+import { MockedProvider } from '@apollo/client/testing'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
@@ -9,6 +10,12 @@ import type { TFunction } from 'i18next'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
+import {
+  FavoriteExternalVolunteeringOpportunityDocument,
+  Typesense_DocumentContactType,
+} from '@holi/api/graphql/graphql-codegen'
+
+jest.mock('@holi/core/components/HoliWebView')
 
 const engagementId = 'test-id'
 
@@ -30,11 +37,34 @@ const engagementTypesenseDocument = (id: string): TypesenseDocument => ({
   source: 'Voltastics',
   organizer_name: 'Test Organization',
   organizer_image_url: 'https://example.com/volunteering/organizer_' + engagementId + '.jpg',
+  organizer_url: 'https://example.com/volunteering/organizer',
   external_url: 'https://example.com/volunteering/' + engagementId,
   location_type: 'onsite',
   commitment_label: 'negotiable',
   commitment_duration: 'HOURS_1to2',
+  contact: [
+    { type: Typesense_DocumentContactType.Person, value: 'Ada Lovelace' },
+    { type: Typesense_DocumentContactType.Email, value: 'ada@lovelace.com' },
+    { type: Typesense_DocumentContactType.Phone, value: '+49 1234 1234567' },
+    {
+      label: "Ada's Website",
+      type: Typesense_DocumentContactType.Website,
+      value: 'https://www.lovelace.com',
+    },
+  ],
 })
+
+const favoriteRequest = {
+  request: {
+    query: FavoriteExternalVolunteeringOpportunityDocument,
+    variables: { favoritableId: engagementId },
+  },
+  result: {
+    data: {
+      favorite: null,
+    },
+  },
+}
 
 const t: TFunction = ((k: string) => k) as TFunction
 
@@ -57,17 +87,17 @@ jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
   useTypesensePaginationQuery: jest.fn(),
 }))
 
-jest.mock('@holi/core/components/HoliWebView')
-
 jest.useFakeTimers()
 
 describe('VolunteeringDetailsScreen', () => {
+  const document = engagementTypesenseDocument(engagementId)
+
   beforeEach(() => {
     mockUseFeatureFlag.mockReturnValue([true, undefined])
     mockUseTypesensePaginationQuery.mockReturnValue({
       isFetchingMore: false,
+      isLoading: false,
       state: {
-        isLoading: false,
         hits: [
           {
             document: {
@@ -83,6 +113,7 @@ describe('VolunteeringDetailsScreen', () => {
         canFetchMore: false,
         currentPage: 1,
         parameters: {},
+        facetCounts: {},
       },
       refetch: jest.fn(),
       fetchNextPage: jest.fn(),
@@ -93,15 +124,21 @@ describe('VolunteeringDetailsScreen', () => {
     await act(jest.runOnlyPendingTimersAsync)
   })
 
-  it('should render correctly (en)', async () => {
-    const document = engagementTypesenseDocument(engagementId)
-    const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsData.mockReturnValue({
-      isLoading: false,
-      document: data,
-    })
+  const renderComponent = () => {
+    render(
+      <MockedProvider mocks={[favoriteRequest]} addTypename={false}>
+        <VolunteeringDetailsScreen engagementId={engagementId} />
+      </MockedProvider>
+    )
+  }
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+  it('should render correctly (en)', async () => {
+    mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
+      isLoading: false,
+      document: transformTypesenseDocument({ t, language: 'en', document, onOpenLink }),
+    }))
+
+    renderComponent()
     await act(jest.runAllTimersAsync)
 
     expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 424))
@@ -114,54 +151,63 @@ describe('VolunteeringDetailsScreen', () => {
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
     expect(screen.getByText('volunteering.engagement.commitment_label.negotiable')).toBeVisible()
     expect(screen.getByText('volunteering.engagement.commitment_duration.HOURS_1to2')).toBeVisible()
+    expect(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
   })
 
   it('should render correctly (de)', async () => {
-    const document = engagementTypesenseDocument(engagementId)
-    const data = transformTypesenseDocument(t, 'de', document)
-    mockUseVolunteeringDetailsData.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: data,
-    })
+      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink }),
+    }))
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+    renderComponent()
     await act(jest.runAllTimersAsync)
 
     expect(screen.getByText(document.title_de!)).toBeVisible()
     expect(screen.getByText(document.description_de!)).toBeVisible()
   })
 
-  it('tracks external link clicks (mobile)', async () => {
-    const document = engagementTypesenseDocument(engagementId)
-    const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsData.mockReturnValue({
-      isLoading: false,
-      document: data,
-    })
-
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
-
-    await act(jest.runAllTimersAsync)
-
-    const user = userEvent.setup()
-    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-
-    await act(jest.runAllTimersAsync)
-    expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
-  })
-
   it('renders similarity recommendations', async () => {
-    const document = engagementTypesenseDocument(engagementId)
-    const data = transformTypesenseDocument(t, 'en', document)
-    mockUseVolunteeringDetailsData.mockReturnValue({
+    mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: data,
-    })
+      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink }),
+    }))
 
-    render(<VolunteeringDetailsScreen engagementId={engagementId} />)
+    renderComponent()
 
     await act(jest.runAllTimersAsync)
 
     expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
+  })
+
+  it('should open drawer for external link if there is no contact info', async () => {
+    const user = userEvent.setup()
+    const documentWithoutContact = { ...document, contact: [] }
+    mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
+      isLoading: false,
+      document: transformTypesenseDocument({ t, language: 'de', document: documentWithoutContact, onOpenLink }),
+    }))
+
+    renderComponent()
+
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
+    await act(jest.runAllTimersAsync)
+
+    expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
+  })
+
+  it('should open drawer for contact if there is contact info', async () => {
+    const user = userEvent.setup()
+    mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
+      isLoading: false,
+      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink }),
+    }))
+
+    renderComponent()
+
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+    await act(jest.runAllTimersAsync)
+
+    expect(screen.getByTestId('volunteering-contact-modal')).toBeOnTheScreen()
   })
 })

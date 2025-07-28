@@ -135,3 +135,4 @@ export type SignupModalPressedTrigger =
   | 'START_CHAT'
   | 'CONNECT_TO_USER'
   | 'GET_IN_TOUCH'
+  | 'COLLECT_GOOD_DEEDS'

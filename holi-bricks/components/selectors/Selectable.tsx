@@ -8,7 +8,7 @@ import type { GestureResponderEvent } from 'react-native'
 
 export interface SelectableBaseProps {
   selected?: boolean
-  onPress?: (event: GestureResponderEvent) => void | Promise<void>
+  onPress?: (event: GestureResponderEvent) => unknown | Promise<unknown>
   inputType?: string
 }
 

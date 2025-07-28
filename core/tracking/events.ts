@@ -441,7 +441,7 @@ export namespace TrackingEvent {
   export const Volunteering = {
     pressed: (
       engagementId: string,
-      otherProperties: Record<string, string | number | undefined> = {}
+      otherProperties: Record<string, string | number | string[] | undefined> = {}
     ): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
       properties: { engagementId, ...otherProperties },
@@ -455,14 +455,36 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
-    reachedOut: (
+    contacted: (
       engagementId: string,
-      otherProperties: Record<string, string | number | undefined> = {}
+      otherProperties: Record<string, string | number | string[] | undefined> = {}
     ): TrackingEvent => ({
-      name: 'pressedVolunteeringEngagementReachedOutButton',
+      name: 'pressedVolunteeringContactButton',
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+
+    filterPillPressed: (
+      filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills'
+    ): TrackingEvent => ({
+      name: 'filterPillPressed',
+      properties: { filterCategory },
+      ...versionOne,
+    }),
+
+    filterSelectionSaved: (
+      filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills',
+      selectedValues?: string | string[]
+    ): TrackingEvent => ({
+      name: 'filterSelectionSaved',
+      properties: { filterCategory, selectedValues },
+      ...versionOne,
+    }),
+
+    clearFiltersPressed: {
+      name: 'clearFiltersPressed',
+      ...versionOne,
+    },
   }
 
   export const SpacePosts = {
@@ -543,14 +565,14 @@ export namespace TrackingEvent {
     commitmentType?: string
     locationType?: string
     source?: string
-    sourceSection?: 'Micro Action' | 'Volunteering' // To be expanded when we add other content types to the Micro Action Section.
+    sourceSection?: 'Micro Action' | 'Volunteering' | 'Donations' // To be expanded when we add other recommended content types.
   }
 
   export const RecommendationPressed = (
     type: RecommendationType,
     itemId: string,
     index: number,
-    otherProperties: RecommendationProperties = {}
+    otherProperties: RecommendationProperties
   ): TrackingEvent => ({
     name: 'recommendation_pressed',
     ...versionOne,
@@ -564,7 +586,7 @@ export namespace TrackingEvent {
 
   export const RecommendationViewed = (
     type: RecommendationType | 'challenges',
-    otherProperties: RecommendationProperties = {}
+    otherProperties: RecommendationProperties
   ): TrackingEvent => ({
     ...versionOne,
     name: 'recommendation_viewed',

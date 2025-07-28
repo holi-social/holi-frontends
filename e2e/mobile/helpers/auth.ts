@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { navigateBackToHomeScreen, waitForActScreen, waitForHomeScreen } from '../helpers/navigation'
+import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
@@ -42,8 +42,7 @@ export const continueAsGuest = async () => {
     // Skip through all onboarding steps and continue as guet
     await skipOnboardingSteps()
     await tapOnElementWithTestId(testIdContinueAsGuest)
-    // User will land on act screen after onboarding > navigate to home feed
-    await tapOnElementWithTestId('btn-to-home-view')
+    // User will land on home screen after onboarding
   }
 
   await waitForHomeScreen()
@@ -69,6 +68,9 @@ export const login = async (
   await waitForElementWithTestId('ory-identifier-input')
   await fillFieldByTestId('ory-identifier-input', email)
   await fillFieldByTestId('ory-password-input', password)
+
+  // Close the keyboard by clicking on the header
+  await tapOnElementWithTestId('heading')
 
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
@@ -102,19 +104,15 @@ export const register = async ({
   await fillFieldByTestId('ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
 
+  // Close the keyboard by clicking on the header
+  await tapOnElementWithTestId('create-account-logo')
+
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
 
   // Finish account setup
   if (!skipAccountSetup) {
     await finishAccountSetup()
-
-    if (!userData?.content) {
-      // User will land on act screen after onboarding > navigate to home feed
-      await waitForActScreen()
-      await tapOnElementWithTestId('btn-to-home-view')
-      await waitForHomeScreen()
-    }
   }
 }
 
@@ -145,8 +143,6 @@ const skipOnboardingSteps = async () => {
   // Skip through all onboarding steps
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
-  await waitForElementWithTestId('onboarding-content-selection')
-  await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
   // Wait for each screen to prevent pressing the same button twice
   await waitForElementWithTestId('onboarding-location-selection')
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
@@ -160,12 +156,6 @@ const skipOnboardingSteps = async () => {
 const fillOutOnboarding = async (userData: OnboardingUserData) => {
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
-  // Handle content selection
-  await waitForElementWithTestId('onboarding-content-selection')
-  if (userData.content) {
-    await tapOnElementWithTestId(userData.content)
-  }
-  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
   // Handle location selection
   await waitForElementWithTestId('onboarding-location-selection')
   if (userData.location) {

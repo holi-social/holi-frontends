@@ -10,14 +10,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import {
-  HomeSmile2,
-  HomeSmile2Filled,
-  Megaphone,
-  MegaphoneFilled,
-  Spaces,
-  SpacesFilled,
-} from '@holi/icons/src/generated'
+import { Home, HomeFilled, Megaphone, MegaphoneFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -61,17 +54,17 @@ const FooterTabBar = () => {
     >
       <HoliContainer flexDirection={'row'} justifyContent={'space-between'}>
         <HoliButton
-          label={t('navigation.home', 'Home')}
+          label={t('navigation.feed', 'Feed')}
           inline
           transparent
           onPress={() => navigate('/')}
           testID="btn-to-home-view"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} colorOverride={unistyles.icon(isHome).color} />
+          <HoliIcon icon={isHome ? HomeFilled : Home} colorOverride={unistyles.icon(isHome).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isHome ? 'main' : 'default'} role="none">
-            {t('navigation.home', 'Home')}
+            {t('navigation.feed', 'Feed')}
           </TextLink>
         </HoliButton>
 

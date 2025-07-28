@@ -3,6 +3,13 @@ import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { testLocation } from '@holi-apps/volunteering/__tests__/testData'
+import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
+import { suggestedLocations } from '@holi-apps/volunteering/helpers/suggestedLocations'
+
+const mockUseUserLanguage = jest.mocked(useUserLanguage)
+jest.mock('@holi/core/screens/search/hooks/useUserLanguage', () => ({
+  useUserLanguage: jest.fn(),
+}))
 
 const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
 jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
@@ -54,6 +61,7 @@ describe('VolunteeringLocationFilterSelection', () => {
   beforeEach(() => {
     jest.useFakeTimers()
     mockAutocompleteHook()
+    mockUseUserLanguage.mockReturnValue('de')
   })
 
   afterEach(() => {
@@ -120,5 +128,38 @@ describe('VolunteeringLocationFilterSelection', () => {
     mockUsePlacesAutocomplete.mock.calls[0][0].onChange?.(testLocation)
 
     expect(onSelect).toHaveBeenCalledWith(testLocation)
+  })
+
+  it('should display suggested locations', () => {
+    render(<VolunteeringLocationFilterSelection selected={undefined} onSelect={jest.fn()} />)
+
+    screen.debug()
+
+    expect(screen.getAllByRole('link')).toHaveLength(suggestedLocations.length)
+    suggestedLocations.forEach((suggestion) => expect(screen.getByText(suggestion.city!)))
+  })
+
+  it('should display suggested locations with english city names', () => {
+    mockUseUserLanguage.mockReturnValue('en')
+
+    render(<VolunteeringLocationFilterSelection selected={undefined} onSelect={jest.fn()} />)
+
+    expect(screen.getAllByRole('link')).toHaveLength(suggestedLocations.length)
+    suggestedLocations.forEach((suggestion) =>
+      expect(screen.getByText(suggestion.overrideEn?.city ?? suggestion.city!))
+    )
+  })
+
+  it('should select location suggestion on press', async () => {
+    const onSelect = jest.fn()
+    const user = userEvent.setup()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { overrideEn, ...expectedSuggestion } = suggestedLocations[0]
+
+    render(<VolunteeringLocationFilterSelection selected={undefined} onSelect={onSelect} />)
+
+    await user.press(screen.getByText(expectedSuggestion.city!))
+
+    expect(onSelect).toHaveBeenCalledWith(expectedSuggestion)
   })
 })

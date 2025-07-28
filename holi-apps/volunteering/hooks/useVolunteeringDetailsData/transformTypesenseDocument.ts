@@ -7,12 +7,21 @@ import {
   type VolunteeringDetailsScreenData,
 } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 
-export const transformTypesenseDocument = (
-  t: TFunction,
-  language: string,
+interface TransformTypesenseDocumentProps {
+  t: TFunction
+  language: string
   document: TypesenseDocument
-): VolunteeringDetailsScreenData => {
+  onOpenLink: (url?: string) => void
+}
+
+export const transformTypesenseDocument = ({
+  t,
+  language,
+  document,
+  onOpenLink,
+}: TransformTypesenseDocumentProps): VolunteeringDetailsScreenData => {
   const engagement = localizeTypesenseDocument(document, language)
   const partner = document.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[document.source] : undefined
 
@@ -71,9 +80,11 @@ export const transformTypesenseDocument = (
     topTitle: `${t('postedVia', { source: document.source })}`,
     title: document.organizer_name || document.source || '',
     mainAvatar: {
-      source: document.organizer_image_url ?? (partner?.logo?.src as string),
+      source: document.organizer_image_url,
       label: document.organizer_name || '??',
     },
+    isExternalLink: !!document.organizer_url,
+    onPress: document.organizer_url ? () => onOpenLink(document.organizer_url) : undefined,
   }
 
   const infoList = [locationInfo, commitmentRegularity, commitmentDuration].filter(
@@ -92,5 +103,16 @@ export const transformTypesenseDocument = (
     commitmentType: document.commitment_label,
     locationType: document.location_type,
     source: document.source,
+    contact: engagement.contact,
+    partners: {
+      title: t('volunteering.engagementDetail.providedBy'),
+      details: [
+        {
+          title: document.source ?? '',
+          image: partner?.logo?.src as MultiPlatformImageSource,
+          onPress: document.external_url ? () => onOpenLink(document.external_url) : undefined,
+        },
+      ],
+    },
   }
 }
