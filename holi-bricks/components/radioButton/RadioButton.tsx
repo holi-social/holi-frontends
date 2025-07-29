@@ -3,7 +3,7 @@ import { type SyntheticEvent, useCallback, useState } from 'react'
 import { Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
-import { BorderRadius, breakpoints, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
+import { BorderRadius, breakpoints, IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -128,8 +128,8 @@ const stylesheet = createStyleSheet((theme) => ({
     },
   },
   radioDot: (selected: boolean) => ({
-    width: 12,
-    height: 12,
+    width: IconSize.xs,
+    height: IconSize.xs,
     borderRadius: BorderRadius.pill,
     variants: {
       selected: {
@@ -151,8 +151,8 @@ const stylesheet = createStyleSheet((theme) => ({
         true: {
           ...Platform.select({
             web: {
-              width: 16,
-              height: 16,
+              width: IconSize.sm,
+              height: IconSize.sm,
             },
           }),
         },
