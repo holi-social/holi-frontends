@@ -53,7 +53,7 @@ const CreatePost = () => {
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
-  const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
+  const [showRewardMessage, setShowRewardMessage] = useState<boolean>(true)
 
   const { data, refetch } = useGetRewardsCounterQuery()
   const counter = data?.rewards_counter.counter
@@ -152,11 +152,12 @@ const CreatePost = () => {
 
   // Handle form submission
   const handleSubmit = () => {
-    if (selectedCategoryId === goodDeedCategoryId) {
-      createPost()
-    } else {
-      createPost()
-    }
+    setShowRewardMessage(false)
+    // if (selectedCategoryId === goodDeedCategoryId) {
+    //   createPost()
+    // } else {
+    //   createPost()
+    // }
   }
 
   if (showRewardMessage) {

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { StyleSheet, View, Pressable, Linking, Animated } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { StyleSheet, View, Pressable, Linking, Animated, Easing } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -24,14 +24,78 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   const { t } = useTranslation()
   const styles = React.useMemo(() => getStyles(theme), [theme])
   const fadeAnim = useRef(new Animated.Value(0)).current
+  const countAnim = useRef(new Animated.Value(0)).current
+  const bounceAnim = useRef(new Animated.Value(1)).current
+  const verticalBounceAnim = useRef(new Animated.Value(0)).current
+  const initialBounceAnim = useRef(new Animated.Value(0)).current
+  const [displayCount, setDisplayCount] = useState(0)
 
+  // counter animation
   useEffect(() => {
+    const finalCount = goodDeedCount || 1
+
+    // Start from previous count (goodDeedCount - 1)
+    countAnim.setValue(goodDeedCount - 1)
+
+    // Initialize display count to starting value
+    setDisplayCount(goodDeedCount - 1)
+
+    countAnim.addListener(({ value }) => {
+      setDisplayCount(Math.floor(value))
+    })
+
+    // Fade in the view immediately
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: 400,
       useNativeDriver: true,
     }).start()
-  }, [fadeAnim])
+
+    // Create a sequence of animations that flow seamlessly
+    Animated.sequence([
+      // Initial bounce down
+      Animated.timing(initialBounceAnim, {
+        toValue: -50,
+        duration: 200,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }),
+      // Return to normal position
+      Animated.timing(initialBounceAnim, {
+        toValue: 0,
+        duration: 75,
+        useNativeDriver: true,
+      }),
+      // Start the counter animation immediately after the bounce
+      Animated.timing(countAnim, {
+        toValue: finalCount,
+        duration: 200,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // Add bounce effect when counter animation completes
+      Animated.sequence([
+        // Add vertical bounce - move up
+        Animated.timing(verticalBounceAnim, {
+          toValue: 8,
+          duration: 100,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        // Settle back to normal position
+        Animated.timing(verticalBounceAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start()
+    })
+
+    return () => {
+      countAnim.removeAllListeners()
+    }
+  }, [fadeAnim, countAnim, bounceAnim, verticalBounceAnim, initialBounceAnim, goodDeedCount])
 
   const handleMoreInfoPress = () => {
     if (campaignTag) {
@@ -45,11 +109,49 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
         <View style={styles.iconContainer}>
           <HoliLottie animType="goodDeedsCounter" loop={false} />
         </View>
-        <Text headingLevel="1" size="5xl" bold>
-          {goodDeedCount}
-        </Text>
+        <View style={{ height: 140, overflow: 'hidden', width: 140 }}>
+          <Animated.View
+            style={{
+              transform: [
+                {
+                  translateY: Animated.add(
+                    countAnim.interpolate({
+                      inputRange: [goodDeedCount - 1, goodDeedCount],
+                      outputRange: [0, 140],
+                    }),
+                    initialBounceAnim
+                  ),
+                },
+              ],
+            }}
+          >
+            <Text headingLevel="1" size="5xl" bold>
+              {goodDeedCount - 1}
+            </Text>
+          </Animated.View>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              transform: [
+                {
+                  translateY: Animated.add(
+                    countAnim.interpolate({
+                      inputRange: [goodDeedCount - 1, goodDeedCount],
+                      outputRange: [-140, 0],
+                    }),
+                    verticalBounceAnim
+                  ),
+                },
+              ],
+            }}
+          >
+            <Text headingLevel="1" size="5xl" bold>
+              {goodDeedCount}
+            </Text>
+          </Animated.View>
+        </View>
         <View style={styles.countContainer}>
-          {goodDeedCount > 1 ? (
+          {displayCount > 1 || displayCount === 0 ? (
             <Text headingLevel="2" size="3xl">
               {t('goodDeeds.name')}
             </Text>
