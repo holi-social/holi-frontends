@@ -1,5 +1,8 @@
 import '@testing-library/jest-native/extend-expect'
 import { configure } from '@testing-library/react-native'
+import { initializeBricks } from 'holi-bricks/config'
+
+initializeBricks()
 
 configure({
   defaultDebugOptions: {

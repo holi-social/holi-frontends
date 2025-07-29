@@ -21,6 +21,7 @@ module.exports = {
     '^expo-image-manipulator$': '<rootDir>/__mocks__/expo-image-manipulator/index.js',
   },
   setupFiles: [
+    'react-native-unistyles/mocks',
     '<rootDir>/jest.setup.ts',
     '<rootDir>/jest.setup.chat.ts',
     '<rootDir>/node_modules/jest-offline',
