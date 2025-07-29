@@ -89,6 +89,8 @@
     "jest-offline": "^1.0.1",
     "jest-when": "^3.6.0",
     "node-gyp": "^10.2.0",
+    "react-native-nitro-modules": "0.26.2",
+    "react-native-unistyles": "^3.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
@@ -100,11 +102,7 @@
   },
   "dependencies": {
     "expo": "^53.0.20",
-    "react-native-unistyles": "^3.0.0-rc.5",
     "react-native-web": "^0.20.0"
-  },
-  "installConfig": {
-    "hoistingLimits": "workspaces"
   },
   "resolutions": {
     "eslint-plugin-react-hooks": "4.6.2",
