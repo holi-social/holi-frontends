@@ -5,6 +5,7 @@ import { useContext } from 'react'
 
 import { SelectorCard, type SelectorCardProps } from './SelectorCard'
 import type { GestureResponderEvent } from 'react-native'
+import { RadioButton, type RadioButtonProps } from 'holi-bricks/components/radioButton/RadioButton'
 
 export interface SelectableBaseProps {
   selected?: boolean
@@ -34,3 +35,4 @@ const Selectable = <P extends SelectableBaseProps>(Component: React.ComponentTyp
 
 export const SelectableCard = Selectable<SelectorCardProps>(SelectorCard)
 export const SelectableChip = Selectable<ChipActionProps>(ChipAction)
+export const SelectableRadioButton = Selectable<RadioButtonProps>(RadioButton)

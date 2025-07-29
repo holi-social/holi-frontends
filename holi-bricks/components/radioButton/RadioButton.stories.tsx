@@ -4,6 +4,8 @@ import React from 'react'
 
 import { RadioButton } from 'holi-bricks/components/radioButton/RadioButton'
 import { Stack } from 'holi-bricks/components/stack'
+import { Selector } from 'holi-bricks/components/selectors'
+import { SelectableRadioButton } from 'holi-bricks/components/selectors/Selectable'
 
 const meta: Meta<typeof RadioButton> = {
   title: 'Components/RadioButton/RadioButton',
@@ -67,6 +69,18 @@ export const DisabledBySelectionState: Story = {
           />
         ))}
       </Stack>
+    )
+  },
+}
+
+export const RadioButtonGroup: Story = {
+  render: function Render() {
+    return (
+      <Selector role="radiogroup" title="Choose an option" initiallySelectedOptions={['A']}>
+        <SelectableRadioButton id="A" label="Option A" />
+        <SelectableRadioButton id="B" label="Option B" />
+        <SelectableRadioButton id="C" label="Option C" />
+      </Selector>
     )
   },
 }

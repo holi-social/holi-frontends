@@ -9,7 +9,7 @@ describe('RadioButton', () => {
     expect(screen.getByText('Click me')).toBeOnTheScreen()
   })
 
-  it('should call onPress callback with true when not selected', async () => {
+  it('should call onPress callback', async () => {
     const onPress = jest.fn()
     const user = userEvent.setup()
 
@@ -17,18 +17,7 @@ describe('RadioButton', () => {
 
     await user.press(screen.getByText('Click me'))
 
-    expect(onPress).toHaveBeenCalledWith(true, expect.any(Object))
-  })
-
-  it('should call onPress callback with false when selected', async () => {
-    const onPress = jest.fn()
-    const user = userEvent.setup()
-
-    render(<RadioButton label="Click me" onPress={onPress} selected />)
-
-    await user.press(screen.getByText('Click me'))
-
-    expect(onPress).toHaveBeenCalledWith(false, expect.any(Object))
+    expect(onPress).toHaveBeenCalled()
   })
 
   it('should not call onPress callback if disabled', async () => {

@@ -8,12 +8,12 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundat
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
-type RadioButtonProps = AccessibilityProps &
+export type RadioButtonProps = AccessibilityProps &
   LayoutProps & {
     label: string
     selected?: boolean
     disabled?: boolean
-    onPress?: (selected: boolean, event: React.SyntheticEvent | GestureResponderEvent) => void
+    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   }
 
 export const RadioButton = ({ label, selected = false, disabled = false, onPress, ...rest }: RadioButtonProps) => {
@@ -27,9 +27,9 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
   const handlePress = useCallback(
     (event: React.SyntheticEvent | GestureResponderEvent) => {
       setActive(true)
-      return onPress?.(!selected, event)
+      return onPress?.(event)
     },
-    [onPress, selected]
+    [onPress]
   )
   const onKeyDownCapture = useCallback(
     (event: React.KeyboardEvent) => {
