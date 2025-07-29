@@ -41,7 +41,7 @@
     "react-native-media-query": "^2.0.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-svg-web": "^1.0.9",
-    "react-native-unistyles": "^3.0.0-rc.5",
+    "react-native-unistyles": "^3.0.7",
     "react-native-web": "^0.20.0",
     "react-transition-group": "^4.4.5",
     "react-zoom-pan-pinch": "^2.6.1",

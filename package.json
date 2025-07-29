@@ -107,13 +107,9 @@
     "hoistingLimits": "workspaces"
   },
   "resolutions": {
-    "metro": "0.82.0",
-    "metro-resolver": "0.82.0",
-    "metro-config": "0.82.0",
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "mime-db": "1.53.0",
-    "sharp": "0.33.5",
-    "react-native": "0.79.3"
+    "sharp": "0.33.5"
   }
 }
