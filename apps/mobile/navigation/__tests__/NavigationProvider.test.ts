@@ -1,6 +1,6 @@
 import type { NotificationResponse } from 'expo-notifications'
 
-import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
+import { rootLinkingConfig } from '@holi/mobile/navigation/_tobe_removed/NavigationProvider'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
