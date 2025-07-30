@@ -13,6 +13,8 @@ import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
+import * as AppleAuthentication from 'expo-apple-authentication'
+import * as ExpoCrypto from 'expo-crypto'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -135,12 +137,53 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
   }
 }
 
+const doAppleLogin = async () => {
+  try {
+    const digest = await ExpoCrypto.digestStringAsync(
+      ExpoCrypto.CryptoDigestAlgorithm.SHA256,
+      ExpoCrypto.getRandomBytes(16).toString()
+    )
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+      nonce: digest,
+    })
+    return {
+      id_token: credential.identityToken || '',
+      id_token_nonce: digest,
+      traits: {
+        name: {
+          given_name: credential.fullName?.givenName || 'given name',
+          family_name: credential.fullName?.familyName || 'last name',
+        },
+      },
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error?.code === 'ERR_REQUEST_CANCELED') {
+      throw new HoliLoginCancelledError('Apple Sign-In was cancelled by the user')
+    }
+    throw Error(`Apple Sign-In failed ${error}`)
+  }
+}
+
 export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
   payload: T,
   provider?: string
 ): Promise<T> => {
-  if (provider === 'Google' && payload.method === 'oidc') {
+  if (payload.method !== 'oidc') {
+    return payload
+  }
+  if (provider === 'Google') {
     const partialBody = await doGoogleLogin()
+    return {
+      ...payload,
+      ...partialBody,
+    }
+  } else if (provider === 'Apple') {
+    const partialBody = await doAppleLogin()
     return {
       ...payload,
       ...partialBody,
