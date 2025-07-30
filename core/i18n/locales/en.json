@@ -422,6 +422,7 @@
   "goodDeeds.name.plural_one": "Good Deed",
   "goodDeeds.name.plural_other": "Good Deeds",
   "goodDeedsCounter.label.single": "Good Deed",
+  "goodDeedsCounter.label.plural": "Good Deeds",
   "goodnews.app.name": "Good News",
   "goodnews.app.subline": "curated by goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Load more articles",

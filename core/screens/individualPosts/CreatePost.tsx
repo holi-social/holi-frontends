@@ -161,7 +161,7 @@ const CreatePost = () => {
   }
 
   if (showRewardMessage) {
-    return <RewardMessage goodDeedCount={counter} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
+    return <RewardMessage goodDeedCount={1} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
   }
 
   return (

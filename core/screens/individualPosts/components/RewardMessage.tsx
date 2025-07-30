@@ -28,74 +28,108 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   const bounceAnim = useRef(new Animated.Value(1)).current
   const verticalBounceAnim = useRef(new Animated.Value(0)).current
   const initialBounceAnim = useRef(new Animated.Value(0)).current
-  const [displayCount, setDisplayCount] = useState(0)
+  const textFadeAnim = useRef(new Animated.Value(0)).current // Animation for text transition
+  const [labelText, setLabelText] = useState('') // State for the label text
+  const [showText, setShowText] = useState(true) // Control text visibility
+
+  // Set initial label text
+  useEffect(() => {
+    const initialCount = goodDeedCount - 1
+    setLabelText(
+      initialCount > 1 || initialCount === 0 ? t('goodDeedsCounter.label.plural') : t('goodDeedsCounter.label.single')
+    )
+  }, [goodDeedCount, t])
 
   // counter animation
   useEffect(() => {
     const finalCount = goodDeedCount || 1
 
-    // Start from previous count (goodDeedCount - 1)
     countAnim.setValue(goodDeedCount - 1)
+    textFadeAnim.setValue(1) // Set initial value to 1 to make text visible
+    setShowText(true) // Show initial text
 
-    // Initialize display count to starting value
-    setDisplayCount(goodDeedCount - 1)
-
-    countAnim.addListener(({ value }) => {
-      setDisplayCount(Math.floor(value))
-    })
-
-    // Fade in the view immediately
+    // Fade in immediately
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 400,
       useNativeDriver: true,
     }).start()
 
-    // Create a sequence of animations that flow seamlessly
-    Animated.sequence([
-      // Initial bounce down
-      Animated.timing(initialBounceAnim, {
-        toValue: -50,
-        duration: 200,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
-      // Return to normal position
-      Animated.timing(initialBounceAnim, {
+    // Text fade out at 2100ms
+    setTimeout(() => {
+      // Fade out text
+      Animated.timing(textFadeAnim, {
         toValue: 0,
-        duration: 75,
+        duration: 200, // 200ms fade out
+        easing: Easing.out(Easing.quad),
         useNativeDriver: true,
-      }),
-      // Start the counter animation immediately after the bounce
-      Animated.timing(countAnim, {
-        toValue: finalCount,
-        duration: 200,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      // Add bounce effect when counter animation completes
+      }).start(() => {
+        // Hide text completely for 300ms
+        setShowText(false)
+
+        // After 300ms pause, update text and fade back in
+        setTimeout(() => {
+          setLabelText(goodDeedCount > 1 ? t('goodDeedsCounter.label.plural') : t('goodDeedsCounter.label.single'))
+          setShowText(true)
+
+          Animated.timing(textFadeAnim, {
+            toValue: 1,
+            duration: 200, // 200ms fade in
+            easing: Easing.in(Easing.quad),
+            useNativeDriver: true,
+          }).start()
+        }, 300)
+      })
+    }, 2400) // Delayed further to 2500ms to end even later
+
+    // Wait for Lottie animation (0.8s) + pause (0.8s) = 1.6s total
+    setTimeout(() => {
+      // Counter animation sequence - total 0.8s as specified
       Animated.sequence([
-        // Add vertical bounce - move up
-        Animated.timing(verticalBounceAnim, {
-          toValue: 8,
-          duration: 100,
-          easing: Easing.out(Easing.cubic),
-          useNativeDriver: true,
-        }),
-        // Settle back to normal position
-        Animated.timing(verticalBounceAnim, {
-          toValue: 0,
+        // Initial bounce - 0.3s
+        Animated.timing(initialBounceAnim, {
+          toValue: -50,
           duration: 300,
+          easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
-      ]).start()
-    })
+        // Return - 0.15s
+        Animated.timing(initialBounceAnim, {
+          toValue: 0,
+          duration: 150,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true,
+        }),
+        // Counter increment - 0.35s
+        Animated.timing(countAnim, {
+          toValue: finalCount,
+          duration: 350,
+          easing: Easing.inOut(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        Animated.sequence([
+          // Small final bounce - total 0.3s to finish the animation
+          Animated.timing(verticalBounceAnim, {
+            toValue: 5,
+            duration: 100,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: true,
+          }),
+          Animated.timing(verticalBounceAnim, {
+            toValue: 0,
+            duration: 200,
+            easing: Easing.inOut(Easing.quad),
+            useNativeDriver: true,
+          }),
+        ]).start()
+      })
+    }, 2100)
 
     return () => {
       countAnim.removeAllListeners()
     }
-  }, [fadeAnim, countAnim, bounceAnim, verticalBounceAnim, initialBounceAnim, goodDeedCount])
+  }, [fadeAnim, countAnim, bounceAnim, verticalBounceAnim, initialBounceAnim, goodDeedCount, textFadeAnim, t])
 
   const handleMoreInfoPress = () => {
     if (campaignTag) {
@@ -109,7 +143,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
         <View style={styles.iconContainer}>
           <HoliLottie animType="goodDeedsCounter" loop={false} />
         </View>
-        <View style={{ height: 140, overflow: 'hidden', width: 140 }}>
+        <View style={styles.animatedContainer}>
           <Animated.View
             style={{
               transform: [
@@ -151,21 +185,27 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
           </Animated.View>
         </View>
         <View style={styles.countContainer}>
-          {displayCount > 1 || displayCount === 0 ? (
-            <Text headingLevel="2" size="3xl">
-              {t('goodDeeds.name')}
-            </Text>
-          ) : (
-            <Text headingLevel="2" size="3xl">
-              {t('goodDeedsCounter.label.single')}
-            </Text>
+          {showText && (
+            <Animated.View
+              style={{
+                opacity: 1,
+                width: '100%',
+                alignItems: 'center',
+              }}
+            >
+              <Text headingLevel="2" size="3xl">
+                {labelText}
+              </Text>
+            </Animated.View>
           )}
         </View>
       </View>
 
       <View style={styles.subContent}>
         <View style={styles.descriptionContainer}>
-          <Text size="xl">{t('goodDeed.rewardsMessage.text')}</Text>
+          <Text size="xl" textAlign="center">
+            {t('goodDeed.rewardsMessage.text')}
+          </Text>
         </View>
         <Pressable style={styles.moreInfoContainer} onPress={handleMoreInfoPress}>
           <Text size="lg" bold>
@@ -212,6 +252,11 @@ const getStyles = (theme: HoliTheme) =>
     },
     countContainer: {
       top: -8,
+      height: 40, // Fixed height to prevent layout shifts
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
     },
     iconContainer: {
       justifyContent: 'center',
@@ -236,6 +281,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingVertical: dimensions.spacingL,
       maxWidth: dimensions.breakpointS,
     },
+    animatedContainer: { height: 140, overflow: 'hidden', width: 140, alignItems: 'center', justifyContent: 'center' },
   })
 
 export default RewardMessage
