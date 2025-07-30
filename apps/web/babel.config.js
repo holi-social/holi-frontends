@@ -5,5 +5,12 @@ module.exports = {
     'jotai/babel/plugin-react-refresh',
     'jotai/babel/plugin-debug-label',
     '@babel/plugin-proposal-export-namespace-from',
+    [
+      'react-native-unistyles/plugin',
+      {
+        root: 'holi-bricks/components',
+        autoProcessImports: ['holi-bricks/styles'],
+      },
+    ],
   ],
 }
