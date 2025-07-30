@@ -1,56 +1,54 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
+
+import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { type DocType, parseDocType } from '@holi/core/documents/DocType'
+import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Screen } from '@holi/core/components/Screen'
-import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useLocalSearchParams } from 'expo-router'
-import { Platform } from 'react-native'
-import { ArrowDownS } from '@holi/icons/src/generated'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
+
+const { useParam } = createParamHooks<{ type: DocType }>()
 
 const LegalDocumentItem = () => {
   const { t } = useTranslation()
-  const params = useLocalSearchParams<{ type: DocType }>()
-  const docTypeParam = params.type
-  const docType = parseDocType(docTypeParam)
-  const { navigateBack } = useRouting()
+  const [docTypeParam] = useParam('type')
+  const { displayError } = useErrorHandling()
 
+  const { navigateBack } = useRouting()
+  const { openToast } = useToast()
+  const setScreenOptions = useSetScreenOptions()
+
+  const docType = parseDocType(docTypeParam)
   const url = useDocumentURL(docType)
 
-  // const onDocumentLoadError = (url?: string) => (err?: Error) => {
-  //   if (err instanceof HoliBadRequestError) {
-  //     openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
-  //   } else {
-  //     displayError(err, 'Failed to load document', {
-  //       location: 'LegalDocumentItem.onDocumentLoadError',
-  //       docType: docTypeParam,
-  //       url,
-  //     })
-  //   }
-  //   navigateBack()
-  // }
+  const onDocumentLoadError = (url?: string) => (err?: Error) => {
+    if (err instanceof HoliBadRequestError) {
+      openToast(t('profile.settings.legalDocuments.error.notFound'), HoliToastType.ERROR)
+    } else {
+      displayError(err, 'Failed to load document', {
+        location: 'LegalDocumentItem.onDocumentLoadError',
+        docType: docTypeParam,
+        url,
+      })
+    }
+    navigateBack()
+  }
+  useIsomorphicLayoutEffect(() => {
+    setScreenOptions({ title: t(`profile.settings.legalDocuments.${docTypeParam}`) })
+  }, [setScreenOptions, docTypeParam, t])
 
-  if (!url) return navigateBack()
-
-  return (
-    <Screen
-      headerOptions={{
-        title: t(`profile.settings.legalDocuments.${docTypeParam}`),
-        headerShown: true,
-        gestureEnabled: true,
-        animation: 'slide_from_bottom',
-        presentation: 'fullScreenModal',
-        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
-      }}
-      padding={{ right: 'xs', left: 'xs' }}
-      safeAreaEdges={['top', 'bottom']}
-      contentPadding={{ bottom: 'xxl' }}
-    >
-      <HtmlRenderer source={{ uri: url }} />
-    </Screen>
-  )
+  return docType ? (
+    <View style={{ paddingTop: Spacing.lg, paddingBottom: Spacing.xxl }}>
+      <HtmlDocument fallbackToWebView url={url} onError={onDocumentLoadError(url)} />
+    </View>
+  ) : null
 }
 
 export default LegalDocumentItem
