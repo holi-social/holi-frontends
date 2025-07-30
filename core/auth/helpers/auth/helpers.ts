@@ -68,10 +68,7 @@ export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSe
 // Login
 export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   let extraMessages: UiText[] = []
-  const returnTo = AuthSession.makeRedirectUri({
-    preferLocalhost: true,
-    path: 'login/callback',
-  })
+  const returnTo = 'holi://login/callback'
   if (flowId) {
     const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
