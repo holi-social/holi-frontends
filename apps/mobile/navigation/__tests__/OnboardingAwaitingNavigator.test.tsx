@@ -3,7 +3,7 @@ import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/s
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
 import { render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text'
-import type { RootNavigatorProps } from '@holi/mobile/navigation/RootNavigator'
+import type { RootNavigatorProps } from '@holi/mobile/navigation/_tobe_removed/RootNavigator'
 
 const mockUseOnboardingInitialization = jest.mocked(useOnboardingInitialization)
 const mockUseOnboardingRedirect = jest.mocked(useOnboardingRedirect)

@@ -7,7 +7,7 @@ import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
 
 import { getLogger } from '@holi/core/helpers/logging'
-import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { RootStackScreens } from '@holi/mobile/navigation/_tobe_removed/RootNavigator'
 import { appendLocaleSubPaths } from '@holi/mobile/navigation/helpers/appendLocaleSubPaths'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { screenUrlFromNotificationResponse } from '@holi/mobile/notifications'

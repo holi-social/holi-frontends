@@ -1,6 +1,6 @@
 import type { LinkingOptions } from '@react-navigation/native'
 
-import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { RootStackScreens } from '@holi/mobile/navigation/_tobe_removed/RootNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
