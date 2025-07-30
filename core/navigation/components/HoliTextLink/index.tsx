@@ -14,7 +14,7 @@ export const HoliTextLink = ({
   textAlign,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   return (
-    <Link asChild href={href} onPress={onPress} prefetch>
+    <Link asChild href={href} onPress={onPress}>
       <TextLink size={size} color={color} textAlign={textAlign} aria-label={label}>
         {children}
       </TextLink>
