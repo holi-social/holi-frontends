@@ -1,18 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
-
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { type DocType, parseDocType } from '@holi/core/documents/DocType'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
+import { Screen } from '@holi/core/components/Screen'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 const { useParam } = createParamHooks<{ type: DocType }>()
 
@@ -23,7 +20,6 @@ const LegalDocumentItem = () => {
 
   const { navigateBack } = useRouting()
   const { openToast } = useToast()
-  const setScreenOptions = useSetScreenOptions()
 
   const docType = parseDocType(docTypeParam)
   const url = useDocumentURL(docType)
@@ -40,14 +36,18 @@ const LegalDocumentItem = () => {
     }
     navigateBack()
   }
-  useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t(`profile.settings.legalDocuments.${docTypeParam}`) })
-  }, [setScreenOptions, docTypeParam, t])
 
   return docType ? (
-    <View style={{ paddingTop: Spacing.lg, paddingBottom: Spacing.xxl }}>
+    <Screen
+      headerOptions={{
+        title: t(`profile.settings.legalDocuments.${docTypeParam}`),
+        headerShadowVisible: false,
+        headerLeft: () => <HeaderBackButton />,
+      }}
+      contentContainerPadding={{ bottom: 'xxl' }}
+    >
       <HtmlDocument fallbackToWebView url={url} onError={onDocumentLoadError(url)} />
-    </View>
+    </Screen>
   ) : null
 }
 
