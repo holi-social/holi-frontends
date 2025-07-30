@@ -32,7 +32,6 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   const [labelText, setLabelText] = useState('') // State for the label text
   const [showText, setShowText] = useState(true) // Control text visibility
 
-  // Set initial label text
   useEffect(() => {
     const initialCount = goodDeedCount - 1
     setLabelText(
@@ -45,65 +44,56 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
     const finalCount = goodDeedCount || 1
 
     countAnim.setValue(goodDeedCount - 1)
-    textFadeAnim.setValue(1) // Set initial value to 1 to make text visible
-    setShowText(true) // Show initial text
+    textFadeAnim.setValue(1)
+    setShowText(true)
 
-    // Fade in immediately
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 400,
+      duration: 200,
       useNativeDriver: true,
+      easing: Easing.out(Easing.quad),
     }).start()
 
-    // Text fade out at 2100ms
+    // Text fade out
     setTimeout(() => {
       // Fade out text
       Animated.timing(textFadeAnim, {
         toValue: 0,
-        duration: 200, // 200ms fade out
-        easing: Easing.out(Easing.quad),
+        duration: 200,
+        easing: Easing.in(Easing.quad),
         useNativeDriver: true,
       }).start(() => {
         // Hide text completely for 300ms
         setShowText(false)
 
-        // After 300ms pause, update text and fade back in
+        // After pause, update text and fade back in
         setTimeout(() => {
           setLabelText(goodDeedCount > 1 ? t('goodDeedsCounter.label.plural') : t('goodDeedsCounter.label.single'))
           setShowText(true)
-
-          Animated.timing(textFadeAnim, {
-            toValue: 1,
-            duration: 200, // 200ms fade in
-            easing: Easing.in(Easing.quad),
-            useNativeDriver: true,
-          }).start()
-        }, 300)
+        }, 200)
       })
-    }, 2400) // Delayed further to 2500ms to end even later
+    }, 3000) // Delayed further to 2500ms to end even later
 
-    // Wait for Lottie animation (0.8s) + pause (0.8s) = 1.6s total
+    // Wait for Lottie animation
     setTimeout(() => {
       // Counter animation sequence - total 0.8s as specified
       Animated.sequence([
-        // Initial bounce - 0.3s
+        // Initial bounce
         Animated.timing(initialBounceAnim, {
           toValue: -50,
-          duration: 300,
+          duration: 250,
           easing: Easing.out(Easing.quad),
           useNativeDriver: true,
         }),
-        // Return - 0.15s
         Animated.timing(initialBounceAnim, {
           toValue: 0,
-          duration: 150,
+          duration: 120,
           easing: Easing.inOut(Easing.quad),
           useNativeDriver: true,
         }),
-        // Counter increment - 0.35s
         Animated.timing(countAnim, {
           toValue: finalCount,
-          duration: 350,
+          duration: 280,
           easing: Easing.inOut(Easing.quad),
           useNativeDriver: true,
         }),
@@ -112,19 +102,19 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
           // Small final bounce - total 0.3s to finish the animation
           Animated.timing(verticalBounceAnim, {
             toValue: 5,
-            duration: 100,
+            duration: 80,
             easing: Easing.out(Easing.quad),
             useNativeDriver: true,
           }),
           Animated.timing(verticalBounceAnim, {
             toValue: 0,
-            duration: 200,
+            duration: 150,
             easing: Easing.inOut(Easing.quad),
             useNativeDriver: true,
           }),
         ]).start()
       })
-    }, 2100)
+    }, 2700)
 
     return () => {
       countAnim.removeAllListeners()
@@ -252,7 +242,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     countContainer: {
       top: -8,
-      height: 40, // Fixed height to prevent layout shifts
+      height: 40,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',

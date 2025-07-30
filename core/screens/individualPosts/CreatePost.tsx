@@ -33,7 +33,7 @@ const CreatePost = () => {
 
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { navigateBack } = useRouting()
+  const { navigateBack, navigate } = useRouting()
 
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
@@ -53,7 +53,7 @@ const CreatePost = () => {
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
-  const [showRewardMessage, setShowRewardMessage] = useState<boolean>(true)
+  const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
 
   const { data, refetch } = useGetRewardsCounterQuery()
   const counter = data?.rewards_counter.counter
@@ -147,21 +147,20 @@ const CreatePost = () => {
   }
 
   const handleClaimReward = () => {
-    navigateBack()
+    navigate('/')
   }
 
-  // Handle form submission
   const handleSubmit = () => {
     setShowRewardMessage(false)
-    // if (selectedCategoryId === goodDeedCategoryId) {
-    //   createPost()
-    // } else {
-    //   createPost()
-    // }
+    if (selectedCategoryId === goodDeedCategoryId) {
+      createPost()
+    } else {
+      createPost()
+    }
   }
 
   if (showRewardMessage) {
-    return <RewardMessage goodDeedCount={1} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
+    return <RewardMessage goodDeedCount={counter} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
   }
 
   return (
