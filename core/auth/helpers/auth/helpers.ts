@@ -23,9 +23,15 @@ import * as WebBrowser from 'expo-web-browser'
 import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
+
+const supportedSocialLoginProviders: { [key: string]: AccountType } = {
+  Google: AccountType.Google,
+  Apple: AccountType.Apple,
+}
 
 const logger = getLogger('Auth')
 
@@ -173,23 +179,23 @@ export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | Upd
   payload: T,
   provider?: string
 ): Promise<T> => {
-  if (payload.method !== 'oidc') {
+  if (!provider || payload.method !== 'oidc') {
     return payload
   }
-  if (provider === 'Google') {
-    const partialBody = await doGoogleLogin()
-    return {
-      ...payload,
-      ...partialBody,
-    }
-  } else if (provider === 'Apple') {
-    const partialBody = await doAppleLogin()
-    return {
-      ...payload,
-      ...partialBody,
-    }
+  const supportedProvider = supportedSocialLoginProviders[provider]
+  let partialBody = undefined
+  switch (supportedProvider) {
+    case AccountType.Google:
+      partialBody = await doGoogleLogin()
+      break
+    case AccountType.Apple:
+      partialBody = await doAppleLogin()
+      break
   }
-  return payload
+  return {
+    ...payload,
+    ...partialBody,
+  }
 }
 
 export const submitLoginFlow = async (
@@ -240,10 +246,17 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
 }
 
 // Logout
-export const submitLogoutFlow = async ({ sessionToken, isOidc }: { sessionToken?: string; isOidc?: boolean }) => {
-  if (isOidc) {
-    // Currently Google is the only supported OIDC provider
-    await GoogleSignin.signOut()
+export const submitLogoutFlow = async ({
+  sessionToken,
+  accountType,
+}: { sessionToken?: string; accountType?: AccountType }) => {
+  switch (accountType) {
+    case AccountType.Google:
+      await GoogleSignin.signOut()
+      break
+    case AccountType.Apple:
+      // noop: It is not recommended to use AppleAuthentication.signOutAsync
+      break
   }
   if (sessionToken) {
     return newKratosSdk()

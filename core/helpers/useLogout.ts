@@ -63,7 +63,7 @@ export const useLogout = () => {
       try {
         if (!skipLogoutFlow) {
           const session = await getSessionFromStorage()
-          await submitLogoutFlow({ sessionToken: session?.session_token, isOidc: user?.isOidc })
+          await submitLogoutFlow({ sessionToken: session?.session_token, accountType: user?.accountType })
         }
         clearOnboardingState()
         await setLoginStateLoggedOut()
@@ -90,7 +90,7 @@ export const useLogout = () => {
         }
       }
     },
-    [isLoggingOut, isLoggedOut, navigate, client, openToast, t, user?.isOidc]
+    [isLoggingOut, isLoggedOut, navigate, client, openToast, t, user?.accountType]
   )
 
   return {
