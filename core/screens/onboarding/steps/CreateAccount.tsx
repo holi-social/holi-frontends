@@ -46,12 +46,14 @@ export interface CreateAccountProps {
   onContinueAsGuest: () => void
   onLogin: () => void
   testID?: string
+  flowId?: string
 }
 
 export const CreateAccount = ({
   onRegister,
   onContinueAsGuest,
   onLogin,
+  flowId,
   testID = 'create-account',
 }: CreateAccountProps) => {
   const { navigate } = useRouting()
@@ -71,7 +73,7 @@ export const CreateAccount = ({
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) return
 
-    initRegistrationFlow()
+    initRegistrationFlow(flowId)
       // The flow was initialized successfully, let's set the form data:
       .then(({ data: flow }) => {
         safeSetFlow(flow)
@@ -82,7 +84,7 @@ export const CreateAccount = ({
           location: 'CreateAccount.initRegistrationFlow',
         })
       )
-  }, [isLoggedOut, t, safeSetFlow, displayError])
+  }, [isLoggedOut, flowId, safeSetFlow, displayError, t])
 
   // When the component is mounted, we initialize a new use login flow:
   useIsomorphicLayoutEffect(() => {

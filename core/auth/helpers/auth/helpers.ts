@@ -286,8 +286,21 @@ export const submitReauthFlow = async (flow: LoginFlow, password: string, sessio
 }
 
 // Register
-export const initRegistrationFlow = async () =>
-  newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
+export const initRegistrationFlow = async (flowId?: string) => {
+  if (flowId) {
+    return newKratosSdk()
+      .getRegistrationFlow({
+        id: flowId,
+      })
+      .then((data) => {
+        // TODO(SF) temporary debug
+        console.debug(data)
+        return data
+      })
+      .catch(handleKratosSdkError('getRegistrationFlow'))
+  }
+  return newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
+}
 
 // Forgot Password
 export const initPasswordRecoveryFlow = async () =>

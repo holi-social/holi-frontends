@@ -40,7 +40,13 @@ export const onboardingSteps: OnboardingStepItem[] = [
   { key: 'USER_NAME_SELECTION' },
 ]
 
-const determineOnboardingInitialStepKey = (onboardingState: OnboardingStateValue | null) => {
+const determineOnboardingInitialStepKey = (
+  onboardingState: OnboardingStateValue | null,
+  hasRegistrationFlow: boolean
+) => {
+  if (hasRegistrationFlow) {
+    return 'CREATE_ACCOUNT'
+  }
   switch (onboardingState) {
     case 'onboarding':
       return 'WELCOME_SCREEN'
@@ -55,23 +61,23 @@ const determineOnboardingInitialStepKey = (onboardingState: OnboardingStateValue
   }
 }
 
-export const useOnboardingCurrentStepKey = () => {
+export const useOnboardingCurrentStepKey = (hasRegistrationFlow: boolean) => {
   const onboardingState = useOnboardingState()
   const prevOnboardingState = useRef(onboardingState)
   const [currentStepKey, setCurrentStepKey] = useState<OnboardingStepKey | null>(
-    determineOnboardingInitialStepKey(onboardingState)
+    determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow)
   )
 
   useEffect(() => {
     if (prevOnboardingState.current === null || prevOnboardingState.current !== onboardingState) {
-      setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState))
+      setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
     }
-  }, [onboardingState])
+  }, [hasRegistrationFlow, onboardingState])
 
   useFocusEffect(
     useCallback(() => {
-      setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState))
-    }, [onboardingState])
+      setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
+    }, [hasRegistrationFlow, onboardingState])
   )
 
   return [currentStepKey, setCurrentStepKey] as const

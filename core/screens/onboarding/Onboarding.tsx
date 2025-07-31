@@ -36,6 +36,13 @@ import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataA
 import { useCallback, useEffect } from 'react'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+
+export type OnboardingParams = {
+  flow?: string
+}
+
+const { useParam } = createParamHooks<OnboardingParams>()
 
 const Onboarding = () => {
   const { t } = useTranslation()
@@ -44,8 +51,9 @@ const Onboarding = () => {
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
   const { isLoggedIn } = useLoggedInUser()
+  const [flowId] = useParam('flow')
 
-  const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
+  const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey(!!flowId)
   const { userData, updateLocation, updateInterests, updateSkills, clearInterests, clearSkills } = useUserData()
 
   const redirect = useRedirect('/')
@@ -153,6 +161,7 @@ const Onboarding = () => {
       case 'CREATE_ACCOUNT':
         return (
           <CreateAccount
+            flowId={flowId}
             onLogin={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
             }}
