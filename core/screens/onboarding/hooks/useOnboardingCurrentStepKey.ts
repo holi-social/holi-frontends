@@ -42,7 +42,7 @@ export const onboardingSteps: OnboardingStepItem[] = [
 
 const determineOnboardingInitialStepKey = (
   onboardingState: OnboardingStateValue | null,
-  hasRegistrationFlow: boolean
+  hasRegistrationFlow?: boolean
 ) => {
   if (hasRegistrationFlow) {
     return 'CREATE_ACCOUNT'
@@ -61,7 +61,7 @@ const determineOnboardingInitialStepKey = (
   }
 }
 
-export const useOnboardingCurrentStepKey = (hasRegistrationFlow: boolean) => {
+export const useOnboardingCurrentStepKey = (hasRegistrationFlow?: boolean) => {
   const onboardingState = useOnboardingState()
   const prevOnboardingState = useRef(onboardingState)
   const [currentStepKey, setCurrentStepKey] = useState<OnboardingStepKey | null>(
