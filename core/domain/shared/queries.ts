@@ -59,6 +59,7 @@ export const FullAuthenticatedUserFragment = gql`
     isEmployee
     email
     isOidc
+    accountType
   }
 `
 export const authenticatedUserV2Query = gql`

@@ -13,6 +13,8 @@ import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
+import * as AppleAuthentication from 'expo-apple-authentication'
+import * as ExpoCrypto from 'expo-crypto'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -21,9 +23,15 @@ import * as WebBrowser from 'expo-web-browser'
 import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
+
+const supportedSocialLoginProviders: { [key: string]: AccountType } = {
+  Google: AccountType.Google,
+  Apple: AccountType.Apple,
+}
 
 const logger = getLogger('Auth')
 
@@ -135,18 +143,59 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
   }
 }
 
+const doAppleLogin = async () => {
+  try {
+    const digest = await ExpoCrypto.digestStringAsync(
+      ExpoCrypto.CryptoDigestAlgorithm.SHA256,
+      ExpoCrypto.getRandomBytes(16).toString()
+    )
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+      ],
+      nonce: digest,
+    })
+    return {
+      id_token: credential.identityToken || '',
+      id_token_nonce: digest,
+      traits: {
+        name: {
+          given_name: credential.fullName?.givenName || 'given name',
+          family_name: credential.fullName?.familyName || 'last name',
+        },
+      },
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error?.code === 'ERR_REQUEST_CANCELED') {
+      throw new HoliLoginCancelledError('Apple Sign-In was cancelled by the user')
+    }
+    throw Error(`Apple Sign-In failed ${error}`)
+  }
+}
+
 export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
   payload: T,
   provider?: string
 ): Promise<T> => {
-  if (provider === 'Google' && payload.method === 'oidc') {
-    const partialBody = await doGoogleLogin()
-    return {
-      ...payload,
-      ...partialBody,
-    }
+  if (!provider || payload.method !== 'oidc') {
+    return payload
   }
-  return payload
+  const supportedProvider = supportedSocialLoginProviders[provider]
+  let partialBody = undefined
+  switch (supportedProvider) {
+    case AccountType.Google:
+      partialBody = await doGoogleLogin()
+      break
+    case AccountType.Apple:
+      partialBody = await doAppleLogin()
+      break
+  }
+  return {
+    ...payload,
+    ...partialBody,
+  }
 }
 
 export const submitLoginFlow = async (
@@ -197,10 +246,17 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
 }
 
 // Logout
-export const submitLogoutFlow = async ({ sessionToken, isOidc }: { sessionToken?: string; isOidc?: boolean }) => {
-  if (isOidc) {
-    // Currently Google is the only supported OIDC provider
-    await GoogleSignin.signOut()
+export const submitLogoutFlow = async ({
+  sessionToken,
+  accountType,
+}: { sessionToken?: string; accountType?: AccountType }) => {
+  switch (accountType) {
+    case AccountType.Google:
+      await GoogleSignin.signOut()
+      break
+    case AccountType.Apple:
+      // noop: It is not recommended to use AppleAuthentication.signOutAsync
+      break
   }
   if (sessionToken) {
     return newKratosSdk()
