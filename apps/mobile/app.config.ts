@@ -143,6 +143,7 @@ const config: ExpoConfig = {
     'expo-tracking-transparency',
     'expo-localization',
     'expo-secure-store',
+    'expo-apple-authentication',
     [
       '@sentry/react-native/expo',
       {

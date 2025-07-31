@@ -16,7 +16,7 @@ interface FormNodeSocialLoginProps {
   onSubmitPress: (overrides?: UpdateLoginFlowBody, provider?: string) => void
 }
 
-const supportedSocialLoginProviders: SocialLoginButtonProvider[] = ['Google']
+const supportedSocialLoginProviders: SocialLoginButtonProvider[] = ['Google', 'Apple']
 
 export const FormNodeSocialLogin = ({ node, translationPrefix, style, onSubmitPress }: FormNodeSocialLoginProps) => {
   const { t } = useTranslation()

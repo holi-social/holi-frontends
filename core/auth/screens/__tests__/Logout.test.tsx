@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react-native'
 import { useLogout } from '@holi/core/helpers'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import Logout from '@holi/core/auth/screens/Logout'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler')
 
@@ -38,6 +39,7 @@ describe('Logout', () => {
         avatarDefaultColor: '',
         avatarLabel: '',
         fullName: '',
+        accountType: AccountType.Email,
       },
     })
   })

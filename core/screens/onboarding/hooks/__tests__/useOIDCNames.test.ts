@@ -1,3 +1,4 @@
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
@@ -20,6 +21,7 @@ describe('useOIDCNames', () => {
     avatarDefaultColor: '',
     avatarLabel: '',
     fullName: '',
+    accountType: AccountType.Email,
   }
 
   const createSession = ({ firstName = 'Ada', lastName = 'Lovelace' } = {}) => ({
