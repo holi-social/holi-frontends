@@ -51,9 +51,15 @@ export const getIdentity = (loginFlow: LoginFlow) => {
   return node?.attributes?.node_type == 'input' ? node?.attributes?.value : undefined
 }
 
-export const getNodeProviderName = ({ meta }: UiNode): string | undefined => {
+export const getNodeProviderName = ({ meta, attributes }: UiNode): string | undefined => {
   if (meta?.label?.context && 'provider' in meta.label.context) {
     return meta.label.context.provider as string
+  } else if ('value' in attributes) {
+    if (attributes.value.startsWith('apple')) {
+      return 'Apple'
+    } else if (attributes.value.startsWith('google')) {
+      return 'Google'
+    }
   }
   return undefined
 }
