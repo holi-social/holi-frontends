@@ -64,7 +64,7 @@ export const MyVolunteeringTab = () => {
   if (isInitialLoad) {
     return (
       <Stack padding={{ top: '3xl' }}>
-        <HoliLoader style={styles.loader} />
+        <HoliLoader testID="initial-loader" style={styles.loader} />
       </Stack>
     )
   }
@@ -92,7 +92,7 @@ export const MyVolunteeringTab = () => {
       {items.length > 0 && canFetchMore && (
         <Stack justifyContent="center" alignItems="center" padding={{ top: 'md' }}>
           {isFetchingMore ? (
-            <HoliLoader style={styles.loader} testID="nextPageLoader" />
+            <HoliLoader style={styles.loader} testID="next-page-loader" />
           ) : (
             <Button inline label="Load More" onPress={fetchMore} variant="primary" testID="load-more-button" />
           )}
