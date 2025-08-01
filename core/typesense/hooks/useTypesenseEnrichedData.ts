@@ -49,8 +49,6 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
 > {
   const language = useUserLanguage()
   const [isFetchingMore, setIsFetchingMore] = useState(false)
-
-  // Stable GraphQL data reference
   const rawGraphQLData = useMemo(() => graphqlData.data ?? [], [graphqlData.data])
   const totalResults = graphqlData.totalResults ?? 0
 
@@ -63,7 +61,7 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
           {
             q: '*',
             filter_by: `${typesenseFilter} && id:=[${typesenseIds.join(', ')}]`,
-            limit: Math.min(typesenseIds.length || 1, 100),
+            limit: typesenseIds.length || 100,
           },
         ],
       },
@@ -83,7 +81,8 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
     }, [])
   }, [typesenseData?.typesense_multiSearch?.results, language])
 
-  // Use ref to preserve items during Typesense loading transitions
+  // Ref is needed to avoid the data to reset while
+  // fetching data from typesense
   const itemsRef = useRef<TNormalizedItem extends undefined ? TGraphQLItem[] : TNormalizedItem[]>([] as any)
 
   const processedItems = useMemo(() => {
