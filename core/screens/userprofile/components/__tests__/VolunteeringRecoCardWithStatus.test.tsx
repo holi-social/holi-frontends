@@ -1,0 +1,120 @@
+import React from 'react'
+import { render, screen, userEvent } from '@testing-library/react-native'
+import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
+import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { makeCommittedVolunteeringItem } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
+import { TrackingEvent } from '@holi/core/tracking'
+
+describe('VolunteeringRecoCardWithStatus', () => {
+  const defaultProps = {
+    engagement: makeCommittedVolunteeringItem({
+      status: VolunteeringOpportunityStatusValue.ToDo,
+    }),
+    index: 0,
+  }
+
+  it('should render engagement title and organization', () => {
+    render(<VolunteeringRecoCardWithStatus {...defaultProps} />)
+
+    expect(screen.getByText(defaultProps.engagement.title)).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.engagement.organization')).toBeOnTheScreen()
+  })
+
+  it('should render Planned status chip for TO_DO status', () => {
+    const engagement = makeCommittedVolunteeringItem({
+      status: VolunteeringOpportunityStatusValue.ToDo,
+    })
+
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+
+    expect(screen.getByText('Planned')).toBeOnTheScreen()
+  })
+
+  it('should render Connected status chip for CONTACTED status', () => {
+    const engagement = makeCommittedVolunteeringItem({
+      status: VolunteeringOpportunityStatusValue.Contacted,
+    })
+
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+
+    expect(screen.getByText('Connected')).toBeOnTheScreen()
+  })
+
+  it('should render Helping status chip for DOING status', () => {
+    const engagement = makeCommittedVolunteeringItem({
+      status: VolunteeringOpportunityStatusValue.Doing,
+    })
+
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+
+    expect(screen.getByText('Helping')).toBeOnTheScreen()
+  })
+
+  it('should render Todo status chip for unknown status', () => {
+    const engagement = makeCommittedVolunteeringItem({
+      status: 'UNKNOWN' as VolunteeringOpportunityStatusValue,
+    })
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    expect(screen.getByText('Unknown')).toBeOnTheScreen()
+  })
+
+  it('should render remote location label', () => {
+    const engagement = makeCommittedVolunteeringItem({
+      location: false,
+    })
+    engagement.locationType = 'remote'
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
+  })
+
+  it('should render onsite location when provided', () => {
+    const engagement = makeCommittedVolunteeringItem({
+      location: true,
+    })
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    expect(screen.getByText(engagement.location!)).toBeOnTheScreen()
+  })
+
+  it('should be clickable and track events', async () => {
+    const user = userEvent.setup()
+    const engagement = makeCommittedVolunteeringItem()
+
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={2} />)
+    const card = screen.getByRole('link')
+    await user.press(card)
+
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 2, {
+        locationType: engagement.locationType,
+        sourceSection: 'Volunteering',
+      })
+    )
+  })
+
+  it('should use custom tracking event when provided', async () => {
+    const user = userEvent.setup()
+    const customTrackingEvent = TrackingEvent.RecommendationPressed('goodnews', 'test', 0)
+    render(<VolunteeringRecoCardWithStatus {...defaultProps} trackingEvent={customTrackingEvent} />)
+    const card = screen.getByRole('link')
+    await user.press(card)
+    expect(mockTrack).toHaveBeenCalledWith(customTrackingEvent)
+  })
+
+  it('should handle engagement without organizer', () => {
+    const engagement = makeCommittedVolunteeringItem()
+    engagement.organizerName = ''
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    expect(screen.getByText(engagement.title)).toBeOnTheScreen()
+    expect(screen.queryByText('volunteering.engagement.organization')).not.toBeOnTheScreen()
+  })
+
+  it('should render with fixed width when provided', () => {
+    render(<VolunteeringRecoCardWithStatus {...defaultProps} fixedWidth="100%" />)
+    expect(screen.getByRole('link')).toBeOnTheScreen()
+  })
+
+  it('should have correct test ID', () => {
+    render(<VolunteeringRecoCardWithStatus {...defaultProps} />)
+    expect(screen.getByTestId('volunteering-reco-card-with-status')).toBeOnTheScreen()
+  })
+})
