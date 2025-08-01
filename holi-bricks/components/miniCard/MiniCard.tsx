@@ -8,7 +8,7 @@ import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
-import { BorderRadius, type LayoutProps, Spacing } from 'holi-bricks/foundations'
+import { BorderRadius, IconSize, type LayoutProps, Spacing } from 'holi-bricks/foundations'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
 import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
@@ -89,7 +89,7 @@ export const MiniCard = ({
                 {chipCounter}
               </Text>
             )}
-            {chipCounterIcon && <HoliIcon icon={chipCounterIcon} color="support" size={16} />}
+            {chipCounterIcon && <HoliIcon icon={chipCounterIcon} color="support" size={IconSize.sm} />}
           </View>
         )}
       </Stack>
@@ -104,12 +104,12 @@ export const MiniCard = ({
         {/* bottom row */}
         <Stack gap="3xs" direction="row" justifyContent="space-between">
           <Stack direction="row" gap="4xs" flexShrink={1}>
-            {bottomIconLeft && <HoliIcon icon={bottomIconLeft} size={16} color="support" />}
+            {bottomIconLeft && <HoliIcon icon={bottomIconLeft} size={IconSize.sm} color="support" />}
             <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
               {bottomLabel}
             </Text>
           </Stack>
-          {bottomIconRight && <HoliIcon icon={bottomIconRight} size={16} />}
+          {bottomIconRight && <HoliIcon icon={bottomIconRight} size={IconSize.sm} />}
         </Stack>
       </Stack>
     </Stack>

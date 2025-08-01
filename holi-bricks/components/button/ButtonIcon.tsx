@@ -20,6 +20,7 @@ import {
 } from './helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { IconSize } from 'holi-bricks/foundations'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
@@ -91,7 +92,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
             <SpinningIconContainer spinning={isSpinning}>
               <HoliIcon
                 icon={Loader}
-                size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
+                size={IconSize[size]}
                 color={color}
                 colorOverride={!color ? styles.text(disabled, selected, iconVariant).color : undefined}
               />
@@ -100,7 +101,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
         ) : (
           <HoliIcon
             icon={icon}
-            size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
+            size={IconSize[size]}
             color={color}
             colorOverride={!color ? styles.text(disabled, selected, iconVariant).color : undefined}
           />
