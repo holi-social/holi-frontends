@@ -15,6 +15,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
+import { VolunteeringEmptyState } from '@holi/core/screens/userprofile/components/VolunteeringEmptyState'
 
 const StatusInfoHeader = () => {
   const { t } = useTranslation()
@@ -28,7 +29,7 @@ const StatusInfoHeader = () => {
           <Text size="lg" color="purpleDark">
             {t('profile.myVolunteer.link.status')}
           </Text>
-          <HoliIcon icon={Information} colorOverride="purpleDark" />
+          <HoliIcon icon={Information} colorOverride="purpleDark" size={18} />
         </Stack>
       </TextLink>
 
@@ -57,7 +58,24 @@ const StatusInfoHeader = () => {
 
 export const MyVolunteeringTab = () => {
   const { styles } = useStyles(stylesheet)
-  const { items, canFetchMore, isFetchingMore, fetchMore } = useCommittedVolunteering()
+  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults } =
+    useCommittedVolunteering()
+
+  if (isInitialLoad) {
+    return (
+      <Stack padding={{ top: '3xl' }}>
+        <HoliLoader style={styles.loader} />
+      </Stack>
+    )
+  }
+
+  if (!isLoading && totalResults === 0) {
+    return (
+      <Stack padding={{ top: '3xl', bottom: '3xl' }}>
+        <VolunteeringEmptyState />
+      </Stack>
+    )
+  }
 
   return (
     <Stack padding={{ bottom: 'xs' }}>
