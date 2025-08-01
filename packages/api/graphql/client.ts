@@ -182,6 +182,7 @@ export const createCache = () =>
           userByName: pagedPolicy(),
           connectedUsers: pagedPolicy(),
           favorites: pagedPolicy(),
+          committedVolunteeringOpportunities: pagedPolicy(),
           myPosts: pagedPolicy(),
           postsByUserId: pagedPolicy(),
           translate: {
