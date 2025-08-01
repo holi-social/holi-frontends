@@ -2,8 +2,7 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundat
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { Color, LayoutProps } from 'holi-bricks/foundations'
-import { layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { IconSize, layoutStyle, Spacing, type Color, type LayoutProps } from 'holi-bricks/foundations'
 import React from 'react'
 import { View } from 'react-native'
 
@@ -33,7 +32,7 @@ export const ChipLabel = ({
   ...rest
 }: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
-  const iconSize = size === 'sm' ? 12 : 16
+  const iconSize = size === 'sm' ? IconSize.xs : IconSize.sm
 
   return (
     <View {...accessibilityProps(rest)} style={[styles.chip(color), layoutStyle(rest)]} testID={testID}>
