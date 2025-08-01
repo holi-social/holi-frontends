@@ -297,11 +297,6 @@ export const initRegistrationFlow = async (flowId?: string) => {
       .getRegistrationFlow({
         id: flowId,
       })
-      .then((data) => {
-        // TODO(SF) temporary debug
-        console.debug(data)
-        return data
-      })
       .catch(handleKratosSdkError('getRegistrationFlow'))
   }
   return newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))

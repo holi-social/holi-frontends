@@ -162,14 +162,7 @@ export const submitLogoutFlow = () =>
 // Registration
 export const initRegistrationFlow = (flowId?: string): AxiosPromise<RegistrationFlow> => {
   if (flowId) {
-    return newKratosSdk()
-      .getRegistrationFlow({ id: flowId })
-      .then((data) => {
-        // TODO(SF) temporary debug
-        console.debug(data)
-        return data
-      })
-      .catch(handleKratosSdkError('getRegistrationFlow'))
+    return newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
   }
   return newKratosSdk().createBrowserRegistrationFlow().catch(handleKratosSdkError('createBrowserRegistrationFlow'))
 }
