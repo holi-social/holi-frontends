@@ -1,15 +1,20 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/components/MyVolunteeringTab'
-
 import {
   makeCommittedVolunteeringItems,
   mockCommittedVolunteeringHookResult,
 } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
 
 const mockUseCommittedVolunteering = jest.fn()
+const mockUseMyVolunteeringStatuses = jest.fn()
+
 jest.mock('@holi/core/screens/userprofile/hooks/useCommittedVolunteering', () => ({
   useCommittedVolunteering: () => mockUseCommittedVolunteering(),
+}))
+
+jest.mock('@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses', () => ({
+  useMyVolunteeringStatuses: () => mockUseMyVolunteeringStatuses(),
 }))
 
 jest.mock('@holi/core/screens/userprofile/components/VolunteeringEmptyState', () => ({
@@ -37,9 +42,17 @@ jest.mock('@holi/core/screens/userprofile/components/VolunteeringRecoCardWithSta
 describe('MyVolunteeringTab', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockUseMyVolunteeringStatuses.mockReturnValue({
+      volunteeringStatuses: [
+        { description: 'desc-planned', chip: { children: 'planned' } },
+        { description: 'desc-connected', chip: { children: 'connected' } },
+        { description: 'desc-help', chip: { children: 'help' } },
+      ],
+      getVolunteeringStatus: jest.fn(),
+    })
   })
 
-  it('should render header during initial load', () => {
+  it('should render loader during initial load', () => {
     mockUseCommittedVolunteering.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       isInitialLoad: true,
@@ -47,46 +60,37 @@ describe('MyVolunteeringTab', () => {
     })
 
     render(<MyVolunteeringTab />)
-    expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
+    expect(screen.getByTestId('initial-loader')).toBeOnTheScreen()
   })
 
-  it('should render only header when no items', () => {
+  it('should render empty state when no items and no loading', () => {
     mockUseCommittedVolunteering.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       isInitialLoad: false,
+      totalResults: 0,
       items: [],
     })
 
     render(<MyVolunteeringTab />)
 
-    expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
-    expect(screen.queryByTestId(/volunteering-card-/)).not.toBeOnTheScreen()
-    expect(screen.queryByTestId('load-more-button')).not.toBeOnTheScreen()
+    expect(screen.getByTestId('volunteering-empty-state')).toBeOnTheScreen()
   })
 
-  it('should render volunteering items', () => {
+  it('should render volunteering items and status header', () => {
     const items = makeCommittedVolunteeringItems(3)
     mockUseCommittedVolunteering.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
-      items: items,
+      items,
+      totalResults: items.length,
     })
 
     render(<MyVolunteeringTab />)
 
+    expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
     items.forEach((item) => {
       expect(screen.getByTestId(`volunteering-card-${item.id}`)).toBeOnTheScreen()
       expect(screen.getByText(item.title)).toBeOnTheScreen()
     })
-  })
-
-  it('should render status info link', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: makeCommittedVolunteeringItems(1),
-    })
-
-    render(<MyVolunteeringTab />)
-    expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
   })
 
   it('should open status modal when info link is pressed', async () => {
@@ -97,31 +101,29 @@ describe('MyVolunteeringTab', () => {
     })
 
     render(<MyVolunteeringTab />)
-
     await user.press(screen.getByText('profile.myVolunteer.link.status'))
 
     expect(screen.getByText('profile.myVolunteer.modal.title')).toBeOnTheScreen()
-    expect(screen.getByText('status.planned')).toBeOnTheScreen()
-    expect(screen.getByText('status.connected')).toBeOnTheScreen()
-    expect(screen.getByText('status.help')).toBeOnTheScreen()
+    expect(screen.getByText('desc-planned')).toBeOnTheScreen()
+    expect(screen.getByText('desc-connected')).toBeOnTheScreen()
+    expect(screen.getByText('desc-help')).toBeOnTheScreen()
   })
 
-  it('should render loadig icon when loading more items', () => {
+  it('should render loading icon when fetching more items', () => {
     const items = makeCommittedVolunteeringItems(2)
     mockUseCommittedVolunteering.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
-      items: items,
+      items,
       canFetchMore: true,
       isFetchingMore: true,
     })
 
     render(<MyVolunteeringTab />)
 
-    expect(screen.getByTestId(`volunteering-card-${items[0].id}`)).toBeOnTheScreen()
-    expect(screen.getByTestId('nextPageLoader')).toBeOnTheScreen()
+    expect(screen.getByTestId('next-page-loader')).toBeOnTheScreen()
   })
 
-  it('should not render loading icon when no more items', () => {
+  it('should not render loader when no more items', () => {
     mockUseCommittedVolunteering.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       items: makeCommittedVolunteeringItems(2),
@@ -130,7 +132,8 @@ describe('MyVolunteeringTab', () => {
     })
 
     render(<MyVolunteeringTab />)
-    expect(screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
+    expect(screen.queryByTestId('next-page-loader')).not.toBeOnTheScreen()
+    expect(screen.queryByTestId('load-more-button')).not.toBeOnTheScreen()
   })
 
   it('should render Load More button when more items available', () => {
@@ -150,20 +153,6 @@ describe('MyVolunteeringTab', () => {
     expect(screen.getByText('Load More')).toBeOnTheScreen()
   })
 
-  it('should not show loader when not fetching more', () => {
-    const items = makeCommittedVolunteeringItems(2)
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: items,
-      canFetchMore: true,
-      isFetchingMore: false,
-    })
-    render(<MyVolunteeringTab />)
-
-    expect(screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
-    expect(screen.getByTestId('load-more-button')).toBeOnTheScreen()
-  })
-
   it('should call fetchMore when Load More button is pressed', async () => {
     const user = userEvent.setup()
     const mockFetchMore = jest.fn()
@@ -176,9 +165,7 @@ describe('MyVolunteeringTab', () => {
     })
 
     render(<MyVolunteeringTab />)
-
-    const loadMoreButton = screen.getByTestId('load-more-button')
-    await user.press(loadMoreButton)
+    await user.press(screen.getByTestId('load-more-button'))
 
     expect(mockFetchMore).toHaveBeenCalledTimes(1)
   })

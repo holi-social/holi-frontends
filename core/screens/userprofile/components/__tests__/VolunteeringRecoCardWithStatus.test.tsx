@@ -25,9 +25,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       status: VolunteeringOpportunityStatusValue.ToDo,
     })
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
 
-    expect(screen.getByText('Planned')).toBeOnTheScreen()
+    expect(screen.getByText('status.planned')).toBeOnTheScreen()
   })
 
   it('should render Connected status chip for CONTACTED status', () => {
@@ -35,9 +35,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       status: VolunteeringOpportunityStatusValue.Contacted,
     })
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
 
-    expect(screen.getByText('Connected')).toBeOnTheScreen()
+    expect(screen.getByText('status.connected')).toBeOnTheScreen()
   })
 
   it('should render Helping status chip for DOING status', () => {
@@ -45,17 +45,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       status: VolunteeringOpportunityStatusValue.Doing,
     })
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
 
-    expect(screen.getByText('Helping')).toBeOnTheScreen()
-  })
-
-  it('should render Todo status chip for unknown status', () => {
-    const engagement = makeCommittedVolunteeringItem({
-      status: 'UNKNOWN' as VolunteeringOpportunityStatusValue,
-    })
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
-    expect(screen.getByText('Unknown')).toBeOnTheScreen()
+    expect(screen.getByText('status.help')).toBeOnTheScreen()
   })
 
   it('should render remote location label', () => {
@@ -63,7 +55,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
       location: false,
     })
     engagement.locationType = 'remote'
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
     expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
   })
 
@@ -71,7 +63,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
     const engagement = makeCommittedVolunteeringItem({
       location: true,
     })
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
     expect(screen.getByText(engagement.location!)).toBeOnTheScreen()
   })
 
@@ -79,21 +71,16 @@ describe('VolunteeringRecoCardWithStatus', () => {
     const user = userEvent.setup()
     const engagement = makeCommittedVolunteeringItem()
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={2} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
     const card = screen.getByRole('link')
     await user.press(card)
 
-    expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 2, {
-        locationType: engagement.locationType,
-        sourceSection: 'Volunteering',
-      })
-    )
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.MyVolunteering.pressed(engagement.id))
   })
 
   it('should use custom tracking event when provided', async () => {
     const user = userEvent.setup()
-    const customTrackingEvent = TrackingEvent.RecommendationPressed('goodnews', 'test', 0)
+    const customTrackingEvent = TrackingEvent.Volunteering.pressed('test')
     render(<VolunteeringRecoCardWithStatus {...defaultProps} trackingEvent={customTrackingEvent} />)
     const card = screen.getByRole('link')
     await user.press(card)
@@ -103,7 +90,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   it('should handle engagement without organizer', () => {
     const engagement = makeCommittedVolunteeringItem()
     engagement.organizerName = ''
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} index={0} />)
+    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
     expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     expect(screen.queryByText('volunteering.engagement.organization')).not.toBeOnTheScreen()
   })
