@@ -143,6 +143,16 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
   }
 }
 
+const buildAppleTraits = (credential: AppleAuthentication.AppleAuthenticationCredential) => {
+  const { givenName, familyName } = credential.fullName ?? {}
+  // Default to undefined if values are null
+  return {
+    given_name: givenName || undefined,
+    family_name: familyName || undefined,
+    name: givenName && familyName ? `${givenName} ${familyName}` : givenName || familyName || undefined,
+  }
+}
+
 const doAppleLogin = async () => {
   try {
     const digest = await ExpoCrypto.digestStringAsync(
@@ -151,20 +161,15 @@ const doAppleLogin = async () => {
     )
     const credential = await AppleAuthentication.signInAsync({
       requestedScopes: [
-        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
         AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
       ],
       nonce: digest,
     })
     return {
       id_token: credential.identityToken || '',
       id_token_nonce: digest,
-      traits: {
-        name: {
-          given_name: credential.fullName?.givenName || 'given name',
-          family_name: credential.fullName?.familyName || 'last name',
-        },
-      },
+      traits: buildAppleTraits(credential),
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
