@@ -60,7 +60,6 @@ export const user: User = {
   connectionStatusToMyself: UserConnectionStatus.NotConnected,
   connectionStatusToSpace: [SpaceUserConnectionType.Member],
   interests: [],
-  isOidc: false,
   sdgs: [],
   skills: [],
   __typename: 'User',
