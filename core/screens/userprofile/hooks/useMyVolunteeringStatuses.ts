@@ -27,14 +27,14 @@ export const useMyVolunteeringStatuses = (): MyVolunteeringStatuses => {
             size: 'md',
             iconLeading: ProgressIndicator1Of3,
             children: t('status.planned'),
-          } as ChipLabelProps,
+          },
         }
       case VolunteeringOpportunityStatusValue.Contacted:
         return {
           name: t('status.connected'),
           description: t('profile.myVolunteer.modal.description.connected'),
           chip: {
-            color: 'yellow',
+            color: 'orange',
             size: 'md',
             iconLeading: ProgressIndicator2Of3,
             children: t('status.connected'),

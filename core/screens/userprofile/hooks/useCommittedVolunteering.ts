@@ -41,7 +41,7 @@ export const useCommittedVolunteering = (
 } => {
   const { displayError } = useErrorHandling()
 
-  const opportunitiesIds = useCommittedVolunteeringOpportunitiesQuery({
+  const opportunitiesQuery = useCommittedVolunteeringOpportunitiesQuery({
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     variables: {
       offset: 0,
@@ -50,21 +50,16 @@ export const useCommittedVolunteering = (
   })
 
   useEffect(() => {
-    if (opportunitiesIds.error) {
-      displayError(opportunitiesIds.error, 'Failed to load committed volunteering opportunities', {
+    if (opportunitiesQuery.error) {
+      displayError(opportunitiesQuery.error, 'Failed to load committed volunteering opportunities', {
         location: 'useCommittedVolunteering.committedVolunteeringOpportunitiesQuery',
       })
     }
-  }, [opportunitiesIds.error, displayError])
+  }, [opportunitiesQuery.error, displayError])
 
-  type GraphQLItem = NonNullable<
+  type CommittedVolunteeringOpportunity = NonNullable<
     CommittedVolunteeringOpportunitiesQuery['committedVolunteeringOpportunities']
   >['data'][0]
-
-  const committedVolunteeringOpportunities = opportunitiesIds.data?.committedVolunteeringOpportunities || {
-    data: [],
-    totalResults: 0,
-  }
 
   const {
     items: opportunitiesData,
@@ -74,27 +69,25 @@ export const useCommittedVolunteering = (
     hasMore,
     fetchMore: fetchMoreUtil,
     refetch: refetchUtil,
-  } = useTypesenseEnrichedData<GraphQLItem, NormalizedCommittedVolunteeringItem>({
-    graphqlData: {
-      data: committedVolunteeringOpportunities.data,
-      totalResults: committedVolunteeringOpportunities.totalResults,
-      loading: opportunitiesIds.loading,
-      error: opportunitiesIds.error,
-      fetchMore: opportunitiesIds.fetchMore,
-      refetch: opportunitiesIds.refetch,
-    },
+  } = useTypesenseEnrichedData<
+    typeof opportunitiesQuery,
+    CommittedVolunteeringOpportunity,
+    NormalizedCommittedVolunteeringItem
+  >({
+    graphqlQuery: opportunitiesQuery,
+    dataExtractor: (data) => data?.committedVolunteeringOpportunities || { data: [], totalResults: 0 },
     typesenseIdExtractor: (item) => toVolunteeringTypesenseId(item.externalVolunteeringOpportunityId),
     typesenseFilter: 'type:=[volunteering]',
     limit,
-    itemNormalizer: (graphqlItem, volunteering) => ({
-      id: toVolunteeringTypesenseId(graphqlItem.externalVolunteeringOpportunityId),
+    itemNormalizer: (committedVolunteeringOpportunity, volunteering) => ({
+      id: toVolunteeringTypesenseId(committedVolunteeringOpportunity.externalVolunteeringOpportunityId),
       title: volunteering.title,
       organizerName: volunteering.organizer_name as string,
       imageUrl: volunteering.image_url || '',
       location: volunteering.location || '',
       locationType: volunteering.location_type || '',
-      status: graphqlItem.status,
-      externalVolunteeringOpportunityId: graphqlItem.externalVolunteeringOpportunityId,
+      status: committedVolunteeringOpportunity.status,
+      externalVolunteeringOpportunityId: committedVolunteeringOpportunity.externalVolunteeringOpportunityId,
     }),
   })
 

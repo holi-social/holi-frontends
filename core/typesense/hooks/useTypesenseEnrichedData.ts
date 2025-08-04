@@ -1,22 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useState, useRef } from 'react'
 import { useTypesense_MultiSearchQuery } from '@holi/api/graphql/graphql-codegen'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import type { ApolloError, ApolloQueryResult, FetchMoreOptions, FetchMoreQueryOptions } from '@apollo/client'
+import type { QueryResult } from '@apollo/client'
 
-export interface UseTypesenseEnrichedDataConfig<TGraphQLItem, TNormalizedItem> {
-  graphqlData: {
-    data: TGraphQLItem[]
-    totalResults: number
-    loading?: boolean
-    error?: ApolloError
-    fetchMore?: (
-      fetchMoreOptions: FetchMoreQueryOptions<any, any> & FetchMoreOptions<any, any>
-    ) => Promise<ApolloQueryResult<any>>
-    refetch?: (variables?: Partial<any>) => Promise<ApolloQueryResult<any>>
-  }
+export interface UseTypesenseEnrichedDataConfig<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TQueryResult extends QueryResult<any, any>,
+  TGraphQLItem,
+  TNormalizedItem,
+> {
+  graphqlQuery: TQueryResult
+  dataExtractor: (data: TQueryResult['data']) => { data: TGraphQLItem[]; totalResults: number }
   typesenseIdExtractor: (item: TGraphQLItem) => string
   typesenseFilter: string
   itemNormalizer?: (graphqlItem: TGraphQLItem, typesenseDoc: LocalizedTypesenseDocument) => TNormalizedItem
@@ -36,21 +32,32 @@ export interface UseTypesenseEnrichedDataResult<TGraphQLItem, TNormalizedItem> {
   rawGraphQLData: TGraphQLItem[]
 }
 
-export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefined>({
-  graphqlData,
+export function useTypesenseEnrichedData<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TQueryResult extends QueryResult<any, any>,
+  TGraphQLItem,
+  TNormalizedItem = undefined,
+>({
+  graphqlQuery,
+  dataExtractor,
   typesenseIdExtractor,
   typesenseFilter,
   itemNormalizer,
   limit = 10,
   skipMissingTypesenseData = true,
-}: UseTypesenseEnrichedDataConfig<TGraphQLItem, TNormalizedItem>): UseTypesenseEnrichedDataResult<
+}: UseTypesenseEnrichedDataConfig<TQueryResult, TGraphQLItem, TNormalizedItem>): UseTypesenseEnrichedDataResult<
   TGraphQLItem,
   TNormalizedItem
 > {
   const language = useUserLanguage()
   const [isFetchingMore, setIsFetchingMore] = useState(false)
-  const rawGraphQLData = useMemo(() => graphqlData.data ?? [], [graphqlData.data])
-  const totalResults = graphqlData.totalResults ?? 0
+  const { rawGraphQLData, totalResults } = useMemo(() => {
+    if (!graphqlQuery.data) {
+      return { rawGraphQLData: [] as TGraphQLItem[], totalResults: 0 }
+    }
+    const extracted = dataExtractor(graphqlQuery.data)
+    return { rawGraphQLData: extracted.data, totalResults: extracted.totalResults }
+  }, [graphqlQuery.data, dataExtractor])
 
   const typesenseIds = useMemo(() => rawGraphQLData.map(typesenseIdExtractor), [rawGraphQLData, typesenseIdExtractor])
 
@@ -83,6 +90,7 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
 
   // Ref is needed to avoid the data to reset while
   // fetching data from typesense
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const itemsRef = useRef<TNormalizedItem extends undefined ? TGraphQLItem[] : TNormalizedItem[]>([] as any)
 
   const processedItems = useMemo(() => {
@@ -91,6 +99,7 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
         if (!skipMissingTypesenseData) return true
         const typesenseId = typesenseIdExtractor(graphqlItem)
         return typesenseDocuments.some((doc) => doc.id === typesenseId)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }) as any
 
       if (!typesenseLoading || filteredItems.length >= itemsRef.current.length) {
@@ -100,6 +109,7 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
       return itemsRef.current
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const enrichedItems = rawGraphQLData.reduce((acc: any[], graphqlItem) => {
       const typesenseId = typesenseIdExtractor(graphqlItem)
       const typesenseDoc = typesenseDocuments.find((doc) => doc.id === typesenseId)
@@ -110,6 +120,7 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
     }, [])
 
     if (!typesenseLoading || enrichedItems.length >= itemsRef.current.length) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       itemsRef.current = enrichedItems as any
     }
 
@@ -126,11 +137,11 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
   const hasMore = rawGraphQLData.length < totalResults
 
   const fetchMore = async () => {
-    if (!hasMore || isFetchingMore || !graphqlData.fetchMore) return
+    if (!hasMore || isFetchingMore || !graphqlQuery.fetchMore) return
 
     setIsFetchingMore(true)
     try {
-      await graphqlData.fetchMore({
+      await graphqlQuery.fetchMore({
         variables: {
           offset: rawGraphQLData.length,
           limit,
@@ -142,18 +153,18 @@ export function useTypesenseEnrichedData<TGraphQLItem, TNormalizedItem = undefin
   }
 
   const refetch = async () => {
-    await graphqlData.refetch?.()
+    await graphqlQuery.refetch?.()
   }
 
   return {
     items: processedItems,
     totalResults,
-    isLoading: graphqlData.loading || typesenseLoading,
+    isLoading: graphqlQuery.loading || typesenseLoading,
     isFetchingMore,
     hasMore,
     fetchMore,
     refetch,
-    error: graphqlData.error,
+    error: graphqlQuery.error,
     rawGraphQLData,
   }
 }
