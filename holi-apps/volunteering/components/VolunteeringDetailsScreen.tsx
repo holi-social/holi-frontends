@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { Linking, Platform } from 'react-native'
+import React, { useState } from 'react'
+import { Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -12,32 +12,26 @@ import { FavoritingButton } from '@holi/core/components/FavoritingButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { FavoritableType, useFavoriteExternalVolunteeringOpportunityQuery } from '@holi/api/graphql/graphql-codegen'
 import { VolunteeringContact } from '@holi-apps/volunteering/components/VolunteeringContact'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliWebView from '@holi/core/components/HoliWebView'
-import { useTheme } from '@holi/ui/styles/theme'
+import { useOpenLink } from '@holi/ui/helper/useOpenLink'
+import {
+  VolunteeringProgressCard,
+  type VolunteeringProgressStatus,
+} from '@holi-apps/volunteering/components/VolunteeringProgressCard'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Stack } from 'holi-bricks/components/stack'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 
 const isIos = Platform.OS === 'ios'
-const isWeb = Platform.OS === 'web'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
-  const { theme } = useTheme()
   const { displayError } = useErrorHandling()
-  const { show: showWebView, props: webViewModalProps } = useModalState()
-  const [webViewUrl, setWebViewUrl] = useState<string>()
-  const onOpenLink = useCallback(
-    (url?: string) => {
-      if (!url) {
-        return
-      }
-      if (isWeb) {
-        Linking.openURL(url)
-      } else {
-        setWebViewUrl(url)
-        showWebView()
-      }
-    },
-    [showWebView]
-  )
+  const onOpenLink = useOpenLink()
+
+  const [engagementStatus, setEngagementStatus] = useState<VolunteeringProgressStatus | undefined>(undefined)
+  const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState()
   const { isLoading, document } = useVolunteeringDetailsData(engagementId, onOpenLink)
 
   const {
@@ -95,7 +89,17 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
       }}
       statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
       StickyBottomComponent={
-        document && <VolunteeringContact engagementId={engagementId} document={document} onOpenLink={onOpenLink} />
+        document && (
+          <VolunteeringContact
+            engagementId={engagementId}
+            document={document}
+            onOpenLink={onOpenLink}
+            onModalDismiss={() => {
+              showConnectedStatusModal()
+              setEngagementStatus('contact')
+            }}
+          />
+        )
       }
       testID="volunteering-detailview-container"
     >
@@ -105,23 +109,27 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         title={document?.title ?? ''}
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
+        progressCard={
+          <HoliTransition.FadeDown visible={!!(document && engagementStatus)}>
+            <VolunteeringProgressCard
+              status={engagementStatus}
+              document={document!}
+              engagementId={engagementId}
+              onStatusChange={setEngagementStatus}
+            />
+
+            <HoliModal {...connectedStatusModalProps} label="Connected status">
+              <HoliContainer>
+                <Stack width="100%">
+                  <HoliLottie animType="contactedSuccess" loop={false} />
+                </Stack>
+
+                <VolunteeringProgressStepper status={'do'} />
+              </HoliContainer>
+            </HoliModal>
+          </HoliTransition.FadeDown>
+        }
       />
-      {webViewUrl && !isWeb && (
-        <HoliModal
-          label="modal"
-          animationType="slide"
-          style={{ width: '100%', height: '100%', flex: 1 }}
-          shown={webViewModalProps.shown}
-          onDismiss={webViewModalProps.onDismiss}
-          testID="volunteering-external-url-modal"
-        >
-          <HoliWebView
-            theme={theme}
-            style={{ flex: 1, height: '100%', width: '100%' }}
-            webViewProps={{ setSupportMultipleWindows: false, source: { uri: webViewUrl } }}
-          />
-        </HoliModal>
-      )}
     </Screen>
   )
 }
