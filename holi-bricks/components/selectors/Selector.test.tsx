@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native'
 import { Selector } from 'holi-bricks/components/selectors/Selector'
 import React from 'react'
 
-import { SelectableCard, SelectableChip } from './Selectable'
+import { SelectableCard, SelectableChip, SelectableRadioButton } from './Selectable'
 
 describe('Selector', () => {
   it('renders correctly with SelectableCards', () => {
@@ -28,6 +28,18 @@ describe('Selector', () => {
     expect(screen.getByText('title')).toBeOnTheScreen()
     expect(screen.getByText('Chip 1')).toBeOnTheScreen()
     expect(screen.getByText('Chip 2')).toBeOnTheScreen()
+  })
+  it('renders correctly with SelectableRadioButtons', () => {
+    render(
+      <Selector title="title">
+        <SelectableRadioButton id="1" label="Option 1" />
+        <SelectableRadioButton id="2" label="Option 2" />
+      </Selector>
+    )
+
+    expect(screen.getByText('title')).toBeOnTheScreen()
+    expect(screen.getByText('Option 1')).toBeOnTheScreen()
+    expect(screen.getByText('Option 2')).toBeOnTheScreen()
   })
   it('calls onSelect correctly when clicked', () => {
     const mockFn = jest.fn()

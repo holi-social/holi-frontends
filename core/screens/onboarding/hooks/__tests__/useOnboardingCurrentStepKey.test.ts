@@ -58,6 +58,14 @@ describe('useOnboardingCurrentStepKey', () => {
     }
   )
 
+  it.each(testCases)('should always resolve to account creation if flow id is given', ({ state }) => {
+    mockUseOnboardingState.mockReturnValue(state)
+
+    const { result } = renderHook(() => useOnboardingCurrentStepKey(true))
+
+    expect(result.current[0]).toEqual('CREATE_ACCOUNT')
+  })
+
   it.each(testCases)(
     'should update step to $expectedStep for switch to onboarding state $state',
     async ({ state, expectedStep }) => {

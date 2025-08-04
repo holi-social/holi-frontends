@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
@@ -8,6 +9,7 @@ export const getRandomAuthenticatedUser = (): AuthenticatedUser => ({
   email: faker.internet.email(),
   isEmployee: faker.datatype.boolean(),
   isOidc: false,
+  accountType: AccountType.Email,
 })
 
 export const getRandomUser = (hasAvatar = false): User => {

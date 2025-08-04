@@ -2,6 +2,7 @@ import React from 'react'
 import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
@@ -26,6 +27,7 @@ describe('UserTermsRow', () => {
         interestsV2: ['gender-equality', 'disaster-relief'],
         skillsV2: ['legal-assistance', 'other', 'driving'],
         isOidc: false,
+        accountType: AccountType.Email,
       },
     }
     mockUseLoggedInUser.mockReturnValue(mockedUser)

@@ -97,8 +97,8 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
               <Trans
                 i18nKey="personalGoodDeedCounter.drawer.campaignHint"
                 components={{
-                  span: <span />,
-                  b: <b />,
+                  span: <Text size="md" />,
+                  b: <Text size="md" bold />,
                 }}
               />
             </Text>

@@ -5,7 +5,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import { SocialLoginButton, type SocialLoginButtonProvider } from 'holi-bricks/components/button/SocialLoginButton'
 import { getNodeId, getNodeTranslationKey, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, View, type ViewStyle } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { getNodeProviderId, getNodeProviderName } from '@holi/core/auth/helpers/auth'
 
@@ -16,7 +16,10 @@ interface FormNodeSocialLoginProps {
   onSubmitPress: (overrides?: UpdateLoginFlowBody, provider?: string) => void
 }
 
-const supportedSocialLoginProviders: SocialLoginButtonProvider[] = ['Google']
+const supportedSocialLoginProviders: SocialLoginButtonProvider[] = [
+  'Google',
+  ...(Platform.OS !== 'android' ? ['Apple' as SocialLoginButtonProvider] : []),
+]
 
 export const FormNodeSocialLogin = ({ node, translationPrefix, style, onSubmitPress }: FormNodeSocialLoginProps) => {
   const { t } = useTranslation()

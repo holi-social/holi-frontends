@@ -100,13 +100,7 @@ describe('FormNodeSocialLogin', () => {
   })
 
   it('should render the social login button for google', () => {
-    render(
-      <FormNodeSocialLogin
-        node={createNode({ disabled: true })}
-        translationPrefix={'auth.login.'}
-        onSubmitPress={jest.fn()}
-      />
-    )
+    render(<FormNodeSocialLogin node={createNode()} translationPrefix={'auth.login.'} onSubmitPress={jest.fn()} />)
 
     expect(screen.getByLabelText('auth.login.input.label-ProviderSignIn')).toBeOnTheScreen()
   })
@@ -127,6 +121,40 @@ describe('FormNodeSocialLogin', () => {
         },
       },
       'Google'
+    )
+  })
+
+  it('should render the social login button for apple', () => {
+    render(
+      <FormNodeSocialLogin
+        node={createNode({ provider: 'Apple' })}
+        translationPrefix={'auth.login.'}
+        onSubmitPress={jest.fn()}
+      />
+    )
+
+    expect(screen.getByLabelText('auth.login.input.label-ProviderSignIn')).toBeOnTheScreen()
+  })
+
+  it('should call onSubmitPress callback with the correct parameters for apple', async () => {
+    const onSubmitPress = jest.fn()
+    const user = userEvent.setup()
+    render(
+      <FormNodeSocialLogin
+        node={createNode({ provider: 'Apple' })}
+        translationPrefix={'auth.login.'}
+        onSubmitPress={onSubmitPress}
+      />
+    )
+
+    await user.press(screen.getByLabelText('auth.login.input.label-ProviderSignIn'))
+
+    expect(onSubmitPress).toHaveBeenCalledWith(
+      {
+        method: 'oidc',
+        provider: 'apple_123',
+      },
+      'Apple'
     )
   })
 })

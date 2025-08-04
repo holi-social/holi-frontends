@@ -7,7 +7,7 @@ import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/ima
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { BorderRadius, Spacing } from 'holi-bricks/foundations'
+import { BorderRadius, IconSize, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
@@ -67,12 +67,12 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
       {/* on top of the image */}
       {topIcon && (
         <View style={styles.topLeft}>
-          <HoliIcon icon={topIcon} color="support" size={16} />
+          <HoliIcon icon={topIcon} color="support" size={IconSize.sm} />
         </View>
       )}
       {bottomIcon && (
         <View style={styles.bottomRight}>
-          <HoliIcon icon={bottomIcon} color="support" size={16} />
+          <HoliIcon icon={bottomIcon} color="support" size={IconSize.sm} />
         </View>
       )}
       {date && (

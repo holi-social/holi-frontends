@@ -15,7 +15,7 @@ import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/Foo
 import type { CompoundCompactCard } from 'holi-bricks/components/compactCard/types'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
+import { IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 
 export type CompactCardProps = AccessibilityProps &
   LayoutProps & {
@@ -107,12 +107,12 @@ export const CompactCard = (({
                     flex={1}
                     margin={Platform.OS === 'web' ? undefined : { right: 'xs' }}
                   >
-                    {topLabelIcon && <HoliIcon icon={topLabelIcon} color="support" size={16} />}
+                    {topLabelIcon && <HoliIcon icon={topLabelIcon} color="support" size={IconSize.sm} />}
                     <Text numberOfLines={1} ellipsizeMode="tail" size="xs" color="support" selectable={false}>
                       {topLabel}
                     </Text>
                   </Stack>
-                  {topLabelRightIcon && <HoliIcon icon={topLabelRightIcon} size={16} />}
+                  {topLabelRightIcon && <HoliIcon icon={topLabelRightIcon} size={IconSize.sm} />}
                 </Stack>
                 {buttonIcon && (
                   <ButtonIcon icon={buttonIcon} label="buttonIconLabel" size="sm" variant={buttonIconVariant} />

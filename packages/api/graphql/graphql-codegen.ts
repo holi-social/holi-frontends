@@ -36,6 +36,13 @@ export type Scalars = {
   Void: { input: any; output: any }
 }
 
+export enum AccountType {
+  Apple = 'APPLE',
+  Email = 'EMAIL',
+  Google = 'GOOGLE',
+  Unknown = 'UNKNOWN',
+}
+
 export type AddCollaborationToolInput = {
   collectionType: CollectionType
   description?: InputMaybe<Scalars['String']['input']>
@@ -331,6 +338,7 @@ export enum AspectRatio {
 export type AuthenticatedUser = {
   __typename?: 'AuthenticatedUser'
   aboutMe?: Maybe<Scalars['String']['output']>
+  accountType: AccountType
   avatar?: Maybe<Scalars['String']['output']>
   avatarBlurhash?: Maybe<Scalars['String']['output']>
   avatarDefaultColor: Scalars['String']['output']
@@ -1078,6 +1086,7 @@ export type Mutation = {
   /** When no userId is provided, the logged in user is used instead. */
   updateSpaceUserConnection: Space
   updateTask: Task
+  updateVolunteeringOpportunityStatus: VolunteeringOpportunityStatus
   /** @deprecated Use vote_on_poll instead. */
   updateVotes: Choice
   validateSpace: Result
@@ -1321,6 +1330,11 @@ export type MutationUpdateSpaceUserConnectionArgs = {
 
 export type MutationUpdateTaskArgs = {
   input: UpdateTaskInput
+}
+
+export type MutationUpdateVolunteeringOpportunityStatusArgs = {
+  newStatus?: VolunteeringOpportunityStatusValue
+  volunteeringOpportunityId: Scalars['String']['input']
 }
 
 export type MutationUpdateVotesArgs = {
@@ -1612,6 +1626,7 @@ export type Query = {
   collaborationTools: CollaborationToolPaged
   commentById: Comment
   commentable: Commentable
+  committedVolunteeringOpportunities: VolunteeringOpportunityStatusPaged
   connectedUsers: UserPaged
   connectionsByUserId: UserPaged
   discoverSpaces: Array<Maybe<DiscoverSpaces>>
@@ -1680,6 +1695,7 @@ export type Query = {
   userHasVotedByPollId: Scalars['Boolean']['output']
   userSuggestions: UserPaged
   usersByChatIdentities: UserPaged
+  volunteeringOpportunityStatus?: Maybe<VolunteeringOpportunityStatus>
 }
 
 export type QueryAllPostsArgs = {
@@ -1788,6 +1804,11 @@ export type QueryCommentByIdArgs = {
 export type QueryCommentableArgs = {
   id: Scalars['UUID']['input']
   type: CommentableType
+}
+
+export type QueryCommittedVolunteeringOpportunitiesArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
 }
 
 export type QueryConnectedUsersArgs = {
@@ -2014,6 +2035,10 @@ export type QueryUsersByChatIdentitiesArgs = {
   identities: Array<Scalars['String']['input']>
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
+}
+
+export type QueryVolunteeringOpportunityStatusArgs = {
+  volunteeringOpportunityId: Scalars['String']['input']
 }
 
 /** Quote(id, insight, text, author, author_profession, link, link_preview, category, comment) */
@@ -2890,7 +2915,6 @@ export type User = {
   /** @deprecated Deprecated since 1.52. Use interests_v2 instead. */
   interests: Array<Maybe<Topic>>
   interestsV2: Array<Maybe<Scalars['String']['output']>>
-  isOidc: Scalars['Boolean']['output']
   lastName?: Maybe<Scalars['String']['output']>
   location?: Maybe<Scalars['String']['output']>
   pronouns?: Maybe<Scalars['String']['output']>
@@ -2985,6 +3009,29 @@ export enum VisibilityLevel {
 export enum VisibilityType {
   Members = 'MEMBERS',
   Public = 'PUBLIC',
+}
+
+/** VolunteeringOpportunityStatus(id, external_volunteering_opportunity_id, user, status, created_at, updated_at) */
+export type VolunteeringOpportunityStatus = {
+  __typename?: 'VolunteeringOpportunityStatus'
+  externalVolunteeringOpportunityId: Scalars['String']['output']
+  status: VolunteeringOpportunityStatusValue
+}
+
+export type VolunteeringOpportunityStatusPaged = {
+  __typename?: 'VolunteeringOpportunityStatusPaged'
+  /** The list of items in this pagination window. */
+  data: Array<Maybe<VolunteeringOpportunityStatus>>
+  /** Total number of items in the filtered dataset. */
+  totalResults: Scalars['Int']['output']
+}
+
+export enum VolunteeringOpportunityStatusValue {
+  Contacted = 'CONTACTED',
+  Doing = 'DOING',
+  Done = 'DONE',
+  ToDo = 'TO_DO',
+  WontDo = 'WONT_DO',
 }
 
 export type UserAvatarFragment = {
