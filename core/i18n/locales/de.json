@@ -427,7 +427,6 @@
   "goodDeeds.name.plural_one": "Gute Tat",
   "goodDeeds.name.plural_other": "Gute Taten",
   "goodDeedsCounter.label.single": "Gute Tat",
-  "goodDeedsCounter.label.plural": "Gute Taten",
   "goodnews.app.name": "Gute Nachrichten",
   "goodnews.app.subline": "kuratiert von goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Weitere Artikel lesen",
@@ -673,6 +672,7 @@
   "multiselect.empty": "Keine Optionen vorhanden",
   "multiselect.open": "Optionenauswahl öffnen",
   "multiselect.options": "Liste der Optionen",
+  "myVolunteer.emailTemplate": "<b figma-seg=\"s0\">Hi there, I came across your opportunity on </b><u figma-seg=\"s1\"><b>Holi</b></u><b figma-seg=\"s2\"> and would love to contribute!  Please let me know how I can help and get started.\n\nBest, \n%name%</b>",
   "navigation.act": "Gute Taten",
   "navigation.bottomNavigation": "Untere Navigationsleiste",
   "navigation.chat": "Chat",
