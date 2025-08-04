@@ -427,6 +427,7 @@
   "goodDeeds.name.plural_one": "Gute Tat",
   "goodDeeds.name.plural_other": "Gute Taten",
   "goodDeedsCounter.label.single": "Gute Tat",
+  "goodDeedsCounter.label.plural": "Gute Taten",
   "goodnews.app.name": "Gute Nachrichten",
   "goodnews.app.subline": "kuratiert von goodnews.eu",
   "goodnews.button.loadMoreArticles.label": "Weitere Artikel lesen",
