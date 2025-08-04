@@ -139,7 +139,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
               >
                 <HoliIcon icon={GoodDeedsV2} size={40} />
                 <Text size="xxl" selectable={false}>
-                  {counter} {t('goodDeeds.name')}
+                  {counter} {t('goodDeeds.name', { count: counter })}
                 </Text>
               </Stack>
             </Stack>
