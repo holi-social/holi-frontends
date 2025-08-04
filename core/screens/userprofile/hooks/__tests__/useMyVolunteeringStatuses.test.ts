@@ -31,7 +31,7 @@ describe('useMyVolunteeringStatuses', () => {
     expect(status).toBeDefined()
     expect(status?.name).toBe('status.connected')
     expect(status?.description).toBe('profile.myVolunteer.modal.description.connected')
-    expect(status?.chip.color).toBe('yellow')
+    expect(status?.chip.color).toBe('orange')
     expect(status?.chip.children).toBe('status.connected')
   })
 
