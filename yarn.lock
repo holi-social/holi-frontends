@@ -5851,7 +5851,7 @@ __metadata:
     lodash.isequal: "npm:^4.5.0"
     lodash.partition: "npm:^4.6.0"
     lodash.shuffle: "npm:^4.2.0"
-    lottie-ios: "npm:4.5.0"
+    lottie-ios: "npm:4.5.1"
     lottie-react-native: "npm:7.1.0"
     posthog-react-native: "npm:^3.3.9"
     react: "npm:18.3.1"
@@ -23516,10 +23516,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-ios@npm:4.5.0":
-  version: 4.5.0
-  resolution: "lottie-ios@npm:4.5.0"
-  checksum: 10c0/5952324ea68303500dd9e79e04c25284f372a226b85a5bea09f96df0c136453c22ed0c3fa04a2ac9bce24dea125b69ec9328f75d7e79ea7dbe38652c230f1c23
+"lottie-ios@npm:4.5.1":
+  version: 4.5.1
+  resolution: "lottie-ios@npm:4.5.1"
+  checksum: 10c0/c5308e7cf26e2d7c610fdc9bda4fa1894eea986080f99cf11422f62d79db1c1962349ee8954243d219666a6441cb130888d68f0110237ae46d1b50608cde3fc2
   languageName: node
   linkType: hard
 
