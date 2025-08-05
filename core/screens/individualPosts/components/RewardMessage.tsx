@@ -33,9 +33,9 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   const [showText, setShowText] = useState(true) // Control text visibility
 
   useEffect(() => {
-    const initialCount = goodDeedCount - 1
+    const initialCount = Math.max(0, goodDeedCount - 1)
     setLabelText(
-      initialCount > 1 || initialCount === 0 ? t('goodDeedsCounter.label.plural') : t('goodDeedsCounter.label.single')
+      initialCount > 1 || initialCount === 0 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single')
     )
   }, [goodDeedCount, t])
 
@@ -43,7 +43,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   useEffect(() => {
     const finalCount = goodDeedCount || 1
 
-    countAnim.setValue(goodDeedCount - 1)
+    countAnim.setValue(Math.max(0, goodDeedCount - 1))
     textFadeAnim.setValue(1)
     setShowText(true)
 
@@ -68,7 +68,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
 
         // After pause, update text and fade back in
         setTimeout(() => {
-          setLabelText(goodDeedCount > 1 ? t('goodDeedsCounter.label.plural') : t('goodDeedsCounter.label.single'))
+          setLabelText(goodDeedCount > 1 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single'))
           setShowText(true)
         }, 200)
       })
@@ -140,7 +140,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
                 {
                   translateY: Animated.add(
                     countAnim.interpolate({
-                      inputRange: [goodDeedCount - 1, goodDeedCount],
+                      inputRange: [Math.max(0, goodDeedCount - 1), goodDeedCount],
                       outputRange: [0, 140],
                     }),
                     initialBounceAnim
@@ -150,7 +150,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
             }}
           >
             <Text headingLevel="1" size="5xl" bold>
-              {goodDeedCount - 1}
+              {Math.max(0, goodDeedCount - 1)}
             </Text>
           </Animated.View>
           <Animated.View
@@ -160,7 +160,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
                 {
                   translateY: Animated.add(
                     countAnim.interpolate({
-                      inputRange: [goodDeedCount - 1, goodDeedCount],
+                      inputRange: [Math.max(0, goodDeedCount - 1), goodDeedCount],
                       outputRange: [-140, 0],
                     }),
                     verticalBounceAnim
