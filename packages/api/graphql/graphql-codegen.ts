@@ -5071,6 +5071,24 @@ export type AuthenticatedUserQuery = {
   }
 }
 
+export type CommittedVolunteeringOpportunitiesQueryVariables = Exact<{
+  offset: Scalars['Int']['input']
+  limit: Scalars['Int']['input']
+}>
+
+export type CommittedVolunteeringOpportunitiesQuery = {
+  __typename?: 'Query'
+  committedVolunteeringOpportunities: {
+    __typename?: 'VolunteeringOpportunityStatusPaged'
+    totalResults: number
+    data: Array<{
+      __typename?: 'VolunteeringOpportunityStatus'
+      status: VolunteeringOpportunityStatusValue
+      externalVolunteeringOpportunityId: string
+    }>
+  }
+}
+
 export type FullTypesenseDocumentFragment = {
   __typename?: 'Typesense_Document'
   type: Typesense_DocumentType
@@ -8021,6 +8039,87 @@ export type AuthenticatedUserQueryHookResult = ReturnType<typeof useAuthenticate
 export type AuthenticatedUserLazyQueryHookResult = ReturnType<typeof useAuthenticatedUserLazyQuery>
 export type AuthenticatedUserSuspenseQueryHookResult = ReturnType<typeof useAuthenticatedUserSuspenseQuery>
 export type AuthenticatedUserQueryResult = Apollo.QueryResult<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>
+export const CommittedVolunteeringOpportunitiesDocument = gql`
+    query CommittedVolunteeringOpportunities($offset: Int!, $limit: Int!) {
+  committedVolunteeringOpportunities(offset: $offset, limit: $limit) {
+    data {
+      status
+      externalVolunteeringOpportunityId
+    }
+    totalResults
+  }
+}
+    `
+
+/**
+ * __useCommittedVolunteeringOpportunitiesQuery__
+ *
+ * To run a query within a React component, call `useCommittedVolunteeringOpportunitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommittedVolunteeringOpportunitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommittedVolunteeringOpportunitiesQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useCommittedVolunteeringOpportunitiesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CommittedVolunteeringOpportunitiesQuery,
+    CommittedVolunteeringOpportunitiesQueryVariables
+  > &
+    ({ variables: CommittedVolunteeringOpportunitiesQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<CommittedVolunteeringOpportunitiesQuery, CommittedVolunteeringOpportunitiesQueryVariables>(
+    CommittedVolunteeringOpportunitiesDocument,
+    options
+  )
+}
+export function useCommittedVolunteeringOpportunitiesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommittedVolunteeringOpportunitiesQuery,
+    CommittedVolunteeringOpportunitiesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<CommittedVolunteeringOpportunitiesQuery, CommittedVolunteeringOpportunitiesQueryVariables>(
+    CommittedVolunteeringOpportunitiesDocument,
+    options
+  )
+}
+export function useCommittedVolunteeringOpportunitiesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        CommittedVolunteeringOpportunitiesQuery,
+        CommittedVolunteeringOpportunitiesQueryVariables
+      >
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    CommittedVolunteeringOpportunitiesQuery,
+    CommittedVolunteeringOpportunitiesQueryVariables
+  >(CommittedVolunteeringOpportunitiesDocument, options)
+}
+export type CommittedVolunteeringOpportunitiesQueryHookResult = ReturnType<
+  typeof useCommittedVolunteeringOpportunitiesQuery
+>
+export type CommittedVolunteeringOpportunitiesLazyQueryHookResult = ReturnType<
+  typeof useCommittedVolunteeringOpportunitiesLazyQuery
+>
+export type CommittedVolunteeringOpportunitiesSuspenseQueryHookResult = ReturnType<
+  typeof useCommittedVolunteeringOpportunitiesSuspenseQuery
+>
+export type CommittedVolunteeringOpportunitiesQueryResult = Apollo.QueryResult<
+  CommittedVolunteeringOpportunitiesQuery,
+  CommittedVolunteeringOpportunitiesQueryVariables
+>
 export const Typesense_DocumentByIdDocument = gql`
     query typesense_documentById($id: String!, $documentType: String!) {
   typesense_documentById(id: $id, documentType: $documentType) {
