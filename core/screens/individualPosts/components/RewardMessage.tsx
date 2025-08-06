@@ -128,12 +128,12 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   }
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]} testID="reward-message-container">
       <View style={styles.content}>
         <View style={styles.iconContainer}>
           <HoliLottie animType="goodDeedsCounter" loop={false} />
         </View>
-        <View style={styles.animatedContainer}>
+        <View style={styles.animatedContainer} testID="good-deeds-counter-animation">
           <Animated.View
             style={{
               transform: [
@@ -168,6 +168,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
                 },
               ],
             }}
+            testID="good-deeds-counter-final"
           >
             <Text headingLevel="1" size="5xl" bold>
               {goodDeedCount}
@@ -182,6 +183,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
                 width: '100%',
                 alignItems: 'center',
               }}
+              testID="good-deeds-counter-label"
             >
               <Text headingLevel="2" size="3xl">
                 {labelText}
@@ -193,11 +195,11 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
 
       <View style={styles.subContent}>
         <View style={styles.descriptionContainer}>
-          <Text size="xl" textAlign="center">
+          <Text size="xl" textAlign="center" testID="reward-message-text">
             {t('goodDeed.rewardsMessage.text')}
           </Text>
         </View>
-        <Pressable style={styles.moreInfoContainer} onPress={handleMoreInfoPress}>
+        <Pressable style={styles.moreInfoContainer} onPress={handleMoreInfoPress} testID="reward-message-link">
           <Text size="lg" bold>
             {t('goodDeed.rewardsMessage.link')}
           </Text>
@@ -205,7 +207,12 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
         </Pressable>
       </View>
       <View style={styles.buttonContainer}>
-        <Button label={t('goodDeed.rewardsMessage.button', 'Claim')} onPress={onClaim} size="md" />
+        <Button
+          label={t('goodDeed.rewardsMessage.button', 'Claim')}
+          onPress={onClaim}
+          size="md"
+          testID="reward-claim-button"
+        />
       </View>
     </Animated.View>
   )
