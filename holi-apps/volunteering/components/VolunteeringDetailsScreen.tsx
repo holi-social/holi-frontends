@@ -17,12 +17,6 @@ import {
   VolunteeringProgressCard,
   type VolunteeringProgressStatus,
 } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { Stack } from 'holi-bricks/components/stack'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
-import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 
 const isIos = Platform.OS === 'ios'
 
@@ -31,7 +25,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
   const onOpenLink = useOpenLink()
 
   const [engagementStatus, setEngagementStatus] = useState<VolunteeringProgressStatus | undefined>(undefined)
-  const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState()
   const { isLoading, document } = useVolunteeringDetailsData(engagementId, onOpenLink)
 
   const {
@@ -94,10 +87,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
             engagementId={engagementId}
             document={document}
             onOpenLink={onOpenLink}
-            onModalDismiss={() => {
-              showConnectedStatusModal()
-              setEngagementStatus('contact')
-            }}
+            onModalDismiss={() => setEngagementStatus('contact')}
           />
         )
       }
@@ -117,16 +107,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               engagementId={engagementId}
               onStatusChange={setEngagementStatus}
             />
-
-            <HoliModal {...connectedStatusModalProps} label="Connected status">
-              <HoliContainer>
-                <Stack width="100%">
-                  <HoliLottie animType="contactedSuccess" loop={false} />
-                </Stack>
-
-                <VolunteeringProgressStepper status={'do'} />
-              </HoliContainer>
-            </HoliModal>
           </HoliTransition.FadeDown>
         }
       />

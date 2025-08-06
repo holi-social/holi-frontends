@@ -1,4 +1,6 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
+import Animated, { FadeInUp } from 'react-native-reanimated'
+
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
@@ -9,6 +11,12 @@ import { Stack } from 'holi-bricks/components/stack'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { VolunteeringContactItem } from '@holi-apps/volunteering/components/VolunteeringContactItem'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie.web'
+import type { VolunteeringProgressStatus } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
+import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
+import { Text } from 'holi-bricks/components/text'
+
+const ANIMATION_DELAY = 500
 
 interface VolunteeringContactProps {
   document: VolunteeringDetailsScreenData
@@ -24,6 +32,8 @@ export const VolunteeringContact = ({
   onModalDismiss,
 }: VolunteeringContactProps) => {
   const { t } = useTranslation()
+
+  const [progressStatus, setProgressStatus] = useState<VolunteeringProgressStatus>('plan')
   const {
     show: showContact,
     hide: hideContact,
@@ -43,13 +53,7 @@ export const VolunteeringContact = ({
   }, [document.externalUrl, hasContactInfo, onOpenLink, showContact])
 
   return (
-    <Stack
-      padding={{ left: 'md', right: 'md', bottom: 'lg' }}
-      alignItems="center"
-      justifyContent="center"
-      alignSelf="center"
-      width="100%"
-    >
+    <Stack padding={{ bottom: 'lg' }} alignItems="center" justifyContent="center" alignSelf="center" width="100%">
       <ButtonTracked
         trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
           commitmentType: document.commitmentType,
@@ -77,20 +81,43 @@ export const VolunteeringContact = ({
         backgroundColor={styles.modal.backgroundColor}
       >
         <HoliContainer>
-          <Stack gap="4xs" margin={{ bottom: 'lg' }}>
-            {document.contact?.map((contact, index) => (
-              <VolunteeringContactItem
-                key={contact.value + index}
-                contact={contact}
-                trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
-                  commitmentType: document.commitmentType,
-                  source: document.source,
-                  contact_info_displayed: contactInfoDisplayed,
-                  contact_method_selected: contact.type,
-                })}
-                onWebViewOpen={hideContact}
-              />
-            ))}
+          <Stack gap="md">
+            <Stack width="100%">
+              <HoliLottie animType="rocket" loop={true} />
+            </Stack>
+
+            <Animated.View
+              entering={FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
+                if (finished) setProgressStatus('contact')
+              })}
+            >
+              <Stack gap="md">
+                <Stack gap="3xs">
+                  <Stack padding={{ bottom: 'sm', left: 'md', right: 'xs' }}>
+                    <VolunteeringProgressStepper status={progressStatus} />
+                  </Stack>
+
+                  <Text size="3xl">{t('volunteer.progress.initiate.modal.title')}</Text>
+                  <Text size="md">{t('volunteer.progress.initiate.modal.text')}</Text>
+                </Stack>
+
+                <Stack gap="4xs" margin={{ bottom: 'lg' }}>
+                  {document.contact?.map((contact, index) => (
+                    <VolunteeringContactItem
+                      key={contact.value + index}
+                      contact={contact}
+                      trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
+                        commitmentType: document.commitmentType,
+                        source: document.source,
+                        contact_info_displayed: contactInfoDisplayed,
+                        contact_method_selected: contact.type,
+                      })}
+                      onWebViewOpen={hideContact}
+                    />
+                  ))}
+                </Stack>
+              </Stack>
+            </Animated.View>
           </Stack>
         </HoliContainer>
       </HoliModal>
