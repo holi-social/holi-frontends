@@ -32,7 +32,7 @@ const possibleBrowsers = [
     name: 'Mobile_Chrome',
     use: {
       ...devices['Pixel 5'],
-      permissions: ['clipboard-read'],
+      permissions: ['clipboard-read', 'clipboard-write'],
       channel: 'chromium',
     },
     runAsDefault: true,
