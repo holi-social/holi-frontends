@@ -4,4 +4,5 @@ export const animations = {
   goodDeedsCounter: require('./goodDeedsCounter.json'),
   highFive: require('./highFive.json'),
   contactedSuccess: require('./contactedSuccess.json'),
+  rocket: require('./rocket.json'),
 }
