@@ -29,10 +29,14 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { holiNextJSApiUrl } from '@holi/api/config'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const OwnProfile = () => {
   const { track } = useTracking()
-  const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
+
+  const [rewardsPhaseOneEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [activeTab, setActiveTab] = useState<string>(rewardsPhaseOneEnabled ? Tab.MY_VOLUNTEERING : Tab.PROFILE)
   const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {

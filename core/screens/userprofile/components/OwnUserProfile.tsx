@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { ChipAction, ChipLabel } from 'holi-bricks/components/chips'
 import type { PropsWithChildren } from 'react'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -26,6 +26,8 @@ import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTerm
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/components/MyVolunteeringTab'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills'
 
@@ -36,6 +38,12 @@ export enum Tab {
   INSIGHTS = 'insights',
   SPACES = 'spaces',
   CONNECTIONS = 'connections',
+}
+
+interface OwnProfileTab {
+  key: Tab
+  tabTitle: string
+  content: () => React.ReactNode
 }
 
 interface OwnUserProfileProps {
@@ -65,12 +73,15 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const totalInsights = dataInsights?.insightsByUserId?.totalResults ?? 0
   const hasInsights = totalInsights > 0
 
+  const [rewardsPhaseOneEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const tabs = [
-    {
-      key: Tab.MY_VOLUNTEERING,
-      tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma
-      content: () => <MyVolunteeringTab />,
-    },
+    rewardsPhaseOneEnabled
+      ? {
+          key: Tab.MY_VOLUNTEERING,
+          tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma
+          content: () => <MyVolunteeringTab />,
+        }
+      : null,
     {
       key: Tab.PROFILE,
       tabTitle: t('profile.tabs.profile'),
@@ -121,7 +132,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       tabTitle: t('profile.tabs.connections'),
       content: () => <OwnConnectionsTab emptyText={t('user.profile.own.connections.title.empty')} />,
     },
-  ]
+  ].filter(Boolean) as OwnProfileTab[]
 
   if (hasInsights) {
     tabs.splice(1, 0, {
@@ -143,6 +154,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
           />
         </HoliContainer>
       </View>
+
       <HoliTabs
         activeTab={activeTab}
         onChange={onTabChange}
