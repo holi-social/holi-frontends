@@ -5,22 +5,28 @@ import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers
 import { test } from './testmaster'
 
 test.describe('@Rewards', () => {
-  test('shows rewards modal when creating good deeds post', async ({ sessions }) => {
+  test('verify rewards flow', async ({ sessions }) => {
     const { page: user } = await sessions.signUp()
 
-    await test.step('user creates a good deeds post', async () => {
+    await test.step('check initial counter state', async () => {
       await user.goto('/')
+      const counterExists = await user.locator(byTestId('good-deeds-counter')).count()
+      if (counterExists > 0) {
+        await user.waitForSelector(byTestId('good-deeds-counter-value'))
+      }
+    })
+
+    await test.step('create first good deeds post and verify rewards modal', async () => {
       await clickElementByTestId(user, 'create-post-button')
       await handleOnboardingModal(user)
       await waitForPostForm(user)
       await selectGoodDeedsCategory(user)
 
-      const postTitle = `Good Deed Post ${faker.string.alphanumeric(5)}`
-      await fillPostDetails(user, postTitle, 'This is a good deed post for testing rewards')
+      const postTitle = `First Good Deed Post ${faker.string.alphanumeric(5)}`
+      await fillPostDetails(user, postTitle, 'This is the first good deed post for testing rewards')
       await clickElementByTestId(user, 'submit-post-button')
-    })
 
-    await test.step('rewards modal appears with correct content', async () => {
+      // Verify rewards modal appears with correct content
       await user.waitForSelector(byTestId('reward-message-container'))
 
       const modalText = await locateElementByTestId(user, 'reward-message-text')
@@ -36,61 +42,10 @@ test.describe('@Rewards', () => {
       await expect(claimButton).toContainText('Claim')
 
       await user.waitForSelector(byTestId('good-deeds-counter-animation'))
-    })
 
-    await test.step('user can claim the reward and return to home', async () => {
+      // Claim the reward
       await clickElementByTestId(user, 'reward-claim-button')
       await user.waitForSelector(byTestId('home-feed-listing'))
-    })
-  })
-
-  test('does not show rewards modal for regular posts', async ({ sessions }) => {
-    const { page: user } = await sessions.signUp()
-
-    await test.step('user creates a regular post', async () => {
-      await user.goto('/')
-      await clickElementByTestId(user, 'create-post-button')
-      await handleOnboardingModal(user)
-      await waitForPostForm(user)
-      await selectRegularCategory(user)
-
-      const postTitle = `Regular Post ${faker.string.alphanumeric(5)}`
-      await fillPostDetails(user, postTitle, 'This is a regular post for testing')
-      await clickElementByTestId(user, 'submit-post-button')
-    })
-
-    await test.step('no rewards modal appears', async () => {
-      const modalExists = await user.locator(byTestId('reward-message-container')).count()
-      expect(modalExists).toBe(0)
-
-      await user.waitForSelector(byTestId('home-feed-listing'))
-      await user.waitForSelector(byTestId('toast-SUCCESS'))
-    })
-  })
-
-  test('updates good deeds counter', async ({ sessions }) => {
-    const { page: user } = await sessions.signUp()
-
-    await test.step('check initial counter state', async () => {
-      await user.goto('/')
-      const counterExists = await user.locator(byTestId('good-deeds-counter')).count()
-      if (counterExists > 0) {
-        await user.waitForSelector(byTestId('good-deeds-counter-value'))
-      }
-    })
-
-    await test.step('create first good deeds post and claim reward', async () => {
-      await clickElementByTestId(user, 'create-post-button')
-      await handleOnboardingModal(user)
-      await waitForPostForm(user)
-
-      const postTitle = `First Good Deed Post ${faker.string.alphanumeric(5)}`
-      await fillPostDetails(user, postTitle, 'This is the first good deed post')
-      await selectGoodDeedsCategory(user)
-      await clickElementByTestId(user, 'submit-post-button')
-
-      await user.waitForSelector(byTestId('reward-message-container'))
-      await clickElementByTestId(user, 'reward-claim-button')
     })
 
     await test.step('verify counter has increased after first post', async () => {
@@ -102,7 +57,7 @@ test.describe('@Rewards', () => {
       expect(firstPostCount).toBeGreaterThan(0)
     })
 
-    await test.step('create second good deeds post', async () => {
+    await test.step('create second good deeds post and verify counter updates', async () => {
       await clickElementByTestId(user, 'create-post-button')
       await waitForPostForm(user)
 
@@ -110,9 +65,8 @@ test.describe('@Rewards', () => {
       await fillPostDetails(user, postTitle, 'This is the second good deed post')
       await selectGoodDeedsCategory(user)
       await clickElementByTestId(user, 'submit-post-button')
-    })
 
-    await test.step('verify counter shows correct value for multiple posts', async () => {
+      // Verify counter shows correct value for multiple posts
       await user.waitForSelector(byTestId('reward-message-container'))
 
       const modalCounterValue = await user.locator(byTestId('good-deeds-counter-final')).textContent()
@@ -128,6 +82,33 @@ test.describe('@Rewards', () => {
       const finalCounterValue = await homeCounter.textContent()
       const finalCount = Number.parseInt(finalCounterValue || '0', 10)
       expect(finalCount).toBe(2)
+    })
+
+    await test.step('create regular post and verify no rewards modal appears', async () => {
+      await clickElementByTestId(user, 'create-post-button')
+      await waitForPostForm(user)
+      await selectRegularCategory(user)
+
+      const postTitle = `Regular Post ${faker.string.alphanumeric(5)}`
+      await fillPostDetails(user, postTitle, 'This is a regular post for testing')
+      await clickElementByTestId(user, 'submit-post-button')
+
+      // Verify no rewards modal appears for regular posts
+      const modalExists = await user.locator(byTestId('reward-message-container')).count()
+      expect(modalExists).toBe(0)
+
+      await user.waitForSelector(byTestId('home-feed-listing'))
+      await user.waitForSelector(byTestId('toast-SUCCESS'))
+    })
+
+    await test.step('verify counter remains unchanged after regular post', async () => {
+      await user.waitForSelector(byTestId('good-deeds-counter'))
+      const homeCounter = await locateElementByTestId(user, 'good-deeds-counter-value')
+      await expect(homeCounter).toBeVisible()
+
+      const counterValue = await homeCounter.textContent()
+      const count = Number.parseInt(counterValue || '0', 10)
+      expect(count).toBe(2) // Should still be 2 from the good deeds posts
     })
   })
 })
