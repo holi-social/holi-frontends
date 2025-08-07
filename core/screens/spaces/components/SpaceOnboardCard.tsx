@@ -4,10 +4,10 @@ import { Trans } from 'react-i18next'
 import { Dimensions, Platform, StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 type OnboardingCard = {
   image: StaticImageData
@@ -27,8 +27,8 @@ const SpaceOnboardCard = ({ content, imgWidth, imgHeight }: OnboardCardProps) =>
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const screenWidth = Dimensions.get('window').width
-  const adjustedImgWidth = screenWidth < dimensions.breakpointXs ? imgWidth * 0.6 : imgWidth
-  const adjustedImgHeight = screenWidth <= dimensions.breakpointXs ? imgHeight * 0.6 : imgHeight
+  const adjustedImgWidth = screenWidth < breakpoints.xs ? imgWidth * 0.6 : imgWidth
+  const adjustedImgHeight = screenWidth <= breakpoints.xs ? imgHeight * 0.6 : imgHeight
 
   return (
     <View style={styles.onboardCardContainer}>

@@ -10,8 +10,8 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { Button } from 'holi-bricks/components/button'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface SpaceTaskListProps {
   isCollaborator: boolean
@@ -24,9 +24,9 @@ interface SpaceTaskListProps {
 
 const gridBreakpoints: [number, number][] = [
   [0, 1],
-  [dimensions.breakpointS, 2],
-  [dimensions.breakpointM, 3],
-  [dimensions.breakpointXxl, 4],
+  [breakpoints.sm, 2],
+  [breakpoints.md, 3],
+  [breakpoints.xxl, 4],
 ]
 
 const SpaceTaskList = ({ space, isCollaborator, preview }: SpaceTaskListProps) => {

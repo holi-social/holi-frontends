@@ -5,7 +5,6 @@ import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { User } from '@holi/icons/src/generated'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
@@ -20,7 +19,7 @@ interface ChallengeCardProps {
   trackingEvent: TrackingEvent
 }
 
-const cardPaddingsSum = dimensions.spacingXs * 2 + 4
+const cardPaddingsSum = Spacing['3xs'] * 2 + 4
 
 export const calculateCardWidth = (screenWidth: number) => screenWidth / 1.5 - cardPaddingsSum
 

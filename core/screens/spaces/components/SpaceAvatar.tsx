@@ -1,8 +1,8 @@
 import React from 'react'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import type { Space } from '@holi/api/graphql/graphql-codegen'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar, type AvatarSizes } from 'holi-bricks/components/avatar'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export interface SpaceAvatarProps {
   space?: Pick<Space, 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title'>
@@ -14,7 +14,7 @@ export interface SpaceAvatarProps {
 const SpaceAvatar = ({ space, size, testID }: SpaceAvatarProps) => {
   const { width: deviceWidth } = useClientWindowDimensions()
 
-  const defaultSize = deviceWidth > dimensions.breakpointXl ? 'xl' : 'lg'
+  const defaultSize = deviceWidth > breakpoints.xl ? 'xl' : 'lg'
   return (
     <Avatar
       testID={testID ?? 'space-avatar'}

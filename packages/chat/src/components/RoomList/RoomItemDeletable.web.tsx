@@ -3,12 +3,12 @@ import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import RoomItem from '@holi/chat/src/components/RoomList/RoomItem'
-import { type ChatRoomAtom, type ChatRoomId } from '@holi/chat/src/store'
-import { User } from '@holi/core/domain/shared/types'
+import type { ChatRoomAtom, ChatRoomId } from '@holi/chat/src/store'
+import type { User } from '@holi/core/domain/shared/types'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface Props {
   roomAtom: ChatRoomAtom
@@ -29,8 +29,8 @@ const RoomItemDeletable = (props: Props) => {
 
   const paddingHorizontal = useBreakpointMatcher([
     [0, 16],
-    [dimensions.breakpointS, 32],
-    [dimensions.breakpointL, 64],
+    [breakpoints.sm, 32],
+    [breakpoints.lg, 64],
   ])
 
   const room = useAtomValue(props.roomAtom)

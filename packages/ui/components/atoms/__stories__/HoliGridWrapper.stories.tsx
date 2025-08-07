@@ -1,13 +1,14 @@
 import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from '@storybook/addon-viewport'
-import { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 import { View } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
-import HoliGridWrapper, { HoliGridWrapperProps } from '@holi/ui/components/atoms/HoliGridWrapper'
+import HoliGridWrapper, { type HoliGridWrapperProps } from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { colors } from '@holi/ui/styles/globalVars'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export default {
   title: 'Atoms/HoliGridWrapper',
@@ -44,8 +45,8 @@ export const Primary: StoryFn<typeof HoliGridWrapper> = ({ gap, breakpoints }: H
 
 const gridBreakpoints: [number, number][] = [
   [0, 2],
-  [dimensions.breakpointM, 3],
-  [dimensions.breakpointL, 4],
+  [breakpoints.md, 3],
+  [breakpoints.lg, 4],
 ]
 
 Primary.args = {
@@ -63,6 +64,6 @@ Primary.argTypes = {
   breakpoints: {
     description:
       'Based on the passed media query, you can pass an array containing tuples defining the grid item width.',
-    defaultValue: [dimensions.breakpointM, 3],
+    defaultValue: [breakpoints.md, 3],
   },
 }

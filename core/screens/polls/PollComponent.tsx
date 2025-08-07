@@ -19,12 +19,12 @@ import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export type PollComponentProps = {
   poll: Poll
@@ -148,10 +148,7 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
       )}
 
       <View style={styles.bottomBar}>
-        <HoliColumns
-          justifyContent="space-between"
-          flexDirection={screenWidth > dimensions.breakpointS ? 'row' : 'column'}
-        >
+        <HoliColumns justifyContent="space-between" flexDirection={screenWidth > breakpoints.sm ? 'row' : 'column'}>
           <HoliBox padding={[0, 0, 0, 0]} layout={styles.headlineContainer}>
             <HoliIcon icon={userTeam} size={20} style={styles.icon} />
             <HoliText size={'default'} style={styles.counter}>
@@ -159,9 +156,9 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
             </HoliText>
           </HoliBox>
           {!userHasVoted?.userHasVotedByPollId && (
-            <View style={screenWidth < dimensions.breakpointS && styles.button}>
+            <View style={screenWidth < breakpoints.sm && styles.button}>
               <Button
-                inline={screenWidth > dimensions.breakpointS}
+                inline={screenWidth > breakpoints.sm}
                 disabled={selectedAnswerOptions.length === 0}
                 label={t('homeFeed.pollComponent.sendAnswer')}
                 onPress={sendVote}

@@ -10,6 +10,7 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export enum HoliToastType {
   ERROR = 'ERROR',
@@ -151,7 +152,7 @@ const createStyles = (deviceWidth: number, theme: HoliTheme, type?: HoliToastTyp
           backgroundColor: type === HoliToastType.ERROR ? theme.colors.error30 : theme.colors.brandColorB30,
         },
       }),
-      ...(deviceWidth >= dimensions.breakpointL
+      ...(deviceWidth >= breakpoints.lg
         ? {
             maxWidth: dimensions.maxButtonWidth,
             marginLeft: 'auto',
@@ -170,7 +171,7 @@ const createStyles = (deviceWidth: number, theme: HoliTheme, type?: HoliToastTyp
       padding: 20,
       flex: 1,
       backgroundColor: type === HoliToastType.ERROR ? theme.colors.error30 : theme.colors.brandColorB30,
-      ...(deviceWidth >= dimensions.breakpointL
+      ...(deviceWidth >= breakpoints.lg
         ? {
             borderRadius: 10,
             marginTop: 5,

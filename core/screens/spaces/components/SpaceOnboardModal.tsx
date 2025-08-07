@@ -7,8 +7,8 @@ import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.s
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export type OnboardSpaceParams = {
   onboarding: string
@@ -99,7 +99,7 @@ const getStyles = (windowWidth: number, theme: HoliTheme) =>
       ...Platform.select({
         web: {
           maxWidth: '100%',
-          alignItems: windowWidth > dimensions.breakpointXl ? 'center' : undefined,
+          alignItems: windowWidth > breakpoints.xl ? 'center' : undefined,
         },
         native: {
           flexShrink: 1,
@@ -110,7 +110,7 @@ const getStyles = (windowWidth: number, theme: HoliTheme) =>
     },
     modal: {
       backgroundColor: theme.colors.background30,
-      height: windowWidth <= dimensions.breakpointXs ? '100%' : windowWidth > dimensions.breakpointXl ? '70%' : '80%',
+      height: windowWidth <= breakpoints.xs ? '100%' : windowWidth > breakpoints.xl ? '70%' : '80%',
     },
     carouselContainer: {
       width: '100%',

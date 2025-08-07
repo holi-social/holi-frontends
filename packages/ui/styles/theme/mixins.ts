@@ -3,7 +3,8 @@ import { Platform, StyleSheet } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const getStaticStyles = (theme: HoliTheme) =>
   StyleSheet.create({
@@ -47,8 +48,8 @@ const getStaticStyles = (theme: HoliTheme) =>
 const useStyleMixins = () => {
   const paddingHorizontal = useBreakpointMatcher([
     [0, 16],
-    [dimensions.breakpointS, 32],
-    [dimensions.breakpointL, 64],
+    [breakpoints.sm, 32],
+    [breakpoints.lg, 64],
   ])
 
   const { theme } = useTheme()

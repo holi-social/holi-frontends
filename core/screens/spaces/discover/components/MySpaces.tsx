@@ -5,9 +5,8 @@ import { StyleSheet, View } from 'react-native'
 import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMineTile'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
-import { Spacing } from 'holi-bricks/foundations'
+import { breakpoints, Spacing } from 'holi-bricks/foundations'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import type { MySpacesQuery, Space } from '@holi/api/graphql/graphql-codegen'
 
 export type MySpacesProps = {
@@ -18,8 +17,8 @@ const MySpaces = ({ mySpaces = [] }: MySpacesProps) => {
   const { t } = useTranslation()
   const additionalMarginHorizontal = useBreakpointMatcher([
     [0, Spacing.xs],
-    [dimensions.breakpointS, 0],
-    [dimensions.breakpointL, 0],
+    [breakpoints.sm, 0],
+    [breakpoints.lg, 0],
   ])
 
   const mappedSpaces = mySpaces.map((section) => ({

@@ -2,7 +2,6 @@ import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/SearchHitLink'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import type { TypesenseDocument, TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -10,6 +9,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 import { Trackable, type TrackableBaseProps } from '@holi/core/components/Trackable'
+import { Spacing } from 'holi-bricks/foundations'
 
 export const HIT_HEIGHT = 65
 export const HIT_HEIGHT_PROFILE = 48
@@ -74,17 +74,17 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
 const stylesheet = createStyleSheet(() => ({
   hitItem: (hitType: TypesenseDocumentTypeEnum) => ({
     flexDirection: 'row',
-    columnGap: dimensions.spacingSM,
+    columnGap: Spacing.xxs,
     height: hitType === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT,
     overflow: 'hidden',
   }),
   hitItemContent: {
     flex: 1,
-    rowGap: dimensions.spacingXs,
+    rowGap: Spacing['3xs'],
   },
   hitItemTags: {
     flexDirection: 'row',
-    columnGap: dimensions.spacingXs,
+    columnGap: Spacing['3xs'],
   },
   hitLocation: {
     flex: 1,

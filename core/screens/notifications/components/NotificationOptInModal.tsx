@@ -19,9 +19,9 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import { breakpoints } from 'holi-bricks/foundations'
 
 type Type = 'default' | 'challenges' | 'connection' | 'spaces'
 
@@ -52,7 +52,7 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
 }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
-  const smallDeviceWidth = dimensions.breakpointXs + 50
+  const smallDeviceWidth = breakpoints.xs + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
   const { theme } = useTheme()
   const styles = useMemo(

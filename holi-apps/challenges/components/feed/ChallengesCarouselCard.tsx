@@ -4,7 +4,6 @@ import { useFocusEffect } from '@react-navigation/native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { Text } from 'holi-bricks/components/text'
 
 import { CarouselCardImage } from '@holi-apps/challenges/components/feed/CarouselCardImage'
@@ -18,7 +17,7 @@ interface ChallengesCarouselCardProps {
   cardWidth: number
 }
 
-const cardPaddingsSum = dimensions.spacingXs * 2 + 4
+const cardPaddingsSum = Spacing['3xs'] * 2 + 4
 
 export const calculateCardWidth = (screenWidth: number) => screenWidth / 1.5 - cardPaddingsSum
 

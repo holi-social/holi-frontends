@@ -4,6 +4,7 @@ import StyleSheet from 'react-native-media-query'
 
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export interface ContainerProps {
   alignItems?: FlexStyle['alignItems']
@@ -78,11 +79,11 @@ const getStyles = (noPadding?: boolean, noPaddingOnSmallViewports?: boolean) => 
           ? { paddingLeft: 0, paddingRight: 0 }
           : { paddingLeft: Spacing.xs, paddingRight: Spacing.xs }),
 
-        [`@media (min-width: ${dimensions.breakpointS}px)`]: {
+        [`@media (min-width: ${breakpoints.sm}px)`]: {
           paddingRight: Spacing.lg,
           paddingLeft: Spacing.lg,
         },
-        [`@media (min-width: ${dimensions.breakpointL}px)`]: {
+        [`@media (min-width: ${breakpoints.lg}px)`]: {
           paddingRight: Spacing['4xl'],
           paddingLeft: Spacing['4xl'],
         },
