@@ -89,6 +89,7 @@ export const SubmitPostBar = ({
           onPress={onSubmit}
           loading={submitting}
           disabled={!isSubmittable || submitting || loadingImageUpload}
+          testID="submit-post-button"
         />
       </View>
     </View>
