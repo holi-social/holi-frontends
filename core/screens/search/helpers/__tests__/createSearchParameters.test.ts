@@ -11,6 +11,8 @@ describe('createSearchParameters', () => {
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
       filter_by: 'type:=[volunteering,task]',
       per_page: 10,
+      nl_query: true,
+      nl_model_id: 'gemini-model',
     })
   })
 
@@ -24,6 +26,8 @@ describe('createSearchParameters', () => {
       vector_query: 'embedding:([], k: 150, distance_threshold: 0.5)',
       filter_by: 'type:=space',
       per_page: 10,
+      nl_query: true,
+      nl_model_id: 'gemini-model',
     })
   })
 
@@ -36,6 +40,9 @@ describe('createSearchParameters', () => {
       query_by_weights: '10',
       filter_by: 'type:=profile',
       per_page: 10,
+      // Natural Language Search is currently only used for matching location
+      nl_query: false,
+      nl_model_id: undefined,
     })
   })
 
@@ -58,6 +65,8 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=[volunteering,task] && location_lat_lng:(52, 13, 30 km)',
       sort_by: 'location_lat_lng(52, 13):asc',
       per_page: 10,
+      nl_query: false,
+      nl_model_id: undefined,
     })
   })
 
@@ -80,6 +89,8 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=[volunteering,task] && location_lat_lng:(52, 13, 30 km)',
       sort_by: 'location_lat_lng(52, 13):asc',
       per_page: 10,
+      nl_query: false,
+      nl_model_id: undefined,
     })
   })
 
@@ -100,6 +111,8 @@ describe('createSearchParameters', () => {
       query_by_weights: '10',
       filter_by: 'type:=profile',
       per_page: 10,
+      nl_query: false,
+      nl_model_id: undefined,
     })
   })
 })

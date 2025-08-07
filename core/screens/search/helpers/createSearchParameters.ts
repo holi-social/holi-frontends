@@ -42,8 +42,10 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
     locationFilter = `location_lat_lng:(${latitude}, ${longitude}, 30 km)`
     sort_by = `location_lat_lng(${latitude}, ${longitude}):asc`
   } else {
-    nl_query = true
-    nl_model_id = 'gemini-model'
+    if (facet !== 'profile') {
+      nl_query = true
+      nl_model_id = 'gemini-model'
+    }
   }
 
   const filter_by = locationFilter ? `${config.filter_by} && ${locationFilter}` : config.filter_by
