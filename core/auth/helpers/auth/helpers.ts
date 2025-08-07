@@ -13,6 +13,9 @@ import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
+import * as AppleAuthentication from 'expo-apple-authentication'
+import * as ExpoCrypto from 'expo-crypto'
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -21,9 +24,16 @@ import * as WebBrowser from 'expo-web-browser'
 import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
+
+const supportedSocialLoginProviders: { [key: string]: AccountType } = {
+  Google: AccountType.Google,
+  Apple: AccountType.Apple,
+  Facebook: AccountType.Facebook,
+}
 
 const logger = getLogger('Auth')
 
@@ -68,10 +78,7 @@ export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSe
 // Login
 export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   let extraMessages: UiText[] = []
-  const returnTo = AuthSession.makeRedirectUri({
-    preferLocalhost: true,
-    path: 'login/callback',
-  })
+  const returnTo = 'holi://login/callback'
   if (flowId) {
     const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
@@ -138,18 +145,114 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
   }
 }
 
-export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
+const buildAppleTraits = (credential: AppleAuthentication.AppleAuthenticationCredential) => {
+  const { givenName, familyName } = credential.fullName ?? {}
+  // Default to undefined if values are null
+  return {
+    given_name: givenName || undefined,
+    family_name: familyName || undefined,
+    name: givenName && familyName ? `${givenName} ${familyName}` : givenName || familyName || undefined,
+  }
+}
+
+const doAppleLogin = async () => {
+  try {
+    const digest = await ExpoCrypto.digestStringAsync(
+      ExpoCrypto.CryptoDigestAlgorithm.SHA256,
+      ExpoCrypto.getRandomBytes(16).toString()
+    )
+    const credential = await AppleAuthentication.signInAsync({
+      requestedScopes: [
+        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+      ],
+      nonce: digest,
+    })
+    return {
+      id_token: credential.identityToken || '',
+      id_token_nonce: digest,
+      traits: buildAppleTraits(credential),
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error?.code === 'ERR_REQUEST_CANCELED') {
+      throw new HoliLoginCancelledError('Apple Sign-In was cancelled by the user')
+    }
+    throw Error(`Apple Sign-In failed ${error}`)
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const buildFacebookTraits = (profile: any) => {
+  const { first_name, last_name, name } = profile ?? {}
+  return {
+    given_name: first_name || undefined,
+    family_name: last_name || undefined,
+    name: name || undefined,
+  }
+}
+
+const doFacebookLogin = async () => {
+  try {
+    const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
+
+    if (result.isCancelled) {
+      throw new HoliLoginCancelledError('Facebook Sign-In was cancelled by the user')
+    }
+
+    if (!result.grantedPermissions?.includes('email')) {
+      throw new Error('Facebook Sign-In failed: email permission not granted')
+    }
+
+    const data = await AccessToken.getCurrentAccessToken()
+
+    if (!data) {
+      throw new Error('Facebook Sign-In failed: no access token available')
+    }
+
+    logger.debug('doFacebookLogin', 'Facebook access token obtained', { accessToken: data.accessToken })
+
+    // For Facebook, we use the access token as the id_token
+    // The nonce is not required for Facebook OAuth flow
+    // return {id_token: data.accessToken}
+    return {
+      traits: buildFacebookTraits(data),
+    }
+  } catch (error) {
+    if (error instanceof HoliLoginCancelledError) {
+      throw error
+    }
+    logger.debug('doFacebookLogin', 'Facebook login error', error)
+    throw Error(`Facebook Sign-In failed ${error}`)
+  }
+}
+
+export const retrieveSubmitFlowBody = async <
+  T extends (UpdateLoginFlowBody & { xSessionToken?: string }) | UpdateRegistrationFlowBody,
+>(
   payload: T,
   provider?: string
 ): Promise<T> => {
-  if (provider === 'Google' && payload.method === 'oidc') {
-    const partialBody = await doGoogleLogin()
-    return {
-      ...payload,
-      ...partialBody,
-    }
+  if (!provider || payload.method !== 'oidc') {
+    return payload
   }
-  return payload
+  const supportedProvider = supportedSocialLoginProviders[provider]
+  let partialBody = undefined
+  switch (supportedProvider) {
+    case AccountType.Google:
+      partialBody = await doGoogleLogin()
+      break
+    case AccountType.Apple:
+      partialBody = await doAppleLogin()
+      break
+    case AccountType.Facebook:
+      partialBody = await doFacebookLogin()
+      break
+  }
+  return {
+    ...payload,
+    ...partialBody,
+  }
 }
 
 export const submitLoginFlow = async (
@@ -200,10 +303,20 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
 }
 
 // Logout
-export const submitLogoutFlow = async ({ sessionToken, isOidc }: { sessionToken?: string; isOidc?: boolean }) => {
-  if (isOidc) {
-    // Currently Google is the only supported OIDC provider
-    await GoogleSignin.signOut()
+export const submitLogoutFlow = async ({
+  sessionToken,
+  accountType,
+}: { sessionToken?: string; accountType?: AccountType }) => {
+  switch (accountType) {
+    case AccountType.Google:
+      await GoogleSignin.signOut()
+      break
+    case AccountType.Apple:
+      // noop: It is not recommended to use AppleAuthentication.signOutAsync
+      break
+    case AccountType.Facebook:
+      await LoginManager.logOut()
+      break
   }
   if (sessionToken) {
     return newKratosSdk()
@@ -233,8 +346,16 @@ export const submitReauthFlow = async (flow: LoginFlow, password: string, sessio
 }
 
 // Register
-export const initRegistrationFlow = async () =>
-  newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
+export const initRegistrationFlow = async (flowId?: string) => {
+  if (flowId) {
+    return newKratosSdk()
+      .getRegistrationFlow({
+        id: flowId,
+      })
+      .catch(handleKratosSdkError('getRegistrationFlow'))
+  }
+  return newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
+}
 
 // Forgot Password
 export const initPasswordRecoveryFlow = async () =>

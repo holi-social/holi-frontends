@@ -11,6 +11,13 @@ describe('VolunteeringListingHeader', () => {
     expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
   })
 
+  it('should render correct header when filtering', () => {
+    render(<VolunteeringListingHeader isFiltering={true} totalResults={123} />)
+
+    expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.listing.subline')).toBeOnTheScreen()
+  })
+
   it('should open partner modal', async () => {
     jest.useFakeTimers()
 

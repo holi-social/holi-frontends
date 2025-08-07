@@ -43,10 +43,11 @@ describe('VolunteeringRecommendations', () => {
     render(<VolunteeringRecommendations />)
 
     // Header
-    expect(screen.getByText('volunteering.recommended.title')).toBeOnTheScreen()
+    expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
 
     // Results
-    expect(screen.getAllByRole('link')).toHaveLength(10)
+    // Additional link to open partner modal
+    expect(screen.getAllByRole('link')).toHaveLength(10 + 1)
     results.engagements.forEach((engagement) => {
       expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     })

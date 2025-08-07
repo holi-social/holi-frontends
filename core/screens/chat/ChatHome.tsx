@@ -16,8 +16,10 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
+import * as Appcues from '@appcues/react-native'
 
 const ChatHome = () => {
+  Appcues.screen('Chat')
   const { t } = useTranslation()
   const title = t('chat.title')
   const { theme } = useTheme()

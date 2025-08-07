@@ -1,7 +1,7 @@
-import { FlexStyle } from 'react-native'
+import type { FlexStyle } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export interface GridStyles extends ResponsiveWidthStyle {
   readonly padding: FlexStyle['padding']
@@ -22,7 +22,7 @@ interface ResponsiveWidthStyle extends WidthStyleProp {
 
 export const defaultGridBreakpoints: [number, number][] = [
   [0, 1],
-  [dimensions.breakpointL, 2],
+  [breakpoints.lg, 2],
 ]
 
 export const createResponsiveWidth = (breakpoints: Breakpoints): ResponsiveWidthStyle => {

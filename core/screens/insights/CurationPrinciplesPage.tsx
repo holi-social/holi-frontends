@@ -22,6 +22,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const CircledNumber = ({ number }: { number: number }) => {
   const { theme } = useTheme()
@@ -95,7 +96,7 @@ const CurationPrinciplesPage: React.FC = () => {
   const [isWideLayout, setWideLayout] = useState<boolean>(false)
 
   useIsomorphicLayoutEffect(() => {
-    if (screenWidth >= dimensions.breakpointS) {
+    if (screenWidth >= breakpoints.sm) {
       setWideLayout(true)
     }
   }, [isWideLayout, screenWidth])

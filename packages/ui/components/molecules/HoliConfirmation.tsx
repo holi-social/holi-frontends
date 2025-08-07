@@ -16,11 +16,11 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { Button, type ButtonVariant } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Stack } from 'holi-bricks/components/stack'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export interface UseConfirmation {
   show: boolean
@@ -111,7 +111,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
 }) => {
   const { t } = useTranslation()
   const { width: screenWidth } = useWindowDimensions()
-  const smallDeviceWidth = dimensions.breakpointXs + 50
+  const smallDeviceWidth = breakpoints.xs + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
   const { styles } = useStyles(stylesheet)
 

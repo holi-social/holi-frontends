@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 
 import { getSizes, getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
 import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'
@@ -8,9 +9,9 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -23,24 +24,24 @@ interface Props {
 
 const POST_IMAGE_SIZES: { breakpoint: number; width: number }[] = [
   {
-    breakpoint: dimensions.breakpointXs,
-    width: dimensions.breakpointXs - 40,
+    breakpoint: breakpoints.xs,
+    width: breakpoints.xs - 40,
   },
   {
-    breakpoint: dimensions.breakpointS,
-    width: dimensions.breakpointS - 40,
+    breakpoint: breakpoints.sm,
+    width: breakpoints.sm - 40,
   },
   {
-    breakpoint: dimensions.breakpointM,
-    width: dimensions.breakpointM - 40,
+    breakpoint: breakpoints.md,
+    width: breakpoints.md - 40,
   },
   {
-    breakpoint: dimensions.breakpointL,
-    width: dimensions.breakpointL / 2 - 12,
+    breakpoint: breakpoints.lg,
+    width: breakpoints.lg / 2 - 12,
   },
   {
-    breakpoint: dimensions.breakpointXl,
-    width: dimensions.breakpointXl / 2 - 12,
+    breakpoint: breakpoints.xl,
+    width: breakpoints.xl / 2 - 12,
   },
 ]
 

@@ -487,6 +487,14 @@ export namespace TrackingEvent {
     },
   }
 
+  export const MyVolunteering = {
+    pressed: (volunteeringId: string): TrackingEvent => ({
+      name: 'pressedMyVolunteeringCard',
+      properties: { volunteeringId },
+      ...versionOne,
+    }),
+  }
+
   export const SpacePosts = {
     read: (postId: string, title: string, spaceId?: string): TrackingEvent => ({
       name: 'readSpacePost',

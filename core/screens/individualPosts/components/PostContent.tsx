@@ -15,10 +15,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import { breakpoints } from 'holi-bricks/foundations'
 
 type PostContentProps = {
   post: FeedPost
@@ -30,8 +30,8 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
-  const contentSpacing = screenWidth < dimensions.breakpointS ? Spacing.xs : Spacing.md
-  const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
+  const contentSpacing = screenWidth < breakpoints.sm ? Spacing.xs : Spacing.md
+  const smStyle = useBreakpointMatcher([[breakpoints.sm, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle, contentSpacing), [theme, smStyle, contentSpacing])
 
   const [description, setDescription] = useState(post.description)

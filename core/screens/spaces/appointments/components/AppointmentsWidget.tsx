@@ -13,11 +13,11 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import type { Space } from '@holi/api/graphql/graphql-codegen'
+import { breakpoints } from 'holi-bricks/foundations'
 
 interface AppointmentsWidgetProps {
   space: Space
@@ -57,7 +57,7 @@ const NoAppointmentsAvailable: React.FC<NoAppointmentsAvailableProps> = ({ onPre
 
 const gridBreakpoints: [number, number][] = [
   [0, 1],
-  [dimensions.breakpointM, 2],
+  [breakpoints.md, 2],
 ]
 
 const AppointmentsWidget = ({ space, appointments, totalResults, isCollaborator, style }: AppointmentsWidgetProps) => {

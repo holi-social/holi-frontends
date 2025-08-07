@@ -1,7 +1,14 @@
 import type React from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/foundations'
-import { Pressable, View, type AccessibilityRole, type DimensionValue, type FlexStyle } from 'react-native'
+import {
+  type GestureResponderEvent,
+  Pressable,
+  View,
+  type AccessibilityRole,
+  type DimensionValue,
+  type FlexStyle,
+} from 'react-native'
 import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
 import { makeBorderWidth, type BorderSizeToEdge } from 'holi-bricks/foundations/dimensions/borderWidth'
@@ -10,7 +17,7 @@ import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundat
 import { resolveBackgroundColor } from 'holi-bricks/components/stack/helpers'
 
 type FlexAlignments = 'flex-end' | 'flex-start' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
-type StackProps = AccessibilityProps &
+export type StackProps = AccessibilityProps &
   React.PropsWithChildren & {
     gap?: SpacingSize
     direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse'
@@ -28,7 +35,7 @@ type StackProps = AccessibilityProps &
     borderColor?: BorderColors
     flex?: number
     shouldRender?: boolean
-    onPress?: () => void
+    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
     disabled?: boolean
     accessibilityLabel?: string
     accessibilityRole?: AccessibilityRole

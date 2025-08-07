@@ -203,17 +203,34 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             <ChipAction id="post-visibility-pill" onPress={showVisibility} iconTrailing={Pencil} color="white">
               {t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
             </ChipAction>
-            <ChipAction id="post-category-pill" onPress={showCategoryModal} iconTrailing={Pencil} color="yellow">
+            <ChipAction
+              id="post-category-pill"
+              onPress={showCategoryModal}
+              iconTrailing={Pencil}
+              color="yellow"
+              testID="post-category-pill"
+            >
               {categoryLabel ? categoryLabel : t('individuals.post.category.label.category')}
             </ChipAction>
 
             {selectedTopics &&
               (selectedTopics?.length < 1 ? (
-                <ChipAction id="post-topic-pill" onPress={showTopicsModal} iconTrailing={Add} color="green">
+                <ChipAction
+                  id="post-topic-pill"
+                  onPress={showTopicsModal}
+                  iconTrailing={Add}
+                  color="green"
+                  testID="post-topic-pill"
+                >
                   {t('individuals.post.category.label.topic_one')}
                 </ChipAction>
               ) : (
-                <ChipAction id="post-topic-pill-selected" onPress={showTopicsModal} color="green">
+                <ChipAction
+                  id="post-topic-pill-selected"
+                  onPress={showTopicsModal}
+                  color="green"
+                  testID="post-topic-pill-selected"
+                >
                   {`${selectedTopics.length} ${t('individuals.post.category.label.topic_other', {
                     count: selectedTopics.length,
                   })}`}
@@ -232,6 +249,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
               maxNoOfVisibleLines={3}
               noOfVisibleLines={2}
+              testID="post-title"
             />
 
             <HoliRichTextInput
@@ -246,6 +264,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               mentions={mentions}
               isEdit={isEdit}
               scrollEnabled={false}
+              testID="post-description"
             />
             {selectedLocation?.label && (
               <View style={styles.locationCard}>

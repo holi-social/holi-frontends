@@ -5,9 +5,9 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 import TrackingGeneralContentDescription from './TrackingGeneralContentDescription'
+import { Spacing } from 'holi-bricks/foundations'
 
 const GeneralContent = ({ hideDescription = false }) => {
   const { t } = useTranslation()
@@ -29,7 +29,7 @@ const GeneralContent = ({ hideDescription = false }) => {
       </HoliHeading>
 
       {!hideDescription && (
-        <HoliBox padding={[dimensions.spacingS, 0, 0, 0]}>
+        <HoliBox padding={[Spacing.xs, 0, 0, 0]}>
           <TrackingGeneralContentDescription />
         </HoliBox>
       )}

@@ -16,6 +16,7 @@ import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Delete } from '@holi/icons/src/generated'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -73,17 +74,7 @@ export const VolunteeringEngagementList = ({
 
   return (
     <HoliContainer>
-      {isFiltering ? (
-        <Text size="md" color="support" margin={{ bottom: 'xxs' }}>
-          {t('volunteering.filter.result', {
-            count: totalResults,
-          })}
-        </Text>
-      ) : (
-        <Text size="xxl" margin={{ bottom: 'xxs' }}>
-          {t('volunteering.recommended.title')}
-        </Text>
-      )}
+      <VolunteeringListingHeader isFiltering={isFiltering} totalResults={totalResults} />
       <Stack
         padding={{ bottom: 'md' }}
         testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}

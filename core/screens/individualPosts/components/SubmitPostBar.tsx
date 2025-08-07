@@ -8,9 +8,9 @@ import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import { breakpoints } from 'holi-bricks/foundations'
 
 export const SubmitPostBar = ({
   onSubmit,
@@ -89,6 +89,7 @@ export const SubmitPostBar = ({
           onPress={onSubmit}
           loading={submitting}
           disabled={!isSubmittable || submitting || loadingImageUpload}
+          testID="submit-post-button"
         />
       </View>
     </View>
@@ -113,10 +114,10 @@ const getSubmitPostBarStyles = (theme: HoliTheme, screenWidth: number) =>
       width: '100%',
       justifyContent: 'space-between',
       alignItems: 'center',
-      maxWidth: dimensions.breakpointM,
+      maxWidth: breakpoints.md,
       ...Platform.select({
         web: {
-          paddingHorizontal: screenWidth > dimensions.breakpointM ? Spacing.lg : 0,
+          paddingHorizontal: screenWidth > breakpoints.md ? Spacing.lg : 0,
         },
       }),
     },

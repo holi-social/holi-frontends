@@ -19,6 +19,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import { useFocusEffect } from '@holi/core/helpers/useFocusEffect'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { BookmarkFill } from '@holi/icons/src/generated'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 const isWeb = Platform.OS === 'web'
 
@@ -44,13 +45,16 @@ const UnfavoriteButton = ({
         })
       }
     >
-      <HoliIcon icon={BookmarkFill} size={Spacing['xs']} />
+      <Stack padding="xxs">
+        <HoliIcon icon={BookmarkFill} size={Spacing['xs']} />
+      </Stack>
     </Pressable>
   )
 }
 
 const Favorites = () => {
   const { t, i18n } = useTranslation()
+  const { styles } = useStyles(stylesheet)
 
   const { favoriteItems, refetch: refetchFavorites } = useFavorites()
   const sectionListData = favoriteItems
@@ -116,7 +120,7 @@ const Favorites = () => {
                         />
                       </HoliLinkTracked>
 
-                      <View style={{ position: 'absolute', top: Spacing['3xs'], right: Spacing['xxs'], zIndex: 1000 }}>
+                      <View style={styles.unfavoriteButton}>
                         <UnfavoriteButton
                           favoritableId={favorite.id}
                           favoritableType={FavoritableType.Insight}
@@ -138,7 +142,7 @@ const Favorites = () => {
                         })}
                       />
 
-                      <View style={{ position: 'absolute', top: Spacing['3xs'], right: Spacing['xxs'], zIndex: 10 }}>
+                      <View style={styles.unfavoriteButton}>
                         <UnfavoriteButton
                           favoritableId={fromTypesenseId(favorite.id)}
                           favoritableType={
@@ -177,3 +181,12 @@ const Favorites = () => {
 }
 
 export default Favorites
+
+const stylesheet = createStyleSheet(() => ({
+  unfavoriteButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 10,
+  },
+}))

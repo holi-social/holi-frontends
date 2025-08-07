@@ -29,14 +29,20 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { holiNextJSApiUrl } from '@holi/api/config'
+import * as Appcues from '@appcues/react-native'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const OwnProfile = () => {
+  Appcues.screen('Profile')
   const { track } = useTracking()
-  const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
-  const [showModal, setshowModal] = useState(false)
+
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const [activeTab, setActiveTab] = useState<string>(rewardsPhaseTwoEnabled ? Tab.MY_VOLUNTEERING : Tab.PROFILE)
+  const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
-    setshowModal(false)
+    setShowModal(false)
   }, [])
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
@@ -58,8 +64,8 @@ const OwnProfile = () => {
       // if pressed too soon, the state is set to true, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-      if (showModal) setshowModal(false)
-      setshowModal(true)
+      if (showModal) setShowModal(false)
+      setShowModal(true)
     },
     [showModal, track]
   )
@@ -155,7 +161,11 @@ const OwnProfile = () => {
 
   return (
     <LoginProtection>
-      <ScrollView keyboardShouldPersistTaps="handled" style={{ backgroundColor: colors.background20 }}>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{ backgroundColor: colors.background20, minHeight: '100%' }}
+        contentContainerStyle={{ minHeight: '100%' }}
+      >
         {user ? (
           <>
             {editMode && (

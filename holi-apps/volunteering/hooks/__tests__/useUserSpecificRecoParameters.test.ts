@@ -2,6 +2,7 @@ import {
   DEFAULT_RECO_TOPICS_V2,
   useUserSpecificRecoParameters,
 } from '@holi-apps/volunteering/hooks/useUserSpecificRecoParameters'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
 import { renderHook } from '@testing-library/react-native'
@@ -23,6 +24,7 @@ describe('useUserSpecificRecoParameters', () => {
         avatarDefaultColor: '',
         avatarLabel: '',
         fullName: '',
+        accountType: AccountType.Email,
         ...data,
       },
       state: 'loggedIn',

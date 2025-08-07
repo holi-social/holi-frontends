@@ -11,8 +11,8 @@ import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.s
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints, Spacing } from 'holi-bricks/foundations'
 
 export const CategorySelectionModal: React.FC<{
   visible: boolean
@@ -33,11 +33,11 @@ export const CategorySelectionModal: React.FC<{
       label={t('individuals.post.onboarding.label')}
       onDismiss={() => handleModalClose()}
       style={styles.modal}
+      testID="category-selection-modal"
     >
       <HoliModalContentWrapper
         actionButtonText={t('global.save')}
         onActionButtonPress={() => handleModalClose()}
-        testID={'post-onboard-content'}
         headlineAlign="center"
       >
         <HoliContainer>
@@ -50,6 +50,7 @@ export const CategorySelectionModal: React.FC<{
                 key={category.name}
                 style={[styles.category, selectedCategoryId === category.id && styles.categorySelected]}
                 onPress={() => onCategorySelection(category.id)}
+                testID={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 <View style={styles.categoryContent}>
                   <HoliLocalImage
@@ -85,12 +86,12 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       height: 72,
     },
     categoryContainer: {
-      display: windowWidth > dimensions.breakpointXl ? 'grid' : 'flex',
-      gridTemplateColumns: windowWidth > dimensions.breakpointXl ? '1fr 1fr' : 'none',
-      flexDirection: windowWidth > dimensions.breakpointXl ? 'row' : 'column',
-      flexWrap: windowWidth > dimensions.breakpointXl ? 'wrap' : 'nowrap',
+      display: windowWidth > breakpoints.xl ? 'grid' : 'flex',
+      gridTemplateColumns: windowWidth > breakpoints.xl ? '1fr 1fr' : 'none',
+      flexDirection: windowWidth > breakpoints.xl ? 'row' : 'column',
+      flexWrap: windowWidth > breakpoints.xl ? 'wrap' : 'nowrap',
       justifyContent: 'space-between',
-      gap: dimensions.spacingS,
+      gap: Spacing.xs,
     } as ViewStyle,
     categorySelected: {
       borderColor: theme.colors.black300,

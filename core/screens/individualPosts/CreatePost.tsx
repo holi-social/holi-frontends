@@ -33,7 +33,7 @@ const CreatePost = () => {
 
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { navigateBack } = useRouting()
+  const { navigateBack, navigate } = useRouting()
 
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
@@ -147,11 +147,11 @@ const CreatePost = () => {
   }
 
   const handleClaimReward = () => {
-    navigateBack()
+    navigate('/')
   }
 
-  // Handle form submission
   const handleSubmit = () => {
+    setShowRewardMessage(false)
     if (selectedCategoryId === goodDeedCategoryId) {
       createPost()
     } else {
@@ -166,7 +166,7 @@ const CreatePost = () => {
   return (
     <View style={styles.grayExtendingBackground}>
       {categoriesLoading ? (
-        <HoliLoader />
+        <HoliLoader testID="create-post-loader" />
       ) : (
         <>
           <PostInputForm

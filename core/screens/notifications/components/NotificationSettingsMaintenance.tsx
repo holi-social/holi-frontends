@@ -4,8 +4,8 @@ import { StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const NotificationSettingsMaintenance = () => {
   const { t } = useTranslation()
@@ -48,6 +48,6 @@ const getStyles = (theme: HoliTheme) =>
       marginVertical: 16,
     },
     message: {
-      maxWidth: dimensions.breakpointM,
+      maxWidth: breakpoints.md,
     },
   })

@@ -1,9 +1,9 @@
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { breakpoints } from 'holi-bricks/foundations'
 
 const defaultBreakpointGridValues: [number, number][] = [
   [0, 1],
-  [dimensions.breakpointL, 2],
+  [breakpoints.lg, 2],
 ]
 
 /*

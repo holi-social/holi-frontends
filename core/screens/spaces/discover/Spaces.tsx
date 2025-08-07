@@ -26,10 +26,10 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { Spacing } from 'holi-bricks/foundations'
+import { breakpoints, Spacing } from 'holi-bricks/foundations'
 import { MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
 import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
+import * as Appcues from '@appcues/react-native'
 
 export enum Tab {
   MINE = 'mine',
@@ -43,6 +43,7 @@ export type SpacesTabParams = {
 const { useParam, useUpdateParams } = createParamHooks<SpacesTabParams>()
 
 const Spaces = () => {
+  Appcues.screen('Organize')
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
@@ -56,8 +57,8 @@ const Spaces = () => {
   const { navigateWithAuth } = useAuthRequiredNavigation()
   const marginHorizontal = useBreakpointMatcher([
     [0, 0],
-    [dimensions.breakpointS, Spacing.lg],
-    [dimensions.breakpointL, Spacing['4xl']],
+    [breakpoints.sm, Spacing.lg],
+    [breakpoints.lg, Spacing['4xl']],
   ])
 
   const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
