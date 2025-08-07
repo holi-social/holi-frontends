@@ -1,4 +1,4 @@
-import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import type { SpaceUserConnectionType, AccountType } from '@holi/api/graphql/graphql-codegen'
 import type { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export type TermType = 'topic' | 'skill'
@@ -161,4 +161,5 @@ export interface AuthenticatedUser extends User {
   trackingConsentAdPartners?: boolean | null
   isEmployee: boolean
   isOidc: boolean
+  accountType: AccountType
 }

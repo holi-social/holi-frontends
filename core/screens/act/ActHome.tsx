@@ -14,6 +14,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Platform } from 'react-native'
+import * as Appcues from '@appcues/react-native'
 
 type ActHomeParams = {
   section: string
@@ -42,6 +43,7 @@ export const orderedSections = (selectedContentType?: string) => {
 }
 
 const ActHome = () => {
+  Appcues.screen('Good Deeds')
   const { t } = useTranslation()
   const title = t('act.title')
   const [selectedContentType] = useParam('section')

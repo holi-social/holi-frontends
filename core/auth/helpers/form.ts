@@ -74,6 +74,7 @@ const oryFieldMapping: { [key: number]: string } = {
   1040001: 'SignUp',
   1040002: 'ProviderSignUp',
   1070009: 'ResetPassword',
+  1040003: 'Continue',
 }
 
 export const getNodeTranslationKey = ({ meta }: UiNode) => {

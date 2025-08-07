@@ -38,8 +38,10 @@ import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDe
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
+import * as Appcues from '@appcues/react-native'
 
 const HomeFeed = () => {
+  Appcues.screen('Feed')
   const { t } = useTranslation()
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])

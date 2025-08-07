@@ -58,7 +58,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
       <Pressable onPress={showCorrectModal} style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}>
         <HoliIcon icon={GoodDeeds} size={18} />
         <Text size="sm" selectable={false}>
-          {counter && counter > 0 ? `${counter} ${t('personalGoodDeedCounter.label')}` : t('goodDeeds.name')}
+          {t('goodDeeds.name.count', { count: counter })}
         </Text>
         <HoliIcon icon={Information} size={18} />
       </Pressable>
@@ -97,8 +97,8 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
               <Trans
                 i18nKey="personalGoodDeedCounter.drawer.campaignHint"
                 components={{
-                  span: <span />,
-                  b: <b />,
+                  span: <Text size="md" />,
+                  b: <Text size="md" bold />,
                 }}
               />
             </Text>
@@ -139,7 +139,7 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
               >
                 <HoliIcon icon={GoodDeedsV2} size={40} />
                 <Text size="xxl" selectable={false}>
-                  {counter} {t('goodDeeds.name')}
+                  {counter} {t('goodDeeds.name', { count: counter })}
                 </Text>
               </Stack>
             </Stack>

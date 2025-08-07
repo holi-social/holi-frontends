@@ -160,8 +160,12 @@ export const submitLogoutFlow = () =>
     .catch(handleKratosSdkErrorIgnoringCodes('updateLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
 
 // Registration
-export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> =>
-  newKratosSdk().createBrowserRegistrationFlow().catch(handleKratosSdkError('createBrowserRegistrationFlow'))
+export const initRegistrationFlow = (flowId?: string): AxiosPromise<RegistrationFlow> => {
+  if (flowId) {
+    return newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
+  }
+  return newKratosSdk().createBrowserRegistrationFlow().catch(handleKratosSdkError('createBrowserRegistrationFlow'))
+}
 
 // Forgot Password
 export const initPasswordRecoveryFlow = (): AxiosPromise<RecoveryFlow> =>

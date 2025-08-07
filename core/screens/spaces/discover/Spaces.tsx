@@ -29,6 +29,7 @@ import { useBreakpointMatcher } from '@holi/core/helpers'
 import { breakpoints, Spacing } from 'holi-bricks/foundations'
 import { MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
 import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
+import * as Appcues from '@appcues/react-native'
 
 export enum Tab {
   MINE = 'mine',
@@ -42,6 +43,7 @@ export type SpacesTabParams = {
 const { useParam, useUpdateParams } = createParamHooks<SpacesTabParams>()
 
 const Spaces = () => {
+  Appcues.screen('Organize')
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { isLoggedIn } = useLoggedInUser()

@@ -21,6 +21,7 @@ import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingA
 import * as Appcues from '@appcues/react-native'
 import { appcuesAccountId, appcuesAppId } from '@holi/core/helpers/config'
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
+import { Linking } from 'react-native'
 
 const logger = getLogger('AppInit')
 
@@ -66,7 +67,18 @@ const App = () => {
   useEffect(() => {
     init()
 
-    return subscribeToDeviceTokenChanges()
+    const handleUrl = async ({ url }: { url: string }) => {
+      await Appcues.didHandleURL(url)
+    }
+
+    const subscription = Linking.addEventListener('url', handleUrl)
+
+    const unsubscribeDeviceToken = subscribeToDeviceTokenChanges()
+
+    return () => {
+      subscription.remove?.()
+      unsubscribeDeviceToken?.()
+    }
   }, [])
 
   if (!isReady) return null

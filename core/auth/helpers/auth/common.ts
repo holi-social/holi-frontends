@@ -19,7 +19,7 @@ import {
 } from '@holi/core/auth/helpers/auth/helpers'
 import type { VerificationFlowData, VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { ApolloClient } from '@apollo/client'
+import type { ApolloClient } from '@apollo/client'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setLoginStateLoggedIn } from '@holi/core/auth/loginState'
 import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
@@ -36,7 +36,7 @@ const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith 
 
 export const isOidcUser = (reauthFlow: LoginFlow) => !!reauthFlow.ui.nodes.find((node) => node?.group == 'oidc')
 
-export const getOidcProvider = (reauthFlow: LoginFlow) => {
+export const getOidcProvider = (reauthFlow: LoginFlow): string | undefined => {
   const node = reauthFlow.ui.nodes.find((node) => node?.group == 'oidc')
   if (node) {
     return getNodeProviderName(node)
@@ -51,8 +51,16 @@ export const getIdentity = (loginFlow: LoginFlow) => {
   return node?.attributes?.node_type == 'input' ? node?.attributes?.value : undefined
 }
 
-export const getNodeProviderName = ({ meta }: UiNode): string | undefined => {
-  if (meta?.label?.context && 'provider' in meta.label.context) return meta.label.context.provider as string
+export const getNodeProviderName = ({ meta, attributes }: UiNode): string | undefined => {
+  if (meta?.label?.context && 'provider' in meta.label.context) {
+    return meta.label.context.provider as string
+  } else if ('value' in attributes) {
+    if (attributes.value.startsWith('apple')) {
+      return 'Apple'
+    } else if (attributes.value.startsWith('google')) {
+      return 'Google'
+    }
+  }
   return undefined
 }
 

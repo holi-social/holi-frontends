@@ -26,7 +26,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
-import Onboarding from '@holi/core/screens/onboarding/Onboarding'
+import Onboarding, { type OnboardingParams } from '@holi/core/screens/onboarding/Onboarding'
 import { Search } from '@holi/core/screens/search/Search'
 import type { SearchParams } from '@holi/core/screens/search/Search'
 import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
@@ -46,7 +46,7 @@ export type RootStackScreens = {
   [RouteName.ActHome]: undefined
   [RouteName.ChatStack]: undefined
 
-  [RouteName.Onboarding]: undefined
+  [RouteName.Onboarding]: OnboardingParams
   [RouteName.OnboardingLegalDocuments]: undefined
 
   [RouteName.Login]: LoginParams
