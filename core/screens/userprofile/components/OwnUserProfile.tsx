@@ -73,9 +73,9 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const totalInsights = dataInsights?.insightsByUserId?.totalResults ?? 0
   const hasInsights = totalInsights > 0
 
-  const [rewardsPhaseOneEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const tabs = [
-    rewardsPhaseOneEnabled
+    rewardsPhaseTwoEnabled
       ? {
           key: Tab.MY_VOLUNTEERING,
           tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma

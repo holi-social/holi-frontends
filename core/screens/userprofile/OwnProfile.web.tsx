@@ -35,8 +35,8 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 const OwnProfile = () => {
   const { track } = useTracking()
 
-  const [rewardsPhaseOneEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const [activeTab, setActiveTab] = useState<string>(rewardsPhaseOneEnabled ? Tab.MY_VOLUNTEERING : Tab.PROFILE)
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const [activeTab, setActiveTab] = useState<string>(rewardsPhaseTwoEnabled ? Tab.MY_VOLUNTEERING : Tab.PROFILE)
   const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
