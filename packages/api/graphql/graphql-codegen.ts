@@ -39,6 +39,7 @@ export type Scalars = {
 export enum AccountType {
   Apple = 'APPLE',
   Email = 'EMAIL',
+  Facebook = 'FACEBOOK',
   Google = 'GOOGLE',
   Unknown = 'UNKNOWN',
 }
@@ -2561,6 +2562,10 @@ export type Typesense_SearchParams_Input = {
   min_len_1typo?: InputMaybe<Scalars['Int']['input']>
   /** Minimum word length for 2-typo correction to be applied. The value of num_typos is still treated as the maximum allowed typos. */
   min_len_2typo?: InputMaybe<Scalars['Int']['input']>
+  /** The ID of the natural language model to use. */
+  nl_model_id?: InputMaybe<Scalars['String']['input']>
+  /** Whether to use natural language processing to parse the query. */
+  nl_query?: InputMaybe<Scalars['Boolean']['input']>
   /** The number of typographical errors (1 or 2) that would be tolerated. Default: 2 */
   num_typos?: InputMaybe<Scalars['String']['input']>
   /** Identifies the starting point to return hits from a result set. Can be used as an alternative to the page parameter. */
