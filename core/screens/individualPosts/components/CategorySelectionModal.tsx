@@ -33,11 +33,11 @@ export const CategorySelectionModal: React.FC<{
       label={t('individuals.post.onboarding.label')}
       onDismiss={() => handleModalClose()}
       style={styles.modal}
+      testID="category-selection-modal"
     >
       <HoliModalContentWrapper
         actionButtonText={t('global.save')}
         onActionButtonPress={() => handleModalClose()}
-        testID={'post-onboard-content'}
         headlineAlign="center"
       >
         <HoliContainer>
@@ -50,6 +50,7 @@ export const CategorySelectionModal: React.FC<{
                 key={category.name}
                 style={[styles.category, selectedCategoryId === category.id && styles.categorySelected]}
                 onPress={() => onCategorySelection(category.id)}
+                testID={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 <View style={styles.categoryContent}>
                   <HoliLocalImage

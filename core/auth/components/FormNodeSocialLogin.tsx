@@ -18,6 +18,7 @@ interface FormNodeSocialLoginProps {
 
 const supportedSocialLoginProviders: SocialLoginButtonProvider[] = [
   'Google',
+  'Facebook',
   ...(Platform.OS !== 'android' ? ['Apple' as SocialLoginButtonProvider] : []),
 ]
 

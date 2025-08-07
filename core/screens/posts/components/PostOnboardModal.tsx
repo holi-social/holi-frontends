@@ -60,6 +60,7 @@ const PostOnboardModal = ({ visible, handleModalClose }: PostOnboardModalProps) 
       label={t('individuals.post.onboarding.label')}
       onDismiss={() => handleModalClose()}
       style={styles.modal}
+      testID="post-onboard-modal"
     >
       <HoliModalContentWrapper
         actionButtonText={t('global.gotIt')}
