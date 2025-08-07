@@ -15,6 +15,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as ExpoCrypto from 'expo-crypto'
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -31,6 +32,7 @@ type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'i
 const supportedSocialLoginProviders: { [key: string]: AccountType } = {
   Google: AccountType.Google,
   Apple: AccountType.Apple,
+  Facebook: AccountType.Facebook,
 }
 
 const logger = getLogger('Auth')
@@ -180,7 +182,54 @@ const doAppleLogin = async () => {
   }
 }
 
-export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | UpdateRegistrationFlowBody>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const buildFacebookTraits = (profile: any) => {
+  const { first_name, last_name, name } = profile ?? {}
+  return {
+    given_name: first_name || undefined,
+    family_name: last_name || undefined,
+    name: name || undefined,
+  }
+}
+
+const doFacebookLogin = async () => {
+  try {
+    const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
+
+    if (result.isCancelled) {
+      throw new HoliLoginCancelledError('Facebook Sign-In was cancelled by the user')
+    }
+
+    if (!result.grantedPermissions?.includes('email')) {
+      throw new Error('Facebook Sign-In failed: email permission not granted')
+    }
+
+    const data = await AccessToken.getCurrentAccessToken()
+
+    if (!data) {
+      throw new Error('Facebook Sign-In failed: no access token available')
+    }
+
+    logger.debug('doFacebookLogin', 'Facebook access token obtained', { accessToken: data.accessToken })
+
+    // For Facebook, we use the access token as the id_token
+    // The nonce is not required for Facebook OAuth flow
+    // return {id_token: data.accessToken}
+    return {
+      traits: buildFacebookTraits(data),
+    }
+  } catch (error) {
+    if (error instanceof HoliLoginCancelledError) {
+      throw error
+    }
+    logger.debug('doFacebookLogin', 'Facebook login error', error)
+    throw Error(`Facebook Sign-In failed ${error}`)
+  }
+}
+
+export const retrieveSubmitFlowBody = async <
+  T extends (UpdateLoginFlowBody & { xSessionToken?: string }) | UpdateRegistrationFlowBody,
+>(
   payload: T,
   provider?: string
 ): Promise<T> => {
@@ -195,6 +244,9 @@ export const retrieveSubmitFlowBody = async <T extends UpdateLoginFlowBody | Upd
       break
     case AccountType.Apple:
       partialBody = await doAppleLogin()
+      break
+    case AccountType.Facebook:
+      partialBody = await doFacebookLogin()
       break
   }
   return {
@@ -261,6 +313,9 @@ export const submitLogoutFlow = async ({
       break
     case AccountType.Apple:
       // noop: It is not recommended to use AppleAuthentication.signOutAsync
+      break
+    case AccountType.Facebook:
+      await LoginManager.logOut()
       break
   }
   if (sessionToken) {
