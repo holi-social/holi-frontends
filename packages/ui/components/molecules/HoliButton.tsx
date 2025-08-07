@@ -1,24 +1,25 @@
-import React, { useCallback, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import {
-  AccessibilityProps,
-  AccessibilityRole,
-  AccessibilityState,
-  GestureResponderEvent,
-  NativeMouseEvent,
-  NativeSyntheticEvent,
+  type AccessibilityProps,
+  type AccessibilityRole,
+  type AccessibilityState,
+  type GestureResponderEvent,
+  type NativeMouseEvent,
+  type NativeSyntheticEvent,
   Platform,
   Pressable,
-  Role,
-  StyleProp,
+  type Role,
+  type StyleProp,
   StyleSheet,
-  TargetedEvent,
+  type TargetedEvent,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native'
 
-import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliButtonType = 'primary' | 'secondary' | 'warning' // for working code completion in vscode
 export const HoliButtonTypes: HoliButtonType[] = ['primary', 'secondary', 'warning'] // keep in sync with all possible HoliButtonType values
@@ -46,6 +47,9 @@ export interface HoliButtonProps {
   accessibilityState?: AccessibilityState
 }
 
+/**
+ * @deprecated Use `Button` from holiBricks instead.
+ */
 const HoliButton = ({
   inline = false,
   type = 'primary',

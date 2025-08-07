@@ -35,6 +35,9 @@ const emptyUser = (id: string, theme: HoliTheme): User => {
   }
 }
 
+/**
+ * @deprecated Use `AvatarPile` from holiBricks instead.
+ */
 const HoliUserAvatarPile = ({
   children,
   users,

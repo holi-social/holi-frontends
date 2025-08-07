@@ -1,12 +1,12 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccessibilityProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
+import { type AccessibilityProps, type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native'
 import tinycolor from 'tinycolor2'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import { useTheme } from '@holi/ui/styles/theme'
 
 // See accessibility hints: https://www.w3.org/WAI/tutorials/images/informative/
@@ -122,6 +122,9 @@ const HoliAvatar = ({
   )
 }
 
+/**
+ * @deprecated Use `Avatar` from holiBricks instead.
+ */
 export default memo(HoliAvatar)
 
 const styles = StyleSheet.create({
