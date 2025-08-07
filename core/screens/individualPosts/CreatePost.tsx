@@ -166,7 +166,7 @@ const CreatePost = () => {
   return (
     <View style={styles.grayExtendingBackground}>
       {categoriesLoading ? (
-        <HoliLoader />
+        <HoliLoader testID="create-post-loader" />
       ) : (
         <>
           <PostInputForm

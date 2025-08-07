@@ -46,9 +46,9 @@ test.describe('@Spaces', () => {
     await testDisplaysSpaceDetails(guest)
   })
 
-  test('user can create, edit and share space', async ({ browserName }) => {
+  test('user can create, edit and share space', async () => {
     await testCreatingEditingSpace(user)
-    await testShareSpace(user, browserName)
+    await testShareSpace(user)
   })
 
   test('user can delete their space', async () => {
@@ -145,19 +145,16 @@ const testDisplaysSpaceDetailsCommon = async (page: Page) => {
   await page.waitForSelector(byTestId('space-description'))
 }
 
-const testShareSpace = async (page: Page, browserName: string) => {
+const testShareSpace = async (page: Page) => {
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
 
   await clickElementByTestId(page, 'space-share-btn')
 
-  // There is no dedicated PlayWright API for the clipboard yet and the following currently only works in chrome, see https://github.com/microsoft/playwright/issues/15860
-  if (browserName === 'chromium') {
-    const clipboardText = await page.evaluate('navigator.clipboard.readText()')
-    let url = page.url()
-    url = url.replace('en/', '') // 'en/' language prefix is not part of the clipboard mechanic apparently
-    url = url.substring(0, url.indexOf('?'))
-    expect(clipboardText).toContain(url)
-  }
+  const clipboardText = await page.evaluate('navigator.clipboard.readText()')
+  let url = page.url()
+  url = url.replace('en/', '') // 'en/' language prefix is not part of the clipboard mechanic apparently
+  url = url.substring(0, url.indexOf('?'))
+  expect(clipboardText).toContain(url)
 
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await page.waitForSelector(byTestId('space-options-btn'))

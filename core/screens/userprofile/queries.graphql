@@ -24,3 +24,13 @@ query AuthenticatedUser {
     ...FullUser
   }
 }
+
+query CommittedVolunteeringOpportunities($offset: Int!, $limit: Int!) {
+  committedVolunteeringOpportunities(offset: $offset, limit: $limit) {
+    data {
+      status
+      externalVolunteeringOpportunityId
+    }
+    totalResults
+  }
+}

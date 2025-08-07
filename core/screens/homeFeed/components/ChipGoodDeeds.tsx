@@ -55,10 +55,14 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
 
   return (
     <>
-      <Pressable onPress={showCorrectModal} style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}>
+      <Pressable
+        onPress={showCorrectModal}
+        style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}
+        testID="good-deeds-counter"
+      >
         <HoliIcon icon={GoodDeeds} size={18} />
-        <Text size="sm" selectable={false}>
-          {counter && counter > 0 ? `${counter} ${t('personalGoodDeedCounter.label')}` : t('goodDeeds.name')}
+        <Text size="sm" selectable={false} testID="good-deeds-counter-value">
+          {t('goodDeeds.name.count', { count: counter })}
         </Text>
         <HoliIcon icon={Information} size={18} />
       </Pressable>
