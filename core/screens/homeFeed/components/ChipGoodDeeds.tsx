@@ -24,7 +24,7 @@ export const ChipGoodDeeds = () => {
   const modalStateDefault = useModalState() // modal for logged in users with at least one good deed
 
   const { data } = useGetRewardsCounterQuery()
-  const counter = data?.rewards_counter.counter
+  const counter = data?.rewards_counter?.counter ?? 0
 
   const showCorrectModal = () => {
     if (!isLoggedIn) {
