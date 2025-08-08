@@ -72,7 +72,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
           setShowText(true)
         }, 200)
       })
-    }, 3000) // Delayed further to 2500ms to end even later
+    }, 1000)
 
     // Wait for Lottie animation
     setTimeout(() => {
@@ -114,7 +114,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
           }),
         ]).start()
       })
-    }, 2700)
+    }, 700)
 
     return () => {
       countAnim.removeAllListeners()
