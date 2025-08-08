@@ -11,15 +11,11 @@ import { breakpoints, Spacing } from 'holi-bricks/foundations'
 
 interface RewardMessageProps {
   campaignTag?: string
-  goodDeedCount?: number
+  deedCount?: number
   onClaim?: () => void
 }
 
-const RewardMessage: React.FC<RewardMessageProps> = ({
-  campaignTag = '#1MioguteTaten',
-  goodDeedCount = 1,
-  onClaim,
-}) => {
+const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteTaten', deedCount = 0, onClaim }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = React.useMemo(() => getStyles(theme), [theme])
@@ -32,18 +28,19 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   const [labelText, setLabelText] = useState('') // State for the label text
   const [showText, setShowText] = useState(true) // Control text visibility
 
+  const previousDeedCount = Math.max(0, deedCount - 1)
+
   useEffect(() => {
-    const initialCount = Math.max(0, goodDeedCount - 1)
     setLabelText(
-      initialCount > 1 || initialCount === 0 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single')
+      previousDeedCount > 1 || previousDeedCount === 0
+        ? t('goodDeeds.name.plural_other')
+        : t('goodDeedsCounter.label.single')
     )
-  }, [goodDeedCount, t])
+  }, [previousDeedCount, t])
 
   // counter animation
   useEffect(() => {
-    const finalCount = goodDeedCount || 1
-
-    countAnim.setValue(Math.max(0, goodDeedCount - 1))
+    countAnim.setValue(previousDeedCount)
     textFadeAnim.setValue(1)
     setShowText(true)
 
@@ -68,7 +65,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
 
         // After pause, update text and fade back in
         setTimeout(() => {
-          setLabelText(goodDeedCount > 1 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single'))
+          setLabelText(deedCount > 1 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single'))
           setShowText(true)
         }, 200)
       })
@@ -92,7 +89,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
           useNativeDriver: true,
         }),
         Animated.timing(countAnim, {
-          toValue: finalCount,
+          toValue: deedCount,
           duration: 280,
           easing: Easing.inOut(Easing.quad),
           useNativeDriver: true,
@@ -119,7 +116,17 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
     return () => {
       countAnim.removeAllListeners()
     }
-  }, [fadeAnim, countAnim, bounceAnim, verticalBounceAnim, initialBounceAnim, goodDeedCount, textFadeAnim, t])
+  }, [
+    fadeAnim,
+    countAnim,
+    bounceAnim,
+    verticalBounceAnim,
+    initialBounceAnim,
+    deedCount,
+    textFadeAnim,
+    t,
+    previousDeedCount,
+  ])
 
   const handleMoreInfoPress = () => {
     if (campaignTag) {
@@ -140,7 +147,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
                 {
                   translateY: Animated.add(
                     countAnim.interpolate({
-                      inputRange: [Math.max(0, goodDeedCount - 1), goodDeedCount],
+                      inputRange: [previousDeedCount, deedCount],
                       outputRange: [0, 140],
                     }),
                     initialBounceAnim
@@ -150,7 +157,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
             }}
           >
             <Text headingLevel="1" size="5xl" bold>
-              {Math.max(0, goodDeedCount - 1)}
+              {previousDeedCount}
             </Text>
           </Animated.View>
           <Animated.View
@@ -160,7 +167,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
                 {
                   translateY: Animated.add(
                     countAnim.interpolate({
-                      inputRange: [Math.max(0, goodDeedCount - 1), goodDeedCount],
+                      inputRange: [previousDeedCount, deedCount],
                       outputRange: [-140, 0],
                     }),
                     verticalBounceAnim
@@ -171,7 +178,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
             testID="good-deeds-counter-final"
           >
             <Text headingLevel="1" size="5xl" bold>
-              {goodDeedCount}
+              {deedCount}
             </Text>
           </Animated.View>
         </View>
