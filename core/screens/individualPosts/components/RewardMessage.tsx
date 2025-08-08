@@ -25,18 +25,11 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
   const verticalBounceAnim = useRef(new Animated.Value(0)).current
   const initialBounceAnim = useRef(new Animated.Value(0)).current
   const textFadeAnim = useRef(new Animated.Value(0)).current // Animation for text transition
-  const [labelText, setLabelText] = useState('') // State for the label text
   const [showText, setShowText] = useState(true) // Control text visibility
 
   const previousDeedCount = Math.max(0, deedCount - 1)
 
-  useEffect(() => {
-    setLabelText(
-      previousDeedCount > 1 || previousDeedCount === 0
-        ? t('goodDeeds.name.plural_other')
-        : t('goodDeedsCounter.label.single')
-    )
-  }, [previousDeedCount, t])
+  const labelText = t('goodDeeds.name', { count: deedCount })
 
   // counter animation
   useEffect(() => {
@@ -65,7 +58,6 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
 
         // After pause, update text and fade back in
         setTimeout(() => {
-          setLabelText(deedCount > 1 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single'))
           setShowText(true)
         }, 200)
       })
