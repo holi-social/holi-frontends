@@ -36,7 +36,6 @@ import type { Post } from '@holi/core/screens/posts/types'
 import { Stack } from 'holi-bricks/components/stack'
 import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 import * as Appcues from '@appcues/react-native'
 
@@ -56,8 +55,6 @@ const HomeFeed = () => {
   const { refreshControlProps } = useRefreshContext()
 
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, insightsCreators } = useFeedQuery()
-  const { data } = useGetRewardsCounterQuery()
-  const counter = data?.rewards_counter.counter
 
   const { track } = useTracking()
   const navigation = useNavigation()
@@ -188,7 +185,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="3xs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <ChipGoodDeeds counter={counter} />}
+            {showGoodDeedChip && <ChipGoodDeeds />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -200,7 +197,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip, counter])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 
