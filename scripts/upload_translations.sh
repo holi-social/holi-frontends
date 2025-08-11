@@ -8,10 +8,10 @@ PATCH_FILE="local_i18n_changes.patch"
 git add .
 git update-index --refresh
 if ! git diff-index --cached --quiet HEAD --; then
-    UNCOMMITED_CHANGES=1
+    UNCOMMITTED_CHANGES=1
 fi
 
-if [ "${UNCOMMITED_CHANGES:-}" ]; then
+if [ "${UNCOMMITTED_CHANGES:-}" ]; then
   echo "Please commit or stash all changes before continuing."
   exit 1
 fi
