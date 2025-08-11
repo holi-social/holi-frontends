@@ -18,8 +18,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -27,6 +25,7 @@ import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Stack } from 'holi-bricks/components/stack'
 
 export type PostContentProps = {
   post: Post
@@ -62,16 +61,16 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
       <View>
         <>
           <View style={styles.headerContainer}>
-            <HoliColumns>
-              <HoliColumn flex={2}>
+            <Stack direction="row">
+              <Stack flex={2}>
                 {/* Visibility for space update posts */}
                 {hasVisibilityIcon ? (
-                  <HoliColumns alignItems="center" padding={[0, 0, 8, 0]}>
+                  <Stack direction="row" alignItems="center" padding={{ bottom: '3xs' }}>
                     <HoliIcon icon={visibilityIcon} size={12} />
                     <HoliBox padding={[0, 0, 0, 6]}>
                       <HoliText size="extrasmall">{visibilityIconText}</HoliText>
                     </HoliBox>
-                  </HoliColumns>
+                  </Stack>
                 ) : null}
 
                 {/* Post title */}
@@ -84,10 +83,10 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                 >
                   {title}
                 </HoliHeading>
-              </HoliColumn>
+              </Stack>
 
               {/* Action drawer (three dot menu) */}
-              <HoliColumn>
+              <View>
                 <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
                   {/* Edit Action */}
                   {/* editing only allowed for own content */}
@@ -112,8 +111,8 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                     />
                   )}
                 </HoliActionDrawer.Drawer>
-              </HoliColumn>
-            </HoliColumns>
+              </View>
+            </Stack>
           </View>
           <HoliLink
             href={`/profile/${post.creator.id}`}
