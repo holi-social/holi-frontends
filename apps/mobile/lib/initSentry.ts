@@ -51,8 +51,8 @@ export function initSentry(element: ComponentType<Record<string, unknown>>): Ret
     enableNativeFramesTracking: true,
     enableStallTracking: true,
     enableUserInteractionTracing: true,
-    tracesSampleRate: debugSentry ? 1 : 0.1,
-    profilesSampleRate: debugSentry ? 1 : 0.1,
+    tracesSampleRate: debugSentry ? 1 : 0.3,
+    profilesSampleRate: debugSentry ? 1 : 0.3,
   })
 
   return Sentry.wrap(element)

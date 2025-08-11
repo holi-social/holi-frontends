@@ -39,7 +39,6 @@ export type OnboardingParams = {
 
 const { useParam } = createParamHooks<OnboardingParams>()
 
-
 const Onboarding = () => {
   const { t } = useTranslation()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
