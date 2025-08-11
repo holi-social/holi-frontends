@@ -142,6 +142,9 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
       source={addHeadersAndConvertToHttpsIfSourceUri(webViewProps.source)}
       testID="web-view"
       injectedJavaScript={injectedThemeJs}
+      // FIX: This needs setting, for now, in the new React arch. - Fabrik. There's a fix on the way -
+      // https://github.com/react-native-webview/react-native-webview/issues/3814
+      decelerationRate={0.985}
     />
   )
 }
