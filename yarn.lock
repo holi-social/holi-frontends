@@ -6194,7 +6194,7 @@ __metadata:
     apollo-link-timeout: "npm:^4.0.0"
     eslint: "npm:^8.33.0"
     expo: "npm:^53.0.20"
-    expo-apple-authentication: "npm:~7.1.3"
+    expo-apple-authentication: "npm:~7.2.4"
     expo-application: "npm:~6.1.5"
     expo-auth-session: "npm:~6.2.1"
     expo-build-properties: "npm:~0.14.8"
@@ -18739,13 +18739,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-apple-authentication@npm:~7.1.3":
-  version: 7.1.3
-  resolution: "expo-apple-authentication@npm:7.1.3"
+"expo-apple-authentication@npm:~7.2.4":
+  version: 7.2.4
+  resolution: "expo-apple-authentication@npm:7.2.4"
   peerDependencies:
     expo: "*"
     react-native: "*"
-  checksum: 10c0/370a9b442eee4db3fc49a4fbc853eed9b7f092cea894ecad2e2144190f6fd3fdeaf2affaf8335fe677e0c6ffff24a835ee60fc18b62a10083b435982ecb44826
+  checksum: 10c0/466270514595f267731e3ae0077ed36a944348d2f474333f9feafd88133f2bf1e609fbd8e5660771f80152ca9c164e4d12c7783261b7dc4185f3350a2730db06
   languageName: node
   linkType: hard
 
