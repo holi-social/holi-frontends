@@ -35,7 +35,6 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { Stack } from 'holi-bricks/components/stack'
 import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
 const FeedListItem = memo(
   ({
@@ -107,8 +106,6 @@ const HomeFeed = () => {
   const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
-  const { data } = useGetRewardsCounterQuery()
-  const counter = data?.rewards_counter.counter
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
   const { track } = useTracking()
 
@@ -141,7 +138,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="3xs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <ChipGoodDeeds counter={counter} />}
+            {showGoodDeedChip && <ChipGoodDeeds />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -153,7 +150,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip, counter])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)
