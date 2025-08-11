@@ -43,7 +43,7 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
     locationFilter = `location_lat_lng:(${latitude}, ${longitude}, 30 km)`
     sort_by = `location_lat_lng(${latitude}, ${longitude}):asc`
   } else {
-    if (facet !== 'profile') {
+    if (facet === 'volunteering') {
       nl_query = true
       nl_model_id = 'gemini-model'
     }
@@ -59,9 +59,9 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
     filter_by,
     sort_by,
     per_page: PAGE_SIZE,
+    nl_query,
+    nl_model_id,
     ...(shouldAddNaturalLanguageSearchAndGrouping && {
-      nl_query,
-      nl_model_id,
       group_by: 'commitment_duration',
       group_limit: GROUP_LIMIT,
     }),

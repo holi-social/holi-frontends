@@ -29,8 +29,8 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=space',
       per_page: 10,
       sort_by: undefined,
-      nl_query: true,
-      nl_model_id: 'gemini-model',
+      nl_query: false,
+      nl_model_id: undefined,
     })
   })
 
