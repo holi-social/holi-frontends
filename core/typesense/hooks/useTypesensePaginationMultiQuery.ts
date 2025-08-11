@@ -54,6 +54,19 @@ const transformFacetCounts = (facetCounts?: Typesense_SearchResponseFacetCounts[
     }) ?? []
   )
 
+const extractHits = (results: Typesense_SearchResponseSuccess): SearchResponseHit[] => {
+  if (results.grouped_hits && results.grouped_hits.length > 0) {
+    return results.grouped_hits.reduce((acc: SearchResponseHit[], group) => {
+      if (group?.hits) {
+        acc.push(...group.hits.filter((hit): hit is SearchResponseHit => hit !== null))
+      }
+      return acc
+    }, [])
+  }
+
+  return results.hits ?? []
+}
+
 export const useTypesensePaginationMultiQuery = ({
   parameterList,
   onError,
@@ -111,7 +124,7 @@ export const useTypesensePaginationMultiQuery = ({
           const canFetchMore = results.found > pageSize * results.page
 
           return {
-            hits: results.hits ?? [],
+            hits: extractHits(results),
             totalResults: results.found,
             totalNrOfPages,
             currentPage: results.page,

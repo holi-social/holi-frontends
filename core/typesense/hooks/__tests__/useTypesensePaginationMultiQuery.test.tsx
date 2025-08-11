@@ -34,6 +34,7 @@ const testResponse: Typesense_SearchResponse = {
   found: 123,
   page: 1,
   hits: createHits(10),
+  grouped_hits: [],
   out_of: 1234,
   request_params: {},
   search_time_ms: 0,

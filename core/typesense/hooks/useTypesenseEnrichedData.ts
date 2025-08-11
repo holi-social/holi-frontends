@@ -81,7 +81,19 @@ export function useTypesenseEnrichedData<
 
     return typesenseData.typesense_multiSearch.results.reduce((acc: LocalizedTypesenseDocument[], result) => {
       if (result.__typename === 'Typesense_SearchResponseSuccess') {
-        const hits = result.hits ?? []
+        let hits: NonNullable<typeof result.hits> = []
+
+        if (result.grouped_hits && result.grouped_hits.length > 0) {
+          hits = result.grouped_hits.reduce((acc: NonNullable<typeof result.hits>, group) => {
+            if (group?.hits) {
+              acc.push(...group.hits.filter((hit): hit is NonNullable<typeof hit> => hit !== null))
+            }
+            return acc
+          }, [])
+        } else {
+          hits = result.hits ?? []
+        }
+
         acc.push(...(hits.map(({ document }) => localizeTypesenseDocument(document, language)) ?? []))
       }
       return acc

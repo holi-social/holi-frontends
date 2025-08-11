@@ -2,6 +2,7 @@ import type { SearchFacet, SearchFilter } from '@holi/core/screens/search/types'
 import type { SearchParams } from '@holi/core/typesense/types'
 
 const PAGE_SIZE = 10
+const GROUP_LIMIT = 2
 
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'embedding']
 
@@ -50,13 +51,19 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
 
   const filter_by = locationFilter ? `${config.filter_by} && ${locationFilter}` : config.filter_by
 
+  const shouldAddNaturalLanguageSearchAndGrouping = facet === 'volunteering'
+
   return {
     ...config,
     q: query || '*',
     filter_by,
     sort_by,
     per_page: PAGE_SIZE,
-    nl_query,
-    nl_model_id,
+    ...(shouldAddNaturalLanguageSearchAndGrouping && {
+      nl_query,
+      nl_model_id,
+      group_by: 'commitment_duration',
+      group_limit: GROUP_LIMIT,
+    }),
   }
 }

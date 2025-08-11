@@ -661,6 +661,20 @@ export type ExternalVolunteeringOpportunity = {
   externalId: Scalars['String']['output']
 }
 
+export type FacebookAuthInput = {
+  accessToken: Scalars['String']['input']
+  provider: Scalars['String']['input']
+}
+
+export type FacebookAuthResult = {
+  __typename?: 'FacebookAuthResult'
+  email?: Maybe<Scalars['String']['output']>
+  errorMessage?: Maybe<Scalars['String']['output']>
+  sessionToken?: Maybe<Scalars['String']['output']>
+  success: Scalars['Boolean']['output']
+  userId?: Maybe<Scalars['String']['output']>
+}
+
 export enum FavoritableType {
   ExternalVolunteeringOpportunity = 'EXTERNAL_VOLUNTEERING_OPPORTUNITY',
   Insight = 'INSIGHT',
@@ -1029,6 +1043,7 @@ export type Mutation = {
   addReactionToComment: Comment
   anonCount?: Maybe<Scalars['Void']['output']>
   appVolunteering_trackEngagementView: AppVolunteering_TrackEngagementViewResponse
+  authenticateWithFacebook: FacebookAuthResult
   blockUser: Result
   createAppointment: Appointment
   createFeedPost: FeedPost
@@ -1116,6 +1131,10 @@ export type MutationAnonCountArgs = {
 
 export type MutationAppVolunteering_TrackEngagementViewArgs = {
   id: Scalars['String']['input']
+}
+
+export type MutationAuthenticateWithFacebookArgs = {
+  input: FacebookAuthInput
 }
 
 export type MutationBlockUserArgs = {
@@ -5237,6 +5256,50 @@ export type Typesense_MultiSearchQuery = {
               }>
             }
           }>
+          grouped_hits?: Array<{
+            __typename?: 'Typesense_SearchResponseGroupedHit'
+            found?: number
+            group_key: Array<string>
+            hits: Array<{
+              __typename?: 'Typesense_SearchResponseHit'
+              document: {
+                __typename?: 'Typesense_Document'
+                type: Typesense_DocumentType
+                id: string
+                title_de?: string
+                title_en?: string
+                description_de?: string
+                description_en?: string
+                location?: string
+                location_lat_lng?: Array<number>
+                image_url?: string
+                user_full_name?: string
+                topics_v2?: Array<string>
+                skills_v2?: Array<string>
+                source?: string
+                organizer_name?: string
+                organizer_image_url?: string
+                organizer_url?: string
+                external_url?: string
+                commitment_label?: string
+                commitment_duration?: string
+                location_type?: string
+                link_locators?: {
+                  __typename?: 'Typesense_DocumentLinkLocators'
+                  volunteering?: string
+                  space?: string
+                  task?: string
+                  profile?: string
+                }
+                contact?: Array<{
+                  __typename?: 'Typesense_DocumentContact'
+                  type: Typesense_DocumentContactType
+                  value: string
+                  label?: string
+                }>
+              }
+            }>
+          }>
           facet_counts?: Array<{
             __typename?: 'Typesense_SearchResponseFacetCounts'
             field_name: string
@@ -8207,6 +8270,15 @@ export const Typesense_MultiSearchDocument = gql`
         hits {
           document {
             ...FullTypesenseDocument
+          }
+        }
+        grouped_hits {
+          found
+          group_key
+          hits {
+            document {
+              ...FullTypesenseDocument
+            }
           }
         }
         facet_counts {

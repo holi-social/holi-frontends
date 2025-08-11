@@ -59,6 +59,15 @@ query typesense_multiSearch($input: Typesense_MultiSearchRequest_Input!) {
             ...FullTypesenseDocument
           }
         }
+        grouped_hits {
+          found
+          group_key
+          hits {
+            document {
+              ...FullTypesenseDocument
+            }
+          }
+        }
         facet_counts {
           counts {
             count

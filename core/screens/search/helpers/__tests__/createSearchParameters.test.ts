@@ -13,6 +13,8 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: true,
       nl_model_id: 'gemini-model',
+      group_by: 'commitment_duration',
+      group_limit: 2,
     })
   })
 
@@ -26,6 +28,7 @@ describe('createSearchParameters', () => {
       vector_query: 'embedding:([], k: 150, distance_threshold: 0.5)',
       filter_by: 'type:=space',
       per_page: 10,
+      sort_by: undefined,
       nl_query: true,
       nl_model_id: 'gemini-model',
     })
@@ -40,7 +43,7 @@ describe('createSearchParameters', () => {
       query_by_weights: '10',
       filter_by: 'type:=profile',
       per_page: 10,
-      // Natural Language Search is currently only used for matching location
+      sort_by: undefined,
       nl_query: false,
       nl_model_id: undefined,
     })
@@ -67,6 +70,8 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: false,
       nl_model_id: undefined,
+      group_by: 'commitment_duration',
+      group_limit: 2,
     })
   })
 
@@ -91,6 +96,8 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: false,
       nl_model_id: undefined,
+      group_by: 'commitment_duration',
+      group_limit: 2,
     })
   })
 
@@ -110,6 +117,7 @@ describe('createSearchParameters', () => {
       query_by: 'user_full_name',
       query_by_weights: '10',
       filter_by: 'type:=profile',
+      sort_by: undefined,
       per_page: 10,
       nl_query: false,
       nl_model_id: undefined,
