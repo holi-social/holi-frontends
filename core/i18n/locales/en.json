@@ -420,7 +420,6 @@
   "goodDeed.rewardsMessage.text": "Your contribution counts as a good deed - for you and our joint million.",
   "goodDeeds.name_one": "Good Deed",
   "goodDeeds.name_other": "Good Deeds",
-  "goodDeeds.name.count_zero": "Good Deeds",
   "goodDeeds.name.count_one": "{{count}} Good Deed",
   "goodDeeds.name.count_other": "{{count}} Good Deeds",
   "goodDeeds.name.plural_zero": "Good Deeds",

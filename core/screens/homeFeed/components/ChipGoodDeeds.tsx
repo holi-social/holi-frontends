@@ -61,9 +61,15 @@ export const ChipGoodDeeds = () => {
         testID="good-deeds-counter"
       >
         <HoliIcon icon={GoodDeeds} size={18} />
-        <Text size="sm" selectable={false} testID="good-deeds-counter-value">
-          {t('goodDeeds.name.count', { count: counter })}
-        </Text>
+        {isLoggedIn ? (
+          <Text size="sm" selectable={false} testID="good-deeds-counter-value">
+            {t('goodDeeds.name.count', { count: counter })}
+          </Text>
+        ) : (
+          <Text size="sm" selectable={false}>
+            {t('goodDeeds.name_other')}
+          </Text>
+        )}
         <HoliIcon icon={Information} size={18} />
       </Pressable>
 
