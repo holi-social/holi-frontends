@@ -10,10 +10,10 @@ import { useNavigation } from '@react-navigation/native'
 import { mobileWebviewHeader } from '@holi/core/auth/helpers/oauth2'
 import type { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import type { HoliTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
 
 const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewSourceUri => {
   return !!value && 'uri' in value
@@ -98,7 +98,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
   const renderError = useCallback(
     () => (
       <View style={styles.messageContainer}>
-        <HoliText>{errormessage} </HoliText>
+        <Text size="md">{errormessage} </Text>
       </View>
     ),
     [styles.messageContainer, errormessage]
