@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleSheet, View, Pressable, Linking, Animated, Easing } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
@@ -11,115 +11,64 @@ import { breakpoints, Spacing } from 'holi-bricks/foundations'
 
 interface RewardMessageProps {
   campaignTag?: string
-  goodDeedCount?: number
+  deedCount?: number
   onClaim?: () => void
 }
 
-const RewardMessage: React.FC<RewardMessageProps> = ({
-  campaignTag = '#1MioguteTaten',
-  goodDeedCount = 1,
-  onClaim,
-}) => {
+const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteTaten', deedCount = 0, onClaim }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = React.useMemo(() => getStyles(theme), [theme])
-  const fadeAnim = useRef(new Animated.Value(0)).current
-  const countAnim = useRef(new Animated.Value(0)).current
-  const bounceAnim = useRef(new Animated.Value(1)).current
-  const verticalBounceAnim = useRef(new Animated.Value(0)).current
-  const initialBounceAnim = useRef(new Animated.Value(0)).current
-  const textFadeAnim = useRef(new Animated.Value(0)).current // Animation for text transition
-  const [labelText, setLabelText] = useState('') // State for the label text
-  const [showText, setShowText] = useState(true) // Control text visibility
+  const previousCountValueMoveOut = useRef(new Animated.Value(0)).current
+  const countValueMoveIn = useRef(new Animated.Value(0)).current
+  const countLabelFadeIn = useRef(new Animated.Value(0)).current
+  const contentFadeIn = useRef(new Animated.Value(0)).current
+
+  const previousDeedCount = Math.max(0, deedCount - 1)
+  const labelText = t('goodDeeds.name', { count: deedCount })
+
+  const LOTTIE_HAND_ANIMATION_DURATION = 2300
 
   useEffect(() => {
-    const initialCount = Math.max(0, goodDeedCount - 1)
-    setLabelText(
-      initialCount > 1 || initialCount === 0 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single')
-    )
-  }, [goodDeedCount, t])
+    countValueMoveIn.setValue(0)
+    contentFadeIn.setValue(0)
+    countLabelFadeIn.setValue(0)
 
-  // counter animation
-  useEffect(() => {
-    const finalCount = goodDeedCount || 1
-
-    countAnim.setValue(Math.max(0, goodDeedCount - 1))
-    textFadeAnim.setValue(1)
-    setShowText(true)
-
-    Animated.timing(fadeAnim, {
+    Animated.timing(contentFadeIn, {
       toValue: 1,
-      duration: 200,
+      duration: 800,
       useNativeDriver: true,
-      easing: Easing.out(Easing.quad),
-    }).start()
-
-    // Text fade out
-    setTimeout(() => {
-      // Fade out text
-      Animated.timing(textFadeAnim, {
+      delay: LOTTIE_HAND_ANIMATION_DURATION,
+    }).start(() => {
+      Animated.timing(previousCountValueMoveOut, {
         toValue: 0,
-        duration: 200,
-        easing: Easing.in(Easing.quad),
+        duration: 500,
+        easing: Easing.inOut(Easing.quad),
         useNativeDriver: true,
-      }).start(() => {
-        // Hide text completely for 300ms
-        setShowText(false)
-
-        // After pause, update text and fade back in
-        setTimeout(() => {
-          setLabelText(goodDeedCount > 1 ? t('goodDeeds.name.plural_other') : t('goodDeedsCounter.label.single'))
-          setShowText(true)
-        }, 200)
-      })
-    }, 3000) // Delayed further to 2500ms to end even later
-
-    // Wait for Lottie animation
-    setTimeout(() => {
-      // Counter animation sequence - total 0.8s as specified
-      Animated.sequence([
-        // Initial bounce
-        Animated.timing(initialBounceAnim, {
-          toValue: -50,
-          duration: 250,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(initialBounceAnim, {
-          toValue: 0,
-          duration: 120,
-          easing: Easing.inOut(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(countAnim, {
-          toValue: finalCount,
-          duration: 280,
-          easing: Easing.inOut(Easing.quad),
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        Animated.sequence([
-          // Small final bounce - total 0.3s to finish the animation
-          Animated.timing(verticalBounceAnim, {
-            toValue: 5,
-            duration: 80,
-            easing: Easing.out(Easing.quad),
-            useNativeDriver: true,
-          }),
-          Animated.timing(verticalBounceAnim, {
-            toValue: 0,
-            duration: 150,
-            easing: Easing.inOut(Easing.quad),
-            useNativeDriver: true,
-          }),
-        ]).start()
-      })
-    }, 2700)
+      }).start()
+      Animated.timing(countValueMoveIn, {
+        toValue: 1,
+        duration: 500,
+        easing: Easing.inOut(Easing.quad),
+        useNativeDriver: true,
+      }).start()
+      Animated.timing(countLabelFadeIn, {
+        toValue: 1,
+        duration: 200,
+        easing: Easing.inOut(Easing.quad),
+        useNativeDriver: true,
+      }).start()
+    })
 
     return () => {
-      countAnim.removeAllListeners()
+      contentFadeIn.removeAllListeners()
+      previousCountValueMoveOut.removeAllListeners()
+      countValueMoveIn.removeAllListeners()
+      countLabelFadeIn.removeAllListeners()
     }
-  }, [fadeAnim, countAnim, bounceAnim, verticalBounceAnim, initialBounceAnim, goodDeedCount, textFadeAnim, t])
+    // run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleMoreInfoPress = () => {
     if (campaignTag) {
@@ -128,29 +77,32 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
   }
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]} testID="reward-message-container">
-      <View style={styles.content}>
+    <View style={[styles.container]} testID="reward-message-container">
+      <Animated.View style={styles.content}>
         <View style={styles.iconContainer}>
           <HoliLottie animType="goodDeedsCounter" loop={false} />
         </View>
-        <View style={styles.animatedContainer} testID="good-deeds-counter-animation">
+        <Animated.View
+          style={[styles.animatedContainer, { opacity: contentFadeIn }]}
+          testID="good-deeds-counter-animation"
+        >
           <Animated.View
             style={{
               transform: [
                 {
                   translateY: Animated.add(
-                    countAnim.interpolate({
-                      inputRange: [Math.max(0, goodDeedCount - 1), goodDeedCount],
+                    countValueMoveIn.interpolate({
+                      inputRange: [0, 1],
                       outputRange: [0, 140],
                     }),
-                    initialBounceAnim
+                    previousCountValueMoveOut
                   ),
                 },
               ],
             }}
           >
             <Text headingLevel="1" size="5xl" bold>
-              {Math.max(0, goodDeedCount - 1)}
+              {previousDeedCount}
             </Text>
           </Animated.View>
           <Animated.View
@@ -159,11 +111,11 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
               transform: [
                 {
                   translateY: Animated.add(
-                    countAnim.interpolate({
-                      inputRange: [Math.max(0, goodDeedCount - 1), goodDeedCount],
+                    countValueMoveIn.interpolate({
+                      inputRange: [0, 1],
                       outputRange: [-140, 0],
                     }),
-                    verticalBounceAnim
+                    countValueMoveIn
                   ),
                 },
               ],
@@ -171,27 +123,25 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
             testID="good-deeds-counter-final"
           >
             <Text headingLevel="1" size="5xl" bold>
-              {goodDeedCount}
+              {deedCount}
+            </Text>
+          </Animated.View>
+        </Animated.View>
+        <View style={styles.countContainer}>
+          <Animated.View
+            style={{
+              opacity: countValueMoveIn,
+              width: '100%',
+              alignItems: 'center',
+            }}
+            testID="good-deeds-counter-label"
+          >
+            <Text headingLevel="2" size="3xl">
+              {labelText}
             </Text>
           </Animated.View>
         </View>
-        <View style={styles.countContainer}>
-          {showText && (
-            <Animated.View
-              style={{
-                opacity: 1,
-                width: '100%',
-                alignItems: 'center',
-              }}
-              testID="good-deeds-counter-label"
-            >
-              <Text headingLevel="2" size="3xl">
-                {labelText}
-              </Text>
-            </Animated.View>
-          )}
-        </View>
-      </View>
+      </Animated.View>
 
       <View style={styles.subContent}>
         <View style={styles.descriptionContainer}>
@@ -214,7 +164,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({
           testID="reward-claim-button"
         />
       </View>
-    </Animated.View>
+    </View>
   )
 }
 
@@ -278,7 +228,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingVertical: Spacing.xl,
       maxWidth: breakpoints.sm,
     },
-    animatedContainer: { height: 140, overflow: 'hidden', width: 140, alignItems: 'center', justifyContent: 'center' },
+    animatedContainer: { height: 140, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   })
 
 export default RewardMessage
