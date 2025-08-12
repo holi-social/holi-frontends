@@ -13,7 +13,7 @@ export const getStatusBarStyle = (
   { statusBarStyle }: NavigationCustomOptions = {},
   themeName?: AvailableThemes
 ): NavigationCustomOptions['statusBarStyle'] => {
-  const style = statusBarStyle === 'light' || (!statusBarStyle && themeName === 'light') ? 'light' : 'dark'
+  const style = statusBarStyle ?? themeName
   // Android requires inverted style
   const androidStyle = style === 'light' ? 'dark' : 'light'
   return Platform.OS === 'ios' ? style : androidStyle
