@@ -11,6 +11,7 @@ export const useRedirect = (fallback?: string) => {
   const storedPath = usePathToRedirect()
   const { navigate, replaceRoute } = useRouting()
 
+  // Reset `pathToRedirect` on component destroy
   useEffect(() => {
     return () => {
       setPathToRedirect(null)

@@ -36,6 +36,10 @@ export const useAppInit = () => {
   return {
     isReady: initReady,
     initializeApp: async () => {
+      if (initReady) {
+        return
+      }
+
       logger.debug('App', 'starting app with config', config)
 
       // Start listening for device token updates early
