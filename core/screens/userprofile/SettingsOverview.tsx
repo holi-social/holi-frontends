@@ -40,7 +40,7 @@ const SettingsOverview = () => {
 
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
     onPrimary: () => {
-      logout()
+      logout({ skipRedirect: true })
     },
   })
 
