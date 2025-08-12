@@ -15,8 +15,8 @@ const config: StorybookConfig = {
   stories,
 
   addons: [
+    getAbsolutePath('@storybook/addon-docs'),
     getAbsolutePath('@storybook/addon-links'),
-    getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-react-native-web'),
     getAbsolutePath('@storybook/addon-webpack5-compiler-babel'),
     getAbsolutePath('@chromatic-com/storybook'),
@@ -36,6 +36,8 @@ const config: StorybookConfig = {
           extensions: config.resolve.extensions,
         }),
       ]
+      config.resolve.fallback.tty = require.resolve('tty-browserify')
+
       config.resolve.alias = {
         ...(config.resolve.alias || {}),
         'next/image': require.resolve('./nextImageMock.jsx'),
@@ -57,11 +59,17 @@ const config: StorybookConfig = {
       test: /\.txt$/,
       type: 'asset/source',
     })
+    config?.module?.rules?.push({
+      test: /\.scss$/,
+      use: 'null-loader',
+    })
 
     return config
   },
 
-  docs: {},
+  typescript: {
+    reactDocgen: false,
+  },
 }
 
 function getAbsolutePath(value: string): string {

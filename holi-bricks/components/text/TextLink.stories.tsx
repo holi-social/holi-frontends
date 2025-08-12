@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import { type TextProps, TextLink, type TextLinkSize } from 'holi-bricks/components/text'
 import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
