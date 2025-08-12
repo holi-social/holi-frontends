@@ -4,7 +4,7 @@ module.exports = {
     [
       'react-native-unistyles/plugin',
       {
-        root: 'holi-bricks/components',
+        root: 'holi-bricks',
         autoProcessImports: ['holi-bricks/styles'],
       },
     ],

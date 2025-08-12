@@ -8,7 +8,7 @@ module.exports = (api) => {
       [
         'react-native-unistyles/plugin',
         {
-          root: 'components',
+          root: './',
           autoProcessImports: ['holi-bricks/styles'],
         },
       ],
