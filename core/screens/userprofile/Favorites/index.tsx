@@ -19,7 +19,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import { useFocusEffect } from '@holi/core/helpers/useFocusEffect'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { BookmarkFill } from '@holi/icons/src/generated'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const isWeb = Platform.OS === 'web'
@@ -55,7 +55,6 @@ const UnfavoriteButton = ({
 
 const Favorites = () => {
   const { t, i18n } = useTranslation()
-  const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
 
   const { favoriteItems, refetch: refetchFavorites } = useFavorites()
@@ -185,7 +184,7 @@ const Favorites = () => {
 
 export default Favorites
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   unfavoriteButton: {
     position: 'absolute',
     top: 0,

@@ -6,7 +6,7 @@ import { Text } from 'holi-bricks/components/text'
 import { BorderRadius, breakpoints, IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 
 export type RadioButtonProps = AccessibilityProps &
   LayoutProps & {
@@ -20,7 +20,7 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
   const [active, setActive] = useState(false)
-  const { styles } = useStyles(stylesheet, { selected, hovered, disabled, focused, active })
+  styles.useVariants({ selected, hovered, disabled, focused, active })
   const { width } = useWindowDimensions()
   const leftAligned = width > breakpoints.lg
   const textColor = disabled ? 'muted' : selected || hovered ? 'main' : 'support'
@@ -76,7 +76,7 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   outer: {
     outlineWidth: 0,
     ...Platform.select({

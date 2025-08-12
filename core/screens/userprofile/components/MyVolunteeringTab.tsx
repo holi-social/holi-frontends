@@ -11,7 +11,7 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { useCommittedVolunteering } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
@@ -57,7 +57,6 @@ const StatusInfoHeader = () => {
 }
 
 export const MyVolunteeringTab = () => {
-  const { styles } = useStyles(stylesheet)
   const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults } =
     useCommittedVolunteering()
 
@@ -102,7 +101,7 @@ export const MyVolunteeringTab = () => {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = createStyleSheet(() => ({
   loader: {
     padding: Spacing.xs,
   },
