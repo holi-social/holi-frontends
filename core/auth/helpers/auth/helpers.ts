@@ -195,12 +195,17 @@ export const retrieveSubmitFlowBody = async <
   }
   const supportedProvider = supportedSocialLoginProviders[provider]
   let partialBody = undefined
+
   switch (supportedProvider) {
     case AccountType.Google:
       partialBody = await doGoogleLogin()
       break
     case AccountType.Apple:
       partialBody = await doAppleLogin()
+      break
+    case AccountType.Facebook:
+      // Facebook uses regular browser login, since it doesn't return an id_token from the native SDK
+      // https://www.ory.sh/docs/kratos/social-signin/facebook
       break
   }
   return {
