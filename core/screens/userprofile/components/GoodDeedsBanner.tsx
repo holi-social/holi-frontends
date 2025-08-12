@@ -14,7 +14,7 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
   const { styles } = useStyles(stylesheet)
 
   return (
-    <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs">
+    <Stack>
       <Stack
         borderRadius={{ topLeft: 'md', topRight: 'md' }}
         backgroundColor="redDefault"
@@ -49,7 +49,7 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
                 padding={{ top: '3xs', bottom: '3xs', left: 'xs', right: 'xs' }}
               >
                 <Text size="4xl" color="main">
-                  {goodDeedsCounter}
+                  {goodDeedsCounter.toLocaleString('de-DE')}
                 </Text>
                 <Text size="xs" color="support">
                   {t('oneMioGoodDeeds.banner.globalCounter.label')}
@@ -73,6 +73,7 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
           </View>
         </View>
       </Stack>
+
       <Stack
         borderRadius={{ bottomLeft: 'md', bottomRight: 'md' }}
         backgroundColor="yellowDefault"
@@ -86,6 +87,7 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
               {t('oneMioGoodDeeds.hashtag')}
             </TextLink>
           </Stack>
+
           <HoliIcon icon={Question} />
         </Stack>
       </Stack>
