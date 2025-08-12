@@ -15,7 +15,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import * as ExpoCrypto from 'expo-crypto'
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next'
+import { LoginManager } from 'react-native-fbsdk-next'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -38,6 +38,8 @@ const supportedSocialLoginProviders: { [key: string]: AccountType } = {
 const logger = getLogger('Auth')
 
 const userSessionName = 'user_session'
+
+const NATIVE_RETURN_TO = 'holi://login/callback'
 
 export const initSocialLogin = () => {
   GoogleSignin.configure({
@@ -78,7 +80,7 @@ export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSe
 // Login
 export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   let extraMessages: UiText[] = []
-  const returnTo = 'holi://login/callback'
+
   if (flowId) {
     const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
@@ -98,7 +100,7 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   }
   return newKratosSdk()
     .createNativeLoginFlow({
-      returnTo: returnTo,
+      returnTo: NATIVE_RETURN_TO,
       returnSessionTokenExchangeCode: true,
     })
     .then(({ data }) => {
@@ -182,51 +184,6 @@ const doAppleLogin = async () => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const buildFacebookTraits = (profile: any) => {
-  const { first_name, last_name, name } = profile ?? {}
-  return {
-    given_name: first_name || undefined,
-    family_name: last_name || undefined,
-    name: name || undefined,
-  }
-}
-
-const doFacebookLogin = async () => {
-  try {
-    const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
-
-    if (result.isCancelled) {
-      throw new HoliLoginCancelledError('Facebook Sign-In was cancelled by the user')
-    }
-
-    if (!result.grantedPermissions?.includes('email')) {
-      throw new Error('Facebook Sign-In failed: email permission not granted')
-    }
-
-    const data = await AccessToken.getCurrentAccessToken()
-
-    if (!data) {
-      throw new Error('Facebook Sign-In failed: no access token available')
-    }
-
-    logger.debug('doFacebookLogin', 'Facebook access token obtained', { accessToken: data.accessToken })
-
-    // For Facebook, we use the access token as the id_token
-    // The nonce is not required for Facebook OAuth flow
-    // return {id_token: data.accessToken}
-    return {
-      traits: buildFacebookTraits(data),
-    }
-  } catch (error) {
-    if (error instanceof HoliLoginCancelledError) {
-      throw error
-    }
-    logger.debug('doFacebookLogin', 'Facebook login error', error)
-    throw Error(`Facebook Sign-In failed ${error}`)
-  }
-}
-
 export const retrieveSubmitFlowBody = async <
   T extends (UpdateLoginFlowBody & { xSessionToken?: string }) | UpdateRegistrationFlowBody,
 >(
@@ -244,9 +201,6 @@ export const retrieveSubmitFlowBody = async <
       break
     case AccountType.Apple:
       partialBody = await doAppleLogin()
-      break
-    case AccountType.Facebook:
-      partialBody = await doFacebookLogin()
       break
   }
   return {
@@ -277,8 +231,11 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
   const redirect = AuthSession.makeRedirectUri({
     preferLocalhost: true,
     path: 'login/callback',
+    native: NATIVE_RETURN_TO,
   })
+
   const result = await WebBrowser.openAuthSessionAsync(url, redirect)
+
   if (result.type === 'success') {
     const initCode = flow?.session_token_exchange_code
     const returnToCode = new URL(result.url).searchParams.get('code')
