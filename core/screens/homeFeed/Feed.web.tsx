@@ -136,7 +136,7 @@ const HomeFeed = () => {
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <Stack direction="row" gap="3xs" alignItems="center">
+          <Stack direction="row" gap="xxs" alignItems="center">
             <HoliLogo color={tintColor} />
             {showGoodDeedChip && <ChipGoodDeeds />}
           </Stack>
