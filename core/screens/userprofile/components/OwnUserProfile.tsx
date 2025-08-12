@@ -31,7 +31,7 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { GoodDeedsTab } from '@holi/core/screens/userprofile/components/GoodDeedsTab'
 import { MoreTab } from '@holi/core/screens/userprofile/components/MoreTab'
 
-export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills'
+export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'aboutMe'
 
 export enum Tab {
   MY_VOLUNTEERING = 'myVolunteering',

@@ -19,6 +19,7 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useTheme } from '@holi/ui/styles/theme'
+import AboutMe from '@holi/core/screens/userprofile/AboutMe'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -34,6 +35,10 @@ export type AuthStackScreensList = {
   Document: undefined
   AboutHoliApp: undefined
   Favorites: undefined
+  AboutMe: undefined
+  MyConnections: undefined
+  MyPosts: undefined
+  MySpaces: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
@@ -73,6 +78,10 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen name={RouteName.Document} component={LegalDocumentItem} />
       <AuthStack.Screen name={RouteName.AboutHoliApp} component={AboutHoliApp} />
       <AuthStack.Screen name={RouteName.Favorites} component={Favorites} />
+      <AuthStack.Screen name={RouteName.AboutMe} component={AboutMe} />
+      {/* <AuthStack.Screen name={RouteName.MyConnections} component={MyConnections} />
+      <AuthStack.Screen name={RouteName.MyPosts} component={MyPosts} />
+      <AuthStack.Screen name={RouteName.MySpaces} component={MySpaces} /> */}
     </AuthStack.Navigator>
   )
 }

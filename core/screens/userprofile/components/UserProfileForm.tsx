@@ -19,7 +19,6 @@ import {
   type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import { Image } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -30,6 +29,8 @@ import { type Position, delayAnimation, usePositions } from '@holi/ui/helper'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { Text } from 'holi-bricks/components/text'
+import { Stack } from 'holi-bricks/components/stack'
 
 type UserProfileFormProps = {
   user: User
@@ -44,7 +45,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
-  const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
@@ -87,7 +87,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     const input: UpdateAuthenticatedUserInput = {
       firstName,
       lastName,
-      aboutMe,
       pronouns,
       ...locationUpdate,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
@@ -127,13 +126,13 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
   }
 
   const header = (
-    <View style={[mixins.container, styles.headerContainer]}>
+    <Stack alignItems="center" gap="3xs">
       <Avatar
         source={pickedAvatar?.uri || user?.avatar}
         imgPlaceholder={user.avatarBlurhash}
         label={user?.fullName || t('user.profileView.anonymous')}
         initials={user?.avatarLabel || ''}
-        size="md"
+        size="lg"
       />
 
       <HoliImagePicker
@@ -143,14 +142,14 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
           resizeWidth: PROFILE_IMAGE_MAX_WIDTH,
         }}
         buttonProps={{
-          label: t('profile.avatar.add'),
-          transparent: true,
+          label: 'Change Avatar', // todo: localazy key
+          size: 'md',
+          variant: 'secondary',
           inline: true,
-          icon: Image,
         }}
         onPickImage={setPickedAvatar}
       />
-    </View>
+    </Stack>
   )
 
   const prependComponent = (
@@ -192,7 +191,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
         style={styles.wrapper}
         ref={scrollViewRef}
       >
-        <View style={[mixins.container, styles.mainContainer]}>
+        <Stack padding={'xs'} gap="xs">
           <HoliTextInput
             value={firstName}
             inputLabel={t('user.profileForm.firstName')}
@@ -204,7 +203,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
               resetErrorsForField('firstName')
             }}
             isRequired
-            style={styles.input}
             validationErrorText={fieldErrors?.firstName?.join()}
             inputProps={{ autoFocus: Platform.OS === 'web' }}
             {...scrollToPropsFor('firstName')}
@@ -220,40 +218,27 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
               setLastName(replaceSpecialChars(text))
               resetErrorsForField('lastName')
             }}
-            style={styles.input}
             validationErrorText={fieldErrors?.lastName?.join()}
             {...scrollToPropsFor('lastName')}
             testID={'last-name'}
           />
-          <HoliTextInput
-            value={aboutMe}
-            inputLabel={t('user.profileForm.aboutMe')}
-            aria-label={t('user.profileForm.aboutMe')}
-            placeholder={t('user.profileForm.aboutMePlaceholder')}
-            validationErrorText={fieldErrors?.aboutMe?.join()}
-            onChange={(text: string) => {
-              setAboutMe(text)
-              resetErrorsForField('aboutMe')
-            }}
-            noOfVisibleLines={5}
-            maxNoOfVisibleLines={10}
-            maxNoOfCharacters={3000}
-            {...scrollToPropsFor('aboutme')}
-            style={styles.input}
-          />
-          <HoliTextInput
-            value={pronouns}
-            inputLabel={t('user.profileForm.pronouns')}
-            aria-label={t('user.profileForm.pronouns')}
-            placeholder={t('user.profileForm.pronounsPlaceholder')}
-            validationErrorText={fieldErrors?.pronouns?.join()}
-            onChange={(text: string) => {
-              setPronouns(text)
-              resetErrorsForField('pronouns')
-            }}
-            {...scrollToPropsFor('pronouns')}
-            style={styles.input}
-          />
+          <Stack gap="4xs">
+            <HoliTextInput
+              value={pronouns}
+              inputLabel={t('user.profileForm.pronouns')}
+              aria-label={t('user.profileForm.pronouns')}
+              placeholder={t('user.profileForm.pronounsPlaceholder')}
+              validationErrorText={fieldErrors?.pronouns?.join()}
+              onChange={(text: string) => {
+                setPronouns(text)
+                resetErrorsForField('pronouns')
+              }}
+              {...scrollToPropsFor('pronouns')}
+            />
+            <Text size="xs" color="support">
+              {t('user.profileForm.pronounsHint')}
+            </Text>
+          </Stack>
           <PlacesAutocomplete
             label={t('user.profileForm.location')}
             placeholder={t('user.profileForm.locationPlaceholder')}
@@ -261,7 +246,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             testID="user-location"
             selected={selectedLocation}
             onChange={selectLocation}
-            style={styles.input}
             suggestionsStyle={{ backgroundColor: colors.background10 }}
             helperText={t('profile.location.validation.helper')}
             validationErrorText={fieldErrors?.location?.join()}
@@ -269,7 +253,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             enhanceWithDetails
             {...scrollToPropsFor('location')}
           />
-        </View>
+        </Stack>
       </HoliModalContentWrapper>
     </ToastProvider>
   )
@@ -286,9 +270,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     headerContainer: {
       alignItems: 'center',
-    },
-    input: {
-      marginBottom: 16,
     },
     notification: {
       ...StyleSheet.absoluteFillObject,

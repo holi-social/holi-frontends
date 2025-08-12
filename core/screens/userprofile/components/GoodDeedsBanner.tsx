@@ -7,14 +7,14 @@ import { Text, TextLink } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Linking, View } from 'react-native'
 
 export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number }) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
 
   return (
-    <Stack>
+    <Stack onPress={() => Linking.openURL('https://holi.social/1million')}>
       <Stack
         borderRadius={{ topLeft: 'md', topRight: 'md' }}
         backgroundColor="redDefault"
