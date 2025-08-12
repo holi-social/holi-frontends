@@ -142,13 +142,17 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
           resizeWidth: PROFILE_IMAGE_MAX_WIDTH,
         }}
         buttonProps={{
-          label: 'Change Avatar', // todo: localazy key
+          label: t('user.profileForm.avatar.update'),
           size: 'md',
           variant: 'secondary',
           inline: true,
         }}
         onPickImage={setPickedAvatar}
       />
+
+      <Text size="xs" color="support">
+        {t('user.profileForm.avatar.delete.requirements')}
+      </Text>
     </Stack>
   )
 

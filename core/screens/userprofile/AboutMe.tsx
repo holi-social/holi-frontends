@@ -23,6 +23,7 @@ import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboard
 import { useSortedUserTerms } from '@holi/core/domain/shared/useSortedUserTerms'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import UserAboutMeForm from '@holi/core/screens/userprofile/components/UserAboutMeForm'
+import DefaultLayout from '@holi/core/components/DefaultLayout'
 
 const AboutMe = () => {
   const { t } = useTranslation()
@@ -66,6 +67,16 @@ const AboutMe = () => {
     closeModal()
   }, [client, closeModal])
 
+  if (!user) {
+    return (
+      <DefaultLayout>
+        <Stack alignItems="center" alignSelf="center">
+          <Text size="md">{t('user.profileView.noUser')}</Text>
+        </Stack>
+      </DefaultLayout>
+    )
+  }
+
   return (
     <Screen
       preset="fixed"
@@ -104,9 +115,8 @@ const AboutMe = () => {
         {/* personal information */}
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
-            {/* todo: localazy key */}
             <Stack justifyContent="center">
-              <Text size="xl">Personal information</Text>
+              <Text size="xl">{t('profile.personalInfo.title')}</Text>
             </Stack>
             <Button
               label="Edit"
@@ -119,16 +129,15 @@ const AboutMe = () => {
           </Stack>
 
           <Stack gap="xs" direction="row">
-            {/* todo: real avatar data, check if image is working */}
-            <Avatar source="https://picsum.photos/id/64/100/100" label="avatar" />
+            <Avatar source={user.avatar} label={user.avatarLabel} />
             <Stack gap="4xs">
               <Text size="md">
-                {user?.firstName} {user?.lastName}
+                {user.firstName} {user.lastName}
               </Text>
               <Text size="md" color="support">
-                {user?.pronouns}
-                {user?.pronouns && user?.location && ' ∙ '}
-                {user?.location}
+                {user.pronouns}
+                {user.pronouns && user.location && ' ∙ '}
+                {user.location}
               </Text>
             </Stack>
           </Stack>
@@ -137,9 +146,8 @@ const AboutMe = () => {
         {/* about me */}
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
-            {/* todo: localazy key */}
             <Stack justifyContent="center">
-              <Text size="xl">About me</Text>
+              <Text size="xl">{t('profile.about.title')}</Text>
             </Stack>
             <Button
               label="Edit"
@@ -147,21 +155,16 @@ const AboutMe = () => {
               variant="secondary"
               icon={Pencil}
               size="sm"
-              onPress={() => toggleEditMode('aboutMe')} // todo
+              onPress={() => toggleEditMode('aboutMe')}
             />
           </Stack>
 
-          {user?.aboutMe ? (
+          {user.aboutMe ? (
             <Text size="md" color="support" numberOfLines={3}>
-              {user?.aboutMe}
+              {user.aboutMe}
             </Text>
           ) : (
-            <ChipAction
-              id="aboutMe"
-              color="white"
-              onPress={() => toggleEditMode('aboutMe')} // TODO
-              iconTrailing={Add}
-            />
+            <ChipAction id="aboutMe" color="white" onPress={() => toggleEditMode('aboutMe')} iconTrailing={Add} />
           )}
         </Stack>
 
@@ -169,7 +172,7 @@ const AboutMe = () => {
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
             <Stack justifyContent="center">
-              <Text size="xl">Engagement level</Text>
+              <Text size="xl">{t('profile.engagementLevel')}</Text>
             </Stack>
             <Button
               label="Edit"
@@ -181,13 +184,13 @@ const AboutMe = () => {
             />
           </Stack>
 
-          {user?.engagementLevel ? (
+          {user.engagementLevel ? (
             <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
           ) : (
             <ChipAction
               id="engagementLevel"
               color="white"
-              onPress={() => toggleEditMode('engagementLevel')} // TODO
+              onPress={() => toggleEditMode('engagementLevel')}
               iconTrailing={Add}
               aria-label={t('profile.engagementLevel.add')}
             />
@@ -198,7 +201,7 @@ const AboutMe = () => {
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
             <Stack justifyContent="center">
-              <Text size="xl">Interests</Text>
+              <Text size="xl">{t('profile.interests')}</Text>
             </Stack>
             <Button
               label="Edit"
@@ -232,7 +235,7 @@ const AboutMe = () => {
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
             <Stack justifyContent="center">
-              <Text size="xl">Skill I can help with</Text>
+              <Text size="xl">{t('profile.skills')}</Text>
             </Stack>
             <Button
               label="Edit"

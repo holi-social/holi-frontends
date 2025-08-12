@@ -88,12 +88,12 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
         {
           key: Tab.GOOD_DEEDS,
           tabTitle: '#1MioGuteTaten',
-          content: () => <GoodDeedsTab />, // TODO
+          content: () => <GoodDeedsTab />,
         },
         {
           key: Tab.MORE,
           tabTitle: 'More',
-          content: () => <MoreTab />, // TODO
+          content: () => <MoreTab />,
         },
       ].filter(Boolean) as OwnProfileTab[])
     : ([
