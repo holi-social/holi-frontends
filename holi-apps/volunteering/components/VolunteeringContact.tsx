@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { VolunteeringContactItem } from '@holi-apps/volunteering/components/VolunteeringContactItem'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
@@ -51,7 +51,6 @@ export const VolunteeringContact = ({
     VolunteeringOpportunityStatusValue.WontDo
   )
   const { show: showContact, props: contactModalProps } = useModalState({ onDismiss: onModalDismiss })
-  const { styles } = useStyles(stylesheet)
   const contactInfoDisplayed = document.contact?.map((contact) => contact.type)
 
   return (
@@ -166,7 +165,7 @@ export const VolunteeringContact = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = createStyleSheet((theme) => ({
   modal: {
     backgroundColor: theme.colors.bg.main,
   },
