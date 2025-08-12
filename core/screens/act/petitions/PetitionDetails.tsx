@@ -42,9 +42,6 @@ export const PetitionDetails = () => {
   return (
     <Screen
       preset="auto"
-      statusBarProps={{
-        barStyle: Platform.OS === 'ios' ? 'light-content' : 'default',
-      }}
       headerOptions={{
         animation: 'slide_from_left',
         headerBackVisible: false,
