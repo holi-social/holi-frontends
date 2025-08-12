@@ -28,6 +28,8 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/components/MyVolunteeringTab'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { GoodDeedsTab } from '@holi/core/screens/userprofile/components/GoodDeedsTab'
+import { MoreTab } from '@holi/core/screens/userprofile/components/MoreTab'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills'
 
@@ -38,6 +40,8 @@ export enum Tab {
   INSIGHTS = 'insights',
   SPACES = 'spaces',
   CONNECTIONS = 'connections',
+  GOOD_DEEDS = 'goodDeeds',
+  MORE = 'more',
 }
 
 interface OwnProfileTab {
@@ -74,65 +78,76 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const hasInsights = totalInsights > 0
 
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const tabs = [
-    rewardsPhaseTwoEnabled
-      ? {
+  const tabs = rewardsPhaseTwoEnabled
+    ? ([
+        {
           key: Tab.MY_VOLUNTEERING,
           tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma
           content: () => <MyVolunteeringTab />,
-        }
-      : null,
-    {
-      key: Tab.PROFILE,
-      tabTitle: t('profile.tabs.profile'),
-      content: () => (
-        <View style={styles.profileContainer}>
-          <View style={styles.chipRowContainer} key="engagementLevel">
-            <HoliText size="small">{t('profile.engagementLevel')}</HoliText>
-            {user?.engagementLevel ? (
-              <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
-            ) : (
-              <ChipAction
-                id="engagementLevel"
-                color="white"
-                onPress={() => toggleEditMode('engagementLevel')}
-                iconTrailing={Add}
-                aria-label={t('profile.engagementLevel.add')}
-              />
-            )}
-          </View>
-          <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
-            <UserTermsRow termType="topic" onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)} />
-          </View>
-          <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
-            <UserTermsRow termType="skill" onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)} />
-          </View>
-        </View>
-      ),
-    },
-    {
-      key: Tab.POSTS,
-      tabTitle: t('individuals.post.name'),
-      content: () => <MyPostsTab />,
-    },
+        },
+        {
+          key: Tab.GOOD_DEEDS,
+          tabTitle: '#1MioGuteTaten',
+          content: () => <GoodDeedsTab />, // TODO
+        },
+        {
+          key: Tab.MORE,
+          tabTitle: 'More',
+          content: () => <MoreTab />, // TODO
+        },
+      ].filter(Boolean) as OwnProfileTab[])
+    : ([
+        {
+          key: Tab.PROFILE,
+          tabTitle: t('profile.tabs.profile'),
+          content: () => (
+            <View style={styles.profileContainer}>
+              <View style={styles.chipRowContainer} key="engagementLevel">
+                <HoliText size="small">{t('profile.engagementLevel')}</HoliText>
+                {user?.engagementLevel ? (
+                  <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
+                ) : (
+                  <ChipAction
+                    id="engagementLevel"
+                    color="white"
+                    onPress={() => toggleEditMode('engagementLevel')}
+                    iconTrailing={Add}
+                    aria-label={t('profile.engagementLevel.add')}
+                  />
+                )}
+              </View>
+              <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
+                <UserTermsRow termType="topic" onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)} />
+              </View>
+              <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
+                <UserTermsRow termType="skill" onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)} />
+              </View>
+            </View>
+          ),
+        },
+        {
+          key: Tab.POSTS,
+          tabTitle: t('individuals.post.name'),
+          content: () => <MyPostsTab />,
+        },
 
-    {
-      key: Tab.SPACES,
-      tabTitle: t('profile.tabs.spaces'),
-      content: () => (
-        <SpacesTab
-          emptyText={t('profile.tabs.spaces.empty')}
-          emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
-          memberId={user.id}
-        />
-      ),
-    },
-    {
-      key: Tab.CONNECTIONS,
-      tabTitle: t('profile.tabs.connections'),
-      content: () => <OwnConnectionsTab emptyText={t('user.profile.own.connections.title.empty')} />,
-    },
-  ].filter(Boolean) as OwnProfileTab[]
+        {
+          key: Tab.SPACES,
+          tabTitle: t('profile.tabs.spaces'),
+          content: () => (
+            <SpacesTab
+              emptyText={t('profile.tabs.spaces.empty')}
+              emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
+              memberId={user.id}
+            />
+          ),
+        },
+        {
+          key: Tab.CONNECTIONS,
+          tabTitle: t('profile.tabs.connections'),
+          content: () => <OwnConnectionsTab emptyText={t('user.profile.own.connections.title.empty')} />,
+        },
+      ].filter(Boolean) as OwnProfileTab[])
 
   if (hasInsights) {
     tabs.splice(1, 0, {
