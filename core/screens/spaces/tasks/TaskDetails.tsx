@@ -20,8 +20,6 @@ import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 
-const isIos = Platform.OS === 'ios'
-
 export type TaskDetailsParams = {
   taskId: string
 }
@@ -86,7 +84,6 @@ const TaskDetails = () => {
         },
         statusBarStyle: 'light',
       }}
-      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}

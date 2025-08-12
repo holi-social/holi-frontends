@@ -32,9 +32,6 @@ export const EventDetailsScreen = () => {
     <Screen
       onRefresh={refetch}
       preset="auto"
-      statusBarProps={{
-        barStyle: Platform.OS === 'ios' ? 'light-content' : 'default',
-      }}
       headerOptions={{
         headerShown: true,
         animation: 'slide_from_left',

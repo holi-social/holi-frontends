@@ -9,7 +9,7 @@ import type {
 import { useAutoPreset } from '@holi/core/components/Screen/useAutoPreset'
 import { useScreenComponentInternal } from '@holi/core/components/Screen/useScreenComponentInternal'
 import { KeyboardAwareScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { getStatusBarStyle, useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useScrollToTop } from '@react-navigation/native'
@@ -165,6 +165,7 @@ export const Screen = (props: ScreenProps) => {
   const _keyboardVerticalOffset = keyboardVerticalOffset
     ? keyboardVerticalOffset
     : DEFAULT_VERTICAL_OFFSET + (Platform.OS === 'ios' ? stickyBottomOffset || 0 : 0)
+  const systemBarStyle = getStatusBarStyle(headerOptions, themeName)
 
   return (
     <SafeAreaView
@@ -178,7 +179,7 @@ export const Screen = (props: ScreenProps) => {
         { backgroundColor: theme.colors.bg[backgroundColor] },
       ]}
     >
-      <SystemBars style={themeName} hidden={{ statusBar: false, navigationBar: false }} />
+      <SystemBars style={systemBarStyle} hidden={{ statusBar: false, navigationBar: false }} />
 
       <KeyboardAvoidingView
         {...keyboardAvoidingViewProps}
