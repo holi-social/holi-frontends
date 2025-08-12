@@ -1,5 +1,5 @@
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useArgs } from 'storybook/preview-api'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
 

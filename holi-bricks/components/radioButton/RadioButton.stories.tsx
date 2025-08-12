@@ -1,5 +1,5 @@
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useArgs } from 'storybook/preview-api'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import React from 'react'
 
 import { RadioButton } from 'holi-bricks/components/radioButton/RadioButton'

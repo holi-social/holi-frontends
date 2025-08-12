@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-imports */
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import React from 'react'
 
 import { Chat3 } from '@holi/icons/src/generated'
