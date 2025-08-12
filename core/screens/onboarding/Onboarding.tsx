@@ -110,7 +110,6 @@ const Onboarding = () => {
             flowId={flowId}
             onLogin={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-              redirect(true)
             }}
             onContinueAsGuest={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
