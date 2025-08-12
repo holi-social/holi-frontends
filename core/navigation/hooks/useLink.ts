@@ -28,8 +28,20 @@ const useLink = ({ onPress, external, href }: UseLinkProps) => {
         return
       }
 
+      let route
+
       // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
-      const route = '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
+      const isChallengeUrl = /https:\/\/(challenges\.holi\.social|staging\.challenges-dev\.holi\.social)/.test(href)
+
+      if (isChallengeUrl) {
+        // For challenge URLs, route to /apps/challenges with the full path as a query param
+        const challengePath = href
+          .replace(/https:\/\/(challenges\.holi\.social|staging\.challenges-dev\.holi\.social)\/?/, '')
+          .replace(/\?referrerPath=.*$/, '')
+        route = `//apps/challenges?path=${encodeURIComponent(challengePath)}`
+      } else {
+        route = '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
+      }
       navigate(route)
     },
     [external, href, navigate, onPress]
