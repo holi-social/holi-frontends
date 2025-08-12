@@ -181,7 +181,7 @@ const HomeFeed = () => {
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <Stack direction="row" gap="xxs" alignItems="center">
+          <Stack direction="row" gap="3xs" alignItems="center" margin={{ left: 'xs' }}>
             <HoliLogo color={tintColor} />
             {showGoodDeedChip && <ChipGoodDeeds />}
           </Stack>
@@ -189,9 +189,9 @@ const HomeFeed = () => {
       ),
       headerRight: () => (
         <HoliTransition.FadeRight visible>
-          <View style={styles.headerRight}>
+          <Stack direction="row" gap="md" margin={{ right: 'xs' }} alignItems="center">
             <NotificationAndSearchHeader />
-          </View>
+          </Stack>
         </HoliTransition.FadeRight>
       ),
     })
@@ -263,12 +263,6 @@ const styles = StyleSheet.create({
   sections: {
     gap: Spacing.xxs,
     flex: 1,
-  },
-  headerRight: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: Spacing.md,
-    alignItems: 'center',
   },
   listHeader: {
     gap: Spacing.sm,
