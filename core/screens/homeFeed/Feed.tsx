@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
+import { StyleSheet, View, RefreshControl, AppState, Platform } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useNavigation } from 'expo-router'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -37,6 +37,7 @@ import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsC
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 import * as Appcues from '@appcues/react-native'
+import { SystemBars } from 'react-native-edge-to-edge'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
@@ -218,6 +219,10 @@ const HomeFeed = () => {
 
   return (
     <>
+      <SystemBars
+        style={Platform.OS === 'ios' ? 'light' : 'dark'}
+        hidden={{ statusBar: false, navigationBar: false }}
+      />
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="feed-posts">
           <ErrorBoundary>
