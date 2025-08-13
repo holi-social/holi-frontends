@@ -116,11 +116,11 @@ const HomeFeed = () => {
     () => (
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
-          <HomeFeedHeader refreshing={refreshControlProps.refreshing} />
+          <HomeFeedHeader />
         </View>
       </HoliTransition.FadeDown>
     ),
-    [refreshControlProps.refreshing]
+    []
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {

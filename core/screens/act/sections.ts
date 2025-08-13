@@ -1,4 +1,11 @@
-import { ActSectionType } from '@holi/core/screens/act/ActSection'
+export enum ActSectionType {
+  VOLUNTEERING = 'VOLUNTEERING',
+  CHALLENGES = 'CHALLENGES',
+  EVENTS = 'EVENTS',
+  DONATIONS = 'DONATIONS',
+  PETITIONS = 'PETITIONS',
+  STARTSMALL = 'STARTSMALL',
+}
 
 export const orderedSections = (selectedContentType?: string) => {
   const sections = [

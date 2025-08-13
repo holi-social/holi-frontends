@@ -30,12 +30,3 @@ export interface ChallengeEvent {
   endDate: string
   link: string
 }
-
-export interface ChallengeTeaser {
-  id: string
-  title: string
-  url: string
-  submissionsCount: number
-  cover: string | null
-  isUpcoming: boolean
-}
