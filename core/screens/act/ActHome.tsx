@@ -6,7 +6,6 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 
-import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
 import { Stack } from 'holi-bricks/components/stack'
 import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
 import { Screen } from '@holi/core/components/Screen'
@@ -53,7 +52,6 @@ const ActHome = () => {
           <HoliContainer>
             <MarketingBanner frameId="act-home-banner" />
           </HoliContainer>
-          <AttendingChallengeEventsLegacy />
           <Stack gap="xxl">
             {sections.map((sectionName) => (
               <ActSection type={sectionName} key={sectionName} />
