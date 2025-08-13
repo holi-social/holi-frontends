@@ -53,7 +53,9 @@ export const PetitionDetails = () => {
             headerTransparent: true,
           },
         }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={() => navigate('/act')} />,
+        headerLeft: ({ tintColor }) => (
+          <HeaderBackButton tintColor={tintColor} onPress={() => navigate('/act')} shadow="dark" />
+        ),
         navigationCustomOptions: {
           footerShown: false,
         },

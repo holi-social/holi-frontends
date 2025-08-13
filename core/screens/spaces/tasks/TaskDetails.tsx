@@ -77,7 +77,7 @@ const TaskDetails = () => {
             headerTransparent: true,
           },
         }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} shadow="dark" />,
         headerRight: ({ tintColor }) => renderActionDrawer(tintColor),
         navigationCustomOptions: {
           footerShown: false,
