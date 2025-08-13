@@ -8,26 +8,57 @@ import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodD
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import { ChipLabel } from 'holi-bricks/components/chips'
-import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import {
+  type Rewards_RewardType,
+  useGetGlobalRewardsCounterQuery,
+  useGetRewardsCounterQuery,
+  useGetRewardsTransactionsQuery,
+} from '@holi/api/graphql/graphql-codegen'
 import { GoodDeedsEmptyState } from '@holi/core/screens/userprofile/components/GoodDeedsEmptyState'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { CalendarEventLine, GoodDeedsV2 } from '@holi/icons/src/generated'
+import { GoodDeedsV2 } from '@holi/icons/src/generated'
 
 export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data, loading } = useGetRewardsCounterQuery()
-  const personalCounter = data?.rewards_counter?.counter ?? 0
-  const globalCounter = personalCounter // todo: add the amount of good deeds from backoffice
-  const items = [
-    { id: '1', type: 'Good Deed Post', date: '2023-10-01' },
-    { id: '2', type: 'Joined a challenge', date: '2023-10-02' },
-    { id: '3', type: 'Joined a challenge', date: '2023-10-03' },
-  ] // todo: replace with actual data
-  const daysLeft = 30 // todo: replace with actual calculation
+  const { data: personalGD, loading: personalGDLoading } = useGetRewardsCounterQuery()
+  const { data: globalGD, loading: globalGDLoading } = useGetGlobalRewardsCounterQuery()
+  const { data: rewardTransactions } = useGetRewardsTransactionsQuery({
+    variables: {
+      offset: 0,
+      limit: 10,
+    },
+  })
 
-  if (loading) {
+  const items = rewardTransactions?.rewards_transactions.data || []
+  const personalCounter = personalGD?.rewards_counter?.counter ?? 0
+  const globalCounter = globalGD?.rewards_globalCounter.counter ?? 0
+  const totalCounter = personalCounter + globalCounter
+
+  const formatRewardType = (rewardType: Rewards_RewardType) => {
+    switch (rewardType) {
+      case 'ChallengeSubmitted':
+        return 'Joined a challenge' // todo: localazy key
+      case 'GoodDeedPostCreated':
+        return 'Good Deed Post' // todo; localazy key
+      case 'ExternalVolunteeringOpportunityStarted':
+        return 'Started an external volunteering opportunity' // todo; localazy key
+      default:
+        return rewardType
+    }
+  }
+
+  const formatRewardDate = (rewardDate: Date) => {
+    const date = new Date(rewardDate)
+    return date.toLocaleDateString('de-DE', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+  }
+
+  if (personalGDLoading || globalGDLoading) {
     return (
       <Stack padding={{ top: '3xl' }}>
         <HoliLoader testID="initial-loader" style={styles.loader} />
@@ -35,23 +66,13 @@ export const GoodDeedsTab = () => {
     )
   }
 
-  if (!loading && globalCounter === 0) {
+  if (!personalGDLoading && !globalGDLoading && totalCounter === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Stack direction="row" alignContent="center" justifyContent="space-between">
-          <Stack justifyContent="center">
-            <Text size="md" textAlign="center">
-              {t('profile.tabs.oneMioGoodDeeds.title')}
-            </Text>
-          </Stack>
-
-          <ChipLabel color="white" iconLeading={CalendarEventLine}>
-            {t('oneMioGoodDeeds.daysLeft', { count: daysLeft })}
-          </ChipLabel>
-        </Stack>
+        <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
         <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs">
-          <GoodDeedsBanner goodDeedsCounter={personalCounter} />
+          <GoodDeedsBanner goodDeedsCounter={totalCounter} />
         </Stack>
 
         <GoodDeedsEmptyState />
@@ -61,18 +82,10 @@ export const GoodDeedsTab = () => {
 
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-      <Stack direction="row" alignContent="center" justifyContent="space-between">
-        <Stack justifyContent="center">
-          <Text size="md" textAlign="center">
-            {t('profile.tabs.oneMioGoodDeeds.title')}
-          </Text>
-        </Stack>
-
-        <ChipLabel color="white">{t('oneMioGoodDeeds.daysLeft')}</ChipLabel>
-      </Stack>
+      <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
       <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs" gap="md">
-        <GoodDeedsBanner goodDeedsCounter={personalCounter} />
+        <GoodDeedsBanner goodDeedsCounter={totalCounter} />
 
         {/* blue box */}
         <Stack gap="4xs" padding="xs" backgroundColor="blueLight" borderRadius="md" alignItems="center">
@@ -107,9 +120,9 @@ export const GoodDeedsTab = () => {
                 justifyContent="space-between"
               >
                 <Stack gap="4xs">
-                  <Text size="md">{item.type}</Text>
+                  <Text size="md">{formatRewardType(item.rewardType)}</Text>
                   <Text size="xs" color="support">
-                    {item.date}
+                    {formatRewardDate(item.createdAt)}
                   </Text>
                 </Stack>
                 <Stack alignSelf="center">
