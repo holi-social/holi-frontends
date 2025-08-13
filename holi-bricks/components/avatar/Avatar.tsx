@@ -1,14 +1,15 @@
+import React, { useCallback, useState } from 'react'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { Text } from 'holi-bricks/components/text/Text'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius, type LayoutProps, Spacing, layoutStyle, mono } from 'holi-bricks/foundations'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
-import React, { useCallback, useState } from 'react'
-import { Platform, View } from 'react-native'
 
 /*
   xl: 128
@@ -102,7 +103,7 @@ export const Avatar = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   textWrapper: {
     opacity: 0.8,
   },

@@ -1,5 +1,4 @@
-import { TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -19,6 +18,8 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
+import { TextLink } from 'holi-bricks/components/text'
+
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
   [RouteName.SpacesStack]: undefined
@@ -135,7 +136,7 @@ const BottomTabsNavigator = () => {
 
 export default BottomTabsNavigator
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   tabBar: {
     paddingTop: 4,
     /**

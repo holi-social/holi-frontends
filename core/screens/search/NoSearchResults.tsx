@@ -1,9 +1,10 @@
-import { createStyleSheet } from 'holi-bricks/styles'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
-import { Text } from 'holi-bricks/components/text'
+import { StyleSheet } from 'react-native-unistyles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 
@@ -30,7 +31,7 @@ export const NoSearchResults = ({ filter }: NoSearchResultsProps) => {
   )
 }
 
-const styles = createStyleSheet({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     gap: Spacing['xs'],

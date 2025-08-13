@@ -1,11 +1,10 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-
-import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { type Color, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { type GestureResponderEvent, Pressable } from 'react-native'
 
+import { type Color, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { Text } from 'holi-bricks/components/text'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
@@ -65,7 +64,7 @@ export const ChipAction = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {
     return {
       ...pill,

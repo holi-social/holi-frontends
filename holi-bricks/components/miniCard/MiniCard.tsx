@@ -1,17 +1,18 @@
+import type React from 'react'
+import { View } from 'react-native'
+import { useRef, useState } from 'react'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import type React from 'react'
-import { View } from 'react-native'
-import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { BorderRadius, IconSize, type LayoutProps, Spacing } from 'holi-bricks/foundations'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
 import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet } from 'holi-bricks/styles'
 
 export type MiniCardProps = AccessibilityProps &
   LayoutProps & {
@@ -115,7 +116,7 @@ export const MiniCard = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   topLeft: {
     position: 'absolute',
     top: 4,

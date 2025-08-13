@@ -1,11 +1,12 @@
+import { StyleSheet } from 'react-native-unistyles'
+import NextImage from 'next/image'
+import type React from 'react'
+import { useState } from 'react'
+
 import type { MultiPlatformImage } from 'holi-bricks/components/image'
 import { transformSource } from 'holi-bricks/components/image/helpers'
 import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet } from 'holi-bricks/styles'
-import NextImage from 'next/image'
-import type React from 'react'
-import { useState } from 'react'
 
 export const isRemoteSource = (source: string): source is string => {
   return /^(https?:)?\/\//i.test(source)
@@ -60,7 +61,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
   )
 }
 
-const styles = createStyleSheet({
+const styles = StyleSheet.create({
   objectFit: (resize?: MultiPlatformImage['resizeMode']) => ({
     objectFit: resize,
   }),

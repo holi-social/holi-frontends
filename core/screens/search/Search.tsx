@@ -1,3 +1,8 @@
+import { StyleSheet } from 'react-native-unistyles'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dimensions, Platform, View } from 'react-native'
+
 import { Screen } from '@holi/core/components/Screen'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { SearchFacetsTabs } from '@holi/core/screens/search/SearchFacetsTabs'
@@ -5,10 +10,6 @@ import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfini
 import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { createStyleSheet } from 'holi-bricks/styles'
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, View } from 'react-native'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { SearchLocationSelection } from '@holi/core/screens/search/SearchLocationSelection'
 import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
@@ -102,7 +103,7 @@ export const Search = () => {
 }
 
 const TOP_COMPONENT_HEIGHT = 178
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   filterContainer: {
     paddingTop: Spacing.xs,
     gap: Spacing.xs,

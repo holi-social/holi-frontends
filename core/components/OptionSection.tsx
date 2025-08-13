@@ -1,10 +1,10 @@
 import React from 'react'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 import { Pressable } from 'react-native'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { Text, TextLink } from 'holi-bricks/components/text'
 
 interface Props {
@@ -34,7 +34,7 @@ const OptionSection = ({ title, description, value = false, onToggle }: Props) =
 
 export default OptionSection
 
-const styles = createStyleSheet({
+const styles = StyleSheet.create({
   option: {
     flexDirection: 'row',
     alignItems: 'center',

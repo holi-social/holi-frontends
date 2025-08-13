@@ -1,5 +1,7 @@
 import React, {} from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native-unistyles'
+
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -19,7 +21,6 @@ import { Spacing } from 'holi-bricks/foundations'
 import { useFocusEffect } from '@holi/core/helpers/useFocusEffect'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { BookmarkFill } from '@holi/icons/src/generated'
-import { createStyleSheet } from 'holi-bricks/styles'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const isWeb = Platform.OS === 'web'
@@ -184,7 +185,7 @@ const Favorites = () => {
 
 export default Favorites
 
-const styles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   unfavoriteButton: {
     position: 'absolute',
     top: 0,

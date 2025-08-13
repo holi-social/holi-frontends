@@ -1,3 +1,7 @@
+import type React from 'react'
+import { type DimensionValue, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import type { AvatarProps } from 'holi-bricks/components/avatar'
@@ -6,14 +10,11 @@ import type { ButtonVariant } from 'holi-bricks/components/button/helpers'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import type React from 'react'
-import { type DimensionValue, Platform, View } from 'react-native'
 import { CompactCardImage } from 'holi-bricks/components/compactCard/CompactCardImage'
 import { FooterChips } from 'holi-bricks/components/compactCard/footer/FooterChips'
 import { FooterDate } from 'holi-bricks/components/compactCard/footer/FooterDate'
 import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
 import type { CompoundCompactCard } from 'holi-bricks/components/compactCard/types'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { layoutStyle, type LayoutProps, IconSize } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
@@ -144,7 +145,7 @@ CompactCard.FooterChips = FooterChips
 CompactCard.FooterDate = FooterDate
 CompactCard.FooterProgressBar = FooterProgressBar
 
-const styles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   cardContainer: (maxWidth?: DimensionValue, width?: DimensionValue, fullHeight?: boolean) => ({
     maxWidth: maxWidth ?? '100%',
     width: width ?? '100%',

@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -11,7 +12,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { breakpoints } from 'holi-bricks/foundations'
 
@@ -147,7 +147,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   description: (screenWidth: number) => {
     return {
       gap: Spacing.xs,

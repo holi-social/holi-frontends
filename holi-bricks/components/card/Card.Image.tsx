@@ -1,9 +1,10 @@
+import type React from 'react'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Image } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/styles'
-import type React from 'react'
-import { View } from 'react-native'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 
 /*
@@ -32,7 +33,7 @@ export const _CardImage = ({ source, alt, testID }: CardImageProps) => {
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   imageWrapper: {
     borderRadius: BorderRadius.xs,
     aspectRatio: 1.83,

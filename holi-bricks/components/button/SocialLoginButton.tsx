@@ -1,11 +1,11 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { type LayoutProps, Spacing, layoutStyle } from 'holi-bricks/foundations'
-import { TextLink } from 'holi-bricks/components/text'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { type LayoutProps, Spacing, layoutStyle } from 'holi-bricks/foundations'
+import { TextLink } from 'holi-bricks/components/text'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, LogoApple, LogoFacebook, LogoGoogle } from '@holi/icons/src/generated'
@@ -116,7 +116,7 @@ export const SocialLoginButton = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   button: (hovered: boolean, pressed: boolean) => {
     return {
       ...buttonBaseStyle,

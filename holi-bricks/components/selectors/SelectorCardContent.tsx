@@ -1,9 +1,9 @@
-import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import React from 'react'
 import { View } from 'react-native'
 
+import { Spacing } from 'holi-bricks/foundations'
+import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Text } from 'holi-bricks/components/text/Text'
@@ -67,7 +67,7 @@ export const SelectorCardContent = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   imageContainer: {
     variants: {
       size: {

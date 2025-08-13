@@ -1,14 +1,15 @@
+import { useRef, useState } from 'react'
+import { StyleSheet } from 'react-native-unistyles'
+import type React from 'react'
+import { Platform, View } from 'react-native'
+
+import { BorderRadius, Spacing, IconSize } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { Stack } from 'holi-bricks/components/stack'
-import { Platform, View } from 'react-native'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { useRef, useState } from 'react'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { BorderRadius, Spacing, IconSize } from 'holi-bricks/foundations'
-import type React from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
 
@@ -88,7 +89,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   topLeft: {
     position: 'absolute',
     top: 4,

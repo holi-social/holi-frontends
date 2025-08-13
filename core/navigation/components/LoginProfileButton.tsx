@@ -1,7 +1,7 @@
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ViewStyle } from 'react-native'
+import type { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -56,7 +56,7 @@ const LoginProfileButton = ({
 
 export default LoginProfileButton
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   icon: (focused: boolean) => ({
     color: focused ? theme.colors.fill.main : theme.colors.fill.default,
   }),

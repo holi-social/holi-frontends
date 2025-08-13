@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react'
 import type * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -11,7 +12,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { createStyleSheet } from 'holi-bricks/styles'
 
 interface Props {
   title: string
@@ -152,7 +152,7 @@ const HoliBlockItem = ({
 
 export default HoliBlockItem
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     variants: {
       size: {

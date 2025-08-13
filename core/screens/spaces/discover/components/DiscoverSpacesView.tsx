@@ -1,6 +1,8 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -15,9 +17,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIcon } from 'holi-bricks/components/button/ButtonIcon'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
-import { useTranslation } from 'react-i18next'
 import { useDiscoverSpacesDefaultTopicsQuery } from '@holi/api/graphql/graphql-codegen'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 
@@ -172,7 +172,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   body: {
     paddingTop: Spacing.lg, // + header height
     backgroundColor: theme.colors.bg.main,

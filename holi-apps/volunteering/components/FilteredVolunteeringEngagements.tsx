@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { StyleSheet } from 'react-native-unistyles'
 
 import {
   ENGAGEMENT_PAGE_SIZE,
@@ -6,7 +7,6 @@ import {
 } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { createStyleSheet } from 'holi-bricks/styles'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
 
@@ -51,7 +51,7 @@ export const FilteredVolunteeringEngagements = ({
   )
 }
 
-const styles = createStyleSheet({
+const styles = StyleSheet.create({
   loaderBottom: {
     marginBottom: 24,
     position: 'relative',

@@ -1,15 +1,15 @@
+import { useCallback, useEffect, useRef } from 'react'
+import type React from 'react'
+import { Platform, Pressable, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { Close } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
-
-import type React from 'react'
-import { Platform, Pressable, View } from 'react-native'
 import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { ButtonIcon } from 'holi-bricks/components/button'
-import { useCallback, useEffect, useRef } from 'react'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 const isWeb = Platform.OS === 'web'
@@ -129,7 +129,7 @@ export const Snackbar = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   icon: (colorVariant: 'redDefault' | 'greenDefault' | 'orangeDefault') => {
     return {
       color: theme.colors.decorative[colorVariant],
