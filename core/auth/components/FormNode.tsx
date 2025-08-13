@@ -30,6 +30,7 @@ interface Props extends InputProps {
   isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: StyleProp<ViewStyle>
+  submitLabelOverride?: string
 }
 
 const FormNode = (props: Props) => {
@@ -75,13 +76,18 @@ const FormNode = (props: Props) => {
         />
       )
     }
-    const translationKey = `${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`
+    const translationKey =
+      props.submitLabelOverride ?? `${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`
     return (
       <View style={props.style}>
         <Button
           label={t(translationKey)}
           disabled={node.attributes.disabled}
-          onPress={() => props.onSubmitPress()}
+          onPress={() =>
+            props.onSubmitPress(
+              'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined
+            )
+          }
           testID={`ory-submit-${fieldName}`}
         />
       </View>

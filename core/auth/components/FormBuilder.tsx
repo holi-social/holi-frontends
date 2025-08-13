@@ -32,6 +32,7 @@ interface Props<T> {
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  submitLabelOverride?: string
   scrollToInputWithId?: (id: string) => ScrollToProps
   autofocusField?: NodeId
   noAutofocusForEmail?: boolean
@@ -53,6 +54,7 @@ const FormBuilder = <
   flow,
   only,
   textInputOverride,
+  submitLabelOverride,
   scrollToInputWithId,
   autofocusField,
   noAutofocusForEmail = false,
@@ -142,7 +144,8 @@ const FormBuilder = <
           messageKey,
         })
       }
-      openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
+      const toastType = message.type === 'error' ? HoliToastType.ERROR : HoliToastType.SUCCESS
+      openToast(messageText, toastType, { testID: `message-${message.id}` })
     })
   }, [flow, only, i18n, openToast, t])
 
@@ -173,11 +176,17 @@ const FormBuilder = <
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}
-              onSubmitPress={(overrides, provider) => onSubmit({ ...values, ...submitType, ...overrides }, provider)}
+              onSubmitPress={(overrides, provider) => {
+                if ('code' in values && values.code) {
+                  delete submitType.resend
+                }
+                return onSubmit({ ...values, ...submitType, ...overrides }, provider)
+              }}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
               style={{ marginTop: Spacing.md }}
               isSignin={isSignin}
+              submitLabelOverride={submitLabelOverride}
             />
           )
         })

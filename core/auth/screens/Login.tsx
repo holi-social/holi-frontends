@@ -92,6 +92,7 @@ const Login = () => {
   }, [isLoggedOut, initializeFlow, flow, navigate])
 
   const performLogin = async (payload: UpdateLoginFlowBody, provider?: string) => {
+    // TODO(SF) differentiate buttons when tracking: if (payload.method === 'code') / if (!!payload.code)
     track(provider ? TrackingEvent.Auth.SocialLoginButtonPressed(provider) : TrackingEvent.Auth.LoginButtonPressed)
     if (!flow) return
 
