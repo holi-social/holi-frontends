@@ -72,7 +72,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
 
   const handleMoreInfoPress = () => {
     if (campaignTag) {
-      Linking.openURL('https://holi.social/gute-taten')
+      Linking.openURL('https://holi.social/1million')
     }
   }
 

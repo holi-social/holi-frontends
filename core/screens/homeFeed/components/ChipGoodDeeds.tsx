@@ -61,7 +61,7 @@ export const ChipGoodDeeds = () => {
         testID="good-deeds-counter"
       >
         <HoliIcon icon={GoodDeeds} size={18} />
-        {isLoggedIn ? (
+        {isLoggedIn && counter != 0 ? (
           <Text size="sm" selectable={false} testID="good-deeds-counter-value">
             {t('goodDeeds.name.count', { count: counter })}
           </Text>

@@ -8,12 +8,10 @@ test.describe('@Rewards', () => {
   test('verify rewards flow', async ({ sessions }) => {
     const { page: user } = await sessions.signUp()
 
-    await test.step('check initial counter state', async () => {
+    await test.step('initial counter does not show good deed count', async () => {
       await user.goto('/')
-      const counterExists = await user.locator(byTestId('good-deeds-counter')).count()
-      if (counterExists > 0) {
-        await user.waitForSelector(byTestId('good-deeds-counter-value'))
-      }
+      const counterLabelText = await user.locator(byTestId('good-deeds-counter')).textContent()
+      expect(counterLabelText).toStrictEqual('Good Deeds')
     })
 
     await test.step('create first good deeds post and verify rewards modal', async () => {
@@ -35,7 +33,7 @@ test.describe('@Rewards', () => {
 
       const modalLink = await locateElementByTestId(user, 'reward-message-link')
       await expect(modalLink).toBeVisible()
-      await expect(modalLink).toContainText('More about #1MioguteTaten')
+      await expect(modalLink).toContainText('More about #1MioGuteTaten')
 
       const claimButton = await locateElementByTestId(user, 'reward-claim-button')
       await expect(claimButton).toBeVisible()
