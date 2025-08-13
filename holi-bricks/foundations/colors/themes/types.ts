@@ -4,6 +4,11 @@ import type { darkTheme } from './dark'
 export type LightTheme = typeof lightTheme
 export type DarkTheme = typeof darkTheme
 
+export type Themes = {
+  light: LightTheme
+  // dark: typeof darkTheme
+}
+
 export type ThemeColors = {
   focus: string
   bg: Record<string, string>
