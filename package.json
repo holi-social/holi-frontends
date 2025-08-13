@@ -16,7 +16,8 @@
     ],
     "installConfigs": {
       "hoistingLimits": [
-        "**/jest-offline"
+        "**/jest-offline",
+        "holi-bricks"
       ]
     }
   },
@@ -107,6 +108,8 @@
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "mime-db": "1.53.0",
-    "sharp": "0.33.5"
+    "sharp": "0.33.5",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   }
 }

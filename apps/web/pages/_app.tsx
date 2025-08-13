@@ -23,6 +23,7 @@ import '@holi/web/styles/globals.css'
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 import { useRouter } from 'next/router'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
+import { hydrateServerUnistyles } from 'react-native-unistyles/server'
 
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
@@ -56,6 +57,10 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => router.events.off('routeChangeComplete', handleRouteChange)
   }, [router.events])
+
+  useEffect(() => {
+    hydrateServerUnistyles()
+  }, [])
 
   useEffect(() => {
     // Init authentication
