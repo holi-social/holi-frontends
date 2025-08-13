@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "@apollo/client": "^3.13.8",
+    "@apollo/client": "^3.13.9",
     "@novu/client": "0.20.0",
     "@ory/kratos-client": "v1.3.8",
     "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-clipboard/clipboard": "^1.16.3",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "react": "19.0.0",
-    "react-i18next": "^15.0.2",
+    "react-i18next": "^15.6.1",
     "react-native": "0.79.5",
     "react-native-keyboard-controller": "^1.17.5",
     "react-native-phone-number-input": "^2.1.0",

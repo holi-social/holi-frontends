@@ -33,6 +33,7 @@ const nextConfig = {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       // Transform all direct 'react-native' imports to 'react-native-web'
+      'react-native': 'react-native-web',
       'react-native$': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
     }
@@ -56,10 +57,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles'), path.join(__dirname, 'shared/data')],
   },
   output: 'standalone',
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, '../../'),
-    instrumentationHook: true,
-  },
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   i18n: {
     // Adding a "default" locale as Next.js does not distinguish between explicitly specifying the default locale and not specifying a locale at all (i.e. /default/spaces === /spaces) and would either not allow explicitly overriding the locale with the default ("en") or result in an endless redirect loop
     locales: ['default'].concat(locales),
@@ -167,6 +165,7 @@ const nextConfig = {
     '@holi/api',
     '@holi/chat',
     '@shopify/flash-list',
+    'holi-bricks',
   ],
 }
 

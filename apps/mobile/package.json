@@ -71,7 +71,7 @@
     "lottie-react-native": "^7.2.2",
     "posthog-react-native": "^3.16.1",
     "react": "19.0.0",
-    "react-i18next": "^15.0.2",
+    "react-i18next": "^15.6.1",
     "react-native": "0.79.5",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-calendars": "^1.1306.0",
