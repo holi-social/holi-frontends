@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import { VolunteeringContactItem } from '@holi-apps/volunteering/components/VolunteeringContactItem'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
@@ -165,7 +165,7 @@ export const VolunteeringContact = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   modal: {
     backgroundColor: theme.colors.bg.main,
   },

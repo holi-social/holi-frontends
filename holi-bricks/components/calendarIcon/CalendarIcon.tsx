@@ -1,9 +1,9 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Text, type TextSize } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import type { Theme } from 'holi-bricks/foundations/colors/themes/types'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
@@ -54,7 +54,7 @@ export const CalendarIcon = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   wrapper: (disabled: boolean) => ({
     variants: {
       size: {

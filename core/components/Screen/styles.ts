@@ -1,10 +1,11 @@
+import { StyleSheet } from 'react-native-unistyles'
+import { Platform } from 'react-native'
+
 import type { ScreenPadding } from '@holi/core/components/Screen/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { makePadding } from 'holi-bricks/foundations/dimensions/spacing'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { Platform } from 'react-native'
 
-export const styles = createStyleSheet(() => {
+export const styles = StyleSheet.create(() => {
   return {
     container: {
       flex: 1,

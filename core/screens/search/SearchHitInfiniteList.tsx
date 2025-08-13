@@ -1,10 +1,11 @@
+import React, { useEffect } from 'react'
+import { Platform } from 'react-native'
 import { FlashList } from '@shopify/flash-list'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/SearchHit'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import React, { useEffect } from 'react'
-import { Platform } from 'react-native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { hitToTrackingDoc } from '@holi/core/screens/search/tracking'
@@ -112,7 +113,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
   )
 }
 
-const styles = createStyleSheet({
+const styles = StyleSheet.create({
   loader: {
     padding: Spacing['xxs'],
     position: 'relative',

@@ -1,9 +1,9 @@
-import { createStyleSheet } from 'holi-bricks/styles'
-import { Spacing, layoutStyle } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
+import { Spacing, layoutStyle, IconSize } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
@@ -19,8 +19,6 @@ import {
   getButtonVariantStyle,
 } from './helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
-import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { IconSize } from 'holi-bricks/foundations'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
@@ -111,7 +109,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   button: (hovered: boolean, pressed: boolean) => {
     return {
       ...buttonBaseStyle,

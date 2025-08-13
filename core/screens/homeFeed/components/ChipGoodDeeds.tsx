@@ -1,8 +1,8 @@
-import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { Pressable } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
+import { Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Challenges, Draft, GoodDeeds, GoodDeedsV2, Hearts, Information } from '@holi/icons/src/generated'
 import { Trans, useTranslation } from 'react-i18next'
@@ -15,6 +15,7 @@ import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Text } from 'holi-bricks/components/text'
 
 export const ChipGoodDeeds = () => {
   const { t } = useTranslation()
@@ -185,7 +186,7 @@ export const ChipGoodDeeds = () => {
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (hovered: boolean, focused: boolean) => {
     return {
       ...pill,

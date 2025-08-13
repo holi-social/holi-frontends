@@ -1,8 +1,8 @@
 import type React from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { createStyleSheet } from 'holi-bricks/styles'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 export type HoliIconProps = {
@@ -49,7 +49,7 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   icon: (color: HoliIconProps['color'], colorOverride?: string) => {
     const iconColor = color ? theme.colors.fill[color] : undefined
     return {

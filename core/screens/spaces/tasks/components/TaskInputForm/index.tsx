@@ -1,8 +1,8 @@
-import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
@@ -21,7 +21,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import HoliModalSelect from '@holi/ui/components/organisms/HoliModalSelect'
 import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
-
+import { ChipLabel } from 'holi-bricks/components/chips'
 import TimeFrameSection from './sections/TimeFrameSection'
 import TimingSection from './sections/TimingSection'
 import { Text, TextLink } from 'holi-bricks/components/text'
@@ -34,7 +34,6 @@ import { InteractionType as CGInteractionType, LocationType, VisibilityType } fr
 
 import type { TaskFormInput } from './types'
 import { useTimeFrame } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { colors } from '@holi/ui/styles/globalVars'
 import { SelectorCard } from 'holi-bricks/components/selectors'
 import { SelectorCardContent } from 'holi-bricks/components/selectors/SelectorCardContent'
@@ -553,7 +552,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 
 export default TaskInputForm
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   marginSeparator: {
     marginTop: Spacing.xs,
   },

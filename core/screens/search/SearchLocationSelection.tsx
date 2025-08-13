@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native-unistyles'
+
 import PlacesAutocomplete, {
   type GeolocationSuggestion,
   GeolocationLevel,
@@ -8,7 +10,6 @@ import PlacesAutocomplete, {
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { ArrowLeft, Edit2 } from '@holi/icons/src/generated'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -91,7 +92,7 @@ export const SearchLocationSelection = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     flexShrink: 1,
     height: '100%',

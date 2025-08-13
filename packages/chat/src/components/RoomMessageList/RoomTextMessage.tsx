@@ -2,6 +2,7 @@ import { useAtomValue } from 'jotai'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgTextContent } from '@holi/chat/src/client/utils'
@@ -13,7 +14,6 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { Avatar } from 'holi-bricks/components/avatar'
 import type { User } from '@holi/core/domain/shared/types'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
 
@@ -98,7 +98,7 @@ const RoomTextMessage = ({
 
 export default RoomTextMessage
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   wrapper: (isSender?: boolean) => ({
     borderColor: isSender ? theme.colors.decorative.purpleLight : theme.colors.bg.support,
     borderWidth: 1,

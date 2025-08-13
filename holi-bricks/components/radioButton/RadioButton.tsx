@@ -1,19 +1,20 @@
 import type React from 'react'
 import { type SyntheticEvent, useCallback, useState } from 'react'
 import { Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { BorderRadius, breakpoints, IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
-import { createStyleSheet } from 'holi-bricks/styles'
 
 export type RadioButtonProps = AccessibilityProps &
   LayoutProps & {
     label: string
     selected?: boolean
     disabled?: boolean
-    onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+    onPress?: (event: SyntheticEvent | GestureResponderEvent) => void
   }
 
 export const RadioButton = ({ label, selected = false, disabled = false, onPress, ...rest }: RadioButtonProps) => {
@@ -76,7 +77,7 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   outer: {
     outlineWidth: 0,
     ...Platform.select({

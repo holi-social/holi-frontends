@@ -1,8 +1,9 @@
-import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, type GestureResponderEvent, type ListRenderItem, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatList.shared'
@@ -13,8 +14,8 @@ import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { ArrowRightS } from '@holi/icons/src/generated'
+import { Text, TextLink } from 'holi-bricks/components/text'
 
 const ICON_SIZE = 20
 
@@ -196,7 +197,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
 export default RecoSlider
 
-const styles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   seeMoreButton: (cardWidth: number) => ({
     flex: 1,
     width: cardWidth,

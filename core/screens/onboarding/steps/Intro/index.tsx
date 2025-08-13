@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
-import { createStyleSheet } from 'holi-bricks/styles'
 import { Stack } from 'holi-bricks/components/stack'
 import { Spacing } from 'holi-bricks/foundations'
 
@@ -38,7 +38,7 @@ export const Intro = ({ onContinue }: Props) => {
   )
 }
 
-const styles = createStyleSheet({
+const styles = StyleSheet.create({
   ctasContainer: {
     width: '100%',
     maxWidth: 600,

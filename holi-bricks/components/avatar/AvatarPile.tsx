@@ -1,9 +1,9 @@
 import type React from 'react'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
@@ -48,7 +48,7 @@ const AvatarPile = ({
 
 export default AvatarPile
 
-const styles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

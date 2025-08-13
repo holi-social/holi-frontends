@@ -1,4 +1,4 @@
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useAtomValue } from 'jotai'
 import React from 'react'
 
@@ -23,7 +23,7 @@ const ChatBottomTabsNavigatorItem = ({ focused }: ChatBottomTabsNavigatorItemPro
 
 export default ChatBottomTabsNavigatorItem
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   icon: (focused: boolean) => ({
     color: focused ? theme.colors.fill.main : theme.colors.fill.default,
   }),

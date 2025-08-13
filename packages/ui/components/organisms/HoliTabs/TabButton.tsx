@@ -1,11 +1,11 @@
 import React from 'react'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { createStyleSheet } from 'holi-bricks/styles'
 
 import type { HoliTabItem } from './types'
 import { TextLink } from 'holi-bricks/components/text'
@@ -57,7 +57,7 @@ const TabButton = ({ id, tabId, tabTitle, tabIcons, isActive, onPress, testID }:
 
 export default TabButton
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   tabButton: {
     paddingVertical: Spacing.xxs,
     width: 'auto',

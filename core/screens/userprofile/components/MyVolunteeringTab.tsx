@@ -1,5 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { ChipLabel } from 'holi-bricks/components/chips'
@@ -11,7 +13,6 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { useCommittedVolunteering } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
-import { createStyleSheet } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
@@ -101,7 +102,7 @@ export const MyVolunteeringTab = () => {
   )
 }
 
-const styles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   loader: {
     padding: Spacing.xs,
   },

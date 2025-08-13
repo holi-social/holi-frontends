@@ -1,10 +1,10 @@
-import { Text } from 'holi-bricks/components/text'
-import { type Color, layoutStyle, Spacing, type LayoutProps } from 'holi-bricks/foundations'
-import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import React, { type ReactNode } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
+import { Text } from 'holi-bricks/components/text'
+import { type Color, layoutStyle, Spacing, type LayoutProps } from 'holi-bricks/foundations'
+import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 import type { AvatarProps } from 'holi-bricks/components/avatar'
@@ -98,7 +98,7 @@ export const ChipSelect = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipSelectColor) => {
     return {
       ...pill,

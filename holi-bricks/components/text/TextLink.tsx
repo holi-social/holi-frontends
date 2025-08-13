@@ -1,7 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import type { TextProps } from 'holi-bricks/components/text/Text'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import {
   type ColorValue,
@@ -11,8 +8,11 @@ import {
   Text,
   type TextStyle,
 } from 'react-native'
-import { layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 
+import { layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
+import type { TextProps } from 'holi-bricks/components/text/Text'
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 
 export type TextLinkProps = AccessibilityProps &
@@ -61,7 +61,7 @@ export const TextLink = ({
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   text: (color: TextProps['color'], colorOverride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     const textColor = color ? theme.colors.fill[color] : theme.colors.fill.default
     return {

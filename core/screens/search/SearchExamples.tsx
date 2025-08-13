@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Text, TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import { View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import shuffle from 'lodash.shuffle'
+
+import { Text, TextLink } from 'holi-bricks/components/text'
 import { Search } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Spacing } from 'holi-bricks/foundations'
-import { useTranslation } from 'react-i18next'
-import shuffle from 'lodash.shuffle'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import type { SearchFacet } from '@holi/core/screens/search/types'
 
@@ -69,7 +70,7 @@ export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesPr
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   list: {
     gap: Spacing['4xs'],
   },

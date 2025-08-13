@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
 import { Animated, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/styles'
 
 import type { Choice } from '@holi/core/screens/polls/types'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -48,7 +48,7 @@ const PollResults = ({ choice, votesSum, selected }: PollResultsProps) => {
   )
 }
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     marginBottom: Spacing.xs,
   },

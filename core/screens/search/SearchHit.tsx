@@ -1,13 +1,14 @@
+import { StyleSheet } from 'react-native-unistyles'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Platform, View } from 'react-native'
+
 import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/SearchHitLink'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import type { TypesenseDocument, TypesenseDocumentTypeEnum } from '@holi/core/typesense/types'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { Platform, View } from 'react-native'
 import { Trackable, type TrackableBaseProps } from '@holi/core/components/Trackable'
 import { Spacing } from 'holi-bricks/foundations'
 
@@ -70,7 +71,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
   )
 })
 
-const styles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   hitItem: (hitType: TypesenseDocumentTypeEnum) => ({
     flexDirection: 'row',
     columnGap: Spacing.xxs,

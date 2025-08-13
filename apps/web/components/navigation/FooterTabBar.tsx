@@ -1,10 +1,10 @@
-import { TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
+import { TextLink } from 'holi-bricks/components/text'
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
@@ -122,7 +122,7 @@ const FooterTabBar = () => {
 
 export default FooterTabBar
 
-const styles = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   icon: (focused: boolean) => ({
     color: focused ? theme.colors.fill.main : theme.colors.fill.default,
   }),
