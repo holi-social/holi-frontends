@@ -15,6 +15,7 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@dotlottie/react-player": "^1.6.19",
     "@lottiefiles/react-lottie-player": "^3.5.4",
+    "@storybook/addons": "7.6.17",
     "lodash.debounce": "^4.0.8",
     "raf": "^3.4.1",
     "react-native-unistyles": "^2.11.0"

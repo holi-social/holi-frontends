@@ -1,12 +1,12 @@
 import * as React from 'react'
 // eslint-disable-next-line no-restricted-imports
-import { AccessibilityProps, Platform, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
+import { type AccessibilityProps, Platform, StyleSheet, Text, type TextProps, type TextStyle } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
-import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
-import defaultTheme, { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
+import defaultTheme, { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliHeadingLevel = '1' | '2' | '3'
 export type HoliHeadingSize = 'xl' | 'l' | 'm' | 's'
@@ -33,7 +33,7 @@ export type HoliHeadingProps = {
 }
 
 /**
- * @deprecated Use `Text` from holi-bricks with `headingLevel` prop instead.
+ * @deprecated Use `Text` from holiBricks with `headingLevel` prop instead.
  */
 export const HoliHeading = ({
   children,

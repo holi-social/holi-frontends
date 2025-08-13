@@ -69,10 +69,12 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     }
   }
 
-  const handleSeeMoreHeaderTitlePress = () => {
+  const handleSeeMoreHeaderTitlePress = (event: React.SyntheticEvent | GestureResponderEvent) => {
     if (seeAllPath) {
       if (headerTitleSeeMoreTrackingEvent) track(headerTitleSeeMoreTrackingEvent)
       navigate(seeAllPath)
+    } else if (onPressSeeMore) {
+      onPressSeeMore(event)
     }
   }
 

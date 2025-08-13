@@ -50,7 +50,13 @@ const HoliRichTextOutput = ({
    */
 
   const isExternalLink = (url: string) => {
-    const domains = ['app.holi.social', 'staging.dev.holi.social', 'localhost']
+    const domains = [
+      'app.holi.social',
+      'staging.dev.holi.social',
+      'localhost',
+      'challenges.holi.social',
+      'staging.challenges-dev.holi.social',
+    ]
     return !domains.some((domain) => url.includes(domain))
   }
 

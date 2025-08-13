@@ -12,12 +12,9 @@ import { Stack } from 'holi-bricks/components/stack'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
+import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
-type ChipGoodDeedsProps = {
-  counter?: number
-}
-
-export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
+export const ChipGoodDeeds = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
@@ -25,6 +22,9 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
 
   const modalStateEmpty = useModalState() // modal for logged in users without any good deeds yet
   const modalStateDefault = useModalState() // modal for logged in users with at least one good deed
+
+  const { data } = useGetRewardsCounterQuery()
+  const counter = data?.rewards_counter?.counter ?? 0
 
   const showCorrectModal = () => {
     if (!isLoggedIn) {
@@ -61,9 +61,15 @@ export const ChipGoodDeeds = ({ counter }: ChipGoodDeedsProps) => {
         testID="good-deeds-counter"
       >
         <HoliIcon icon={GoodDeeds} size={18} />
-        <Text size="sm" selectable={false} testID="good-deeds-counter-value">
-          {t('goodDeeds.name.count', { count: counter })}
-        </Text>
+        {isLoggedIn && counter != 0 ? (
+          <Text size="sm" selectable={false} testID="good-deeds-counter-value">
+            {t('goodDeeds.name.count', { count: counter })}
+          </Text>
+        ) : (
+          <Text size="sm" selectable={false}>
+            {t('goodDeeds.name_other')}
+          </Text>
+        )}
         <HoliIcon icon={Information} size={18} />
       </Pressable>
 

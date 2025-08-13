@@ -45,6 +45,8 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     'holi://',
     'https://app.holi.social',
     'https://*.dev.holi.social',
+    'https://staging.challenges-dev.holi.social',
+    'https://challenges.holi.social',
   ]),
   // this deep linking config needs to reflect the stacking structure of the navigators
   // see also https://reactnavigation.org/docs/configuring-links#mapping-path-to-route-names
