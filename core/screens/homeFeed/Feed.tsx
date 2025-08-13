@@ -81,7 +81,7 @@ const HomeFeed = () => {
     }) => {
       return (
         <>
-          {/* TODO(SF) temp removal of feed posts {item.feedPost && <GenericPostCard post={item.feedPost} />} */}
+          {item.feedPost && <GenericPostCard post={item.feedPost} />}
           {item.spacePost && <GenericPostCard post={item.spacePost} />}
           {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
