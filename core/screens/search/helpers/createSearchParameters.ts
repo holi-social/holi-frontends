@@ -34,6 +34,7 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
   let locationFilter = ''
   let nl_query = false
   let nl_model_id: string | undefined = undefined
+  let nl_query_debug: boolean | undefined = undefined
 
   // Add the location filter if geolocationDetails are set
   if (location && location.coordinates && facet !== 'profile') {
@@ -45,6 +46,7 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
     if (facet !== 'profile') {
       nl_query = true
       nl_model_id = 'gemini-model'
+      nl_query_debug = true
     }
   }
 
@@ -58,5 +60,6 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
     per_page: PAGE_SIZE,
     nl_query,
     nl_model_id,
+    nl_query_debug,
   }
 }

@@ -13,6 +13,7 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: true,
       nl_model_id: 'gemini-model',
+      nl_query_debug: true,
     })
   })
 
@@ -28,6 +29,7 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: true,
       nl_model_id: 'gemini-model',
+      nl_query_debug: true,
     })
   })
 
@@ -43,6 +45,7 @@ describe('createSearchParameters', () => {
       // Natural Language Search is currently only used for matching location
       nl_query: false,
       nl_model_id: undefined,
+      nl_query_debug: false,
     })
   })
 
@@ -67,6 +70,7 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: false,
       nl_model_id: undefined,
+      nl_query_debug: false,
     })
   })
 
@@ -91,6 +95,7 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: false,
       nl_model_id: undefined,
+      nl_query_debug: false,
     })
   })
 
@@ -113,6 +118,7 @@ describe('createSearchParameters', () => {
       per_page: 10,
       nl_query: false,
       nl_model_id: undefined,
+      nl_query_debug: false,
     })
   })
 })
