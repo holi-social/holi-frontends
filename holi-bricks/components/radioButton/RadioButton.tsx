@@ -1,6 +1,13 @@
 import type React from 'react'
 import { type SyntheticEvent, useCallback, useState } from 'react'
-import { Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
+import {
+  Platform,
+  Pressable,
+  useWindowDimensions,
+  View,
+  type ViewStyle,
+  type GestureResponderEvent,
+} from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Stack } from 'holi-bricks/components/stack'
@@ -82,7 +89,7 @@ const styles = StyleSheet.create((theme) => ({
     outlineWidth: 0,
     ...Platform.select({
       web: {
-        outlineStyle: 'none',
+        outlineStyle: 'none' as ViewStyle['outlineStyle'],
       },
     }),
   },

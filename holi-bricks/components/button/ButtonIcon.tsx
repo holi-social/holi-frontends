@@ -19,6 +19,7 @@ import {
   getButtonVariantStyle,
 } from './helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
+import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
