@@ -6006,7 +6006,7 @@ __metadata:
     next-http-proxy-middleware: "npm:^1.2.6"
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
-    posthog-js: "npm:^1.160.1"
+    posthog-js: "npm:^1.260.1"
     posthog-node: "npm:^4.2.0"
     raf: "npm:^3.4.1"
     react: "npm:18.3.1"
@@ -15732,6 +15732,13 @@ __metadata:
   version: 3.38.1
   resolution: "core-js-pure@npm:3.38.1"
   checksum: 10c0/466adbc0468b8c2a95b9bc49829492dece2cc6584d757c5b38555a26ed3d71f8364ac1ea3128a0a949e004e0e60206cc535ed84320982c3efb9a40c1785ddcc6
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.38.1":
+  version: 3.45.0
+  resolution: "core-js@npm:3.45.0"
+  checksum: 10c0/118350f9f1d81f42a1276590d6c217dca04c789fdb8074c82e53056b1a784948769a62b16b98493fd73e8a988545432f302bca798571e56ad881b9c039a5a83c
   languageName: node
   linkType: hard
 
@@ -26450,14 +26457,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.160.1":
-  version: 1.161.6
-  resolution: "posthog-js@npm:1.161.6"
+"posthog-js@npm:^1.260.1":
+  version: 1.260.1
+  resolution: "posthog-js@npm:1.260.1"
   dependencies:
+    core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-    web-vitals: "npm:^4.0.1"
-  checksum: 10c0/8f5f694cc9d67ff76dc2ab98dccc48f34047ac5d6ea68e5257cb125258b3051c41634fb3367779c28bec2763f67736dc51ab29c53db9d12d8974ea15addd5956
+    web-vitals: "npm:^4.2.4"
+  peerDependencies:
+    "@rrweb/types": 2.0.0-alpha.17
+    rrweb-snapshot: 2.0.0-alpha.17
+  peerDependenciesMeta:
+    "@rrweb/types":
+      optional: true
+    rrweb-snapshot:
+      optional: true
+  checksum: 10c0/7774cd08ccbe1d4a458d96aeaf2c478fbcabd83f9deb77ea8a6991f8643810bc5c34cdbf5a97f6c04300c9e0c2da61fdb539276c8228e32163c348e58b9d37cb
   languageName: node
   linkType: hard
 
@@ -32193,10 +32209,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^4.0.1":
-  version: 4.2.3
-  resolution: "web-vitals@npm:4.2.3"
-  checksum: 10c0/905bdb9434f365435c3c00e5f473ce088980fcd61068906e20a575bae9590e1cc28dab0f90958c66717591e2f4c9b809ec8025cef5796fa4bc1304d50332f125
+"web-vitals@npm:^4.2.4":
+  version: 4.2.4
+  resolution: "web-vitals@npm:4.2.4"
+  checksum: 10c0/383c9281d5b556bcd190fde3c823aeb005bb8cf82e62c75b47beb411014a4ed13fa5c5e0489ed0f1b8d501cd66b0bebcb8624c1a75750bd5df13e2a3b1b2d194
   languageName: node
   linkType: hard
 

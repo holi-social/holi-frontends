@@ -1,6 +1,7 @@
 import { useFeatureFlagPayload, useFeatureFlagVariantKey, usePostHog } from 'posthog-js/react'
 
 import type { UseFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import type { FeatureFlagPayload } from '@holi/core/featureFlags/types'
 
 export const useFeatureFlag: UseFeatureFlag = (flag) => {
   const posthog = usePostHog()
@@ -12,5 +13,5 @@ export const useFeatureFlag: UseFeatureFlag = (flag) => {
   const fallbackState = posthog.featureFlags.getFeatureFlag(flag)
   const fallbackPayload = posthog.featureFlags.getFeatureFlagPayload(flag)
 
-  return [state || fallbackState, payload || fallbackPayload]
+  return [state || fallbackState, (payload || fallbackPayload) as FeatureFlagPayload]
 }
