@@ -14,14 +14,6 @@ export interface UseLinkProps {
 const useLink = ({ onPress, external, href }: UseLinkProps) => {
   const { navigate } = useRouting()
 
-  // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
-  const normalizeHref = (href: string) => {
-    if (href.startsWith('http')) {
-      return '/' + href.replace(/^https:\/\/(app|staging\.dev)\.holi\.social(\/(en|de))?/, '').replace(/^\/+/, '')
-    }
-    return href.startsWith('/') ? href : `/${href}`
-  }
-
   return useCallback(
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
       if (onPress) {
