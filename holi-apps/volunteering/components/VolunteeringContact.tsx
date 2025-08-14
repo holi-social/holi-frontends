@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { Linking, Platform } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ButtonIconTracked, ButtonTracked } from '@holi/core/components/Trackable'
+import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { ExternalLink, FileCopy, Mail, Phone } from '@holi/icons/src/generated'
@@ -10,6 +11,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import type { Typesense_DocumentContact, Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -28,9 +30,19 @@ interface VolunteeringContactProps {
   document: VolunteeringDetailsScreenData
   engagementId: string
   onOpenLink: (url?: string) => void
+  isFavorite?: boolean
+  onFavoriteCompleted?: () => void
+  onFavoriteError?: (error: Error) => void
 }
 
-export const VolunteeringContact = ({ engagementId, document, onOpenLink }: VolunteeringContactProps) => {
+export const VolunteeringContact = ({
+  engagementId,
+  document,
+  onOpenLink,
+  isFavorite,
+  onFavoriteCompleted,
+  onFavoriteError,
+}: VolunteeringContactProps) => {
   const { t } = useTranslation()
   const { show: showContact, hide: hideContact, props: contactModalProps } = useModalState()
   const hasContactInfo = document.contact?.some(
@@ -85,6 +97,7 @@ export const VolunteeringContact = ({ engagementId, document, onOpenLink }: Volu
       justifyContent="center"
       alignSelf="center"
       width="100%"
+      gap="xxs"
     >
       <ButtonTracked
         trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
@@ -101,6 +114,14 @@ export const VolunteeringContact = ({ engagementId, document, onOpenLink }: Volu
         }
         onPress={onGetInTouch}
         testID="volunteering-engagement-get-in-touch-btn"
+      />
+      <SaveForLaterButton
+        favoritableId={engagementId}
+        favoritableType={FavoritableType.ExternalVolunteeringOpportunity}
+        __typename={'Typesense_Document'}
+        isFavorite={isFavorite}
+        onCompleted={onFavoriteCompleted}
+        onError={onFavoriteError}
       />
       <HoliModal
         label="modal"
