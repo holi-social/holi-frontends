@@ -103,7 +103,7 @@ const HomeFeed = () => {
   const numberOfColumns = useBreakpointMatcher() || 2
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
