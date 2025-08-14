@@ -51,7 +51,7 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
-  const showGoodDeedChip = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const { refreshControlProps } = useRefreshContext()
 
