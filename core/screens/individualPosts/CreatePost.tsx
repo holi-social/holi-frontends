@@ -27,6 +27,8 @@ import { Text } from 'holi-bricks/components/text'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import RewardMessage from '@holi/core/screens/individualPosts/components/RewardMessage'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -53,6 +55,7 @@ const CreatePost = () => {
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
+  const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
 
   const { data, refetch } = useGetRewardsCounterQuery()
@@ -152,7 +155,7 @@ const CreatePost = () => {
 
   // Handle form submission
   const handleSubmit = () => {
-    if (selectedCategoryId === goodDeedCategoryId) {
+    if (isRewardsMessageEnabled && selectedCategoryId === goodDeedCategoryId) {
       createPost()
     } else {
       createPost()
