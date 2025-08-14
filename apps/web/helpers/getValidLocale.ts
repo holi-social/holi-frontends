@@ -1,4 +1,5 @@
-import { nextJsDefaultLocale, ni18nConfig } from '@holi/web/helpers/ni18nConfig'
+import { nextJsDefaultLocale } from '@holi/web/helpers/middlewareConfig'
+import { i18nConfig } from '@holi/core/i18n/config'
 
 export const getValidLocale = (locale?: string) =>
-  (locale === nextJsDefaultLocale ? ni18nConfig.fallbackLng : locale) || ni18nConfig.fallbackLng
+  (locale === nextJsDefaultLocale ? i18nConfig.fallbackLng : locale) || i18nConfig.fallbackLng
