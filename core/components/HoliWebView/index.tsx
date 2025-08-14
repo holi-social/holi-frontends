@@ -19,9 +19,12 @@ const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewS
   return !!value && 'uri' in value
 }
 
-const addHeadersIfSourceUri = (value: WebViewSource | undefined): WebViewSource | undefined => {
+const addHeadersAndConvertToHttpsIfSourceUri = (value: WebViewSource | undefined): WebViewSource | undefined => {
   if (!isWebViewSourceUri(value)) {
     return value
+  }
+  if (value.uri.startsWith('http://')) {
+    value.uri = value.uri.replace('http://', 'https://')
   }
   return {
     ...value,
@@ -134,7 +137,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
       allowsBackForwardNavigationGestures={allowsBackForwardNavigationGesturesMultiOS}
       {...webViewProps}
-      source={addHeadersIfSourceUri(webViewProps.source)}
+      source={addHeadersAndConvertToHttpsIfSourceUri(webViewProps.source)}
       testID="web-view"
       injectedJavaScript={injectedThemeJs}
     />
