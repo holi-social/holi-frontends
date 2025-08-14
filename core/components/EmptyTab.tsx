@@ -2,8 +2,8 @@ import React from 'react'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { Button } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
 
 interface Props {
   text: string
@@ -14,9 +14,9 @@ const EmptyTab = ({ callToAction, text }: Props) => {
   const { navigate } = useRouting()
   return (
     <HoliBox padding={[72, 56]} layout={{ alignItems: 'center' }}>
-      <HoliText align="center" color="gray300">
+      <Text textAlign="center" color="support" size="md">
         {text}
-      </HoliText>
+      </Text>
       {callToAction !== undefined && (
         <HoliBox padding={[24, 0]} layout={{ maxWidth: 300 }}>
           <Button label={callToAction} onPress={() => navigate('/spaces')} />

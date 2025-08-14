@@ -21,6 +21,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useTheme } from '@holi/ui/styles/theme'
 import AboutMe from '@holi/core/screens/userprofile/AboutMe'
 import MyPosts from '@holi/core/screens/userprofile/MyPosts'
+import MyConnections from '@holi/core/screens/userprofile/MyConnections'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -81,8 +82,8 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen name={RouteName.Favorites} component={Favorites} />
       <AuthStack.Screen name={RouteName.AboutMe} component={AboutMe} />
       <AuthStack.Screen name={RouteName.MyPosts} component={MyPosts} />
-      {/* <AuthStack.Screen name={RouteName.MyConnections} component={MyConnections} />
-      <AuthStack.Screen name={RouteName.MySpaces} component={MySpaces} /> */}
+      <AuthStack.Screen name={RouteName.MyConnections} component={MyConnections} />
+      {/* <AuthStack.Screen name={RouteName.MySpaces} component={MySpaces} /> */}
     </AuthStack.Navigator>
   )
 }
