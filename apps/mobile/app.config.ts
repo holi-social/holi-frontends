@@ -201,10 +201,12 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#F5F5F5',
         image: './assets/splash.png',
         imageWidth: 220,
         resizeMode: 'contain',
+        android: {
+          imageWidth: 190,
+        },
       },
     ],
     [
