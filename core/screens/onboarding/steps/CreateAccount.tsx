@@ -92,6 +92,7 @@ export const CreateAccount = ({
   }, [initializeFlow])
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody, provider?: string) => {
+    // TODO(SF) differentiate buttons when tracking: if (payload.method === 'code') / if (!!payload.code)
     track(
       provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
     )
