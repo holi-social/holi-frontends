@@ -17,6 +17,7 @@
     "zod": "^3.25.36"
   },
   "devDependencies": {
+    "@appcues/react-native": "^4.4.3",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^2.1.1",
     "@graphql-codegen/typescript": "^4.0.6",
@@ -45,6 +46,7 @@
   },
   "name": "@holi/core",
   "peerDependencies": {
+    "@appcues/react-native": "^4.4.3",
     "expo": "^53.0.20",
     "expo-calendar": "~14.0.6",
     "expo-image-picker": "~16.0.6",

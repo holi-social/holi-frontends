@@ -8,10 +8,13 @@ export const pill = {
   gap: Spacing['4xs'],
   maxWidth: '100%',
   overflow: 'hidden',
-  ...Platform.select({
+  ...(Platform.select({
     web: {
       display: 'inline-flex' as ViewStyle['display'],
     },
-  }),
+    // Cast to any otherwise unistyles complains that this does not exist
+    // in RN extended stylesheet
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }) as any),
   borderRadius: 50,
 } as const
