@@ -1,7 +1,3 @@
-import { initializeBricks } from 'holi-bricks/config'
-import { isProduction } from '@holi/core/helpers/environment'
-initializeBricks({ isProduction })
-
 import { getApolloContext } from '@apollo/client'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
@@ -9,9 +5,9 @@ import { getServerUnistyles, resetServerUnistyles } from 'react-native-unistyles
 import type { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { type DocumentContext, type DocumentProps, Head, Html, Main, NextScript } from 'next/document'
 import type { Router } from 'next/router'
-import React from 'react'
+import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
-// import { flush } from 'react-native-media-query'
+import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { environmentId } from '@holi/web/environment'
@@ -39,7 +35,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
 
     AppRegistry.registerComponent('HOLI', () => Main)
     // @ts-ignore
-    // const { getStyleElement } = AppRegistry.getApplication('HOLI')
+    const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
     const originalRenderPage = context.renderPage
     let apolloClient: ApolloClient<NormalizedCacheObject> | undefined
@@ -78,8 +74,8 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     // return { ...initialProps, styles: Children.toArray(styles), apolloClient }
     resetServerUnistyles()
 
-    // const styles = [getStyleElement(), flush()]
-    return { ...initialProps, ...page, styles: unistyles, apolloClient }
+    const styles = [getStyleElement(), flush(), unistyles]
+    return { ...initialProps, ...page, styles: Children.toArray(styles), apolloClient }
   }
 
   render() {

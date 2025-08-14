@@ -1,14 +1,13 @@
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { appWithI18Next } from 'ni18n'
+import { initializeBricks } from 'holi-bricks/config'
+import { isProduction } from '@holi/core/helpers/environment'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
 import React, { type ReactElement, type ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { initializeBricks } from 'holi-bricks/config'
-import { isProduction } from '@holi/core/helpers/environment'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -25,6 +24,8 @@ import { useRouter } from 'next/router'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { hydrateServerUnistyles } from 'react-native-unistyles/server'
 
+initializeBricks({ isProduction })
+
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
   pageProps: NextJSPageProps
@@ -35,7 +36,6 @@ export type NextPageWithLayout = NextPage<NextJSPageProps> & {
 }
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
-initializeBricks({ isProduction })
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
