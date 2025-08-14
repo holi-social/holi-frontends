@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import { StatusBar } from 'expo-status-bar'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState, useEffect, useRef } from 'react'
@@ -281,7 +280,6 @@ const InsightDetailPage = () => {
         ogDescription={insight?.description}
         ogImage={insight?.headerImage}
       />
-      <StatusBar style="light" animated />
 
       <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.contentContainer}>
         {insight && !loading ? (

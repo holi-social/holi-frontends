@@ -153,7 +153,6 @@ const nextConfig = {
     'expo-image-manipulator',
     'expo-notifications',
     'react-native-keyboard-controller',
-    'expo-status-bar',
     '@jsamr/react-native-li',
     '@holi-apps/donations',
     '@holi-apps/goodnews',

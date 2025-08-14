@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -93,8 +92,6 @@ const DiscussionDetailPage = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
-
       <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
         <HoliContainer noPadding>
           {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}

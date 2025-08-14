@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
@@ -163,7 +162,6 @@ const PostDetailPage = () => {
         ogDescription={post.text}
         ogImage={post.image?.url}
       />
-      <StatusBar animated />
 
       <FormLayout
         backgroundColor={theme.colors.background10}
