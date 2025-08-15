@@ -228,7 +228,6 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               gap="md"
               alignItems="center"
             >
-              <Text size="md">No connections yet</Text>
               <Image
                 source={require('@holi/ui/assets/img/illustrations/connections.svg')}
                 alt={''}
@@ -238,10 +237,10 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               />
               <Stack gap="3xs">
                 <Text size="md" textAlign="center">
-                  No connections yet
+                  {t('user.profile.own.connections.tagline.empty')}
                 </Text>
                 <Text size="xxl" textAlign="center">
-                  Once you connect with other users they show up here
+                  {t('user.profile.own.connections.title.empty')}
                 </Text>
               </Stack>
             </Stack>

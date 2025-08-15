@@ -39,11 +39,11 @@ export const GoodDeedsTab = () => {
   const formatRewardType = (rewardType: Rewards_RewardType) => {
     switch (rewardType) {
       case 'ChallengeSubmitted':
-        return 'Joined a challenge' // todo: localazy key
+        return t('goodDeed.history.challengeSubmitted')
       case 'GoodDeedPostCreated':
-        return 'Good Deed Post' // todo; localazy key
+        return t('goodDeed.history.goodDeedPostCreated')
       case 'ExternalVolunteeringOpportunityStarted':
-        return 'Started an external volunteering opportunity' // todo; localazy key
+        return t('goodDeed.history.ExternalVolunteeringOpportunityStarted')
       default:
         return rewardType
     }

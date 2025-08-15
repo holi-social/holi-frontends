@@ -103,8 +103,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
               </Text>
             </Stack>
             <Stack>
-              {/* todo: localazy */}
-              <Button label="Discover Spaces" inline />
+              <Button label={t('profile.tabs.spaces.empty.callToAction')} inline />
             </Stack>
           </Stack>
         )}

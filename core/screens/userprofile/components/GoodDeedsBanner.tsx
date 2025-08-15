@@ -85,7 +85,6 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
           <HoliIcon icon={Question} />
         </Stack>
       </Stack>
-      {/* </Stack> */}
     </Stack>
   )
 }
