@@ -59,7 +59,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
         )}
 
         {animKey === 'ready' && (
-          <Stack padding={{ top: 'sm', bottom: 'sm' }} gap="md">
+          <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="md">
             {spaces?.data?.map((space) => (
               <Stack key={space.id} maxWidth="lg" width="100%" alignSelf="center">
                 <HoliBlockItem

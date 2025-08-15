@@ -171,7 +171,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       </View>
 
       <HoliTabs
-        activeTab={activeTab}
+        activeTab={tabs.some((t) => t.key === activeTab) ? activeTab : tabs[0].key}
         onChange={onTabChange}
         data={tabs}
         keyExtractor={(item) => item.key}

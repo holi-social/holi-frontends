@@ -15,13 +15,7 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
 
   return (
     <Stack onPress={() => Linking.openURL('https://holi.social/1million')}>
-      <Stack
-        borderRadius={{ topLeft: 'md', topRight: 'md' }}
-        backgroundColor="redDefault"
-        overflow="hidden"
-        height={205}
-        alignSelf="stretch"
-      >
+      <Stack borderRadius={{ topLeft: 'md', topRight: 'md' }} overflow="hidden" height={205} alignSelf="stretch">
         <View style={styles.container}>
           {/* Background image */}
           <Image

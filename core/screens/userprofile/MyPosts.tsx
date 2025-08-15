@@ -3,6 +3,7 @@ import React from 'react'
 import { Screen } from '@holi/core/components/Screen'
 import { useTranslation } from 'react-i18next'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Stack } from 'holi-bricks/components/stack'
 
 const MyPosts = () => {
   const { t } = useTranslation()
@@ -15,7 +16,9 @@ const MyPosts = () => {
         headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
       }}
     >
-      <MyPostsTab />
+      <Stack padding={{ left: 'sm', right: 'sm' }}>
+        <MyPostsTab />
+      </Stack>
     </Screen>
   )
 }

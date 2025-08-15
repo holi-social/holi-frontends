@@ -111,7 +111,7 @@ const AboutMe = () => {
           </HoliKeyboardSafeAreaView>
         </HoliModal>
       )}
-      <Stack padding="3xs" gap="md">
+      <Stack padding="xs" gap="md">
         {/* personal information */}
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
@@ -234,7 +234,7 @@ const AboutMe = () => {
         {/* Skills */}
         <Stack gap="3xs">
           <Stack gap="3xs" direction="row" justifyContent="space-between">
-            <Stack justifyContent="center">
+            <Stack justifyContent="center" flexShrink={1}>
               <Text size="xl">{t('profile.skills')}</Text>
             </Stack>
             <Button

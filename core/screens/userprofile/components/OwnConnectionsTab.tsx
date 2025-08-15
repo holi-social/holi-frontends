@@ -41,9 +41,7 @@ import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequir
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { Stack } from 'holi-bricks/components/stack'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { Screen } from '@holi/core/components/Screen'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Image } from 'holi-bricks/components/image'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 export interface ConnectionsTabProps {
@@ -163,20 +161,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
 
   if (rewardsPhaseTwoEnabled) {
     return (
-      <Screen
-        preset="fixed"
-        headerOptions={{
-          title: t('connections.title'),
-          headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
-          // headerRight: () => (
-          //   <Stack direction="row">
-          //     {/* todo: add logic */}
-          //     <ButtonIcon icon={UserAdd} label="Add a connection" variant="tertiary" />
-          //     <ButtonIcon icon={Search} label="Search for a user" variant="tertiary" />
-          //   </Stack>
-          // ),
-        }}
-      >
+      <>
         <HoliTransition.FadeSwitch animKey={animKey}>
           {animKey === 'loading' && (
             <HoliBox padding={[Spacing.xs, 0]}>
@@ -234,23 +219,22 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
           )}
 
           {animKey === 'empty' && (
-            // <EmptyTab text={emptyText} callToAction={emptyCallToAction} />
             <Stack
               backgroundColor="support"
               borderRadius="md"
               padding={{ top: 'lg', bottom: 'xl', left: 'md', right: 'md' }}
-              margin={{ top: 'md', bottom: 'md' }}
               borderColor="default"
               borderWidth="sm"
               gap="md"
               alignItems="center"
             >
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/connections.svg')}
-                isSvg
-                label={''}
+              <Text size="md">No connections yet</Text>
+              <Image
+                source={require('@holi/ui/assets/img/illustrations/connections.svg')}
+                alt={''}
                 width={231}
                 height={164}
+                resizeMode="contain"
               />
               <Stack gap="3xs">
                 <Text size="md" textAlign="center">
@@ -367,7 +351,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
             </HoliContainer>
           </HoliModal>
         </HoliTransition.FadeSwitch>
-      </Screen>
+      </>
     )
   }
 
