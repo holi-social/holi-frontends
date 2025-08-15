@@ -24,6 +24,7 @@ import { useSortedUserTerms } from '@holi/core/domain/shared/useSortedUserTerms'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import UserAboutMeForm from '@holi/core/screens/userprofile/components/UserAboutMeForm'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { useFocusEffect } from '@holi/core/helpers/useFocusEffect'
 
 const AboutMe = () => {
   const { t } = useTranslation()
@@ -35,6 +36,10 @@ const AboutMe = () => {
   const closeModal = useCallback(() => {
     setShowModal(false)
   }, [])
+
+  useFocusEffect(() => {
+    track(TrackingEvent.UserProfile.profileSubpageOpened())
+  })
 
   const sortedSkills = useSortedUserTerms('skill')
   const sortedInterests = useSortedUserTerms('topic')

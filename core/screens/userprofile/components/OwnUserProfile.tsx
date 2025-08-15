@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { ChipAction, ChipLabel } from 'holi-bricks/components/chips'
-import type { PropsWithChildren } from 'react'
+import { useEffect, type PropsWithChildren } from 'react'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -30,6 +30,8 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { GoodDeedsTab } from '@holi/core/screens/userprofile/components/GoodDeedsTab'
 import { MoreTab } from '@holi/core/screens/userprofile/components/MoreTab'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'aboutMe'
 
@@ -62,6 +64,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const { theme } = useTheme()
   const { colors } = theme
   const { styles } = useStyles(stylesheet)
+  const { track } = useTracking()
 
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId: user.id },
@@ -73,6 +76,18 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       })
     },
   })
+
+  useEffect(() => {
+    if (activeTab === Tab.GOOD_DEEDS) {
+      track(TrackingEvent.UserProfile.globalGoodDeedsTabOpened())
+    }
+    if (activeTab === Tab.MY_VOLUNTEERING) {
+      track(TrackingEvent.UserProfile.myVolunteerTabOpened())
+    }
+    if (activeTab === Tab.MORE) {
+      track(TrackingEvent.UserProfile.moreTabOpened())
+    }
+  }, [activeTab, track])
 
   const totalInsights = dataInsights?.insightsByUserId?.totalResults ?? 0
   const hasInsights = totalInsights > 0

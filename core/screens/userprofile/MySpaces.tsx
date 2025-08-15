@@ -7,10 +7,18 @@ import SpacesTab from '@holi/core/components/SpacesTab'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { Stack } from 'holi-bricks/components/stack'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { useFocusEffect } from '@holi/core/helpers/useFocusEffect'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const MySpaces = () => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
+  const { track } = useTracking()
+
+  useFocusEffect(() => {
+    track(TrackingEvent.UserProfile.spacesSubpageOpened())
+  })
 
   if (!user) {
     return (
