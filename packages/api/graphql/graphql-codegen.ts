@@ -5227,6 +5227,19 @@ export type Typesense_MultiSearchQuery = {
           __typename?: 'Typesense_SearchResponseSuccess'
           found: number
           page: number
+          conversation?: {
+            __typename?: 'Typesense_SearchResponseConversation'
+            answer: string
+            conversation_id: string
+            query: string
+            conversation_history: {
+              __typename?: 'Typesense_SearchResponseConversationHistory'
+              conversation: Array<any>
+              id: string
+              last_updated: number
+              ttl: number
+            }
+          }
           hits?: Array<{
             __typename?: 'Typesense_SearchResponseHit'
             document: {
@@ -8233,6 +8246,17 @@ export const Typesense_MultiSearchDocument = gql`
       ... on Typesense_SearchResponseSuccess {
         found
         page
+        conversation {
+          answer
+          conversation_history {
+            conversation
+            id
+            last_updated
+            ttl
+          }
+          conversation_id
+          query
+        }
         hits {
           document {
             ...FullTypesenseDocument

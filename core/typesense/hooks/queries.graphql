@@ -54,6 +54,17 @@ query typesense_multiSearch($input: Typesense_MultiSearchRequest_Input!) {
       ... on Typesense_SearchResponseSuccess {
         found
         page
+        conversation {
+          answer
+          conversation_history {
+            conversation
+            id
+            last_updated
+            ttl
+          }
+          conversation_id
+          query
+        }
         hits {
           document {
             ...FullTypesenseDocument

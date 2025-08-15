@@ -110,6 +110,103 @@ export const useTypesensePaginationMultiQuery = ({
           const totalNrOfPages = Math.ceil(results.found / pageSize)
           const canFetchMore = results.found > pageSize * results.page
 
+          // TEST: Force output to verify this code is executing
+          if (typeof process !== 'undefined' && process.stdout) {
+            process.stdout.write(`🧪 TYPESENSE HOOK EXECUTING: q="${parameters.q}" nl_query=${parameters.nl_query}\n`)
+          }
+
+          // Enhanced debug logging when nl_query_debug is enabled
+          if (parameters.nl_query_debug) {
+            const timestamp = new Date().toISOString()
+            
+            // Force output to terminal using process.stdout
+            if (typeof process !== 'undefined' && process.stdout) {
+              process.stdout.write(`\n🔍 TYPESENSE NLP DEBUG START [${timestamp}] 🔍\n`)
+              process.stdout.write(`Search Query (q): ${parameters.q}\n`)
+              process.stdout.write(`NL Query: ${parameters.nl_query}\n`)
+              process.stdout.write(`NL Model ID: ${parameters.nl_model_id}\n`)
+              process.stdout.write(`NL Debug: ${parameters.nl_query_debug}\n`)
+              process.stdout.write(`Results type: ${results.__typename}\n`)
+              process.stdout.write(`Found results: ${results.found}\n`)
+              process.stdout.write(`Has conversation: ${!!results.conversation}\n`)
+              
+              if (results.conversation) {
+                process.stdout.write(`🤖 NLP Location Extraction Debug\n`)
+                process.stdout.write(`Original Query: ${results.conversation.query}\n`)
+                process.stdout.write(`LLM Answer: ${results.conversation.answer}\n`)
+                process.stdout.write(`Conversation ID: ${results.conversation.conversation_id}\n`)
+                
+                if (results.conversation.conversation_history?.conversation?.length > 0) {
+                  process.stdout.write(`Conversation History (LLM Processing):\n`)
+                  results.conversation.conversation_history.conversation.forEach((entry, index) => {
+                    process.stdout.write(`  Entry ${index + 1}: ${JSON.stringify(entry)}\n`)
+                  })
+                } else {
+                  process.stdout.write(`⚠️ Conversation exists but no conversation history found\n`)
+                }
+              } else {
+                process.stdout.write(`❌ No conversation data in response\n`)
+                process.stdout.write(`This could mean:\n`)
+                process.stdout.write(`  - Query was too simple for NLP processing\n`)
+                process.stdout.write(`  - Backend NLP is disabled or failed\n`)
+                process.stdout.write(`  - No location extraction was needed\n`)
+                process.stdout.write(`Available fields in results: ${Object.keys(results).join(', ')}\n`)
+                
+                // Check if there are any request_params that might have debug info
+                if (results.request_params) {
+                  process.stdout.write(`Request params: ${JSON.stringify(results.request_params)}\n`)
+                }
+              }
+              
+              process.stdout.write(`🔍 TYPESENSE NLP DEBUG END [${timestamp}] 🔍\n\n`)
+            }
+            
+            // Also use regular console.log as backup
+            console.log(`\n🔍 TYPESENSE NLP DEBUG START [${timestamp}] 🔍`)
+            console.log('Search Query (q):', parameters.q)
+            console.log('Search Parameters:', JSON.stringify({
+              q: parameters.q,
+              nl_query: parameters.nl_query,
+              nl_model_id: parameters.nl_model_id,
+              nl_query_debug: parameters.nl_query_debug,
+              filter_by: parameters.filter_by,
+              query_by: parameters.query_by
+            }, null, 2))
+            console.log('Results type:', results.__typename)
+            console.log('Found results:', results.found)
+            console.log('Has conversation:', !!results.conversation)
+            
+            if (results.conversation) {
+              console.log('🤖 NLP Location Extraction Debug')
+              console.log('Original Query:', results.conversation.query)
+              console.log('LLM Answer:', results.conversation.answer)
+              console.log('Conversation ID:', results.conversation.conversation_id)
+              
+              if (results.conversation.conversation_history?.conversation?.length > 0) {
+                console.log('Conversation History (LLM Processing):')
+                results.conversation.conversation_history.conversation.forEach((entry, index) => {
+                  console.log(`  Entry ${index + 1}:`, JSON.stringify(entry, null, 2))
+                })
+              } else {
+                console.log('⚠️ Conversation exists but no conversation history found')
+              }
+            } else {
+              console.log('❌ No conversation data in response')
+              console.log('This could mean:')
+              console.log('  - Query was too simple for NLP processing')
+              console.log('  - Backend NLP is disabled or failed')
+              console.log('  - No location extraction was needed')
+              console.log('Available fields in results:', Object.keys(results))
+              
+              // Check if there are any request_params that might have debug info
+              if (results.request_params) {
+                console.log('Request params:', JSON.stringify(results.request_params, null, 2))
+              }
+            }
+            
+            console.log(`🔍 TYPESENSE NLP DEBUG END [${timestamp}] 🔍\n`)
+          }
+
           return {
             hits: results.hits ?? [],
             totalResults: results.found,

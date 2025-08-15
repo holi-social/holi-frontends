@@ -36,23 +36,50 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
   let nl_model_id: string | undefined = undefined
   let nl_query_debug: boolean | undefined = undefined
 
+  // Debug ALL search parameter creation attempts
+  console.log('\n🔧 CREATE SEARCH PARAMETERS 🔧')
+  console.log('Input - Query:', query)
+  console.log('Input - Facet:', facet)
+  console.log('Input - Location:', location)
+  console.log('Input - Location coordinates:', location?.coordinates)
+
   // Add the location filter if geolocationDetails are set
   if (location && location.coordinates && facet !== 'profile') {
     const { latitude, longitude } = location.coordinates
 
     locationFilter = `location_lat_lng:(${latitude}, ${longitude}, 30 km)`
     sort_by = `location_lat_lng(${latitude}, ${longitude}):asc`
+    
+    console.log('✅ Using location coordinates, NLP disabled')
   } else {
     if (facet !== 'profile') {
       nl_query = true
       nl_model_id = 'gemini-model'
       nl_query_debug = true
+      
+      console.log('🤖 NLP enabled - no location coordinates provided')
+      
+      // Debug logging to terminal - for any query now (including empty)
+      console.log('\n⚙️ SEARCH PARAMS DEBUG ⚙️')
+      console.log('Query:', JSON.stringify(query))
+      console.log('Query type:', typeof query)
+      console.log('Query length:', query?.length || 0)
+      console.log('Facet:', facet)
+      console.log('Location provided:', !!location)
+      console.log('Has coordinates:', !!(location?.coordinates))
+      console.log('NL Query enabled:', nl_query)
+      console.log('NL Model ID:', nl_model_id)
+      console.log('NL Debug enabled:', nl_query_debug)
+      console.log('Reason: No location coordinates provided, enabling NLP for location extraction')
+      console.log('⚙️ END SEARCH PARAMS DEBUG ⚙️\n')
+    } else {
+      console.log('❌ NLP disabled - profile facet')
     }
   }
 
   const filter_by = locationFilter ? `${config.filter_by} && ${locationFilter}` : config.filter_by
 
-  return {
+  const result = {
     ...config,
     q: query || '*',
     filter_by,
@@ -62,4 +89,9 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter)
     nl_model_id,
     nl_query_debug,
   }
+
+  console.log('🔧 Final search parameters:', JSON.stringify(result, null, 2))
+  console.log('🔧 END CREATE SEARCH PARAMETERS 🔧\n')
+
+  return result
 }

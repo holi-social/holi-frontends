@@ -20,10 +20,23 @@ export function SearchTextInput({ filter, onQueryChange }: SearchBoxProps) {
   const [inputValue, setInputValue] = useState(filter.query)
   const debouncedQueryUpdate = useDebounce((query) => onQueryChange(query), 300)
   const debouncedMetaTracking = useDebounce((query) => metaSdk.trackEvent('Search', { searchParams: query }), 3000)
+  
+  // Debug logging for search text input
+  console.log('\n🔤 SEARCH TEXT INPUT 🔤')
+  console.log('Filter:', filter)
+  console.log('Input value:', inputValue)
+  console.log('🔤 END SEARCH TEXT INPUT 🔤\n')
+  
   const { isLoading } = useSearchResults(filter)
   const submitDisabled = useMemo(() => isEmptyFilter({ ...filter, query: inputValue }), [filter, inputValue])
 
   const submitQuery = useCallback(() => {
+    console.log('\n🚀 SUBMIT QUERY 🚀')
+    console.log('Submit disabled:', submitDisabled)
+    console.log('Input value:', inputValue)
+    console.log('Current filter query:', filter.query)
+    console.log('🚀 END SUBMIT QUERY 🚀\n')
+    
     if (!submitDisabled && inputValue !== filter.query) {
       debouncedQueryUpdate(inputValue)
       debouncedMetaTracking(inputValue)

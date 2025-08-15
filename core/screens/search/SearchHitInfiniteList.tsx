@@ -41,6 +41,13 @@ interface SearchHitInfiniteListProps {
 export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
+  
+  // Debug logging for search hit infinite list
+  console.log('\n📋 SEARCH HIT INFINITE LIST 📋')
+  console.log('Filter:', filter)
+  console.log('Loading parameters:', loadingParameters)
+  console.log('📋 END SEARCH HIT INFINITE LIST 📋\n')
+  
   const { searchResults, isLoading: loadingResults, fetchNextPage, refetch } = useSearchResults(filter)
   const isLoading = loadingParameters || loadingResults
 

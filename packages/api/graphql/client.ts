@@ -1,5 +1,5 @@
 import type { ApolloClientOptions, HttpOptions, NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
@@ -17,9 +17,58 @@ import {
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
 
+// Debug link to log GraphQL operations
+const debugLink = new ApolloLink((operation, forward) => {
+  const { operationName, variables } = operation
+  
+  // Always log when ANY operation happens to test if this is working
+  console.log(`🔧 APOLLO OPERATION: ${operationName}`)
+  
+  // Log typesense operations with debug info
+  if (operationName === 'typesense_multiSearch') {
+    const searchParams = variables?.parameters
+    if (searchParams?.nl_query_debug) {
+      console.log('\n🔍 APOLLO DEBUG - Typesense Multi Search 🔍')
+      console.log('Operation:', operationName)
+      console.log('Variables:', JSON.stringify(variables, null, 2))
+      console.log('NL Query Debug Enabled:', searchParams.nl_query_debug)
+      console.log('Query:', searchParams.q)
+      console.log('🔍 END APOLLO DEBUG 🔍\n')
+    }
+  }
+  
+  return forward(operation).map((result) => {
+    // Log results for typesense operations
+    if (operationName === 'typesense_multiSearch' && variables?.parameters?.nl_query_debug) {
+      console.log('\n📊 APOLLO RESPONSE - Typesense Multi Search 📊')
+      console.log('Operation:', operationName)
+      console.log('Has errors:', !!result.errors)
+      if (result.errors) {
+        console.log('Errors:', result.errors)
+      }
+      if (result.data?.typesense_multiSearch?.conversation) {
+        console.log('🤖 NLP Conversation Data Found!')
+        console.log('Query:', result.data.typesense_multiSearch.conversation.query)
+        console.log('Answer:', result.data.typesense_multiSearch.conversation.answer)
+        console.log('Conversation ID:', result.data.typesense_multiSearch.conversation.conversation_id)
+        if (result.data.typesense_multiSearch.conversation.conversation_history) {
+          console.log('History:', result.data.typesense_multiSearch.conversation.conversation_history)
+        }
+      } else {
+        console.log('❌ No conversation data in response')
+        console.log('Available fields:', Object.keys(result.data?.typesense_multiSearch || {}))
+      }
+      console.log('📊 END APOLLO RESPONSE 📊\n')
+    }
+    
+    return result
+  })
+})
+
+console.log('🚀 Apollo Debug Link Created Successfully!')
+
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
-
 const timeoutLink: ApolloLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 
 const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
@@ -213,6 +262,7 @@ const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
 const createClientSideLink = (locale?: string) =>
   from(
     [
+      debugLink,
       createLocaleHeaderLink(locale),
       authorizationHeaderLink,
       timeoutLink,
@@ -227,7 +277,7 @@ const createApolloClient = ({
   locale,
 }: Pick<ApolloClientOptions<NormalizedCacheObject>, 'ssrMode' | 'headers'> & { locale?: string }) => {
   const clientLink = isSSR
-    ? from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
+    ? from([debugLink, createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
     : createClientSideLink(locale)
 
   return new ApolloClient({
