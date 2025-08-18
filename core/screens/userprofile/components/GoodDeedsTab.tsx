@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -24,17 +24,22 @@ export const GoodDeedsTab = () => {
 
   const { data: personalGD, loading: personalGDLoading } = useGetRewardsCounterQuery()
   const { data: globalGD, loading: globalGDLoading } = useGetGlobalRewardsCounterQuery()
-  const { data: rewardTransactions } = useGetRewardsTransactionsQuery({
+  const { data: rewardTransactions, refetch } = useGetRewardsTransactionsQuery({
     variables: {
       offset: 0,
       limit: 10,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
-  const items = rewardTransactions?.rewards_transactions.data || []
+  const items = rewardTransactions?.rewards_transactions.data || [] // update
   const personalCounter = personalGD?.rewards_counter?.counter ?? 0
   const globalCounter = globalGD?.rewards_globalCounter.counter ?? 0
   const totalCounter = personalCounter + globalCounter
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   const formatRewardType = (rewardType: Rewards_RewardType) => {
     switch (rewardType) {
