@@ -7,11 +7,8 @@ import { white } from 'holi-bricks/foundations'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import { FavoritingButton } from '@holi/core/components/FavoritingButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
-  FavoritableType,
   useFavoriteExternalVolunteeringOpportunityQuery,
   useUpdateVolunteeringOpportunityStatusMutation,
   VolunteeringOpportunityStatusValue,
@@ -19,6 +16,7 @@ import {
 import { VolunteeringContact } from '@holi-apps/volunteering/components/VolunteeringContact'
 import { useOpenLink } from '@holi/ui/helper/useOpenLink'
 import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 
 const isIos = Platform.OS === 'ios'
 
@@ -63,31 +61,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           },
         }),
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-        headerRight: ({ tintColor }) =>
-          !!document && (
-            <HoliTransition.FadeRight visible>
-              <FavoritingButton
-                favoritableId={engagementId}
-                favoritableType={FavoritableType.ExternalVolunteeringOpportunity}
-                tintColor={tintColor}
-                __typename={'Typesense_Document'}
-                isFavorite={isFavorite}
-                onCompleted={refetchFavorite}
-                onError={(error) =>
-                  displayError(
-                    error,
-                    isFavorite
-                      ? 'Failed to add the volunteering from favorites'
-                      : 'Failed to remove the volunteering from favorites',
-                    {
-                      location: 'VolunteeringDetailsScreen.favoriteVolunteering',
-                      favoritableId: engagementId,
-                    }
-                  )
-                }
-              />
-            </HoliTransition.FadeRight>
-          ),
+        headerRight: () => null,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -103,6 +77,20 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
               // Update status to "TO_DO" only once when initially the status is null
               if (document?.status === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
             }}
+            isFavorite={isFavorite}
+            onFavoriteCompleted={refetchFavorite}
+            onFavoriteError={(error) =>
+              displayError(
+                error,
+                isFavorite
+                  ? 'Failed to save the volunteering to favorites'
+                  : 'Failed to remove the volunteering from favorites',
+                {
+                  location: 'VolunteeringDetailsScreen.favoriteVolunteering',
+                  favoritableId: engagementId,
+                }
+              )
+            }
           />
         )
       }

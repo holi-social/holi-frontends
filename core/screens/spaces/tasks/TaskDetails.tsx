@@ -17,7 +17,7 @@ import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
-import { FavoritingButton } from '@holi/core/components/FavoritingButton'
+import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 
 const isIos = Platform.OS === 'ios'
@@ -46,35 +46,11 @@ const TaskDetails = () => {
   const renderActionDrawer = useCallback(
     (tintColor?: string) =>
       id && (
-        <Stack direction="row" gap="md">
-          <HoliTransition.FadeRight visible index={0}>
-            <FavoritingButton
-              favoritableId={id}
-              favoritableType={FavoritableType.Task}
-              __typename={'Task'}
-              tintColor={tintColor}
-              isFavorite={data?.isFavorite}
-              onError={(error) =>
-                displayError(
-                  error,
-                  data?.isFavorite
-                    ? 'Failed to add the task from favorites'
-                    : 'Failed to remove the task from favorites',
-                  {
-                    location: 'TaskDetails.favoriteTask',
-                    favoritableId: id,
-                  }
-                )
-              }
-            />
-          </HoliTransition.FadeRight>
-
-          <HoliTransition.FadeRight visible index={1}>
-            <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />
-          </HoliTransition.FadeRight>
-        </Stack>
+        <HoliTransition.FadeRight visible>
+          <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />
+        </HoliTransition.FadeRight>
       ),
-    [data?.isFavorite, displayError, id, isOwner, spaceName]
+    [id, isOwner, spaceName]
   )
 
   useTrackOnce(
@@ -117,18 +93,39 @@ const TaskDetails = () => {
           justifyContent="center"
           alignSelf="center"
           width="100%"
+          gap="xxs"
         >
           {displayCta && (
-            <TaskDetailsCTA
-              spaceIdOrName={spaceName}
-              taskName={data?.title}
-              taskId={id}
-              spaceTitle={spaceTitle}
-              spaceId={spaceId}
-              interactionType={interactionType}
-              interactionSignupLink={interactionSignupLink}
-              taskDuration={taskDuration}
-              taskRegularity={taskRegularity}
+            <Stack width="100%">
+              <TaskDetailsCTA
+                spaceIdOrName={spaceName}
+                taskName={data?.title}
+                taskId={id}
+                spaceTitle={spaceTitle}
+                spaceId={spaceId}
+                interactionType={interactionType}
+                interactionSignupLink={interactionSignupLink}
+                taskDuration={taskDuration}
+                taskRegularity={taskRegularity}
+              />
+            </Stack>
+          )}
+          {id && (
+            <SaveForLaterButton
+              favoritableType={FavoritableType.Task}
+              favoritableId={id}
+              __typename={'Task'}
+              isFavorite={data?.isFavorite}
+              onError={(error: Error) =>
+                displayError(
+                  error,
+                  data?.isFavorite ? 'Failed to add the task to favorites' : 'Failed to remove the task from favorites',
+                  {
+                    location: 'TaskDetails.saveForLaterTask',
+                    favoritableId: id,
+                  }
+                )
+              }
             />
           )}
         </Stack>

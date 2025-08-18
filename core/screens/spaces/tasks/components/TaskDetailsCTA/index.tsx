@@ -139,22 +139,13 @@ export const TaskDetailsCTA = ({
     return (
       <HoliActionDrawer.Drawer
         renderCustomButton={(onPress, testID) => (
-          <View
-            style={[
-              styles.ctaWrapper,
-              Platform.OS === 'web' && {
-                position: 'fixed',
-              },
-            ]}
-            testID={testID}
-          >
+          <View testID={testID}>
             <Button
               onPress={onPress}
               loading={loggedInUser && (!isChatInitialized || adminUsersLoading)}
               disabled={loggedInUser && (!isChatInitialized || adminUsersLoading)}
               variant="primary"
               icon={Chat3}
-              size="lg"
               label={t('spaces.tasks.contactOrganization.cta.chat')}
             />
           </View>

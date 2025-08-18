@@ -14,7 +14,8 @@ import { VolunteeringContactItem } from '@holi-apps/volunteering/components/Volu
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie.web'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 import { Text } from 'holi-bricks/components/text'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 
 const ANIMATION_DELAY = 500
 
@@ -23,6 +24,9 @@ interface VolunteeringContactProps {
   engagementId: string
   onOpenLink: (url?: string) => void
   onModalDismiss: () => void
+  isFavorite?: boolean
+  onFavoriteCompleted?: () => void
+  onFavoriteError?: (error: Error) => void
 }
 
 export const VolunteeringContact = ({
@@ -30,6 +34,9 @@ export const VolunteeringContact = ({
   document,
   onOpenLink,
   onModalDismiss,
+  isFavorite,
+  onFavoriteCompleted,
+  onFavoriteError,
 }: VolunteeringContactProps) => {
   const { t } = useTranslation()
 
@@ -55,7 +62,14 @@ export const VolunteeringContact = ({
   }, [document.externalUrl, hasContactInfo, onOpenLink, showContact])
 
   return (
-    <Stack padding={{ bottom: 'lg' }} alignItems="center" justifyContent="center" alignSelf="center" width="100%">
+    <Stack
+      padding={{ left: 'md', right: 'md', bottom: 'lg' }}
+      alignItems="center"
+      justifyContent="center"
+      alignSelf="center"
+      width="100%"
+      gap="xxs"
+    >
       <ButtonTracked
         trackingEvent={TrackingEvent.Volunteering.pressed(engagementId, {
           commitmentType: document.commitmentType,
@@ -71,6 +85,15 @@ export const VolunteeringContact = ({
         }
         onPress={onGetInTouch}
         testID="volunteering-engagement-get-in-touch-btn"
+      />
+
+      <SaveForLaterButton
+        favoritableId={engagementId}
+        favoritableType={FavoritableType.ExternalVolunteeringOpportunity}
+        __typename={'Typesense_Document'}
+        isFavorite={isFavorite}
+        onCompleted={onFavoriteCompleted}
+        onError={onFavoriteError}
       />
 
       <HoliModal

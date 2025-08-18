@@ -1,6 +1,6 @@
 import { randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, checkAccessibility, registerUser } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, registerUser } from './helpers'
 import { test } from './testmaster'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
@@ -52,21 +52,21 @@ test.describe('@Registration', () => {
       skills: ['arts-crafts', 'fundraising'],
     }
 
-    // Perform registration and fill out user data during onboarding
     await userHandler.asRandomUser(
       async (page) => {
-        // Starting on profile page
+        await test.step('profiles profile tab shows topics and skills', async () => {
+          if (userData.location?.label) {
+            await page.getByText(userData.location?.label).isVisible()
+          }
 
-        // Expect location
-        if (userData.location?.label) {
-          await page.getByText(userData.location?.label).isVisible()
-        }
+          await clickElementByTestId(page, 'profile-tabs-button-profile-inactive')
 
-        // Expect interests
-        await Promise.all(userData.interests.map((slug) => page.waitForSelector(byTestId(`interests--${slug}`))))
+          await page.waitForSelector(byTestId('interests--animal-welfare'))
+          await page.waitForSelector(byTestId('interests--climate-environment'))
 
-        // Expect skills
-        await Promise.all(userData.skills.map((slug) => page.waitForSelector(byTestId(`skills--${slug}`))))
+          await page.waitForSelector(byTestId('skills--arts-crafts'))
+          await page.waitForSelector(byTestId('skills--fundraising'))
+        })
       },
       { userData }
     )
