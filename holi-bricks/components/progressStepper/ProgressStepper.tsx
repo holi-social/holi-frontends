@@ -16,16 +16,14 @@ import Animated, {
 } from 'react-native-reanimated'
 // eslint-disable-next-line no-restricted-imports
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
-export type StepStatus = 'upcoming' | 'active' | 'done'
-
-interface ProgressStepperStep<T extends string = string> {
+export interface ProgressStepperStep<T extends string = string> {
   key: T
   label: string
   icon?: {
-    upcoming: React.ReactNode
-    active: React.ReactNode
-    done: React.ReactNode
+    inactive: HoliIconType
+    active: HoliIconType
   }
 }
 
@@ -67,8 +65,13 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
           <Stack alignItems="center" gap="3xs" key={key} flexBasis={Spacing['4xl']}>
             <Stack direction="row" alignItems="center">
               {icon ? (
-                // TODO: add icon functionality
-                <></>
+                <HoliTransition.FadeSwitch animKey={isActive ? 'active' : 'inactive'}>
+                  {isActive ? (
+                    <HoliIcon icon={icon.active} size={Spacing.md} />
+                  ) : (
+                    <HoliIcon icon={icon.inactive} size={Spacing.md} />
+                  )}
+                </HoliTransition.FadeSwitch>
               ) : (
                 <Stack
                   width={Spacing.md}
@@ -82,7 +85,11 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
                 >
                   <HoliTransition.FadeSwitch animKey={isCompleted ? 'done' : 'undone'}>
                     {isCompleted ? (
-                      <HoliIcon icon={Check} size={16} color={isActive || isCompleted ? 'selected' : 'informative'} />
+                      <HoliIcon
+                        icon={Check}
+                        size={Spacing.xs}
+                        color={isActive || isCompleted ? 'selected' : 'informative'}
+                      />
                     ) : (
                       <Text size="xs" color={isActive || isCompleted ? 'selected' : 'informative'}>
                         {index + 1}
