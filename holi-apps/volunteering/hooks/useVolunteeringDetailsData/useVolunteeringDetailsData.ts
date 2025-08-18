@@ -6,6 +6,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
+import { useVolunteeringOpportunityStatusQuery } from '@holi/api/graphql/graphql-codegen'
 
 export const useVolunteeringDetailsData = (volunteeringId: string, onOpenLink: (url?: string) => void) => {
   const { replaceRoute } = useRouting()
@@ -29,10 +30,30 @@ export const useVolunteeringDetailsData = (volunteeringId: string, onOpenLink: (
     }
   )
 
+  const {
+    data: { volunteeringOpportunityStatus } = {},
+    loading: isLoadingStatus,
+    refetch: refetchStatus,
+  } = useVolunteeringOpportunityStatusQuery({
+    variables: {
+      volunteeringOpportunityId: volunteeringId,
+    },
+  })
+
   useOnRefresh(refresh)
 
   return {
-    isLoading,
-    document: document ? transformTypesenseDocument({ t, language, document, onOpenLink }) : undefined,
+    isLoading: isLoading || isLoadingStatus,
+    document: document
+      ? transformTypesenseDocument({
+          t,
+          language,
+          document,
+          onOpenLink,
+          status: volunteeringOpportunityStatus?.status ?? null,
+        })
+      : undefined,
+    refetchStatus,
+    refetchDocument: refresh,
   }
 }
