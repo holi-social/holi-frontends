@@ -19,44 +19,28 @@ import {
 import { VolunteeringConnectedStatusModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringConnectedStatusModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringFinishedModal'
-
-export type VolunteeringProgressStatus = 'plan' | 'contact' | 'do' | 'finished'
+import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
-  onStatusChange: (status: VolunteeringProgressStatus | undefined) => void
+  onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
   document: VolunteeringDetailsScreenData
   engagementId: string
 }
 
-export const VolunteeringProgressSteps: { key: VolunteeringProgressStatus; label: string }[] = [
-  {
-    key: 'plan',
-    label: 'Plan',
-  },
-  {
-    key: 'contact',
-    label: 'Contact',
-  },
-  {
-    key: 'do',
-    label: 'Do',
-  },
-]
-
 export const VolunteeringProgressCard = ({
   document,
   engagementId,
-  status = 'plan',
+  status = VolunteeringOpportunityStatusValue.ToDo,
   onStatusChange,
 }: ProgressCardProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
-    onDismiss: () => onStatusChange('do'),
+    onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Contacted),
   })
   const { show: showFinishedModal, props: finishedModalProps } = useModalState({
-    onDismiss: () => onStatusChange('finished'),
+    onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Doing),
   })
 
   const contactInfoDisplayed = document.contact?.map((contact) => contact.type)
@@ -72,12 +56,12 @@ export const VolunteeringProgressCard = ({
         borderStyle="solid"
         borderWidth="sm"
       >
-        <HoliTransition.Fade visible={status !== 'finished'}>
+        <HoliTransition.Fade visible={status !== VolunteeringOpportunityStatusValue.Doing}>
           <VolunteeringProgressStepper status={status} />
         </HoliTransition.Fade>
 
         <HoliTransition.FadeSwitch animKey={status}>
-          {status === 'contact' && (
+          {status === VolunteeringOpportunityStatusValue.ToDo && (
             <>
               <Stack gap="3xs">
                 <Text size="lg">{t('volunteer.progress.progressCard.connect.title')}</Text>
@@ -107,7 +91,7 @@ export const VolunteeringProgressCard = ({
             </>
           )}
 
-          {status === 'do' && (
+          {status === VolunteeringOpportunityStatusValue.Contacted && (
             <>
               <Stack gap="xs">
                 <Stack gap="3xs">
@@ -120,7 +104,7 @@ export const VolunteeringProgressCard = ({
             </>
           )}
 
-          {status === 'finished' && (
+          {status === VolunteeringOpportunityStatusValue.Doing && (
             <>
               <Stack direction="row" gap="xs" alignItems="center">
                 <Stack
@@ -151,8 +135,12 @@ export const VolunteeringProgressCard = ({
         </HoliTransition.FadeSwitch>
       </Stack>
 
-      <VolunteeringConnectedStatusModal {...connectedStatusModalProps} label="Connected status" />
-      <VolunteeringFinishedModal {...finishedModalProps} label="Finished status" />
+      {status === VolunteeringOpportunityStatusValue.ToDo && (
+        <VolunteeringConnectedStatusModal {...connectedStatusModalProps} label="Connected status" />
+      )}
+      {status === VolunteeringOpportunityStatusValue.Contacted && (
+        <VolunteeringFinishedModal {...finishedModalProps} label="Finished status" />
+      )}
     </>
   )
 }

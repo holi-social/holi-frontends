@@ -22,6 +22,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { ChipStatus } from '@holi-apps/volunteering/components/ChipStatus'
+import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -50,8 +51,6 @@ type BodyContent = {
   content: string
 }
 
-export type VolunteeringEngagementStatus = 'planned' | 'contacted' | 'doing'
-
 export type DetailsScreenData = {
   date?: Date | string
   bodyContent?: BodyContent | BodyContent[]
@@ -72,7 +71,7 @@ export type DetailsScreenData = {
   descriptionTitle?: string
   additionalContent?: ReactNode | ReactNode[]
   progressCard?: ReactNode
-  status?: VolunteeringEngagementStatus
+  status: VolunteeringOpportunityStatusValue | null
 }
 
 type DetailsScreenProps = DetailsScreenData
@@ -178,7 +177,7 @@ export const DetailsScreen = ({
                 {t(`privacy.visibility.${visibility}`)}
               </Text>
             </Stack>
-            {status && (
+            {status && status !== VolunteeringOpportunityStatusValue.WontDo && (
               <Stack>
                 <ChipStatus status={status} />
               </Stack>

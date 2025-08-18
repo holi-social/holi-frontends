@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Animated, { FadeInUp } from 'react-native-reanimated'
 
-import type { VolunteeringProgressStatus } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Stack } from 'holi-bricks/components/stack'
@@ -11,13 +10,16 @@ import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 const ANIMATION_DELAY = 3300
 
 export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
   const { t } = useTranslation()
 
-  const [volunteeringProgressStatus, setVolunteeringProgressStatus] = useState<VolunteeringProgressStatus>('contact')
+  const [volunteeringProgressStatus, setVolunteeringProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
+    VolunteeringOpportunityStatusValue.ToDo
+  )
 
   return (
     <HoliModal {...props} label={t('volunteerProgress.connected.modal')}>
@@ -30,7 +32,7 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
 
             <Animated.View
               entering={FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
-                if (finished) setVolunteeringProgressStatus('do')
+                if (finished) setVolunteeringProgressStatus(VolunteeringOpportunityStatusValue.Doing)
               })}
             >
               <Stack gap="3xs" padding={{ bottom: 'md' }}>
