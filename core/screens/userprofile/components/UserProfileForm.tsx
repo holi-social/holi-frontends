@@ -31,6 +31,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 type UserProfileFormProps = {
   user: User
@@ -45,6 +47,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const [firstName, setFirstName] = useState(user?.firstName ?? '')
   const [lastName, setLastName] = useState(user?.lastName ?? '')
+  const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
@@ -58,6 +61,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     i18nPrefix: 'user.profile',
     handledFieldErrors: ['firstName', 'lastName', 'aboutMe', 'pronouns', 'location'],
   })
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
   const testID = props.testId || 'user-profile-edit-form'
 
@@ -87,6 +91,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     const input: UpdateAuthenticatedUserInput = {
       firstName,
       lastName,
+      aboutMe,
       pronouns,
       ...locationUpdate,
       ...(pickedAvatar?.blob ? { avatar: pickedAvatar.blob } : {}),
@@ -227,6 +232,24 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             testID={'last-name'}
           />
           <Stack gap="4xs">
+            {!rewardsPhaseTwoEnabled && (
+              <HoliTextInput
+                value={aboutMe}
+                inputLabel={t('user.profileForm.aboutMe')}
+                aria-label={t('user.profileForm.aboutMe')}
+                placeholder={t('user.profileForm.aboutMePlaceholder')}
+                validationErrorText={fieldErrors?.aboutMe?.join()}
+                onChange={(text: string) => {
+                  setAboutMe(text)
+                  resetErrorsForField('aboutMe')
+                }}
+                noOfVisibleLines={5}
+                maxNoOfVisibleLines={10}
+                maxNoOfCharacters={3000}
+                {...scrollToPropsFor('aboutme')}
+              />
+            )}
+
             <HoliTextInput
               value={pronouns}
               inputLabel={t('user.profileForm.pronouns')}
