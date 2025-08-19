@@ -13,8 +13,8 @@ export const VolunteeringFinishedModal = (props: HoliModalProps) => {
   const rewardsCounter = rewardsCounterResponse?.rewards_counter?.counter ?? 0
 
   return (
-    <HoliModal {...props} label={t('goodDeedsRewards.modal')}>
-      <SafeArea onLayout={() => fetchRewardsCounter()}>
+    <HoliModal {...props} label={t('goodDeedsRewards.modal')} autoHeight={false} relativeHeight={1}>
+      <SafeArea onLayout={() => fetchRewardsCounter()} style={{ flex: 1 }}>
         <RewardMessage onClaim={props.onDismiss} deedCount={rewardsCounter + 1} />
       </SafeArea>
     </HoliModal>

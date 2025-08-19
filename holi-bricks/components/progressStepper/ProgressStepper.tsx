@@ -5,7 +5,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Easing, View } from 'react-native'
+import { View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -13,6 +13,7 @@ import Animated, {
   interpolate,
   Extrapolation,
   useSharedValue,
+  Easing,
 } from 'react-native-reanimated'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
@@ -117,7 +118,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width: Spacing.lg,
     height: Spacing.lg,
     backgroundColor: theme.colors.decorative.purpleDefault,
-    borderRadius: '50%',
+    borderRadius: Spacing.lg / 2,
     transform: [{ translateX: -Spacing.lg / 2 }, { translateY: -Spacing.lg / 2 }],
   },
 }))

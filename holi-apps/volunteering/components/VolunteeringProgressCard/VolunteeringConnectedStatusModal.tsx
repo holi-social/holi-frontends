@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Animated, { FadeInUp } from 'react-native-reanimated'
+import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
 
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -27,12 +27,16 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
         <HoliContainer>
           <Stack gap="md" padding={{ bottom: 'md' }}>
             <Stack width="100%">
-              <HoliLottie animType="contactedSuccess" loop={false} />
+              <HoliLottie
+                animType="contactedSuccess"
+                loop={false}
+                style={{ aspectRatio: 342 / 130, position: 'relative' }}
+              />
             </Stack>
 
             <Animated.View
               entering={FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
-                if (finished) setVolunteeringProgressStatus(VolunteeringOpportunityStatusValue.Doing)
+                if (finished) runOnJS(setVolunteeringProgressStatus)(VolunteeringOpportunityStatusValue.Doing)
               })}
             >
               <Stack gap="3xs" padding={{ bottom: 'md' }}>

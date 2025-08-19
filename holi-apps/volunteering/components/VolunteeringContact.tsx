@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import Animated, { FadeInUp } from 'react-native-reanimated'
+import { ScrollView } from 'react-native'
+import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
 
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -11,7 +12,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { VolunteeringContactItem } from '@holi-apps/volunteering/components/VolunteeringContactItem'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie.web'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 import { Text } from 'holi-bricks/components/text'
 import { FavoritableType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
@@ -105,46 +106,48 @@ export const VolunteeringContact = ({
         testID="volunteering-contact-modal"
         backgroundColor={styles.modal.backgroundColor}
       >
-        <HoliContainer>
-          <Stack gap="md">
-            <Stack width="100%">
-              <HoliLottie animType="rocket" loop={true} />
-            </Stack>
+        <ScrollView>
+          <HoliContainer>
+            <Stack gap="md">
+              <Stack width="100%">
+                <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130, position: 'relative' }} />
+              </Stack>
 
-            <Animated.View
-              entering={FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
-                if (finished) setProgressStatus(VolunteeringOpportunityStatusValue.ToDo)
-              })}
-            >
-              <Stack gap="md">
-                <Stack gap="3xs">
-                  <Stack padding={{ bottom: 'sm', left: 'md', right: 'xs' }}>
-                    <VolunteeringProgressStepper status={progressStatus} />
+              <Animated.View
+                entering={FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
+                  if (finished) runOnJS(setProgressStatus)(VolunteeringOpportunityStatusValue.ToDo)
+                })}
+              >
+                <Stack gap="md">
+                  <Stack gap="3xs">
+                    <Stack padding={{ bottom: 'sm', left: 'md', right: 'xs' }}>
+                      <VolunteeringProgressStepper status={progressStatus} />
+                    </Stack>
+
+                    <Text size="3xl">{t('volunteer.progress.initiate.modal.title')}</Text>
+                    <Text size="md">{t('volunteer.progress.initiate.modal.text')}</Text>
                   </Stack>
 
-                  <Text size="3xl">{t('volunteer.progress.initiate.modal.title')}</Text>
-                  <Text size="md">{t('volunteer.progress.initiate.modal.text')}</Text>
+                  <Stack gap="4xs" margin={{ bottom: 'lg' }}>
+                    {document.contact?.map((contact, index) => (
+                      <VolunteeringContactItem
+                        key={contact.value + index}
+                        contact={contact}
+                        trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
+                          commitmentType: document.commitmentType,
+                          source: document.source,
+                          contact_info_displayed: contactInfoDisplayed,
+                          contact_method_selected: contact.type,
+                        })}
+                        onWebViewOpen={hideContact}
+                      />
+                    ))}
+                  </Stack>
                 </Stack>
-
-                <Stack gap="4xs" margin={{ bottom: 'lg' }}>
-                  {document.contact?.map((contact, index) => (
-                    <VolunteeringContactItem
-                      key={contact.value + index}
-                      contact={contact}
-                      trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
-                        commitmentType: document.commitmentType,
-                        source: document.source,
-                        contact_info_displayed: contactInfoDisplayed,
-                        contact_method_selected: contact.type,
-                      })}
-                      onWebViewOpen={hideContact}
-                    />
-                  ))}
-                </Stack>
-              </Stack>
-            </Animated.View>
-          </Stack>
-        </HoliContainer>
+              </Animated.View>
+            </Stack>
+          </HoliContainer>
+        </ScrollView>
       </HoliModal>
     </Stack>
   )
