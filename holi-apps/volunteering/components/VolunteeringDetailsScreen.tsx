@@ -98,7 +98,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         {...document}
         title={document?.title ?? ''}
         // TODO Stefano: Move inside the layout and remove _footer prop
-        _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
+        _footer={document && <VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
       />
       {webViewUrl && !isWeb && (
         <HoliModal
