@@ -18,5 +18,4 @@ export type MultiPlatformImage = AccessibilityProps &
     alt: string
     stretch?: boolean
     aspectRatio?: number | string | undefined
-    dimmed?: boolean
   }
