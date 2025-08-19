@@ -99,6 +99,7 @@ describe('transformDocument', () => {
           },
         ],
       },
+      status: null,
     })
   })
 
@@ -203,6 +204,7 @@ describe('transformDocument', () => {
           },
         ],
       },
+      status: null,
     })
   })
 
