@@ -5640,6 +5640,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:4.6.2"
     eslint-plugin-react-native: "npm:^4.1.0"
     extract-files: "npm:^13.0.0"
+    graphql-sse: "npm:^2.5.4"
     ramda: "npm:^0.29.1"
   languageName: unknown
   linkType: soft
@@ -20192,6 +20193,15 @@ __metadata:
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: 10c0/7666c305b8367528c4fbb583a2731d93d52f36043d71f4957ecc1d2db71d710d268e25535243beb1b2497db921daa94d3cfa83daaf4a3101a667f358ddbf3436
+  languageName: node
+  linkType: hard
+
+"graphql-sse@npm:^2.5.4":
+  version: 2.5.4
+  resolution: "graphql-sse@npm:2.5.4"
+  peerDependencies:
+    graphql: ">=0.11 <=16"
+  checksum: 10c0/b2635a4098b86492ecb04e7aab7efb715847ad11b785591cf90cf1f342ba78a03db0c6cf903975a7ad9e2c278dee55cd9e2e9d7edb560f334528bb8ee926ed95
   languageName: node
   linkType: hard
 

@@ -1,5 +1,5 @@
 import type { ApolloClientOptions, HttpOptions, NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from, split } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
@@ -16,6 +16,9 @@ import {
 } from './cachePolicies'
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
+import { getMainDefinition } from '@apollo/client/utilities'
+import { SSELink } from '@holi/api/graphql/sseLink'
+import { createAuthorizationHeaders } from '@holi/api/helpers'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
@@ -89,6 +92,18 @@ const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
   fetch: customFetch,
   isExtractableFile: customIsExtractableFile,
 })
+
+const uploadOrSSETerminatingLink = split(
+  // check if we're requesting a subscription
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+  },
+  // if so use the terminating SSELink
+  new SSELink({ url: holiApiUrl, credentials: 'include', fetchFn: customFetch, headers: createAuthorizationHeaders }),
+  // if not, use the existing terminating upload link
+  uploadCapableTerminatingLink
+)
 
 export const createCache = () =>
   new InMemoryCache({
@@ -217,7 +232,7 @@ const createClientSideLink = (locale?: string) =>
       authorizationHeaderLink,
       timeoutLink,
       errorLink,
-      uploadCapableTerminatingLink,
+      uploadOrSSETerminatingLink,
     ].filter((link) => !!link)
   )
 
