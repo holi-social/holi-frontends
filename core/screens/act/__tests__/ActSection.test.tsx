@@ -6,11 +6,12 @@ import React from 'react'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
+import { ActSection } from '@holi/core/screens/act/ActSection'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { ActSectionType } from '@holi/core/screens/act/sections'
 
 export const user: User = {
   id: '123',
