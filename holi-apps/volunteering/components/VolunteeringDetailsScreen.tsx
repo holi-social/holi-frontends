@@ -17,10 +17,14 @@ import { VolunteeringContact } from '@holi-apps/volunteering/components/Voluntee
 import { useOpenLink } from '@holi/ui/helper/useOpenLink'
 import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const isIos = Platform.OS === 'ios'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+
   const { displayError } = useErrorHandling()
   const onOpenLink = useOpenLink()
 
@@ -74,6 +78,8 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
             document={document}
             onOpenLink={onOpenLink}
             onModalDismiss={() => {
+              if (!rewardsPhaseTwoEnabled) return
+
               // Update status to "TO_DO" only once when initially the status is null
               if (document?.status === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
             }}
@@ -108,23 +114,25 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           // - TO_DO
           // - CONTACTED
           // - DOING
-          <HoliTransition.FadeDown
-            visible={
-              !!document?.status &&
-              [
-                VolunteeringOpportunityStatusValue.ToDo,
-                VolunteeringOpportunityStatusValue.Contacted,
-                VolunteeringOpportunityStatusValue.Doing,
-              ].includes(document?.status)
-            }
-          >
-            <VolunteeringProgressCard
-              status={document?.status ?? VolunteeringOpportunityStatusValue.ToDo}
-              document={document!}
-              engagementId={engagementId}
-              onStatusChange={onVolunteeringStatusChange}
-            />
-          </HoliTransition.FadeDown>
+          rewardsPhaseTwoEnabled ? (
+            <HoliTransition.FadeDown
+              visible={
+                !!document?.status &&
+                [
+                  VolunteeringOpportunityStatusValue.ToDo,
+                  VolunteeringOpportunityStatusValue.Contacted,
+                  VolunteeringOpportunityStatusValue.Doing,
+                ].includes(document?.status)
+              }
+            >
+              <VolunteeringProgressCard
+                status={document?.status ?? VolunteeringOpportunityStatusValue.ToDo}
+                document={document!}
+                engagementId={engagementId}
+                onStatusChange={onVolunteeringStatusChange}
+              />
+            </HoliTransition.FadeDown>
+          ) : null
         }
       />
     </Screen>
