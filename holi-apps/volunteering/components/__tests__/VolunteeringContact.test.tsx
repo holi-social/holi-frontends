@@ -14,21 +14,29 @@ import { MockedProvider } from '@apollo/client/testing'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useLoginState } from '@holi/core/auth/loginState'
 
+import { volunteeringDetailsScreenData as document } from './helpers/seedData'
+
 const mockUseLoginState = jest.mocked(useLoginState)
 
 const mockOpenURL = global.mockOpenURL
 const mockTrack = global.mockTrack
 
+const mockUseOpenLink = jest.fn()
+jest.mock('@holi/ui/helper/useOpenLink', () => ({
+  useOpenLink: () => mockUseOpenLink,
+}))
+
 const authenticatedUserMock = {
   request: {
     query: authenticatedUserV2Query,
-    variables: {},
+    variables: { userId: 'test-user-id' },
   },
   result: {
     data: {
       authenticatedUserV2: {
         id: 'test-user-id',
         identity: 'test-user',
+        accountType: 'UNKNOWN',
         avatar: 'https://example.com/avatar.jpg',
         avatarBlurhash: '',
         avatarDefaultColor: '#7571EC',
@@ -84,22 +92,6 @@ describe('VolunteeringContact', () => {
   })
 
   describe('with contact info', () => {
-    const document: VolunteeringDetailsScreenData = {
-      title: 'Some title',
-      externalUrl: 'https://www.lovelace.com',
-      contact: [
-        { type: Typesense_DocumentContactType.Person, value: 'Ada Lovelace' },
-        { type: Typesense_DocumentContactType.Email, value: 'ada@lovelace.com' },
-        { type: Typesense_DocumentContactType.Phone, value: '+49 1234 1234567' },
-        {
-          label: "Ada's Website",
-          type: Typesense_DocumentContactType.Website,
-          value: 'https://www.lovelace.com',
-        },
-      ],
-      commitmentType: 'once',
-    }
-
     it('should open contact drawer and list all information', async () => {
       const user = userEvent.setup()
 
@@ -127,6 +119,7 @@ describe('VolunteeringContact', () => {
             value: 'https://www.lovelace.com',
           },
         ],
+        status: null,
       }
 
       renderWithApollo(
@@ -178,8 +171,7 @@ describe('VolunteeringContact', () => {
 
     it('should open website in drawer', async () => {
       const user = userEvent.setup()
-      const onOpenLink = jest.fn()
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={onOpenLink} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -187,7 +179,7 @@ describe('VolunteeringContact', () => {
       await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
       await act(jest.runAllTimersAsync)
 
-      expect(onOpenLink).toHaveBeenCalledWith('https://www.lovelace.com')
+      expect(mockUseOpenLink).toHaveBeenCalledWith('https://www.lovelace.com')
     })
 
     it('tracks opening the drawer', async () => {
@@ -232,6 +224,7 @@ describe('VolunteeringContact', () => {
       externalUrl: 'https://www.lovelace.com',
       commitmentType: 'recurring',
       contact: [],
+      status: null,
     }
     it('should open drawer for web view', async () => {
       const onOpenLink = jest.fn()
@@ -255,6 +248,7 @@ describe('VolunteeringContact', () => {
             value: 'https://www.lovelace.com',
           },
         ],
+        status: null,
       }
       const onOpenLink = jest.fn()
       const user = userEvent.setup()

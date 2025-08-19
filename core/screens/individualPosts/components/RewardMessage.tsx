@@ -157,12 +157,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
         </Pressable>
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-          label={t('goodDeed.rewardsMessage.button', 'Claim')}
-          onPress={onClaim}
-          size="md"
-          testID="reward-claim-button"
-        />
+        <Button label={t('goodDeed.rewardsMessage.button')} onPress={onClaim} size="md" testID="reward-claim-button" />
       </View>
     </View>
   )

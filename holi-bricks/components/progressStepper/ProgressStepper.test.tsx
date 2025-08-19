@@ -1,31 +1,41 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react-native'
-import { ProgressStepper, type StepStatus } from 'holi-bricks/components/progressStepper/ProgressStepper'
+import { ProgressStepper, type ProgressStepperStep } from 'holi-bricks/components/progressStepper/ProgressStepper'
 import { Stack } from 'holi-bricks/components/stack'
+import { Emotion, EmotionFilled } from '@holi/icons/src/generated'
+
+jest.useFakeTimers()
 
 describe('ProgressStepper', () => {
-  it('renders step indicators with correct status', () => {
-    const steps = [
-      { label: 'Step One', status: 'upcoming' },
-      { label: 'Step Two', status: 'active' },
-      { label: 'Step Three', status: 'done' },
-    ]
+  const steps: ProgressStepperStep[] = [
+    { key: 'one', label: 'Step One' },
+    { key: 'two', label: 'Step Two' },
+    { key: 'three', label: 'Step Three', icon: { inactive: Emotion, active: EmotionFilled } },
+  ]
+
+  it('renders step labels with correct status', () => {
     render(
       <Stack direction="row">
-        {steps.map((step, index) => (
-          <ProgressStepper
-            key={index}
-            step={index + 1}
-            label={step.label}
-            status={step.status as StepStatus}
-            isLast={index === steps.length - 1}
-            isFirst={index === 0}
-          />
-        ))}
+        <ProgressStepper steps={steps} activeStepKey="two" />
       </Stack>
     )
+
     expect(screen.getByText('Step One')).toBeTruthy()
     expect(screen.getByText('Step Two')).toBeTruthy()
     expect(screen.getByText('Step Three')).toBeTruthy()
+  })
+
+  it('shows inactive icon when step with "icon" option is not active', () => {
+    render(<ProgressStepper steps={steps} activeStepKey="three" />)
+
+    expect(screen.getByTestId('progress-stepper-icon--active')).toBeOnTheScreen()
+    expect(screen.queryByTestId('progress-stepper-icon--inactive')).not.toBeOnTheScreen()
+  })
+
+  it('shows active icon when step with "icon" option is reached', () => {
+    render(<ProgressStepper steps={steps} activeStepKey="one" />)
+
+    expect(screen.queryByTestId('progress-stepper-icon--active')).not.toBeOnTheScreen()
+    expect(screen.getByTestId('progress-stepper-icon--inactive')).toBeOnTheScreen()
   })
 })

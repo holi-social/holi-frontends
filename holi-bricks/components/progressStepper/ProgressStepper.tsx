@@ -67,9 +67,9 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
               {icon ? (
                 <HoliTransition.FadeSwitch animKey={isActive ? 'active' : 'inactive'}>
                   {isActive ? (
-                    <HoliIcon icon={icon.active} size={Spacing.md} />
+                    <HoliIcon icon={icon.active} size={Spacing.md} testID="progress-stepper-icon--active" />
                   ) : (
-                    <HoliIcon icon={icon.inactive} size={Spacing.md} />
+                    <HoliIcon icon={icon.inactive} size={Spacing.md} testID="progress-stepper-icon--inactive" />
                   )}
                 </HoliTransition.FadeSwitch>
               ) : (
@@ -100,7 +100,6 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
               )}
             </Stack>
 
-            {/* Label */}
             <Text size="xs" color="informative">
               {label}
             </Text>

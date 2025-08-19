@@ -23,7 +23,7 @@ interface VolunteeringContactProps {
   document: VolunteeringDetailsScreenData
   engagementId: string
   onOpenLink: (url?: string) => void
-  onModalDismiss: () => void
+  onModalDismiss?: () => void
   isFavorite?: boolean
   onFavoriteCompleted?: () => void
   onFavoriteError?: (error: Error) => void
