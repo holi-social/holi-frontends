@@ -71,7 +71,7 @@ export type DetailsScreenData = {
   descriptionTitle?: string
   additionalContent?: ReactNode | ReactNode[]
   progressCard?: ReactNode
-  status: VolunteeringOpportunityStatusValue | null
+  status?: VolunteeringOpportunityStatusValue | null
 }
 
 type DetailsScreenProps = DetailsScreenData
