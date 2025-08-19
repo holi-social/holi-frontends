@@ -32,6 +32,9 @@ import { GoodDeedsTab } from '@holi/core/screens/userprofile/components/GoodDeed
 import { MoreTab } from '@holi/core/screens/userprofile/components/MoreTab'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import MyBadges from '@holi/core/screens/userprofile/MyBadges'
+
+// todo: featureflag
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'aboutMe'
 
@@ -44,6 +47,7 @@ export enum Tab {
   CONNECTIONS = 'connections',
   GOOD_DEEDS = 'goodDeeds',
   MORE = 'more',
+  BADGES = 'badges',
 }
 
 interface OwnProfileTab {
@@ -81,6 +85,9 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
     if (activeTab === Tab.GOOD_DEEDS) {
       track(TrackingEvent.UserProfile.globalGoodDeedsTabOpened())
     }
+    if (activeTab === Tab.BADGES) {
+      track(TrackingEvent.UserProfile.badgesPageOpened())
+    }
     if (activeTab === Tab.MY_VOLUNTEERING) {
       track(TrackingEvent.UserProfile.myVolunteerTabOpened())
     }
@@ -99,6 +106,11 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
           key: Tab.MY_VOLUNTEERING,
           tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma
           content: () => <MyVolunteeringTab />,
+        },
+        {
+          key: Tab.BADGES,
+          tabTitle: 'Superpowers',
+          content: () => <MyBadges />,
         },
         {
           key: Tab.GOOD_DEEDS,

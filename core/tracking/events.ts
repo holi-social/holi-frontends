@@ -816,6 +816,10 @@ export namespace TrackingEvent {
       name: 'userProfile_ConnectionsSubpage_opened',
       ...versionOne,
     }),
+    badgesPageOpened: (): TrackingEvent => ({
+      name: 'userProfile_BadgesSubpage_opened',
+      ...versionOne,
+    }),
   }
 
   export const NotificationPreferenceChanged = (

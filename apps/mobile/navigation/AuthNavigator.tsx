@@ -23,6 +23,7 @@ import AboutMe from '@holi/core/screens/userprofile/AboutMe'
 import MyPosts from '@holi/core/screens/userprofile/MyPosts'
 import MyConnections from '@holi/core/screens/userprofile/MyConnections'
 import MySpaces from '@holi/core/screens/userprofile/MySpaces'
+import MyBadges from '@holi/core/screens/userprofile/MyBadges'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -42,6 +43,7 @@ export type AuthStackScreensList = {
   MyConnections: undefined
   MyPosts: undefined
   MySpaces: undefined
+  MyBadges: undefined
 }
 
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
@@ -85,6 +87,7 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen name={RouteName.MyPosts} component={MyPosts} />
       <AuthStack.Screen name={RouteName.MyConnections} component={MyConnections} />
       <AuthStack.Screen name={RouteName.MySpaces} component={MySpaces} />
+      <AuthStack.Screen name={RouteName.MyBadges} component={MyBadges} />
     </AuthStack.Navigator>
   )
 }
