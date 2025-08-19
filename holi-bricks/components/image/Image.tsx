@@ -101,6 +101,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         aria-label={alt}
         onLoadEnd={onLoadEnd}
         {...accessibilityProps(otherProps)}
+        tintColor={otherProps?.dimmed ? 'gray' : undefined}
       />
     </>
   )

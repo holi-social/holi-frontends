@@ -7,8 +7,11 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { Image } from 'holi-bricks/components/image'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { LockFilled } from '@holi/icons/src/generated'
+import { View } from 'react-native'
 
-const BADGE_WIDTH = 164
+const PROGRESSBAR_WIDTH = 100
 const IMAGE_WIDTH = 80
 
 const mockStarterBadges = [
@@ -19,6 +22,7 @@ const mockStarterBadges = [
     totalSteps: undefined,
     date: '15.07.2025',
     state: 'achieved',
+    imageSrc: require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg'),
   },
   {
     title: 'Story Starter',
@@ -27,10 +31,8 @@ const mockStarterBadges = [
     totalSteps: undefined,
     date: undefined,
     state: 'active',
+    imageSrc: require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg'),
   },
-]
-
-const mockExplorerBadges = [
   {
     title: 'Impact Explorer',
     description: 'Volunteerings',
@@ -38,6 +40,7 @@ const mockExplorerBadges = [
     totalSteps: 5,
     date: undefined,
     state: 'active',
+    imageSrc: require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
   },
   {
     title: 'Story Explorer',
@@ -46,6 +49,7 @@ const mockExplorerBadges = [
     totalSteps: undefined,
     date: undefined,
     state: 'locked',
+    imageSrc: require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
   },
 ]
 
@@ -66,23 +70,25 @@ const MyBadges = () => {
             <Stack
               gap="3xs"
               padding={{ top: 'xs', bottom: 'xs', left: '3xs', right: '3xs' }}
-              width={BADGE_WIDTH}
+              width={'45%'}
               key={badge.title}
             >
               <Stack alignItems="center">
-                <Image
-                  source={
-                    badge.state === 'locked'
-                      ? require('@holi/ui/assets/img/illustrations/badge-placeholder-locked.svg')
-                      : badge.state === 'active'
-                        ? require('@holi/ui/assets/img/illustrations/badge-placeholder-active.svg')
-                        : require('@holi/ui/assets/img/illustrations/badge-placeholder-achieved.svg')
-                  }
-                  alt="badge illustration"
-                  width={IMAGE_WIDTH}
-                  height={IMAGE_WIDTH * 0.7}
-                  resizeMode="contain"
-                />
+                <View style={{ position: 'relative' }}>
+                  <Image
+                    source={badge.imageSrc}
+                    alt="badge illustration"
+                    width={IMAGE_WIDTH}
+                    height={IMAGE_WIDTH}
+                    resizeMode="contain"
+                    dimmed={badge.state === 'active' || badge.state === 'locked'}
+                  />
+                </View>
+                {badge.state === 'locked' && (
+                  <View style={{ position: 'absolute', alignSelf: 'center', justifyContent: 'center', height: '100%' }}>
+                    <HoliIcon icon={LockFilled} color="muted" />
+                  </View>
+                )}
               </Stack>
               <Stack gap="4xs" alignItems="center">
                 <Text size="sm" textAlign="center">
@@ -94,55 +100,9 @@ const MyBadges = () => {
                   {badge.totalSteps} {badge.description}
                 </Text>
                 {badge.currentStep && badge.totalSteps && (
-                  <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
-                )}
-                {badge.date && (
-                  <Stack alignItems="center">
-                    <ChipLabel size="sm" color="mono">
-                      {badge.date}
-                    </ChipLabel>
+                  <Stack width={PROGRESSBAR_WIDTH} alignItems="center">
+                    <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
                   </Stack>
-                )}
-              </Stack>
-            </Stack>
-          ))}
-        </Stack>
-
-        <Stack gap="md" direction="row" justifyContent="space-around" wrap="wrap">
-          {mockExplorerBadges.map((badge) => (
-            <Stack
-              gap="3xs"
-              padding={{ top: 'xs', bottom: 'xs', left: '3xs', right: '3xs' }}
-              width={BADGE_WIDTH}
-              key={badge.title}
-            >
-              <Stack alignItems="center">
-                <Image
-                  source={
-                    badge.state === 'locked'
-                      ? require('@holi/ui/assets/img/illustrations/badge-placeholder-locked.svg')
-                      : badge.state === 'active'
-                        ? require('@holi/ui/assets/img/illustrations/badge-placeholder-active.svg')
-                        : require('@holi/ui/assets/img/illustrations/badge-placeholder-achieved.svg')
-                  }
-                  // source={require('@holi/ui/assets/img/illustrations/illustration_favorites.svg')}
-                  alt="badge illustration"
-                  width={IMAGE_WIDTH}
-                  height={IMAGE_WIDTH * 0.7}
-                  resizeMode="contain"
-                />
-              </Stack>
-              <Stack gap="4xs" alignItems="center">
-                <Text size="sm" textAlign="center">
-                  {badge.title}
-                </Text>
-                <Text size="xs" textAlign="center" color="support">
-                  {badge.currentStep}
-                  {badge.currentStep && badge.totalSteps && '/'}
-                  {badge.totalSteps} {badge.description}
-                </Text>
-                {badge.currentStep && badge.totalSteps && (
-                  <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
                 )}
                 {badge.date && (
                   <Stack alignItems="center">

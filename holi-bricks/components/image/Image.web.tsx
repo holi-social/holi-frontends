@@ -48,6 +48,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         ...styles.aspectRatio(aspectRatio),
         ...styles.stretch(stretch),
         ...layoutStyle(otherProps),
+        filter: otherProps.dimmed ? 'opacity(0.3)' : undefined,
       }}
       onError={() => {
         setHasError(true)
