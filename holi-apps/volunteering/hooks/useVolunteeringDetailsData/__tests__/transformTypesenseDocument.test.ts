@@ -45,7 +45,7 @@ describe('transformDocument', () => {
   it('should transform a document with all fields correctly', () => {
     const { t } = useTranslation()
     const onOpenLink = jest.fn()
-    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink })
+    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink, status: null })
 
     expect(result).toEqual({
       title: 'English Title',
@@ -105,7 +105,7 @@ describe('transformDocument', () => {
   it('should open correct link for organizer', () => {
     const { t } = useTranslation()
     const onOpenLink = jest.fn()
-    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink })
+    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink, status: null })
 
     result.author?.onPress?.()
 
@@ -115,7 +115,7 @@ describe('transformDocument', () => {
   it('should open correct link for partner', () => {
     const { t } = useTranslation()
     const onOpenLink = jest.fn()
-    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink })
+    const result = transformTypesenseDocument({ t, language: 'en', document: baseDocument, onOpenLink, status: null })
 
     result.partners?.details[0]?.onPress?.()
 
@@ -124,7 +124,13 @@ describe('transformDocument', () => {
 
   it('should handle German language preference correctly', () => {
     const { t } = useTranslation()
-    const result = transformTypesenseDocument({ t, language: 'de', document: baseDocument, onOpenLink: jest.fn() })
+    const result = transformTypesenseDocument({
+      t,
+      language: 'de',
+      document: baseDocument,
+      onOpenLink: jest.fn(),
+      status: null,
+    })
 
     expect(result.title).toBe('Deutscher Titel')
     expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
@@ -140,7 +146,13 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument({ t, language: 'en', document: docWithoutGerman, onOpenLink: jest.fn() })
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: docWithoutGerman,
+      onOpenLink: jest.fn(),
+      status: null,
+    })
 
     expect(result.title).toBe('English Title')
     expect(Array.isArray(result.bodyContent) ? result.bodyContent[0].content : result.bodyContent?.content).toBe(
@@ -157,7 +169,13 @@ describe('transformDocument', () => {
     const onOpenLink = jest.fn()
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument({ t, language: 'en', document: minimalDocument, onOpenLink })
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: minimalDocument,
+      onOpenLink,
+      status: null,
+    })
 
     expect(result).toEqual({
       title: '',
@@ -201,6 +219,7 @@ describe('transformDocument', () => {
       language: 'en',
       document: documentWithImages,
       onOpenLink: jest.fn(),
+      status: null,
     })
 
     expect(result.coverImage).toEqual({
@@ -221,6 +240,7 @@ describe('transformDocument', () => {
       language: 'en',
       document: docWithUnknownSource,
       onOpenLink: jest.fn(),
+      status: null,
     })
     expect(result.author?.title).toBe('Test Organization')
     // Should not crash when partner is undefined
@@ -242,7 +262,13 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument({ t, language: 'en', document: docWithoutOrgName, onOpenLink: jest.fn() })
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: docWithoutOrgName,
+      onOpenLink: jest.fn(),
+      status: null,
+    })
     expect(result.author?.title).toBe('Voltastics')
     expect(result.author?.mainAvatar?.label).toBe('??')
   })
@@ -254,7 +280,13 @@ describe('transformDocument', () => {
     }
 
     const { t } = useTranslation()
-    const result = transformTypesenseDocument({ t, language: 'en', document: remoteDocument, onOpenLink: jest.fn() })
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: remoteDocument,
+      onOpenLink: jest.fn(),
+      status: null,
+    })
     expect(result.infoList).toEqual([
       {
         title: 'volunteering.engagement.location_type.remote',
@@ -285,6 +317,7 @@ describe('transformDocument', () => {
       language: 'en',
       document: docWithIntermediateDuration,
       onOpenLink: jest.fn(),
+      status: null,
     })
     expect(result.infoList).toEqual([
       {
