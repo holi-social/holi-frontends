@@ -1,34 +1,36 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { ProgressStepper, type StepStatus } from 'holi-bricks/components/progressStepper/ProgressStepper'
+import { ProgressStepper } from 'holi-bricks/components/progressStepper/ProgressStepper'
 import { Stack } from 'holi-bricks/components/stack'
+import { GoodDeedsIcon, GoodDeedsIconFilled } from '@holi/icons/src/generated'
 
 const meta: Meta<typeof ProgressStepper> = {
   title: 'Components/ProgressStepper',
   component: ProgressStepper,
+  argTypes: {
+    activeStepKey: {
+      options: ['step-one', 'step-two', 'step-three'],
+      control: { type: 'radio' },
+    },
+  },
+  args: {
+    activeStepKey: 'step-two',
+  },
 }
 
 type Story = StoryObj<typeof ProgressStepper>
 
 export const Default: Story = {
-  render: function Render() {
+  render: function Render({ activeStepKey }) {
     const steps = [
-      { label: 'Step One', status: 'upcoming' },
-      { label: 'Step Two', status: 'active' },
-      { label: 'Step Three', status: 'done' },
+      { key: 'step-one', label: 'Step One' },
+      { key: 'step-two', label: 'Step Two' },
+      { key: 'step-three', label: 'Step Three', icon: { active: GoodDeedsIconFilled, inactive: GoodDeedsIcon } },
     ]
+
     return (
-      <Stack direction="row">
-        {steps.map((step, index) => (
-          <ProgressStepper
-            key={index}
-            step={index + 1}
-            label={step.label}
-            status={step.status as StepStatus}
-            isLast={index === steps.length - 1}
-            isFirst={index === 0}
-          />
-        ))}
+      <Stack direction="row" width="100%">
+        <ProgressStepper steps={steps} activeStepKey={activeStepKey} />
       </Stack>
     )
   },

@@ -14,8 +14,6 @@ import Animated, {
   Extrapolation,
   useSharedValue,
 } from 'react-native-reanimated'
-// eslint-disable-next-line no-restricted-imports
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
 export interface ProgressStepperStep<T extends string = string> {
@@ -65,13 +63,11 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
           <Stack alignItems="center" gap="3xs" key={key} flexBasis={Spacing['4xl']}>
             <Stack direction="row" alignItems="center">
               {icon ? (
-                <HoliTransition.FadeSwitch animKey={isActive ? 'active' : 'inactive'}>
-                  {isActive ? (
-                    <HoliIcon icon={icon.active} size={Spacing.md} testID="progress-stepper-icon--active" />
-                  ) : (
-                    <HoliIcon icon={icon.inactive} size={Spacing.md} testID="progress-stepper-icon--inactive" />
-                  )}
-                </HoliTransition.FadeSwitch>
+                isActive ? (
+                  <HoliIcon icon={icon.active} size={Spacing.md} testID="progress-stepper-icon--active" />
+                ) : (
+                  <HoliIcon icon={icon.inactive} size={Spacing.md} testID="progress-stepper-icon--inactive" />
+                )
               ) : (
                 <Stack
                   width={Spacing.md}
@@ -83,19 +79,17 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
                   alignItems="center"
                   backgroundColor={isActive ? 'purpleDark' : isCompleted ? 'purpleDefault' : 'support'}
                 >
-                  <HoliTransition.FadeSwitch animKey={isCompleted ? 'done' : 'undone'}>
-                    {isCompleted ? (
-                      <HoliIcon
-                        icon={Check}
-                        size={Spacing.xs}
-                        color={isActive || isCompleted ? 'selected' : 'informative'}
-                      />
-                    ) : (
-                      <Text size="xs" color={isActive || isCompleted ? 'selected' : 'informative'}>
-                        {index + 1}
-                      </Text>
-                    )}
-                  </HoliTransition.FadeSwitch>
+                  {isCompleted ? (
+                    <HoliIcon
+                      icon={Check}
+                      size={Spacing.xs}
+                      color={isActive || isCompleted ? 'selected' : 'informative'}
+                    />
+                  ) : (
+                    <Text size="xs" color={isActive || isCompleted ? 'selected' : 'informative'}>
+                      {index + 1}
+                    </Text>
+                  )}
                 </Stack>
               )}
             </Stack>

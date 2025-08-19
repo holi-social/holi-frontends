@@ -71,6 +71,7 @@ export type DetailsScreenData = {
   descriptionTitle?: string
   additionalContent?: ReactNode | ReactNode[]
   progressCard?: ReactNode
+  isFavorite?: boolean
   status?: VolunteeringOpportunityStatusValue | null
 }
 
