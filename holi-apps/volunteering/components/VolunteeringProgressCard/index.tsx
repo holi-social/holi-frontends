@@ -20,6 +20,7 @@ import { VolunteeringConnectedStatusModal } from '@holi-apps/volunteering/compon
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringFinishedModal'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
   onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
@@ -83,10 +84,11 @@ export const VolunteeringProgressCard = ({
                 </Stack>
               </Stack>
 
-              <Button
+              <ButtonTracked
                 label={t('volunteering.progress.button.reachedOut')}
                 icon={Check}
                 onPress={showConnectedStatusModal}
+                trackingEvent={TrackingEvent.Volunteering.selfReportingFlow.contacted(engagementId)}
               />
             </>
           )}
@@ -99,7 +101,12 @@ export const VolunteeringProgressCard = ({
                   <Text size="md">{t('volunteer.progress.progressCard.act.text')}</Text>
                 </Stack>
 
-                <Button label={t('volunteering.progress.button.act')} icon={Check} onPress={showFinishedModal} />
+                <ButtonTracked
+                  label={t('volunteering.progress.button.act')}
+                  icon={Check}
+                  onPress={showFinishedModal}
+                  trackingEvent={TrackingEvent.Volunteering.selfReportingFlow.doing(engagementId)}
+                />
               </Stack>
             </>
           )}

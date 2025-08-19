@@ -447,6 +447,7 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+
     wantToDoIt: (
       engagementId: string,
       otherProperties: Record<string, string | number | undefined> = {}
@@ -455,6 +456,7 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+
     contacted: (
       engagementId: string,
       otherProperties: Record<string, string | number | string[] | undefined> = {}
@@ -463,6 +465,20 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+
+    selfReportingFlow: {
+      contacted: (engagementId: string): TrackingEvent => ({
+        name: 'selfReportingFlowContacted',
+        properties: { engagementId },
+        ...versionOne,
+      }),
+
+      doing: (engagementId: string): TrackingEvent => ({
+        name: 'selfReportingFlowDoing',
+        properties: { engagementId },
+        ...versionOne,
+      }),
+    },
 
     filterPillPressed: (
       filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills'
