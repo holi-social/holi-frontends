@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { ScrollView } from 'react-native'
 import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
 
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
@@ -9,13 +10,14 @@ import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 
 const ANIMATION_DELAY = 3300
 
 export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
   const { t } = useTranslation()
+  const { bottom } = useSafeAreaInsets()
 
   const [volunteeringProgressStatus, setVolunteeringProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
     VolunteeringOpportunityStatusValue.ToDo
@@ -23,7 +25,7 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
 
   return (
     <HoliModal {...props} label={t('volunteerProgress.connected.modal')}>
-      <SafeArea>
+      <ScrollView contentContainerStyle={{ paddingBottom: bottom }}>
         <HoliContainer>
           <Stack gap="md" padding={{ bottom: 'md' }}>
             <Stack width="100%">
@@ -40,7 +42,7 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
               })}
             >
               <Stack gap="3xs" padding={{ bottom: 'md' }}>
-                <Stack padding={{ bottom: 'sm', left: 'md', right: 'xs' }}>
+                <Stack padding={{ bottom: 'sm', left: 'md', right: 'md' }}>
                   <VolunteeringProgressStepper status={volunteeringProgressStatus} />
                 </Stack>
 
@@ -55,7 +57,7 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
             </Animated.View>
           </Stack>
         </HoliContainer>
-      </SafeArea>
+      </ScrollView>
     </HoliModal>
   )
 }

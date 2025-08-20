@@ -17,6 +17,7 @@ import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/
 import { Text } from 'holi-bricks/components/text'
 import { FavoritableType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 
 const ANIMATION_DELAY = 500
 
@@ -40,6 +41,7 @@ export const VolunteeringContact = ({
   onFavoriteError,
 }: VolunteeringContactProps) => {
   const { t } = useTranslation()
+  const { bottom } = useSafeAreaInsets()
 
   const [progressStatus, setProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
     VolunteeringOpportunityStatusValue.WontDo
@@ -106,7 +108,7 @@ export const VolunteeringContact = ({
         testID="volunteering-contact-modal"
         backgroundColor={styles.modal.backgroundColor}
       >
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ paddingBottom: bottom }}>
           <HoliContainer>
             <Stack gap="md">
               <Stack width="100%">
@@ -120,7 +122,7 @@ export const VolunteeringContact = ({
               >
                 <Stack gap="md">
                   <Stack gap="3xs">
-                    <Stack padding={{ bottom: 'sm', left: 'md', right: 'xs' }}>
+                    <Stack padding={{ bottom: 'sm', left: 'md', right: 'md' }}>
                       <VolunteeringProgressStepper status={progressStatus} />
                     </Stack>
 

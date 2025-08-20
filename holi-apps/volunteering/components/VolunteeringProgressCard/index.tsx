@@ -142,12 +142,8 @@ export const VolunteeringProgressCard = ({
         </HoliTransition.FadeSwitch>
       </Stack>
 
-      {status === VolunteeringOpportunityStatusValue.ToDo && (
-        <VolunteeringConnectedStatusModal {...connectedStatusModalProps} label="Connected status" />
-      )}
-      {status === VolunteeringOpportunityStatusValue.Contacted && (
-        <VolunteeringFinishedModal {...finishedModalProps} label="Finished status" />
-      )}
+      <VolunteeringConnectedStatusModal {...connectedStatusModalProps} label="Connected status" />
+      <VolunteeringFinishedModal {...finishedModalProps} label="Finished status" />
     </>
   )
 }
