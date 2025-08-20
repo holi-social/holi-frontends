@@ -15,7 +15,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
-import { type DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
+import { discussionById, type DiscussionResponse } from '@holi/core/screens/insights/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -85,7 +85,12 @@ const DiscussionDetailPage = () => {
 
   const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`
 
-  const onPressCreateComment = () => replaceRoute(commentPath)
+  const onPressCreateComment = () =>
+    requireLogin(() => replaceRoute(commentPath), {
+      description: t('insight.discussion.comment.loginRedirect.text'),
+      trackTrigger: 'COMMENT_ON_INSIGHT',
+      redirectPath: commentPath,
+    })
 
   return (
     <>
@@ -100,13 +105,7 @@ const DiscussionDetailPage = () => {
                 commentableType={CommentableType.DISCUSSION}
                 commentableId={discussionId}
                 replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
-                onPressCreateComment={() =>
-                  requireLogin(onPressCreateComment, {
-                    description: t('insight.discussion.comment.loginRedirect.text'),
-                    trackTrigger: 'COMMENT_ON_INSIGHT',
-                    redirectPath: commentPath,
-                  })
-                }
+                onPressCreateComment={onPressCreateComment}
                 initialOpenThread={commentId}
               />
             </View>
@@ -117,16 +116,7 @@ const DiscussionDetailPage = () => {
       <SafeArea edges={['bottom']}>
         <View style={styles.commentWrapper}>
           <HoliContainer flex={1}>
-            <PostDetailFooter
-              style={[styles.commentButton]}
-              onPress={() =>
-                requireLogin(onPressCreateComment, {
-                  description: t('insight.discussion.comment.loginRedirect.text'),
-                  trackTrigger: 'COMMENT_ON_INSIGHT',
-                  redirectPath: commentPath,
-                })
-              }
-            />
+            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
           </HoliContainer>
         </View>
       </SafeArea>
