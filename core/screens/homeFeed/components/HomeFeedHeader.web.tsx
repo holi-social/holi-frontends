@@ -7,17 +7,9 @@ import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { Stack } from 'holi-bricks/components/stack'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
 
-interface HomeFeedHeaderProps {
-  refreshing?: boolean
-}
-
-const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
-  const displayChallengesCarousel = useFeatureFlag(FeatureFlagKey.CHALLENGES_CAROUSEL)
+const HomeFeedHeader = () => {
   const { t } = useTranslation()
 
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
@@ -43,7 +35,6 @@ const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
         </>
       )}
 
-      {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
       <AttendingChallengeEvents />
     </Stack>
   )

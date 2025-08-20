@@ -108,7 +108,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         title={document?.title ?? ''}
         status={document?.status ?? null}
         // TODO Stefano: Move inside the layout and remove _footer prop
-        _footer={<VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
+        _footer={document && <VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
         progressCard={
           // Progress card is only visible when the status is not null and is one of the following:
           // - TO_DO
