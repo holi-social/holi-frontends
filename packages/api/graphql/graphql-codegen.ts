@@ -25,6 +25,7 @@ export type Scalars = {
   AppVolunteering_GeoJSON: { input: any; output: any }
   Date: { input: any; output: any }
   DateTime: { input: any; output: any }
+  DateTimeISO: { input: any; output: any }
   GeoJSON: { input: any; output: any }
   GeoJSONInput: { input: any; output: any }
   Geo_GeoJSON: { input: any; output: any }
@@ -1661,6 +1662,8 @@ export type Query = {
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
   rewards_counter: Rewards_RewardsCounter
+  rewards_globalCounter: Rewards_RewardsCounter
+  rewards_transactions: Rewards_PagedTransactions
   /** @deprecated Deprecated since 1.53. */
   sdgs: SdgPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
@@ -1951,6 +1954,11 @@ export type QueryRecommendedTasksArgs = {
   offset?: Scalars['Int']['input']
 }
 
+export type QueryRewards_TransactionsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
 export type QuerySdgsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -2117,9 +2125,28 @@ export type Result = {
   success: Scalars['Boolean']['output']
 }
 
+export type Rewards_PagedTransactions = {
+  __typename?: 'Rewards_PagedTransactions'
+  data: Array<Maybe<Rewards_Transaction>>
+  totalResults: Scalars['Int']['output']
+}
+
+export enum Rewards_RewardType {
+  ChallengeSubmitted = 'ChallengeSubmitted',
+  ExternalVolunteeringOpportunityStarted = 'ExternalVolunteeringOpportunityStarted',
+  GoodDeedPostCreated = 'GoodDeedPostCreated',
+}
+
 export type Rewards_RewardsCounter = {
   __typename?: 'Rewards_RewardsCounter'
   counter?: Maybe<Scalars['Int']['output']>
+}
+
+export type Rewards_Transaction = {
+  __typename?: 'Rewards_Transaction'
+  createdAt: Scalars['DateTimeISO']['output']
+  id: Scalars['ID']['output']
+  rewardType: Rewards_RewardType
 }
 
 /**
@@ -2566,6 +2593,8 @@ export type Typesense_SearchParams_Input = {
   nl_model_id?: InputMaybe<Scalars['String']['input']>
   /** Whether to use natural language processing to parse the query. */
   nl_query?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether to activate advanced logs that let you see the generated LLM prompts and more. */
+  nl_query_debug?: InputMaybe<Scalars['Boolean']['input']>
   /** The number of typographical errors (1 or 2) that would be tolerated. Default: 2 */
   num_typos?: InputMaybe<Scalars['String']['input']>
   /** Identifies the starting point to return hits from a result set. Can be used as an alternative to the page parameter. */
@@ -4964,6 +4993,7 @@ export type TaskByIdQuery = {
       avatarBlurhash?: string
       topicsV2: Array<string>
     }
+    geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
   }
 }
 
@@ -7815,6 +7845,10 @@ export const TaskByIdDocument = gql`
     }
     skillsV2
     interactionSignupLink
+    geolocation {
+      latitude
+      longitude
+    }
   }
 }
     `
