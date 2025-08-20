@@ -2,7 +2,6 @@ import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { UpdateFeedPostReactionMutation } from '@holi/core/screens/individualPosts/mutations'
@@ -28,8 +27,7 @@ export interface PostReactButtonProps {
 
 const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => {
   const { t } = useTranslation()
-  const { isLoggedIn, user } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -89,35 +87,21 @@ const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => 
 
   const reactOnPost = () => {
     if (isFeedPost) {
-      if (!isLoggedIn) {
-        openSignupModal({
-          description: t('individuals.post.reaction.loginRedirect.text'),
-          trackTrigger: 'REACT_ON_POST',
-        })
-      } else {
-        const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
-        const reactionType = FeedPostReactionType.HEART
-        updateFeedPostReaction({
-          variables: {
-            postId: post.id,
-            reactionType: reactionType,
-            reactionAction: reactionAction,
-          },
-          onCompleted: () => {
-            if (reactionAction === ReactionAction.SET) {
-              track(TrackingEvent.Engaging.reacted('FeedPost', post.id))
-            }
-          },
-        })
-      }
+      const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
+      const reactionType = FeedPostReactionType.HEART
+      updateFeedPostReaction({
+        variables: {
+          postId: post.id,
+          reactionType: reactionType,
+          reactionAction: reactionAction,
+        },
+        onCompleted: () => {
+          if (reactionAction === ReactionAction.SET) {
+            track(TrackingEvent.Engaging.reacted('FeedPost', post.id))
+          }
+        },
+      })
     } else {
-      // Regular Post
-      if (!user) {
-        return openSignupModal({
-          description: t('insights.reactions.post.loginRedirect.text'),
-          trackTrigger: 'REACT_ON_POST',
-        })
-      }
       updatePostReaction({
         variables: {
           id: post.id,
@@ -133,7 +117,18 @@ const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => 
     }
   }
 
-  return <ReactButton onPress={reactOnPost} active={currentUserHasReacted} label={label} />
+  return (
+    <ReactButton
+      onPress={() =>
+        requireLogin(reactOnPost, {
+          description: t('individuals.post.reaction.loginRedirect.text'),
+          trackTrigger: 'REACT_ON_POST',
+        })
+      }
+      active={currentUserHasReacted}
+      label={label}
+    />
+  )
 }
 
 export default PostReactButton

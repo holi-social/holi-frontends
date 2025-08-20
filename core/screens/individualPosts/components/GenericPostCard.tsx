@@ -60,15 +60,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
   const [loadingTranslation, setLoadingTranslation] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const { mapCategorySlugToLabel } = useFeedPostCategories()
-  const { openSignupModal } = useSignupModal()
-
-  const loggedInGuard = (callback: () => void) => {
-    if (!isLoggedIn) {
-      openSignupModal()
-    } else {
-      callback()
-    }
-  }
+  const { requireLogin } = useSignupModal()
 
   const { deletePost: deleteSpacePost, isLoadingPostDeletion: isLoadingSpacePostDeletion } = useDeletePost(
     post as Post,
@@ -260,7 +252,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           </View>
         )}
 
-        <PostResponseBar post={feedPost} onCommentPress={() => loggedInGuard(goToCommentView)} />
+        <PostResponseBar post={feedPost} onCommentPress={() => requireLogin(goToCommentView)} />
       </View>
     )
   } else {
@@ -423,7 +415,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
             <PostLocationCard location={spacePost.location} geolocation={spacePost.geolocation} />
           </View>
         )}
-        <PostResponseBar post={spacePost} onCommentPress={() => loggedInGuard(goToCommentView)} />
+        <PostResponseBar post={spacePost} onCommentPress={() => requireLogin(goToCommentView)} />
       </View>
     )
   }

@@ -7,6 +7,7 @@ import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 export type SignupModalProps = {
   label?: string
@@ -22,6 +23,7 @@ export type SignupModalProps = {
 export interface SignupModalContext {
   customProps: SignupModalProps
   openSignupModal: (props?: SignupModalProps) => void
+  requireLogin: (callback: () => void, props?: SignupModalProps) => void
 }
 
 export const SignupModalContext = createContext<SignupModalContext>({} as SignupModalContext)
@@ -31,6 +33,7 @@ export const useSignupModal = () => useContext(SignupModalContext)
 export const SignupModalProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()
   const pathname = usePathname()
+  const { isLoggedIn } = useLoggedInUser()
 
   const [customProps, setCustomProps] = useState<SignupModalProps>({})
   const { setShow: setShowLoginGuard, props: signupGuardModalProps } = useConfirmationState()
@@ -46,8 +49,16 @@ export const SignupModalProvider = ({ children }: React.PropsWithChildren<unknow
     setShowLoginGuard(true)
   }
 
+  const requireLogin = (callback: () => void, props?: SignupModalProps) => {
+    if (!isLoggedIn) {
+      openSignupModal(props)
+    } else {
+      callback()
+    }
+  }
+
   return (
-    <SignupModalContext.Provider value={{ customProps, openSignupModal }}>
+    <SignupModalContext.Provider value={{ customProps, openSignupModal, requireLogin }}>
       {children}
       <SignupGuardModal enableRedirect={enableRedirect} {...signupGuardModalProps} {...customProps} />
     </SignupModalContext.Provider>

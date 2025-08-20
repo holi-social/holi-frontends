@@ -4,7 +4,6 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -40,8 +39,7 @@ const DiscussionDetailPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute } = useRouting()
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
 
   const [discussionId] = useUUIDParam('discussionId')
   const [insightId] = useUUIDParam('insightId')
@@ -85,16 +83,9 @@ const DiscussionDetailPage = () => {
     })
   }, [t, setScreenOptions, insightId])
 
-  const onPressCreateComment = () => {
-    const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`
-    return isLoggedIn
-      ? replaceRoute(commentPath)
-      : openSignupModal({
-          description: t('insight.discussion.comment.loginRedirect.text'),
-          trackTrigger: 'COMMENT_ON_INSIGHT',
-          redirectPath: commentPath,
-        })
-  }
+  const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`
+
+  const onPressCreateComment = () => replaceRoute(commentPath)
 
   return (
     <>
@@ -109,7 +100,13 @@ const DiscussionDetailPage = () => {
                 commentableType={CommentableType.DISCUSSION}
                 commentableId={discussionId}
                 replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
-                onPressCreateComment={onPressCreateComment}
+                onPressCreateComment={() =>
+                  requireLogin(onPressCreateComment, {
+                    description: t('insight.discussion.comment.loginRedirect.text'),
+                    trackTrigger: 'COMMENT_ON_INSIGHT',
+                    redirectPath: commentPath,
+                  })
+                }
                 initialOpenThread={commentId}
               />
             </View>
@@ -120,7 +117,16 @@ const DiscussionDetailPage = () => {
       <SafeArea edges={['bottom']}>
         <View style={styles.commentWrapper}>
           <HoliContainer flex={1}>
-            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
+            <PostDetailFooter
+              style={[styles.commentButton]}
+              onPress={() =>
+                requireLogin(onPressCreateComment, {
+                  description: t('insight.discussion.comment.loginRedirect.text'),
+                  trackTrigger: 'COMMENT_ON_INSIGHT',
+                  redirectPath: commentPath,
+                })
+              }
+            />
           </HoliContainer>
         </View>
       </SafeArea>
