@@ -136,7 +136,8 @@ export const useTypesensePaginationMultiQuery = ({
     const needsFallback = resultList.some((result, index) => {
       if ('error' in result) return false
       const params = searches[index]
-      const isGeminiNl = Boolean(params?.nl_query) && (params as unknown as { nl_model_id?: string }).nl_model_id === 'gemini-model'
+      const isGeminiNl =
+        Boolean(params?.nl_query) && (params as unknown as { nl_model_id?: string }).nl_model_id === 'gemini-model'
       const noHits = !result.found || result.found === 0
       return isGeminiNl && noHits
     })
@@ -144,7 +145,8 @@ export const useTypesensePaginationMultiQuery = ({
     if (!needsFallback) return
 
     const fallbackSearches = searches.map((s) => {
-      const isGeminiNl = Boolean(s?.nl_query) && (s as unknown as { nl_model_id?: string }).nl_model_id === 'gemini-model'
+      const isGeminiNl =
+        Boolean(s?.nl_query) && (s as unknown as { nl_model_id?: string }).nl_model_id === 'gemini-model'
       if (!isGeminiNl) return s
       return { ...s, nl_model_id: 'gpt-model' } as SearchParams
     })
