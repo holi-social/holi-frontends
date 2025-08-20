@@ -235,17 +235,6 @@ const config: ExpoConfig = {
         },
       },
     ],
-    [
-      // Might be removed when upgrading to Expo 53
-      'expo-build-properties',
-      {
-        android: {
-          compileSdkVersion: 35,
-          targetSdkVersion: 35,
-          buildToolsVersion: '35.0.0',
-        },
-      },
-    ],
   ],
   // This doesn't seem to be supported by the expo config.
   // hooks: {
