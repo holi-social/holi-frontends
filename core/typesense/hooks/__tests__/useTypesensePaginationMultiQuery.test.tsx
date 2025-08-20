@@ -35,7 +35,7 @@ const testResponse: Typesense_SearchResponse = {
   page: 1,
   hits: createHits(10),
   out_of: 1234,
-  request_params: {},
+  request_params: { q: '*' },
   search_time_ms: 0,
   facet_counts: [],
   __typename: 'Typesense_SearchResponseSuccess',
