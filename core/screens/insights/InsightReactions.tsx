@@ -4,7 +4,6 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ViewStyle } from 'react-native'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
@@ -35,8 +34,7 @@ export interface InsightReactionsProps {
 
 const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType }) => {
   const { t } = useTranslation()
-  const { user } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -73,12 +71,6 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType }) =
   })
 
   const reactOnItem = () => {
-    if (!user) {
-      return openSignupModal({
-        description: t(`insights.${itemType.toLowerCase()}s.loginRedirect.text`),
-        trackTrigger: 'REACT_ON_INSIGHT',
-      })
-    }
     updateItemReaction({
       variables: {
         [`${itemType.toLowerCase()}Id`]: item.id,
@@ -93,7 +85,18 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType }) =
     })
   }
 
-  return <ReactButton onPress={reactOnItem} active={currentUserHasReacted} label={labelText} />
+  return (
+    <ReactButton
+      onPress={() =>
+        requireLogin(reactOnItem, {
+          description: t(`insights.${itemType.toLowerCase()}s.loginRedirect.text`),
+          trackTrigger: 'REACT_ON_INSIGHT',
+        })
+      }
+      active={currentUserHasReacted}
+      label={labelText}
+    />
+  )
 }
 
 export default InsightReactions
