@@ -1,57 +1,56 @@
 import { faker } from '@faker-js/faker'
 import { type Page, expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, waitForAnimationEnd, withSSR } from '../helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByAriaLabel,
+  clickElementByTestId,
+  waitForAnimationEnd,
+  withSSR,
+} from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@Profile', () => {
   test('user journey', async ({ browser, sessions }) => {
-    // FIXME: https://holi.atlassian.net/browse/HOLI-9014
-    // await loginAsE2EUser(context, page)
-    // await clickElementByTestId(page, 'btn-to-profile-view')
-    // fill the interests and skills for visiting the profile later
-    // await checkChipsSelection(page, 'interests')
-    // await checkChipsSelection(page, 'skills')
+    const { page: user } = await sessions.signUp()
 
-    // now test with a generated user for not messing too much with the profile of the E2E user
-    const { page: otherPage } = await sessions.signUp()
-    await otherPage.goto('/profile')
+    await test.step('profile home looks good', async () => {
+      await clickElementByTestId(user, 'btn-to-profile-view')
+      await testDisplaysProfileDetails(user)
+      await checkAccessibility(user)
+    })
 
-    await testDisplaysProfileDetails(otherPage)
+    await test.step('shows validation error when change name to a single letter', async () => {
+      await user.goto('/profile/settings/aboutMe')
+      await checkAccessibility(user)
 
-    //FIXME: AssertionError: 1 accessibility violation was detected in the following line
-    await checkAccessibility(otherPage)
-    await clickElementByTestId(otherPage, 'btn-open-profile-edit-view')
-    // wait until modal is opened
-    await otherPage.locator('[role="dialog"]').waitFor()
-    await checkAccessibility(otherPage)
+      await clickElementByAriaLabel(user, 'Edit')
+      await user.locator(byTestId('first-name-input')).fill('a')
+      await clickElementByTestId(user, 'user-profile-edit-form-close-btn')
+      await user.locator(byTestId('first-name-input-error-message')).waitFor()
+    })
 
-    // validation should block save
-    await otherPage.locator(byTestId('first-name-input')).fill('a')
-    await clickElementByTestId(otherPage, 'user-profile-edit-form-close-btn')
-    await otherPage.locator(byTestId('first-name-input-error-message')).waitFor()
-    await checkAccessibility(otherPage)
+    await test.step('can change first name to a proper name', async () => {
+      const firstNameEdited = faker.person.firstName()
+      const lastNameEdited = faker.person.lastName()
+      await user.locator(byTestId('first-name-input')).fill(firstNameEdited)
+      await user.locator(byTestId('last-name-input')).fill(lastNameEdited)
+      await Promise.all([
+        user.waitForSelector(byTestId('user-profile-edit-form-loader'), { state: 'detached' }),
+        clickElementByTestId(user, 'user-profile-edit-form-close-btn'),
+      ])
 
-    // edit firstName should work
-    const firstNameEdited = faker.person.firstName()
-    const lastNameEdited = faker.person.lastName()
-    await otherPage.locator(byTestId('first-name-input')).fill(firstNameEdited)
-    await otherPage.locator(byTestId('last-name-input')).fill(lastNameEdited)
-    await Promise.all([
-      otherPage.waitForSelector(byTestId('user-profile-edit-form-loader'), { state: 'detached' }),
-      clickElementByTestId(otherPage, 'user-profile-edit-form-close-btn'),
-    ])
+      await expect(user.getByText(`${firstNameEdited} ${lastNameEdited}`)).toBeVisible()
+    })
 
-    await expect
-      .poll(async () => await otherPage.textContent(byTestId('user-profile-full-name')))
-      .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
+    await test.step('another users profile show the correct information', async () => {
+      const userId = process.env.E2E_USER_ID || 'empty'
+      await user.goto('/profile/' + userId)
 
-    // visiting another user's profile should show the correct information
-    const userId = process.env.E2E_USER_ID || 'empty'
-    await otherPage.goto('/profile/' + userId)
-
-    await testDisplaysProfileDetails(otherPage)
-    await withSSR(browser, otherPage.url(), testDisplaysProfileDetails)
+      await testDisplaysProfileDetails(user)
+      await withSSR(browser, user.url(), testDisplaysProfileDetails)
+    })
   })
 })
 

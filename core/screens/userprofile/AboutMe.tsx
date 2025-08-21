@@ -169,7 +169,13 @@ const AboutMe = () => {
               {user.aboutMe}
             </Text>
           ) : (
-            <ChipAction id="aboutMe" color="white" onPress={() => toggleEditMode('aboutMe')} iconTrailing={Add} />
+            <ChipAction
+              id="aboutMe"
+              aria-label="aboutMe"
+              color="white"
+              onPress={() => toggleEditMode('aboutMe')}
+              iconTrailing={Add}
+            />
           )}
         </Stack>
 
