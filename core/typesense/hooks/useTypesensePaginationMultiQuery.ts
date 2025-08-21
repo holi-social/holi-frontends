@@ -5,7 +5,6 @@ import {
   type Typesense_SearchResponseError,
   type Typesense_SearchResponseFacetCounts,
 } from '@holi/api/graphql/graphql-codegen'
-import { logError } from '@holi/core/errors/helpers'
 import type { SearchParams, SearchResponseHit, TypesenseFacetCounts } from '@holi/core/typesense/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
@@ -60,6 +59,7 @@ export const useTypesensePaginationMultiQuery = ({
   skip,
 }: UseTypesensePaginationMultiQueryOptions): UseTypesensePaginationMultiQueryHook => {
   const [isFetchingMore, setIsFetchingMore] = useState(false)
+  const [hasTriedGptFallback, setHasTriedGptFallback] = useState(false)
   const searches = useMemo(
     () =>
       parameterList.map((parameters) => ({
@@ -124,6 +124,41 @@ export const useTypesensePaginationMultiQuery = ({
     }
   }, [data?.typesense_multiSearch?.results, isLoading, parameterList, skip, error])
 
+  // Fallback: if NL search with gemini-model returns zero hits, retry once with gpt-model
+  useEffect(() => {
+    if (skip || isLoading || hasTriedGptFallback) return
+
+    const resultList: (Typesense_SearchResponseSuccess | Typesense_SearchResponseError)[] | undefined =
+      data?.typesense_multiSearch?.results
+    if (!resultList?.length) return
+
+    // Check if any search used NL with gemini-model and got zero hits
+    const needsFallback = resultList.some((result, index) => {
+      if ('error' in result) return false
+      const params = searches[index]
+      const isGeminiNl =
+        Boolean(params?.nl_query) && (params as unknown as { nl_model_id?: string }).nl_model_id === 'gemini-model'
+      const noHits = !result.found || result.found === 0
+      return isGeminiNl && noHits
+    })
+
+    if (!needsFallback) return
+
+    const fallbackSearches = searches.map((s) => {
+      const isGeminiNl =
+        Boolean(s?.nl_query) && (s as unknown as { nl_model_id?: string }).nl_model_id === 'gemini-model'
+      if (!isGeminiNl) return s
+      return { ...s, nl_model_id: 'gpt-model' } as SearchParams
+    })
+
+    setHasTriedGptFallback(true)
+    refetchResults({
+      input: {
+        searches: fallbackSearches,
+      },
+    }).catch(() => undefined)
+  }, [data?.typesense_multiSearch?.results, hasTriedGptFallback, isLoading, refetchResults, searches, skip])
+
   const fetchNextPages = useCallback(async () => {
     if (isFetchingMore) {
       return
@@ -139,11 +174,7 @@ export const useTypesensePaginationMultiQuery = ({
         },
       },
     })
-      .catch((error) =>
-        logError(error, 'Failed to fetch more', {
-          location: 'useTypesensePaginationMultiQuery.fetchNextPages',
-        })
-      )
+      .catch(() => undefined)
       .finally(() => setIsFetchingMore(false))
   }, [fetchMore, isFetchingMore, searches, states])
 
@@ -163,14 +194,9 @@ export const useTypesensePaginationMultiQuery = ({
 
   useEffect(() => {
     const stateWithError = states.find((state) => 'error' in state && state.error)
-    // Only logging first error if there are multiple ones
     if (stateWithError && 'error' in stateWithError) {
       if (onError) {
         onError(stateWithError.error)
-      } else {
-        logError(stateWithError.error, 'Failed to fetch documents', {
-          location: 'useTypesensePaginationMultiQuery',
-        })
       }
     }
   }, [onError, states])

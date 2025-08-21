@@ -66,6 +66,9 @@ query typesense_multiSearch($input: Typesense_MultiSearchRequest_Input!) {
           }
           field_name
         }
+        request_params {
+          q
+        }
       }
       ... on Typesense_SearchResponseError {
         error

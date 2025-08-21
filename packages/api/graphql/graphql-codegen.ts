@@ -5276,6 +5276,7 @@ export type Typesense_MultiSearchQuery = {
               value: string
             }>
           }>
+          request_params: { __typename?: 'Typesense_SearchResponseRequestParams'; q?: string }
         }
     >
   }
@@ -8249,6 +8250,9 @@ export const Typesense_MultiSearchDocument = gql`
             value
           }
           field_name
+        }
+        request_params {
+          q
         }
       }
       ... on Typesense_SearchResponseError {
