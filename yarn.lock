@@ -20545,7 +20545,6 @@ __metadata:
     "@graphql-codegen/typescript-react-apollo": "npm:^4.3.0"
     "@localazy/cli": "npm:^2.0.8"
     "@parcel/watcher": "npm:^2.4.1"
-    "@react-native-clipboard/clipboard": "npm:^1.16.3"
     "@testing-library/jest-dom": "npm:^6.5.0"
     "@testing-library/jest-native": "npm:^5.4.3"
     "@testing-library/react-hooks": "npm:^8.0.1"

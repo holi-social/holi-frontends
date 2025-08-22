@@ -99,7 +99,6 @@
     ]
   },
   "dependencies": {
-    "@react-native-clipboard/clipboard": "^1.16.3",
     "react-native-web": "^0.19.12"
   },
   "resolutions": {
