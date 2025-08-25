@@ -19,7 +19,7 @@ import {
 import { VolunteeringConnectedStatusModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringConnectedStatusModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringFinishedModal'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
@@ -69,18 +69,35 @@ export const VolunteeringProgressCard = ({
                 <Text size="md">{t('volunteer.progress.progressCard.connect.text')}</Text>
 
                 <Stack padding={{ top: '3xs', bottom: 'md' }} gap="3xs">
-                  {document.contact?.map((contact, index) => (
+                  {document.contact?.length ? (
+                    document.contact?.map((contact, index) => (
+                      <VolunteeringContactItem
+                        key={contact.value + index}
+                        contact={contact}
+                        trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
+                          commitmentType: document.commitmentType,
+                          source: document.source,
+                          contact_info_displayed: contactInfoDisplayed,
+                          contact_method_selected: contact.type,
+                        })}
+                      />
+                    ))
+                  ) : (
                     <VolunteeringContactItem
-                      key={contact.value + index}
-                      contact={contact}
+                      contact={
+                        document.contact?.find((contact) => contact.type === Typesense_DocumentContactType.Website) ?? {
+                          type: Typesense_DocumentContactType.Website,
+                          value: document.externalUrl ?? '',
+                        }
+                      }
                       trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
                         commitmentType: document.commitmentType,
                         source: document.source,
                         contact_info_displayed: contactInfoDisplayed,
-                        contact_method_selected: contact.type,
+                        contact_method_selected: Typesense_DocumentContactType.Website,
                       })}
                     />
-                  ))}
+                  )}
                 </Stack>
               </Stack>
 

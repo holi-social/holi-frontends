@@ -76,7 +76,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           <VolunteeringContact
             engagementId={engagementId}
             document={document}
-            onOpenLink={onOpenLink}
             onModalDismiss={() => {
               if (!rewardsPhaseTwoEnabled) return
 

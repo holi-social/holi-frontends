@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { ScrollView } from 'react-native'
 import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
 
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
-import { ExternalLink } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { Stack } from 'holi-bricks/components/stack'
@@ -15,7 +14,11 @@ import { VolunteeringContactItem } from '@holi-apps/volunteering/components/Volu
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 import { Text } from 'holi-bricks/components/text'
-import { FavoritableType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import {
+  FavoritableType,
+  Typesense_DocumentContactType,
+  VolunteeringOpportunityStatusValue,
+} from '@holi/api/graphql/graphql-codegen'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
@@ -26,7 +29,6 @@ const ANIMATION_DELAY = 500
 interface VolunteeringContactProps {
   document: VolunteeringDetailsScreenData
   engagementId: string
-  onOpenLink: (url?: string) => void
   onModalDismiss?: () => void
   isFavorite?: boolean
   onFavoriteCompleted?: () => void
@@ -36,7 +38,6 @@ interface VolunteeringContactProps {
 export const VolunteeringContact = ({
   engagementId,
   document,
-  onOpenLink,
   onModalDismiss,
   isFavorite,
   onFavoriteCompleted,
@@ -49,23 +50,9 @@ export const VolunteeringContact = ({
   const [progressStatus, setProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
     VolunteeringOpportunityStatusValue.WontDo
   )
-  const {
-    show: showContact,
-    hide: hideContact,
-    props: contactModalProps,
-  } = useModalState({ onDismiss: onModalDismiss })
-  const hasContactInfo = document.contact?.some(
-    (contact) => contact.type !== 'website' || contact.value !== document.externalUrl
-  )
+  const { show: showContact, props: contactModalProps } = useModalState({ onDismiss: onModalDismiss })
   const { styles } = useStyles(stylesheet)
   const contactInfoDisplayed = document.contact?.map((contact) => contact.type)
-
-  const onGetInTouch = useCallback(() => {
-    if (hasContactInfo) {
-      return showContact()
-    }
-    onOpenLink(document.externalUrl)
-  }, [document.externalUrl, hasContactInfo, onOpenLink, showContact])
 
   return (
     <Stack
@@ -83,13 +70,8 @@ export const VolunteeringContact = ({
           source: document.source,
           contact_info_displayed: contactInfoDisplayed,
         })}
-        icon={hasContactInfo ? undefined : ExternalLink}
-        label={
-          hasContactInfo
-            ? t('volunteering.engagementDetail.getInTouchDrawer')
-            : t('volunteering.engagementDetail.getInTouch')
-        }
-        onPress={onGetInTouch}
+        label={t('volunteering.engagementDetail.getInTouchDrawer')}
+        onPress={showContact}
         testID="volunteering-engagement-get-in-touch-btn"
       />
 
@@ -142,19 +124,37 @@ export const VolunteeringContact = ({
                   </Stack>
 
                   <Stack gap="4xs" margin={{ bottom: 'lg' }}>
-                    {document.contact?.map((contact, index) => (
+                    {document.contact?.length ? (
+                      document.contact?.map((contact, index) => (
+                        <VolunteeringContactItem
+                          key={contact.value + index}
+                          contact={contact}
+                          trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
+                            commitmentType: document.commitmentType,
+                            source: document.source,
+                            contact_info_displayed: contactInfoDisplayed,
+                            contact_method_selected: contact.type,
+                          })}
+                        />
+                      ))
+                    ) : (
                       <VolunteeringContactItem
-                        key={contact.value + index}
-                        contact={contact}
+                        contact={
+                          document.contact?.find(
+                            (contact) => contact.type === Typesense_DocumentContactType.Website
+                          ) ?? {
+                            type: Typesense_DocumentContactType.Website,
+                            value: document.externalUrl ?? '',
+                          }
+                        }
                         trackingEvent={TrackingEvent.Volunteering.contacted(engagementId, {
                           commitmentType: document.commitmentType,
                           source: document.source,
                           contact_info_displayed: contactInfoDisplayed,
-                          contact_method_selected: contact.type,
+                          contact_method_selected: Typesense_DocumentContactType.Website,
                         })}
-                        onWebViewOpen={hideContact}
                       />
-                    ))}
+                    )}
                   </Stack>
                 </Stack>
               </Animated.View>
