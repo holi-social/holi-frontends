@@ -4,7 +4,6 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -16,7 +15,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
-import { type DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
+import { discussionById, type DiscussionResponse } from '@holi/core/screens/insights/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -40,8 +39,7 @@ const DiscussionDetailPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute } = useRouting()
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
 
   const [discussionId] = useUUIDParam('discussionId')
   const [insightId] = useUUIDParam('insightId')
@@ -85,16 +83,14 @@ const DiscussionDetailPage = () => {
     })
   }, [t, setScreenOptions, insightId])
 
-  const onPressCreateComment = () => {
-    const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`
-    return isLoggedIn
-      ? replaceRoute(commentPath)
-      : openSignupModal({
-          description: t('insight.discussion.comment.loginRedirect.text'),
-          trackTrigger: 'COMMENT_ON_INSIGHT',
-          redirectPath: commentPath,
-        })
-  }
+  const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`
+
+  const onPressCreateComment = () =>
+    requireLogin(() => replaceRoute(commentPath), {
+      description: t('insight.discussion.comment.loginRedirect.text'),
+      trackTrigger: 'COMMENT_ON_INSIGHT',
+      redirectPath: commentPath,
+    })
 
   return (
     <>

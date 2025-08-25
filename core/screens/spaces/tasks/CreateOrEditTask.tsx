@@ -96,10 +96,19 @@ const CreateOrEditTask = () => {
     variables: { id: taskIdParam ?? '' },
     skip: !taskIdParam,
     onCompleted: ({ taskById }) => {
-      setTaskInput((prevTaskInput) => ({
-        ...prevTaskInput,
-        ...taskById,
-      }))
+      if (taskById) {
+        setTaskInput((prevTaskInput) => ({
+          ...prevTaskInput,
+          ...taskById,
+          geolocation: taskById.geolocation
+            ? {
+                latitude: taskById.geolocation.latitude,
+                longitude: taskById.geolocation.longitude,
+              }
+            : undefined,
+          thumbnail: taskById.thumbnail || undefined,
+        }))
+      }
     },
   })
 

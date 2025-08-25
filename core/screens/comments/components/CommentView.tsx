@@ -53,12 +53,12 @@ const CommentView = ({
 }: CommentProps) => {
   const [isRepliesOpen, setIsRepliesOpen] = useState(false)
   const [showCount, setShowCount] = useState(false)
-  const { user: loggedInUser, isLoggedIn } = useLoggedInUser()
+  const { user: loggedInUser } = useLoggedInUser()
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigateWithAuth } = useAuthRequiredNavigation()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const isInsight = commentableType === CommentableType.DISCUSSION
 
   useEffect(() => {
@@ -79,13 +79,6 @@ const CommentView = ({
   const currentUserHasReacted = !!comment.myReaction.HEART
 
   const reactOnComment = () => {
-    if (!isLoggedIn) {
-      return openSignupModal({
-        description: t('comments.react.loginRedirect.text'),
-        trackTrigger: isInsight ? 'REACT_COMMENT_ON_INSIGHT' : 'REACT_COMMENT_ON_POST',
-      })
-    }
-
     if (loadingAddReaction || loadingRemoveReaction) return
 
     if (!currentUserHasReacted) {
@@ -176,18 +169,16 @@ const CommentView = ({
                   inline
                   label={t('comments.create_comment_button')}
                   contentStyle={styles.addComment}
-                  onPress={() => {
-                    if (loggedInUser) onPressComment()
-                    else
-                      openSignupModal({
-                        description: t(
-                          isInsight
-                            ? 'insight.discussion.comment.loginRedirect.text'
-                            : 'comments.react.loginRedirect.text'
-                        ),
-                        trackTrigger: isInsight ? 'REPLY_COMMENT_ON_INSIGHT' : 'REPLY_COMMENT_ON_POST',
-                      })
-                  }}
+                  onPress={() =>
+                    requireLogin(onPressComment, {
+                      description: t(
+                        isInsight
+                          ? 'insight.discussion.comment.loginRedirect.text'
+                          : 'comments.react.loginRedirect.text'
+                      ),
+                      trackTrigger: isInsight ? 'REPLY_COMMENT_ON_INSIGHT' : 'REPLY_COMMENT_ON_POST',
+                    })
+                  }
                 >
                   <Text size="sm" bold>
                     {t('comments.create_comment_button')}
@@ -196,7 +187,12 @@ const CommentView = ({
               )}
 
               <HoliReactionsCount
-                onPress={reactOnComment}
+                onPress={() =>
+                  requireLogin(reactOnComment, {
+                    description: t('comments.react.loginRedirect.text'),
+                    trackTrigger: isInsight ? 'REACT_COMMENT_ON_INSIGHT' : 'REACT_COMMENT_ON_POST',
+                  })
+                }
                 onCountPress={() => setShowCount(true)}
                 type="comment"
                 count={heartReactions}
