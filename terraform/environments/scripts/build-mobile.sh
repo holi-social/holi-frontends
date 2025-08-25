@@ -39,3 +39,5 @@ if [ "$KEEP_ARTIFACTS" = "true" ]; then
   mkdir -p artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"
   curl -o artifacts_"$CI_ARTIFACTS_ENVIRONMENT_NAME"/"$(basename "$ARTIFACT_URL")" "$ARTIFACT_URL"
 fi
+
+cd -
