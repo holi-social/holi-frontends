@@ -78,7 +78,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
     rewardsPhaseTwoEnabled
       ? {
           key: Tab.MY_VOLUNTEERING,
-          tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma
+          tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
           content: () => <MyVolunteeringTab />,
         }
       : null,
