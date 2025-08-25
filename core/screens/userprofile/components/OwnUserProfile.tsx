@@ -110,17 +110,17 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
         },
         {
           key: Tab.BADGES,
-          tabTitle: 'Superpowers',
+          tabTitle: t('profile.tabs.badges'),
           content: () => <MyBadges />,
         },
         {
           key: Tab.GOOD_DEEDS,
-          tabTitle: '#1MioGuteTaten',
+          tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
           content: () => <GoodDeedsTab />,
         },
         {
           key: Tab.MORE,
-          tabTitle: 'More',
+          tabTitle: t('profile.tabs.more'),
           content: () => <MoreTab />,
         },
       ].filter(Boolean) as OwnProfileTab[])
@@ -128,17 +128,17 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       ? ([
           {
             key: Tab.MY_VOLUNTEERING,
-            tabTitle: 'My Volunteering', // TODO --- MY_VOLUNTEER: add translation key from Localizy/Figma
+            tabTitle: t('profile.tabs.myVolunteer'),
             content: () => <MyVolunteeringTab />,
           },
           {
             key: Tab.GOOD_DEEDS,
-            tabTitle: '#1MioGuteTaten',
+            tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
             content: () => <GoodDeedsTab />,
           },
           {
             key: Tab.MORE,
-            tabTitle: 'More',
+            tabTitle: t('profile.tabs.more'),
             content: () => <MoreTab />,
           },
         ].filter(Boolean) as OwnProfileTab[])

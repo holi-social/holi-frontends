@@ -51,3 +51,19 @@ query RewardsTransactions($offset: Int!, $limit: Int!) {
     }
   }
 }
+
+query badges {
+  rewards_badges {
+    inProgress {
+      progressGoal
+      progressMade
+      slug
+    }
+    unlocked {
+      id
+      seenAt
+      slug
+      unlockedAt
+    }
+  }
+}

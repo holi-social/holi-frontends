@@ -1062,6 +1062,7 @@ export type Mutation = {
   registerDevice: Result
   removeReactionFromComment: Comment
   reportContent: Result
+  rewards_markBadgeUnlockAsSeen: Rewards_UnlockedBadge
   /** @deprecated use newer api with string favoritable ids to favorite all the things, keep for <=1.57.1 */
   unfavorite: Result
   unfavoriteV2: Result
@@ -1230,6 +1231,10 @@ export type MutationReportContentArgs = {
   contentType: ContentType
   description?: InputMaybe<Scalars['String']['input']>
   objectId: Scalars['UUID']['input']
+}
+
+export type MutationRewards_MarkBadgeUnlockAsSeenArgs = {
+  unlockId: Scalars['ID']['input']
 }
 
 export type MutationUnfavoriteArgs = {
@@ -1661,6 +1666,7 @@ export type Query = {
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
+  rewards_badges: Rewards_BadgesOverview
   rewards_counter: Rewards_RewardsCounter
   rewards_globalCounter: Rewards_RewardsCounter
   rewards_transactions: Rewards_PagedTransactions
@@ -2125,6 +2131,19 @@ export type Result = {
   success: Scalars['Boolean']['output']
 }
 
+export type Rewards_BadgesOverview = {
+  __typename?: 'Rewards_BadgesOverview'
+  inProgress: Array<Maybe<Rewards_InProgressBadge>>
+  unlocked: Array<Maybe<Rewards_UnlockedBadge>>
+}
+
+export type Rewards_InProgressBadge = {
+  __typename?: 'Rewards_InProgressBadge'
+  progressGoal?: Maybe<Scalars['Int']['output']>
+  progressMade?: Maybe<Scalars['Int']['output']>
+  slug: Scalars['String']['output']
+}
+
 export type Rewards_PagedTransactions = {
   __typename?: 'Rewards_PagedTransactions'
   data: Array<Maybe<Rewards_Transaction>>
@@ -2147,6 +2166,14 @@ export type Rewards_Transaction = {
   createdAt: Scalars['DateTimeISO']['output']
   id: Scalars['ID']['output']
   rewardType: Rewards_RewardType
+}
+
+export type Rewards_UnlockedBadge = {
+  __typename?: 'Rewards_UnlockedBadge'
+  id: Scalars['ID']['output']
+  seenAt?: Maybe<Scalars['DateTimeISO']['output']>
+  slug: Scalars['String']['output']
+  unlockedAt: Scalars['DateTimeISO']['output']
 }
 
 /**
@@ -5163,6 +5190,22 @@ export type RewardsTransactionsQuery = {
     __typename?: 'Rewards_PagedTransactions'
     totalResults: number
     data: Array<{ __typename?: 'Rewards_Transaction'; id: string; rewardType: Rewards_RewardType; createdAt: any }>
+  }
+}
+
+export type BadgesQueryVariables = Exact<{ [key: string]: never }>
+
+export type BadgesQuery = {
+  __typename?: 'Query'
+  rewards_badges: {
+    __typename?: 'Rewards_BadgesOverview'
+    inProgress: Array<{
+      __typename?: 'Rewards_InProgressBadge'
+      progressGoal?: number
+      progressMade?: number
+      slug: string
+    }>
+    unlocked: Array<{ __typename?: 'Rewards_UnlockedBadge'; id: string; seenAt?: any; slug: string; unlockedAt: any }>
   }
 }
 
@@ -8327,6 +8370,57 @@ export type RewardsTransactionsQueryResult = Apollo.QueryResult<
   RewardsTransactionsQuery,
   RewardsTransactionsQueryVariables
 >
+export const BadgesDocument = gql`
+    query badges {
+  rewards_badges {
+    inProgress {
+      progressGoal
+      progressMade
+      slug
+    }
+    unlocked {
+      id
+      seenAt
+      slug
+      unlockedAt
+    }
+  }
+}
+    `
+
+/**
+ * __useBadgesQuery__
+ *
+ * To run a query within a React component, call `useBadgesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBadgesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBadgesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBadgesQuery(baseOptions?: Apollo.QueryHookOptions<BadgesQuery, BadgesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+}
+export function useBadgesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BadgesQuery, BadgesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+}
+export function useBadgesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BadgesQuery, BadgesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+}
+export type BadgesQueryHookResult = ReturnType<typeof useBadgesQuery>
+export type BadgesLazyQueryHookResult = ReturnType<typeof useBadgesLazyQuery>
+export type BadgesSuspenseQueryHookResult = ReturnType<typeof useBadgesSuspenseQuery>
+export type BadgesQueryResult = Apollo.QueryResult<BadgesQuery, BadgesQueryVariables>
 export const Typesense_DocumentByIdDocument = gql`
     query typesense_documentById($id: String!, $documentType: String!) {
   typesense_documentById(id: $id, documentType: $documentType) {
