@@ -50,15 +50,13 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
                 </Text>
               </Stack>
 
-              {/* Top-left chip */}
-              <View style={{ position: 'absolute', top: -15, left: -40, zIndex: 1 }}>
+              <View style={styles.topLeft}>
                 <ChipLabel color="yellow" blackBorder>
                   {t('oneMioGoodDeeds.banner.globalCounter.pill.top')}
                 </ChipLabel>
               </View>
 
-              {/* Bottom-right chip */}
-              <View style={{ position: 'absolute', bottom: -25, right: -22, zIndex: 1 }}>
+              <View style={styles.bottomRight}>
                 <ChipLabel color="yellow" blackBorder>
                   {t('oneMioGoodDeeds.banner.globalCounter.pill.bottom')}
                 </ChipLabel>
@@ -102,5 +100,17 @@ const stylesheet = createStyleSheet(() => ({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  topLeft: {
+    position: 'absolute',
+    top: -15,
+    left: -40,
+    zIndex: 1,
+  },
+  bottomRight: {
+    position: 'absolute',
+    bottom: -25,
+    right: -22,
+    zIndex: 1,
   },
 }))

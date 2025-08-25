@@ -97,17 +97,17 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
     ? ([
         {
           key: Tab.MY_VOLUNTEERING,
-          tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
+          tabTitle: t('profile.tabs.myVolunteer'),
           content: () => <MyVolunteeringTab />,
         },
         {
           key: Tab.GOOD_DEEDS,
-          tabTitle: '#1MioGuteTaten',
+          tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
           content: () => <GoodDeedsTab />,
         },
         {
           key: Tab.MORE,
-          tabTitle: 'More',
+          tabTitle: t('profile.tabs.more'),
           content: () => <MoreTab />,
         },
       ].filter(Boolean) as OwnProfileTab[])

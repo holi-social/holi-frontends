@@ -10,21 +10,22 @@ import { Text } from 'holi-bricks/components/text'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import {
   type Rewards_RewardType,
-  useGetGlobalRewardsCounterQuery,
+  useGlobalRewardsCounterQuery,
   useGetRewardsCounterQuery,
-  useGetRewardsTransactionsQuery,
+  useRewardsTransactionsQuery,
 } from '@holi/api/graphql/graphql-codegen'
 import { GoodDeedsEmptyState } from '@holi/core/screens/userprofile/components/GoodDeedsEmptyState'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeedsV2 } from '@holi/icons/src/generated'
+import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 
 export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data: personalGD, loading: personalGDLoading } = useGetRewardsCounterQuery()
-  const { data: globalGD, loading: globalGDLoading } = useGetGlobalRewardsCounterQuery()
-  const { data: rewardTransactions, refetch } = useGetRewardsTransactionsQuery({
+  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery()
+  const { data: globalGoodDeeds, loading: globalGoodDeedsLoading } = useGlobalRewardsCounterQuery()
+  const { data: rewardTransactions, refetch } = useRewardsTransactionsQuery({
     variables: {
       offset: 0,
       limit: 10,
@@ -32,9 +33,9 @@ export const GoodDeedsTab = () => {
     fetchPolicy: 'cache-and-network',
   })
 
-  const items = rewardTransactions?.rewards_transactions.data || [] // update
-  const personalCounter = personalGD?.rewards_counter?.counter ?? 0
-  const globalCounter = globalGD?.rewards_globalCounter.counter ?? 0
+  const goodDeeds = rewardTransactions?.rewards_transactions.data || []
+  const personalCounter = personalGoodDeeds?.rewards_counter?.counter ?? 0
+  const globalCounter = globalGoodDeeds?.rewards_globalCounter.counter ?? 0
   const totalCounter = personalCounter + globalCounter
 
   useEffect(() => {
@@ -54,16 +55,7 @@ export const GoodDeedsTab = () => {
     }
   }
 
-  const formatRewardDate = (rewardDate: Date) => {
-    const date = new Date(rewardDate)
-    return date.toLocaleDateString('de-DE', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-  }
-
-  if (personalGDLoading || globalGDLoading) {
+  if (personalGoodDeedsLoading || globalGoodDeedsLoading) {
     return (
       <Stack padding={{ top: '3xl' }}>
         <HoliLoader testID="initial-loader" style={styles.loader} />
@@ -71,7 +63,7 @@ export const GoodDeedsTab = () => {
     )
   }
 
-  if (!personalGDLoading && !globalGDLoading && totalCounter === 0) {
+  if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && totalCounter === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
         <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
@@ -114,10 +106,10 @@ export const GoodDeedsTab = () => {
           </Stack>
         </Stack>
 
-        {/* list */}
+        {/* list of good deeds */}
         <Stack>
-          {items.map((item) => (
-            <ErrorBoundary key={item.id}>
+          {goodDeeds.map((goodDeed) => (
+            <ErrorBoundary key={goodDeed.id}>
               <Stack
                 padding={{ top: '3xs', bottom: '3xs', left: 'xs', right: 'xs' }}
                 gap="xxs"
@@ -125,9 +117,9 @@ export const GoodDeedsTab = () => {
                 justifyContent="space-between"
               >
                 <Stack gap="4xs">
-                  <Text size="md">{formatRewardType(item.rewardType)}</Text>
+                  <Text size="md">{formatRewardType(goodDeed.rewardType)}</Text>
                   <Text size="xs" color="support">
-                    {formatRewardDate(item.createdAt)}
+                    {getDisplayDate('de-DE', new Date(goodDeed.createdAt).toDateString())}
                   </Text>
                 </Stack>
                 <Stack alignSelf="center">
