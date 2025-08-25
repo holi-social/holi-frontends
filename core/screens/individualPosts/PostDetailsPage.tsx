@@ -64,7 +64,7 @@ const PostDetailsPage = () => {
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
   const loginState = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const smStyle = useBreakpointMatcher([[breakpoints.sm, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { displayError } = useErrorHandling()
@@ -178,27 +178,20 @@ const PostDetailsPage = () => {
   })
 
   const reactOnPost = () => {
-    if (!loginState.isLoggedIn) {
-      openSignupModal({
-        description: t('individuals.post.reaction.loginRedirect.text'),
-        trackTrigger: 'REACT_COMMENT_ON_POST',
-      })
-    } else {
-      const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
-      const reactionType = ReactionType.HEART
-      updateFeedPostReaction({
-        variables: {
-          postId: post?.id,
-          reactionType: reactionType,
-          reactionAction: reactionAction,
-        },
-        onCompleted: () => {
-          if (reactionAction === ReactionAction.SET) {
-            track(TrackingEvent.Engaging.reacted('FeedPost', post?.id || ''))
-          }
-        },
-      })
-    }
+    const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
+    const reactionType = ReactionType.HEART
+    updateFeedPostReaction({
+      variables: {
+        postId: post?.id,
+        reactionType: reactionType,
+        reactionAction: reactionAction,
+      },
+      onCompleted: () => {
+        if (reactionAction === ReactionAction.SET) {
+          track(TrackingEvent.Engaging.reacted('FeedPost', post?.id || ''))
+        }
+      },
+    })
   }
 
   return (
@@ -247,7 +240,12 @@ const PostDetailsPage = () => {
           {!post?.totalComments && (
             <View style={styles.reactions}>
               <HoliReactionsCount
-                onPress={reactOnPost}
+                onPress={() =>
+                  requireLogin(reactOnPost, {
+                    description: t('individuals.post.reaction.loginRedirect.text'),
+                    trackTrigger: 'REACT_COMMENT_ON_POST',
+                  })
+                }
                 type="post"
                 count={heartReactions}
                 active={currentUserHasReacted}

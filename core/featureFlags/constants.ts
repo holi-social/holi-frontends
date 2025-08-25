@@ -12,7 +12,6 @@ export enum FeatureFlagKey {
   VIDEO_CALL = 'VIDEO_CALL', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   POST_TRANSLATION = 'POST_TRANSLATION', // boolean
   TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
-  CHALLENGES_CAROUSEL = 'CHALLENGES_CAROUSEL', // boolean
   SOCIAL_LOGIN = 'social-login', // boolean
   REWARDS_PHASE_1 = 'rewards-phase-1', // boolean
   REWARDS_PHASE_2 = 'rewards-phase-2', // boolean

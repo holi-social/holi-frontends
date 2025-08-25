@@ -30,7 +30,7 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
   const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
   const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
 
   const withdrawRequestToJoinSpace = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -49,13 +49,6 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
 
   const onCollaborateButtonPressed = () => {
     track(TrackingEvent.Spaces.joinSpaceButtonPressed(space.id, isLoggedIn))
-
-    if (!isLoggedIn) {
-      return openSignupModal({
-        description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
-        trackTrigger: 'JOIN_SPACE',
-      })
-    }
     showOnboarding()
   }
 
@@ -69,7 +62,12 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
         <Button
           inline
           label={t('spaces.join.btnRequest')}
-          onPress={onCollaborateButtonPressed}
+          onPress={() =>
+            requireLogin(onCollaborateButtonPressed, {
+              description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+              trackTrigger: 'JOIN_SPACE',
+            })
+          }
           size="sm"
           disabled={loading}
           testID={'space-collaborate-button'}
