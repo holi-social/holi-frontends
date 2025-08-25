@@ -20,6 +20,7 @@ export type ChipLabelProps = AccessibilityProps &
     iconLeading?: HoliIconType
     iconTrailing?: HoliIconType
     testID?: string
+    blackBorder?: boolean
   }
 
 export const ChipLabel = ({
@@ -29,13 +30,14 @@ export const ChipLabel = ({
   iconLeading,
   iconTrailing,
   testID,
+  blackBorder = false,
   ...rest
 }: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? IconSize.xs : IconSize.sm
 
   return (
-    <View {...accessibilityProps(rest)} style={[styles.chip(color), layoutStyle(rest)]} testID={testID}>
+    <View {...accessibilityProps(rest)} style={[styles.chip(color, blackBorder), layoutStyle(rest)]} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={theme.components.chipLabel.text} />}
       {children && (
         <Text size={chipSizeToTextSize[size]} colorOverride={theme.components.chipLabel.text}>
@@ -48,12 +50,12 @@ export const ChipLabel = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  chip: (color: ChipColor) => {
+  chip: (color: ChipColor, blackBorder: boolean) => {
     return {
       ...pill,
       color: theme.components.chipLabel.text,
       backgroundColor: theme.components.chipLabel.background[color],
-      borderColor: theme.components.chipLabel.border[color],
+      borderColor: blackBorder ? theme.components.chipLabel.border.black : theme.components.chipLabel.border[color],
       borderWidth: 1,
       alignSelf: 'flex-start',
       variants: {

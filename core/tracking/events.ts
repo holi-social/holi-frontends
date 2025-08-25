@@ -778,10 +778,42 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
     completionDismissed: (page: 'profile' | 'home_feed'): TrackingEvent => ({
-      name: 'userProfileCompletion_dismissed',
+      name: 'userProfile_Completion_dismissed',
       properties: {
         page: page,
       },
+      ...versionOne,
+    }),
+    globalGoodDeedsTabOpened: (): TrackingEvent => ({
+      name: 'userProfile_GlobalGoodDeedsTab_opened',
+      ...versionOne,
+    }),
+    myVolunteerTabOpened: (): TrackingEvent => ({
+      name: 'userProfile_MyVolunteerTab_opened',
+      ...versionOne,
+    }),
+    moreTabOpened: (): TrackingEvent => ({
+      name: 'userProfile_MoreTab_opened',
+      ...versionOne,
+    }),
+    favoritesSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_FavoritesSubpage_opened',
+      ...versionOne,
+    }),
+    profileSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_ProfileSubpage_opened',
+      ...versionOne,
+    }),
+    postsSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_PostsSubpage_opened',
+      ...versionOne,
+    }),
+    spacesSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_SpacesSubpage_opened',
+      ...versionOne,
+    }),
+    connectionsSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_ConnectionsSubpage_opened',
       ...versionOne,
     }),
   }

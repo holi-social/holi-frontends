@@ -123,7 +123,11 @@ const OwnProfile = () => {
           <ButtonIcon
             label={t('profile.edit')}
             onPress={() => {
-              toggleEditMode('profile')
+              if (rewardsPhaseTwoEnabled) {
+                navigate('/profile/settings/aboutMe')
+              } else {
+                toggleEditMode('profile')
+              }
             }}
             transparent
             testID="btn-open-profile-edit-view"
@@ -142,7 +146,7 @@ const OwnProfile = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, isLoggedIn, toggleEditMode, shareProfile, setScreenOptions, user])
+  }, [navigate, t, isLoggedIn, toggleEditMode, shareProfile, setScreenOptions, user, rewardsPhaseTwoEnabled])
 
   const client = useApolloClient()
   const onSubmit = useCallback(async () => {
