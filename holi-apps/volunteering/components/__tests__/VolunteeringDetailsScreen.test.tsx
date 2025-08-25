@@ -209,10 +209,9 @@ describe('VolunteeringDetailsScreen', () => {
 
     renderComponent()
 
-    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-    await act(jest.runAllTimersAsync)
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
 
-    // expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
     expect(mockUseOpenLink).toHaveBeenCalledWith(documentWithoutContact.external_url)
   })
 

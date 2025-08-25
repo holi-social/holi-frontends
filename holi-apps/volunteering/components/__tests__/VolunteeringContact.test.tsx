@@ -99,7 +99,7 @@ describe('VolunteeringContact', () => {
     it('should open contact drawer and list all information', async () => {
       const user = userEvent.setup()
 
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -126,9 +126,7 @@ describe('VolunteeringContact', () => {
         status: null,
       }
 
-      renderWithApollo(
-        <VolunteeringContact document={documentWithOtherWebsite} engagementId="123" onOpenLink={jest.fn()} />
-      )
+      renderWithApollo(<VolunteeringContact document={documentWithOtherWebsite} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -139,7 +137,7 @@ describe('VolunteeringContact', () => {
 
     it('should copy name of contact person', async () => {
       const user = userEvent.setup()
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -151,7 +149,7 @@ describe('VolunteeringContact', () => {
 
     it('should call phone number', async () => {
       const user = userEvent.setup()
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -163,7 +161,7 @@ describe('VolunteeringContact', () => {
 
     it('should send email', async () => {
       const user = userEvent.setup()
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -175,7 +173,7 @@ describe('VolunteeringContact', () => {
 
     it('should open website in drawer', async () => {
       const user = userEvent.setup()
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -189,7 +187,7 @@ describe('VolunteeringContact', () => {
     it('tracks opening the drawer', async () => {
       const user = userEvent.setup()
 
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -206,7 +204,7 @@ describe('VolunteeringContact', () => {
     it.each(contactDataTypes)('should track contact via %s', async (contactType) => {
       const user = userEvent.setup()
 
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
       await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
       await act(jest.runAllTimersAsync)
@@ -231,14 +229,13 @@ describe('VolunteeringContact', () => {
       status: null,
     }
     it('should open drawer for web view', async () => {
-      const onOpenLink = jest.fn()
       const user = userEvent.setup()
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={onOpenLink} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
-      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-      await act(jest.runAllTimersAsync)
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
 
-      expect(onOpenLink).toHaveBeenCalledWith(document.externalUrl)
+      expect(mockUseOpenLink).toHaveBeenCalledWith(document.externalUrl)
     })
 
     it('should open drawer for web view if there is no other contact info', async () => {
@@ -254,26 +251,23 @@ describe('VolunteeringContact', () => {
         ],
         status: null,
       }
-      const onOpenLink = jest.fn()
       const user = userEvent.setup()
 
-      renderWithApollo(
-        <VolunteeringContact document={documentWithSameWebsiteContact} engagementId="123" onOpenLink={onOpenLink} />
-      )
+      renderWithApollo(<VolunteeringContact document={documentWithSameWebsiteContact} engagementId="123" />)
 
-      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-      await act(jest.runAllTimersAsync)
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
 
-      expect(onOpenLink).toHaveBeenCalledWith(document.externalUrl)
+      expect(mockUseOpenLink).toHaveBeenCalledWith(document.externalUrl)
     })
 
     it('tracks opening the webview', async () => {
       const user = userEvent.setup()
 
-      renderWithApollo(<VolunteeringContact document={document} engagementId="123" onOpenLink={jest.fn()} />)
+      renderWithApollo(<VolunteeringContact document={document} engagementId="123" />)
 
-      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-      await act(jest.runAllTimersAsync)
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+      await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Volunteering.pressed('123', {
