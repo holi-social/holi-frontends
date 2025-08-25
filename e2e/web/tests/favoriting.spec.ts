@@ -10,7 +10,7 @@ test.describe('@Favoriting', () => {
     await guest.goto('/volunteering')
     await guest.click(volunteeringOrTaskCardSelector)
 
-    await clickElementByTestId(guest, 'favorite-icon-button')
+    await clickElementByTestId(guest, 'save-for-later-button')
 
     await expect(guest.getByTestId('login-guard-modal-confirmation-dialog')).toBeVisible()
   })
@@ -26,9 +26,9 @@ test.describe('@Favoriting', () => {
       await user.click(volunteeringOrTaskCardSelector)
 
       title_of_favorited_vo = await user.getByTestId('detailview-title').first().textContent()
-      await clickElementByTestId(user, 'favorite-icon-button')
+      await clickElementByTestId(user, 'save-for-later-button')
 
-      await expect(user.getByTestId('unfavorite-icon-button')).toBeVisible()
+      await expect(user.getByTestId('unsave-for-later-button')).toBeVisible()
     })
 
     await test.step('user can see the favorite in the profile favorite list', async () => {

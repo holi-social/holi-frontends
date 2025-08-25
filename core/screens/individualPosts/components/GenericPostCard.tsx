@@ -38,6 +38,7 @@ import HoliTranslate from '@holi/core/components/HoliTranslate'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
 import PostResponseBar from '@holi/core/screens/individualPosts/components/PostResponseBar/PostResponseBar'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -59,6 +60,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
   const [loadingTranslation, setLoadingTranslation] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const { mapCategorySlugToLabel } = useFeedPostCategories()
+  const { requireLogin } = useSignupModal()
 
   const { deletePost: deleteSpacePost, isLoadingPostDeletion: isLoadingSpacePostDeletion } = useDeletePost(
     post as Post,
@@ -95,6 +97,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
     if (isDeleted) {
       return null
     }
+
     return (
       <View style={styles.container}>
         {showVisibilityBadge && (
@@ -249,7 +252,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           </View>
         )}
 
-        <PostResponseBar post={feedPost} onCommentPress={goToCommentView} />
+        <PostResponseBar post={feedPost} onCommentPress={() => requireLogin(goToCommentView)} />
       </View>
     )
   } else {
@@ -412,7 +415,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
             <PostLocationCard location={spacePost.location} geolocation={spacePost.geolocation} />
           </View>
         )}
-        <PostResponseBar post={spacePost} onCommentPress={goToCommentView} />
+        <PostResponseBar post={spacePost} onCommentPress={() => requireLogin(goToCommentView)} />
       </View>
     )
   }

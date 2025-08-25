@@ -9,8 +9,8 @@ export const CreateOrEditTaskSchema = z.object({
   interactionType: z.string() /* InteractionType */,
   regularity: z.string() /* Regularity */,
   duration: z.string(),
-  timeframeStartDate: z.date().optional().nullable(),
-  timeframeEndDate: z.date().optional().nullable(),
+  timeframeStartDate: z.string().optional().nullable(),
+  timeframeEndDate: z.string().optional().nullable(),
   contactEmail: z.string().email(),
   location: z.string().optional(),
   geolocation: z

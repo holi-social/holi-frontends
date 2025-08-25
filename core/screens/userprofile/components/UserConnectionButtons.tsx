@@ -28,7 +28,7 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) =
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
 
   useEffect(() => {
     if (error) {
@@ -42,14 +42,8 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) =
   const connectionRequested = connectionStatusToMyself === UserConnectionStatus.REQUESTED
 
   const onPrimaryPress = () => {
-    if (!isLoggedIn) {
-      return openSignupModal({
-        description: t('user.profileView.connection.loginRedirect.text', {
-          firstName: user.firstName,
-        }),
-        trackTrigger: 'CONNECT_TO_USER',
-      })
-    }
+    if (!loggedInUser) return
+
     if (connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED) {
       connect(user.id)
       track(TrackingEvent.UserConnectionRequested(loggedInUser.id, user.id))
@@ -67,7 +61,14 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) =
         variant={connectionRequested ? 'secondary' : 'primary'}
         inline
         label={t(`user.profileView.connection.button.${connectionStatusToMyself}`)}
-        onPress={onPrimaryPress}
+        onPress={() =>
+          requireLogin(onPrimaryPress, {
+            description: t('user.profileView.connection.loginRedirect.text', {
+              firstName: user.firstName,
+            }),
+            trackTrigger: 'CONNECT_TO_USER',
+          })
+        }
         disabled={loading}
         testID={`user-connection-button-${connectionStatusToMyself}`}
         icon={connectionRequested ? Time : undefined}

@@ -3,7 +3,6 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ViewStyle } from 'react-native'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { UpdatePostReactionMutation } from '@holi/core/screens/posts/queries'
@@ -20,8 +19,7 @@ export interface PostReactionsProps {
 
 const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) => {
   const { t } = useTranslation()
-  const { user } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -38,12 +36,6 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
   })
 
   const reactOnPost = () => {
-    if (!user) {
-      return openSignupModal({
-        description: t('insights.reactions.post.loginRedirect.text'),
-        trackTrigger: 'REACT_ON_POST',
-      })
-    }
     updatePostReaction({
       variables: {
         id: post.id,
@@ -73,7 +65,12 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
 
   return (
     <HoliReactionsCount
-      onPress={reactOnPost}
+      onPress={() =>
+        requireLogin(reactOnPost, {
+          description: t('insights.reactions.post.loginRedirect.text'),
+          trackTrigger: 'REACT_ON_POST',
+        })
+      }
       type="post"
       count={heartReactions}
       active={currentUserHasReacted}
