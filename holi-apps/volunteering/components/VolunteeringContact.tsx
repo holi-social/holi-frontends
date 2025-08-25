@@ -18,6 +18,8 @@ import { Text } from 'holi-bricks/components/text'
 import { FavoritableType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const ANIMATION_DELAY = 500
 
@@ -42,6 +44,7 @@ export const VolunteeringContact = ({
 }: VolunteeringContactProps) => {
   const { t } = useTranslation()
   const { bottom } = useSafeAreaInsets()
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
   const [progressStatus, setProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
     VolunteeringOpportunityStatusValue.WontDo
@@ -111,20 +114,28 @@ export const VolunteeringContact = ({
         <ScrollView contentContainerStyle={{ paddingBottom: bottom }}>
           <HoliContainer>
             <Stack gap="md">
-              <Stack width="100%">
-                <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130, position: 'relative' }} />
-              </Stack>
+              {rewardsPhaseTwoEnabled && (
+                <Stack width="100%">
+                  <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130, position: 'relative' }} />
+                </Stack>
+              )}
 
               <Animated.View
-                entering={FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
-                  if (finished) runOnJS(setProgressStatus)(VolunteeringOpportunityStatusValue.ToDo)
-                })}
+                entering={
+                  rewardsPhaseTwoEnabled
+                    ? FadeInUp.delay(ANIMATION_DELAY).withCallback((finished) => {
+                        if (finished) runOnJS(setProgressStatus)(VolunteeringOpportunityStatusValue.ToDo)
+                      })
+                    : undefined
+                }
               >
                 <Stack gap="md">
                   <Stack gap="3xs">
-                    <Stack padding={{ bottom: 'sm', left: 'md', right: 'md' }}>
-                      <VolunteeringProgressStepper status={progressStatus} />
-                    </Stack>
+                    {rewardsPhaseTwoEnabled && (
+                      <Stack padding={{ bottom: 'sm', left: 'md', right: 'md' }}>
+                        <VolunteeringProgressStepper status={progressStatus} />
+                      </Stack>
+                    )}
 
                     <Text size="3xl">{t('volunteer.progress.initiate.modal.title')}</Text>
                     <Text size="md">{t('volunteer.progress.initiate.modal.text')}</Text>

@@ -448,15 +448,6 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
 
-    wantToDoIt: (
-      engagementId: string,
-      otherProperties: Record<string, string | number | undefined> = {}
-    ): TrackingEvent => ({
-      name: 'pressedVolunteeringEngagementWantToDoItButton',
-      properties: { engagementId, ...otherProperties },
-      ...versionOne,
-    }),
-
     contacted: (
       engagementId: string,
       otherProperties: Record<string, string | number | string[] | undefined> = {}
@@ -467,14 +458,23 @@ export namespace TrackingEvent {
     }),
 
     selfReportingFlow: {
+      wantToDoIt: (
+        engagementId: string,
+        otherProperties: Record<string, string | number | undefined> = {}
+      ): TrackingEvent => ({
+        name: 'selfReportingFlow__wantToDoIt',
+        properties: { engagementId, ...otherProperties },
+        ...versionOne,
+      }),
+
       contacted: (engagementId: string): TrackingEvent => ({
-        name: 'selfReportingFlowContacted',
+        name: 'selfReportingFlow__contacted',
         properties: { engagementId },
         ...versionOne,
       }),
 
       doing: (engagementId: string): TrackingEvent => ({
-        name: 'selfReportingFlowDoing',
+        name: 'selfReportingFlow__doing',
         properties: { engagementId },
         ...versionOne,
       }),

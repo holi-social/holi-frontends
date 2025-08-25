@@ -26,6 +26,10 @@ jest.mock('@holi/ui/helper/useOpenLink', () => ({
   useOpenLink: () => mockUseOpenLink,
 }))
 
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => [false, {}],
+}))
+
 const authenticatedUserMock = {
   request: {
     query: authenticatedUserV2Query,
