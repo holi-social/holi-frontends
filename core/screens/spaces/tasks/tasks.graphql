@@ -37,6 +37,10 @@ query TaskById($id: UUID!) {
     }
     skillsV2
     interactionSignupLink
+    geolocation {
+      latitude
+      longitude
+    }
   }
 }
 

@@ -12,15 +12,7 @@ import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 import PetitionCarousel from '@holi/core/screens/act/petitions/PetitionCarousel'
 import StartSmallCarousel from '@holi/core/components/StartSmallCarousel'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-
-export enum ActSectionType {
-  VOLUNTEERING = 'VOLUNTEERING',
-  CHALLENGES = 'CHALLENGES',
-  EVENTS = 'EVENTS',
-  DONATIONS = 'DONATIONS',
-  PETITIONS = 'PETITIONS',
-  STARTSMALL = 'STARTSMALL',
-}
+import { ActSectionType } from '@holi/core/screens/act/sections'
 
 export const ActSection = ({ type }: { type: ActSectionType }) => {
   const cardWidth = useRecoCardWidth()

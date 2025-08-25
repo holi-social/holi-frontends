@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
-import ActHome, { orderedSections } from '@holi/core/screens/act/ActHome.web'
+import ActHome from '@holi/core/screens/act/ActHome.web'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
+import { orderedSections } from '@holi/core/screens/act/sections'
 
 const mockPosthog = jest.fn()
 jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
@@ -40,11 +41,11 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 const cases = [
   {
     section: undefined,
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS', 'CHALLENGES'],
   },
   {
     section: 'SPACE',
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS', 'CHALLENGES'],
   },
   {
     section: 'DONATIONS',
@@ -52,7 +53,7 @@ const cases = [
   },
   {
     section: 'VOLUNTEERING',
-    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'CHALLENGES', 'DONATIONS'],
+    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'DONATIONS', 'CHALLENGES'],
   },
   {
     section: 'CHALLENGES',

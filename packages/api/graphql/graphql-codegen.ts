@@ -4993,6 +4993,7 @@ export type TaskByIdQuery = {
       avatarBlurhash?: string
       topicsV2: Array<string>
     }
+    geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
   }
 }
 
@@ -7865,6 +7866,10 @@ export const TaskByIdDocument = gql`
     }
     skillsV2
     interactionSignupLink
+    geolocation {
+      latitude
+      longitude
+    }
   }
 }
     `

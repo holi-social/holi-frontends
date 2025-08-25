@@ -1,5 +1,4 @@
 import type React from 'react'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import {
   type FavoritingMutationOptions,
   useFavoriting,
@@ -32,8 +31,7 @@ export const SaveForLaterButton = ({
   onUpdate,
   size = 'md',
 }: SaveForLaterButtonProps) => {
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const { t } = useTranslation()
 
   const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
@@ -44,15 +42,6 @@ export const SaveForLaterButton = ({
   })
 
   const handlePress = async () => {
-    if (!isLoggedIn) {
-      openSignupModal({
-        title: t('loginRedirect.title'),
-        description: t('insights.insight.login.prompt.message'),
-        trackTrigger: 'FAVORITE_ON_INSIGHT',
-      })
-      return
-    }
-
     if (isFavorite) {
       const success = await unfavorite()
       if (success) {
@@ -97,7 +86,13 @@ export const SaveForLaterButton = ({
           ? t('volunteering.progress.button.favorites.saved')
           : t('volunteering.progress.button.favorites.toSave')
       }
-      onPress={handlePress}
+      onPress={() =>
+        requireLogin(() => handlePress(), {
+          title: t('loginRedirect.title'),
+          description: t('insights.insight.login.prompt.message'),
+          trackTrigger: 'FAVORITE_ON_INSIGHT',
+        })
+      }
       variant="secondary"
       icon={isFavorite ? BookmarkFill : BookmarkLine}
       testID={isFavorite ? 'unsave-for-later-button' : 'save-for-later-button'}

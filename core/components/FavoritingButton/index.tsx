@@ -1,5 +1,4 @@
 import type React from 'react'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import {
   type FavoritingMutationOptions,
   useFavoriting,
@@ -35,8 +34,7 @@ export const FavoritingButton = ({
   onUpdate,
   shadow,
 }: FavoritingButtonProps) => {
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { requireLogin } = useSignupModal()
   const { t } = useTranslation()
 
   const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
@@ -47,15 +45,6 @@ export const FavoritingButton = ({
   })
 
   const favoriteHandler = async () => {
-    if (!isLoggedIn) {
-      openSignupModal({
-        title: t('loginRedirect.title'),
-        description: t('insights.insight.login.prompt.message'),
-        trackTrigger: 'FAVORITE_ON_INSIGHT',
-      })
-      return
-    }
-
     const success = await favorite()
     if (success) {
       setSnackbarOptions({
@@ -103,7 +92,15 @@ export const FavoritingButton = ({
       />
     </Pressable>
   ) : (
-    <Pressable onPress={favoriteHandler}>
+    <Pressable
+      onPress={() =>
+        requireLogin(favoriteHandler, {
+          title: t('loginRedirect.title'),
+          description: t('insights.insight.login.prompt.message'),
+          trackTrigger: 'FAVORITE_ON_INSIGHT',
+        })
+      }
+    >
       <HoliIcon
         icon={BookmarkLine}
         colorOverride={tintColor}
