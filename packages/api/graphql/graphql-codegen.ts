@@ -2707,6 +2707,13 @@ export type Typesense_SearchResponseFacetCountsItemStats = {
   sum?: Maybe<Scalars['Float']['output']>
 }
 
+export type Typesense_SearchResponseGeneratedParams = {
+  __typename?: 'Typesense_SearchResponseGeneratedParams'
+  filter_by?: Maybe<Scalars['String']['output']>
+  q?: Maybe<Scalars['String']['output']>
+  sort_by?: Maybe<Scalars['String']['output']>
+}
+
 export type Typesense_SearchResponseGroupedHit = {
   __typename?: 'Typesense_SearchResponseGroupedHit'
   found?: Maybe<Scalars['Int']['output']>
@@ -2745,6 +2752,19 @@ export type Typesense_SearchResponseHitHighlight = {
   values?: Maybe<Array<Maybe<Scalars['String']['output']>>>
 }
 
+export type Typesense_SearchResponseLlmResponse = {
+  __typename?: 'Typesense_SearchResponseLLMResponse'
+  content?: Maybe<Scalars['String']['output']>
+  model?: Maybe<Scalars['String']['output']>
+}
+
+export type Typesense_SearchResponseParsedNlQuery = {
+  __typename?: 'Typesense_SearchResponseParsedNLQuery'
+  generated_params?: Maybe<Typesense_SearchResponseGeneratedParams>
+  llm_response?: Maybe<Typesense_SearchResponseLlmResponse>
+  parse_time_ms?: Maybe<Scalars['Int']['output']>
+}
+
 export type Typesense_SearchResponseRequestParams = {
   __typename?: 'Typesense_SearchResponseRequestParams'
   collection_name?: Maybe<Scalars['String']['output']>
@@ -2774,6 +2794,7 @@ export type Typesense_SearchResponseSuccess = {
   out_of: Scalars['Int']['output']
   /** The search result page number */
   page: Scalars['Int']['output']
+  parsed_nl_query?: Maybe<Typesense_SearchResponseParsedNlQuery>
   request_params: Typesense_SearchResponseRequestParams
   /** Whether the search was cut off */
   search_cutoff?: Maybe<Scalars['Boolean']['output']>
@@ -5121,6 +5142,27 @@ export type CommittedVolunteeringOpportunitiesQuery = {
       status: VolunteeringOpportunityStatusValue
       externalVolunteeringOpportunityId: string
     }>
+  }
+}
+
+export type GlobalRewardsCounterQueryVariables = Exact<{ [key: string]: never }>
+
+export type GlobalRewardsCounterQuery = {
+  __typename?: 'Query'
+  rewards_globalCounter: { __typename?: 'Rewards_RewardsCounter'; counter?: number }
+}
+
+export type RewardsTransactionsQueryVariables = Exact<{
+  offset: Scalars['Int']['input']
+  limit: Scalars['Int']['input']
+}>
+
+export type RewardsTransactionsQuery = {
+  __typename?: 'Query'
+  rewards_transactions: {
+    __typename?: 'Rewards_PagedTransactions'
+    totalResults: number
+    data: Array<{ __typename?: 'Rewards_Transaction'; id: string; rewardType: Rewards_RewardType; createdAt: any }>
   }
 }
 
@@ -8158,6 +8200,132 @@ export type CommittedVolunteeringOpportunitiesSuspenseQueryHookResult = ReturnTy
 export type CommittedVolunteeringOpportunitiesQueryResult = Apollo.QueryResult<
   CommittedVolunteeringOpportunitiesQuery,
   CommittedVolunteeringOpportunitiesQueryVariables
+>
+export const GlobalRewardsCounterDocument = gql`
+    query GlobalRewardsCounter {
+  rewards_globalCounter {
+    counter
+  }
+}
+    `
+
+/**
+ * __useGlobalRewardsCounterQuery__
+ *
+ * To run a query within a React component, call `useGlobalRewardsCounterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGlobalRewardsCounterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGlobalRewardsCounterQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGlobalRewardsCounterQuery(
+  baseOptions?: Apollo.QueryHookOptions<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
+    GlobalRewardsCounterDocument,
+    options
+  )
+}
+export function useGlobalRewardsCounterLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
+    GlobalRewardsCounterDocument,
+    options
+  )
+}
+export function useGlobalRewardsCounterSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
+    GlobalRewardsCounterDocument,
+    options
+  )
+}
+export type GlobalRewardsCounterQueryHookResult = ReturnType<typeof useGlobalRewardsCounterQuery>
+export type GlobalRewardsCounterLazyQueryHookResult = ReturnType<typeof useGlobalRewardsCounterLazyQuery>
+export type GlobalRewardsCounterSuspenseQueryHookResult = ReturnType<typeof useGlobalRewardsCounterSuspenseQuery>
+export type GlobalRewardsCounterQueryResult = Apollo.QueryResult<
+  GlobalRewardsCounterQuery,
+  GlobalRewardsCounterQueryVariables
+>
+export const RewardsTransactionsDocument = gql`
+    query RewardsTransactions($offset: Int!, $limit: Int!) {
+  rewards_transactions(offset: $offset, limit: $limit) {
+    totalResults
+    data {
+      id
+      rewardType
+      createdAt
+    }
+  }
+}
+    `
+
+/**
+ * __useRewardsTransactionsQuery__
+ *
+ * To run a query within a React component, call `useRewardsTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRewardsTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRewardsTransactionsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useRewardsTransactionsQuery(
+  baseOptions: Apollo.QueryHookOptions<RewardsTransactionsQuery, RewardsTransactionsQueryVariables> &
+    ({ variables: RewardsTransactionsQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
+    RewardsTransactionsDocument,
+    options
+  )
+}
+export function useRewardsTransactionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
+    RewardsTransactionsDocument,
+    options
+  )
+}
+export function useRewardsTransactionsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
+    RewardsTransactionsDocument,
+    options
+  )
+}
+export type RewardsTransactionsQueryHookResult = ReturnType<typeof useRewardsTransactionsQuery>
+export type RewardsTransactionsLazyQueryHookResult = ReturnType<typeof useRewardsTransactionsLazyQuery>
+export type RewardsTransactionsSuspenseQueryHookResult = ReturnType<typeof useRewardsTransactionsSuspenseQuery>
+export type RewardsTransactionsQueryResult = Apollo.QueryResult<
+  RewardsTransactionsQuery,
+  RewardsTransactionsQueryVariables
 >
 export const Typesense_DocumentByIdDocument = gql`
     query typesense_documentById($id: String!, $documentType: String!) {
