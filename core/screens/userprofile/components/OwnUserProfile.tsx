@@ -105,7 +105,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
     ? ([
         {
           key: Tab.MY_VOLUNTEERING,
-          tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
+          tabTitle: t('profile.tabs.myVolunteer'),
           content: () => <MyVolunteeringTab />,
         },
         {
