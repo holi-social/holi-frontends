@@ -45,7 +45,7 @@ default:
     reports:
       junit: e2e/web/playwright-report/junit-report.xml
   script: |
-    export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
+    export UI_DOMAIN=$(cat "$UI_DOMAIN_PATH")
     terraform/environments/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
     cd e2e/web
     corepack enable
