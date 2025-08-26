@@ -10,29 +10,30 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import type { ProjectInitiative } from '@holi-apps/donations/typings'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 export type DonationInitiativeButtonProps = {
-  initiative: ProjectInitiative
+  project: TypesenseDocument
 }
 
-const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps) => {
+const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const name = initiative.name
+  const name = project.organizer_name ?? ''
   return (
     <HoliButton
       label={t('donations.initiative.link.button', { name })}
       transparent
-      disabled={!initiative.url}
-      onPress={() => initiative.url && Linking.openURL(initiative.url)}
+      disabled={!project.organizer_url}
+      onPress={() => project.organizer_url && Linking.openURL(project.organizer_url)}
       testID="donations-project-initiative-btn"
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
           <DonationImage
-            picture={initiative.picture}
+            imageUrl={project.organizer_image_url}
             label={name}
             style={styles.initiativeImage}
             width={56}
@@ -46,12 +47,12 @@ const DonationInitiativeButton = ({ initiative }: DonationInitiativeButtonProps)
                 </Trans>
               </HoliText>
             </View>
-            <HoliText style={styles.initiativeOrigin} size="small">
+            {/* <HoliText style={styles.initiativeOrigin} size="small">
               {initiative.city}, {initiative.country}
-            </HoliText>
+            </HoliText> */}
           </View>
         </View>
-        <HoliIcon icon={ShareBox} size={18} style={{ ...(!initiative.url && { display: 'none' }) }} />
+        <HoliIcon icon={ShareBox} size={18} style={{ ...(!project.organizer_url && { display: 'none' }) }} />
       </View>
     </HoliButton>
   )

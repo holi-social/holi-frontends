@@ -1062,6 +1062,7 @@ export type Mutation = {
   registerDevice: Result
   removeReactionFromComment: Comment
   reportContent: Result
+  rewards_markBadgeUnlockAsSeen: Rewards_UnlockedBadge
   /** @deprecated use newer api with string favoritable ids to favorite all the things, keep for <=1.57.1 */
   unfavorite: Result
   unfavoriteV2: Result
@@ -1230,6 +1231,10 @@ export type MutationReportContentArgs = {
   contentType: ContentType
   description?: InputMaybe<Scalars['String']['input']>
   objectId: Scalars['UUID']['input']
+}
+
+export type MutationRewards_MarkBadgeUnlockAsSeenArgs = {
+  unlockId: Scalars['ID']['input']
 }
 
 export type MutationUnfavoriteArgs = {
@@ -1661,6 +1666,7 @@ export type Query = {
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
+  rewards_badges: Rewards_BadgesOverview
   rewards_counter: Rewards_RewardsCounter
   rewards_globalCounter: Rewards_RewardsCounter
   rewards_transactions: Rewards_PagedTransactions
@@ -2125,6 +2131,19 @@ export type Result = {
   success: Scalars['Boolean']['output']
 }
 
+export type Rewards_BadgesOverview = {
+  __typename?: 'Rewards_BadgesOverview'
+  inProgress: Array<Maybe<Rewards_InProgressBadge>>
+  unlocked: Array<Maybe<Rewards_UnlockedBadge>>
+}
+
+export type Rewards_InProgressBadge = {
+  __typename?: 'Rewards_InProgressBadge'
+  progressGoal?: Maybe<Scalars['Int']['output']>
+  progressMade?: Maybe<Scalars['Int']['output']>
+  slug: Scalars['String']['output']
+}
+
 export type Rewards_PagedTransactions = {
   __typename?: 'Rewards_PagedTransactions'
   data: Array<Maybe<Rewards_Transaction>>
@@ -2147,6 +2166,14 @@ export type Rewards_Transaction = {
   createdAt: Scalars['DateTimeISO']['output']
   id: Scalars['ID']['output']
   rewardType: Rewards_RewardType
+}
+
+export type Rewards_UnlockedBadge = {
+  __typename?: 'Rewards_UnlockedBadge'
+  id: Scalars['ID']['output']
+  seenAt?: Maybe<Scalars['DateTimeISO']['output']>
+  slug: Scalars['String']['output']
+  unlockedAt: Scalars['DateTimeISO']['output']
 }
 
 /**
@@ -2409,6 +2436,8 @@ export type Typesense_Document = {
   contact?: Maybe<Array<Maybe<Typesense_DocumentContact>>>
   description_de?: Maybe<Scalars['String']['output']>
   description_en?: Maybe<Scalars['String']['output']>
+  donation_open_amount_in_cents?: Maybe<Scalars['Int']['output']>
+  donation_progress_percentage?: Maybe<Scalars['Int']['output']>
   external_url?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   image_url?: Maybe<Scalars['String']['output']>
@@ -2421,6 +2450,7 @@ export type Typesense_Document = {
   organizer_url?: Maybe<Scalars['String']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   source?: Maybe<Scalars['String']['output']>
+  summary?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
   title_en?: Maybe<Scalars['String']['output']>
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -2444,6 +2474,7 @@ export enum Typesense_DocumentContactType {
 
 export type Typesense_DocumentLinkLocators = {
   __typename?: 'Typesense_DocumentLinkLocators'
+  donation?: Maybe<Scalars['String']['output']>
   profile?: Maybe<Scalars['String']['output']>
   space?: Maybe<Scalars['String']['output']>
   task?: Maybe<Scalars['String']['output']>
@@ -2451,6 +2482,7 @@ export type Typesense_DocumentLinkLocators = {
 }
 
 export enum Typesense_DocumentType {
+  Donation = 'donation',
   Profile = 'profile',
   Space = 'space',
   Task = 'task',
@@ -5188,6 +5220,9 @@ export type FullTypesenseDocumentFragment = {
   commitment_label?: string
   commitment_duration?: string
   location_type?: string
+  summary?: string
+  donation_progress_percentage?: number
+  donation_open_amount_in_cents?: number
   link_locators?: {
     __typename?: 'Typesense_DocumentLinkLocators'
     volunteering?: string
@@ -5238,6 +5273,9 @@ export type Typesense_DocumentByIdQuery = {
             commitment_label?: string
             commitment_duration?: string
             location_type?: string
+            summary?: string
+            donation_progress_percentage?: number
+            donation_open_amount_in_cents?: number
             link_locators?: {
               __typename?: 'Typesense_DocumentLinkLocators'
               volunteering?: string
@@ -5294,6 +5332,9 @@ export type Typesense_MultiSearchQuery = {
               commitment_label?: string
               commitment_duration?: string
               location_type?: string
+              summary?: string
+              donation_progress_percentage?: number
+              donation_open_amount_in_cents?: number
               link_locators?: {
                 __typename?: 'Typesense_DocumentLinkLocators'
                 volunteering?: string
@@ -5927,6 +5968,9 @@ export const FullTypesenseDocumentFragmentDoc = gql`
     value
     label
   }
+  summary
+  donation_progress_percentage
+  donation_open_amount_in_cents
 }
     `
 export const FullEventFragmentDoc = gql`

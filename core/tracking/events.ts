@@ -431,7 +431,7 @@ export namespace TrackingEvent {
   }
 
   export const Donations = {
-    pressed: (projectId: number): TrackingEvent => ({
+    pressed: (projectId: number | string): TrackingEvent => ({
       name: 'pressedDonateButton',
       properties: { projectId },
       ...versionOne,

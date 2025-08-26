@@ -34,6 +34,10 @@ import DonationNews from '@holi-apps/donations/components/DonationNews'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { type AppDonationsProjectByIdResponse, donationProjectByIdQuery } from '@holi-apps/donations/queries'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
+import { TypesenseDocumentType } from '@holi/core/typesense/types'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -53,36 +57,40 @@ const DonationsAppProjectDetail = () => {
   const styles = useMemo(() => getStyles(statusBarHeight, theme), [statusBarHeight, theme])
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const language = useUserLanguage()
 
   const mixins = useStyleMixins()
 
   const { windowHeight, imageWidth } = useWindowDimensionsWithImageScaling()
 
-  const { loading, data, refetch } = useQuery<AppDonationsProjectByIdResponse>(donationProjectByIdQuery, {
-    variables: {
-      id: Number(projectId),
-    },
-    skip: !projectId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
+  const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(
+    projectId ?? '',
+    TypesenseDocumentType.Donation,
+    {
+      onError: (error) => {
+        displayError(error, 'Failed to load donation project', {
+          location: 'DonationsAppProjectDetail.useSingleTypesenseDocumentQuery',
+          projectId,
+        })
+      },
+      onNotFound: () => {
         return replaceRoute('/404')
-      }
-      displayError(error, 'Failed to load donation project', {
-        displayMessage: t('donations.donationListing.error'),
-        location: 'DonationsAppProjectDetail.projectByIdQuery',
-        projectId,
-      })
-    },
-  })
-  useOnRefresh(refetch)
+      },
+    }
+  )
 
-  const project = data?.appDonations_project
+  const project = useMemo(
+    () => (document ? localizeTypesenseDocument(document, language) : undefined),
+    [document, language]
+  )
+
+  useOnRefresh(refresh)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('donations.app.name') })
   }, [setScreenOptions, t])
 
-  if (!projectId || loading || !project) {
+  if (!projectId || isLoading || !project) {
     return <HoliLoader />
   }
 
@@ -93,7 +101,7 @@ const DonationsAppProjectDetail = () => {
         description={project.summary}
         ogTitle={project.title}
         ogDescription={project.summary}
-        ogImage={project.picture.length ? project.picture[0].url : undefined}
+        ogImage={project.image_url}
       />
       <View
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
@@ -101,7 +109,7 @@ const DonationsAppProjectDetail = () => {
       >
         <ScrollViewRefreshable style={{ backgroundColor: colors.background30 }}>
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
-            <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
+            <DonationImage imageUrl={project.image_url} label={project.title} style={styles.image} width={imageWidth} />
             <View style={styles.header}>
               <HoliHeading level="1" size="l" testID="donations-project-title">
                 {project.title}
@@ -109,44 +117,45 @@ const DonationsAppProjectDetail = () => {
               <View style={styles.location}>
                 <HoliIcon icon={Globe} size={20} />
                 <HoliText size="small" style={{ marginLeft: 8 }}>
-                  {project.initiative.city}, {project.initiative.country}
+                  {project.location}
+                  {/*, {project.initiative.country} */}
                 </HoliText>
               </View>
             </View>
             <DonationProgress
-              progressPercentage={project.progressPercentage}
-              openAmountInCents={project.openAmountInCents}
+              progressPercentage={project.donation_progress_percentage ?? 0}
+              openAmountInCents={project.donation_open_amount_in_cents ?? 0}
               size="large"
               style={styles.card}
               testID="donations-project-progress"
             />
             <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
-              <DonationInitiativeButton initiative={project.initiative} />
+              <DonationInitiativeButton project={project} />
               <HoliText size={'large'} style={{ marginVertical: 24 }}>
                 &ldquo;{project.summary}&rdquo;
               </HoliText>
               <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
             </View>
-            {project?.news.length > 0 && (
+            {/* {project?.news.length > 0 && (
               <DonationNews
                 totalEntries={project.newsCount}
                 news={project.news}
                 style={[styles.card, { paddingVertical: 24 }]}
               />
-            )}
+            )} */}
           </View>
         </ScrollViewRefreshable>
 
         <View style={[mixins.container, styles.donateButtonContainer]}>
           <HoliLink
             label={t('donations.projectDetail.donate')}
-            href={`${project.donationUrl}${UTM_PARAMS}`}
+            href={`${project.external_url}${UTM_PARAMS}`}
             testID="donations-project-detail-donate-btn"
             external
           >
             <ButtonTracked
               label={t('donations.projectDetail.donate')}
-              onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
+              onPress={() => Linking.openURL(`${project?.external_url}${UTM_PARAMS}`)}
               trackingEvent={TrackingEvent.Donations.pressed(project.id)}
               icon={ShareBox}
             />

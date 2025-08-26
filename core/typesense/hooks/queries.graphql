@@ -30,6 +30,9 @@ fragment FullTypesenseDocument on Typesense_Document {
     value
     label
   }
+  summary
+  donation_progress_percentage
+  donation_open_amount_in_cents
 }
 
 query typesense_documentById($id: String!, $documentType: String!) {
