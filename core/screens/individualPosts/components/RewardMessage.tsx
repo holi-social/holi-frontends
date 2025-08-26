@@ -82,6 +82,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
         <View style={styles.iconContainer}>
           <HoliLottie animType="goodDeedsCounter" loop={false} />
         </View>
+
         <Animated.View
           style={[styles.animatedContainer, { opacity: contentFadeIn }]}
           testID="good-deeds-counter-animation"
@@ -105,6 +106,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
               {previousDeedCount}
             </Text>
           </Animated.View>
+
           <Animated.View
             style={{
               position: 'absolute',
@@ -127,6 +129,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
             </Text>
           </Animated.View>
         </Animated.View>
+
         <View style={styles.countContainer}>
           <Animated.View
             style={{
@@ -149,6 +152,7 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
             {t('goodDeed.rewardsMessage.text')}
           </Text>
         </View>
+
         <Pressable style={styles.moreInfoContainer} onPress={handleMoreInfoPress} testID="reward-message-link">
           <Text size="lg" bold>
             {t('goodDeed.rewardsMessage.link')}
@@ -156,13 +160,9 @@ const RewardMessage: React.FC<RewardMessageProps> = ({ campaignTag = '#1MioguteT
           <LinkM width={24} height={24} color={theme.colors.black300} />
         </Pressable>
       </View>
+
       <View style={styles.buttonContainer}>
-        <Button
-          label={t('goodDeed.rewardsMessage.button', 'Claim')}
-          onPress={onClaim}
-          size="md"
-          testID="reward-claim-button"
-        />
+        <Button label={t('goodDeed.rewardsMessage.button')} onPress={onClaim} size="md" testID="reward-claim-button" />
       </View>
     </View>
   )

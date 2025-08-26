@@ -1,6 +1,6 @@
 import LottieView from 'lottie-react-native'
 import type React from 'react'
-import { StyleSheet } from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 
 // eslint-disable-next-line no-restricted-imports
 import { animations } from '../../lottie-animations'
@@ -8,6 +8,7 @@ import { animations } from '../../lottie-animations'
 interface HoliLottieProps {
   animType: keyof typeof animations
   loop?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 // Version 6 of lottie-react-native removed default styles, so during migration from v5 to
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const HoliLottie: React.FC<HoliLottieProps> = ({ animType, loop = true }) => (
-  <LottieView autoPlay loop={loop} source={animations[animType]} style={styles.view} />
+const HoliLottie: React.FC<HoliLottieProps> = ({ animType, loop = true, style }) => (
+  <LottieView autoPlay loop={loop} source={animations[animType]} style={[styles.view, style]} />
 )
 
 export default HoliLottie
