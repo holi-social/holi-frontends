@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { Linking, Platform } from 'react-native'
+import React from 'react'
+import { Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -8,35 +8,38 @@ import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useFavoriteExternalVolunteeringOpportunityQuery } from '@holi/api/graphql/graphql-codegen'
+import {
+  useFavoriteExternalVolunteeringOpportunityQuery,
+  useUpdateVolunteeringOpportunityStatusMutation,
+  VolunteeringOpportunityStatusValue,
+} from '@holi/api/graphql/graphql-codegen'
 import { VolunteeringContact } from '@holi-apps/volunteering/components/VolunteeringContact'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliWebView from '@holi/core/components/HoliWebView'
-import { useTheme } from '@holi/ui/styles/theme'
+import { useOpenLink } from '@holi/ui/helper/useOpenLink'
+import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const isIos = Platform.OS === 'ios'
-const isWeb = Platform.OS === 'web'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
-  const { theme } = useTheme()
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+
   const { displayError } = useErrorHandling()
-  const { show: showWebView, props: webViewModalProps } = useModalState()
-  const [webViewUrl, setWebViewUrl] = useState<string>()
-  const onOpenLink = useCallback(
-    (url?: string) => {
-      if (!url) {
-        return
-      }
-      if (isWeb) {
-        Linking.openURL(url)
-      } else {
-        setWebViewUrl(url)
-        showWebView()
-      }
-    },
-    [showWebView]
-  )
-  const { isLoading, document } = useVolunteeringDetailsData(engagementId, onOpenLink)
+  const onOpenLink = useOpenLink()
+
+  const { isLoading, document, refetchStatus } = useVolunteeringDetailsData(engagementId, onOpenLink)
+  const [updateVolunteeringOpportunityStatus] = useUpdateVolunteeringOpportunityStatusMutation()
+  const onVolunteeringStatusChange = async (status: VolunteeringOpportunityStatusValue) => {
+    await updateVolunteeringOpportunityStatus({
+      variables: {
+        volunteeringOpportunityId: engagementId,
+        newStatus: status,
+      },
+    })
+
+    await refetchStatus()
+  }
 
   const {
     data: { favorite } = {},
@@ -73,7 +76,12 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           <VolunteeringContact
             engagementId={engagementId}
             document={document}
-            onOpenLink={onOpenLink}
+            onModalDismiss={() => {
+              if (!rewardsPhaseTwoEnabled) return
+
+              // Update status to "TO_DO" only once when initially the status is null
+              if (document?.status === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
+            }}
             isFavorite={isFavorite}
             onFavoriteCompleted={refetchFavorite}
             onFavoriteError={(error) =>
@@ -97,25 +105,35 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         loading={isLoading}
         {...document}
         title={document?.title ?? ''}
+        status={document?.status ?? null}
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={document && <VolunteeringSimilarRecos documentId={`volunteering_${engagementId}`} />}
+        progressCard={
+          // Progress card is only visible when the status is not null and is one of the following:
+          // - TO_DO
+          // - CONTACTED
+          // - DOING
+          rewardsPhaseTwoEnabled ? (
+            <HoliTransition.FadeDown
+              visible={
+                !!document?.status &&
+                [
+                  VolunteeringOpportunityStatusValue.ToDo,
+                  VolunteeringOpportunityStatusValue.Contacted,
+                  VolunteeringOpportunityStatusValue.Doing,
+                ].includes(document?.status)
+              }
+            >
+              <VolunteeringProgressCard
+                status={document?.status ?? VolunteeringOpportunityStatusValue.ToDo}
+                document={document!}
+                engagementId={engagementId}
+                onStatusChange={onVolunteeringStatusChange}
+              />
+            </HoliTransition.FadeDown>
+          ) : null
+        }
       />
-      {webViewUrl && !isWeb && (
-        <HoliModal
-          label="modal"
-          animationType="slide"
-          style={{ width: '100%', height: '100%', flex: 1 }}
-          shown={webViewModalProps.shown}
-          onDismiss={webViewModalProps.onDismiss}
-          testID="volunteering-external-url-modal"
-        >
-          <HoliWebView
-            theme={theme}
-            style={{ flex: 1, height: '100%', width: '100%' }}
-            webViewProps={{ setSupportMultipleWindows: false, source: { uri: webViewUrl } }}
-          />
-        </HoliModal>
-      )}
     </Screen>
   )
 }
