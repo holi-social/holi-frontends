@@ -21,6 +21,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringFinishedModal'
 import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
   onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
@@ -36,12 +37,16 @@ export const VolunteeringProgressCard = ({
 }: ProgressCardProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
+  const { track } = useTracking()
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
     onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Contacted),
   })
   const { show: showFinishedModal, props: finishedModalProps } = useModalState({
-    onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Doing),
+    onDismiss: () => {
+      track(TrackingEvent.Rewards.goodDeedClaimed('volunteer'))
+      onStatusChange(VolunteeringOpportunityStatusValue.Doing)
+    },
   })
 
   const contactInfoDisplayed = document.contact?.map((contact) => contact.type)
