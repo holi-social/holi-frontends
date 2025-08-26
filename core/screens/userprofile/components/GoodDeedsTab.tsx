@@ -17,7 +17,6 @@ import {
 import { GoodDeedsEmptyState } from '@holi/core/screens/userprofile/components/GoodDeedsEmptyState'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeedsV2 } from '@holi/icons/src/generated'
-import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 
 export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
@@ -49,6 +48,15 @@ export const GoodDeedsTab = () => {
       default:
         return rewardType
     }
+  }
+
+  const formatRewardDate = (rewardDate: Date) => {
+    const date = new Date(rewardDate)
+    return date.toLocaleDateString('de-DE', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
   }
 
   if (personalGoodDeedsLoading || globalGoodDeedsLoading) {
@@ -115,7 +123,7 @@ export const GoodDeedsTab = () => {
                 <Stack gap="4xs">
                   <Text size="md">{formatRewardType(goodDeed.rewardType)}</Text>
                   <Text size="xs" color="support">
-                    {getDisplayDate('de-DE', new Date(goodDeed.createdAt).toDateString())}
+                    {formatRewardDate(goodDeed.createdAt)}
                   </Text>
                 </Stack>
                 <Stack alignSelf="center">
