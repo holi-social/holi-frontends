@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # notify-slack.sh - Script to send release notifications to Slack
 # Usage: ./notify-slack.sh [options]
@@ -29,23 +29,27 @@ AVATAR_COLOR=""
 MESSAGE=""
 
 # Parse command-line arguments
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     case "$1" in
         -w|--webhook)
             WEBHOOK="$2"
-            shift 2
+            shift
+            shift
             ;;
         -r|--release)
             RELEASE="$2"
-            shift 2
+            shift
+            shift
             ;;
         -c|--color)
             AVATAR_COLOR="$2"
-            shift 2
+            shift
+            shift
             ;;
         -m|--message)
             MESSAGE="$2"
-            shift 2
+            shift
+            shift
             ;;
         -h|--help)
             show_help
@@ -57,10 +61,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate required parameters
-[[ -z "$WEBHOOK" ]] && error "Webhook URL is required. Use -w or --webhook to specify."
-[[ -z "$RELEASE" ]] && error "Release tag is required. Use -r or --release to specify."
-[[ -z "$AVATAR_COLOR" ]] && error "Avatar color is required. Use -c or --color to specify."
-[[ -z "$MESSAGE" ]] && error "Message text is required. Use -m or --message to specify."
+[ -z "$WEBHOOK" ] && error "Webhook URL is required. Use -w or --webhook to specify."
+[ -z "$RELEASE" ] && error "Release tag is required. Use -r or --release to specify."
+[ -z "$AVATAR_COLOR" ] && error "Avatar color is required. Use -c or --color to specify."
+[ -z "$MESSAGE" ] && error "Message text is required. Use -m or --message to specify."
 
 # Escape special characters in strings for JSON
 escape_json() {
