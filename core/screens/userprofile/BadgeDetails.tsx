@@ -1,7 +1,7 @@
 import React, {} from 'react'
 
 import { Text } from 'holi-bricks/components/text'
-import type { Badge } from '@holi/core/screens/userprofile/MyBadges'
+import { BadgeState, type Badge } from '@holi/core/screens/userprofile/hooks/useBadges'
 import { Stack } from 'holi-bricks/components/stack'
 import { View } from 'react-native'
 import { Image } from 'holi-bricks/components/image'
@@ -37,15 +37,12 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
               height={SHINING_SIZE}
             />
           </View>
+
           <View style={{ position: 'relative' }}>
-            <Image
-              source={badge.state === 'active' || badge.state === 'locked' ? badge.imgSrcActive : badge.imgSrcAchieved}
-              alt="badge illustration"
-              width={IMAGE_WIDTH}
-              height={IMAGE_WIDTH}
-            />
+            <Image source={badge.imgSrc} alt="badge illustration" width={IMAGE_WIDTH} height={IMAGE_WIDTH} />
           </View>
-          {badge.state === 'locked' && (
+
+          {badge.state === BadgeState.locked && (
             <View style={{ position: 'absolute', alignSelf: 'center', justifyContent: 'center', height: '100%' }}>
               <HoliIcon icon={LockFilled} color="muted" size={72} />
             </View>
@@ -59,36 +56,40 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
               {badge.title}
             </Text>
 
-            {badge.currentStep && badge.totalSteps && (
+            {badge.currentStep && badge.totalSteps && badge.totalSteps > 1 && badge.currentStep != badge.totalSteps && (
               <Stack padding={{ bottom: 'xl' }} gap="3xs">
                 <Stack alignItems="center">
                   <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
                 </Stack>
 
                 <Text size="xs" textAlign="center" color="support">
-                  {badge.currentStep}
-                  {badge.currentStep && badge.totalSteps && '/'}
-                  {badge.totalSteps} {badge.description}
+                  {badge.description}
                 </Text>
               </Stack>
             )}
 
             <Text size="md" textAlign="center">
-              {badge.state === 'active' || badge.state === 'locked'
+              {badge.state === BadgeState.active || badge.state === BadgeState.locked
                 ? badge.descriptionActive
                 : badge.descriptionAchieved}
             </Text>
           </Stack>
 
-          {badge.date && (
+          {badge.unlockedAt && (
             <Stack alignSelf="center">
-              <ChipLabel>{badge.date}</ChipLabel>
+              <ChipLabel>
+                {badge.unlockedAt.toLocaleDateString('de-DE', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                })}
+              </ChipLabel>
             </Stack>
           )}
         </Stack>
 
         {/* button */}
-        {badge.buttonLabel && badge.buttonLink && badge.state === 'active' && (
+        {badge.state === BadgeState.active && (
           <Stack>
             <Button
               label={badge.buttonLabel}

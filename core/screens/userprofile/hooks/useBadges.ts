@@ -4,15 +4,22 @@ import { useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
 export type Badge = {
   title: string
   description: string
+  descriptionActive: string
+  descriptionAchieved: string
+  buttonLabel: string
+  buttonLink: string
+  state: BadgeState
+  imgSrc: string
   currentStep?: number
   totalSteps?: number
-  date?: string
-  state: string
-  imgSrc: string
-  descriptionActive?: string
-  descriptionAchieved?: string
-  buttonLabel?: string
-  buttonLink?: string
+  unlockedAt?: Date
+  seenAt?: Date
+}
+
+export enum BadgeState {
+  active = 'active',
+  locked = 'locked',
+  achieved = 'achieved',
 }
 
 export const useBadges = () => {
@@ -30,16 +37,18 @@ export const useBadges = () => {
     title: t(`badge.${slugTitleMapping[b.slug]}.name`),
     description: t(`badge.${slugTitleMapping[b.slug]}.descriptionShort`, {
       totalSteps: b.progressGoal,
-      currentSteps: b.progressMade,
+      currentStep: b.progressMade,
     }),
     currentStep: b.progressMade,
     totalSteps: b.progressGoal,
-    date: undefined,
-    state: b.progressMade && b.progressMade > 0 ? 'active' : 'locked',
+    unlockedAt: undefined,
+    state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked,
     imgSrc: b.slug.includes('spark')
       ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue_light.svg')
       : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange_light.svg'),
-    buttonLabel: t(`badge.${b.slug}.button`),
+    descriptionActive: t(`badge.${slugTitleMapping[b.slug]}.description.active`),
+    descriptionAchieved: t(`badge.${slugTitleMapping[b.slug]}.description.achieved`),
+    buttonLabel: t(`badge.${slugTitleMapping[b.slug]}.button`),
     buttonLink: b.slug.includes('volunteering') ? '/act' : '/',
   }))
 
@@ -48,12 +57,13 @@ export const useBadges = () => {
     description: t(`badge.${slugTitleMapping[b.slug]}.descriptionShort`),
     currentStep: undefined,
     totalSteps: undefined,
-    date: b.unlockedAt,
-    state: 'achieved',
+    unlockedAt: new Date(b.unlockedAt),
+    state: BadgeState.achieved,
     imgSrc: b.slug.includes('spark')
       ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg')
       : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
-    imgSrcActive: undefined,
+    descriptionActive: t(`badge.${slugTitleMapping[b.slug]}.description.active`),
+    descriptionAchieved: t(`badge.${slugTitleMapping[b.slug]}.description.achieved`),
     buttonLabel: t(`badge.${b.slug}.button`),
     buttonLink: b.slug.includes('impact') ? '/act' : '/share',
   }))

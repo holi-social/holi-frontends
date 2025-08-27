@@ -13,7 +13,7 @@ import { Platform, View } from 'react-native'
 import BadgeDetails from '@holi/core/screens/userprofile/BadgeDetails'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIcon } from 'holi-bricks/components/button'
-import { type Badge, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
+import { type Badge, BadgeState, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
 
 const PROGRESSBAR_WIDTH = 100
 const IMAGE_WIDTH = 80
@@ -46,7 +46,7 @@ const MyBadges = () => {
                   <View style={{ position: 'relative' }}>
                     <Image source={badge.imgSrc} alt="badge illustration" width={IMAGE_WIDTH} height={IMAGE_WIDTH} />
                   </View>
-                  {badge.state === 'locked' && (
+                  {badge.state === BadgeState.locked && (
                     <View
                       style={{ position: 'absolute', alignSelf: 'center', justifyContent: 'center', height: '100%' }}
                     >
@@ -72,10 +72,14 @@ const MyBadges = () => {
                       </Stack>
                     )}
 
-                  {badge.date && (
+                  {badge.unlockedAt && (
                     <Stack alignItems="center">
                       <ChipLabel size="sm" color="mono">
-                        {badge.date}
+                        {badge.unlockedAt.toLocaleDateString('de-DE', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                        })}
                       </ChipLabel>
                     </Stack>
                   )}
