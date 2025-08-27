@@ -20,7 +20,6 @@ import {
   onboardingSteps,
   useOnboardingCurrentStepKey,
 } from './hooks/useOnboardingCurrentStepKey'
-import { useUserData } from './hooks/useUserData'
 import { CreateAccount } from './steps/CreateAccount'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
@@ -50,7 +49,6 @@ const Onboarding = () => {
   const [flowId] = useParam('flow')
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-  const { userData } = useUserData()
 
   const redirect = useRedirect('/')
 
@@ -138,7 +136,6 @@ const Onboarding = () => {
         return (
           <View style={styles.nameSelectionWrapper}>
             <NamesSelection
-              userData={userData}
               onFinish={() => {
                 track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
                 finishOnboarding()
