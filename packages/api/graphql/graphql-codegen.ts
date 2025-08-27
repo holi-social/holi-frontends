@@ -5490,6 +5490,33 @@ export type FullEventFragment = {
   }
 }
 
+export type UpdateVolunteeringOpportunityStatusMutationVariables = Exact<{
+  volunteeringOpportunityId: Scalars['String']['input']
+  newStatus: VolunteeringOpportunityStatusValue
+}>
+
+export type UpdateVolunteeringOpportunityStatusMutation = {
+  __typename?: 'Mutation'
+  updateVolunteeringOpportunityStatus: {
+    __typename?: 'VolunteeringOpportunityStatus'
+    externalVolunteeringOpportunityId: string
+    status: VolunteeringOpportunityStatusValue
+  }
+}
+
+export type VolunteeringOpportunityStatusQueryVariables = Exact<{
+  volunteeringOpportunityId: Scalars['String']['input']
+}>
+
+export type VolunteeringOpportunityStatusQuery = {
+  __typename?: 'Query'
+  volunteeringOpportunityStatus?: {
+    __typename?: 'VolunteeringOpportunityStatus'
+    externalVolunteeringOpportunityId: string
+    status: VolunteeringOpportunityStatusValue
+  }
+}
+
 export const FullAuthenticatedUserFragmentDoc = gql`
     fragment FullAuthenticatedUser on AuthenticatedUser {
   id
@@ -8722,3 +8749,132 @@ export type NearbyEventsQueryHookResult = ReturnType<typeof useNearbyEventsQuery
 export type NearbyEventsLazyQueryHookResult = ReturnType<typeof useNearbyEventsLazyQuery>
 export type NearbyEventsSuspenseQueryHookResult = ReturnType<typeof useNearbyEventsSuspenseQuery>
 export type NearbyEventsQueryResult = Apollo.QueryResult<NearbyEventsQuery, NearbyEventsQueryVariables>
+export const UpdateVolunteeringOpportunityStatusDocument = gql`
+    mutation UpdateVolunteeringOpportunityStatus($volunteeringOpportunityId: String!, $newStatus: VolunteeringOpportunityStatusValue!) {
+  updateVolunteeringOpportunityStatus(
+    volunteeringOpportunityId: $volunteeringOpportunityId
+    newStatus: $newStatus
+  ) {
+    externalVolunteeringOpportunityId
+    status
+  }
+}
+    `
+export type UpdateVolunteeringOpportunityStatusMutationFn = Apollo.MutationFunction<
+  UpdateVolunteeringOpportunityStatusMutation,
+  UpdateVolunteeringOpportunityStatusMutationVariables
+>
+
+/**
+ * __useUpdateVolunteeringOpportunityStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateVolunteeringOpportunityStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateVolunteeringOpportunityStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateVolunteeringOpportunityStatusMutation, { data, loading, error }] = useUpdateVolunteeringOpportunityStatusMutation({
+ *   variables: {
+ *      volunteeringOpportunityId: // value for 'volunteeringOpportunityId'
+ *      newStatus: // value for 'newStatus'
+ *   },
+ * });
+ */
+export function useUpdateVolunteeringOpportunityStatusMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateVolunteeringOpportunityStatusMutation,
+    UpdateVolunteeringOpportunityStatusMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateVolunteeringOpportunityStatusMutation,
+    UpdateVolunteeringOpportunityStatusMutationVariables
+  >(UpdateVolunteeringOpportunityStatusDocument, options)
+}
+export type UpdateVolunteeringOpportunityStatusMutationHookResult = ReturnType<
+  typeof useUpdateVolunteeringOpportunityStatusMutation
+>
+export type UpdateVolunteeringOpportunityStatusMutationResult =
+  Apollo.MutationResult<UpdateVolunteeringOpportunityStatusMutation>
+export type UpdateVolunteeringOpportunityStatusMutationOptions = Apollo.BaseMutationOptions<
+  UpdateVolunteeringOpportunityStatusMutation,
+  UpdateVolunteeringOpportunityStatusMutationVariables
+>
+export const VolunteeringOpportunityStatusDocument = gql`
+    query VolunteeringOpportunityStatus($volunteeringOpportunityId: String!) {
+  volunteeringOpportunityStatus(
+    volunteeringOpportunityId: $volunteeringOpportunityId
+  ) {
+    externalVolunteeringOpportunityId
+    status
+  }
+}
+    `
+
+/**
+ * __useVolunteeringOpportunityStatusQuery__
+ *
+ * To run a query within a React component, call `useVolunteeringOpportunityStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVolunteeringOpportunityStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVolunteeringOpportunityStatusQuery({
+ *   variables: {
+ *      volunteeringOpportunityId: // value for 'volunteeringOpportunityId'
+ *   },
+ * });
+ */
+export function useVolunteeringOpportunityStatusQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    VolunteeringOpportunityStatusQuery,
+    VolunteeringOpportunityStatusQueryVariables
+  > &
+    ({ variables: VolunteeringOpportunityStatusQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
+    VolunteeringOpportunityStatusDocument,
+    options
+  )
+}
+export function useVolunteeringOpportunityStatusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    VolunteeringOpportunityStatusQuery,
+    VolunteeringOpportunityStatusQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
+    VolunteeringOpportunityStatusDocument,
+    options
+  )
+}
+export function useVolunteeringOpportunityStatusSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
+    VolunteeringOpportunityStatusDocument,
+    options
+  )
+}
+export type VolunteeringOpportunityStatusQueryHookResult = ReturnType<typeof useVolunteeringOpportunityStatusQuery>
+export type VolunteeringOpportunityStatusLazyQueryHookResult = ReturnType<
+  typeof useVolunteeringOpportunityStatusLazyQuery
+>
+export type VolunteeringOpportunityStatusSuspenseQueryHookResult = ReturnType<
+  typeof useVolunteeringOpportunityStatusSuspenseQuery
+>
+export type VolunteeringOpportunityStatusQueryResult = Apollo.QueryResult<
+  VolunteeringOpportunityStatusQuery,
+  VolunteeringOpportunityStatusQueryVariables
+>

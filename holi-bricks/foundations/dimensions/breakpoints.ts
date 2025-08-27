@@ -5,6 +5,6 @@ export const breakpoints = {
   lg: 840,
   xl: 1200,
   xxl: 1920,
-}
+} as const
 
 export type BreakpointsSize = keyof typeof breakpoints

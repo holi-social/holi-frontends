@@ -48,6 +48,7 @@ export type StackProps = AccessibilityProps &
     width?: DimensionValue
     wrap?: FlexStyle['flexWrap']
     flexShrink?: FlexStyle['flexShrink']
+    flexBasis?: FlexStyle['flexBasis']
     overflow?: 'hidden' | 'visible'
     aspectRatio?: number | string
     elevation?: ElevationLevel
@@ -87,6 +88,7 @@ const containerStylesheet = createStyleSheet((theme) => ({
     textAlign: props.textAlign || 'left',
     flex: props.flex || undefined,
     flexShrink: props?.flexShrink,
+    flexBasis: props?.flexBasis,
     alignItems: props?.alignItems || undefined,
     maxWidth: props?.maxWidth ? breakpoints[props?.maxWidth] : undefined,
     maxHeight: props?.maxHeight,
