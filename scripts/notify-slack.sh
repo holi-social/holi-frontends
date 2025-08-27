@@ -81,6 +81,14 @@ RELEASE_ESCAPED=$(escape_json "$RELEASE")
 MESSAGE_STRIPPED=$(strip_leading_whitespace "$MESSAGE")
 MESSAGE_ESCAPED=$(escape_json "$MESSAGE_STRIPPED")
 
-curl -X POST -H "Content-Type: application/json" -s \
-  --data '{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
-  "$WEBHOOK" 1> /dev/null || echo "WARNING: Failed to send notification to Slack."
+if command -v curl >/dev/null 2>&1; then
+  curl -X POST -H "Content-Type: application/json" -s \
+    --data '{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
+    "$WEBHOOK" 1> /dev/null || echo "WARNING: Failed to send notification to Slack."
+else
+  wget --quiet --method=POST \
+    --header="Content-Type: application/json" \
+    --body-data='{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
+    -O /dev/null \
+    "$WEBHOOK" || echo "WARNING: Failed to send notification to Slack."
+fi
