@@ -42,19 +42,7 @@ describe('NamesSelection', () => {
     lastName: '',
     pronouns: '',
   } as User
-  const userData: OnboardingUserData = {
-    location: {
-      id: '1',
-      label: 'Hamburg, Germany',
-      geolocation: {
-        place_id: '1',
-        properties: { formatted: 'Hamburg, Germany', lat: 1, lon: 2 },
-        geometry: { type: 'MultiPolygon', coordinates: [] },
-      },
-    },
-    interests: ['topic-1'],
-    skills: ['skill-1', 'skill-2'],
-  }
+  const userData: OnboardingUserData = {}
 
   const updateMock = {
     request: {
@@ -62,10 +50,6 @@ describe('NamesSelection', () => {
       variables: {
         input: {
           ...loggedInUser,
-          interestsV2: userData.interests,
-          skillsV2: userData.skills,
-          location: userData.location?.label,
-          geolocation: userData.location?.geolocation,
         },
       },
     },
@@ -81,10 +65,6 @@ describe('NamesSelection', () => {
       variables: {
         input: {
           ...loggedInUser,
-          interestsV2: userData.interests,
-          skillsV2: userData.skills,
-          location: userData.location?.label,
-          geolocation: userData.location?.geolocation,
         },
       },
     },
