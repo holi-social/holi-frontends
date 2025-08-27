@@ -31,6 +31,8 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import BadgeMessage from '@holi/core/screens/individualPosts/components/BadgeMessage'
+import { type Badge, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -60,8 +62,12 @@ const CreatePost = () => {
 
   const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
+  // const [showBadgeMessage, setShowBadgeMessage] = useState<boolean>(false)
+  const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
 
   const { data, refetch } = useGetRewardsCounterQuery()
+  const { badges, refetchBadges } = useBadges()
+  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0)
   const counter = data?.rewards_counter.counter
 
   useEffect(() => {
@@ -78,12 +84,22 @@ const CreatePost = () => {
     return goodDeedCategory?.id || null
   }, [categories, t])
 
+  const checkForBadges = () => {
+    refetchBadges().then(() => {
+      const newlyUnlockedBadges = badges?.filter((badge: Badge) => badge.unlockedAt && !badge.seenAt)
+      if (newlyUnlockedBadges && newlyUnlockedBadges.length > 0) {
+        setUnlockedBadges(newlyUnlockedBadges)
+      }
+    })
+  }
+
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
       if (isRewardsMessageEnabled && selectedCategoryId === goodDeedCategoryId) {
         refetch().then(() => {
           track(TrackingEvent.Rewards.goodDeedClaimed('good_deed_post'))
           setShowRewardMessage(true)
+          checkForBadges()
         })
       } else {
         openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
@@ -154,6 +170,16 @@ const CreatePost = () => {
   }
 
   const handleClaimReward = () => {
+    const nextIndex = currentBadgeIndex + 1
+
+    if (nextIndex < unlockedBadges.length) {
+      setCurrentBadgeIndex(nextIndex) // Show the next unlocked but unseen badge
+    } else {
+      navigate('/')
+    }
+  }
+
+  const handleClaimBadge = () => {
     navigate('/')
   }
 
@@ -164,6 +190,16 @@ const CreatePost = () => {
 
   if (showRewardMessage) {
     return <RewardMessage deedCount={counter} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
+  }
+
+  if (unlockedBadges.length > 0) {
+    return (
+      <BadgeMessage
+        key={unlockedBadges[currentBadgeIndex].localazyKey}
+        badge={unlockedBadges[currentBadgeIndex]}
+        onClaim={handleClaimBadge}
+      />
+    )
   }
 
   return (

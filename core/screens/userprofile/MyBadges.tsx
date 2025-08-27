@@ -14,12 +14,14 @@ import BadgeDetails from '@holi/core/screens/userprofile/BadgeDetails'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { type Badge, BadgeState, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
+import { useTranslation } from 'react-i18next'
 
 const PROGRESSBAR_WIDTH = 100
 const IMAGE_WIDTH = 80
 
 const MyBadges = () => {
   const { track } = useTracking()
+  const { t } = useTranslation()
   const [detailedBadge, setDetailedBadge] = useState<Badge>()
   const { badges } = useBadges()
 
@@ -39,7 +41,7 @@ const MyBadges = () => {
                 gap="3xs"
                 padding={{ top: 'xs', bottom: 'xs', left: '3xs', right: '3xs' }}
                 width={'45%'}
-                key={badge.title}
+                key={t(`badge.${badge.localazyKey}.name`)}
                 onPress={() => setDetailedBadge(badge)}
               >
                 <Stack alignItems="center">
@@ -56,11 +58,14 @@ const MyBadges = () => {
                 </Stack>
                 <Stack gap="4xs" alignItems="center">
                   <Text size="sm" textAlign="center">
-                    {badge.title}
+                    {t(`badge.${badge.localazyKey}.name`)}
                   </Text>
 
                   <Text size="xs" textAlign="center" color="support">
-                    {badge.description}
+                    {t(`badge.${badge.localazyKey}.descriptionShort`, {
+                      totalSteps: badge.totalSteps,
+                      currentStep: badge.currentStep,
+                    })}
                   </Text>
 
                   {badge.currentStep &&

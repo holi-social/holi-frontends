@@ -2436,18 +2436,27 @@ export type Typesense_Document = {
   contact?: Maybe<Array<Maybe<Typesense_DocumentContact>>>
   description_de?: Maybe<Scalars['String']['output']>
   description_en?: Maybe<Scalars['String']['output']>
+  donation_open_amount_in_cents?: Maybe<Scalars['Int']['output']>
+  donation_progress_percentage?: Maybe<Scalars['Int']['output']>
   external_url?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   image_url?: Maybe<Scalars['String']['output']>
   link_locators?: Maybe<Typesense_DocumentLinkLocators>
   location?: Maybe<Scalars['String']['output']>
+  location_country_de?: Maybe<Scalars['String']['output']>
+  location_country_en?: Maybe<Scalars['String']['output']>
   location_lat_lng?: Maybe<Array<Maybe<Scalars['Float']['output']>>>
   location_type?: Maybe<Scalars['String']['output']>
   organizer_image_url?: Maybe<Scalars['String']['output']>
+  organizer_location?: Maybe<Scalars['String']['output']>
+  organizer_location_country_de?: Maybe<Scalars['String']['output']>
+  organizer_location_country_en?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
   organizer_url?: Maybe<Scalars['String']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   source?: Maybe<Scalars['String']['output']>
+  summary_de?: Maybe<Scalars['String']['output']>
+  summary_en?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
   title_en?: Maybe<Scalars['String']['output']>
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -2471,6 +2480,7 @@ export enum Typesense_DocumentContactType {
 
 export type Typesense_DocumentLinkLocators = {
   __typename?: 'Typesense_DocumentLinkLocators'
+  donation?: Maybe<Scalars['String']['output']>
   profile?: Maybe<Scalars['String']['output']>
   space?: Maybe<Scalars['String']['output']>
   task?: Maybe<Scalars['String']['output']>
@@ -2478,6 +2488,7 @@ export type Typesense_DocumentLinkLocators = {
 }
 
 export enum Typesense_DocumentType {
+  Donation = 'donation',
   Profile = 'profile',
   Space = 'space',
   Task = 'task',
@@ -5206,6 +5217,21 @@ export type BadgesQuery = {
       slug: string
     }>
     unlocked: Array<{ __typename?: 'Rewards_UnlockedBadge'; id: string; seenAt?: any; slug: string; unlockedAt: any }>
+  }
+}
+
+export type MarkBadgeAsSeenMutationVariables = Exact<{
+  unlockId: Scalars['ID']['input']
+}>
+
+export type MarkBadgeAsSeenMutation = {
+  __typename?: 'Mutation'
+  rewards_markBadgeUnlockAsSeen: {
+    __typename?: 'Rewards_UnlockedBadge'
+    id: string
+    seenAt?: any
+    slug: string
+    unlockedAt: any
   }
 }
 
@@ -8448,6 +8474,50 @@ export type BadgesQueryHookResult = ReturnType<typeof useBadgesQuery>
 export type BadgesLazyQueryHookResult = ReturnType<typeof useBadgesLazyQuery>
 export type BadgesSuspenseQueryHookResult = ReturnType<typeof useBadgesSuspenseQuery>
 export type BadgesQueryResult = Apollo.QueryResult<BadgesQuery, BadgesQueryVariables>
+export const MarkBadgeAsSeenDocument = gql`
+    mutation markBadgeAsSeen($unlockId: ID!) {
+  rewards_markBadgeUnlockAsSeen(unlockId: $unlockId) {
+    id
+    seenAt
+    slug
+    unlockedAt
+  }
+}
+    `
+export type MarkBadgeAsSeenMutationFn = Apollo.MutationFunction<
+  MarkBadgeAsSeenMutation,
+  MarkBadgeAsSeenMutationVariables
+>
+
+/**
+ * __useMarkBadgeAsSeenMutation__
+ *
+ * To run a mutation, you first call `useMarkBadgeAsSeenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkBadgeAsSeenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markBadgeAsSeenMutation, { data, loading, error }] = useMarkBadgeAsSeenMutation({
+ *   variables: {
+ *      unlockId: // value for 'unlockId'
+ *   },
+ * });
+ */
+export function useMarkBadgeAsSeenMutation(
+  baseOptions?: Apollo.MutationHookOptions<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>(MarkBadgeAsSeenDocument, options)
+}
+export type MarkBadgeAsSeenMutationHookResult = ReturnType<typeof useMarkBadgeAsSeenMutation>
+export type MarkBadgeAsSeenMutationResult = Apollo.MutationResult<MarkBadgeAsSeenMutation>
+export type MarkBadgeAsSeenMutationOptions = Apollo.BaseMutationOptions<
+  MarkBadgeAsSeenMutation,
+  MarkBadgeAsSeenMutationVariables
+>
 export const Typesense_DocumentByIdDocument = gql`
     query typesense_documentById($id: String!, $documentType: String!) {
   typesense_documentById(id: $id, documentType: $documentType) {

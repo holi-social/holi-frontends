@@ -67,3 +67,12 @@ query badges {
     }
   }
 }
+
+mutation markBadgeAsSeen($unlockId: ID!) {
+  rewards_markBadgeUnlockAsSeen(unlockId: $unlockId) {
+    id
+    seenAt
+    slug
+    unlockedAt
+  }
+}

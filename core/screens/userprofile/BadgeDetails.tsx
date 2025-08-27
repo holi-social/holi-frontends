@@ -11,12 +11,14 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import { Button } from 'holi-bricks/components/button'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
+import { useTranslation } from 'react-i18next'
 
 const IMAGE_WIDTH = 240
 const SHINING_SIZE = 293
 
 const BadgeDetails = ({ badge }: { badge: Badge }) => {
   const { navigate } = useRouting()
+  const { t } = useTranslation()
 
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
@@ -53,7 +55,7 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
         <Stack alignContent="center" gap="xs">
           <Stack alignContent="center" gap="4xs">
             <Text size="xxl" textAlign="center">
-              {badge.title}
+              {t(`badge.${badge.localazyKey}.name`)}
             </Text>
 
             {badge.currentStep && badge.totalSteps && badge.totalSteps > 1 && badge.currentStep != badge.totalSteps && (
@@ -63,15 +65,18 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
                 </Stack>
 
                 <Text size="xs" textAlign="center" color="support">
-                  {badge.description}
+                  {t(`badge.${badge.localazyKey}.descriptionShort`, {
+                    totalSteps: badge.totalSteps,
+                    currentStep: badge.currentStep,
+                  })}
                 </Text>
               </Stack>
             )}
 
             <Text size="md" textAlign="center">
               {badge.state === BadgeState.active || badge.state === BadgeState.locked
-                ? badge.descriptionActive
-                : badge.descriptionAchieved}
+                ? t(`badge.${badge.localazyKey}.description.active`)
+                : t(`badge.${badge.localazyKey}.description.achieved`)}
             </Text>
           </Stack>
 
@@ -92,7 +97,7 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
         {badge.state === BadgeState.active && (
           <Stack>
             <Button
-              label={badge.buttonLabel}
+              label={t(`badge.${badge.localazyKey}.button`)}
               onPress={() => {
                 navigate(badge.buttonLink ?? '')
               }}
