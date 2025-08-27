@@ -5,7 +5,6 @@ import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
 import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import { test } from './testmaster'
 
 // sometimes requests to the app backends take a little longer (10s < response latency < 40s)
@@ -77,7 +76,7 @@ const registerUserAccount = async (
   }: {
     email: string
     password: string
-    userData?: OnboardingUserData
+    userData?: boolean
   }
 ): Promise<{ fullName: string }> => {
   await gotoWithRetries(page, '/profile')
@@ -103,41 +102,13 @@ const skipOnboardingInitialSteps = async (page: Page) => {
   }
 }
 
-const fillOutOnboarding = async (page: Page, userData: OnboardingUserData) => {
+const fillOutOnboarding = async (page: Page) => {
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-onboarding'),
   ])
 
-  if (isRunningLocally()) {
-    await page.getByRole('button', { name: 'Skip' }).click()
-  } else {
-    // Handle location selection
-    await page.waitForSelector(byTestId('onboarding-location-selection'))
-    if (userData.location) {
-      const locationInput = await locateElementByTestId(page, 'onboarding-location-selection-autocomplete-input')
-      await locationInput.fill(userData.location.label)
-      const locationOption = `onboarding-location-selection-autocomplete-item-${userData.location.id}`
-      await page.waitForSelector(byTestId(locationOption))
-      await clickElementByTestId(page, locationOption)
-    }
-    await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
-  }
-
-  // Handle interests selection
-  await page.waitForSelector(byTestId('onboarding-interests-selection'))
-  for (const slug of userData.interests) {
-    await clickElementByTestId(page, `topic--${slug}`)
-  }
-  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
-  // Handle skills selection
-  await page.waitForSelector(byTestId('onboarding-skills-selection'))
-  for (const slug of userData.skills) {
-    await clickElementByTestId(page, `skill--${slug}`)
-  }
-  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
-
-  // Expect account creation step
+  // Simplified onboarding flow - just navigate to account creation
   await page.waitForSelector(byTestId('onboarding-account-creation'))
 }
 
@@ -151,7 +122,7 @@ export const registerUser = async (
   }: {
     email: string
     password: string
-    userData?: OnboardingUserData
+    userData?: boolean
   }
 ): Promise<void> => {
   await prepareForLoginOrRegistration(context, page)
@@ -160,7 +131,7 @@ export const registerUser = async (
   await waitForAnimationEnd(page, byTestId('onboarding-stepper'))
 
   if (userData) {
-    await fillOutOnboarding(page, userData)
+    await fillOutOnboarding(page)
   } else {
     await skipOnboardingInitialSteps(page)
   }
@@ -237,7 +208,7 @@ const registerNewUserAccount = async (
   }: {
     email?: string
     password?: string
-    userData?: OnboardingUserData
+    userData?: boolean
     expectedScreen?: string
   } = {}
 ): Promise<{ fullName: string }> => {
@@ -316,7 +287,7 @@ export const withRandomUserSession = async (
   }: {
     email?: string
     password?: string
-    userData?: OnboardingUserData
+    userData?: boolean
     expectedScreen?: string
   } = {}
 ): Promise<() => Promise<void>> => {
