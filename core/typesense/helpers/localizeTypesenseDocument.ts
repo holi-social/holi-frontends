@@ -14,6 +14,27 @@ const getDescription = (language: string, document: TypesenseDocument): string =
   return document.description_de ?? ''
 }
 
+const getSummary = (language: string, document: TypesenseDocument): string => {
+  if (document.summary_en && (language === 'en' || !document.summary_de)) {
+    return document.summary_en
+  }
+  return document.summary_de ?? ''
+}
+
+const getLocationCountry = (language: string, document: TypesenseDocument): string => {
+  if (document.location_country_en && (language === 'en' || !document.location_country_de)) {
+    return document.location_country_en
+  }
+  return document.location_country_de ?? ''
+}
+
+const getOrganizerLocationCountry = (language: string, document: TypesenseDocument): string => {
+  if (document.organizer_location_country_en && (language === 'en' || !document.organizer_location_country_de)) {
+    return document.organizer_location_country_en
+  }
+  return document.organizer_location_country_de ?? ''
+}
+
 export const localizeTypesenseDocument = (
   document: TypesenseDocument,
   language: string
@@ -24,5 +45,8 @@ export const localizeTypesenseDocument = (
     ...rest,
     title: getTitle(language, document),
     description: getDescription(language, document),
+    summary: getSummary(language, document),
+    locationCountry: getLocationCountry(language, document),
+    organizerLocationCountry: getOrganizerLocationCountry(language, document),
   }
 }

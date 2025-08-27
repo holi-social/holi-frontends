@@ -10,10 +10,10 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import type { ProjectInitiative } from '@holi-apps/donations/typings'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 export type DonationInitiativeButtonProps = {
-  project: TypesenseDocument
+  project: LocalizedTypesenseDocument
 }
 
 const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) => {
@@ -47,9 +47,9 @@ const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) =>
                 </Trans>
               </HoliText>
             </View>
-            {/* <HoliText style={styles.initiativeOrigin} size="small">
-              {initiative.city}, {initiative.country}
-            </HoliText> */}
+            <HoliText style={styles.initiativeOrigin} size="small">
+              {project.organizer_location}, {project.organizerLocationCountry}
+            </HoliText>
           </View>
         </View>
         <HoliIcon icon={ShareBox} size={18} style={{ ...(!project.organizer_url && { display: 'none' }) }} />

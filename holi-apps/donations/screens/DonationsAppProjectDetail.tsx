@@ -38,6 +38,7 @@ import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useS
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
+import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -117,8 +118,7 @@ const DonationsAppProjectDetail = () => {
               <View style={styles.location}>
                 <HoliIcon icon={Globe} size={20} />
                 <HoliText size="small" style={{ marginLeft: 8 }}>
-                  {project.location}
-                  {/*, {project.initiative.country} */}
+                  {project.location}, {project.locationCountry}
                 </HoliText>
               </View>
             </View>
@@ -134,15 +134,8 @@ const DonationsAppProjectDetail = () => {
               <HoliText size={'large'} style={{ marginVertical: 24 }}>
                 &ldquo;{project.summary}&rdquo;
               </HoliText>
-              <HoliReadMore numberOfLines={5}>{project.description}</HoliReadMore>
+              <HtmlRenderer content={project.description} />
             </View>
-            {/* {project?.news.length > 0 && (
-              <DonationNews
-                totalEntries={project.newsCount}
-                news={project.news}
-                style={[styles.card, { paddingVertical: 24 }]}
-              />
-            )} */}
           </View>
         </ScrollViewRefreshable>
 

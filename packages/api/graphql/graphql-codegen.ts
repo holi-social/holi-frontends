@@ -2443,14 +2443,20 @@ export type Typesense_Document = {
   image_url?: Maybe<Scalars['String']['output']>
   link_locators?: Maybe<Typesense_DocumentLinkLocators>
   location?: Maybe<Scalars['String']['output']>
+  location_country_de?: Maybe<Scalars['String']['output']>
+  location_country_en?: Maybe<Scalars['String']['output']>
   location_lat_lng?: Maybe<Array<Maybe<Scalars['Float']['output']>>>
   location_type?: Maybe<Scalars['String']['output']>
   organizer_image_url?: Maybe<Scalars['String']['output']>
+  organizer_location?: Maybe<Scalars['String']['output']>
+  organizer_location_country_de?: Maybe<Scalars['String']['output']>
+  organizer_location_country_en?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
   organizer_url?: Maybe<Scalars['String']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   source?: Maybe<Scalars['String']['output']>
-  summary?: Maybe<Scalars['String']['output']>
+  summary_de?: Maybe<Scalars['String']['output']>
+  summary_en?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
   title_en?: Maybe<Scalars['String']['output']>
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -5216,11 +5222,17 @@ export type FullTypesenseDocumentFragment = {
   organizer_name?: string
   organizer_image_url?: string
   organizer_url?: string
+  organizer_location?: string
+  organizer_location_country_de?: string
+  organizer_location_country_en?: string
   external_url?: string
   commitment_label?: string
   commitment_duration?: string
   location_type?: string
-  summary?: string
+  location_country_de?: string
+  location_country_en?: string
+  summary_de?: string
+  summary_en?: string
   donation_progress_percentage?: number
   donation_open_amount_in_cents?: number
   link_locators?: {
@@ -5269,11 +5281,17 @@ export type Typesense_DocumentByIdQuery = {
             organizer_name?: string
             organizer_image_url?: string
             organizer_url?: string
+            organizer_location?: string
+            organizer_location_country_de?: string
+            organizer_location_country_en?: string
             external_url?: string
             commitment_label?: string
             commitment_duration?: string
             location_type?: string
-            summary?: string
+            location_country_de?: string
+            location_country_en?: string
+            summary_de?: string
+            summary_en?: string
             donation_progress_percentage?: number
             donation_open_amount_in_cents?: number
             link_locators?: {
@@ -5328,11 +5346,17 @@ export type Typesense_MultiSearchQuery = {
               organizer_name?: string
               organizer_image_url?: string
               organizer_url?: string
+              organizer_location?: string
+              organizer_location_country_de?: string
+              organizer_location_country_en?: string
               external_url?: string
               commitment_label?: string
               commitment_duration?: string
               location_type?: string
-              summary?: string
+              location_country_de?: string
+              location_country_en?: string
+              summary_de?: string
+              summary_en?: string
               donation_progress_percentage?: number
               donation_open_amount_in_cents?: number
               link_locators?: {
@@ -5959,16 +5983,22 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   organizer_name
   organizer_image_url
   organizer_url
+  organizer_location
+  organizer_location_country_de
+  organizer_location_country_en
   external_url
   commitment_label
   commitment_duration
   location_type
+  location_country_de
+  location_country_en
   contact {
     type
     value
     label
   }
-  summary
+  summary_de
+  summary_en
   donation_progress_percentage
   donation_open_amount_in_cents
 }
