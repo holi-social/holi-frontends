@@ -86,9 +86,9 @@ if command -v curl >/dev/null 2>&1; then
     --data '{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
     "$WEBHOOK" 1> /dev/null || echo "WARNING: Failed to send notification to Slack."
 else
-  wget --quiet --method=POST \
+  wget --quiet \
     --header="Content-Type: application/json" \
-    --body-data='{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
+    --post-data='{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
     -O /dev/null \
     "$WEBHOOK" || echo "WARNING: Failed to send notification to Slack."
 fi
