@@ -4,7 +4,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import React from 'react'
 import { Pressable } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ChallengesFilled, DraftFilled, GoodDeeds, GoodDeedsV2, Information } from '@holi/icons/src/generated'
+import { Challenges, Draft, GoodDeeds, GoodDeedsV2, Hearts, Information } from '@holi/icons/src/generated'
 import { Trans, useTranslation } from 'react-i18next'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -13,12 +13,15 @@ import { pill } from 'holi-bricks/components/chips/styles'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export const ChipGoodDeeds = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { requireLogin } = useSignupModal()
+  const { track } = useTracking()
 
   const modalStateEmpty = useModalState() // modal for logged in users without any good deeds yet
   const modalStateDefault = useModalState() // modal for logged in users with at least one good deed
@@ -37,7 +40,8 @@ export const ChipGoodDeeds = () => {
   return (
     <>
       <Pressable
-        onPress={() =>
+        onPress={() => {
+          track(TrackingEvent.Rewards.goodDeedCounterChipClicked())
           requireLogin(showCorrectModal, {
             title: t('personalGoodDeedCounter.drawer.guest.title'),
             description: t('personalGoodDeedCounter.drawer.guest.text'),
@@ -52,7 +56,7 @@ export const ChipGoodDeeds = () => {
             ),
             trackTrigger: 'COLLECT_GOOD_DEEDS',
           })
-        }
+        }}
         style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}
         testID="good-deeds-counter"
       >
@@ -88,12 +92,17 @@ export const ChipGoodDeeds = () => {
 
               <Stack gap="3xs">
                 <Stack direction="row" gap="3xs">
-                  <HoliIcon icon={ChallengesFilled} />
+                  <HoliIcon icon={Hearts} />
+                  <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+                </Stack>
+
+                <Stack direction="row" gap="3xs">
+                  <HoliIcon icon={Challenges} />
                   <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
                 </Stack>
 
                 <Stack direction="row" gap="3xs">
-                  <HoliIcon icon={DraftFilled} />
+                  <HoliIcon icon={Draft} />
                   <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
                 </Stack>
               </Stack>
@@ -155,12 +164,17 @@ export const ChipGoodDeeds = () => {
 
               <Stack gap="3xs">
                 <Stack direction="row" gap="3xs">
-                  <HoliIcon icon={ChallengesFilled} />
+                  <HoliIcon icon={Hearts} />
+                  <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+                </Stack>
+
+                <Stack direction="row" gap="3xs">
+                  <HoliIcon icon={Challenges} />
                   <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
                 </Stack>
 
                 <Stack direction="row" gap="3xs">
-                  <HoliIcon icon={DraftFilled} />
+                  <HoliIcon icon={Draft} />
                   <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
                 </Stack>
               </Stack>

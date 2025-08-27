@@ -60,8 +60,8 @@ export const getDisplayDate = (locale: string, timestampOrDateStr?: number | str
   } else {
     return Intl.DateTimeFormat(locale, {
       year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     }).format(date)
   }
 }

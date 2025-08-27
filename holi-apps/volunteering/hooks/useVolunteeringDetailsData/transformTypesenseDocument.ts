@@ -8,12 +8,14 @@ import {
 } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
+import type { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 interface TransformTypesenseDocumentProps {
   t: TFunction
   language: string
   document: TypesenseDocument
   onOpenLink: (url?: string) => void
+  status: VolunteeringOpportunityStatusValue | null
 }
 
 export const transformTypesenseDocument = ({
@@ -21,6 +23,7 @@ export const transformTypesenseDocument = ({
   language,
   document,
   onOpenLink,
+  status,
 }: TransformTypesenseDocumentProps): VolunteeringDetailsScreenData => {
   const engagement = localizeTypesenseDocument(document, language)
   const partner = document.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[document.source] : undefined
@@ -104,6 +107,7 @@ export const transformTypesenseDocument = ({
     locationType: document.location_type,
     source: document.source,
     contact: engagement.contact,
+    status,
     partners: {
       title: t('volunteering.engagementDetail.providedBy'),
       details: [

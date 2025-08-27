@@ -87,6 +87,11 @@ jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
   useTypesensePaginationQuery: jest.fn(),
 }))
 
+const mockUseOpenLink = jest.fn()
+jest.mock('@holi/ui/helper/useOpenLink', () => ({
+  useOpenLink: () => mockUseOpenLink,
+}))
+
 jest.useFakeTimers()
 
 describe('VolunteeringDetailsScreen', () => {
@@ -135,7 +140,9 @@ describe('VolunteeringDetailsScreen', () => {
   it('should render correctly (en)', async () => {
     mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: transformTypesenseDocument({ t, language: 'en', document, onOpenLink }),
+      document: transformTypesenseDocument({ t, language: 'en', document, onOpenLink, status: null }),
+      refetchStatus: jest.fn(),
+      refetchDocument: jest.fn(),
     }))
 
     renderComponent()
@@ -157,7 +164,9 @@ describe('VolunteeringDetailsScreen', () => {
   it('should render correctly (de)', async () => {
     mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink }),
+      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink, status: null }),
+      refetchStatus: jest.fn(),
+      refetchDocument: jest.fn(),
     }))
 
     renderComponent()
@@ -170,7 +179,9 @@ describe('VolunteeringDetailsScreen', () => {
   it('renders similarity recommendations', async () => {
     mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink }),
+      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink, status: null }),
+      refetchStatus: jest.fn(),
+      refetchDocument: jest.fn(),
     }))
 
     renderComponent()
@@ -185,22 +196,32 @@ describe('VolunteeringDetailsScreen', () => {
     const documentWithoutContact = { ...document, contact: [] }
     mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: transformTypesenseDocument({ t, language: 'de', document: documentWithoutContact, onOpenLink }),
+      document: transformTypesenseDocument({
+        t,
+        language: 'de',
+        document: documentWithoutContact,
+        onOpenLink,
+        status: null,
+      }),
+      refetchStatus: jest.fn(),
+      refetchDocument: jest.fn(),
     }))
 
     renderComponent()
 
-    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouch'))
-    await act(jest.runAllTimersAsync)
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.getInTouchDrawer'))
+    await user.press(screen.getByLabelText('volunteering.engagementDetail.contactsDrawer.website.cta'))
 
-    expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
+    expect(mockUseOpenLink).toHaveBeenCalledWith(documentWithoutContact.external_url)
   })
 
   it('should open drawer for contact if there is contact info', async () => {
     const user = userEvent.setup()
     mockUseVolunteeringDetailsData.mockImplementation((_, onOpenLink) => ({
       isLoading: false,
-      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink }),
+      document: transformTypesenseDocument({ t, language: 'de', document, onOpenLink, status: null }),
+      refetchStatus: jest.fn(),
+      refetchDocument: jest.fn(),
     }))
 
     renderComponent()

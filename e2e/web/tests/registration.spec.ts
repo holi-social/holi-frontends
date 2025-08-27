@@ -1,6 +1,6 @@
 import { randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, checkAccessibility, clickElementByTestId, registerUser } from './helpers'
+import { byTestId, checkAccessibility, registerUser } from './helpers'
 import { test } from './testmaster'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
@@ -55,11 +55,7 @@ test.describe('@Registration', () => {
     await userHandler.asRandomUser(
       async (page) => {
         await test.step('profiles profile tab shows topics and skills', async () => {
-          if (userData.location?.label) {
-            await page.getByText(userData.location?.label).isVisible()
-          }
-
-          await clickElementByTestId(page, 'profile-tabs-button-profile-inactive')
+          await page.goto('/profile/settings/aboutMe')
 
           await page.waitForSelector(byTestId('interests--animal-welfare'))
           await page.waitForSelector(byTestId('interests--climate-environment'))

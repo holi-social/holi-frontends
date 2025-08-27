@@ -72,6 +72,7 @@ export const lightChipTheme = {
       ...byShade('400'),
       mono: mono[300],
       white: mono[300],
+      black: black,
     },
     background: {
       ...byShade('300'),
