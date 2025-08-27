@@ -305,7 +305,7 @@ web_release_candidate_deploy:
       export SLACK_NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
       export SLACK_NOTIFICATION_RELEASE_VERSION=$(git describe --tags --abbrev=0|sed "s|release/||")
       export SLACK_NOTIFICATION_ENV_URL=$(cat $UI_DOMAIN_PATH)
-    
+      pwd
       scripts/notify-slack.sh \
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
@@ -349,7 +349,7 @@ web_release_deploy:
     if [ $CI_JOB_STATUS == 'success' ]; then
       export SLACK_NOTIFICATION_AVATAR_COLOR=$(echo -n $CI_COMMIT_REF_SLUG | sha512sum | head -c 6)
       export SLACK_NOTIFICATION_RELEASE_VERSION=$(git describe --tags --abbrev=0|sed "s|release/||")
-    
+      pwd
       scripts/notify-slack.sh \
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
