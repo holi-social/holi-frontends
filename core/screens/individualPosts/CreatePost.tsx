@@ -29,6 +29,8 @@ import RewardMessage from '@holi/core/screens/individualPosts/components/RewardM
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -41,6 +43,7 @@ const CreatePost = () => {
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
+  const { track } = useTracking()
 
   const { loading: categoriesLoading, categories } = useFeedPostCategories()
 
@@ -79,6 +82,7 @@ const CreatePost = () => {
     onCompleted: () => {
       if (isRewardsMessageEnabled && selectedCategoryId === goodDeedCategoryId) {
         refetch().then(() => {
+          track(TrackingEvent.Rewards.goodDeedClaimed('good_deed_post'))
           setShowRewardMessage(true)
         })
       } else {
@@ -155,11 +159,7 @@ const CreatePost = () => {
 
   const handleSubmit = () => {
     setShowRewardMessage(false)
-    if (selectedCategoryId === goodDeedCategoryId) {
-      createPost()
-    } else {
-      createPost()
-    }
+    createPost()
   }
 
   if (showRewardMessage) {

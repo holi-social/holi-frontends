@@ -856,6 +856,19 @@ export namespace TrackingEvent {
       newState,
     },
   })
+
+  export const Rewards = {
+    goodDeedCounterChipClicked: (): TrackingEvent => ({
+      name: 'good_deeds_counter_info_click',
+      ...versionOne,
+    }),
+
+    goodDeedClaimed: (type: 'challenge' | 'volunteer' | 'good_deed_post'): TrackingEvent => ({
+      name: 'good_deed_claimed',
+      properties: { type },
+      ...versionOne,
+    }),
+  }
 }
 
 export const Unknown: TrackingEvent = {
