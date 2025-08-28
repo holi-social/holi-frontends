@@ -1,3 +1,7 @@
+import { initializeBricks } from 'holi-bricks/config'
+import { isProduction } from '@holi/core/helpers/environment'
+initializeBricks({ isProduction })
+
 import { getApolloContext } from '@apollo/client'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
@@ -30,10 +34,8 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
   }
 
   static async getInitialProps(context: DocumentContext) {
-    const page = await context.renderPage()
-    const unistyles = getServerUnistyles()
-
     AppRegistry.registerComponent('HOLI', () => Main)
+
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
@@ -67,11 +69,14 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     let initialProps = await Document.getInitialProps(context)
     while (renderPromises.hasPromises()) {
       await renderPromises.consumeAndAwaitPromises()
+
       initialProps = await Document.getInitialProps(context)
     }
     renderPromises.stop()
-    // const styles = [getStyleElement(), flush()]
-    // return { ...initialProps, styles: Children.toArray(styles), apolloClient }
+
+    // Get Unistyles server styles following the official docs pattern
+    const page = await context.renderPage()
+    const unistyles = getServerUnistyles({ includeRNWStyles: false })
     resetServerUnistyles()
 
     const styles = [getStyleElement(), flush(), unistyles]

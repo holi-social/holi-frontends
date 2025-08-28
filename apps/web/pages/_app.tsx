@@ -1,12 +1,10 @@
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { appWithI18Next } from 'ni18n'
-import { initializeBricks } from 'holi-bricks/config'
-import { isProduction } from '@holi/core/helpers/environment'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
-import React, { type ReactElement, type ReactNode, useEffect } from 'react'
+import React, { type ReactElement, type ReactNode, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
@@ -23,8 +21,6 @@ import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 import { useRouter } from 'next/router'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { hydrateServerUnistyles } from 'react-native-unistyles/server'
-
-initializeBricks({ isProduction })
 
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
@@ -50,6 +46,10 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   }
 
   useEffect(() => {
+    hydrateServerUnistyles()
+  }, [])
+
+  useEffect(() => {
     const handleRouteChange = () => {
       metaSdk.trackEvent('PageView')
     }
@@ -57,10 +57,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => router.events.off('routeChangeComplete', handleRouteChange)
   }, [router.events])
-
-  useEffect(() => {
-    hydrateServerUnistyles()
-  }, [])
 
   useEffect(() => {
     // Init authentication
@@ -76,8 +72,16 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
-  const getLayout =
-    Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
+  const getLayout = useCallback(
+    (page: ReactElement) => {
+      if (Component.getLayout) {
+        return Component.getLayout(page)
+      }
+
+      return <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>
+    },
+    [Component, defaultProps]
+  )
 
   return (
     <WebRootProvider pageProps={holiPageProps}>
