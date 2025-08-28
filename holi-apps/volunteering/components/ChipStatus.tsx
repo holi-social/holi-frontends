@@ -3,7 +3,6 @@ import { View } from 'react-native'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { Color, LayoutProps } from 'holi-bricks/foundations'
 import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 
@@ -13,6 +12,7 @@ import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { type ChipSize, chipSizeToTextSize } from 'holi-bricks/components/chips/size'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { StyleSheet } from 'react-native-unistyles'
 
 export type ChipColor = Color | 'white'
 
@@ -47,7 +47,7 @@ const STATUS_MAP: Record<
 }
 
 export const ChipStatus = ({ status, size = 'md', ...rest }: ChipStatusProps) => {
-  const { styles } = useStyles(stylesheet, { size })
+  styles.useVariants({ size })
   const { label, icon, color, iconColor } = STATUS_MAP[status]
 
   return (
@@ -58,7 +58,7 @@ export const ChipStatus = ({ status, size = 'md', ...rest }: ChipStatusProps) =>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (color: chipStatusColor) => ({
     ...pill,
     backgroundColor: theme.colors.decorative[`${color}Light`],

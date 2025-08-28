@@ -27,7 +27,7 @@ const meta: Meta<typeof SelectorCard> = {
   },
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
-    icon: { ...controlWithLabel },
+    icon: controlWithLabel,
     switchSize: { control: 'select', options: ['small', 'medium', 'large'] },
   },
 }

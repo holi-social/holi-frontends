@@ -4,14 +4,13 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import { Image } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number }) => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   return (
     <Stack onPress={() => Linking.openURL('https://holi.social/1million')}>
@@ -87,7 +86,7 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   container: {
     flex: 1,
     position: 'relative',

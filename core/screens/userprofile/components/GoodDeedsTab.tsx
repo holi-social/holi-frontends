@@ -1,7 +1,6 @@
 import React from 'react'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
@@ -17,9 +16,9 @@ import {
 import { GoodDeedsEmptyState } from '@holi/core/screens/userprofile/components/GoodDeedsEmptyState'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeedsV2 } from '@holi/icons/src/generated'
+import { StyleSheet } from 'react-native-unistyles'
 
 export const GoodDeedsTab = () => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
   const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery()
@@ -138,7 +137,7 @@ export const GoodDeedsTab = () => {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   loader: {
     padding: Spacing.xs,
   },
