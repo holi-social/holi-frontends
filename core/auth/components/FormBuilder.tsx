@@ -179,7 +179,6 @@ const FormBuilder = <
       nodeType = 'code'
     }
 
-    // return true
     return nodeType ? nodesToShow.includes(nodeType) : false
   }
 
