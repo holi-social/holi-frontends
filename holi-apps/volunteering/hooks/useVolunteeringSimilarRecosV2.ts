@@ -24,7 +24,7 @@ export const useVolunteeringSimilarRecosV2 = ({
       per_page: pageSize,
       vector_query: `similarity_embedding:([],id:${documentId})`,
     }),
-    [documentId]
+    [documentId, pageSize]
   )
 
   const { state, refetch } = useTypesensePaginationQuery({

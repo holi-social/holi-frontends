@@ -1,10 +1,10 @@
-import { render, renderHook } from '@testing-library/react-native'
-import type { SearchResponseHit } from '@holi/core/typesense/types'
+import { renderHook } from '@testing-library/react-native'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { logError } from '@holi/core/errors/helpers'
 import { useVolunteeringSimilarRecosV2 } from '@holi-apps/volunteering/hooks/useVolunteeringSimilarRecosV2'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
+import { Typesense_DocumentType, type Typesense_SearchResponseHit } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
 jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
@@ -26,21 +26,18 @@ jest.mock('@holi/core/screens/search/hooks/useUserLanguage', () => ({
   useUserLanguage: jest.fn(),
 }))
 
-const createEngagementHits = (length: number): SearchResponseHit[] =>
-  Array.from(
-    { length },
-    (_, i) =>
-      ({
-        document: {
-          id: i.toString(),
-          type: 'volunteering',
-          title_de: `Titel ${i}`,
-          description_de: '',
-          external_url: `https://example.com/engagement${i}`,
-          source: 'Aktion Mensch',
-        },
-      }) as SearchResponseHit
-  )
+const createEngagementHits = (length: number): Typesense_SearchResponseHit[] =>
+  Array.from({ length }, (_, i) => ({
+    document: {
+      id: i.toString(),
+      type: Typesense_DocumentType.Volunteering,
+      title_de: `Titel ${i}`,
+      description_de: '',
+      external_url: `https://example.com/engagement${i}`,
+      source: 'Aktion Mensch',
+    },
+    highlight: {},
+  }))
 
 describe('useVolunteeringSimilarRecosV2', () => {
   const documentId = 'volunteering_123'

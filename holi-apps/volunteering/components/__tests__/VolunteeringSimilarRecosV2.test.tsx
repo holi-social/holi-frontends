@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react-native'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { useVolunteeringSimilarRecosV2 } from '@holi-apps/volunteering/hooks/useVolunteeringSimilarRecosV2'
 import { VolunteeringSimilarRecosV2 } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosV2'
+import { Typesense_DocumentType } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseVolunteeringSimilarRecosV2 = jest.mocked(useVolunteeringSimilarRecosV2)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringSimilarRecosV2', () => ({
@@ -10,18 +11,14 @@ jest.mock('@holi-apps/volunteering/hooks/useVolunteeringSimilarRecosV2', () => (
 }))
 
 const createDocuments = (length: number): LocalizedTypesenseDocument[] =>
-  Array.from(
-    { length },
-    (_, i) =>
-      ({
-        id: i.toString(),
-        type: 'volunteering',
-        title: `Titel ${i}`,
-        description: '',
-        external_url: `https://example.com/engagement${i}`,
-        source: 'Aktion Mensch',
-      }) as LocalizedTypesenseDocument
-  )
+  Array.from({ length }, (_, i) => ({
+    id: i.toString(),
+    type: Typesense_DocumentType.Volunteering,
+    title: `Titel ${i}`,
+    description: '',
+    external_url: `https://example.com/engagement${i}`,
+    source: 'Aktion Mensch',
+  }))
 
 describe('VolunteeringSimilarRecosV2', () => {
   const testDocumentId = 'volunteering_123'

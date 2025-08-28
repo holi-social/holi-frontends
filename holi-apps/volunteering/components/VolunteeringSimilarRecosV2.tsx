@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
 import { Platform } from 'react-native'
-import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { useVolunteeringSimilarRecosV2 } from '@holi-apps/volunteering/hooks/useVolunteeringSimilarRecosV2'
 
 export const VolunteeringSimilarRecosV2 = ({ documentId }: { documentId: string }) => {
