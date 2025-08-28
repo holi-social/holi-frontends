@@ -53,16 +53,20 @@ export const SelectorCard = ({
       onPress={(e) => onPress?.(e)}
       disabled={disabled}
       {...accessibilityProps(rest)}
-      style={({ hovered, pressed }) => [
-        styles.selector(
-          isPressable && !!hovered,
-          isPressable && !disabled && !!pressed,
-          selected,
-          outlined,
-          alignItems
-        ),
-        layoutStyle(rest),
-      ]}
+      style={(state) => {
+        const hovered = 'hovered' in state ? state.hovered : false
+        const pressed = 'pressed' in state ? state.pressed : false
+        return [
+          styles.selector(
+            isPressable && !!hovered,
+            isPressable && !disabled && !!pressed,
+            selected,
+            outlined,
+            alignItems
+          ),
+          layoutStyle(rest),
+        ]
+      }}
       testID={testID}
     >
       <SelectorCardContent

@@ -50,7 +50,11 @@ export const ChipAction = ({
       {...accessibilityProps(rest)}
       aria-checked={selected}
       role={role}
-      style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color), layoutStyle(rest)]}
+      style={(state) => {
+        const hovered = 'hovered' in state ? state.hovered : false
+        const focused = 'focused' in state ? state.focused : false
+        return [styles.chip(!!hovered, !disabled && !!focused, color), layoutStyle(rest)]
+      }}
       testID={testID}
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={styles.text.color} />}

@@ -12,5 +12,7 @@ module.exports = {
         autoProcessImports: ['holi-bricks/styles'],
       },
     ],
+    // console removal for production builds since the next compiler is disabled
+    ...(process.env.NODE_ENV !== 'development' ? ['babel-plugin-transform-remove-console'] : []),
   ],
 }

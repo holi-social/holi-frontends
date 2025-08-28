@@ -45,3 +45,4 @@ license-disclaimer.txt
 /.gitlab-ci-local
 
 CLAUDE.md
+.claude

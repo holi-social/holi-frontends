@@ -34,7 +34,7 @@ const getSVGPreserveAspectRatio = (resizeMode: MultiPlatformImage['resizeMode'])
   }
 }
 
-export const Image: React.FC<MultiPlatformImage> = ({
+export const Image = ({
   source,
   width,
   height,
@@ -47,7 +47,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
   alt,
   aspectRatio,
   ...otherProps
-}) => {
+}: MultiPlatformImage) => {
   const [hasError, setHasError] = useState(false)
 
   if (!source) return undefined

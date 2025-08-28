@@ -1,4 +1,6 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "2.0.0",
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": "./",
@@ -68,7 +70,12 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "types": [
+      "holi-bricks",
+      "node",
+      "jest"
+    ]
   },
   "include": [
     "**/*.ts",

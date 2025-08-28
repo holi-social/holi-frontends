@@ -22,7 +22,7 @@ export class PosthogReactNative implements PosthogCrossPlatform {
   }
 
   updatePersonProperties(properties?: Properties | undefined): void {
-    this.posthog.capture('$set', { $set: properties })
+    this.posthog.capture('$set', { $set: properties || {} })
   }
 
   async flush(): Promise<void> {

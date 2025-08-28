@@ -61,10 +61,11 @@ export const ChipSelect = ({
       {...accessibilityProps(rest)}
       role={role}
       aria-checked={selected}
-      style={({ hovered, focused }) => [
-        styles.chip(!!hovered, !disabled && !!focused, selectedColor),
-        layoutStyle(rest),
-      ]}
+      style={(state) => {
+        const hovered = 'hovered' in state ? state.hovered : false
+        const focused = 'focused' in state ? state.focused : false
+        return [styles.chip(!!hovered, !disabled && !!focused, selectedColor), layoutStyle(rest)]
+      }}
       testID={testID}
     >
       {avatar && (
