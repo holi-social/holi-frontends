@@ -154,8 +154,9 @@ const Login = () => {
   const nodesToShow = getNodesByStep(step)
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <Screen
+        style={styles.wrapper}
         preset="scroll"
         keyboardShouldPersistTaps="always"
         headerOptions={{
@@ -369,6 +370,9 @@ export default memo(Login)
 
 const createStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    wrapper: {
+      flex: 1,
+    },
     container: {
       paddingVertical: Spacing.md,
     },
