@@ -61,7 +61,7 @@ export const Snackbar = ({
     long: 5000,
   }[duration]
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const startTimer = useCallback(() => {
     if (!persistent && visible) {
@@ -88,7 +88,8 @@ export const Snackbar = ({
 
   return (
     <Pressable
-      style={[styles.snackbar(offset), layoutStyle(rest), { position: isWeb ? 'fixed' : 'absolute' }]}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      style={[styles.snackbar(offset), layoutStyle(rest), { position: isWeb ? ('fixed' as any) : 'absolute' }]}
       onHoverIn={pauseTimer} // dont close snackbar while hovering
       onHoverOut={startTimer} // reset timer to close snackbar
       {...accessibilityProps(rest)}

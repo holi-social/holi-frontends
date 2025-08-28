@@ -52,11 +52,11 @@ export class FacebookSdkWeb implements FacebookSdkCrossPlatform {
 
     await waitForRealFbq()
 
-    window.fbq('set', 'autoConfig', true, this.PIXEL_ID)
-    window.fbq('init', this.PIXEL_ID)
+    window.fbq?.('set', 'autoConfig', true, this.PIXEL_ID)
+    window.fbq?.('init', this.PIXEL_ID)
 
     if (user) {
-      window.fbq('set', 'userData', {
+      window.fbq?.('set', 'userData', {
         em: user.email,
         fn: user.firstName,
         ln: user.lastName,
@@ -85,14 +85,14 @@ export class FacebookSdkWeb implements FacebookSdkCrossPlatform {
       return
     }
 
-    window.fbq('track', eventName, data || {})
+    window.fbq?.('track', eventName, data || {})
 
     if (DEBUG) this.logger.debug('trackEvent', 'Event tracked:', eventName, data)
   }
 
   async optOut(): Promise<void> {
     if (this.isScriptLoaded()) {
-      window.fbq('consent', 'revoke')
+      window.fbq?.('consent', 'revoke')
       delete window.fbq
       this.initialized = false
     }

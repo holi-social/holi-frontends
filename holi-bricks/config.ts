@@ -1,5 +1,6 @@
-import { breakpoints } from 'holi-bricks/foundations'
+import { breakpoints, type BreakpointsSize } from 'holi-bricks/foundations'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
+import type { Themes } from 'holi-bricks/foundations/colors/themes/types'
 import { StyleSheet } from 'react-native-unistyles'
 
 type Options = Record<string, unknown> & {
@@ -8,6 +9,13 @@ type Options = Record<string, unknown> & {
 
 export let config: Options = {
   isProduction: false,
+}
+
+declare module 'react-native-unistyles' {
+  // eslint-disable-next-line
+  export interface UnistylesBreakpoints extends BreakpointsSize {}
+  // eslint-disable-next-line
+  export interface UnistylesThemes extends Themes {}
 }
 
 export const initializeBricks = (options?: Partial<Options>) => {

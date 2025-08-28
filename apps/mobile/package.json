@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@apollo/client": "^3.13.9",
     "@appcues/expo-config": "^4.0.1",
     "@appcues/react-native": "^4.4.3",
     "@babel/runtime": "^7.26.0",

@@ -27,7 +27,7 @@ export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLa
   color?: FillColors
 }
 
-export const ButtonIcon: React.FC<ButtonIconProps> = ({
+export const ButtonIcon = ({
   label,
   onPress,
   variant: iconVariant = 'primary',
