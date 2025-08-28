@@ -1,32 +1,11 @@
-import * as ImageManipulator from 'expo-image-manipulator'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-import type { FileSizeLimitationReject, FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
+import type { FileSizeLimitationReject, HoliImageInfo, HoliImagePickerProps } from './types'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import { Pressable } from 'react-native'
-
-const resizeImage = async (fileBlob: File, resizeWidth: number): Promise<HoliImageInfo> => {
-  const fileBlobUri = URL.createObjectURL(fileBlob)
-  const resizeActions = [{ resize: { width: resizeWidth } }]
-  const resizeSaveOptions = {
-    compress: 0.8,
-    format: ImageManipulator.SaveFormat.JPEG,
-    base64: true,
-  }
-  const { uri, width, height, base64 } = await ImageManipulator.manipulateAsync(
-    fileBlobUri,
-    resizeActions,
-    resizeSaveOptions
-  )
-  const response = await fetch(uri)
-  const blob = await response.blob()
-  const file = new File([blob], fileBlob.name, { type: fileBlob.type, lastModified: fileBlob.lastModified })
-  return { uri, base64, blob: file, width, height }
-}
 
 const readImage = async (fileBlob: File): Promise<HoliImageInfo> => {
   const reader = new FileReader()
@@ -97,34 +76,16 @@ const HoliImagePicker = ({
         break
 
       case 'resize': {
-        const image = await readImage(fileBlob as File)
-
+        // Skip resizing on web - let the server handle it to avoid format conversion issues
         if (!allowsMultipleSelection && fileBlob) {
-          if (
-            fileBlob.size > (fileSizeLimitation as FileSizeLimitationResize).limitBytes ||
-            image.width > CONTENT_IMAGE_MAX_WIDTH ||
-            image.height > CONTENT_IMAGE_MAX_HEIGHT
-          ) {
-            const resizedImage = await resizeImage(
-              fileBlob,
-              (fileSizeLimitation as FileSizeLimitationResize).resizeWidth
-            )
-            onPickImage?.(resizedImage)
-            return
-          } else {
-            onPickImage?.(await readImage(fileBlob))
-            return
-          }
+          onPickImage?.(await readImage(fileBlob))
+          return
         }
 
         if (allowsMultipleSelection) {
           const images: HoliImageInfo[] = []
           for (const fileBlob of fileBlobs) {
-            if (fileBlob.size > (fileSizeLimitation as FileSizeLimitationResize).limitBytes) {
-              images.push(await resizeImage(fileBlob, (fileSizeLimitation as FileSizeLimitationResize).resizeWidth))
-            } else {
-              images.push(await readImage(fileBlob))
-            }
+            images.push(await readImage(fileBlob))
           }
           onPickImages?.(images)
           return
@@ -175,7 +136,7 @@ const HoliImagePicker = ({
     <>
       <input
         type="file"
-        accept=".png,.jpg"
+        accept="image/jpeg,image/jpg,image/png"
         style={{ display: 'none' }}
         ref={imageInputNode}
         onChange={onChangeHandler}
