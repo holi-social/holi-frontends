@@ -34,3 +34,20 @@ query CommittedVolunteeringOpportunities($offset: Int!, $limit: Int!) {
     totalResults
   }
 }
+
+query GlobalRewardsCounter {
+  rewards_globalCounter {
+    counter
+  }
+}
+
+query RewardsTransactions($offset: Int!, $limit: Int!) {
+  rewards_transactions(offset: $offset, limit: $limit) {
+    totalResults
+    data {
+      id
+      rewardType
+      createdAt
+    }
+  }
+}

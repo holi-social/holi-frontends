@@ -447,6 +447,7 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+
     contacted: (
       engagementId: string,
       otherProperties: Record<string, string | number | string[] | undefined> = {}
@@ -455,6 +456,29 @@ export namespace TrackingEvent {
       properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
+
+    selfReportingFlow: {
+      wantToDoIt: (
+        engagementId: string,
+        otherProperties: Record<string, string | number | undefined> = {}
+      ): TrackingEvent => ({
+        name: 'selfReportingFlow__wantToDoIt',
+        properties: { engagementId, ...otherProperties },
+        ...versionOne,
+      }),
+
+      contacted: (engagementId: string): TrackingEvent => ({
+        name: 'selfReportingFlow__contacted',
+        properties: { engagementId },
+        ...versionOne,
+      }),
+
+      doing: (engagementId: string): TrackingEvent => ({
+        name: 'selfReportingFlow__doing',
+        properties: { engagementId },
+        ...versionOne,
+      }),
+    },
 
     filterPillPressed: (
       filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills'
@@ -778,10 +802,42 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
     completionDismissed: (page: 'profile' | 'home_feed'): TrackingEvent => ({
-      name: 'userProfileCompletion_dismissed',
+      name: 'userProfile_Completion_dismissed',
       properties: {
         page: page,
       },
+      ...versionOne,
+    }),
+    globalGoodDeedsTabOpened: (): TrackingEvent => ({
+      name: 'userProfile_GlobalGoodDeedsTab_opened',
+      ...versionOne,
+    }),
+    myVolunteerTabOpened: (): TrackingEvent => ({
+      name: 'userProfile_MyVolunteerTab_opened',
+      ...versionOne,
+    }),
+    moreTabOpened: (): TrackingEvent => ({
+      name: 'userProfile_MoreTab_opened',
+      ...versionOne,
+    }),
+    favoritesSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_FavoritesSubpage_opened',
+      ...versionOne,
+    }),
+    profileSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_ProfileSubpage_opened',
+      ...versionOne,
+    }),
+    postsSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_PostsSubpage_opened',
+      ...versionOne,
+    }),
+    spacesSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_SpacesSubpage_opened',
+      ...versionOne,
+    }),
+    connectionsSubpageOpened: (): TrackingEvent => ({
+      name: 'userProfile_ConnectionsSubpage_opened',
       ...versionOne,
     }),
   }
@@ -800,6 +856,19 @@ export namespace TrackingEvent {
       newState,
     },
   })
+
+  export const Rewards = {
+    goodDeedCounterChipClicked: (): TrackingEvent => ({
+      name: 'good_deeds_counter_info_click',
+      ...versionOne,
+    }),
+
+    goodDeedClaimed: (type: 'challenge' | 'volunteer' | 'good_deed_post'): TrackingEvent => ({
+      name: 'good_deed_claimed',
+      properties: { type },
+      ...versionOne,
+    }),
+  }
 }
 
 export const Unknown: TrackingEvent = {

@@ -63,6 +63,10 @@ export type RootStackScreens = {
 
   [RouteName.NotFound]: undefined
   [RouteName.Favorites]: undefined
+  [RouteName.AboutMe]: undefined
+  [RouteName.MyConnections]: undefined
+  [RouteName.MyPosts]: undefined
+  [RouteName.MySpaces]: undefined
 
   [RouteName.CreatePost]: undefined
   [RouteName.EditPost]: undefined

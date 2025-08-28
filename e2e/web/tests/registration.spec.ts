@@ -1,8 +1,7 @@
 import { randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, checkAccessibility, clickElementByTestId, registerUser } from './helpers'
+import { byTestId, checkAccessibility, registerUser } from './helpers'
 import { test } from './testmaster'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 test.describe('@Registration', () => {
   test('should not be able to register with invalid credentials', async ({ context, page }) => {
@@ -43,32 +42,19 @@ test.describe('@Registration', () => {
   })
 
   test('should perform full onboarding', async ({ userHandler }) => {
-    const userData: OnboardingUserData = {
-      location: {
-        label: 'Hamburg, Germany',
-        id: '51223999b85500244059f052ea9271c64a40f00101f9013ef5000000000000c00208',
-      },
-      interests: ['animal-welfare', 'climate-environment'],
-      skills: ['arts-crafts', 'fundraising'],
-    }
+    // Simplified onboarding flow
 
     await userHandler.asRandomUser(
       async (page) => {
-        await test.step('profiles profile tab shows topics and skills', async () => {
-          if (userData.location?.label) {
-            await page.getByText(userData.location?.label).isVisible()
-          }
+        await test.step('profile screen is accessible after simplified onboarding', async () => {
+          await page.goto('/profile/settings/aboutMe')
 
-          await clickElementByTestId(page, 'profile-tabs-button-profile-inactive')
-
-          await page.waitForSelector(byTestId('interests--animal-welfare'))
-          await page.waitForSelector(byTestId('interests--climate-environment'))
-
-          await page.waitForSelector(byTestId('skills--arts-crafts'))
-          await page.waitForSelector(byTestId('skills--fundraising'))
+          // Simplified onboarding no longer sets interests or skills
+          // Just verify the profile settings page loads
+          await page.waitForSelector(byTestId('profile-settings'))
         })
       },
-      { userData }
+      { userData: true }
     )
   })
 })

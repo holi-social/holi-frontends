@@ -1,0 +1,6 @@
+query VolunteeringOpportunityStatus($volunteeringOpportunityId: String!) {
+  volunteeringOpportunityStatus(volunteeringOpportunityId: $volunteeringOpportunityId) {
+    externalVolunteeringOpportunityId
+    status
+  }
+}

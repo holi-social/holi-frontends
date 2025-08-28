@@ -39,6 +39,10 @@ import { TrackingEvent } from '@holi/core/tracking'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { ContentType, ContentType3K } from '@holi/core/queries'
+import { ButtonIcon } from 'holi-bricks/components/button'
+import { Stack } from 'holi-bricks/components/stack'
+import { Image } from 'holi-bricks/components/image'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 export interface ConnectionsTabProps {
   emptyText: string
@@ -55,6 +59,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const { disconnect } = useUserConnection()
   const { user: loggedInUser } = useLoggedInUser()
   const { navigateWithAuth } = useAuthRequiredNavigation()
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
   const [selectedConnection, setSelectedConnection] = useState<Connection>()
   const { visible: connectionsModalVisible, show: connectionsModalShow, hide: connectionsModalHide } = useModalState()
@@ -154,6 +159,202 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
     setSelectedConnection(undefined)
   }
 
+  if (rewardsPhaseTwoEnabled) {
+    return (
+      <>
+        <HoliTransition.FadeSwitch animKey={animKey}>
+          {animKey === 'loading' && (
+            <HoliBox padding={[Spacing.xs, 0]}>
+              {Array.from({ length: 10 }, (_, index) => index).map((index) => (
+                <HoliBox
+                  key={index}
+                  padding={[0, 0, 32, 0]}
+                  layout={{ maxWidth: dimensions.maxScreenWidth, width: '100%', alignSelf: 'center' }}
+                >
+                  <HoliBlockItem loading testID="space-tab-loading" />
+                </HoliBox>
+              ))}
+            </HoliBox>
+          )}
+
+          {animKey === 'ready' && (
+            <Stack padding={{ top: 'sm', bottom: 'sm' }}>
+              <Stack padding={{ bottom: 'sm' }}>
+                <Text size="xxl">32 connections</Text>
+              </Stack>
+              <Stack>
+                {connections?.map((connection: Connection) => (
+                  <Stack
+                    key={connection.id}
+                    onPress={() => onSelectConnection(connection)}
+                    width="100%"
+                    maxWidth="lg"
+                    alignSelf="center"
+                    direction="row"
+                    alignItems="center"
+                    gap="3xs"
+                    padding={{ top: '3xs', bottom: '3xs' }}
+                  >
+                    <Avatar
+                      imgPlaceholder={connection.avatarBlurhash}
+                      source={connection.avatar}
+                      label={connection.fullName}
+                      initials={connection.avatarLabel}
+                    />
+                    <Stack direction="row" justifyContent="space-between" flex={1} alignItems="center">
+                      <Text size="md" textAlign="center">
+                        {connection.fullName}
+                      </Text>
+                      <ButtonIcon
+                        icon={Chat3}
+                        label="start chat with connection"
+                        onPress={() => onSelectConnection(connection)}
+                        variant="secondary"
+                      />
+                    </Stack>
+                  </Stack>
+                ))}
+              </Stack>
+            </Stack>
+          )}
+
+          {animKey === 'empty' && (
+            <Stack
+              backgroundColor="support"
+              borderRadius="md"
+              padding={{ top: 'lg', bottom: 'xl', left: 'md', right: 'md' }}
+              borderColor="default"
+              borderWidth="sm"
+              gap="md"
+              alignItems="center"
+            >
+              <Image
+                source={require('@holi/ui/assets/img/illustrations/connections.svg')}
+                alt={''}
+                width={231}
+                height={164}
+                resizeMode="contain"
+              />
+              <Stack gap="3xs">
+                <Text size="md" textAlign="center">
+                  {t('user.profile.own.connections.tagline.empty')}
+                </Text>
+                <Text size="xxl" textAlign="center">
+                  {t('user.profile.own.connections.title.empty')}
+                </Text>
+              </Stack>
+            </Stack>
+          )}
+
+          <HoliModal
+            shown={connectionsModalVisible}
+            label={selectedConnection?.fullName || ''}
+            onDismiss={connectionsModalHide}
+            style={styles.modal}
+            headerStyle={styles.modalHeader}
+          >
+            <HoliContainer>
+              <Avatar
+                source={selectedConnection?.avatar}
+                imgPlaceholder={selectedConnection?.avatarBlurhash}
+                label={selectedConnection?.fullName || selectedConnection?.avatarLabel || ''}
+                initials={selectedConnection?.avatarLabel || ''}
+                size="lg"
+              />
+              <View style={styles.details}>
+                <Text size="lg">{selectedConnection?.fullName}</Text>
+                {selectedConnection?.pronouns ? (
+                  <Text size="xs" colorOverride="grey">
+                    ({selectedConnection.pronouns})
+                  </Text>
+                ) : null}
+                <HoliGap size="sm" />
+                <HoliDivider />
+                <HoliGap size="m" />
+                <HoliButton
+                  contentStyle={styles.actionItem}
+                  inline
+                  transparent
+                  label={t('spaces.collaborators.permissions.viewProfile')}
+                  onPress={() => handleNavigation(selectedConnection?.id || '')}
+                  testID={'connections-view-profile-btn'}
+                >
+                  <HoliIcon icon={User} colorOverride={styles.actionItemIcon.color} />
+                  <HoliText style={styles.actionItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
+                </HoliButton>
+                {chatFeatureFlag.isOn && isChatInitialized && (
+                  <HoliButton
+                    contentStyle={styles.actionItem}
+                    inline
+                    transparent
+                    label={t('chat.room.sendButton.label')}
+                    onPress={handleChat}
+                    testID={'connections-send-message-btn'}
+                  >
+                    <HoliIcon icon={Chat3} colorOverride={styles.actionItemIcon.color} />
+                    <HoliText style={styles.actionItemText}>{t('chat.room.sendButton.label')}</HoliText>
+                  </HoliButton>
+                )}
+                <HoliButton
+                  contentStyle={styles.actionItem}
+                  inline
+                  transparent
+                  label={t('user.profileView.connection.confirmation.title.CONNECTED')}
+                  onPress={revokeConfirmationShow}
+                  testID={'connections-revoke-connection-btn'}
+                >
+                  <HoliIcon icon={UserUnfollow} colorOverride={styles.actionItemIcon.color} />
+                  <HoliText style={styles.actionItemText}>
+                    {t('user.profileView.connection.confirmation.title.CONNECTED')}
+                  </HoliText>
+                </HoliButton>
+                <HoliButton
+                  contentStyle={styles.actionItem}
+                  inline
+                  transparent
+                  label={t('spaces.invite.connections.report')}
+                  onPress={reportConfirmationShow}
+                  testID={'connections-report-user-btn'}
+                >
+                  <HoliIcon icon={Flag} colorOverride={styles.actionItemIcon.color} />
+                  <HoliText style={styles.actionItemText}>{t('spaces.invite.connections.report')}</HoliText>
+                </HoliButton>
+              </View>
+
+              <HoliConfirmation
+                show={revokeConfirmationVisible}
+                label={t('user.profile.connections.confirmation.title')}
+                title={t('user.profile.connections.confirmation.title')}
+                description={t('user.profile.connections.confirmation.description', {
+                  name: selectedConnection?.fullName,
+                })}
+                primaryButtonVariant="danger"
+                primaryText={t('user.profile.connections.confirmation.confirm')}
+                secondaryText={t('user.profile.connections.confirmation.dismiss')}
+                onPrimary={revokeConnection}
+                onDismiss={revokeConfirmationHide}
+                testID="connections-revoke-user-confirmation"
+              />
+
+              <HoliConfirmation
+                show={reportConfirmationVisible}
+                label={t('user.profileView.report.confirmation.title', { name: selectedConnection?.fullName })}
+                title={t('user.profileView.report.confirmation.title', { name: selectedConnection?.fullName })}
+                description={t('user.profileView.report.confirmation.description', {
+                  name: selectedConnection?.fullName || t('user.profileView.anonymous'),
+                })}
+                onPrimary={handleReport}
+                onDismiss={reportConfirmationHide}
+                testID="connections-report-user-confirmation"
+              />
+            </HoliContainer>
+          </HoliModal>
+        </HoliTransition.FadeSwitch>
+      </>
+    )
+  }
+
+  // to be deleted when rewards phase 2 is fully rolled out
   return (
     <HoliTransition.FadeSwitch animKey={animKey}>
       {animKey === 'loading' && (

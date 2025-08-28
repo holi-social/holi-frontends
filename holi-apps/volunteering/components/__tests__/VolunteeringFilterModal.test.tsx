@@ -4,9 +4,14 @@ import { render, screen, userEvent } from '@testing-library/react-native'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
 import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
-import { testLocation } from '@holi/core/screens/onboarding/hooks/__tests__/useUserData.test'
+import { testLocation } from '@holi-apps/volunteering/__tests__/testData'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+
+const mockTrack = jest.fn()
+const mockUseTracking = useTracking as jest.Mock
+jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())
 
 const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
 jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
@@ -16,6 +21,8 @@ jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
 describe('VolunteeringFilterModal', () => {
   beforeEach(() => {
     jest.useFakeTimers()
+    mockTrack.mockClear()
+    mockUseTracking.mockReturnValue({ track: mockTrack })
     mockUsePlacesAutocomplete.mockReturnValue({
       loading: false,
       error: undefined,

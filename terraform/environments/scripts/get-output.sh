@@ -8,3 +8,5 @@ set -ex
 cd "$(dirname "$0")"/.. > /dev/null
 
 terraform output -raw "$1"
+
+cd - > /dev/null

@@ -1,0 +1,9 @@
+mutation UpdateVolunteeringOpportunityStatus(
+  $volunteeringOpportunityId: String!
+  $newStatus: VolunteeringOpportunityStatusValue!
+) {
+  updateVolunteeringOpportunityStatus(volunteeringOpportunityId: $volunteeringOpportunityId, newStatus: $newStatus) {
+    externalVolunteeringOpportunityId
+    status
+  }
+}
