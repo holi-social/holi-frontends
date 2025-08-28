@@ -2,6 +2,15 @@
   "name": "holi-bricks",
   "version": "0.0.1",
   "main": "storybook/mobile/index.ts",
+  "types": "main.d.ts",
+  "sideEffects": false,
+  "files": [
+    "main.d.ts",
+    "src",
+    "storybook",
+    "foundations",
+    "components"
+  ],
   "license": "MIT",
   "scripts": {
     "eas-build-pre-install": "corepack enable",
