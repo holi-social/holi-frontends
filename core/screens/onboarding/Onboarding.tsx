@@ -37,6 +37,10 @@ import { useCallback, useEffect } from 'react'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
+import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 
 export type OnboardingParams = {
   flow?: string
@@ -253,6 +257,14 @@ const Onboarding = () => {
         paddingBottom={safeAreaBottom ? safeAreaBottom : Spacing.xxs}
         testID="onboarding-stepper"
       />
+      {currentStep === 'CREATE_ACCOUNT' && (
+        <SafeArea style={styles.footer}>
+          <HoliDivider />
+          <HoliContainer>
+            <DocumentsFooter />
+          </HoliContainer>
+        </SafeArea>
+      )}
     </HoliKeyboardSafeAreaView>
   )
 }
@@ -270,6 +282,10 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.md,
     paddingBottom: Spacing['4xs'],
     flex: 1,
+  },
+  footer: {
+    paddingBottom: Spacing.lg,
+    gap: Spacing.xs,
   },
 })
 

@@ -2,7 +2,7 @@
 import type { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native'
 
 import FormInputField, { type InputProps } from '@holi/core/auth/components/FormInputField'
 import {
@@ -21,6 +21,9 @@ import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 import type { UpdateLoginFlowBody } from '@ory/kratos-client/api'
 import { getNodeProviderId } from '@holi/core/auth/helpers/auth'
 import { FormNodeSocialLogin } from '@holi/core/auth/components/FormNodeSocialLogin'
+import { Refresh } from '@holi/icons/src/generated'
+import { Text } from 'holi-bricks/components/text'
+import { Spacing } from 'holi-bricks/foundations'
 
 interface Props extends InputProps {
   node: UiNode
@@ -76,8 +79,31 @@ const FormNode = (props: Props) => {
         />
       )
     }
-    const translationKey =
-      props.submitLabelOverride ?? `${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`
+    const key = getNodeTranslationKey(node)
+
+    const translationKey = props.submitLabelOverride ?? `${props.translationPrefix}input.label-${key}`
+
+    if (key === 'ResendCode') {
+      return (
+        <View style={styles.resendCodeContainer}>
+          <Text size="md">{t('registration.emailVerification.resendInstruction')}</Text>
+          <Button
+            label={t(translationKey)}
+            disabled={node.attributes.disabled}
+            onPress={() =>
+              props.onSubmitPress(
+                'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined
+              )
+            }
+            size="lg"
+            transparent
+            icon={Refresh}
+            testID={`ory-submit-${fieldName}`}
+          />
+        </View>
+      )
+    }
+
     return (
       <View style={props.style}>
         <Button
@@ -88,13 +114,21 @@ const FormNode = (props: Props) => {
               'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined
             )
           }
+          size="lg"
           testID={`ory-submit-${fieldName}`}
         />
       </View>
     )
   }
-
-  return <>Unknown Element: {node.type}</>
 }
 
 export default FormNode
+
+const styles = StyleSheet.create({
+  resendCodeContainer: {
+    gap: Spacing['3xs'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})

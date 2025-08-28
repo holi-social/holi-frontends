@@ -19,7 +19,7 @@ import type { TextInputOverride } from '@holi/core/auth/components/FormInputFiel
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { logError } from '@holi/core/errors/helpers'
@@ -30,6 +30,7 @@ export type NodeType = 'oidc' | 'password' | 'code' | 'email'
 
 interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
+  onSuccess?: () => void
   isSignin?: boolean
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
@@ -40,7 +41,6 @@ interface Props<T> {
   noAutofocusForEmail?: boolean
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
-  mode?: 'otp' | 'password' | 'general'
   nodesToShow?: NodeType[]
 }
 
@@ -54,6 +54,7 @@ const FormBuilder = <
   T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody,
 >({
   onSubmit,
+  onSuccess,
   isSignin,
   flow,
   only,
@@ -64,7 +65,6 @@ const FormBuilder = <
   noAutofocusForEmail = false,
   translationPrefix = 'auth.login.',
   style,
-  mode = 'general',
   nodesToShow = [],
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
@@ -141,8 +141,6 @@ const FormBuilder = <
     // show global messages
     globalMessages?.map((message) => {
       const messageKey = `auth.login.message.${message.id}`
-      const someGeneralText = t('auth.login.message.default')
-      const messageText = i18n.exists(messageKey) ? t(messageKey) : someGeneralText
       if (!i18n.exists(messageKey)) {
         logError(new Error('Auth message without translation'), 'login flow message', {
           location: 'FormBuilder.useEffect',
@@ -150,10 +148,11 @@ const FormBuilder = <
           messageKey,
         })
       }
-      const toastType = message.type === 'error' ? HoliToastType.ERROR : HoliToastType.SUCCESS
-      openToast(messageText, toastType, { testID: `message-${message.id}` })
+      if (message.type !== 'error') {
+        onSuccess?.()
+      }
     })
-  }, [flow, only, i18n, openToast, t])
+  }, [flow, only, i18n, openToast, t, onSuccess])
 
   const onChange = (name: string) => (value: string) => {
     setFlowData((currFlowData) => ({
