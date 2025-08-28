@@ -26,6 +26,8 @@ import { logError } from '@holi/core/errors/helpers'
 
 type NodeId = string
 
+export type NodeType = 'oidc' | 'password' | 'code' | 'email'
+
 interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
   isSignin?: boolean
@@ -38,6 +40,8 @@ interface Props<T> {
   noAutofocusForEmail?: boolean
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  mode?: 'otp' | 'password' | 'general'
+  nodesToShow?: NodeType[]
 }
 
 interface FlowData<T> {
@@ -60,6 +64,8 @@ const FormBuilder = <
   noAutofocusForEmail = false,
   translationPrefix = 'auth.login.',
   style,
+  mode = 'general',
+  nodesToShow = [],
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
@@ -161,13 +167,31 @@ const FormBuilder = <
 
   const getValue = (name: string) => values[name as keyof T]
 
+  const nodeFilter = (node: UiNode) => {
+    let nodeType: NodeType | undefined
+
+    if (node.group === 'default' && node.type === 'input') {
+      nodeType = 'email'
+    } else if (node.group === 'password') {
+      nodeType = 'password'
+    } else if (node.group === 'oidc') {
+      nodeType = 'oidc'
+    } else if (node.group === 'code') {
+      nodeType = 'code'
+    }
+
+    // return true
+    return nodeType ? nodesToShow.includes(nodeType) : false
+  }
+
   return (
     <View style={style}>
       {!flow ? (
         <HoliLoader />
       ) : (
-        nodes.map((node: UiNode, index) => {
+        nodes.filter(nodeFilter).map((node: UiNode, index) => {
           const name = getNodeId(node)
+
           return (
             <FormNode
               key={`form-field-${flow?.ui.action || ''}-${name}-${index}`}
@@ -184,7 +208,7 @@ const FormBuilder = <
               }}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
-              style={{ marginTop: Spacing.md }}
+              style={{ marginTop: Spacing['3xs'] }}
               isSignin={isSignin}
               submitLabelOverride={submitLabelOverride}
             />

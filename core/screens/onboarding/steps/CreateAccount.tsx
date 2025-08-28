@@ -36,6 +36,7 @@ import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeS
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
+import AuthScreen from '@holi/core/auth/components/AuthScreen'
 
 const logger = getLogger('CreateAccount')
 
@@ -172,57 +173,64 @@ export const CreateAccount = ({
     }
   }
 
-  return (
-    <View style={styles.contentContainer} testID={testID}>
-      <View>
-        <HoliGap size="xs" />
-        <View style={styles.logo} testID="create-account-logo">
-          <HoliLogo color={theme.colors.black300} />
-        </View>
-        <HoliGap size="m" />
-        <Text headingLevel="1" size="4xl" textAlign="center">
-          {t('registration.signUp.heading')}
+  return <AuthScreen flowId={flowId} onSubmit={onSubmit} isSignin={false} />
+  // return (
+  //   <View style={styles.contentContainer} testID={testID}>
+  //     <View>
+  //       <HoliGap size="xs" />
+  //       <View style={styles.logo} testID="create-account-logo">
+  //         <HoliLogo color={theme.colors.black300} />
+  //       </View>
+  //       <HoliGap size="m" />
+  //       <Text headingLevel="1" size="4xl" textAlign="center">
+  //         {t('registration.signUp.heading')}
 
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
-            width={50}
-            height={40}
-            label={''}
-            isSvg
-          />
-        </Text>
-        <HoliGap size="xs" />
-        <Text size="md">{t('registration.signUp.description')}</Text>
-        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} noAutofocusForEmail />
-        <HoliGap size="s" />
-        <ButtonTracked
-          label={t('auth.loginProtection.continueAsGuest')}
-          onPress={() => {
-            storeGuestMode(true)
-            onContinueAsGuest()
-          }}
-          variant="secondary"
-          testID={`${testID}-btn-continue-as-guest`}
-          trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-        />
+  //         <HoliLocalImage
+  //           imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
+  //           width={50}
+  //           height={40}
+  //           label={''}
+  //           isSvg
+  //         />
+  //       </Text>
+  //       <HoliGap size="xs" />
+  //       <Text size="md">{t('registration.signUp.description')}</Text>
+  //       <FormBuilder
+  //         flow={flow}
+  //         onSubmit={onSubmit}
+  //         style={styles.loginForm}
+  //         noAutofocusForEmail
+  //         nodesToShow={['email', 'code']}
+  //       />
+  //       <HoliGap size="s" />
+  //       <ButtonTracked
+  //         label={t('auth.loginProtection.continueAsGuest')}
+  //         onPress={() => {
+  //           storeGuestMode(true)
+  //           onContinueAsGuest()
+  //         }}
+  //         variant="secondary"
+  //         testID={`${testID}-btn-continue-as-guest`}
+  //         trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+  //       />
 
-        <HoliGap size="xxs" />
-        <Text size="xs" color="support" textAlign="center">
-          {t('auth.loginProtection.continueAsGuest.warning')}
-        </Text>
-        <HoliGap size="m" />
-        <AlreadyHaveAccountText onPress={onLogin} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
-      </View>
+  //       <HoliGap size="xxs" />
+  //       <Text size="xs" color="support" textAlign="center">
+  //         {t('auth.loginProtection.continueAsGuest.warning')}
+  //       </Text>
+  //       <HoliGap size="m" />
+  //       <AlreadyHaveAccountText onPress={onLogin} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+  //     </View>
 
-      <View>
-        <HoliGap size="xs" />
-        <DocumentsFooter />
-        <HoliGap size="xs" />
-      </View>
+  //     <View>
+  //       <HoliGap size="xs" />
+  //       <DocumentsFooter />
+  //       <HoliGap size="xs" />
+  //     </View>
 
-      {isLoaderShown && <HoliLoader />}
-    </View>
-  )
+  //     {isLoaderShown && <HoliLoader />}
+  //   </View>
+  // )
 }
 
 const getStyles = (theme: HoliTheme) =>

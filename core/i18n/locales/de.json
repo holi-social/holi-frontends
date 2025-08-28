@@ -1024,6 +1024,7 @@
   "registration.dataconsent.checkboxLabel": "Ich habe die <0>Datenschutzhinweise</0> zur Kenntnis genommen.",
   "registration.dataconsent.description": "Um dir ein optimales Produkterlebnis zu bieten, fragen wir dich nach ein paar persönlichen Daten und verarbeiten Informationen deiner Nutzung. Die Sicherheit deiner Daten hat höchste Priorität. Weder jetzt noch in Zukunft werden wir deine Daten ohne deine Zustimmung zu Monetarisierungszwecken an Dritte weitergeben oder verkaufen.",
   "registration.dataconsent.heading": "Deine Daten, unsere Verantwortung.",
+  "registration.emailOption": "oder nutze deine E-Mail-Adresse",
   "registration.emailVerification.activateAccount": "Account aktivieren",
   "registration.emailVerification.body": "Wir haben einen Bestätigungscode an die folgende E-Mail-Adresse gesendet:",
   "registration.emailVerification.cta.verify": "E-Mail-Adresse bestätigen",
