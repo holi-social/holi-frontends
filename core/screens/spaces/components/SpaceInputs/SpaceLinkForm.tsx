@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'

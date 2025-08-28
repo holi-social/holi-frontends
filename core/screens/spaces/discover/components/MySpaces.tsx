@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMineTile'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'

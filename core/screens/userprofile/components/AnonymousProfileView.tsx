@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'

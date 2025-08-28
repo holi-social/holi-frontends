@@ -1,6 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect, useMemo } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { string } from 'zod'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'

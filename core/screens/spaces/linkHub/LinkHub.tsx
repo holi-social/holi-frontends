@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet, useWindowDimensions, View } from 'react-native'
+import { type DimensionValue, Platform, useWindowDimensions, View, StyleSheet } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'

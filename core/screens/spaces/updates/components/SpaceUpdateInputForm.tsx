@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import SpaceImageForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceImageForm'
 import { SPACE_POST_VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/tasks/consts'

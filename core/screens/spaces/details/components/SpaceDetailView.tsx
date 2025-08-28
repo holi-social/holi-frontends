@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Linking, Platform, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'

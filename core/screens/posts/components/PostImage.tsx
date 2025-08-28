@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { getSizes, getTransformedImageUri, useContainerSizeForImage } from '@holi/core/helpers'
 import ImagePanZoom from '@holi/core/screens/posts/components/ImagePanZoom'

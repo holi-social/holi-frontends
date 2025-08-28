@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'

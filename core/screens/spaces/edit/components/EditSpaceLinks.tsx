@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { type Space, type ExternalLink, SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 import { useErrorHandling } from '@holi/core/errors/hooks'

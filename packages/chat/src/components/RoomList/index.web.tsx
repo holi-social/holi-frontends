@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated'
 
 import { leaveRoom } from '@holi/chat/src/store'

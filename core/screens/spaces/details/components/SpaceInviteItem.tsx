@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'

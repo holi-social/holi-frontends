@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, ScrollView, StyleSheet, View } from 'react-native'
+import { Linking, ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import type { LayoutChangeEvent, LayoutRectangle } from 'react-native'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import Animated, {
   type SharedValue,
   interpolate,

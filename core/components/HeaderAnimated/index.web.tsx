@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useHeaderAnimationProgress } from '@holi/core/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'

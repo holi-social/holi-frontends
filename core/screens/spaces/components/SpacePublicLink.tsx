@@ -1,7 +1,8 @@
 import type React from 'react'
 import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
+import { Linking, type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { ExternalLink } from '@holi/api/graphql/graphql-codegen'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'

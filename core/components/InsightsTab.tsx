@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
-
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { logError } from '@holi/core/errors/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { insightsByUserIdQuery } from '@holi/core/queries'
@@ -13,7 +13,7 @@ import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface InsightsTabProps {
   userId: string

@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { Link } from 'expo-router'
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
 import { TextLink } from 'holi-bricks/components/text'

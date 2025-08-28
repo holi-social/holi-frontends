@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'

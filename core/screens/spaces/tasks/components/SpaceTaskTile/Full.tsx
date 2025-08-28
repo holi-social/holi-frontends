@@ -1,6 +1,7 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'

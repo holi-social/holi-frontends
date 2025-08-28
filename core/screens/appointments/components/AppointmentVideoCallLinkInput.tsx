@@ -1,7 +1,7 @@
 import type React from 'react'
 import { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Platform, ScrollView, type StyleProp, View, type ViewStyle, StyleSheet } from 'react-native'
 
 import { validateUrl } from '@holi/core/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'

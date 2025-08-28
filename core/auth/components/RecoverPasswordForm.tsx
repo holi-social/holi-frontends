@@ -1,8 +1,8 @@
 import type { RecoveryFlow, UpdateRecoveryFlowBody, UpdateRecoveryFlowWithCodeMethod } from '@ory/kratos-client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, type ViewStyle } from 'react-native'
-
+import { View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, type ViewStyle } from 'react-native'
+import { View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'

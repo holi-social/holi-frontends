@@ -1,7 +1,8 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslation } from 'react-i18next'
 
 import { getFormattedDateAbs } from '@holi/core/i18n/helpers/dateHelper'

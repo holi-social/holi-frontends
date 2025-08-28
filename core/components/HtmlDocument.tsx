@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Platform, ScrollView, StyleSheet } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
+import { StyleSheet } from 'react-native-unistyles'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'

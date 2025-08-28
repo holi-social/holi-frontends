@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useMemo } from 'react'
-import { type GestureResponderEvent, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type GestureResponderEvent, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'

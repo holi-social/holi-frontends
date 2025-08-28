@@ -1,7 +1,8 @@
 import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, type StyleProp, StyleSheet, View, type ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, type StyleProp, View, type ViewStyle, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'

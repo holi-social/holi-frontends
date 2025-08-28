@@ -13,7 +13,8 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { TouchableOpacity, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 const NavBarButton = ({ icon, onPress, label }: { icon: HoliIconType; onPress: () => void; label: string }) => {
   return (
@@ -43,7 +44,7 @@ export const ActNavBar = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   return (
-    <View style={{ overflow: 'scroll' }}>
+    <View style={styles.container}>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -81,3 +82,12 @@ export const ActNavBar = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create(() => {
+  return {
+    container: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      overflow: Platform.OS === 'web' ? 'auto' : ('visible' as any),
+    },
+  }
+})

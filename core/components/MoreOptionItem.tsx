@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowRightS, ShareBox } from '@holi/icons/src/generated'

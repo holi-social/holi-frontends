@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'

@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'

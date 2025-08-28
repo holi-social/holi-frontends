@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'

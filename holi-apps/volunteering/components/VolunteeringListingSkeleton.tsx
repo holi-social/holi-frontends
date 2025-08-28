@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'

@@ -1,5 +1,6 @@
 import React, { type PropsWithChildren } from 'react'
-import { ImageBackground, Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { ImageBackground, Platform, StatusBar, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 

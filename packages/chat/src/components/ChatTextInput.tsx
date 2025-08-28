@@ -1,7 +1,8 @@
 import { Spacing } from 'holi-bricks/foundations'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, type TextInputKeyPressEventData, View } from 'react-native'
+import { Platform, type TextInputKeyPressEventData, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'

@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { User } from '@holi/core/domain/shared/types'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'

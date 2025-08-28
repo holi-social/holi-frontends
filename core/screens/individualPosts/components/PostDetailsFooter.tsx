@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleProp, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'

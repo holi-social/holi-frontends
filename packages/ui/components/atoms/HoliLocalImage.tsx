@@ -48,7 +48,7 @@ const HoliLocalImage = ({
   ) : (
     <Image
       {...accessibilityProps}
-      source={consolidatedImageSource}
+      source={consolidatedImageSource as ImageSourcePropType}
       style={[{ overflow: 'visible', resizeMode: resizeMode }, style, { width, height }]}
     />
   )

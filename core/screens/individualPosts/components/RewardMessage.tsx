@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { StyleSheet, View, Pressable, Linking, Animated, Easing } from 'react-native'
+import { View, Pressable, Linking, Animated, Easing } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslation } from 'react-i18next'
 
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'

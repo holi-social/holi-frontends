@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { GradientBackgroundProps } from './types'
 

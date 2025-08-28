@@ -1,6 +1,6 @@
 import React from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'

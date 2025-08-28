@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import type React from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { Space } from '@holi/api/graphql/graphql-codegen'
 import DefaultLayout from '@holi/core/components/DefaultLayout'

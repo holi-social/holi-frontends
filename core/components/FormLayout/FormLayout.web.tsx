@@ -1,8 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import type React from 'react'
 import { useMemo } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
-
+import { ScrollView, View, StyleSheet } from 'react-native'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import Spacing from '@holi/ui/foundations/Spacing'

@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, View, StyleSheet } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatTabBar, { DEFAULT_TAB_ID } from '@holi/chat/src/components/ChatTabsBar'

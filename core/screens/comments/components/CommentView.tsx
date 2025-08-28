@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewProps, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewProps, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'

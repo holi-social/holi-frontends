@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'

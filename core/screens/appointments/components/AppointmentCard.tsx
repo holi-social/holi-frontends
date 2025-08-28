@@ -1,7 +1,8 @@
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { Appointment, Space } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'

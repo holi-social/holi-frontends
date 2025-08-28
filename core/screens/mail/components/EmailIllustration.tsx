@@ -1,5 +1,6 @@
 import type React from 'react'
-import { Animated, StyleSheet } from 'react-native'
+import { Animated } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import Spacing from '@holi/ui/foundations/Spacing'
 

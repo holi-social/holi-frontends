@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'

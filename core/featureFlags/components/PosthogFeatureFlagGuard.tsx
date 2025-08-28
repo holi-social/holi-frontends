@@ -1,6 +1,7 @@
 import React, { type PropsWithChildren, memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'

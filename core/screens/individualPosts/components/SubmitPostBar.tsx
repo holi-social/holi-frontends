@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import type { FeedPostImage } from '@holi/core/screens/individualPosts/types'

@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { Space } from '@holi/api/graphql/graphql-codegen'

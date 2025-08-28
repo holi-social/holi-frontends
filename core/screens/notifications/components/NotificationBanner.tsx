@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { User } from '@holi/core/domain/shared/types'
 import i18n from '@holi/core/i18n'

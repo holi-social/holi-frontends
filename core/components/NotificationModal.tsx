@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
-import { Modal, Pressable, StyleSheet, View } from 'react-native'
-
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Modal, Pressable, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   isVisible: boolean

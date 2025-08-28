@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { Image as ReactNativeImage } from 'react-native'
 
 import type { CreateAppointmentInput, LocationDetailsInput, Space } from '@holi/api/graphql/graphql-codegen'

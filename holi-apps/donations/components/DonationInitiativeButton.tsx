@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { Linking, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
