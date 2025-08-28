@@ -4,7 +4,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
@@ -16,6 +15,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { StyleSheet } from 'react-native-unistyles'
 
 export interface ProgressStepperStep<T extends string = string> {
   key: T
@@ -32,7 +32,6 @@ interface ProgressStepperProps<T extends string = string> {
 }
 
 export const ProgressStepper = <T extends string = string>({ steps, activeStepKey }: ProgressStepperProps<T>) => {
-  const { styles } = useStyles(stylesheet)
   const activeStepIndex = steps.findIndex((step) => step.key === activeStepKey)
 
   const animatedLineWidth = useSharedValue(0)
@@ -105,7 +104,7 @@ export const ProgressStepper = <T extends string = string>({ steps, activeStepKe
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   line: {
     height: 2,
     backgroundColor: theme.colors.decorative.purpleDefault,
