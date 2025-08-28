@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'

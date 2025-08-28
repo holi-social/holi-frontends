@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type GestureResponderEvent, StyleSheet, View } from 'react-native'
+import { type GestureResponderEvent, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import SpaceSection, { type SpaceSectionProps } from '@holi/core/screens/spaces/components/SpaceSection'
 import { Edit2 } from '@holi/icons/src/generated'

@@ -2,7 +2,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, View, useWindowDimensions, StyleSheet } from 'react-native'
 
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'

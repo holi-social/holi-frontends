@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { validateUrl, withProtocol } from '@holi/core/helpers/url'

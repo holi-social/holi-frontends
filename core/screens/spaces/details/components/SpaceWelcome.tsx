@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'

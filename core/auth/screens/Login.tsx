@@ -3,7 +3,7 @@ import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-
+import { StyleSheet } from 'react-native-unistyles'
 import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'

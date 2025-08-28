@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useMemo } from 'react'
-import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'

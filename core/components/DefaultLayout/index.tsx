@@ -1,6 +1,6 @@
 import React from 'react'
-import { Platform, type ScrollView, StyleSheet } from 'react-native'
-
+import { Platform, type ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import Default from '@holi/core/components/DefaultLayout/Default'
 import HeaderOffsetScrollView from '@holi/core/components/DefaultLayout/HeaderOffsetScrollView'
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'

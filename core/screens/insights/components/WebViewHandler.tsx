@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useRef, useEffect } from 'react'
-import { View, StyleSheet, Platform } from 'react-native'
+import { View, Platform } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import type { WebView } from 'react-native-webview'
 import { useTranslation } from 'react-i18next'
 
@@ -60,7 +61,6 @@ const WebViewHandler: React.FC<WebViewHandlerProps> = ({
     const sourceName = extractDomainFromUrl(url)
 
     setScreenOptions({
-      headerBackTitleVisible: false,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{sourceName}</HeaderTitle>,

@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { Choice } from '@holi/core/screens/polls/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'

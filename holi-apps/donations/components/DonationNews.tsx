@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, type ViewStyle } from 'react-native'
+import { View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliMediaAuthorHeader, { type Author } from '@holi/core/components/HoliMediaAuthorHeader'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'

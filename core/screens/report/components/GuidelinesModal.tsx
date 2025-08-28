@@ -1,7 +1,8 @@
 import { Button } from 'holi-bricks/components/button'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Linking, Platform, Pressable, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Hearts, Information } from '@holi/icons/src/generated'

@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'

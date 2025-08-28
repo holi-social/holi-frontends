@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'

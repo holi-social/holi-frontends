@@ -1,6 +1,7 @@
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
-import { Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Platform, Pressable, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'

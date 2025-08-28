@@ -4,7 +4,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type ImageStyle, Platform, Pressable, View, type ViewStyle, StyleSheet } from 'react-native'
 
 import { FavoritableType, type Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'

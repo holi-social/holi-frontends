@@ -1,7 +1,8 @@
 import { Text } from 'holi-bricks/components/text'
 import React, { memo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { TrackingGeneralContentDescription } from '@holi/core/components/TrackingConsentModal'
 import { getLogger } from '@holi/core/helpers/logging'

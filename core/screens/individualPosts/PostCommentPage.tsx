@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'

@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type GestureResponderEvent, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type GestureResponderEvent, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'

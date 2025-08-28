@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'

@@ -4,7 +4,8 @@ import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { createContext } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { SelectorCardInputType } from './SelectorCard'
 

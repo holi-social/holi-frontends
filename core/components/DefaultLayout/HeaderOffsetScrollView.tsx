@@ -1,8 +1,9 @@
-import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import type React from 'react'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type Props = Pick<LayoutProps, 'backgroundColor'>

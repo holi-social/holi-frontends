@@ -1,6 +1,6 @@
 import React from 'react'
-import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-
+import { Platform, ScrollView, type ScrollViewProps, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'

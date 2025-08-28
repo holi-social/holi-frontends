@@ -1,7 +1,8 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'

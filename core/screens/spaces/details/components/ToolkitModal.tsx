@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'

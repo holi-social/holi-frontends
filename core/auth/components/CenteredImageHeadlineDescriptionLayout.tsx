@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-
-import CenteredContentLayout, { CenteredContentLayoutProps } from '@holi/core/components/CenteredContentLayout'
+import { type ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+import CenteredContentLayout, { type CenteredContentLayoutProps } from '@holi/core/components/CenteredContentLayout'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
   imageSource?: StaticImageData

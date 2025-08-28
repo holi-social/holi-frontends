@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, forwardRef } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import Animated from 'react-native-reanimated'
 
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'

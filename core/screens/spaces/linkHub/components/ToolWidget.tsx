@@ -1,5 +1,6 @@
 import React from 'react'
-import { Linking, StyleSheet, View } from 'react-native'
+import { Linking, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'

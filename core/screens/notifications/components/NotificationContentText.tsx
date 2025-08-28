@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import type { TextLayoutEventData, TextLayoutLine } from 'react-native'
 
 import HoliText, { HoliTextProps } from '@holi/ui/components/atoms/HoliText'

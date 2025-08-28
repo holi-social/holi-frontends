@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle, StyleSheet } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'

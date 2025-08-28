@@ -1,5 +1,6 @@
 import React from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { TrackingEvent } from '@holi/core/tracking'
 import { colors } from '@holi/ui/styles/globalVars'

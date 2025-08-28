@@ -29,7 +29,7 @@ import { withProfiler } from '@sentry/react'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import React, { memo, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View, StyleSheet } from 'react-native'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 

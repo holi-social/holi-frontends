@@ -1,7 +1,8 @@
 import React from 'react'
 import type { PropsWithChildren } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { joinRoom, leaveRoom } from '@holi/chat/src/store'

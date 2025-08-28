@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View, StyleSheet } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'

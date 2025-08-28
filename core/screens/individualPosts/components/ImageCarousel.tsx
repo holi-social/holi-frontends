@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
-import { type LayoutChangeEvent, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type LayoutChangeEvent, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import Carousel from 'react-native-reanimated-carousel'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'

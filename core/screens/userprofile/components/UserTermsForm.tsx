@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'

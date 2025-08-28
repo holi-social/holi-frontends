@@ -1,8 +1,8 @@
 import type React from 'react'
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
-
+import { Linking, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'

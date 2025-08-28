@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'

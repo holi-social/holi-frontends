@@ -1,7 +1,8 @@
 import { withProfiler } from '@sentry/react'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'

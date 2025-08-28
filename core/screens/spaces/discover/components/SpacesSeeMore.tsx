@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, View, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'

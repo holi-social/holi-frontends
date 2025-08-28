@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { ArrowLeft } from '@holi/icons/src/generated'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'

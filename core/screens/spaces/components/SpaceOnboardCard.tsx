@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
-import { Dimensions, Platform, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'

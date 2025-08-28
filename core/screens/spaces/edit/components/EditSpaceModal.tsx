@@ -1,5 +1,6 @@
 import React, { ReactNode, useMemo } from 'react'
-import { ScrollView, ScrollViewProps, StyleSheet, View } from 'react-native'
+import { ScrollView, ScrollViewProps, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

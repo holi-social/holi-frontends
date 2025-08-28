@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'

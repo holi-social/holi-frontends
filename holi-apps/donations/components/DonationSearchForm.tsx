@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { Close } from '@holi/icons/src/generated'

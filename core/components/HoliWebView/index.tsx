@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
+import { BackHandler, Linking, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { WebView, type WebViewNavigation } from 'react-native-webview'
 import type { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, ViewProps } from 'react-native'
-
+import { KeyboardAvoidingView, Platform, type ScrollView, type ViewProps } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 
