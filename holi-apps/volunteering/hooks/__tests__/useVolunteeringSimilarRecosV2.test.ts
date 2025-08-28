@@ -136,10 +136,7 @@ describe('useVolunteeringSimilarRecosV2', () => {
       description: '',
       external_url: 'https://example.com/engagement0',
       id: '0',
-      locationCountry: '',
-      organizerLocationCountry: '',
       source: 'Aktion Mensch',
-      summary: '',
       title: 'Titel 0',
       type: 'volunteering',
     })
