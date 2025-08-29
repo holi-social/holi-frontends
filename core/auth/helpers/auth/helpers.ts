@@ -223,7 +223,7 @@ export const submitLoginFlow = async (
   const updateLoginFlowBody = await retrieveSubmitFlowBody(payload, provider)
   return newKratosSdk()
     .updateLoginFlow({ flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody }, { withCredentials: false })
-    .catch(handleKratosSdkError('updateLoginFlow'))
+    .catch((err) => handleKratosSdkError('updateLoginFlow')(err))
 }
 
 /**

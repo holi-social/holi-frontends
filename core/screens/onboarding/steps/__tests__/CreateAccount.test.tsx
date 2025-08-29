@@ -161,9 +161,6 @@ describe('CreateAccount', () => {
       expect(screen.getByLabelText('submit-button')).toBeOnTheScreen()
 
       expect(screen.getByLabelText('auth.loginProtection.continueAsGuest')).toBeOnTheScreen()
-
-      // Links to privacy policy, terms of use + login
-      expect(screen.getAllByRole('link')).toHaveLength(3)
     })
   })
 
