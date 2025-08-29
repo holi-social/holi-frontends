@@ -24,7 +24,6 @@ export const ChipGoodDeeds: React.FC = () => {
 const ChipGoodDeedsUser: React.FC = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const { requireLogin } = useSignupModal()
   const { track } = useTracking()
 
   const { data } = useGetRewardsCounterQuery()
@@ -133,28 +132,15 @@ const ChipGoodDeedsUser: React.FC = () => {
     ),
   }
 
-  const handleClick = () => {
+  const handlePress = () => {
     track(TrackingEvent.Rewards.goodDeedCounterChipClicked())
-    requireLogin(modalState.show, {
-      title: t('personalGoodDeedCounter.drawer.guest.title'),
-      description: t('personalGoodDeedCounter.drawer.guest.text'),
-      subline: (
-        <Trans
-          i18nKey="personalGoodDeedCounter.drawer.campaignHint"
-          components={{
-            span: <Text size="md" />,
-            b: <Text size="lg" />,
-          }}
-        />
-      ),
-      trackTrigger: 'COLLECT_GOOD_DEEDS',
-    })
+    modalState.show()
   }
 
   return (
     <>
       <Pressable
-        onPress={handleClick}
+        onPress={handlePress}
         style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}
         testID="good-deeds-counter"
       >
@@ -186,25 +172,27 @@ const ChipGoodDeedsGuest: React.FC = () => {
   const { requireLogin } = useSignupModal()
   const { track } = useTracking()
 
+  const handlePress = () => {
+    track(TrackingEvent.Rewards.goodDeedCounterChipClicked())
+    requireLogin(() => {}, {
+      title: t('personalGoodDeedCounter.drawer.guest.title'),
+      description: t('personalGoodDeedCounter.drawer.guest.text'),
+      subline: (
+        <Trans
+          i18nKey="personalGoodDeedCounter.drawer.campaignHint"
+          components={{
+            span: <Text size="md" />,
+            b: <Text size="lg" />,
+          }}
+        />
+      ),
+      trackTrigger: 'COLLECT_GOOD_DEEDS',
+    })
+  }
+
   return (
     <Pressable
-      onPress={() => {
-        track(TrackingEvent.Rewards.goodDeedCounterChipClicked())
-        requireLogin(() => {}, {
-          title: t('personalGoodDeedCounter.drawer.guest.title'),
-          description: t('personalGoodDeedCounter.drawer.guest.text'),
-          subline: (
-            <Trans
-              i18nKey="personalGoodDeedCounter.drawer.campaignHint"
-              components={{
-                span: <Text size="md" />,
-                b: <Text size="lg" />,
-              }}
-            />
-          ),
-          trackTrigger: 'COLLECT_GOOD_DEEDS',
-        })
-      }}
+      onPress={handlePress}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}
       testID="good-deeds-counter"
     >
