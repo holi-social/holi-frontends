@@ -2,9 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HoliStepperItem } from '@holi/ui/components/organisms/HoliStepperV2'
 import { type OnboardingStateValue, useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useFocusEffect } from '@holi/core/helpers'
+import { GoodDeedsExplanationFooterNavigation } from '@holi/core/screens/onboarding/steps/GoodDeeds'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OnboardingStepKeys = [
+  'GOOD_DEEDS_EXPLANATION',
+  'GOOD_DEEDS_DO',
   'WELCOME_SCREEN',
   'LOCATION_SELECTION',
   'INTERESTS_SELECTION',
@@ -38,6 +41,18 @@ export const onboardingSteps: OnboardingStepItem[] = [
   },
   { key: 'CREATE_ACCOUNT' },
   { key: 'USER_NAME_SELECTION' },
+  {
+    key: 'GOOD_DEEDS_EXPLANATION',
+    FooterNavigationComponent: GoodDeedsExplanationFooterNavigation,
+    footerNavigation: { isBackButtonAvailable: false, nextButtonLabel: 'onboarding.modal.step01.buttonPrimary' },
+    backgroundColor: 'white',
+  },
+  {
+    key: 'GOOD_DEEDS_DO',
+    FooterNavigationComponent: GoodDeedsExplanationFooterNavigation,
+    footerNavigation: { isBackButtonAvailable: true, nextButtonLabel: 'onboarding.modal.step02.buttonPrimary' },
+    backgroundColor: 'yellowDefault',
+  },
 ]
 
 const determineOnboardingInitialStepKey = (
