@@ -16,7 +16,7 @@ import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 
-export const ChipGoodDeeds = () => {
+const ChipGoodDeedsUser: React.FC = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
@@ -184,6 +184,48 @@ export const ChipGoodDeeds = () => {
       </HoliModal>
     </>
   )
+}
+
+const ChipGoodDeedsGuest: React.FC = () => {
+  const { styles } = useStyles(stylesheet)
+  const { t } = useTranslation()
+  const { requireLogin } = useSignupModal()
+  const { track } = useTracking()
+
+  return (
+    <Pressable
+      onPress={() => {
+        track(TrackingEvent.Rewards.goodDeedCounterChipClicked())
+        requireLogin(() => {}, {
+          title: t('personalGoodDeedCounter.drawer.guest.title'),
+          description: t('personalGoodDeedCounter.drawer.guest.text'),
+          subline: (
+            <Trans
+              i18nKey="personalGoodDeedCounter.drawer.campaignHint"
+              components={{
+                span: <Text size="md" />,
+                b: <Text size="lg" />,
+              }}
+            />
+          ),
+          trackTrigger: 'COLLECT_GOOD_DEEDS',
+        })
+      }}
+      style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}
+      testID="good-deeds-counter"
+    >
+      <HoliIcon icon={GoodDeeds} size={18} />
+      <Text size="sm" selectable={false}>
+        {t('goodDeeds.name_other')}
+      </Text>
+      <HoliIcon icon={Information} size={18} />
+    </Pressable>
+  )
+}
+
+export const ChipGoodDeeds: React.FC = () => {
+  const { isLoggedIn } = useLoggedInUser()
+  return isLoggedIn ? <ChipGoodDeedsUser /> : <ChipGoodDeedsGuest />
 }
 
 const stylesheet = createStyleSheet((theme) => ({
