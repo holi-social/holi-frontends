@@ -872,6 +872,18 @@ export namespace TrackingEvent {
       properties: { type },
       ...versionOne,
     }),
+
+    badgeEarned: (badgeKey: string): TrackingEvent => ({
+      name: 'badge_earned',
+      properties: { badgeKey },
+      ...versionOne,
+    }),
+
+    badgeRevealedButton: (badgeKey: string): TrackingEvent => ({
+      name: 'badge_revealed_button',
+      properties: { badgeKey },
+      ...versionOne,
+    }),
   }
 }
 
