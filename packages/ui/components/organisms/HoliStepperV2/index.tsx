@@ -1,5 +1,5 @@
 import type React from 'react'
-import { Platform, ScrollView, type ScrollViewProps, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, type ScrollViewProps, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -7,6 +7,8 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { PROGRESS_BAR_HEIGHT, ProgressBar } from '@holi/ui/components/organisms/HoliStepperV2/ProgressBar'
 import { Spacing } from 'holi-bricks/foundations'
 import NavigationButtons, { BUTTON_RECT, type NavigationButtonsProps } from './NavigationButtons'
+import { Stack } from 'holi-bricks/components/stack'
+import type { BackgroundColors } from 'holi-bricks/foundations/colors/themes/types'
 
 const ONBOARDING_HEADER_OFFSET = PROGRESS_BAR_HEIGHT + Spacing.xxs
 const ONBOARDING_FOOTER_OFFSET = BUTTON_RECT.height + Spacing.xxs + Spacing.lg
@@ -25,7 +27,7 @@ export interface HoliStepperProps<D> extends Pick<ScrollViewProps, 'keyboardShou
   renderStep: (options: RenderFuncOptions<D>) => React.ReactNode
   activeStepKey: string
   onChange: (key: string, previousKey: string, buttonPressed: StepperButtonType) => void
-  WrapperComponent?: (preop: React.PropsWithChildren) => React.JSX.Element
+  WrapperComponent?: (props: React.PropsWithChildren) => React.JSX.Element
   paddingTop?: number
   paddingBottom?: number
   testID?: string
@@ -34,6 +36,8 @@ export interface HoliStepperProps<D> extends Pick<ScrollViewProps, 'keyboardShou
 export interface HoliStepperItem {
   progressBar?: { skippable?: boolean }
   footerNavigation?: Pick<NavigationButtonsProps, 'isBackButtonAvailable' | 'isNextButtonEnabled' | 'nextButtonLabel'>
+  FooterNavigationComponent?: (props: NavigationButtonsProps) => React.ReactNode
+  backgroundColor?: BackgroundColors
 }
 
 const DefaultWrapperComponent = ({ children }: React.PropsWithChildren) => (
@@ -60,10 +64,14 @@ export const HoliStepper = <D extends HoliStepperItem>({
 
   const onContinue = (buttonPressed: StepperButtonType) => {
     const nextStepIndex = activeStepIndex + 1
+
     if (nextStepIndex < data.length) {
       const previousStepKey = keyExtractor(data[activeStepIndex])
       const nextStepKey = keyExtractor(data[nextStepIndex])
       onChange(nextStepKey, previousStepKey, buttonPressed)
+    } else {
+      // last step
+      onChange(activeStepKey, activeStepKey, buttonPressed)
     }
   }
 
@@ -80,7 +88,7 @@ export const HoliStepper = <D extends HoliStepperItem>({
   const showNavigationButtons = !!activeStepData?.footerNavigation
 
   return (
-    <View style={styles.flex1} testID={testID}>
+    <Stack flex={1} backgroundColor={activeStepData?.backgroundColor}>
       <HoliTransition.FadeSwitch animKey={activeStepKey} style={styles.stepContainer}>
         <ScrollView
           style={styles.flex1}
@@ -119,17 +127,26 @@ export const HoliStepper = <D extends HoliStepperItem>({
         style={[styles.floatingElement, { bottom: paddingBottom }]}
       >
         <WrapperComponent>
-          <HoliBox padding={[Spacing['4xs'], 0]}>
-            <NavigationButtons
+          {activeStepData?.FooterNavigationComponent ? (
+            <activeStepData.FooterNavigationComponent
               onNextPress={() => onContinue('continue')}
               onBackPress={onGoBack}
               {...(activeStepData?.footerNavigation ?? {})}
               testID={`${testID}-nav-buttons`}
             />
-          </HoliBox>
+          ) : (
+            <HoliBox padding={[Spacing['4xs'], 0]}>
+              <NavigationButtons
+                onNextPress={() => onContinue('continue')}
+                onBackPress={onGoBack}
+                {...(activeStepData?.footerNavigation ?? {})}
+                testID={`${testID}-nav-buttons`}
+              />
+            </HoliBox>
+          )}
         </WrapperComponent>
       </HoliTransition.FadeDown>
-    </View>
+    </Stack>
   )
 }
 
