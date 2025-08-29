@@ -28,14 +28,14 @@ const ChipGoodDeedsUser: React.FC = () => {
   const { track } = useTracking()
 
   const { data } = useGetRewardsCounterQuery()
-  const counter = data?.rewards_counter?.counter ?? 0
-  const hasDeeds = counter && counter > 0
+  const count = data?.rewards_counter?.counter ?? 0
+  const hasDeed = count && count > 0
 
   const modalState = useModalState()
 
-  const CountModalContent = {
+  const CountModal = {
     title: t('personalGoodDeedCounter.drawer.default.banner.title'),
-    body: (
+    content: (
       <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
         <Stack
           gap="4xs"
@@ -61,7 +61,7 @@ const ChipGoodDeedsUser: React.FC = () => {
           >
             <HoliIcon icon={GoodDeedsV2} size={40} />
             <Text size="xxl" selectable={false}>
-              {counter} {t('goodDeeds.name', { count: counter })}
+              {count} {t('goodDeeds.name', { count: count })}
             </Text>
           </Stack>
         </Stack>
@@ -90,9 +90,9 @@ const ChipGoodDeedsUser: React.FC = () => {
     ),
   }
 
-  const TeaserModalContent = {
+  const TeaserModal = {
     title: t('personalGoodDeedCounter.drawer.empty.h2'),
-    body: (
+    content: (
       <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
         <Stack gap="3xs">
           <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.title')}</Text>
@@ -159,9 +159,9 @@ const ChipGoodDeedsUser: React.FC = () => {
         testID="good-deeds-counter"
       >
         <HoliIcon icon={GoodDeeds} size={18} />
-        {counter != 0 ? (
+        {count != 0 ? (
           <Text size="sm" selectable={false} testID="good-deeds-counter-value">
-            {t('goodDeeds.name.count', { count: counter })}
+            {t('goodDeeds.name.count', { count: count })}
           </Text>
         ) : (
           <Text size="sm" selectable={false}>
@@ -171,9 +171,9 @@ const ChipGoodDeedsUser: React.FC = () => {
         <HoliIcon icon={Information} size={18} />
       </Pressable>
 
-      <HoliModal {...modalState.props} label={hasDeeds ? CountModalContent.title : TeaserModalContent.title} autoHeight>
+      <HoliModal {...modalState.props} label={hasDeed ? CountModal.title : TeaserModal.title} autoHeight>
         <HoliModalContentWrapper actionButtonText={t('modal.close')} onActionButtonPress={modalState.props.onDismiss}>
-          {hasDeeds ? CountModalContent.body : TeaserModalContent.body}
+          {hasDeed ? CountModal.content : TeaserModal.content}
         </HoliModalContentWrapper>
       </HoliModal>
     </>
