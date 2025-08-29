@@ -6,7 +6,7 @@ import { SearchButton } from '@holi/core/navigation/components/header/SearchButt
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Notification2 } from '@holi/icons/src/generated'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import { Stack } from 'holi-bricks/components/stack'
 
 const NotificationAndSearchHeader = () => {
   const { t } = useTranslation()
@@ -14,7 +14,7 @@ const NotificationAndSearchHeader = () => {
   const hasNewNotifications = useHasNewNotifications()
 
   return (
-    <HoliHorizontalRow>
+    <Stack direction="row" gap="md">
       <HoliButtonBell
         label={t('notifications.title')}
         icon={Notification2}
@@ -26,7 +26,7 @@ const NotificationAndSearchHeader = () => {
       />
 
       <SearchButton />
-    </HoliHorizontalRow>
+    </Stack>
   )
 }
 

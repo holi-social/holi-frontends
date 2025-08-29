@@ -12,13 +12,13 @@ import {
   View,
   type ViewStyle,
 } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Subtract } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxValue = boolean | 'mixed'
@@ -58,7 +58,6 @@ const HoliCheckbox = ({
   const checkboxRef = useRef<View>(null)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
-  const { styles } = useStyles(stylesheet)
 
   useEffect(() => {
     if (autofocus) checkboxRef?.current?.focus()
@@ -155,7 +154,7 @@ const HoliCheckbox = ({
 
 export default HoliCheckbox
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   checkboxContainer: {
     alignItems: 'center',
     flexWrap: 'nowrap',

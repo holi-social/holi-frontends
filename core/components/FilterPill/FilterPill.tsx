@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { type StyleProp, StyleSheet, View, type ViewStyle, type TextStyle } from 'react-native'
-
+import { type StyleProp, View, type ViewStyle, type TextStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'

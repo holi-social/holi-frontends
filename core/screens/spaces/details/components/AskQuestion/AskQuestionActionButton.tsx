@@ -1,18 +1,18 @@
+import { StyleSheet } from 'react-native-unistyles'
+import React from 'react'
+import { Platform, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+
+import { Spacing } from 'holi-bricks/foundations'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { QuestionAnswerLine } from '@holi/icons/src/generated'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
-import React, {} from 'react'
-import { Platform, View } from 'react-native'
-import { useTranslation } from 'react-i18next'
 
 export const AskQuestionActionButton = (props: {
   testID: string | undefined
   onPress: () => void
 }) => {
-  const { styles } = useStyles(askQuestionButtonStyles)
   const { t } = useTranslation()
   const label = t('spaces.askInfo')
   return (
@@ -37,7 +37,7 @@ export const AskQuestionActionButton = (props: {
   )
 }
 
-const askQuestionButtonStyles = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   ctaWrapper: {
     padding: Spacing.xxs,
     left: 0,

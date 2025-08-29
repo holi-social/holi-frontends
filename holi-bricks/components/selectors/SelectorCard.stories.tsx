@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
 import React, { useState } from 'react'
 
@@ -27,7 +27,7 @@ const meta: Meta<typeof SelectorCard> = {
   },
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
-    icon: { ...controlWithLabel },
+    icon: controlWithLabel,
     switchSize: { control: 'select', options: ['small', 'medium', 'large'] },
   },
 }

@@ -15,9 +15,9 @@ import { logError } from '@holi/core/errors/helpers'
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { getLogger } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
-import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
-import { isChatNotification, maybeScheduleChatNotification } from '@holi/mobile/notifications/chatNotifications'
-import type { NotificationData } from '@holi/mobile/notifications/index'
+// import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
+// import { isChatNotification, maybeScheduleChatNotification } from '@holi/mobile/notifications/chatNotifications'
+// import type { NotificationData } from '@holi/mobile/notifications/index'
 
 const logger = getLogger('Notifications')
 
@@ -69,27 +69,31 @@ export const initNotifications = async () => {
   }
 }
 
-const parseNotificationPayload = (request: Partial<NotificationRequest>): NotificationData => {
-  const trigger = request.trigger as Partial<PushNotificationTrigger>
-  return trigger.remoteMessage?.data /* Android */ ?? trigger.payload /* iOS */ ?? {}
-}
+// const parseNotificationPayload = (request: Partial<NotificationRequest>): NotificationData => {
+//   const trigger = request.trigger as Partial<PushNotificationTrigger>
+//   return trigger.remoteMessage?.data /* Android */ ?? trigger.payload /* iOS */ ?? {}
+// }
 
 const handleNotification = async (notification: Notification): Promise<NotificationBehavior> => {
   // defensive programming, since types don't show all null-possibilities
   const request: Partial<NotificationRequest> = notification.request
   if ((request.trigger as PushNotificationTrigger)?.type === 'push') {
-    const data = parseNotificationPayload(request)
+    // const data = parseNotificationPayload(request)
     // Only chat notifications may be displayed in the foreground
     // It's a product decision, that Novu notifications are not shown while the App is active
-    if (isChatNotification(data)) {
-      const currentRoute = navigationRef.current?.getCurrentRoute()
-      await maybeScheduleChatNotification(currentRoute, data)
-    }
+    // FIXME: HOLI-11600 NavigationRef is not provided via expo, there's a hook for this.
+    // Find a way to make this owrk.
+    // if (isChatNotification(data)) {
+    //   const currentRoute = navigationRef.current?.getCurrentRoute()
+    //   await maybeScheduleChatNotification(currentRoute, data)
+    // }
     // Push Notifications are never shown directly
     return {
       shouldShowAlert: false,
       shouldPlaySound: false,
       shouldSetBadge: false,
+      shouldShowBanner: false,
+      shouldShowList: false,
     }
   }
   // Scheduled notifications are always shown
@@ -97,6 +101,8 @@ const handleNotification = async (notification: Notification): Promise<Notificat
     shouldShowAlert: true,
     shouldPlaySound: true, // Android: only with `shouldPlaySound: true`, the notification pops over the screen
     shouldSetBadge: false,
+    shouldShowList: false,
+    shouldShowBanner: true,
   }
 }
 

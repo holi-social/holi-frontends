@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Linking, Platform, ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'

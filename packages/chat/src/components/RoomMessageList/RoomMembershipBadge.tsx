@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent } from '@holi/chat/src/client/utils'

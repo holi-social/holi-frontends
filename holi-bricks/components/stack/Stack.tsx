@@ -1,6 +1,5 @@
 import type React from 'react'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import {
   type GestureResponderEvent,
   Pressable,
@@ -9,6 +8,8 @@ import {
   type DimensionValue,
   type FlexStyle,
 } from 'react-native'
+
+import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/foundations'
 import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
 import { makeBorderWidth, type BorderSizeToEdge } from 'holi-bricks/foundations/dimensions/borderWidth'
@@ -40,7 +41,7 @@ export type StackProps = AccessibilityProps &
     accessibilityLabel?: string
     accessibilityRole?: AccessibilityRole
     testID?: string
-    maxWidth?: BreakpointsSize
+    maxWidth?: keyof BreakpointsSize
     maxHeight?: DimensionValue
     minWidth?: DimensionValue
     minHeight?: DimensionValue
@@ -55,7 +56,6 @@ export type StackProps = AccessibilityProps &
   }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
-  const { styles } = useStyles(containerStylesheet)
   const Wrapper = otherProps?.onPress ? Pressable : View
 
   return shouldRender ? (
@@ -74,7 +74,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
   ) : null
 }
 
-const containerStylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: (props: Omit<StackProps, 'children'>) => ({
     backgroundColor: props?.backgroundColor ? resolveBackgroundColor(props?.backgroundColor, theme) : undefined,
     borderColor: props?.borderColor ? theme.colors.border[props?.borderColor] : undefined,

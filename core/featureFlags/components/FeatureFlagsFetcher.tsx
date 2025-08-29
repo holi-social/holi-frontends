@@ -14,7 +14,7 @@ const FeatureFlagsFetcher = () => {
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === 'active') {
-        refetch().catch((error) =>
+        refetch().catch((error: unknown) =>
           logError(error, 'Failed to refetch feature flags', { location: 'FeatureFlagsFetcher.handleAppStateChange' })
         )
       }

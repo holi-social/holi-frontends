@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image as ReactNativeImage, StyleSheet, View } from 'react-native'
+import { Image as ReactNativeImage, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'

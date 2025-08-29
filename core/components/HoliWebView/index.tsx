@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
+import { BackHandler, Linking, Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { WebView, type WebViewNavigation } from 'react-native-webview'
 import type { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
@@ -10,10 +11,10 @@ import { useNavigation } from '@react-navigation/native'
 import { mobileWebviewHeader } from '@holi/core/auth/helpers/oauth2'
 import type { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import type { HoliTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
 
 const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewSourceUri => {
   return !!value && 'uri' in value
@@ -79,13 +80,15 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
 
   useEffect(() => {
     const webView = webViewRef?.current
+    let backHandlerSub: ReturnType<typeof BackHandler.addEventListener> | undefined
+
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
+      backHandlerSub = BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
     }
 
     return () => {
-      if (Platform.OS === 'android') {
-        BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress)
+      if (Platform.OS === 'android' && backHandlerSub) {
+        backHandlerSub.remove()
       }
       navigation.addListener('beforeRemove', () => {
         return webView?.injectJavaScript('window.dispatchEvent( new Event("unload") );')
@@ -96,7 +99,7 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
   const renderError = useCallback(
     () => (
       <View style={styles.messageContainer}>
-        <HoliText>{errormessage} </HoliText>
+        <Text size="md">{errormessage} </Text>
       </View>
     ),
     [styles.messageContainer, errormessage]
@@ -140,6 +143,9 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
       source={addHeadersAndConvertToHttpsIfSourceUri(webViewProps.source)}
       testID="web-view"
       injectedJavaScript={injectedThemeJs}
+      // FIX: This needs setting, for now, in the new React arch. - Fabrik. There's a fix on the way -
+      // https://github.com/react-native-webview/react-native-webview/issues/3814
+      decelerationRate={0.985}
     />
   )
 }

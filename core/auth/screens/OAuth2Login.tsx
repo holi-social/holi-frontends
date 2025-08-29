@@ -3,7 +3,7 @@ import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'

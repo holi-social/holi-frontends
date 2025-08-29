@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import PostsList from '@holi/core/screens/individualPosts/components/PostsList'

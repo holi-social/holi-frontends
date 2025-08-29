@@ -1,14 +1,16 @@
+import React from 'react'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { IconSize, layoutStyle, Spacing, type Color, type LayoutProps } from 'holi-bricks/foundations'
-import React from 'react'
-import { View } from 'react-native'
+import { Spacing, layoutStyle, type LayoutProps, type Color, IconSize } from 'holi-bricks/foundations'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { chipSizeToTextSize, type ChipSize } from './size'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 
 export type ChipColor = Color | 'white'
 
@@ -33,9 +35,9 @@ export const ChipLabel = ({
   blackBorder = false,
   ...rest
 }: ChipLabelProps) => {
-  const { styles, theme } = useStyles(stylesheet, { size })
+  const { theme } = useBricks()
+  styles.useVariants({ size })
   const iconSize = size === 'sm' ? IconSize.xs : IconSize.sm
-
   return (
     <View {...accessibilityProps(rest)} style={[styles.chip(color, blackBorder), layoutStyle(rest)]} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={theme.components.chipLabel.text} />}
@@ -49,7 +51,7 @@ export const ChipLabel = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (color: ChipColor, blackBorder: boolean) => {
     return {
       ...pill,

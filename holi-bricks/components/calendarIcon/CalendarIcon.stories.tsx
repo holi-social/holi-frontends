@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-imports */
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon/CalendarIcon'
 
 const meta: Meta<typeof CalendarIcon> = {

@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals'
-import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 // @ts-ignore
@@ -26,8 +25,6 @@ jest.mock('@react-native-clipboard/clipboard', () => mockClipboard)
 require('react-native-reanimated').setUpTests()
 
 require('@shopify/flash-list/jestSetup')
-
-initializeBricks()
 
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()

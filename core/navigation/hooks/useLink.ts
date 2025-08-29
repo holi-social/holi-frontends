@@ -11,7 +11,6 @@ export interface UseLinkProps {
   external?: boolean
 }
 
-// This hook is for mobile only and is used inside HoliLink and HoliTextLink, which have alternative implementations for web.
 const useLink = ({ onPress, external, href }: UseLinkProps) => {
   const { navigate } = useRouting()
 
@@ -19,10 +18,11 @@ const useLink = ({ onPress, external, href }: UseLinkProps) => {
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
       if (onPress) {
         // Not awaiting promise before event propagation to mimick web behaviour
-        const propagateEventOrPromise = onPress(event)
-        if (propagateEventOrPromise === false) return
-        await propagateEventOrPromise
+        const result = onPress(event)
+        if (result === false) return
+        await result
       }
+
       if (external) {
         Linking.openURL(href)
         return

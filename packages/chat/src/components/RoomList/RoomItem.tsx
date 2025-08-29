@@ -1,7 +1,8 @@
 import { useAtomValue } from 'jotai'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'

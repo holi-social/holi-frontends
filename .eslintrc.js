@@ -45,11 +45,6 @@ module.exports = {
             importNames: ['SafeAreaView'],
             message: 'Please use SafeArea from packages/ui instead.',
           },
-          {
-            name: 'react-native-unistyles',
-            importNames: ['createStyleSheet', 'useStyles'],
-            message: 'Please use hooks and utils from holi-bricks instead.',
-          },
         ],
       },
     ],

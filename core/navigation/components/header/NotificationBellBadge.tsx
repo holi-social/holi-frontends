@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, View, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 

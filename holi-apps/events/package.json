@@ -7,10 +7,14 @@
     "clean": "echo 'nothing to be done'",
     "clean:all": "npx rimraf node_modules"
   },
+  "peerDependencies": {
+    "react-native": "0.79.5"
+  },
   "devDependencies": {
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-react-native": "^4.1.0"
+    "eslint-plugin-react-native": "^4.1.0",
+    "react-native": "0.79.5"
   }
 }

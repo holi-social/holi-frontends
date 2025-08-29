@@ -6,12 +6,13 @@ import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
-import { EditorState, LexicalEditor } from 'lexical'
+import type { EditorState, LexicalEditor } from 'lexical'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
-import { UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import { type UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
+import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { TEXT_INPUT_HORIZONTAL_PADDING, TEXT_INPUT_VERTICAL_PADDING } from '@holi/ui/components/molecules/HoliTextInput'
@@ -21,7 +22,7 @@ import { convertStringToLexicalJson } from '@holi/ui/components/organisms/HoliRi
 import HoliFocusPlugin from '@holi/ui/helper/lexical/HoliFocusPlugin'
 import HoliMentionsPlugin, { $getPureTextFromHtml } from '@holi/ui/helper/lexical/HoliMentionsPlugin'
 import { HoliMentionsPluginNode } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initialValue,

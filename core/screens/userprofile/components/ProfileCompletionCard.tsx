@@ -1,7 +1,8 @@
 import type React from 'react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Pressable, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Pressable, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { AddCircleLine, ArrowDownS, ArrowUpS, MapPin2, UserSmile } from '@holi/icons/src/generated'

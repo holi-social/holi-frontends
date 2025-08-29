@@ -43,3 +43,6 @@ license-disclaimer.txt
 
 *storybook.log
 /.gitlab-ci-local
+
+CLAUDE.md
+.claude

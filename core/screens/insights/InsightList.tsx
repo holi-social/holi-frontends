@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, View, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
 import { Insight } from '@holi/core/screens/insights/types'

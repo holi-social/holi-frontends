@@ -1,5 +1,6 @@
-import { useContext } from 'react'
+import { useGlobalSearchParams } from 'expo-router'
 
-import { NavigationRouteContext } from '@react-navigation/native'
-
-export const useRoute = () => useContext(NavigationRouteContext)
+export const useRoute = () => {
+  const params = useGlobalSearchParams()
+  return { params }
+}

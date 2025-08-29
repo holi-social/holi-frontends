@@ -1,7 +1,8 @@
 import { useAtomValue } from 'jotai'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import RoomItem from '@holi/chat/src/components/RoomList/RoomItem'
 import { type ChatRoomAtom, type ChatRoomId, isSpaceChildChatRoom } from '@holi/chat/src/store'

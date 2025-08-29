@@ -25,7 +25,10 @@
   "i18n-ally.namespace": true,
   "i18n-ally.defaultNamespace": "core",
   "i18n-ally.pathMatcher": "{namespace}/i18n/locales/{locale}.json",
-  "cSpell.words": ["extralarge"],
+  "cSpell.words": [
+    "extralarge",
+    "unistyles"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },

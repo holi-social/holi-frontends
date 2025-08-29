@@ -2,7 +2,8 @@ import { useQuery } from '@apollo/client'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, Pressable, ScrollView, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -162,7 +163,6 @@ const CurationPrinciplesPage: React.FC = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerStyle: {
         backgroundColor: theme.colors.background20,

@@ -2,11 +2,9 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, View, useWindowDimensions, StyleSheet } from 'react-native'
 
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -28,7 +26,6 @@ import EditSpaceTopics from '@holi/core/screens/spaces/edit/components/EditSpace
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Close, Edit2, Phone } from '@holi/icons/src/generated'
-import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -72,8 +69,6 @@ export type EditSpaceParams = {
 
 const { useParam } = createParamHooks<EditSpaceParams>()
 
-type ScreenProps = NativeStackScreenProps<SpacesScreens>
-
 type OnboardingCard = {
   image: StaticImageData
   description: string
@@ -102,7 +97,7 @@ const onboardingContentList: Array<OnboardingCard> = [
   },
 ]
 
-const EditSpace: React.FC<ScreenProps> = () => {
+const EditSpace = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [isOnboarding] = useParam('onboarding')
   const [askOptIn] = useParam('askOptIn')

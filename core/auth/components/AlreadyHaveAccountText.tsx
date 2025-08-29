@@ -19,9 +19,9 @@ const AlreadyHaveAccountText = ({ trackingEvent, onPress }: AlreadyHaveAccountTe
       <Text size="sm" textAlign="center">
         <Trans t={t} i18nKey={'auth.registration.alreadyHasAccount'}>
           <HoliTextLinkTracked
+            href={'/login'}
             label={t('auth.login')}
             onPress={onPress}
-            href="/login"
             size="sm"
             trackingEvent={trackingEvent}
           >

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
-
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { clearProcessingUnauthorizedLogout } from '@holi/core/components/SessionExpiryProtection'

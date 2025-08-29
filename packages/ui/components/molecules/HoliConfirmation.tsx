@@ -7,10 +7,10 @@ import {
   type ModalProps,
   Platform,
   Pressable,
-  StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
@@ -18,7 +18,7 @@ import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { Button, type ButtonVariant } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { breakpoints } from 'holi-bricks/foundations'
 
@@ -113,7 +113,6 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   const { width: screenWidth } = useWindowDimensions()
   const smallDeviceWidth = breakpoints.xs + 50
   const isSmallDevice = screenWidth <= smallDeviceWidth
-  const { styles } = useStyles(stylesheet)
 
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { 'aria-modal': true } : {}),
@@ -206,7 +205,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
 
 export default HoliConfirmation
 
-const stylesheet = createStyleSheet((theme) => {
+const styles = StyleSheet.create((theme) => {
   return {
     backdrop: {
       opacity: 0.4,

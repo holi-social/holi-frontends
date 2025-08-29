@@ -1,12 +1,10 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-
-import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import type { Color, LayoutProps } from 'holi-bricks/foundations'
-import { layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { type GestureResponderEvent, Pressable } from 'react-native'
 
+import { type Color, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { Text } from 'holi-bricks/components/text'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
@@ -42,7 +40,7 @@ export const ChipAction = ({
   testID,
   ...rest
 }: ChipActionProps) => {
-  const { styles } = useStyles(stylesheet, { size, selected, disabled })
+  styles.useVariants({ size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
 
   return (
@@ -52,7 +50,11 @@ export const ChipAction = ({
       {...accessibilityProps(rest)}
       aria-checked={selected}
       role={role}
-      style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color), layoutStyle(rest)]}
+      style={(state) => {
+        const hovered = 'hovered' in state ? state.hovered : false
+        const focused = 'focused' in state ? state.focused : false
+        return [styles.chip(!!hovered, !disabled && !!focused, color), layoutStyle(rest)]
+      }}
       testID={testID}
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={styles.text.color} />}
@@ -66,7 +68,7 @@ export const ChipAction = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {
     return {
       ...pill,
@@ -76,7 +78,7 @@ const stylesheet = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.components.chipAction.border,
       outlineWidth: 1,
-      outlineStyle: hovered ? 'solid' : 'none',
+      outlineStyle: hovered ? 'solid' : undefined,
       boxShadow: focused ? theme.colors.focus : 'none',
       alignSelf: 'flex-start',
       variants: {

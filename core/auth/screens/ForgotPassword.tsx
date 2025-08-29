@@ -2,19 +2,14 @@ import type { RecoveryFlow } from '@ory/kratos-client'
 import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-
 import { holiNextJSApiUrl } from '@holi/api/config'
 import RecoverPasswordCode from '@holi/core/auth/components/RecoverPasswordCode'
 import RecoverPasswordForm from '@holi/core/auth/components/RecoverPasswordForm'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import HoliWebView from '@holi/core/components/HoliWebView'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useTheme } from '@holi/ui/styles/theme'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Screen } from '@holi/core/components/Screen'
 
 export interface ForgotPasswordProps {
   webview?: boolean
@@ -25,31 +20,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
   const [success, setSuccess] = useState(false)
   const [email, setEmail] = useState('')
   const [flow, setFlow] = useState<RecoveryFlow>()
-  const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
-
-  useIsomorphicLayoutEffect(() => {
-    if (!webview)
-      setScreenOptions({
-        headerBackVisible: false,
-        headerTitleAlign: 'center',
-        headerTitle: () => (
-          <HoliHeading level="1" size="s">
-            {t('auth.forgotPassword')}
-          </HoliHeading>
-        ),
-        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
-        headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
-      })
-    else
-      setScreenOptions({
-        headerLeft: () => null,
-        headerRight: () => null,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      })
-  }, [setScreenOptions, t, webview])
 
   const onSubmit = (success: boolean, flow?: RecoveryFlow, email?: string) => {
     setSuccess(success)
@@ -58,17 +29,38 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
   }
 
   return (
-    <HoliContainer flex={1}>
+    <Screen
+      backgroundColor="support"
+      contentContainerStyle={{ flex: 1 }}
+      headerOptions={
+        !webview
+          ? {
+              headerBackVisible: false,
+              headerTitleAlign: 'center',
+              headerShown: true,
+              animation: 'slide_from_bottom',
+              title: t('auth.forgotPassword'),
+              headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
+              headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
+            }
+          : {
+              headerLeft: () => null,
+              headerRight: () => null,
+              navigationCustomOptions: {
+                footerShown: false,
+              },
+            }
+      }
+    >
       {Platform.OS === 'web' ? (
-        <DefaultLayout keyboardShouldPersistTaps="handled" headerOverlap={true}>
-          {success ? (
-            <RecoverPasswordCode email={email} flow={flow} webview={webview} />
-          ) : (
-            <RecoverPasswordForm onSubmit={onSubmit} webview={webview} />
-          )}
-        </DefaultLayout>
+        success ? (
+          <RecoverPasswordCode email={email} flow={flow} webview={webview} />
+        ) : (
+          <RecoverPasswordForm onSubmit={onSubmit} webview={webview} />
+        )
       ) : (
         <HoliWebView
+          style={{ flex: 1 }}
           webViewProps={{
             setSupportMultipleWindows: false,
             source: { uri: holiNextJSApiUrl + '/forgotPasswordWebView' },
@@ -77,7 +69,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
           theme={theme}
         />
       )}
-    </HoliContainer>
+    </Screen>
   )
 }
 

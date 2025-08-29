@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import React from 'react'
 
 import { HandHeartThinFilledRaised } from '@holi/icons/src/generated'

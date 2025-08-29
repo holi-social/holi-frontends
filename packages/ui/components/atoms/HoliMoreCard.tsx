@@ -1,12 +1,13 @@
 import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import { type GestureResponderEvent, Pressable, type Role, View } from 'react-native'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
-import { useTranslation } from 'react-i18next'
 
 export interface HoliMoreCardSmallProps {
   onPress: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -28,7 +29,6 @@ const HoliMoreCard = ({
   bgImageSrc,
   fixedWidth,
 }: PropsWithChildren<HoliMoreCardSmallProps>) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
   return (
@@ -79,7 +79,7 @@ const HoliMoreCard = ({
 
 export default HoliMoreCard
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   image: {
     position: 'absolute',
     alignSelf: 'center',

@@ -1,10 +1,11 @@
+import React, { useEffect } from 'react'
+import { Platform } from 'react-native'
 import { FlashList } from '@shopify/flash-list'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/SearchHit'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import React, { useEffect } from 'react'
-import { Platform } from 'react-native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { hitToTrackingDoc } from '@holi/core/screens/search/tracking'
@@ -40,7 +41,6 @@ interface SearchHitInfiniteListProps {
 
 export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
-  const { styles } = useStyles(stylesheet)
   const { searchResults, isLoading: loadingResults, fetchNextPage, refetch } = useSearchResults(filter)
   const isLoading = loadingParameters || loadingResults
 
@@ -113,7 +113,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = StyleSheet.create({
   loader: {
     padding: Spacing['xxs'],
     position: 'relative',

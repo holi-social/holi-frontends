@@ -4,6 +4,11 @@ import type { darkTheme } from './dark'
 export type LightTheme = typeof lightTheme
 export type DarkTheme = typeof darkTheme
 
+export type Themes = {
+  light: LightTheme
+  // dark: typeof darkTheme
+}
+
 export type ThemeColors = {
   focus: string
   bg: Record<string, string>
@@ -14,6 +19,9 @@ export type ThemeColors = {
 
 // Create a mapped type to check for matching keys
 type CheckMatchingKeys<T, U> = keyof T extends keyof U ? (keyof U extends keyof T ? T : never) : never
+
+type VerifiedFoundationLightColors = CheckMatchingKeys<LightTheme, DarkTheme>
+type VerifiedFoundationDarkColors = CheckMatchingKeys<DarkTheme, LightTheme>
 
 // Verify that both theme colors have the same structure
 type VerifiedLightColors = CheckMatchingKeys<LightTheme['colors'], DarkTheme['colors']>
@@ -36,3 +44,5 @@ export type FocusColors = keyof VerifiedFocus
 export type BackgroundColors = keyof VerifiedBg
 
 export type ElevationLevel = 200 // we will add more | 100| 300 | 400 and so on
+
+export type FoundationTheme = VerifiedFoundationLightColors | VerifiedFoundationDarkColors

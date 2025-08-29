@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import FilterModal from '@holi/core/components/FIlterModal'
 import { isSSR } from '@holi/core/helpers/isSSR'

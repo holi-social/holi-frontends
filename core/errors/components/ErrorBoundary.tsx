@@ -5,7 +5,8 @@ import i18n from '@holi/core/i18n'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { Button } from 'holi-bricks/components/button'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 type ErrorBoundaryProps = {
   children?: React.ReactNode

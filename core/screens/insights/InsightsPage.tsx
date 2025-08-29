@@ -1,7 +1,8 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, Pressable, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import { isSSR } from '@holi/core/helpers/isSSR'

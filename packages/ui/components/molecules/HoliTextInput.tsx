@@ -5,7 +5,6 @@ import {
   type NativeSyntheticEvent,
   Platform,
   type StyleProp,
-  StyleSheet,
   TextInput,
   type TextInputFocusEventData,
   type TextInputIOSProps,
@@ -14,7 +13,7 @@ import {
   View,
   type ViewStyle,
 } from 'react-native'
-
+import { StyleSheet } from 'react-native-unistyles'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ErrorWarningFilled } from '@holi/icons/src/generated'

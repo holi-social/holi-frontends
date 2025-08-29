@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-imports */
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import React from 'react'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { AddCircleFill } from '@holi/icons/src/generated'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { controlWithLabel } from 'holi-bricks/storybook/icons-to-story'
 import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'
 
@@ -34,7 +34,6 @@ type Story = StoryObj<typeof Snackbar>
 
 export const Default: Story = {
   render: function Render(args) {
-    const { styles } = useStyles(stylesheet)
     return (
       <View style={styles.container}>
         <Snackbar {...args} />
@@ -44,7 +43,7 @@ export const Default: Story = {
 }
 export default meta
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   container: {
     position: 'relative',
     width: '100%',

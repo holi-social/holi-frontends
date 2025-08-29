@@ -1,9 +1,8 @@
 import React from 'react'
 import { Screen } from '@holi/core/components/Screen'
-import { Linking } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { Platform, Pressable } from 'react-native'
+import { Platform, Pressable, Linking } from 'react-native'
 import { white } from 'holi-bricks/foundations'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -33,10 +32,8 @@ export const EventDetailsScreen = () => {
     <Screen
       onRefresh={refetch}
       preset="auto"
-      statusBarProps={{
-        barStyle: Platform.OS === 'ios' ? 'light-content' : 'default',
-      }}
       headerOptions={{
+        headerShown: true,
         animation: 'slide_from_left',
         headerBackVisible: false,
         headerTitleAlign: 'center',
@@ -47,15 +44,16 @@ export const EventDetailsScreen = () => {
             headerTransparent: true,
           },
         }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} shadow="dark" />,
         headerRight: ({ tintColor }) => (
           <Pressable onPress={() => onShare()}>
-            <HoliIcon colorOverride={tintColor} size={24} icon={Share} />
+            <HoliIcon colorOverride={tintColor} size={24} icon={Share} shadow="dark" />
           </Pressable>
         ),
         navigationCustomOptions: {
           footerShown: false,
         },
+        statusBarStyle: 'light',
       }}
       StickyBottomComponent={
         <Stack

@@ -1,6 +1,7 @@
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { Platform, ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
@@ -16,7 +17,6 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Stack } from 'holi-bricks/components/stack'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Text } from 'holi-bricks/components/text'
 
 export type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
@@ -78,7 +78,6 @@ const HoliModalSelect = <IDType extends string>({
   const isDense = variant === 'dense'
   const { theme } = useTheme()
   const { colors } = theme
-  const { styles } = useStyles(stylesheet)
 
   const selectedOption = options.find(({ id }) => id === selected)
 
@@ -137,7 +136,7 @@ const HoliModalSelect = <IDType extends string>({
         />
       </HoliButton>
     ),
-    [colors.foreground10, colors.foreground30, handleOnChange, isDense, selected, styles, testID]
+    [colors.foreground10, colors.foreground30, handleOnChange, isDense, selected, testID]
   )
 
   return (
@@ -203,7 +202,7 @@ const HoliModalSelect = <IDType extends string>({
 
 export default HoliModalSelect
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   labelWrapper: {
     marginBottom: 6,
     flexDirection: 'row',

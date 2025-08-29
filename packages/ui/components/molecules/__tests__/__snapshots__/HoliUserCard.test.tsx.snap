@@ -27,15 +27,51 @@ exports[`HoliUserCard renders correctly 1`] = `
         {
           "alignItems": "center",
           "backgroundColor": "#ffffff",
-          "borderColor": "#262424",
-          "borderRadius": 1000,
           "borderWidth": 1,
           "display": "flex",
-          "height": 128,
           "justifyContent": "center",
           "overflow": "hidden",
           "position": "relative",
-          "width": 128,
+          "variants": {
+            "border": {
+              "light": {
+                "borderColor": "#ffffff",
+              },
+              "strong": {
+                "borderColor": "#262424",
+              },
+            },
+            "shape": {
+              "circle": {
+                "borderRadius": 1000,
+              },
+              "square": {
+                "borderRadius": 8,
+              },
+            },
+            "size": {
+              "lg": {
+                "height": 64,
+                "width": 64,
+              },
+              "md": {
+                "height": 48,
+                "width": 48,
+              },
+              "sm": {
+                "height": 40,
+                "width": 40,
+              },
+              "xl": {
+                "height": 128,
+                "width": 128,
+              },
+              "xs": {
+                "height": 24,
+                "width": 24,
+              },
+            },
+          },
         },
         {},
       ]
@@ -65,24 +101,6 @@ exports[`HoliUserCard renders correctly 1`] = `
   </View>
   <Text
     accessible={false}
-    collapsable={false}
-    jestAnimatedStyle={
-      {
-        "value": {},
-      }
-    }
-    jestInlineStyle={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Medium",
-        "fontSize": 16,
-        "fontWeight": "500",
-        "lineHeight": 22.4,
-        "marginVertical": 8,
-        "textAlign": "center",
-        "userSelect": "auto",
-      }
-    }
     selectable={true}
     style={
       {
@@ -109,23 +127,6 @@ exports[`HoliUserCard renders correctly 1`] = `
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 16,
-          "fontWeight": "400",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "auto",
-        }
-      }
       selectable={true}
       style={
         {
@@ -172,15 +173,51 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
         {
           "alignItems": "center",
           "backgroundColor": "#ffffff",
-          "borderColor": "#262424",
-          "borderRadius": 1000,
           "borderWidth": 1,
           "display": "flex",
-          "height": 128,
           "justifyContent": "center",
           "overflow": "hidden",
           "position": "relative",
-          "width": 128,
+          "variants": {
+            "border": {
+              "light": {
+                "borderColor": "#ffffff",
+              },
+              "strong": {
+                "borderColor": "#262424",
+              },
+            },
+            "shape": {
+              "circle": {
+                "borderRadius": 1000,
+              },
+              "square": {
+                "borderRadius": 8,
+              },
+            },
+            "size": {
+              "lg": {
+                "height": 64,
+                "width": 64,
+              },
+              "md": {
+                "height": 48,
+                "width": 48,
+              },
+              "sm": {
+                "height": 40,
+                "width": 40,
+              },
+              "xl": {
+                "height": 128,
+                "width": 128,
+              },
+              "xs": {
+                "height": 24,
+                "width": 24,
+              },
+            },
+          },
         },
         {},
       ]
@@ -217,23 +254,6 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "auto",
-        }
-      }
       selectable={true}
       style={
         {

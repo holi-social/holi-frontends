@@ -1,13 +1,13 @@
-import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { MiniCard } from 'holi-bricks/components/miniCard/MiniCard'
 import { Footprints, GlobalFilled, MapPin2Filled } from '@holi/icons/src/generated'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -19,10 +19,10 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
+import { Text } from 'holi-bricks/components/text'
 
 const StartSmallCarousel = () => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
   const { user, isLoading: isLoadingUser } = useLoggedInUser()
   const { geolocationDetails, loadingGeolocation: isLoadingGeolocation } = useGeolocationDetails(user?.geolocationId)
 
@@ -149,7 +149,7 @@ const StartSmallCarousel = () => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   startSmallCarousel: {
     backgroundColor: theme.colors.decorative.purpleLight,
     paddingVertical: Spacing['xs'],

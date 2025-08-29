@@ -1,7 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-
+import { StyleSheet } from 'react-native-unistyles'
 import type * as React from 'react'
 import {
   type ColorValue,
@@ -10,6 +7,9 @@ import {
   type TextProps as RNTextProps,
   type TextStyle,
 } from 'react-native'
+
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { type LayoutProps, layoutStyle } from 'holi-bricks/foundations'
 
@@ -70,7 +70,7 @@ export const Text = ({
   testID,
   ...rest
 }: TextProps) => {
-  const { styles } = useStyles(stylesheet, { size })
+  styles.useVariants({ size })
 
   const textAccessibilityProps = createAccessibilityProps(headingLevel)
 
@@ -95,7 +95,7 @@ export const Text = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   text: (
     color: TextProps['color'],
     selectable: boolean,

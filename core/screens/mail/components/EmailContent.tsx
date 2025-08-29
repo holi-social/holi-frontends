@@ -1,5 +1,6 @@
 import type React from 'react'
-import { Animated, Pressable, StyleSheet } from 'react-native'
+import { Animated, Pressable } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { Text } from 'holi-bricks/components/text/Text'
 import { Button } from 'holi-bricks/components/button/Button'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'

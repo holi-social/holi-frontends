@@ -1,8 +1,7 @@
 import { useQuery } from '@apollo/client'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View, StyleSheet } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -68,7 +67,6 @@ const DiscussionDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       navigationCustomOptions: {
@@ -94,8 +92,6 @@ const DiscussionDetailPage = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
-
       <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
         <HoliContainer noPadding>
           {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}

@@ -1,3 +1,8 @@
+import { StyleSheet } from 'react-native-unistyles'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
+
 import { toMatrixIdentity, getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import type { User } from '@holi/core/domain/shared/types'
 import { AskQuestionActionButton } from '@holi/core/screens/spaces/details/components/AskQuestion/AskQuestionActionButton'
@@ -7,17 +12,12 @@ import { TrackingEvent } from '@holi/core/tracking'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
 
 export type AskQuestionProps = {
   spaceIdOrName?: string
 }
 
 export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { representative } = useRepresentative(spaceIdOrName)
 
@@ -62,7 +62,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   ctaDrawerContent: {
     flexDirection: 'column',
     gap: 8,

@@ -1,5 +1,6 @@
 import * as Icons from '@holi/icons/src/generated'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { InputType } from 'storybook/internal/csf'
 
 const iconOptions = Object.keys(Icons)
 export const iconLabels = Object.keys(Icons).reduce(
@@ -22,4 +23,4 @@ export const controlWithLabel = {
     type: 'select',
     labels: iconLabels, // { AddBox: 'AddBox', AccountCircle: 'AccountCircle', ...}
   },
-}
+} as InputType

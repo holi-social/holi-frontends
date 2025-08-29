@@ -20,8 +20,6 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
-const isIos = Platform.OS === 'ios'
-
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
@@ -69,8 +67,8 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         navigationCustomOptions: {
           footerShown: false,
         },
+        statusBarStyle: 'light',
       }}
-      statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
       StickyBottomComponent={
         document && (
           <VolunteeringContact

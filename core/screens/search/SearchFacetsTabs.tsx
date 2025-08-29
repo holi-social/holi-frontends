@@ -1,6 +1,7 @@
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { StyleSheet } from 'react-native-unistyles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
@@ -19,7 +20,6 @@ const FACET_ICONS: { [key in SearchFacet]: HoliTabItem['tabIcons'] } = {
 }
 
 export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTabsProps) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
   return (
@@ -39,7 +39,7 @@ export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTa
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   tabs: {
     backgroundColor: theme.colors.bg.main,
   },

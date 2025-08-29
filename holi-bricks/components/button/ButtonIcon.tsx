@@ -1,9 +1,9 @@
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Spacing, layoutStyle } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
+import { Spacing, layoutStyle, IconSize } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
@@ -20,7 +20,6 @@ import {
 } from './helpers'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { IconSize } from 'holi-bricks/foundations'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
@@ -28,7 +27,7 @@ export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLa
   color?: FillColors
 }
 
-export const ButtonIcon: React.FC<ButtonIconProps> = ({
+export const ButtonIcon = ({
   label,
   onPress,
   variant: iconVariant = 'primary',
@@ -44,7 +43,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
 }: ButtonIconProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
-  const { styles } = useStyles(stylesheet, {
+  styles.useVariants({
     iconVariant,
     size,
     selected,
@@ -111,7 +110,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   button: (hovered: boolean, pressed: boolean) => {
     return {
       ...buttonBaseStyle,

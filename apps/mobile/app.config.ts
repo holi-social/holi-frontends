@@ -1,8 +1,6 @@
 // eslint-disable-next-line
 import type { ExpoConfig } from 'expo/config'
 
-require('ts-node/register')
-
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
@@ -51,19 +49,22 @@ const config: ExpoConfig = {
   version: versions.version,
   orientation: 'portrait',
   icon: './assets/icon.png',
-  jsEngine: 'hermes',
-  newArchEnabled: false,
+  newArchEnabled: true,
   scheme: ['holi', `appcues-${requiredEnvVar('APPCUES_APP_ID')}`],
   updates: {
     url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
     fallbackToCacheTimeout: 3000,
+    assetPatternsToBeBundled: [
+      'assets/**/*',
+      '../../holi-bricks/components/text/fonts/**/*',
+      '../../packages/icons/assets/**/*',
+    ],
   },
   runtimeVersion: {
     // 'fingerprint' allows to always target compatible native runtimes, see https://expo.dev/blog/fingerprint-your-native-runtime
     // temporarily reverted 'fingerprint' to 'sdkVersion' (see HOLI-10357)
     policy: 'sdkVersion',
   },
-  assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
     bundleIdentifier: iOSBundleIdentifier,
@@ -74,6 +75,7 @@ const config: ExpoConfig = {
       usesNonExemptEncryption: false,
     },
     infoPlist: {
+      UIViewControllerBasedStatusBarAppearance: 'YES',
       CFBundleAllowMixedLocalizations: true,
       LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       UIBackgroundModes: [
@@ -140,10 +142,34 @@ const config: ExpoConfig = {
     softwareKeyboardLayoutMode: 'pan',
   },
   plugins: [
+    [
+      'expo-build-properties',
+      {
+        android: {
+          compileSdkVersion: 35,
+          targetSdkVersion: 35,
+          buildToolsVersion: '35.0.0',
+        },
+        ios: {
+          deploymentTarget: '16.0',
+        },
+      },
+    ],
+    [
+      'react-native-edge-to-edge',
+      {
+        android: {
+          parentTheme: 'Default',
+          enforceNavigationBarContrast: false,
+        },
+      },
+    ],
+    'expo-web-browser',
     'expo-tracking-transparency',
     'expo-localization',
     'expo-secure-store',
     'expo-apple-authentication',
+    'expo-router',
     [
       '@sentry/react-native/expo',
       {
@@ -206,18 +232,6 @@ const config: ExpoConfig = {
         resizeMode: 'contain',
         android: {
           imageWidth: 190,
-        },
-      },
-    ],
-    [
-      // Might be removed when upgrading to Expo 53
-      'expo-build-properties',
-      {
-        android: {
-          compileSdkVersion: 35,
-          defaultConfig: {
-            targetSdkVersion: 35,
-          },
         },
       },
     ],
@@ -289,6 +303,7 @@ const config: ExpoConfig = {
       googleIosClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID'),
       googleWebClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID'),
     },
+    deeplinkBaseUrl: 'https://app.holi.social',
   },
 }
 

@@ -1,7 +1,8 @@
 import type React from 'react'
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, Linking, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { ImageBackground, Linking, Platform, type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { ShareBox } from '@holi/icons/src/generated'

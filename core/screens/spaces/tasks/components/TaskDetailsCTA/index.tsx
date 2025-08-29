@@ -1,3 +1,8 @@
+import React, { useState } from 'react'
+import { Linking, Platform, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { getExistingRoomId, getOrCreateSpaceTaskRoom, toMatrixIdentity } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -6,11 +11,8 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
-import React, { useState } from 'react'
-import { Linking, Platform, View } from 'react-native'
-import { Trans, useTranslation } from 'react-i18next'
+
 import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useSpaceAdminUsers'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 
@@ -63,7 +65,6 @@ export const TaskDetailsCTA = ({
   taskDuration,
   taskRegularity,
 }: Props) => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { adminUsers, loading: adminUsersLoading } = useSpaceAdminUsers(spaceIdOrName)
   const { user: loggedInUser } = useLoggedInUser()
@@ -251,7 +252,7 @@ export const TaskDetailsCTA = ({
   )
 }
 
-const stylesheet = createStyleSheet({
+const styles = StyleSheet.create({
   ctaWrapper: {
     padding: Spacing.xxs,
     left: 0,

@@ -1,5 +1,6 @@
 import type React from 'react'
-import { View, ScrollView, StyleSheet } from 'react-native'
+import { View, ScrollView } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import UserListItem from './UserListItem'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'

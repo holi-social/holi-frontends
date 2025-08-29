@@ -1,6 +1,7 @@
 import { ChipSelect } from 'holi-bricks/components/chips'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import partition from 'lodash.partition'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'

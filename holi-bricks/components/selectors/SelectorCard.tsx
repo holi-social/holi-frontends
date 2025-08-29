@@ -1,8 +1,9 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 import React from 'react'
 import { type FlexStyle, type GestureResponderEvent, Pressable, View } from 'react-native'
+
+import { BorderRadius, type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 // eslint-disable-next-line no-restricted-imports
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
@@ -44,7 +45,7 @@ export const SelectorCard = ({
   testID,
   ...rest
 }: SelectorCardProps) => {
-  const { styles } = useStyles(stylesheet, { disabled, reverseOrder })
+  styles.useVariants({ disabled, reverseOrder })
   const isPressable = !!onPress
 
   return (
@@ -52,16 +53,20 @@ export const SelectorCard = ({
       onPress={(e) => onPress?.(e)}
       disabled={disabled}
       {...accessibilityProps(rest)}
-      style={({ hovered, pressed }) => [
-        styles.selector(
-          isPressable && !!hovered,
-          isPressable && !disabled && !!pressed,
-          selected,
-          outlined,
-          alignItems
-        ),
-        layoutStyle(rest),
-      ]}
+      style={(state) => {
+        const hovered = 'hovered' in state ? state.hovered : false
+        const pressed = 'pressed' in state ? state.pressed : false
+        return [
+          styles.selector(
+            isPressable && !!hovered,
+            isPressable && !disabled && !!pressed,
+            selected,
+            outlined,
+            alignItems
+          ),
+          layoutStyle(rest),
+        ]
+      }}
       testID={testID}
     >
       <SelectorCardContent
@@ -86,7 +91,7 @@ export const SelectorCard = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   selector: (
     hovered: boolean,
     pressed: boolean,

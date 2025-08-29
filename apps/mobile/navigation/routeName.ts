@@ -1,4 +1,10 @@
 export enum RouteName {
+  TabHome = 'index',
+  TabAct = 'act',
+  TabChat = 'chat',
+  TabSpaces = 'spaces',
+  TabProfile = 'profile',
+
   // Feed Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
@@ -55,6 +61,7 @@ export enum RouteName {
   // Act Stack
   ActHome = 'ActHome',
   ActStack = 'ActStack',
+  Act = 'Act',
 
   // Chat Stack
   ChatHome = 'ChatHome',

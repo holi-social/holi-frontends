@@ -42,9 +42,6 @@ export const PetitionDetails = () => {
   return (
     <Screen
       preset="auto"
-      statusBarProps={{
-        barStyle: Platform.OS === 'ios' ? 'light-content' : 'default',
-      }}
       headerOptions={{
         animation: 'slide_from_left',
         headerBackVisible: false,
@@ -56,10 +53,13 @@ export const PetitionDetails = () => {
             headerTransparent: true,
           },
         }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={() => navigate('/act')} />,
+        headerLeft: ({ tintColor }) => (
+          <HeaderBackButton tintColor={tintColor} onPress={() => navigate('/act')} shadow="dark" />
+        ),
         navigationCustomOptions: {
           footerShown: false,
         },
+        statusBarStyle: 'light',
       }}
       StickyBottomComponent={
         <Stack

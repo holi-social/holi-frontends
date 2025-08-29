@@ -1,5 +1,5 @@
 import React from 'react'
-import { ColorPalette, ColorItem } from '@storybook/blocks'
+import { ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import { darkTheme } from 'holi-bricks/foundations/colors/themes/dark'
 

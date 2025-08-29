@@ -2,8 +2,8 @@ import { useApolloClient } from '@apollo/client'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
-
+import { Platform, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
@@ -11,13 +11,10 @@ import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/he
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useLoginState } from '@holi/core/auth/loginState'
-import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -46,7 +43,6 @@ const Login = () => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
-  const setScreenOptions = useSetScreenOptions()
   const client = useApolloClient()
   const { track } = useTracking()
   const redirect = useRedirect('/')
@@ -54,23 +50,6 @@ const Login = () => {
   const [flowId] = useParam('flow')
 
   const isWeb = Platform.OS === 'web'
-
-  useIsomorphicLayoutEffect(() => {
-    setScreenOptions({
-      headerBackVisible: false,
-      headerTitleAlign: 'center',
-      headerTitle: () => (
-        <Text headingLevel="1" size="lg" testID="heading">
-          {t('auth.login')}
-        </Text>
-      ),
-      headerLeft: () => (isWeb ? null : <HeaderBackButton icon={ArrowDownS} />),
-      headerRight: () => (isWeb ? <HeaderBackButton icon={Close} /> : null),
-      navigationCustomOptions: {
-        footerShown: false,
-      },
-    })
-  }, [isWeb, setScreenOptions, t])
 
   const initializeFlow = useCallback(() => {
     initLoginFlow(flowId)
@@ -153,34 +132,54 @@ const Login = () => {
   }
 
   return (
-    <Screen preset="scroll" backgroundColor="support" keyboardShouldPersistTaps="always">
-      <DefaultLayout>
-        <HoliContainer>
-          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
-
-          <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
-            <HoliTextLinkTracked
-              label={t('auth.login.link.forgotPassword')}
-              href="/forgotPassword"
-              size="sm"
-              textAlign="center"
-              trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
-            >
-              {t('auth.login.link.forgotPassword')}
-            </HoliTextLinkTracked>
-          </View>
-
-          <HoliGap size="l" />
-          <Text headingLevel="2" size="xxl" textAlign="center">
-            {t('auth.login.signUp.link.headline')}
+    <Screen
+      safeAreaEdges={['top']}
+      preset="scroll"
+      padding={{ top: '3xl' }}
+      headerOptions={{
+        headerShown: true,
+        headerBackVisible: false,
+        animation: 'slide_from_bottom',
+        headerTitleAlign: 'center',
+        headerTitle: () => (
+          <Text headingLevel="1" size="lg">
+            {t('auth.login')}
           </Text>
+        ),
+        headerLeft: () => (isWeb ? null : <HeaderBackButton icon={ArrowDownS} />),
+        headerRight: () => (isWeb ? <HeaderBackButton icon={Close} /> : null),
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      }}
+      backgroundColor="support"
+      keyboardShouldPersistTaps="always"
+    >
+      <HoliContainer>
+        <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
-          <View style={styles.formItemContainer}>
-            <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
-          </View>
-        </HoliContainer>
-        {isLoaderShown && <HoliLoader testID="loader" />}
-      </DefaultLayout>
+        <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
+          <HoliTextLinkTracked
+            label={t('auth.login.link.forgotPassword')}
+            href="/forgotPassword"
+            size="sm"
+            textAlign="center"
+            trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
+          >
+            {t('auth.login.link.forgotPassword')}
+          </HoliTextLinkTracked>
+        </View>
+
+        <HoliGap size="l" />
+        <Text headingLevel="2" size="xxl" textAlign="center">
+          {t('auth.login.signUp.link.headline')}
+        </Text>
+
+        <View style={styles.formItemContainer}>
+          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+        </View>
+      </HoliContainer>
+      {isLoaderShown && <HoliLoader testID="loader" />}
     </Screen>
   )
 }

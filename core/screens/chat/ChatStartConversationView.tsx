@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { FlatList, Platform, Pressable, View, StyleSheet } from 'react-native'
 
 import { useLazyAbortableQuery } from '@holi/api/useLazyAbortableQuery'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'

@@ -1,9 +1,10 @@
 import React from 'react'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
-import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ExternalLink } from '@holi/icons/src/generated'
@@ -28,7 +29,6 @@ export const AuthorBanner = ({
   isExternalLink = false,
   onPress,
 }: AuthorBannerProps) => {
-  const { styles } = useStyles(stylesheet)
   return (
     <Stack width="100%" onPress={onPress} direction="row" gap="3xs" alignItems="flex-start">
       <View style={styles.avatarWrapper}>
@@ -55,7 +55,7 @@ export const AuthorBanner = ({
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   avatarWrapper: {
     position: 'relative',
   },

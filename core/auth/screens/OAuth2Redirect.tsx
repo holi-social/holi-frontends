@@ -1,8 +1,8 @@
 import type React from 'react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
-
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import type { ErrorContext } from '@holi/core/errors/helpers/logError.shared'

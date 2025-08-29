@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { FlatList, Platform, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'

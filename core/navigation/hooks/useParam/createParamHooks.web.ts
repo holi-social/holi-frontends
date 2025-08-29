@@ -5,6 +5,7 @@
 import Router, { useRouter } from 'next/router'
 import { useCallback, useMemo, useRef } from 'react'
 
+import { coerceToUUIDString } from '@holi/core/helpers'
 import {
   type Params,
   type Returns,
@@ -12,27 +13,26 @@ import {
   useStable,
   useStableCallback,
 } from '@holi/core/navigation/hooks/useParam/shared'
-import { coerceToUUIDString } from '@holi/core/helpers'
 
 /**
  * This creates two hooks for handling query parameters:
  *
  * - `useParam`:
- *   Requires the name of a query parameter as argument and returns a
- *   getter and a setter to handle this query parameter's state similiar
- *   to the `useState` hook. I.e. using the setter will result in
- *   rerenderings.
+ *   Requires the name of a query parameter as an argument and returns a
+ *   getter and a setter to handle this query parameter's state similar
+ *   to the `useState` hook. I.e., using the setter will result in
+ *   re-renderings.
  *   You can pass a second parameter to control how to parse the query
- *   values, e.g. to specify how and if multiple values should be
+ *   values, e.g., to specify how and if multiple values should be
  *   allowed (see `singleParamConfig` and `arrayParamConfig`).
  * - `useUpdateParams`:
  *   This function allows updating multiple query parameters at once and
  *   does not trigger rerenderings. It expects an object of query
  *   parameters with values to change as argument.
  *
- * Both hooks allow passing of `UpdateOptions` that e.g. define if
+ * Both hooks allow passing of `UpdateOptions` that e.g., define if
  * updating the query parameter should replace the last history entry on
- * web (see `webReplaceQueryConfig`). By default the last history entry
+ * the web (see `webReplaceQueryConfig`). By default, the last history entry
  * is only replaced by the setter of `useParam` if an already present
  * query parameter is changed.
  */
@@ -132,7 +132,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
   const useUpdateParams = (
     options?: UpdateOptions
   ): ((props: Partial<Props>, optionOverrides?: UpdateOptions) => void) => {
-    const setWebState = useCallback(
+    return useCallback(
       (value: Partial<Props>, optionOverrides?: UpdateOptions) => {
         const combinedOptions = { ...options, ...optionOverrides }
         const { pathname, query } = Router
@@ -158,8 +158,6 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       },
       [options]
     )
-
-    return setWebState
   }
 
   return {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { nextJsDefaultLocale } from '@holi/web/helpers/ni18nConfig'
+import { nextJsDefaultLocale } from '@holi/web/helpers/middlewareConfig'
 
 import { detectLocaleFromHeader } from './helpers/detectLocaleFromHeader'
 

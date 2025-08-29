@@ -1,7 +1,7 @@
 import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View, StyleSheet } from 'react-native'
 
 import { Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'

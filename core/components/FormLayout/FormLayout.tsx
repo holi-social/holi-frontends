@@ -1,8 +1,8 @@
 import { withProfiler } from '@sentry/react'
 import type React from 'react'
 import { useMemo } from 'react'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
-
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useHeaderHeight } from '@react-navigation/elements'
 
 import { PortalGate } from '@holi/core/providers/PortalProvider'

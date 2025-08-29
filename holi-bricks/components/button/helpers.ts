@@ -1,5 +1,5 @@
 import { Spacing } from 'holi-bricks/foundations'
-import type { UnistylesTheme } from 'react-native-unistyles'
+import { FoundationTheme } from 'holi-bricks/foundations/colors/themes/types'
 
 export const buttonBaseStyle = {
   borderRadius: 1000, // pill
@@ -8,11 +8,11 @@ export const buttonBaseStyle = {
   display: 'flex',
 } as const
 
-export type ButtonVariant = keyof UnistylesTheme['components']['button']
+export type ButtonVariant = keyof FoundationTheme['components']['button']
 
 interface ButtonVariantArgsBase {
   variant: ButtonVariant
-  theme: UnistylesTheme
+  theme: FoundationTheme
 }
 
 export const getButtonVariantStyle = ({
@@ -26,7 +26,7 @@ export const getButtonVariantStyle = ({
   boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button[variant].border}`,
 })
 
-export const getButtonSelectedStyle = (theme: UnistylesTheme) =>
+export const getButtonSelectedStyle = (theme: FoundationTheme) =>
   ({
     true: {
       backgroundColor: theme.components.button.selected.background,
@@ -34,7 +34,7 @@ export const getButtonSelectedStyle = (theme: UnistylesTheme) =>
     },
   }) as const
 
-export const getButtonDisabledStyle = (theme: UnistylesTheme) =>
+export const getButtonDisabledStyle = (theme: FoundationTheme) =>
   ({
     true: {
       backgroundColor: theme.components.button.disabled.background,

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { Avatar } from 'holi-bricks/components/avatar/Avatar'
 
 import { Chat3 } from '@holi/icons/src/generated'

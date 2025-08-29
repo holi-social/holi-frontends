@@ -1,12 +1,13 @@
+import type React from 'react'
+import { View } from 'react-native'
+import { useRef, useState } from 'react'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import type React from 'react'
-import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useRef, useState } from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { BorderRadius, IconSize, type LayoutProps, Spacing } from 'holi-bricks/foundations'
 import { ChipLabel } from 'holi-bricks/components/chips'
@@ -41,7 +42,6 @@ export const MiniCard = ({
   bottomIconRight,
   bottomIconLeft,
 }: MiniCardProps) => {
-  const { styles } = useStyles(stylesheet)
   const [imageError, setImageError] = useState(false)
   const randomPlaceholderImage = useRef(pickByHash(placeholderImages, fallbackImageHashKey ?? title)).current
   const handleImageError = () => {
@@ -116,7 +116,7 @@ export const MiniCard = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   topLeft: {
     position: 'absolute',
     top: 4,

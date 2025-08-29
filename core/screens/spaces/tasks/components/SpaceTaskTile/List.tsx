@@ -1,7 +1,8 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Content'

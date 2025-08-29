@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions'
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useArgs } from 'storybook/preview-api'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { Colors } from 'holi-bricks/foundations'
 import React from 'react'
 

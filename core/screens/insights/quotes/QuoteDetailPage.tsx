@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
+import { type ImageStyle, Platform, View, type ViewStyle, StyleSheet } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -86,7 +86,6 @@ const QuoteDetailPage = () => {
     if (showWebView) return
 
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,

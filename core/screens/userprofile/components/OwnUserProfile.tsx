@@ -5,7 +5,7 @@ import { useEffect, type PropsWithChildren } from 'react'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
-
+import { StyleSheet } from 'react-native-unistyles'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import type { User } from '@holi/core/domain/shared/types'
@@ -24,7 +24,6 @@ import ProfileCompletionCard from '@holi/core/screens/userprofile/components/Pro
 import OwnConnectionsTab from '@holi/core/screens/userprofile/components/OwnConnectionsTab'
 import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/components/MyVolunteeringTab'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
@@ -63,7 +62,6 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
-  const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
 
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
@@ -198,7 +196,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   container: {
     alignItems: 'baseline',
   },

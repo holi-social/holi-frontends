@@ -3,7 +3,7 @@ import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/useScr
 import type { SpacingSize } from 'holi-bricks/foundations'
 import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import type { ReactNode } from 'react'
-import type { KeyboardAvoidingViewProps, ScrollViewProps, StatusBarProps, StyleProp, ViewStyle } from 'react-native'
+import type { KeyboardAvoidingViewProps, ScrollViewProps, StyleProp, ViewStyle } from 'react-native'
 import type { Edges } from 'react-native-safe-area-context'
 
 export type ScreenPadding = {
@@ -24,11 +24,6 @@ export interface BaseScreenProps {
    * The distance between keyboard and focused `TextInput` when keyboard is shown. Default is `0`.
    */
   keyboardInputOffset?: number
-  /**
-   * Control status bar options. Note that status bar theme
-   * is managed automatically
-   */
-  statusBarProps?: StatusBarProps
   StickyBottomComponent?: ReactNode
   StickyTopComponent?: ReactNode
   headerSpacing?: 'default' | 'none' | SpacingSize

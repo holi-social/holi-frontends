@@ -1,11 +1,11 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
-import { TextLink } from 'holi-bricks/components/text'
+import { StyleSheet } from 'react-native-unistyles'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
+import { TextLink } from 'holi-bricks/components/text'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
@@ -58,7 +58,7 @@ export const Button = ({
 }: ButtonProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
-  const { styles } = useStyles(stylesheet, {
+  styles.useVariants({
     variant,
     size,
     selected,
@@ -136,7 +136,7 @@ export const Button = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   button: (hovered: boolean, pressed: boolean, inline: boolean) => {
     return {
       ...buttonBaseStyle,

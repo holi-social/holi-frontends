@@ -1,15 +1,15 @@
+import { useCallback, useEffect, useRef } from 'react'
+import type React from 'react'
+import { Platform, Pressable, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+
 import { Close } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
-import { createStyleSheet } from 'holi-bricks/styles'
-import { useStyles } from 'react-native-unistyles'
-import type React from 'react'
-import { Platform, Pressable, View } from 'react-native'
 import { type LayoutProps, layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { ButtonIcon } from 'holi-bricks/components/button'
-import { useCallback, useEffect, useRef } from 'react'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 const isWeb = Platform.OS === 'web'
@@ -43,8 +43,6 @@ export const Snackbar = ({
   offset = 0,
   ...rest
 }: SnackbarProps) => {
-  const { styles } = useStyles(stylesheet)
-
   const iconColor = {
     error: 'danger' as const,
     warning: 'warning' as const,
@@ -63,7 +61,7 @@ export const Snackbar = ({
     long: 5000,
   }[duration]
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const startTimer = useCallback(() => {
     if (!persistent && visible) {
@@ -90,7 +88,8 @@ export const Snackbar = ({
 
   return (
     <Pressable
-      style={[styles.snackbar(offset), layoutStyle(rest), { position: isWeb ? 'fixed' : 'absolute' }]}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      style={[styles.snackbar(offset), layoutStyle(rest), { position: isWeb ? ('fixed' as any) : 'absolute' }]}
       onHoverIn={pauseTimer} // dont close snackbar while hovering
       onHoverOut={startTimer} // reset timer to close snackbar
       {...accessibilityProps(rest)}
@@ -131,7 +130,7 @@ export const Snackbar = ({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   icon: (colorVariant: 'redDefault' | 'greenDefault' | 'orangeDefault') => {
     return {
       color: theme.colors.decorative[colorVariant],

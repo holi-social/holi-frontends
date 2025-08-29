@@ -1,7 +1,11 @@
+import { initializeBricks } from 'holi-bricks/config'
+import { isProduction } from '@holi/core/helpers/environment'
+initializeBricks({ isProduction })
+
 import { getApolloContext } from '@apollo/client'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
-
+import { getServerUnistyles, resetServerUnistyles } from 'react-native-unistyles/server'
 import type { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { type DocumentContext, type DocumentProps, Head, Html, Main, NextScript } from 'next/document'
 import type { Router } from 'next/router'
@@ -9,8 +13,6 @@ import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
-import { initializeBricks } from 'holi-bricks/config'
-import { isProduction } from '@holi/core/helpers/environment'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { environmentId } from '@holi/web/environment'
 import { createApolloPageProps, createApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
@@ -19,8 +21,6 @@ import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 interface ApolloDocumentProps {
   apolloClient: ApolloClient<NormalizedCacheObject>
 }
-
-initializeBricks({ isProduction })
 
 // Handling of Apollo cache inspired by https://github.com/vercel/next.js/discussions/15736#discussioncomment-6385504
 export default class MyDocument extends Document<ApolloDocumentProps> {
@@ -35,6 +35,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
 
   static async getInitialProps(context: DocumentContext) {
     AppRegistry.registerComponent('HOLI', () => Main)
+
     // @ts-ignore
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
@@ -68,19 +69,25 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     let initialProps = await Document.getInitialProps(context)
     while (renderPromises.hasPromises()) {
       await renderPromises.consumeAndAwaitPromises()
+
       initialProps = await Document.getInitialProps(context)
     }
     renderPromises.stop()
 
-    const styles = [getStyleElement(), flush()]
-    return { ...initialProps, styles: Children.toArray(styles), apolloClient }
+    // Get Unistyles server styles following the official docs pattern
+    const page = await context.renderPage()
+    const unistyles = getServerUnistyles({ includeRNWStyles: false })
+    resetServerUnistyles()
+
+    const styles = [getStyleElement(), flush(), unistyles]
+    return { ...initialProps, ...page, styles: Children.toArray(styles), apolloClient }
   }
 
   render() {
     // use same path for local and dev env
     const env = environmentId === EnvironmentId.LOCAL ? EnvironmentId.DEVELOPMENT : environmentId
     return (
-      <Html lang={this.props.locale}>
+      <Html lang={this.props.locale} className="light">
         <Head>
           <link rel="icon" href={`/favicons/${env}/favicon.ico`} />
           <link rel="apple-touch-icon" sizes="180x180" href={`/favicons/${env}/apple-touch-icon.png`} />
@@ -104,7 +111,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           <Main />
           <NextScript />
           {/* Inject facebook stub, DO NOT REMOVE IT, it is needed for the meta pixel
-          it doesn't track the user it's just a stub that will be filled when user 
+          it doesn't track the user it's just a stub that will be filled when user
           consent to tracking.  If you remove it the meta pixel will not.
           Why? Next.js seems to not be loading it correctly if we inject the whole script dynamically.
           */}

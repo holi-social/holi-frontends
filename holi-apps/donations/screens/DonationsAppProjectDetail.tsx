@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, View, StyleSheet } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import { ButtonTracked } from '@holi/core/components/Trackable'

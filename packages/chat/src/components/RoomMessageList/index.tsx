@@ -1,15 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
+import { FlashList } from '@shopify/flash-list'
+
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { type MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
-import { FlashList } from '@shopify/flash-list'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import RoomMessage from './RoomMessage'
 import type { RoomMessageListProps } from './types'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
@@ -46,7 +47,6 @@ const RoomMessageList = ({
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   const groupedMessages = groupByDate(messages, i18n.language)
   return (
@@ -89,7 +89,7 @@ const RoomMessageList = ({
 
 export default RoomMessageList
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create(() => ({
   listFooterSpacer: {
     paddingHorizontal: Spacing['xs'],
   },

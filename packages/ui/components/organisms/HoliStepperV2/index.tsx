@@ -1,5 +1,5 @@
 import type React from 'react'
-import { Platform, ScrollView, type ScrollViewProps, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, type ScrollViewProps, View, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'

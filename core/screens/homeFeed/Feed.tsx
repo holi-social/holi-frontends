@@ -1,10 +1,10 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
+import { View, RefreshControl, AppState, Platform } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
-
+import { useNavigation } from 'expo-router'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -38,6 +38,7 @@ import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDe
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 import * as Appcues from '@appcues/react-native'
+import { SystemBars } from 'react-native-edge-to-edge'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
@@ -176,14 +177,13 @@ const HomeFeed = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: false,
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <Stack direction="row" gap="xxs" alignItems="center">
+          <Stack direction="row" gap="3xs" alignItems="center" margin={{ left: 'xs' }}>
             <HoliLogo color={tintColor} />
             {showGoodDeedChip && <ChipGoodDeeds />}
           </Stack>
@@ -191,9 +191,9 @@ const HomeFeed = () => {
       ),
       headerRight: () => (
         <HoliTransition.FadeRight visible>
-          <View style={styles.headerRight}>
+          <Stack direction="row" gap="md" margin={{ right: 'xs' }} alignItems="center">
             <NotificationAndSearchHeader />
-          </View>
+          </Stack>
         </HoliTransition.FadeRight>
       ),
     })
@@ -220,6 +220,10 @@ const HomeFeed = () => {
 
   return (
     <>
+      <SystemBars
+        style={Platform.OS === 'ios' ? 'light' : 'dark'}
+        hidden={{ statusBar: false, navigationBar: false }}
+      />
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="feed-posts">
           <ErrorBoundary>
@@ -265,12 +269,6 @@ const styles = StyleSheet.create({
   sections: {
     gap: Spacing.xxs,
     flex: 1,
-  },
-  headerRight: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: Spacing.md,
-    alignItems: 'center',
   },
   listHeader: {
     gap: Spacing.sm,

@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -48,6 +48,7 @@ import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequir
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 import { breakpoints } from 'holi-bricks/foundations'
+import { SystemBars } from 'react-native-edge-to-edge'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -203,7 +204,7 @@ const PostDetailsPage = () => {
         ogDescription={post?.description}
         ogImage={post?.imageUrl}
       />
-      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
+      <SystemBars style={theme.dark ? 'light' : 'dark'} />
 
       <FormLayout
         backgroundColor={theme.colors.background10}

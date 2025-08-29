@@ -1,9 +1,7 @@
-import React from 'react'
-import { Stack } from 'holi-bricks/components/stack'
-import { Text } from 'holi-bricks/components/text'
-import type { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { TouchableOpacity, View } from 'react-native'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import {
   BookmarkFill,
   CalendarEventFilled,
@@ -11,9 +9,12 @@ import {
   HeartsFilled,
   StarSmileFilled,
 } from '@holi/icons/src/generated'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { Platform, TouchableOpacity, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 const NavBarButton = ({ icon, onPress, label }: { icon: HoliIconType; onPress: () => void; label: string }) => {
   return (
@@ -43,7 +44,7 @@ export const ActNavBar = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   return (
-    <View style={{ overflowX: 'auto' }}>
+    <View style={styles.container}>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -81,3 +82,12 @@ export const ActNavBar = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create(() => {
+  return {
+    container: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      overflow: Platform.OS === 'web' ? 'auto' : ('visible' as any),
+    },
+  }
+})

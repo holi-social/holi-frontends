@@ -17,7 +17,7 @@ const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
   // Apollo context is only available on the server side: client side will create new client from page props
   const apolloWebClient = useApolloWebClient(pageProps)
   const apolloContext = useContext(getApolloContext())
-  const apolloClient = apolloContext.client ?? apolloWebClient
+  const apolloClient = (apolloContext.client as typeof apolloWebClient) ?? apolloWebClient
 
   return (
     <BricksTheme initialTheme={'light'}>

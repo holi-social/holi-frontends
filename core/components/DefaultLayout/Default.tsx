@@ -1,6 +1,6 @@
 import React from 'react'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
-
+import { Platform, ScrollView, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { dimensions } from '@holi/ui/styles/globalVars'

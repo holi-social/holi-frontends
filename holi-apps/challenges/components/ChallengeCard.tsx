@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, View, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFocusEffect } from '@react-navigation/native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'

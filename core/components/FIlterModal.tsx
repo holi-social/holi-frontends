@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
-
+import { Platform, View, StyleSheet } from 'react-native'
 import { Filter3 } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
