@@ -17,7 +17,7 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useLoginState } from '@holi/core/auth/loginState'
-import { ButtonTracked, HoliTextLinkTracked } from '@holi/core/components/Trackable'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -41,6 +41,7 @@ import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 
 const logger = getLogger('CreateAccount')
 
@@ -300,12 +301,12 @@ export const CreateAccount = ({
             />
 
             <Button
-              label={'Continue with email and password'}
+              label={t('auth.login.input.label-EmailAndPassword')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-password')}
               icon={Key2}
-              testID={'ory-submit-email-button'}
+              testID="btn-to-email-password-form"
             />
           </View>
 
@@ -314,7 +315,7 @@ export const CreateAccount = ({
               <HoliDivider />
             </View>
             <View style={styles.dividerContainer}>
-              <Text size="md" textAlign="center" color="greyDark">
+              <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
                 {t('login.altOptions.divider.guest')}
               </Text>
             </View>
@@ -334,20 +335,6 @@ export const CreateAccount = ({
             trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
           />
         </>
-      )}
-
-      {step === 'email-password' && (
-        <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
-          <HoliTextLinkTracked
-            label={t('auth.login.link.forgotPassword')}
-            href="/forgotPassword"
-            size="sm"
-            textAlign="center"
-            trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
-          >
-            {t('auth.login.link.forgotPassword')}
-          </HoliTextLinkTracked>
-        </View>
       )}
 
       {/* Sign in only fields */}
@@ -385,9 +372,6 @@ const styles = StyleSheet.create({
   form: {
     marginTop: Spacing.sm,
     width: '100%',
-  },
-  formItemContainer: {
-    marginTop: 20,
   },
   mailImage: {
     marginTop: Spacing.md,

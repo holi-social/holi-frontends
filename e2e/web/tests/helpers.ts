@@ -57,6 +57,7 @@ export const login = async (context: BrowserContext, page: Page, email: string, 
   await prepareForLoginOrRegistration(context, page)
   await clickElementByTestId(page, 'anonymous-profile-login-btn')
 
+  await clickElementByTestId(page, 'btn-to-email-password-form')
   const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(email)
 
@@ -136,6 +137,7 @@ export const registerUser = async (
     await skipOnboardingInitialSteps(page)
   }
 
+  await clickElementByTestId(page, 'btn-to-email-password-form')
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
 

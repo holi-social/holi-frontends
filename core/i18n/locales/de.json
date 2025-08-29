@@ -117,6 +117,7 @@
   "auth.login.error.unverified": "Deine aktuelle E-Mail-Adresse ist nicht verifiziert und muss verifiziert werden.",
   "auth.login.input.label-Continue": "Anmeldung mit {{provider}} fortsetzen",
   "auth.login.input.label-Email": "E-Mail",
+  "auth.login.input.label-EmailAndPassword": "Weiter mit E-Mail und Passwort",
   "auth.login.input.label-InputSignInCode": "",
   "auth.login.input.label-InputSignUpCode": "",
   "auth.login.input.label-Password": "Passwort",

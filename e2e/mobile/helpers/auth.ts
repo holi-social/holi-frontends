@@ -99,6 +99,7 @@ export const register = async ({
   }
 
   // Register as new user
+  await tapOnElementWithTestId('btn-to-email-password-form')
   await waitForElementWithTestId('ory-traits-email-input')
   await fillFieldByTestId('ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)

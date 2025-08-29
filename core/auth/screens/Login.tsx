@@ -38,6 +38,7 @@ import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 
 export type LoginParams = {
   flow?: string
@@ -291,12 +292,12 @@ const Login = () => {
                   />
 
                   <Button
-                    label={'Continue with email and password'}
+                    label={t('auth.login.input.label-EmailAndPassword')}
+                    testID="btn-to-email-password-form"
                     variant="secondary"
                     size="lg"
                     onPress={() => setStep('email-password')}
                     icon={Key2}
-                    testID="ory-submit-email-button"
                   />
                 </View>
 
@@ -305,7 +306,7 @@ const Login = () => {
                     <HoliDivider />
                   </View>
                   <View style={styles.dividerContainer}>
-                    <Text size="md" textAlign="center" color="greyDark">
+                    <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
                       {t('login.altOptions.divider.guest')}
                     </Text>
                   </View>
