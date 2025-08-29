@@ -37,7 +37,6 @@ import { Button } from 'holi-bricks/components/button'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 
 export type LoginParams = {
@@ -355,13 +354,13 @@ const Login = () => {
         </View>
       </Screen>
       {(step === 'oidc' || step === 'email-password' || step === 'email-code') && (
-        <SafeArea style={styles.footer}>
+        <View style={styles.footer}>
           <HoliDivider />
 
           <HoliContainer>
             <DocumentsFooter />
           </HoliContainer>
-        </SafeArea>
+        </View>
       )}
     </View>
   )
@@ -376,13 +375,14 @@ const createStyles = (theme: HoliTheme) =>
     },
     container: {
       paddingVertical: Spacing.md,
+      flex: 1,
     },
     form: {
       marginTop: Spacing.sm,
       width: '100%',
     },
     formItemContainer: {
-      marginTop: 20,
+      marginTop: Spacing.sm,
     },
     mailImage: {
       marginTop: Spacing.md,
@@ -412,7 +412,7 @@ const createStyles = (theme: HoliTheme) =>
       gap: Spacing['3xs'],
     },
     footer: {
-      paddingBottom: Spacing.lg,
+      paddingBottom: Spacing.sm,
       gap: Spacing.xs,
       backgroundColor: theme.colors.background20,
     },

@@ -36,7 +36,6 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 
 export type OnboardingParams = {
   flow?: string
@@ -178,12 +177,12 @@ const Onboarding = () => {
         testID="onboarding-stepper"
       />
       {currentStep === 'CREATE_ACCOUNT' && (
-        <SafeArea style={styles.footer}>
+        <View style={styles.footer}>
           <HoliDivider />
           <HoliContainer>
             <DocumentsFooter />
           </HoliContainer>
-        </SafeArea>
+        </View>
       )}
     </HoliKeyboardSafeAreaView>
   )
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footer: {
-    paddingBottom: Spacing.lg,
+    paddingBottom: Spacing.sm,
     gap: Spacing.xs,
   },
 })
