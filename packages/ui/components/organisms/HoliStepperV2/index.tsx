@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useState } from 'react'
 import { Platform, ScrollView, type ScrollViewProps, StyleSheet } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -6,12 +7,11 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { PROGRESS_BAR_HEIGHT, ProgressBar } from '@holi/ui/components/organisms/HoliStepperV2/ProgressBar'
 import { Spacing } from 'holi-bricks/foundations'
-import NavigationButtons, { BUTTON_RECT, type NavigationButtonsProps } from './NavigationButtons'
+import NavigationButtons, { type NavigationButtonsProps } from './NavigationButtons'
 import { Stack } from 'holi-bricks/components/stack'
 import type { BackgroundColors } from 'holi-bricks/foundations/colors/themes/types'
 
 const ONBOARDING_HEADER_OFFSET = PROGRESS_BAR_HEIGHT + Spacing.xxs
-const ONBOARDING_FOOTER_OFFSET = BUTTON_RECT.height + Spacing.xxs + Spacing.lg
 
 export interface RenderFuncOptions<D> {
   item: D
@@ -62,6 +62,8 @@ export const HoliStepper = <D extends HoliStepperItem>({
   const stepsWithProgressBar = data.filter((item) => item.progressBar)
   const currentIndexInProgressBar = stepsWithProgressBar.findIndex((item) => keyExtractor(item) === activeStepKey)
 
+  const [footerHeight, setFooterHeight] = useState(0)
+
   const onContinue = (buttonPressed: StepperButtonType) => {
     const nextStepIndex = activeStepIndex + 1
 
@@ -95,7 +97,7 @@ export const HoliStepper = <D extends HoliStepperItem>({
           contentContainerStyle={{
             minHeight: '100%',
             paddingTop: paddingTop + (showProgressBar ? ONBOARDING_HEADER_OFFSET : 0),
-            paddingBottom: paddingBottom + (showNavigationButtons ? ONBOARDING_FOOTER_OFFSET : 0),
+            paddingBottom: paddingBottom + (showNavigationButtons ? footerHeight : 0),
           }}
           keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         >
@@ -126,25 +128,27 @@ export const HoliStepper = <D extends HoliStepperItem>({
         visible={showNavigationButtons}
         style={[styles.floatingElement, { bottom: paddingBottom }]}
       >
-        <WrapperComponent>
-          {activeStepData?.FooterNavigationComponent ? (
-            <activeStepData.FooterNavigationComponent
-              onNextPress={() => onContinue('continue')}
-              onBackPress={onGoBack}
-              {...(activeStepData?.footerNavigation ?? {})}
-              testID={`${testID}-nav-buttons`}
-            />
-          ) : (
-            <HoliBox padding={[Spacing['4xs'], 0]}>
-              <NavigationButtons
+        <Stack onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}>
+          <WrapperComponent>
+            {activeStepData?.FooterNavigationComponent ? (
+              <activeStepData.FooterNavigationComponent
                 onNextPress={() => onContinue('continue')}
                 onBackPress={onGoBack}
                 {...(activeStepData?.footerNavigation ?? {})}
                 testID={`${testID}-nav-buttons`}
               />
-            </HoliBox>
-          )}
-        </WrapperComponent>
+            ) : (
+              <HoliBox padding={[Spacing['4xs'], 0]}>
+                <NavigationButtons
+                  onNextPress={() => onContinue('continue')}
+                  onBackPress={onGoBack}
+                  {...(activeStepData?.footerNavigation ?? {})}
+                  testID={`${testID}-nav-buttons`}
+                />
+              </HoliBox>
+            )}
+          </WrapperComponent>
+        </Stack>
       </HoliTransition.FadeDown>
     </Stack>
   )
