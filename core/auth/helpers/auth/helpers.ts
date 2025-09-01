@@ -223,7 +223,7 @@ export const submitLoginFlow = async (
   const updateLoginFlowBody = await retrieveSubmitFlowBody(payload, provider)
   return newKratosSdk()
     .updateLoginFlow({ flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody }, { withCredentials: false })
-    .catch(handleKratosSdkError('updateLoginFlow'))
+    .catch((err) => handleKratosSdkError('updateLoginFlow')(err))
 }
 
 /**
@@ -316,7 +316,12 @@ export const initRegistrationFlow = async (flowId?: string) => {
       })
       .catch(handleKratosSdkError('getRegistrationFlow'))
   }
-  return newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
+  return newKratosSdk()
+    .createNativeRegistrationFlow({
+      returnTo: NATIVE_RETURN_TO,
+      returnSessionTokenExchangeCode: true,
+    })
+    .catch(handleKratosSdkError('createNativeRegistrationFlow'))
 }
 
 // Forgot Password

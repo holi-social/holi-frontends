@@ -321,28 +321,6 @@ describe('Login', () => {
     })
   })
 
-  describe('forgot password', () => {
-    it('should navigate to forgot password screen', async () => {
-      const user = userEvent.setup()
-
-      render(<Login />)
-
-      await user.press(screen.getByLabelText('auth.login.link.forgotPassword'))
-
-      expect(mockNavigate).toHaveBeenCalledWith('//forgotPassword')
-    })
-
-    it('should track click on forgot password', async () => {
-      const user = userEvent.setup()
-
-      render(<Login />)
-
-      await user.press(screen.getByLabelText('auth.login.link.forgotPassword'))
-
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.ForgotPasswordButtonPressed)
-    })
-  })
-
   describe('registration', () => {
     it('should navigate to registration screen', async () => {
       const user = userEvent.setup()

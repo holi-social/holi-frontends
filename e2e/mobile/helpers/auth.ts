@@ -11,7 +11,6 @@ import {
   waitForElementWithTestId,
 } from './selectors'
 import { delayMs } from './time'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 type AuthProps = {
   email?: string
@@ -19,7 +18,7 @@ type AuthProps = {
 }
 
 type RegistrationProps = {
-  userData?: OnboardingUserData
+  userData?: boolean
   skipAccountSetup?: boolean
 }
 
@@ -85,11 +84,11 @@ export const register = async ({
   password = process.env.E2E_USER_PASSWORD || 'empty',
   userData,
   skipAccountSetup,
-}: AuthProps & { userData?: OnboardingUserData; skipAccountSetup?: boolean } = {}) => {
+}: AuthProps & { userData?: boolean; skipAccountSetup?: boolean } = {}) => {
   if (await checkIfElementWithTestIdExists('btn-to-onboarding', 1000)) {
     // Pass through onboarding
     if (userData) {
-      await fillOutOnboarding(userData)
+      await fillOutOnboarding()
     } else {
       await skipOnboardingSteps()
     }
@@ -100,6 +99,7 @@ export const register = async ({
   }
 
   // Register as new user
+  await tapOnElementWithTestId('btn-to-email-password-form')
   await waitForElementWithTestId('ory-traits-email-input')
   await fillFieldByTestId('ory-traits-email-input', email)
   await fillFieldByTestId('ory-password-input', password)
@@ -153,29 +153,11 @@ const skipOnboardingSteps = async () => {
   await waitForElementWithTestId('onboarding-account-creation')
 }
 
-const fillOutOnboarding = async (userData: OnboardingUserData) => {
+const fillOutOnboarding = async () => {
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
-  // Handle location selection
-  await waitForElementWithTestId('onboarding-location-selection')
-  if (userData.location) {
-    await fillFieldByTestId('onboarding-location-selection-autocomplete-input', userData.location.label)
-    await tapOnElementWithTestId(`onboarding-location-selection-autocomplete-item-${userData.location.id}`)
-  }
-  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
-  // Handle interests selection
-  await waitForElementWithTestId('onboarding-interests-selection')
-  for (const slug of userData.interests) {
-    await tapOnElementWithTestId(`topic--${slug}`)
-  }
-  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
-  // Handle skills selection
-  await waitForElementWithTestId('onboarding-skills-selection')
-  for (const slug of userData.skills) {
-    await tapOnElementWithTestId(`skill--${slug}`)
-  }
-  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
 
+  // Simplified onboarding flow - just navigate to account creation
   await waitForElementWithTestId('onboarding-account-creation')
 }
 

@@ -11,6 +11,9 @@ import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
 import { Screen } from '@holi/core/components/Screen'
 import { Spacing } from 'holi-bricks/foundations'
 import { orderedSections } from './sections'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 
 type ActHomeParams = {
   section: string
@@ -22,6 +25,7 @@ const ActHome = () => {
   const { t } = useTranslation()
   const title = t('act.title')
   const [selectedContentType] = useParam('section')
+  const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
 
   const sections = orderedSections(selectedContentType)
 
@@ -35,9 +39,12 @@ const ActHome = () => {
         headerBackVisible: true,
         headerTitle: '',
         headerLeft: ({ tintColor }) => (
-          <HeaderTitle size="large" tintColor={tintColor}>
-            {title}
-          </HeaderTitle>
+          <Stack direction="row" gap="xxs" alignItems="center">
+            <HeaderTitle size="large" tintColor={tintColor}>
+              {title}
+            </HeaderTitle>
+            {showGoodDeedChip && <GoodDeedsChip />}
+          </Stack>
         ),
         headerRight: () => <NotificationAndSearchHeader />,
       }}

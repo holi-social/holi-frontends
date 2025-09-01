@@ -6,15 +6,12 @@ import { GoodDeedsExplanationFooterNavigation } from '@holi/core/screens/onboard
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OnboardingStepKeys = [
-  'GOOD_DEEDS_EXPLANATION',
-  'GOOD_DEEDS_DO',
   'WELCOME_SCREEN',
-  'LOCATION_SELECTION',
-  'INTERESTS_SELECTION',
-  'SKILLS_SELECTION',
   'CREATE_ACCOUNT',
   'EMAIL_VERIFICATION',
   'USER_NAME_SELECTION',
+  'GOOD_DEEDS_EXPLANATION',
+  'GOOD_DEEDS_DO',
 ] as const
 export type OnboardingStepKey = (typeof OnboardingStepKeys)[number]
 
@@ -24,21 +21,6 @@ export interface OnboardingStepItem extends HoliStepperItem {
 
 export const onboardingSteps: OnboardingStepItem[] = [
   { key: 'WELCOME_SCREEN' },
-  {
-    key: 'LOCATION_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
-  {
-    key: 'INTERESTS_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
-  {
-    key: 'SKILLS_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
   { key: 'CREATE_ACCOUNT' },
   { key: 'USER_NAME_SELECTION' },
   {

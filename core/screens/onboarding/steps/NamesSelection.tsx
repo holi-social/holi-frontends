@@ -15,17 +15,15 @@ import {
   updateAuthenticatedUserV2Mutation,
   type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
 import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
 
 export interface NamesSelectionProps {
-  userData: OnboardingUserData
   onFinish: () => void
   testID?: string
 }
 
-export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
+export const NamesSelection = ({ onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
   const { t } = useTranslation()
   const { user, isLoading: isLoadingUser } = useLoggedInUser()
 
@@ -41,15 +39,10 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
   useOIDCNames({ user, names, onNamesChange })
 
   const onSubmit = async () => {
-    const { location, interests, skills } = userData
     await updateUser({
       variables: {
         input: {
           ...names,
-          location: location?.label,
-          geolocation: location?.geolocation,
-          interestsV2: interests,
-          skillsV2: skills,
         },
       },
       onError: (error) => handleBackendError(error),
