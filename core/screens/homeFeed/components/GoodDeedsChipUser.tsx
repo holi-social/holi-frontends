@@ -1,27 +1,20 @@
-import { Text } from 'holi-bricks/components/text'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { Spacing } from 'holi-bricks/foundations'
 import React from 'react'
-import { Pressable } from 'react-native'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { Trans, useTranslation } from 'react-i18next'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Challenges, Draft, GoodDeeds, GoodDeedsV2, Hearts, Information } from '@holi/icons/src/generated'
-import { Trans, useTranslation } from 'react-i18next'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { Stack } from 'holi-bricks/components/stack'
-import { pill } from 'holi-bricks/components/chips/styles'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Pressable } from 'react-native'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import { pill } from 'holi-bricks/components/chips/styles'
+import { Spacing } from 'holi-bricks/foundations'
 
-export const ChipGoodDeeds: React.FC = () => {
-  const { isLoggedIn } = useLoggedInUser()
-  return isLoggedIn ? <ChipGoodDeedsUser /> : <ChipGoodDeedsGuest />
-}
-
-const ChipGoodDeedsUser: React.FC = () => {
+export const GoodDeedsChipUser: React.FC = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { track } = useTracking()
@@ -163,45 +156,6 @@ const ChipGoodDeedsUser: React.FC = () => {
         </HoliModalContentWrapper>
       </HoliModal>
     </>
-  )
-}
-
-const ChipGoodDeedsGuest: React.FC = () => {
-  const { styles } = useStyles(stylesheet)
-  const { t } = useTranslation()
-  const { requireLogin } = useSignupModal()
-  const { track } = useTracking()
-
-  const handlePress = () => {
-    track(TrackingEvent.Rewards.goodDeedCounterChipClicked())
-    requireLogin(() => {}, {
-      title: t('personalGoodDeedCounter.drawer.guest.title'),
-      description: t('personalGoodDeedCounter.drawer.guest.text'),
-      subline: (
-        <Trans
-          i18nKey="personalGoodDeedCounter.drawer.campaignHint"
-          components={{
-            span: <Text size="md" />,
-            b: <Text size="lg" />,
-          }}
-        />
-      ),
-      trackTrigger: 'COLLECT_GOOD_DEEDS',
-    })
-  }
-
-  return (
-    <Pressable
-      onPress={handlePress}
-      style={({ hovered, focused }) => [styles.chip(!!hovered, !!focused)]}
-      testID="good-deeds-counter"
-    >
-      <HoliIcon icon={GoodDeeds} size={18} />
-      <Text size="sm" selectable={false}>
-        {t('goodDeeds.name_other')}
-      </Text>
-      <HoliIcon icon={Information} size={18} />
-    </Pressable>
   )
 }
 
