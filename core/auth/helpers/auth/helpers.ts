@@ -316,7 +316,12 @@ export const initRegistrationFlow = async (flowId?: string) => {
       })
       .catch(handleKratosSdkError('getRegistrationFlow'))
   }
-  return newKratosSdk().createNativeRegistrationFlow().catch(handleKratosSdkError('createNativeRegistrationFlow'))
+  return newKratosSdk()
+    .createNativeRegistrationFlow({
+      returnTo: NATIVE_RETURN_TO,
+      returnSessionTokenExchangeCode: true,
+    })
+    .catch(handleKratosSdkError('createNativeRegistrationFlow'))
 }
 
 // Forgot Password
