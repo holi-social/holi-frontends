@@ -26,6 +26,11 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlagToggle', () => ({
   useFeatureFlagToggle: () => mockUseFeatureFlagToggle(),
 }))
 
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: (flag: string) => mockUseFeatureFlag(flag),
+}))
+
 jest.mock('@appcues/react-native', () => ({
   AppcuesFrameView: () => null,
   identify: jest.fn(),
@@ -64,6 +69,7 @@ const cases = [
 describe('ActHome Section', () => {
   it.each(cases)('query parameter section=$section gives order: $order', ({ section, order }) => {
     mockUseFeatureFlagToggle.mockReturnValue(false)
+    mockUseFeatureFlag.mockReturnValue([true, {}])
     const orderedSect = orderedSections(section)
     expect(orderedSect).toStrictEqual(order)
     mockParameters({ section })
