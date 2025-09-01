@@ -14,9 +14,10 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { ScratchMask } from '@holi/core/screens/individualPosts/components/ScratchMask'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useMarkBadgeAsSeenMutation } from '@holi/api/graphql/graphql-codegen'
+import { useScratchEffect } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
 
 interface BadgeMessageProps {
   badge: Badge
@@ -27,6 +28,7 @@ const IMAGE_WIDTH = 240
 const SHINING_SIZE = 293
 export const SCRATCHCARD_WIDTH = 324
 export const SCRATCHCARD_HEIGHT = 300
+const REVEAL_THRESHOLD = 0.9
 
 export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
   const { t } = useTranslation()
@@ -36,6 +38,13 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
   const { displayError } = useErrorHandling()
   const [markBadgeAsSeen] = useMarkBadgeAsSeenMutation()
   const [revealed, setRevealed] = useState(false)
+  const scratchProps = useScratchEffect()
+
+  useEffect(() => {
+    if (scratchProps.progress >= REVEAL_THRESHOLD) {
+      setRevealed(true)
+    }
+  }, [scratchProps.progress, setRevealed])
 
   const handleClaim = useCallback(async () => {
     try {
@@ -76,18 +85,25 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
       <Stack alignItems="center" justifyContent="center" gap="lg" padding="xl">
         {!revealed ? (
           <Stack alignItems="center" justifyContent="center">
-            <Text size="3xl">{t('badge.modal.scratchCard.title')}</Text>
-            <Text size="lg">{t('badge.modal.scratchCard.subtitle')}</Text>
+            <Text size="3xl" textAlign="center">
+              {t('badge.modal.scratchCard.title')}
+            </Text>
+            <Text size="lg" textAlign="center">
+              {t('badge.modal.scratchCard.subtitle')}
+            </Text>
           </Stack>
         ) : (
           <Stack alignItems="center" justifyContent="center">
-            <Text size="lg">{t('badge.modal.reward.subtitle')}</Text>
-            <Text size="3xl">{t(`badge.${badge.localazyKey}.name`)}</Text>
+            <Text size="lg" textAlign="center">
+              {t('badge.modal.reward.subtitle')}
+            </Text>
+            <Text size="3xl" textAlign="center">
+              {t(`badge.${badge.localazyKey}.name`)}
+            </Text>
           </Stack>
         )}
 
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          {/* Underlying illustration */}
           <View style={styles.cardContainer}>
             <View style={styles.shining}>
               <Image
@@ -109,7 +125,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
 
           {!revealed && (
             <>
-              <ScratchMask setRevealed={setRevealed} />
+              <ScratchMask {...scratchProps} />
               <View style={styles.chipLabel}>
                 <ChipLabel color="yellow" blackBorder>
                   {t('scratchCard.pill.label')}
@@ -148,6 +164,7 @@ const stylesheet = createStyleSheet({
     zIndex: 1,
   },
   chipLabel: {
+    zIndex: 10,
     position: 'absolute',
     bottom: -16,
     alignSelf: 'center',
