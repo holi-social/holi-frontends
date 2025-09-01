@@ -7,6 +7,7 @@ import { View } from 'react-native'
 import { ArrowRight, ArrowLeft } from '@holi/icons/src/generated'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import type { NavigationButtonsProps } from '@holi/ui/components/organisms/HoliStepperV2/NavigationButtons'
+import { WrapperComponent } from './WrapperComponent'
 
 type Props = Pick<NavigationButtonsProps, 'onNextPress' | 'onBackPress' | 'isBackButtonAvailable' | 'nextButtonLabel'>
 
@@ -22,17 +23,19 @@ export const GoodDeedsExplanationFooterNavigation = ({
   return (
     <Stack backgroundColor="white" padding="xxs" borderRadius={{ topLeft: 'xxl', topRight: 'xxl' }} flex={0}>
       <View style={{ paddingBottom: safeAreaBottom }}>
-        <Stack direction="row" justifyContent="space-between">
-          <Stack>
-            {isBackButtonAvailable && (
-              <ButtonIcon icon={ArrowLeft} label={''} size="lg" variant="secondary" onPress={onBackPress} />
-            )}
-          </Stack>
+        <WrapperComponent>
+          <Stack direction="row" justifyContent="space-between">
+            <Stack>
+              {isBackButtonAvailable && (
+                <ButtonIcon icon={ArrowLeft} label={''} size="lg" variant="secondary" onPress={onBackPress} />
+              )}
+            </Stack>
 
-          <Stack>
-            <Button label={t(nextButtonLabel) ?? nextButtonLabel} size="lg" icon={ArrowRight} onPress={onNextPress} />
+            <Stack>
+              <Button label={t(nextButtonLabel) ?? nextButtonLabel} size="lg" icon={ArrowRight} onPress={onNextPress} />
+            </Stack>
           </Stack>
-        </Stack>
+        </WrapperComponent>
       </View>
     </Stack>
   )
