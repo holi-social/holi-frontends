@@ -33,7 +33,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { Stack } from 'holi-bricks/components/stack'
-import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
+import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 const FeedListItem = memo(
@@ -138,7 +138,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <ChipGoodDeeds />}
+            {showGoodDeedChip && <GoodDeedsChip />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
