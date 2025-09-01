@@ -15,7 +15,7 @@ type Story = StoryObj<typeof GoodDeedCard>
 
 export const Default: Story = {
   args: {
-    title: 'Lernort Bauernhof - Hofgut Oberfeld',
+    title: 'Bahn statt Auto: weniger CO₂ – kleine Wahl, großer Unterschied!',
     imageSrc: 'https://picsum.photos/id/64/100/100',
     completedCount: 87,
   },
