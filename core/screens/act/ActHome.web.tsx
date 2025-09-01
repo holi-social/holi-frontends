@@ -13,7 +13,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import { orderedSections } from './sections'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
+import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 
 type ActHomeParams = {
   section: string
@@ -43,7 +43,7 @@ const ActHome = () => {
             <HeaderTitle size="large" tintColor={tintColor}>
               {title}
             </HeaderTitle>
-            {showGoodDeedChip && <ChipGoodDeeds />}
+            {showGoodDeedChip && <GoodDeedsChip />}
           </Stack>
         ),
         headerRight: () => <NotificationAndSearchHeader />,
