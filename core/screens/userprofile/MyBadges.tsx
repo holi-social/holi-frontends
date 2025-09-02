@@ -15,6 +15,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import { type Badge, BadgeState, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
 import { useTranslation } from 'react-i18next'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 
 const PROGRESSBAR_WIDTH = 100
 const IMAGE_WIDTH = 80
@@ -23,11 +24,20 @@ const MyBadges = () => {
   const { track } = useTracking()
   const { t } = useTranslation()
   const [detailedBadge, setDetailedBadge] = useState<Badge>()
-  const { badges } = useBadges()
+  const { badges, loading } = useBadges()
 
   useFocusEffect(() => {
     track(TrackingEvent.UserProfile.badgesPageOpened())
   })
+
+  if (loading) {
+    return (
+      <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
+        <Text size="xxl">Superpowers</Text>
+        <HoliSkeleton aspectRatio={712 / 357} borderRadius={16} height={'auto'} width={'100%'} />
+      </Stack>
+    )
+  }
 
   return (
     <>

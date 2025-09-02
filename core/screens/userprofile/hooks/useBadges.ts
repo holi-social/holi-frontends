@@ -19,7 +19,7 @@ export enum BadgeState {
 }
 
 export const useBadges = () => {
-  const { data, refetch } = useBadgesQuery()
+  const { data, refetch, loading } = useBadgesQuery()
 
   const slugTitleMapping: Record<string, string> = {
     'impact.spark': 'volunteering.starter',
@@ -57,5 +57,5 @@ export const useBadges = () => {
 
   const allBadges: Badge[] = [...(inProgressBadges || []), ...(unlockedBadges || [])]
 
-  return { badges: allBadges, refetchBadges: refetch }
+  return { badges: allBadges, refetchBadges: refetch, loading }
 }
