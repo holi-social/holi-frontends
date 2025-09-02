@@ -29,7 +29,7 @@ interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
   translationPrefix: string
-  onSubmitPress: (overrides?: UpdateLoginFlowBody, provider?: string) => void
+  onSubmitPress: (overrides?: Partial<UpdateLoginFlowBody>, provider?: string) => void
   isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: StyleProp<ViewStyle>
@@ -90,11 +90,7 @@ const FormNode = (props: Props) => {
           <Button
             label={t(translationKey)}
             disabled={node.attributes.disabled}
-            onPress={() =>
-              props.onSubmitPress(
-                'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined
-              )
-            }
+            onPress={() => props.onSubmitPress({ method: 'code', resend: 'code' })}
             size="lg"
             transparent
             icon={Refresh}
