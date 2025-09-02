@@ -77,6 +77,20 @@ export const CreateAccount = ({
   const { theme } = useTheme()
   const { track } = useTracking()
 
+  const handleMessage = useCallback(
+    (messageId: number) => {
+      // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
+      if (messageId === 1040005) {
+        if (step === 'email-code') {
+          setStep('code')
+        }
+        return true
+      }
+      return false
+    },
+    [step]
+  )
+
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) return
 
@@ -267,11 +281,7 @@ export const CreateAccount = ({
         onSubmit={onSubmit}
         style={styles.form}
         nodesToShow={nodesToShow}
-        onSuccess={() => {
-          if (step === 'email-code') {
-            setStep('code')
-          }
-        }}
+        handleMessage={handleMessage}
       />
 
       {!isLoaderShown && step === 'oidc' && (
