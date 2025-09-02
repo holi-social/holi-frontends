@@ -11,13 +11,11 @@ const MIN_DISTANCE = 10
 export const BRUSH_RADIUS = 20
 const SCRATCHCARD_WIDTH = 324
 const SCRATCHCARD_HEIGHT = 300
-const INTERPOLATION_STEP = 5
+const INTERPOLATION_STEP = 10
 
 export const useScratchEffect = () => {
   const currentStroke = useSharedValue<{ x: number; y: number }[]>([])
   const strokes = useSharedValue<{ x: number; y: number }[][]>([])
-  const [renderedStrokes, setRenderedStrokes] = useState<{ x: number; y: number }[][]>([])
-  const [renderedCurrentStroke, setRenderedCurrentStroke] = useState<{ x: number; y: number }[]>([])
   const [progress, setProgress] = useState(0)
 
   const onPanStart = (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => {
@@ -42,8 +40,6 @@ export const useScratchEffect = () => {
     if (!last || Math.hypot(e.x - last.x, e.y - last.y) > MIN_DISTANCE) {
       currentStroke.value = [...currentStroke.value, { x: e.x, y: e.y }]
     }
-    runOnJS(setRenderedCurrentStroke)(currentStroke.value)
-
     const allStrokes = [...strokes.value, currentStroke.value]
     const newProgress = calculateScratchProgress(allStrokes)
     runOnJS(setProgress)(newProgress)
@@ -53,7 +49,6 @@ export const useScratchEffect = () => {
     'worklet'
     if (currentStroke.value.length > 0) {
       strokes.value = [...strokes.value, currentStroke.value]
-      runOnJS(setRenderedStrokes)(strokes.value)
     }
     currentStroke.value = []
   }
@@ -78,55 +73,42 @@ export const useScratchEffect = () => {
     return points
   }, [])
 
-  // const calculateProgress = useCallback(
-  //   (allStrokes: { x: number; y: number }[][]) => {
-  //     const totalCellsX = Math.ceil(SCRATCHCARD_WIDTH / BRUSH_RADIUS)
-  //     const totalCellsY = Math.ceil(SCRATCHCARD_HEIGHT / BRUSH_RADIUS)
-  //     const totalCells = totalCellsX * totalCellsY
-  //     const scratchedCells = new Set<string>()
+  const renderStrokesAsPath = useCallback(
+    (stroke: { x: number; y: number }[], batchSize = 5) => {
+      const interpolated = interpolateStroke(stroke)
+      if (interpolated.length === 0) return []
 
-  //     allStrokes.forEach((stroke) => {
-  //       interpolateStroke(stroke).forEach((p) => {
-  //         const minX = Math.max(0, Math.floor((p.x - BRUSH_RADIUS) / BRUSH_RADIUS))
-  //         const maxX = Math.min(totalCellsX - 1, Math.floor((p.x + BRUSH_RADIUS) / BRUSH_RADIUS))
-  //         const minY = Math.max(0, Math.floor((p.y - BRUSH_RADIUS) / BRUSH_RADIUS))
-  //         const maxY = Math.min(totalCellsY - 1, Math.floor((p.y + BRUSH_RADIUS) / BRUSH_RADIUS))
-  //         for (let x = minX; x <= maxX; x++) {
-  //           for (let y = minY; y <= maxY; y++) {
-  //             scratchedCells.add(`${x},${y}`)
-  //           }
-  //         }
-  //       })
-  //     })
+      const paths: string[] = []
 
-  //     return scratchedCells.size / totalCells
-  //   },
-  //   [interpolateStroke]
-  // )
+      for (let i = 0; i < interpolated.length; i += batchSize) {
+        const batch = interpolated.slice(i, i + batchSize)
+        if (batch.length === 0) continue
 
-  // const renderBatchedPaths = useCallback(
-  //   (stroke: { x: number; y: number }[], batchSize = 5) => {
-  //     const interpolated = interpolateStroke(stroke)
-  //     const paths: string[] = []
+        let d = `M ${batch[0].x} ${batch[0].y}`
 
-  //     for (let i = 0; i < interpolated.length; i += batchSize) {
-  //       const batch = interpolated.slice(i, i + batchSize)
-  //       if (batch.length > 0) {
-  //         const d = batch.map((p, idx) => (idx === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(' ')
-  //         paths.push(d)
-  //       }
-  //     }
-  //     return paths
-  //   },
-  //   [interpolateStroke]
-  // )
+        for (let j = 1; j < batch.length; j++) {
+          const p0 = batch[j - 1]
+          const p1 = batch[j]
+          const midX = (p0.x + p1.x) / 2
+          const midY = (p0.y + p1.y) / 2
+
+          // Cubic Bézier curve: control points at previous and current points
+          d += ` C ${p0.x} ${p0.y}, ${p1.x} ${p1.y}, ${midX} ${midY}`
+        }
+
+        paths.push(d)
+      }
+
+      return paths
+    },
+    [interpolateStroke]
+  )
 
   return {
     panGesture,
-    renderedStrokes,
-    renderedCurrentStroke,
-    // renderBatchedPaths,
-    interpolateStroke,
+    strokes: strokes.value,
+    currentStroke: currentStroke.value,
+    renderStrokesAsPath,
     progress,
   }
 }
