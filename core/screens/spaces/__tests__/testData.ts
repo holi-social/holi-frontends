@@ -194,6 +194,7 @@ export const task: Task = {
   locationType: LocationType.Onsite,
   regularity: Regularity.ProjectBased,
   visibility: VisibilityType.Public,
+  totalCompletions: 1,
   contactEmail: 'test@email.com',
   contactPhone: '',
   thumbnail: 'https://www.example.com/task-thumbnail.jpg?tr=w-48',
