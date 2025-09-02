@@ -1,3 +1,4 @@
+import type React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useTranslation } from 'react-i18next'

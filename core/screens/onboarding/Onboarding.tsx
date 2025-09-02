@@ -27,7 +27,7 @@ import { NamesSelection } from './steps/NamesSelection'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { usePathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useCallback, useEffect } from 'react'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
@@ -36,6 +36,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export type OnboardingParams = {
   flow?: string
@@ -50,10 +51,11 @@ const Onboarding = () => {
   const { track } = useTracking()
   const { isLoggedIn } = useLoggedInUser()
   const [flowId] = useParam('flow')
+  const { navigate } = useRouting()
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
-  const redirect = useRedirect('/')
+  const redirectPath = usePathToRedirect()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -67,8 +69,8 @@ const Onboarding = () => {
   }
   const breakOnboarding = useCallback(async () => {
     await cleanUp()
-    redirect(true)
-  }, [redirect])
+    navigate(redirectPath || '/')
+  }, [redirectPath, navigate])
 
   const finishOnboarding = async () => {
     breakOnboarding()

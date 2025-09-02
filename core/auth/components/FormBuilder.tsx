@@ -23,7 +23,6 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { logError } from '@holi/core/errors/helpers'
 
 type NodeId = string
 

@@ -19,8 +19,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { CheckboxCircleFilled, Chat3, ExternalLink, HandHeartFilled } from '@holi/icons/src/generated'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Stack } from 'holi-bricks/components/stack'
-import { Image } from 'holi-bricks/components/image'
-import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { InteractionType, type Duration, type Regularity } from '@holi/api/graphql/graphql-codegen'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
@@ -37,19 +35,6 @@ interface Props {
   interactionSignupLink?: string
   taskDuration?: Duration
   taskRegularity?: Regularity
-}
-
-const CloseButtonInsideDrawer = () => {
-  const { hideDrawer } = useActionDrawerContext()
-  const { t } = useTranslation()
-  return (
-    <Button
-      label={t('spaces.tasks.contactOrganization.modal.close')}
-      onPress={() => {
-        hideDrawer()
-      }}
-    />
-  )
 }
 
 export const TaskDetailsCTA = ({
@@ -200,7 +185,6 @@ export const TaskDetailsCTA = ({
     )
   }
 
-  // else interactionType === InteractionType.Ready
   return (
     <>
       <Snackbar
