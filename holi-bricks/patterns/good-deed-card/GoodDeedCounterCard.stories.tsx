@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { GoodDeedCounterCard } from './GoodDeedCard'
+import { GoodDeedCounterCard } from './GoodDeedCounterCard'
 
 const meta: Meta<typeof GoodDeedCounterCard> = {
   title: 'Patterns/GoodDeedCounterCard',
