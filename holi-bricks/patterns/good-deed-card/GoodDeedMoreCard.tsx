@@ -1,0 +1,26 @@
+import React from 'react'
+import { TextLink } from 'holi-bricks/components/text'
+import { useTranslation } from 'react-i18next'
+import { Stack } from 'holi-bricks/components/stack'
+import { Question } from '@holi/icons/src/generated'
+import { Spacing } from 'holi-bricks/foundations'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { GoodDeedCard, type GoodDeedCardProps } from 'holi-bricks/patterns/good-deed-card/GoodDeedCard'
+
+export const GoodDeedMoreCard = (props: GoodDeedCardProps) => {
+  const { t } = useTranslation()
+
+  //const handleOpenCampaign = useLink({ href: 'https://holi.social/1million', external: true })
+  const handleOpenCampaign = () => {}
+  return (
+    <Stack gap="4xs">
+      <GoodDeedCard {...props} />
+      <Stack justifyContent="flex-end" direction="row" gap="4xs" alignItems="center">
+        <HoliIcon icon={Question} size={Spacing.xs} />
+        <TextLink size="md" onPress={handleOpenCampaign} margin={{ right: '4xs' }}>
+          {t('task.card.goodDeeds.about')}
+        </TextLink>
+      </Stack>
+    </Stack>
+  )
+}

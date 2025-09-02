@@ -20,9 +20,10 @@ import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
 import { getNodeProviderName } from '@holi/core/auth/helpers/auth'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { logError } from '@holi/core/errors/helpers'
 
 type NodeId = string
 
@@ -145,7 +146,19 @@ const FormBuilder = <
 
     // show global messages
     globalMessages?.map((message) => {
-      if (message.type !== 'error') {
+      const messageKey = `auth.login.message.${message.id}`
+      const fallbackErrorMessage = t('auth.login.message.default')
+      const messageText = i18n.exists(messageKey) ? t(messageKey) : fallbackErrorMessage
+      if (!i18n.exists(messageKey)) {
+        logError(new Error('Auth message without translation'), 'login flow message', {
+          location: 'FormBuilder.useEffect',
+          errorId: message.id,
+          messageKey,
+        })
+      }
+      if (message.type === 'error') {
+        openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
+      } else {
         onSuccess?.()
       }
     })
