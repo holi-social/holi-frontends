@@ -45,6 +45,7 @@ interface Props<T> {
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   nodesToShow?: NodeType[]
   oidcProviders?: string[]
+  withLoader?: boolean
 }
 
 interface FlowData<T> {
@@ -70,6 +71,7 @@ const FormBuilder = <
   style,
   nodesToShow = [],
   oidcProviders = ['Google', 'Facebook', 'Apple'],
+  withLoader = true,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
@@ -188,9 +190,9 @@ const FormBuilder = <
 
   return (
     <View style={style}>
-      {!flow ? (
+      {!flow && withLoader ? (
         <HoliLoader />
-      ) : (
+      ) : !flow ? null : (
         nodes.filter(nodeFilter).map((node: UiNode, index) => {
           const name = getNodeId(node)
 

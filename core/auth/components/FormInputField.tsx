@@ -160,11 +160,15 @@ const FormInputField = React.forwardRef<View, Props>(
       autoFocus: autofocus,
     }
 
+    let customTranslationKey: string | undefined
+    if (fieldLabel === 'InputSignInCode' || fieldLabel === 'InputSignUpCode') {
+      customTranslationKey = 'registration.emailVerification.inputPlaceholder'
+    }
+
     return (
       <HoliTextInput
-        inputLabel={t(`${translationPrefix}input.label-${fieldLabel}`)}
         aria-label={t(`${translationPrefix}input.label-${fieldLabel}`)}
-        placeholder={t(`${translationPrefix}input.placeholder-${fieldLabel}`)}
+        placeholder={t(customTranslationKey ||`${translationPrefix}input.placeholder-${fieldLabel}`)}
         value={value ? String(value) : ''}
         validationErrorText={getValidationErrorText(node, i18n)}
         disabled={disabled}
@@ -173,6 +177,7 @@ const FormInputField = React.forwardRef<View, Props>(
         maxNoOfCharacters={200}
         onChange={onChange}
         type={inputType}
+        {...(!customTranslationKey ? { inputLabel: t(`${translationPrefix}input.label-${fieldLabel}`) } : {})}
         inputProps={{
           ...(textInputOverride ? textInputOverride(node, inputProps) : inputProps),
           ...(node.group === 'password' && isSignin && node.meta.label?.id === ORY_SIGNIN_NODE_ID

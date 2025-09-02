@@ -255,6 +255,7 @@ const TaskCompletionFlow = () => {
               onSuccess={() => {
                 setStep('code')
               }}
+              withLoader={false}
             />
           </View>
         </HoliContainer>
