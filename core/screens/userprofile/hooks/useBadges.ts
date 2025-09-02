@@ -1,4 +1,4 @@
-import { useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
+import { type BadgesQuery, useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
 
 export type Badge = {
   localazyKey: string
@@ -28,34 +28,47 @@ export const useBadges = () => {
     'story.explorer': 'goodDeedPost.levelOne',
   }
 
-  const inProgressBadges = data?.rewards_badges.inProgress.map((b) => ({
-    id: undefined,
-    currentStep: b.progressMade,
-    totalSteps: b.progressGoal,
-    unlockedAt: undefined,
-    state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked,
-    imgSrc: b.slug.includes('spark')
-      ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue_light.svg')
-      : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange_light.svg'),
-    localazyKey: slugTitleMapping[b.slug],
-    buttonLink: b.slug.includes('volunteering') ? '/act' : '/',
-  }))
+  const mapBadges = (data?: BadgesQuery): Badge[] => {
+    if (!data) return []
 
-  const unlockedBadges = data?.rewards_badges.unlocked.map((b) => ({
-    id: b.id,
-    currentStep: undefined,
-    totalSteps: undefined,
-    unlockedAt: new Date(b.unlockedAt),
-    seenAt: b.seenAt ? new Date(b.seenAt) : undefined,
-    state: BadgeState.achieved,
-    imgSrc: b.slug.includes('spark')
-      ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg')
-      : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
-    localazyKey: slugTitleMapping[b.slug],
-    buttonLink: b.slug.includes('impact') ? '/act' : '/share',
-  }))
+    const inProgressBadges = data?.rewards_badges.inProgress.map((b) => ({
+      id: undefined,
+      currentStep: b.progressMade,
+      totalSteps: b.progressGoal,
+      unlockedAt: undefined,
+      state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked,
+      imgSrc: b.slug.includes('spark')
+        ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue_light.svg')
+        : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange_light.svg'),
+      localazyKey: slugTitleMapping[b.slug],
+      buttonLink: b.slug.includes('volunteering') ? '/act' : '/',
+    }))
 
-  const allBadges: Badge[] = [...(inProgressBadges || []), ...(unlockedBadges || [])]
+    const unlockedBadges = data?.rewards_badges.unlocked.map((b) => ({
+      id: b.id,
+      currentStep: undefined,
+      totalSteps: undefined,
+      unlockedAt: new Date(b.unlockedAt),
+      seenAt: b.seenAt ? new Date(b.seenAt) : undefined,
+      state: BadgeState.achieved,
+      imgSrc: b.slug.includes('spark')
+        ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg')
+        : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
+      localazyKey: slugTitleMapping[b.slug],
+      buttonLink: b.slug.includes('impact') ? '/act' : '/share',
+    }))
 
-  return { badges: allBadges, refetchBadges: refetch, loading }
+    return [...inProgressBadges, ...unlockedBadges]
+  }
+
+  const allBadges = mapBadges(data)
+
+  return {
+    badges: allBadges,
+    refetchBadges: async () => {
+      const result = await refetch()
+      return mapBadges(result.data)
+    },
+    loading,
+  }
 }

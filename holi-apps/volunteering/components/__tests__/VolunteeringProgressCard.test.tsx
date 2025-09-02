@@ -1,8 +1,20 @@
-import React from 'react'
+import type React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
-import { volunteeringDetailsScreenData as document } from './helpers/seedData'
+import {
+  badgesMockWithUnseen,
+  badgesMockWithoutUnseen,
+  volunteeringDetailsScreenDataMock as document,
+} from './helpers/mocks'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+
+const renderWithApollo = (component: React.ReactElement, mocks: MockedResponse[] = []) =>
+  render(
+    <MockedProvider mocks={[...mocks]} addTypename={false}>
+      {component}
+    </MockedProvider>
+  )
 
 jest.useFakeTimers()
 jest.mock('@holi/ui/components/atoms/HoliLottie', () => jest.fn())
@@ -13,6 +25,20 @@ jest.mock('@holi/api/graphql/graphql-codegen', () => ({
 }))
 const { useGetRewardsCounterLazyQuery } = require('@holi/api/graphql/graphql-codegen')
 
+jest.mock('@holi/core/components/Screen', () => {
+  return {
+    Screen: ({
+      children,
+      StickyBottomComponent,
+    }: { children: React.ReactNode; StickyBottomComponent?: React.ReactNode }) => (
+      <>
+        {children}
+        {StickyBottomComponent && <>{StickyBottomComponent}</>}
+      </>
+    ),
+  }
+})
+
 describe('VolunteeringProgressCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -21,7 +47,7 @@ describe('VolunteeringProgressCard', () => {
 
   describe('Status TO_DO', () => {
     it('renders correctly', () => {
-      render(<VolunteeringProgressCard onStatusChange={jest.fn()} document={document} engagementId="123" />)
+      renderWithApollo(<VolunteeringProgressCard onStatusChange={jest.fn()} document={document} engagementId="123" />)
 
       expect(screen.getByText('volunteer.progress.progressCard.connect.title')).toBeOnTheScreen()
       expect(screen.getByText('volunteer.progress.progressCard.connect.text')).toBeOnTheScreen()
@@ -31,7 +57,9 @@ describe('VolunteeringProgressCard', () => {
     it('changes status to CONTACTED when "reachedOut" button is pressed and modal is dismissed', async () => {
       const user = userEvent.setup()
       const onStatusChange = jest.fn()
-      render(<VolunteeringProgressCard onStatusChange={onStatusChange} document={document} engagementId="123" />)
+      renderWithApollo(
+        <VolunteeringProgressCard onStatusChange={onStatusChange} document={document} engagementId="123" />
+      )
 
       await user.press(screen.getByText('volunteering.progress.button.reachedOut'))
 
@@ -45,9 +73,9 @@ describe('VolunteeringProgressCard', () => {
     })
   })
 
-  describe('Status CONTACTED', () => {
+  describe('Status CONTACTED without badges', () => {
     it('renders correctly', () => {
-      render(
+      renderWithApollo(
         <VolunteeringProgressCard
           status={VolunteeringOpportunityStatusValue.Contacted}
           onStatusChange={jest.fn()}
@@ -64,13 +92,18 @@ describe('VolunteeringProgressCard', () => {
     it('changes status to DOING when "act" button is pressed and modal is dismissed', async () => {
       const user = userEvent.setup()
       const onStatusChange = jest.fn()
-      render(
+      const refetchMock: MockedResponse = {
+        request: { query: badgesMockWithUnseen.request.query },
+        result: badgesMockWithUnseen.result,
+      }
+      renderWithApollo(
         <VolunteeringProgressCard
           status={VolunteeringOpportunityStatusValue.Contacted}
           onStatusChange={onStatusChange}
           document={document}
           engagementId="123"
-        />
+        />,
+        [badgesMockWithoutUnseen, refetchMock]
       )
 
       await user.press(screen.getByText('volunteering.progress.button.act'))
@@ -78,14 +111,13 @@ describe('VolunteeringProgressCard', () => {
       screen.debug()
       expect(screen.getByText('goodDeed.rewardsMessage.button')).toBeOnTheScreen()
       await user.press(screen.getByText('goodDeed.rewardsMessage.button'))
-
       expect(onStatusChange).toHaveBeenCalledWith(VolunteeringOpportunityStatusValue.Doing)
     })
   })
 
   describe('Status DOING', () => {
     it('renders correctly', () => {
-      render(
+      renderWithApollo(
         <VolunteeringProgressCard
           status={VolunteeringOpportunityStatusValue.Doing}
           onStatusChange={jest.fn()}
