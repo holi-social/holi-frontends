@@ -145,6 +145,8 @@
   "auth.login.link.forgotPassword": "Ich habe mein Passwort vergessen",
   "auth.login.message.1010016": "Diese E-Mail-Addresse wird bereits von einem anderen Benutzerkonto verwendet",
   "auth.login.message.4000006": "Falsche Anmeldedaten! Bitte überprüfe deine Eingaben auf Tippfehler",
+  "auth.login.message.4000035": "Dieser Account existiert nicht oder unterstützt den Login mit Einmal-Code nicht.",
+  "auth.login.message.4010008": "Der Einmal-Code ist ungültig oder wurde bereits verwendet. Bitte noch einmal versuchen.",
   "auth.login.message.default": "Ups! Da ist ein technisches Problem aufgetreten!",
   "auth.login.signUp.link.headline": "Du hast noch kein Benutzerkonto?",
   "auth.loginProtection.continueAsGuest": "Als Gast umsehen",

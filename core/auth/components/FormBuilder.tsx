@@ -31,11 +31,10 @@ export type NodeType = 'oidc' | 'password' | 'code' | 'email'
 
 interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
-  onSuccess?: () => void
+  handleMessage?: (messageId: number) => boolean
   isSignin?: boolean
 
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
-  only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
   submitLabelOverride?: string
   scrollToInputWithId?: (id: string) => ScrollToProps
@@ -58,10 +57,9 @@ const FormBuilder = <
   T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody,
 >({
   onSubmit,
-  onSuccess,
+  handleMessage,
   isSignin,
   flow,
-  only,
   textInputOverride,
   submitLabelOverride,
   scrollToInputWithId,
@@ -124,9 +122,7 @@ const FormBuilder = <
           store.values[name] = node.attributes.value
         }
 
-        if (!only || node.group === only || node.group === 'default') {
-          store.nodes.push(node)
-        }
+        store.nodes.push(node)
 
         return store
       },
@@ -146,6 +142,9 @@ const FormBuilder = <
 
     // show global messages
     globalMessages?.map((message) => {
+      if (handleMessage?.(message.id)) {
+        return
+      }
       const messageKey = `auth.login.message.${message.id}`
       const fallbackErrorMessage = t('auth.login.message.default')
       const messageText = i18n.exists(messageKey) ? t(messageKey) : fallbackErrorMessage
@@ -158,11 +157,9 @@ const FormBuilder = <
       }
       if (message.type === 'error') {
         openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
-      } else {
-        onSuccess?.()
       }
     })
-  }, [flow, only, i18n, openToast, t, onSuccess])
+  }, [flow, i18n, openToast, t, handleMessage])
 
   const onChange = (name: string) => (value: string) => {
     setFlowData((currFlowData) => ({
@@ -209,7 +206,8 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={(overrides, provider) => {
-                if ('code' in values && values.code) {
+                // Only submit resend if specifically requested, as it's otherwise hard to detect (and display errors for) missing inputs
+                if (overrides && !('resend' in overrides)) {
                   delete submitType.resend
                 }
                 return onSubmit({ ...values, ...submitType, ...overrides }, provider)

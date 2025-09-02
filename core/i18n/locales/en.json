@@ -145,6 +145,8 @@
   "auth.login.link.forgotPassword": "I forgot my password",
   "auth.login.message.1010016": "That email is already used by another account.",
   "auth.login.message.4000006": "Wrong credentials! Check your input for spelling mistakes",
+  "auth.login.message.4000035": "This account does not exist or has not setup sign in with code.",
+  "auth.login.message.4010008": "The login code is invalid or has already been used. Please try again.",
   "auth.login.message.default": "Oops! A technical error occurred!",
   "auth.login.signUp.link.headline": "No account yet?",
   "auth.loginProtection.continueAsGuest": "Continue as a guest",
