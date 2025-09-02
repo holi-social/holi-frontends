@@ -125,7 +125,7 @@ const HomeFeed = () => {
             <GoodDeedsBanner
               counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
               variant="action"
-              hashtag={{ position: 'top', backgroundColor: 'purpleDefault' }}
+              hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
             />
           )}
         </View>
