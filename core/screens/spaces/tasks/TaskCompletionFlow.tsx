@@ -100,6 +100,12 @@ const TaskCompletionFlow = () => {
     }
   }, [spaceId, id])
 
+  useEffect(() => {
+    if (flow?.state === 'sent_email') {
+      setStep('code')
+    }
+  }, [flow])
+
   const onSubmit = async (payload: UpdateRegistrationFlowBody, provider?: string) => {
     track(
       provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
@@ -225,75 +231,74 @@ const TaskCompletionFlow = () => {
           </SafeArea>
         </View>
 
-        {/* Body */}
+        <View style={styles.container}>
+          <HoliContainer>
+            {/* Body */}
+            <View style={styles.body}>
+              {step === 'email' && (
+                <>
+                  <View style={styles.titleContainer}>
+                    <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
+                    <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <FormBuilder
+                      flow={flow}
+                      onSubmit={onSubmit}
+                      nodesToShow={['oidc']}
+                      oidcProviders={['Google']}
+                      noAutofocusForEmail
+                    />
 
-        <HoliContainer>
-          <View style={styles.body}>
-            {step === 'email' && (
-              <>
-                <View style={styles.titleContainer}>
-                  <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
-                  <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
-                </View>
-                <View style={styles.buttonContainer}>
-                  <FormBuilder
-                    flow={flow}
-                    onSubmit={onSubmit}
-                    nodesToShow={['oidc']}
-                    oidcProviders={['Google']}
-                    noAutofocusForEmail
-                  />
-
-                  <SocialLoginButton
-                    label={t('tasks.register.unlogged.verify.holi')}
-                    provider="Holi"
-                    testID={'ory-submit-email-button'}
-                    onPress={() => {
-                      navigate('/onboarding')
-                    }}
-                  />
-                </View>
-                <View style={styles.dividerContainer}>
-                  <View style={styles.divider}>
-                    <HoliDivider />
+                    <SocialLoginButton
+                      label={t('tasks.register.unlogged.verify.holi')}
+                      provider="Holi"
+                      testID={'ory-submit-email-button'}
+                      onPress={() => {
+                        navigate('/onboarding')
+                      }}
+                    />
                   </View>
                   <View style={styles.dividerContainer}>
-                    <Text size="md" textAlign="center" color="greyDark">
-                      {t('auth.divider.email')}
-                    </Text>
+                    <View style={styles.divider}>
+                      <HoliDivider />
+                    </View>
+                    <View style={styles.dividerContainer}>
+                      <Text size="md" textAlign="center" color="greyDark">
+                        {t('auth.divider.email')}
+                      </Text>
+                    </View>
+                    <View style={styles.divider}>
+                      <HoliDivider />
+                    </View>
                   </View>
-                  <View style={styles.divider}>
-                    <HoliDivider />
-                  </View>
-                </View>
-              </>
-            )}
-            {step === 'email' && (
-              <HoliTextInput
-                placeholder={t('onboarding.names.firstName.input.placeHolder')}
-                value={name}
-                aria-label={t('user.profileForm.firstName')}
-                inputLabel={t('user.profileForm.firstName')}
-                onChange={setName}
+                </>
+              )}
+              {step === 'email' && (
+                <HoliTextInput
+                  placeholder={t('onboarding.names.firstName.input.placeHolder')}
+                  value={name}
+                  aria-label={t('user.profileForm.firstName')}
+                  inputLabel={t('user.profileForm.firstName')}
+                  onChange={setName}
+                />
+              )}
+              <FormBuilder
+                flow={flow}
+                onSubmit={onSubmit}
+                nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
+                withLoader={false}
+                noAutofocusForEmail
               />
+            </View>
+            {step === 'email' && (
+              <View style={styles.footer}>
+                <HoliDivider />
+                <DocumentsFooter />
+              </View>
             )}
-            <FormBuilder
-              flow={flow}
-              onSubmit={onSubmit}
-              nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
-              onSuccess={() => {
-                setStep('code')
-              }}
-              withLoader={false}
-              noAutofocusForEmail
-            />
-          </View>
-          <View style={styles.footer}>
-            <HoliDivider />
-
-            <DocumentsFooter />
-          </View>
-        </HoliContainer>
+          </HoliContainer>
+        </View>
       </>
     </Screen>
   )
@@ -307,7 +312,7 @@ const getStyles = (theme: HoliTheme) =>
       borderBottomStartRadius: BorderRadius.xl,
       borderBottomEndRadius: BorderRadius.xl,
     },
-    body: { paddingVertical: Spacing.md, paddingBottom: Spacing['4xl'] },
+    body: { paddingTop: Spacing.md, paddingBottom: Spacing['4xl'], flex: 1 },
     titleContainer: { gap: Spacing.xxs, marginBottom: Spacing.xs },
     buttonContainer: { gap: Spacing['3xs'] },
     dividerContainer: {
