@@ -34,6 +34,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 
 export type OnboardingParams = {
   flow?: string
