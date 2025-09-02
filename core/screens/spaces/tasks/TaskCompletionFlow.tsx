@@ -24,7 +24,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { doBrowserLogin, retrieveSubmitFlowBody } from '@holi/core/auth/helpers/auth/helpers'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { SocialLoginButton } from 'holi-bricks/components/button/SocialLoginButton'
 import { TrackingEvent } from '@holi/core/tracking'
 import { newKratosSdk, OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -33,11 +33,13 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useMutation } from '@apollo/client'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { Button } from 'holi-bricks/components/button'
 import { HoliLogoFilled } from '@holi/icons/src/generated'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { updateAuthenticatedUserV2Mutation, UpdateAuthenticatedUserV2Response } from '@holi/core/screens/userprofile/queries'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -55,14 +57,20 @@ const TaskCompletionFlow = () => {
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
   const [email, setEmail] = useState<string | undefined>(undefined)
+  const [name, setName] = useState<string | undefined>(undefined)
   const { track } = useTracking()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const client = useApolloClient()
   const { navigate } = useRouting()
   const [step, setStep] = useState<'code' | 'email'>('email')
 
+  const [updateUser, { loading: isUpdatingUser }] = useMutation<UpdateAuthenticatedUserV2Response>(
+    updateAuthenticatedUserV2Mutation
+  )
+
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) return
+    showLoader()
 
     return (
       initRegistrationFlow()
@@ -76,6 +84,7 @@ const TaskCompletionFlow = () => {
             location: 'CreateAccount.initRegistrationFlow',
           })
         )
+        .finally(hideLoader)
     )
   }, [isLoggedOut, safeSetFlow, displayError, t])
 
@@ -120,6 +129,10 @@ const TaskCompletionFlow = () => {
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
+
+        await updateUser({
+          variables: { input: { firstName: name } },
+        })
       } catch (err) {
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
@@ -144,6 +157,9 @@ const TaskCompletionFlow = () => {
             })
             if (data) {
               await doLogin(client, data)
+              await updateUser({
+                variables: { input: { firstName: name } },
+              })
             }
           }
         } else {
@@ -163,6 +179,7 @@ const TaskCompletionFlow = () => {
       }
     }
   }
+  console.log('isLoaderShown', isLoaderShown)
 
   return (
     <Screen
@@ -194,15 +211,6 @@ const TaskCompletionFlow = () => {
           footerShown: false,
         },
       }}
-      StickyBottomComponent={
-        <View style={styles.footer}>
-          <HoliDivider />
-
-          <HoliContainer>
-            <DocumentsFooter />
-          </HoliContainer>
-        </View>
-      }
     >
       <>
         {/* Header */}
@@ -213,52 +221,73 @@ const TaskCompletionFlow = () => {
             </HoliContainer>
           </SafeArea>
         </View>
+        {isLoaderShown && (
+          <View style={styles.loaderContainer}>
+            <HoliLoader testID="loader" />
+          </View>
+        )}
 
         {/* Body */}
-        <HoliContainer>
-          <View style={styles.body}>
-            {step === 'email' && (
-              <>
-                <View style={styles.titleContainer}>
-                  <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
-                  <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
-                </View>
-                <View style={styles.buttonContainer}>
-                  <FormBuilder flow={flow} onSubmit={onSubmit} nodesToShow={['oidc']} oidcProviders={['Google']} />
+        {!isLoaderShown && (
+          <HoliContainer>
+            <View style={styles.body}>
+              {step === 'email' && (
+                <>
+                  <View style={styles.titleContainer}>
+                    <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
+                    <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <FormBuilder flow={flow} onSubmit={onSubmit} nodesToShow={['oidc']} oidcProviders={['Google']} />
 
-                  <SocialLoginButton
-                    label={t('tasks.register.unlogged.verify.holi')}
-                    provider="Holi"
-                    testID={'ory-submit-email-button'}
-                    onPress={() => navigate('/login')}
-                  />
-                </View>
-                <View style={styles.dividerContainer}>
-                  <View style={styles.divider}>
-                    <HoliDivider />
+                    <SocialLoginButton
+                      label={t('tasks.register.unlogged.verify.holi')}
+                      provider="Holi"
+                      testID={'ory-submit-email-button'}
+                      onPress={() => navigate('/login')}
+                    />
                   </View>
                   <View style={styles.dividerContainer}>
-                    <Text size="md" textAlign="center" color="greyDark">
-                      {t('auth.divider.email')}
-                    </Text>
+                    <View style={styles.divider}>
+                      <HoliDivider />
+                    </View>
+                    <View style={styles.dividerContainer}>
+                      <Text size="md" textAlign="center" color="greyDark">
+                        {t('auth.divider.email')}
+                      </Text>
+                    </View>
+                    <View style={styles.divider}>
+                      <HoliDivider />
+                    </View>
                   </View>
-                  <View style={styles.divider}>
-                    <HoliDivider />
-                  </View>
-                </View>
-              </>
-            )}
-            <FormBuilder
-              flow={flow}
-              onSubmit={onSubmit}
-              nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
-              onSuccess={() => {
-                setStep('code')
-              }}
-              withLoader={false}
-            />
-          </View>
-        </HoliContainer>
+                </>
+              )}
+              {step === 'email' && (
+                <HoliTextInput
+                  placeholder={t('onboarding.names.firstName.input.placeHolder')}
+                  value={name}
+                  aria-label={t('user.profileForm.firstName')}
+                  inputLabel={t('user.profileForm.firstName')}
+                  onChange={setName}
+                />
+              )}
+              <FormBuilder
+                flow={flow}
+                onSubmit={onSubmit}
+                nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
+                onSuccess={() => {
+                  setStep('code')
+                }}
+                withLoader={false}
+              />
+            </View>
+            <View style={styles.footer}>
+              <HoliDivider />
+
+              <DocumentsFooter />
+            </View>
+          </HoliContainer>
+        )}
       </>
     </Screen>
   )
@@ -288,6 +317,10 @@ const getStyles = (theme: HoliTheme) =>
     footer: {
       paddingBottom: Spacing.sm,
       gap: Spacing.xs,
+    },
+    loaderContainer: {
+      flex: 1,
+      paddingTop: Spacing['4xl'],
     },
   })
 

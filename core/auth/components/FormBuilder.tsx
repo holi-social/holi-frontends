@@ -146,14 +146,6 @@ const FormBuilder = <
 
     // show global messages
     globalMessages?.map((message) => {
-      const messageKey = `auth.login.message.${message.id}`
-      if (!i18n.exists(messageKey)) {
-        logError(new Error('Auth message without translation'), 'login flow message', {
-          location: 'FormBuilder.useEffect',
-          errorId: message.id,
-          messageKey,
-        })
-      }
       if (message.type !== 'error') {
         onSuccess?.()
       }

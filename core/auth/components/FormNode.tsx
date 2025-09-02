@@ -86,7 +86,7 @@ const FormNode = (props: Props) => {
       translationKey = 'auth.otp.CTA'
     }
     if (key === 'SubmitCode') {
-      translationKey ='registration.emailVerification.cta.verify'
+      translationKey = 'registration.emailVerification.cta.verify'
     }
 
     if (key === 'ResendCode') {
