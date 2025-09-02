@@ -1,5 +1,5 @@
-import React from 'react'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import type React from 'react'
+import { StyleSheet } from 'react-native-unistyles'
 import { Trans, useTranslation } from 'react-i18next'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
@@ -15,7 +15,6 @@ import { pill } from 'holi-bricks/components/chips/styles'
 import { Spacing } from 'holi-bricks/foundations'
 
 export const GoodDeedsChipUser: React.FC = () => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { track } = useTracking()
 
@@ -159,7 +158,7 @@ export const GoodDeedsChipUser: React.FC = () => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (hovered: boolean, focused: boolean) => {
     return {
       ...pill,

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-native'
 import { GoodDeedCard } from './GoodDeedCard'
 
 const meta: Meta<typeof GoodDeedCard> = {

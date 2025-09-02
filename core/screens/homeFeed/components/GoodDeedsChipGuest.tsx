@@ -1,5 +1,4 @@
-import React from 'react'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import type React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -10,9 +9,9 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeeds, Information } from '@holi/icons/src/generated'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Spacing } from 'holi-bricks/foundations'
+import { StyleSheet } from 'react-native-unistyles'
 
 export const GoodDeedsChipGuest: React.FC = () => {
-  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { requireLogin } = useSignupModal()
   const { track } = useTracking()
@@ -50,7 +49,7 @@ export const GoodDeedsChipGuest: React.FC = () => {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   chip: (hovered: boolean, focused: boolean) => {
     return {
       ...pill,
