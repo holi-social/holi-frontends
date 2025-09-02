@@ -44,6 +44,7 @@ import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 import { GoodDeedMoreCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { storeWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -84,7 +85,7 @@ const TaskCompletionFlow = () => {
         .catch((error) =>
           displayError(error, 'Failed to initialize registration flow', {
             displayMessage: t('auth.registration.error.initialization'),
-            location: 'CreateAccount.initRegistrationFlow',
+            location: 'TaskCompletionFlow.initRegistrationFlow',
           })
         )
         .finally(hideLoader)
@@ -132,7 +133,7 @@ const TaskCompletionFlow = () => {
           throw err
         }
 
-        logger.debug('CreateAccount', 'registration was successful')
+        logger.debug('TaskCompletionFlow', 'registration was successful')
 
         const verificationFlowData = getVerificationFlowFromRegistration(data)
         setVerificationFlowData(verificationFlowData)
@@ -146,6 +147,8 @@ const TaskCompletionFlow = () => {
           variables: { input: { firstName: name, lastName: '', pronouns: '' } },
         })
         await completeTask(id as string)
+        storeWelcomeGoodDeedsCounter(true)
+        navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
       } catch (err) {
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
@@ -164,7 +167,7 @@ const TaskCompletionFlow = () => {
                 (err) =>
                   displayError(err, 'Failed to login user', {
                     displayMessage: t('auth.login.error.login'),
-                    location: 'CreateAccount.doBrowserLogin',
+                    location: 'TaskCompletionFlow.doBrowserLogin',
                   }),
                 error
               )
@@ -176,6 +179,8 @@ const TaskCompletionFlow = () => {
                 variables: { input: { firstName: name, lastName: '', pronouns: '' } },
               })
               await completeTask(id as string)
+              storeWelcomeGoodDeedsCounter(true)
+              navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
             }
           }
         } else {
@@ -185,7 +190,7 @@ const TaskCompletionFlow = () => {
             (error) =>
               displayError(error, 'Failed to submit form', {
                 displayMessage: t('auth.registration.error.registration'),
-                location: 'CreateAccount.onSubmit',
+                location: 'TaskCompletionFlow.onSubmit',
               }),
             err
           )
@@ -200,7 +205,7 @@ const TaskCompletionFlow = () => {
     <Screen
       onRefresh={refetch}
       preset="scroll"
-      keyboardShouldPersistTaps="always"
+      keyboardShouldPersistTaps="handled"
       style={styles.container}
       headerOptions={{
         headerBackVisible: false,
@@ -208,9 +213,12 @@ const TaskCompletionFlow = () => {
         ...Platform.select({
           native: {
             title: t('tasks.register.unlogged.header'),
-            headerTransparent: true,
+            headerTransparent: Platform.OS === 'web' ? true : false,
           },
         }),
+        headerStyle: {
+          backgroundColor: theme.colors.brandB100,
+        },
         headerLeft: () => (
           <HeaderBackButton
             {...(step === 'code'
@@ -319,7 +327,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: Spacing['xxs'],
     },
     learnMore: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: Spacing['4xs'] },
-    body: { paddingTop: Spacing.md, paddingBottom: Spacing['4xl'], flex: 1 },
+    body: { paddingTop: Spacing.md, paddingBottom: Spacing.lg, flex: 1 },
     titleContainer: { gap: Spacing.xxs, marginBottom: Spacing.xs },
     buttonContainer: { gap: Spacing['3xs'] },
     dividerContainer: {

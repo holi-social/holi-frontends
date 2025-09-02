@@ -32,6 +32,7 @@ export enum RouteName {
   EditTask = 'EditTask',
   TaskDetails = 'TaskDetails',
   TaskCompletionFlow = 'TaskCompletionFlow',
+  CompletedTask = 'CompletedTask',
   CreateTaskDE = 'CreateTaskDE',
   EditTaskDE = 'EditTaskDE',
   TaskDetailsDE = 'TaskDetailsDE',

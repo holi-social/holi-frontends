@@ -8,7 +8,7 @@ import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Linking, Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useSpaceAdminUsers'
@@ -23,6 +23,7 @@ import { ButtonTracked } from '@holi/core/components/Trackable'
 import { InteractionType, type Duration, type Regularity } from '@holi/api/graphql/graphql-codegen'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import type { User } from '@holi/core/domain/shared/types'
+import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 
 interface Props {
   spaceIdOrName?: string
@@ -55,8 +56,22 @@ export const TaskDetailsCTA = ({
   const isChatInitialized = useChatInitialized()
   const { displayError } = useErrorHandling()
   const [showSnackbar, setShowSnackbar] = useState(false)
+  const { completeTask, loading: completeTaskLoading } = useCompleteTask()
 
   const { navigate } = useRouting()
+
+  const handleCompleteTask = useCallback(async () => {
+    if (!loggedInUser) return navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')
+
+    try {
+      await completeTask(taskId as string)
+      navigate(`/spaces/${spaceIdOrName}/tasks/${taskId}/completed`)
+    } catch (error) {
+      displayError(error, 'Failed to complete task', {
+        location: 'TaskDetailsCTA.handleCompleteTask',
+      })
+    }
+  }, [completeTask, navigate, spaceIdOrName, taskId, loggedInUser, displayError])
 
   if (!adminUsers) return null
 
@@ -196,8 +211,9 @@ export const TaskDetailsCTA = ({
       />
       <ButtonTracked
         testID="contact-organization-drawer"
-        onPress={() => navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')}
+        onPress={handleCompleteTask}
         icon={HandHeartFilled}
+        loading={completeTaskLoading}
         label={t('spaces.tasks.contactOrganization.cta.ready')}
         trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
       />
