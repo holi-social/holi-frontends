@@ -2,11 +2,10 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { Keyboard, Linking, Platform } from 'react-native'
+import { Keyboard, Platform } from 'react-native'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
-import { Text, TextLink } from 'holi-bricks/components/text'
+import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { View } from 'react-native'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -42,9 +41,9 @@ import {
   UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { GoodDeedCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedCard'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Question } from '@holi/icons/src/generated'
+import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
+import { GoodDeedMoreCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedMoreCard'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -53,7 +52,6 @@ export type TaskCompletionFlowParams = {
 }
 
 const TaskCompletionFlow = () => {
-  const { refetch, data } = useTaskDetailsData()
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = getStyles(theme)
@@ -68,9 +66,10 @@ const TaskCompletionFlow = () => {
   const { navigate } = useRouting()
   const [step, setStep] = useState<'code' | 'email'>('email')
 
-  const { id, spaceId } = useTaskDetailsData()
+  const { refetch, data, id, spaceId } = useTaskDetailsData()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
+  const { completeTask } = useCompleteTask()
 
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) return
@@ -146,6 +145,7 @@ const TaskCompletionFlow = () => {
         await updateUser({
           variables: { input: { firstName: name, lastName: '', pronouns: '' } },
         })
+        await completeTask(id as string)
       } catch (err) {
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
@@ -175,6 +175,7 @@ const TaskCompletionFlow = () => {
               await updateUser({
                 variables: { input: { firstName: name, lastName: '', pronouns: '' } },
               })
+              await completeTask(id as string)
             }
           }
         } else {
@@ -230,13 +231,7 @@ const TaskCompletionFlow = () => {
           <SafeArea>
             <HoliContainer>
               <TaskCompletionSteps />
-              <GoodDeedCard title={data.title} imageSrc={data.coverImage?.uri} completedCount={0} />
-              <View style={styles.learnMore}>
-                <HoliIcon icon={Question} size={Spacing.xs} />
-                <TextLink size="md" onPress={() => Linking.openURL('https://holi.social/1million')}>
-                  {t('task.card.goodDeeds.about')}
-                </TextLink>
-              </View>
+              <GoodDeedMoreCard title={data.title} imageSrc={data.coverImage?.uri} completedCount={0} />
             </HoliContainer>
           </SafeArea>
         </View>
