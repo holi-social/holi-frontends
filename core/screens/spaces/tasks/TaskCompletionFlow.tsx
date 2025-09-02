@@ -3,10 +3,10 @@ import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { Keyboard, Platform } from 'react-native'
+import { Keyboard, Linking, Platform } from 'react-native'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
-import { Text } from 'holi-bricks/components/text'
+import { Text, TextLink } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { View } from 'react-native'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -42,6 +42,9 @@ import {
   UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { GoodDeedCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedCard'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Question } from '@holi/icons/src/generated'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -50,7 +53,7 @@ export type TaskCompletionFlowParams = {
 }
 
 const TaskCompletionFlow = () => {
-  const { refetch } = useTaskDetailsData()
+  const { refetch, data } = useTaskDetailsData()
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = getStyles(theme)
@@ -227,6 +230,13 @@ const TaskCompletionFlow = () => {
           <SafeArea>
             <HoliContainer>
               <TaskCompletionSteps />
+              <GoodDeedCard title={data.title} imageSrc={data.coverImage?.uri} completedCount={0} />
+              <View style={styles.learnMore}>
+                <HoliIcon icon={Question} size={Spacing.xs} />
+                <TextLink size="md" onPress={() => Linking.openURL('https://holi.social/1million')}>
+                  {t('task.card.goodDeeds.about')}
+                </TextLink>
+              </View>
             </HoliContainer>
           </SafeArea>
         </View>
@@ -311,7 +321,9 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.brandB100,
       borderBottomStartRadius: BorderRadius.xl,
       borderBottomEndRadius: BorderRadius.xl,
+      paddingBottom: Spacing['xxs'],
     },
+    learnMore: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: Spacing['4xs'] },
     body: { paddingTop: Spacing.md, paddingBottom: Spacing['4xl'], flex: 1 },
     titleContainer: { gap: Spacing.xxs, marginBottom: Spacing.xs },
     buttonContainer: { gap: Spacing['3xs'] },
