@@ -282,7 +282,7 @@ export const CreateAccount = ({
             </View>
             <View style={styles.dividerContainer}>
               <Text size="md" textAlign="center" color="greyDark">
-                {t('registration.emailOption')}
+                {t('auth.divider.email')}
               </Text>
             </View>
             <View style={styles.divider}>
@@ -292,7 +292,7 @@ export const CreateAccount = ({
 
           <View style={styles.buttonContainer}>
             <Button
-              label={t('auth.login.input.label-SignInCode')}
+              label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-code')}
@@ -301,7 +301,7 @@ export const CreateAccount = ({
             />
 
             <Button
-              label={t('auth.login.input.label-EmailAndPassword')}
+              label={t('auth.CTA.emailPassword')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-password')}
@@ -316,7 +316,7 @@ export const CreateAccount = ({
             </View>
             <View style={styles.dividerContainer}>
               <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                {t('login.altOptions.divider.guest')}
+                {t('auth.divider.guest')}
               </Text>
             </View>
             <View style={styles.divider}>

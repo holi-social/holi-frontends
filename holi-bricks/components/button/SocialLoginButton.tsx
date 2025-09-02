@@ -8,7 +8,7 @@ import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
-import { Loader, LogoApple, LogoFacebook, LogoGoogle } from '@holi/icons/src/generated'
+import { HoliLogoFilled, Loader, LogoApple, LogoFacebook, LogoGoogle } from '@holi/icons/src/generated'
 
 import {
   buttonBaseStyle,
@@ -19,12 +19,13 @@ import {
   getButtonVariantStyle,
 } from './helpers'
 
-export type SocialLoginButtonProvider = 'Google' | 'Facebook' | 'Apple'
+export type SocialLoginButtonProvider = 'Google' | 'Facebook' | 'Apple' | 'Holi'
 
 const iconsByProvider = {
   Google: LogoGoogle,
   Facebook: LogoFacebook,
   Apple: LogoApple,
+  Holi: HoliLogoFilled,
 }
 
 export type SocialLoginButtonProps = AccessibilityProps &

@@ -18,6 +18,7 @@ import { View, type ViewStyle } from 'react-native'
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
+import { getNodeProviderName } from '@holi/core/auth/helpers/auth'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -32,6 +33,7 @@ interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
   onSuccess?: () => void
   isSignin?: boolean
+
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
@@ -42,6 +44,7 @@ interface Props<T> {
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   nodesToShow?: NodeType[]
+  oidcProviders?: string[]
 }
 
 interface FlowData<T> {
@@ -66,6 +69,7 @@ const FormBuilder = <
   translationPrefix = 'auth.login.',
   style,
   nodesToShow = [],
+  oidcProviders = ['Google', 'Facebook', 'Apple'],
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
@@ -173,7 +177,7 @@ const FormBuilder = <
       nodeType = 'email'
     } else if (node.group === 'password') {
       nodeType = 'password'
-    } else if (node.group === 'oidc') {
+    } else if (node.group === 'oidc' && oidcProviders.includes(getNodeProviderName(node) as string)) {
       nodeType = 'oidc'
     } else if (node.group === 'code') {
       nodeType = 'code'

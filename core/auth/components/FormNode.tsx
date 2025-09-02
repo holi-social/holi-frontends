@@ -88,7 +88,7 @@ const FormNode = (props: Props) => {
         <View style={styles.resendCodeContainer}>
           <Text size="md">{t('registration.emailVerification.resendInstruction')}</Text>
           <Button
-            label={t(translationKey)}
+            label={t('registration.emailVerification.resendEmail')}
             disabled={node.attributes.disabled}
             onPress={() =>
               props.onSubmitPress(

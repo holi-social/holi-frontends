@@ -210,43 +210,13 @@ export const TaskDetailsCTA = ({
         onDismiss={() => setShowSnackbar(false)}
         visible={showSnackbar}
       />
-      <HoliActionDrawer.Drawer
-        renderCustomButton={(onPress, testID) => (
-          <ButtonTracked
-            testID={testID}
-            onPress={onPress}
-            icon={HandHeartFilled}
-            label={t('spaces.tasks.contactOrganization.cta.ready')}
-            trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
-          />
-        )}
-        label={t('global.options')}
+      <ButtonTracked
         testID="contact-organization-drawer"
-        onHide={() => {
-          setShowSnackbar(true)
-        }}
-      >
-        <Stack gap="md">
-          <Stack padding={{ left: 'xxs', right: 'xxs' }} gap="lg">
-            <Stack gap="xs" alignItems="center">
-              <Image
-                source={require('@holi/ui/assets/img/icons/give-five-big.svg')}
-                width={140}
-                resizeMode="contain"
-                alt={t('spaces.tasks.contactOrganization.thanks.image.alt')}
-                height={107}
-              />
-              <Text size="3xl" textAlign="center">
-                {t('spaces.tasks.contactOrganization.thanks.title')}
-              </Text>
-            </Stack>
-            <Text size="md" color="support">
-              {t('spaces.tasks.contactOrganization.thanks.subtitle')}
-            </Text>
-          </Stack>
-          <CloseButtonInsideDrawer />
-        </Stack>
-      </HoliActionDrawer.Drawer>
+        onPress={() => navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')}
+        icon={HandHeartFilled}
+        label={t('spaces.tasks.contactOrganization.cta.ready')}
+        trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
+      />
     </>
   )
 }

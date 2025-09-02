@@ -272,7 +272,7 @@ const Login = () => {
                   </View>
                   <View style={styles.dividerContainer}>
                     <Text size="md" textAlign="center" color="greyDark">
-                      {t('registration.emailOption')}
+                      {t('auth.divider.email')}
                     </Text>
                   </View>
                   <View style={styles.divider}>
@@ -282,7 +282,7 @@ const Login = () => {
 
                 <View style={styles.buttonContainer}>
                   <Button
-                    label={t('auth.login.input.label-SignInCode')}
+                    label={t('auth.CTA.OTP')}
                     variant="secondary"
                     size="lg"
                     onPress={() => setStep('email-code')}
@@ -291,7 +291,7 @@ const Login = () => {
                   />
 
                   <Button
-                    label={t('auth.login.input.label-EmailAndPassword')}
+                    label={t('auth.CTA.emailPassword')}
                     testID="btn-to-email-password-form"
                     variant="secondary"
                     size="lg"
@@ -306,7 +306,7 @@ const Login = () => {
                   </View>
                   <View style={styles.dividerContainer}>
                     <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                      {t('login.altOptions.divider.guest')}
+                      {t('auth.divider.guest')}
                     </Text>
                   </View>
                   <View style={styles.divider}>
