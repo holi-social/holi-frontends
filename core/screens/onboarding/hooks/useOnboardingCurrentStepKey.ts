@@ -4,15 +4,7 @@ import { type OnboardingStateValue, useOnboardingState } from '@holi/core/screen
 import { useFocusEffect } from '@holi/core/helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const OnboardingStepKeys = [
-  'WELCOME_SCREEN',
-  'LOCATION_SELECTION',
-  'INTERESTS_SELECTION',
-  'SKILLS_SELECTION',
-  'CREATE_ACCOUNT',
-  'EMAIL_VERIFICATION',
-  'USER_NAME_SELECTION',
-] as const
+const OnboardingStepKeys = ['WELCOME_SCREEN', 'CREATE_ACCOUNT', 'EMAIL_VERIFICATION', 'USER_NAME_SELECTION'] as const
 export type OnboardingStepKey = (typeof OnboardingStepKeys)[number]
 
 export interface OnboardingStepItem extends HoliStepperItem {
@@ -21,21 +13,6 @@ export interface OnboardingStepItem extends HoliStepperItem {
 
 export const onboardingSteps: OnboardingStepItem[] = [
   { key: 'WELCOME_SCREEN' },
-  {
-    key: 'LOCATION_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
-  {
-    key: 'INTERESTS_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
-  {
-    key: 'SKILLS_SELECTION',
-    progressBar: { skippable: true },
-    footerNavigation: { isNextButtonEnabled: true, isBackButtonAvailable: true },
-  },
   { key: 'CREATE_ACCOUNT' },
   { key: 'USER_NAME_SELECTION' },
 ]
@@ -71,12 +48,18 @@ export const useOnboardingCurrentStepKey = (hasRegistrationFlow?: boolean) => {
   useEffect(() => {
     if (prevOnboardingState.current === null || prevOnboardingState.current !== onboardingState) {
       setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
+      prevOnboardingState.current = onboardingState
     }
   }, [hasRegistrationFlow, onboardingState])
 
   useFocusEffect(
     useCallback(() => {
-      setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
+      // Only reset the step if the onboarding state has actually changed
+      // This prevents resetting to initial step when browser regains focus
+      if (prevOnboardingState.current !== onboardingState) {
+        setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
+        prevOnboardingState.current = onboardingState
+      }
     }, [hasRegistrationFlow, onboardingState])
   )
 

@@ -144,7 +144,6 @@ export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) =
         name={RouteName.Login}
         component={Login}
         options={{
-          animation: 'slide_from_bottom',
           headerShown: true,
         }}
       />

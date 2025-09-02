@@ -26,17 +26,22 @@ import { logError } from '@holi/core/errors/helpers'
 
 type NodeId = string
 
+export type NodeType = 'oidc' | 'password' | 'code' | 'email'
+
 interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
+  onSuccess?: () => void
   isSignin?: boolean
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
+  submitLabelOverride?: string
   scrollToInputWithId?: (id: string) => ScrollToProps
   autofocusField?: NodeId
   noAutofocusForEmail?: boolean
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
+  nodesToShow?: NodeType[]
 }
 
 interface FlowData<T> {
@@ -49,15 +54,18 @@ const FormBuilder = <
   T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody,
 >({
   onSubmit,
+  onSuccess,
   isSignin,
   flow,
   only,
   textInputOverride,
+  submitLabelOverride,
   scrollToInputWithId,
   autofocusField,
   noAutofocusForEmail = false,
   translationPrefix = 'auth.login.',
   style,
+  nodesToShow = [],
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
@@ -133,8 +141,8 @@ const FormBuilder = <
     // show global messages
     globalMessages?.map((message) => {
       const messageKey = `auth.login.message.${message.id}`
-      const someGeneralText = t('auth.login.message.default')
-      const messageText = i18n.exists(messageKey) ? t(messageKey) : someGeneralText
+      const fallbackErrorMessage = t('auth.login.message.default')
+      const messageText = i18n.exists(messageKey) ? t(messageKey) : fallbackErrorMessage
       if (!i18n.exists(messageKey)) {
         logError(new Error('Auth message without translation'), 'login flow message', {
           location: 'FormBuilder.useEffect',
@@ -142,9 +150,13 @@ const FormBuilder = <
           messageKey,
         })
       }
-      openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
+      if (message.type === 'error') {
+        openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
+      } else {
+        onSuccess?.()
+      }
     })
-  }, [flow, only, i18n, openToast, t])
+  }, [flow, only, i18n, openToast, t, onSuccess])
 
   const onChange = (name: string) => (value: string) => {
     setFlowData((currFlowData) => ({
@@ -158,13 +170,30 @@ const FormBuilder = <
 
   const getValue = (name: string) => values[name as keyof T]
 
+  const nodeFilter = (node: UiNode) => {
+    let nodeType: NodeType | undefined
+
+    if (node.group === 'default' && node.type === 'input') {
+      nodeType = 'email'
+    } else if (node.group === 'password') {
+      nodeType = 'password'
+    } else if (node.group === 'oidc') {
+      nodeType = 'oidc'
+    } else if (node.group === 'code') {
+      nodeType = 'code'
+    }
+
+    return nodeType ? nodesToShow.includes(nodeType) : false
+  }
+
   return (
     <View style={style}>
       {!flow ? (
         <HoliLoader />
       ) : (
-        nodes.map((node: UiNode, index) => {
+        nodes.filter(nodeFilter).map((node: UiNode, index) => {
           const name = getNodeId(node)
+
           return (
             <FormNode
               key={`form-field-${flow?.ui.action || ''}-${name}-${index}`}
@@ -173,11 +202,17 @@ const FormBuilder = <
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}
-              onSubmitPress={(overrides, provider) => onSubmit({ ...values, ...submitType, ...overrides }, provider)}
+              onSubmitPress={(overrides, provider) => {
+                if ('code' in values && values.code) {
+                  delete submitType.resend
+                }
+                return onSubmit({ ...values, ...submitType, ...overrides }, provider)
+              }}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
-              style={{ marginTop: Spacing.md }}
+              style={{ marginTop: Spacing['3xs'] }}
               isSignin={isSignin}
+              submitLabelOverride={submitLabelOverride}
             />
           )
         })
