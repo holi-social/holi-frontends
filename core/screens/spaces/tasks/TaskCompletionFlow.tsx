@@ -64,7 +64,7 @@ const TaskCompletionFlow = () => {
   const { displayError } = useErrorHandling()
   const [name, setName] = useState<string | undefined>(undefined)
   const { track } = useTracking()
-  const { showLoader, hideLoader } = useLoader()
+  const { showLoader, hideLoader, isLoaderShown } = useLoader()
   const client = useApolloClient()
   const { navigate } = useRouting()
   const [step, setStep] = useState<'code' | 'email'>('email')
@@ -75,9 +75,34 @@ const TaskCompletionFlow = () => {
   const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const { completeTask } = useCompleteTask()
 
+  const handleCompleteTask = useCallback(async () => {
+    await completeTask(id as string)
+
+    try {
+      if (name) {
+        await updateUser({
+          variables: { input: { firstName: name, lastName: '', pronouns: '' } },
+        })
+      }
+    } catch (error) {
+      logger.debug('TaskCompletionFlow', 'Failed to update user', { error })
+      // ignore error - there is an async flow happening on ory and this can be unstable
+      // later on the user will be automatically redirect to the name input again if this fails
+    }
+
+    storeWelcomeGoodDeedsCounter(true)
+    navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
+  }, [id, name, spaceId, completeTask, updateUser, navigate])
+
   const initializeFlow = useCallback(() => {
-    if (!isLoggedOut) return
     showLoader()
+
+    if (!isLoggedOut) {
+      // if a user is logged in, we can complete the task directly
+      // this most likely means the user is being redirected here after authenticating with a non-OTP method
+      handleCompleteTask().finally(hideLoader)
+      return
+    }
 
     return (
       initRegistrationFlow()
@@ -93,7 +118,7 @@ const TaskCompletionFlow = () => {
         )
         .finally(hideLoader)
     )
-  }, [isLoggedOut, safeSetFlow, displayError, t, hideLoader, showLoader])
+  }, [isLoggedOut, safeSetFlow, displayError, t, hideLoader, showLoader, handleCompleteTask])
 
   // When the component is mounted, we initialize a new use login flow:
   useIsomorphicLayoutEffect(() => {
@@ -111,23 +136,6 @@ const TaskCompletionFlow = () => {
       setStep('code')
     }
   }, [flow])
-
-  const handleCompleteTask = async () => {
-    await completeTask(id as string)
-
-    try {
-      await updateUser({
-        variables: { input: { firstName: name, lastName: '', pronouns: '' } },
-      })
-    } catch (error) {
-      logger.debug('TaskCompletionFlow', 'Failed to update user', { error })
-      // ignore error - there is an async flow happening on ory and this can be unstable
-      // later on the user will be automatically redirect to the name input again if this fails
-    }
-
-    storeWelcomeGoodDeedsCounter(true)
-    navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
-  }
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody & { 'traits.email'?: string }, provider?: string) => {
     if (payload['traits.email']) {
@@ -274,94 +282,96 @@ const TaskCompletionFlow = () => {
         </View>
 
         <View style={styles.container}>
-          <HoliContainer>
-            {/* Body */}
-            <View style={styles.body}>
-              {step === 'email' && (
-                <>
-                  <View style={styles.titleContainer}>
-                    <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
-                    <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
-                  </View>
-                  <View style={styles.buttonContainer}>
-                    <FormBuilder
-                      flow={flow}
-                      onSubmit={onSubmit}
-                      nodesToShow={['oidc']}
-                      oidcProviders={['Google']}
-                      noAutofocusForEmail
-                    />
+          {!isLoaderShown && (
+            <HoliContainer>
+              {/* Body */}
+              <View style={styles.body}>
+                {step === 'email' && (
+                  <>
+                    <View style={styles.titleContainer}>
+                      <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
+                      <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                      <FormBuilder
+                        flow={flow}
+                        onSubmit={onSubmit}
+                        nodesToShow={['oidc']}
+                        oidcProviders={['Google']}
+                        noAutofocusForEmail
+                      />
 
-                    <SocialLoginButton
-                      label={t('tasks.register.unlogged.verify.holi')}
-                      provider="Holi"
-                      testID={'ory-submit-email-button'}
-                      onPress={() => {
-                        navigate('/login')
-                      }}
-                    />
-                  </View>
-                  <View style={styles.dividerContainer}>
-                    <View style={styles.divider}>
-                      <HoliDivider />
+                      <SocialLoginButton
+                        label={t('tasks.register.unlogged.verify.holi')}
+                        provider="Holi"
+                        testID={'ory-submit-email-button'}
+                        onPress={() => {
+                          navigate('/login')
+                        }}
+                      />
                     </View>
                     <View style={styles.dividerContainer}>
-                      <Text size="md" textAlign="center" color="greyDark">
-                        {t('auth.divider.email')}
-                      </Text>
+                      <View style={styles.divider}>
+                        <HoliDivider />
+                      </View>
+                      <View style={styles.dividerContainer}>
+                        <Text size="md" textAlign="center" color="greyDark">
+                          {t('auth.divider.email')}
+                        </Text>
+                      </View>
+                      <View style={styles.divider}>
+                        <HoliDivider />
+                      </View>
                     </View>
-                    <View style={styles.divider}>
-                      <HoliDivider />
+                  </>
+                )}
+                {step === 'email' && (
+                  <HoliTextInput
+                    placeholder={t('onboarding.names.firstName.input.placeHolder')}
+                    value={name}
+                    aria-label={t('user.profileForm.firstName')}
+                    inputLabel={t('user.profileForm.firstName')}
+                    onChange={setName}
+                  />
+                )}
+                {step === 'code' && (
+                  <View style={styles.codeInputContainer}>
+                    <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
+                    <Text size="md">{t('registration.emailVerification.body')}</Text>
+                    <View style={styles.changeEmailContainer}>
+                      <Text size="md">{email}</Text>
+                      <Button
+                        icon={Edit2}
+                        transparent
+                        size="lg"
+                        label={t('global.edit')}
+                        onPress={() => {
+                          showLoader()
+                          initializeFlow()?.then(() => {
+                            setStep('email')
+                            hideLoader()
+                          })
+                        }}
+                      />
                     </View>
                   </View>
-                </>
-              )}
-              {step === 'email' && (
-                <HoliTextInput
-                  placeholder={t('onboarding.names.firstName.input.placeHolder')}
-                  value={name}
-                  aria-label={t('user.profileForm.firstName')}
-                  inputLabel={t('user.profileForm.firstName')}
-                  onChange={setName}
+                )}
+                <FormBuilder
+                  flow={flow}
+                  onSubmit={onSubmit}
+                  nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
+                  withLoader={false}
+                  noAutofocusForEmail
                 />
-              )}
-              {step === 'code' && (
-                <View style={styles.codeInputContainer}>
-                  <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
-                  <Text size="md">{t('registration.emailVerification.body')}</Text>
-                  <View style={styles.changeEmailContainer}>
-                    <Text size="md">{email}</Text>
-                    <Button
-                      icon={Edit2}
-                      transparent
-                      size="lg"
-                      label={t('global.edit')}
-                      onPress={() => {
-                        showLoader()
-                        initializeFlow()?.then(() => {
-                          setStep('email')
-                          hideLoader()
-                        })
-                      }}
-                    />
-                  </View>
+              </View>
+              {step === 'email' && (
+                <View style={styles.footer}>
+                  <HoliDivider />
+                  <DocumentsFooter />
                 </View>
               )}
-              <FormBuilder
-                flow={flow}
-                onSubmit={onSubmit}
-                nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
-                withLoader={false}
-                noAutofocusForEmail
-              />
-            </View>
-            {step === 'email' && (
-              <View style={styles.footer}>
-                <HoliDivider />
-                <DocumentsFooter />
-              </View>
-            )}
-          </HoliContainer>
+            </HoliContainer>
+          )}
         </View>
       </>
     </Screen>

@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
@@ -17,6 +17,7 @@ import { GoodDeedCounterCard } from 'holi-bricks/patterns/good-deed-card/GoodDee
 import { Close } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
 import { useWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -30,6 +31,10 @@ const CompletedTask = () => {
   const welcomeGoodDeedsCounter = useWelcomeGoodDeedsCounter()
 
   const { refetch, data, totalCompletions } = useTaskDetailsData()
+
+  useEffect(() => {
+    setPathToRedirect(null)
+  }, [])
 
   return (
     <Screen
