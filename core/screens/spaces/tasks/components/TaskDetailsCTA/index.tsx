@@ -16,7 +16,7 @@ import { useChatInitialized } from '@holi/chat/src/client/chatState'
 
 import { StartChatButton } from './StartChatButton'
 import { TrackingEvent } from '@holi/core/tracking'
-import { CheckboxCircleFilled, Chat3, ExternalLink, HandHeartFilled } from '@holi/icons/src/generated'
+import { CheckboxCircleFilled, Chat3, ExternalLink, HeartHandshake } from '@holi/icons/src/generated'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Stack } from 'holi-bricks/components/stack'
 import { ButtonTracked } from '@holi/core/components/Trackable'
@@ -212,7 +212,7 @@ export const TaskDetailsCTA = ({
       <ButtonTracked
         testID="contact-organization-drawer"
         onPress={handleCompleteTask}
-        icon={HandHeartFilled}
+        icon={HeartHandshake}
         loading={completeTaskLoading}
         label={t('spaces.tasks.contactOrganization.cta.ready')}
         trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
