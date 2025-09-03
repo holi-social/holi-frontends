@@ -16,6 +16,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { GoodDeedCounterCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
+import { useWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -26,6 +27,7 @@ const CompletedTask = () => {
   const { t } = useTranslation()
   const styles = getStyles(theme)
   const { navigate } = useRouting()
+  const welcomeGoodDeedsCounter = useWelcomeGoodDeedsCounter()
 
   const { refetch, data, totalCompletions } = useTaskDetailsData()
 
@@ -48,17 +50,23 @@ const CompletedTask = () => {
         },
       }}
       StickyBottomComponent={
-        <View style={styles.footer}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
-            isSvg
-            width={126}
-            height={33}
-            label={t('navigation.title')}
-          />
-          <Text size="sm">{t('tasks.register.success.brandSubtitle')}</Text>
-          <Button label={t('tasks.register.success.newUser.cta')} inline onPress={() => navigate('/act')} />
-        </View>
+        welcomeGoodDeedsCounter ? (
+          <View style={styles.footer}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
+              isSvg
+              width={126}
+              height={33}
+              label={t('navigation.title')}
+            />
+            <Text size="sm">{t('tasks.register.success.brandSubtitle')}</Text>
+            <Button label={t('tasks.register.success.newUser.cta')} inline onPress={() => navigate('/act')} />
+          </View>
+        ) : (
+          <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounter]}>
+            <Button label={t('goodDeed.rewardsMessage.button')} onPress={() => navigate('/act')} />
+          </View>
+        )
       }
     >
       <View style={styles.body}>
@@ -121,6 +129,9 @@ const getStyles = (theme: HoliTheme) =>
       borderTopEndRadius: BorderRadius.xl,
       alignItems: 'center',
       padding: Spacing.xs,
+    },
+    footerWithoutWelcomeGoodDeedsCounter: {
+      backgroundColor: 'transparent',
     },
   })
 
