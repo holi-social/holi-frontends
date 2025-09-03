@@ -31,6 +31,7 @@ jest.mock('@holi/core/errors/hooks', () => ({
 const mockUseRedirect = jest.mocked(useRedirect)
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
+  usePathToRedirect: jest.fn(),
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
