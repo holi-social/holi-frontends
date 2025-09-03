@@ -1,5 +1,6 @@
 import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
+import type { OnboardingStepKey } from '@holi/core/screens/onboarding/hooks/useOnboardingCurrentStepKey'
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 
@@ -688,7 +689,7 @@ export namespace TrackingEvent {
   }
 
   export const OnboardingStepCompleted = (
-    step: 'welcome' | 'contentSelection' | 'locationSelection' | 'interestsSelection' | 'skillsSelection',
+    step: OnboardingStepKey,
     answers: string[],
     buttonPressed: 'continue' | 'skip' | 'back'
   ): TrackingEvent => ({

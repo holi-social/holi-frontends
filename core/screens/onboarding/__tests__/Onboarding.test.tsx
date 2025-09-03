@@ -13,6 +13,11 @@ import type React from 'react'
 
 jest.useFakeTimers()
 
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
+}))
+
 const mockUseRedirect = useRedirect as jest.Mock
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
@@ -97,6 +102,7 @@ describe('Onboarding', () => {
     mockStoreOnboardingUserDataAsyncStore.mockResolvedValue(undefined)
     mockUseRedirect.mockReturnValue(redirect)
     mockUseOnboardingCurrentStepKey.mockReturnValue(['WELCOME_SCREEN', jest.fn()])
+    mockUseFeatureFlag.mockReturnValue([true])
   })
 
   it('should display loader until step is determined', () => {

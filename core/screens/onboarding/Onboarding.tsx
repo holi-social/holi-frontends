@@ -36,6 +36,8 @@ import { GoodDeedsExplain, GoodDeedsDo } from '@holi/core/screens/onboarding/ste
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 export type OnboardingParams = {
   flow?: string
@@ -52,6 +54,8 @@ const Onboarding = () => {
   const [flowId] = useParam('flow')
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
+
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
   const redirect = useRedirect('/act')
 
@@ -91,7 +95,6 @@ const Onboarding = () => {
         return (
           <Intro
             onContinue={() => {
-              track(OnboardingStepCompleted('welcome', ['continue'], 'continue'))
               setCurrentStep('CREATE_ACCOUNT')
             }}
           />
@@ -106,7 +109,11 @@ const Onboarding = () => {
             }}
             onContinueAsGuest={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
-              setCurrentStep('GOOD_DEEDS_EXPLANATION')
+              if (rewardsPhaseTwoEnabled) {
+                setCurrentStep('GOOD_DEEDS_EXPLANATION')
+              } else {
+                finishOnboarding()
+              }
             }}
             onRegister={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
@@ -136,7 +143,11 @@ const Onboarding = () => {
             <NamesSelection
               onFinish={() => {
                 track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
-                setCurrentStep('GOOD_DEEDS_EXPLANATION')
+                if (rewardsPhaseTwoEnabled) {
+                  setCurrentStep('GOOD_DEEDS_EXPLANATION')
+                } else {
+                  finishOnboarding()
+                }
               }}
               testID="onboarding-name-selection"
             />
@@ -168,13 +179,16 @@ const Onboarding = () => {
         onChange={(key, previousKey, buttonPressed) => {
           // finish onboarding if user is on last step and clicks on continue
           if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
+            track(OnboardingStepCompleted(key as OnboardingStepKey, ['fihish'], 'continue'))
             finishOnboarding()
             return
           }
 
           if (buttonPressed === 'skip') {
+            track(OnboardingStepCompleted(key as OnboardingStepKey, ['skip'], 'skip'))
             clearSelection()
           }
+
           setCurrentStep(key as OnboardingStepKey)
         }}
         WrapperComponent={
@@ -183,18 +197,10 @@ const Onboarding = () => {
             : undefined
         }
         paddingTop={
-          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep)
-            ? 0
-            : safeAreaTop
-              ? safeAreaTop
-              : Spacing.xxs
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaTop ?? Spacing.xxs)
         }
         paddingBottom={
-          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep)
-            ? 0
-            : safeAreaBottom
-              ? safeAreaBottom
-              : Spacing.xxs
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaBottom ?? Spacing.xxs)
         }
         testID="onboarding-stepper"
       />
