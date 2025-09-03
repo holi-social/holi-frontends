@@ -42,10 +42,8 @@ const ActHome = () => {
 
   const sections = orderedSections(selectedContentType)
 
-  // Modal state for welcome modal
   const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
 
-  // Show welcome modal when welcome=true query param is present
   useEffect(() => {
     if (welcomeGoodDeedsCounter) {
       showWelcomeModal()

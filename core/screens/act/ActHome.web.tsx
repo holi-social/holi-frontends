@@ -1,7 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRouter } from 'next/router'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -19,6 +18,10 @@ import { CounterModalContent } from '@holi/core/screens/homeFeed/components/Good
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import {
+  storeWelcomeGoodDeedsCounter,
+  useWelcomeGoodDeedsCounter,
+} from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 
 type ActHomeParams = {
   section: string
@@ -28,22 +31,21 @@ const { useParam } = createParamHooks<ActHomeParams>()
 
 const ActHome = () => {
   const { t } = useTranslation()
-  const router = useRouter()
   const title = t('act.title')
   const [selectedContentType] = useParam('section')
   const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const welcomeGoodDeedsCounter = useWelcomeGoodDeedsCounter()
 
   const sections = orderedSections(selectedContentType)
 
-  // Modal state for welcome modal
   const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
 
-  // Show welcome modal when welcome=true query param is present
   useEffect(() => {
-    if (router.query.welcome === 'true') {
+    if (welcomeGoodDeedsCounter) {
       showWelcomeModal()
+      storeWelcomeGoodDeedsCounter(false)
     }
-  }, [router.query.welcome, showWelcomeModal])
+  }, [welcomeGoodDeedsCounter, showWelcomeModal])
 
   return (
     <>
