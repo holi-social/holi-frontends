@@ -6,9 +6,10 @@ import { Question } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import { Image } from 'holi-bricks/components/image'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { createStyleSheet } from 'react-native-unistyles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { View } from 'react-native'
-import { GoodDeedCard, type GoodDeedCardProps } from 'holi-bricks/patterns/good-deed-card/GoodDeedCard'
+import { GoodDeedCard, type GoodDeedCardProps } from './GoodDeedCard'
+import useLink from '@holi/core/navigation/hooks/useLink'
 
 type GoodDeedCardCounterProps = GoodDeedCardProps & {
   totalCount: number
@@ -17,8 +18,7 @@ type GoodDeedCardCounterProps = GoodDeedCardProps & {
 export const GoodDeedCounterCard = ({ totalCount, ...rest }: GoodDeedCardCounterProps) => {
   const { t } = useTranslation()
 
-  //const handleOpenCampaign = useLink({ href: 'https://holi.social/1million', external: true })
-  const handleOpenCampaign = () => {}
+  const handleOpenCampaign = useLink({ href: 'https://holi.social/1million', external: true })
   return (
     <Stack gap="3xs">
       <View style={stylesheet.container}>
