@@ -6,10 +6,11 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeeds } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import { Text } from 'holi-bricks/components/text'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 
 export type GoodDeedCardProps = {
   title: string
-  imageSrc?: string
+  imageSrc?: MultiPlatformImageSource
   completedCount: number
 }
 

@@ -1,22 +1,21 @@
-import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { isSSR } from '@holi/core/helpers/isSSR'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
-  type InteractionType,
+  type Duration,
+  InteractionType,
+  type Regularity,
   SpaceUserConnectionType,
   VisibilityType,
   useTaskByIdQuery,
-  type Duration,
-  type Regularity,
 } from '@holi/api/graphql/graphql-codegen'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { isSSR } from '@holi/core/helpers/isSSR'
+import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
+import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CalendarEventLine, Global, HeartHandshake, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
-import { useRateLimit } from '@holi/ui/helper'
-import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -36,6 +35,7 @@ export type UseTaskDetailsData = {
   taskDuration?: Duration
   taskRegularity?: Regularity
   totalCompletions?: number
+  isGoodDeed: boolean
 }
 
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
@@ -193,5 +193,6 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     interactionSignupLink: data?.taskById?.interactionSignupLink,
     taskDuration: data?.taskById?.duration,
     taskRegularity: data?.taskById?.regularity,
+    isGoodDeed: data?.taskById?.interactionType === InteractionType.Ready,
   }
 }

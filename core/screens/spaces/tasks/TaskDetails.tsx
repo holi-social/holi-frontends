@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { Stack } from 'holi-bricks/components/stack'
@@ -19,6 +19,10 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { Button } from 'holi-bricks/components/button'
+import { useTranslation } from 'react-i18next'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItLater'
 
 const isIos = Platform.OS === 'ios'
 
@@ -27,6 +31,11 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetails = () => {
+  const [showDoItLater, setShowDoItLater] = useState(false)
+
+  const { t } = useTranslation()
+  const { isLoggedIn } = useLoggedInUser()
+
   const {
     data,
     isOwner,
@@ -39,6 +48,7 @@ const TaskDetails = () => {
     interactionType,
     taskDuration,
     taskRegularity,
+    isGoodDeed,
   } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
   const { displayError } = useErrorHandling()
@@ -65,78 +75,91 @@ const TaskDetails = () => {
   )
 
   return (
-    <Screen
-      onRefresh={refetch}
-      preset="auto"
-      headerOptions={{
-        animation: 'slide_from_left',
-        headerBackVisible: false,
-        headerTitleAlign: 'center',
-        ...Platform.select({
-          native: {
-            headerTintColor: white,
-            title: '',
-            headerTransparent: true,
+    <>
+      <Screen
+        onRefresh={refetch}
+        preset="auto"
+        headerOptions={{
+          animation: 'slide_from_left',
+          headerBackVisible: false,
+          headerTitleAlign: 'center',
+          ...Platform.select({
+            native: {
+              headerTintColor: white,
+              title: '',
+              headerTransparent: true,
+            },
+          }),
+          headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+          headerRight: ({ tintColor }) => renderActionDrawer(tintColor),
+          navigationCustomOptions: {
+            footerShown: false,
           },
-        }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-        headerRight: ({ tintColor }) => renderActionDrawer(tintColor),
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      }}
-      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
-      StickyBottomComponent={
-        <Stack
-          padding={{ left: 'md', right: 'md', bottom: 'lg' }}
-          alignItems="center"
-          justifyContent="center"
-          alignSelf="center"
-          width="100%"
-          gap="xxs"
-        >
-          {displayCta && (
-            <Stack width="100%">
-              <TaskDetailsCTA
-                spaceIdOrName={spaceName}
-                taskName={data?.title}
-                taskId={id}
-                spaceTitle={spaceTitle}
-                spaceId={spaceId}
-                interactionType={interactionType}
-                interactionSignupLink={interactionSignupLink}
-                taskDuration={taskDuration}
-                taskRegularity={taskRegularity}
-              />
-            </Stack>
-          )}
-          {id && (
-            <SaveForLaterButton
-              favoritableType={FavoritableType.Task}
-              favoritableId={id}
-              __typename={'Task'}
-              isFavorite={data?.isFavorite}
-              onError={(error: Error) =>
-                displayError(
-                  error,
-                  data?.isFavorite ? 'Failed to add the task to favorites' : 'Failed to remove the task from favorites',
-                  {
-                    location: 'TaskDetails.saveForLaterTask',
-                    favoritableId: id,
+        }}
+        statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
+        StickyBottomComponent={
+          <Stack
+            padding={{ left: 'md', right: 'md', bottom: 'lg' }}
+            alignItems="center"
+            justifyContent="center"
+            alignSelf="center"
+            width="100%"
+            gap="xxs"
+          >
+            {displayCta && (
+              <Stack width="100%">
+                <TaskDetailsCTA
+                  spaceIdOrName={spaceName}
+                  taskName={data?.title}
+                  taskId={id}
+                  spaceTitle={spaceTitle}
+                  spaceId={spaceId}
+                  interactionType={interactionType}
+                  interactionSignupLink={interactionSignupLink}
+                  taskDuration={taskDuration}
+                  taskRegularity={taskRegularity}
+                />
+              </Stack>
+            )}
+            {id &&
+              (isGoodDeed && !isLoggedIn ? (
+                <Button
+                  label={t('volunteering.progress.button.favorites.toSave')}
+                  onPress={() => setShowDoItLater(true)}
+                />
+              ) : (
+                <SaveForLaterButton
+                  favoritableType={FavoritableType.Task}
+                  favoritableId={id}
+                  __typename={'Task'}
+                  isFavorite={data?.isFavorite}
+                  onError={(error: Error) =>
+                    displayError(
+                      error,
+                      data?.isFavorite
+                        ? 'Failed to add the task to favorites'
+                        : 'Failed to remove the task from favorites',
+                      {
+                        location: 'TaskDetails.saveForLaterTask',
+                        favoritableId: id,
+                      }
+                    )
                   }
-                )
-              }
-            />
-          )}
-        </Stack>
-      }
-    >
-      <DetailsScreen
-        {...data}
-        _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
-        placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
-      />
-    </Screen>
+                />
+              ))}
+          </Stack>
+        }
+      >
+        <DetailsScreen
+          {...data}
+          _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
+          placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
+        />
+      </Screen>
+      <DoItLaterModal isOpen={showDoItLater} onClose={() => setShowDoItLater(false)}>
+        <DoItLater title={data.title} imageSrc={data.coverImage?.uri} />
+      </DoItLaterModal>
+    </>
   )
 }
 
