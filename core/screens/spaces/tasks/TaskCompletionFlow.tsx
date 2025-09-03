@@ -297,7 +297,7 @@ const TaskCompletionFlow = () => {
                       provider="Holi"
                       testID={'ory-submit-email-button'}
                       onPress={() => {
-                        navigate('/onboarding')
+                        navigate('/login')
                       }}
                     />
                   </View>
