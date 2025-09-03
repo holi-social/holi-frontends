@@ -99,6 +99,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateTaskDE]: 'spaces/:spaceIdOrName/aufgaben/create',
         [RouteName.TaskDetailsDE]: 'spaces/:spaceIdOrName/aufgaben/:taskId',
         [RouteName.EditTaskDE]: 'spaces/:spaceIdOrName/aufgaben/:taskId/edit',
+        [RouteName.TaskCompletionFlow]: 'spaces/:spaceIdOrName/tasks/:taskId/complete',
+        [RouteName.CompletedTask]: 'spaces/:spaceIdOrName/tasks/:taskId/completed',
         [RouteName.CreateUpdate]: 'spaces/:spaceIdOrName/updates/create',
         [RouteName.EditUpdate]: 'spaces/:spaceIdOrName/updates/:postId/edit',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',

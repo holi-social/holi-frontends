@@ -8,7 +8,7 @@ import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Linking, Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useSpaceAdminUsers'
@@ -16,15 +16,14 @@ import { useChatInitialized } from '@holi/chat/src/client/chatState'
 
 import { StartChatButton } from './StartChatButton'
 import { TrackingEvent } from '@holi/core/tracking'
-import { CheckboxCircleFilled, Chat3, ExternalLink, HandHeartFilled } from '@holi/icons/src/generated'
+import { CheckboxCircleFilled, Chat3, ExternalLink, HeartHandshake } from '@holi/icons/src/generated'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Stack } from 'holi-bricks/components/stack'
-import { Image } from 'holi-bricks/components/image'
-import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { InteractionType, type Duration, type Regularity } from '@holi/api/graphql/graphql-codegen'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import type { User } from '@holi/core/domain/shared/types'
+import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 
 interface Props {
   spaceIdOrName?: string
@@ -37,19 +36,6 @@ interface Props {
   interactionSignupLink?: string
   taskDuration?: Duration
   taskRegularity?: Regularity
-}
-
-const CloseButtonInsideDrawer = () => {
-  const { hideDrawer } = useActionDrawerContext()
-  const { t } = useTranslation()
-  return (
-    <Button
-      label={t('spaces.tasks.contactOrganization.modal.close')}
-      onPress={() => {
-        hideDrawer()
-      }}
-    />
-  )
 }
 
 export const TaskDetailsCTA = ({
@@ -70,8 +56,22 @@ export const TaskDetailsCTA = ({
   const isChatInitialized = useChatInitialized()
   const { displayError } = useErrorHandling()
   const [showSnackbar, setShowSnackbar] = useState(false)
+  const { completeTask, loading: completeTaskLoading } = useCompleteTask()
 
   const { navigate } = useRouting()
+
+  const handleCompleteTask = useCallback(async () => {
+    if (!loggedInUser) return navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')
+
+    try {
+      await completeTask(taskId as string)
+      navigate(`/spaces/${spaceIdOrName}/tasks/${taskId}/completed`)
+    } catch (error) {
+      displayError(error, 'Failed to complete task', {
+        location: 'TaskDetailsCTA.handleCompleteTask',
+      })
+    }
+  }, [completeTask, navigate, spaceIdOrName, taskId, loggedInUser, displayError])
 
   if (!adminUsers) return null
 
@@ -200,7 +200,6 @@ export const TaskDetailsCTA = ({
     )
   }
 
-  // else interactionType === InteractionType.Ready
   return (
     <>
       <Snackbar
@@ -210,43 +209,14 @@ export const TaskDetailsCTA = ({
         onDismiss={() => setShowSnackbar(false)}
         visible={showSnackbar}
       />
-      <HoliActionDrawer.Drawer
-        renderCustomButton={(onPress, testID) => (
-          <ButtonTracked
-            testID={testID}
-            onPress={onPress}
-            icon={HandHeartFilled}
-            label={t('spaces.tasks.contactOrganization.cta.ready')}
-            trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
-          />
-        )}
-        label={t('global.options')}
+      <ButtonTracked
         testID="contact-organization-drawer"
-        onHide={() => {
-          setShowSnackbar(true)
-        }}
-      >
-        <Stack gap="md">
-          <Stack padding={{ left: 'xxs', right: 'xxs' }} gap="lg">
-            <Stack gap="xs" alignItems="center">
-              <Image
-                source={require('@holi/ui/assets/img/icons/give-five-big.svg')}
-                width={140}
-                resizeMode="contain"
-                alt={t('spaces.tasks.contactOrganization.thanks.image.alt')}
-                height={107}
-              />
-              <Text size="3xl" textAlign="center">
-                {t('spaces.tasks.contactOrganization.thanks.title')}
-              </Text>
-            </Stack>
-            <Text size="md" color="support">
-              {t('spaces.tasks.contactOrganization.thanks.subtitle')}
-            </Text>
-          </Stack>
-          <CloseButtonInsideDrawer />
-        </Stack>
-      </HoliActionDrawer.Drawer>
+        onPress={handleCompleteTask}
+        icon={HeartHandshake}
+        loading={completeTaskLoading}
+        label={t('spaces.tasks.contactOrganization.cta.ready')}
+        trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
+      />
     </>
   )
 }

@@ -29,7 +29,7 @@ interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
   translationPrefix: string
-  onSubmitPress: (overrides?: UpdateLoginFlowBody, provider?: string) => void
+  onSubmitPress: (overrides?: Partial<UpdateLoginFlowBody>, provider?: string) => void
   isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: StyleProp<ViewStyle>
@@ -81,20 +81,22 @@ const FormNode = (props: Props) => {
     }
     const key = getNodeTranslationKey(node)
 
-    const translationKey = props.submitLabelOverride ?? `${props.translationPrefix}input.label-${key}`
+    let translationKey = props.submitLabelOverride ?? `${props.translationPrefix}input.label-${key}`
+    if (key === 'SignInCode' || key === 'SignUpCode') {
+      translationKey = 'auth.otp.CTA'
+    }
+    if (key === 'SubmitCode') {
+      translationKey = 'registration.emailVerification.cta.verify'
+    }
 
     if (key === 'ResendCode') {
       return (
         <View style={styles.resendCodeContainer}>
           <Text size="md">{t('registration.emailVerification.resendInstruction')}</Text>
           <Button
-            label={t(translationKey)}
+            label={t('registration.emailVerification.resendEmail')}
             disabled={node.attributes.disabled}
-            onPress={() =>
-              props.onSubmitPress(
-                'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined
-              )
-            }
+            onPress={() => props.onSubmitPress({ method: 'code', resend: 'code' })}
             size="lg"
             transparent
             icon={Refresh}

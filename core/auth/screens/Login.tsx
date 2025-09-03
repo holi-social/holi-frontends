@@ -25,7 +25,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ArrowLeft, Close, Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
@@ -63,6 +63,20 @@ const Login = () => {
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => createStyles(theme), [theme])
 
+  const handleMessage = useCallback(
+    (messageId: number) => {
+      // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
+      if (messageId === 1010014) {
+        if (step === 'email-code') {
+          setStep('code')
+        }
+        return true
+      }
+      return false
+    },
+    [step]
+  )
+
   const initializeFlow = useCallback(
     () =>
       initLoginFlow(flowId)
@@ -99,9 +113,6 @@ const Login = () => {
       await doLogin(client, data)
       storeOnboardingState('finished')
       redirect(true)
-      if (payload.method === 'code' && step === 'email-code') {
-        setStep('code')
-      }
     } catch (err) {
       if (err instanceof HoliLoginCancelledError) {
         // Do not display error if user cancelled the login
@@ -256,11 +267,7 @@ const Login = () => {
               onSubmit={performLogin}
               style={styles.form}
               nodesToShow={nodesToShow}
-              onSuccess={() => {
-                if (step === 'email-code') {
-                  setStep('code')
-                }
-              }}
+              handleMessage={handleMessage}
               isSignin
             />
 
@@ -272,7 +279,7 @@ const Login = () => {
                   </View>
                   <View style={styles.dividerContainer}>
                     <Text size="md" textAlign="center" color="greyDark">
-                      {t('registration.emailOption')}
+                      {t('auth.divider.email')}
                     </Text>
                   </View>
                   <View style={styles.divider}>
@@ -282,7 +289,7 @@ const Login = () => {
 
                 <View style={styles.buttonContainer}>
                   <Button
-                    label={t('auth.login.input.label-SignInCode')}
+                    label={t('auth.CTA.OTP')}
                     variant="secondary"
                     size="lg"
                     onPress={() => setStep('email-code')}
@@ -291,7 +298,7 @@ const Login = () => {
                   />
 
                   <Button
-                    label={t('auth.login.input.label-EmailAndPassword')}
+                    label={t('auth.CTA.emailPassword')}
                     testID="btn-to-email-password-form"
                     variant="secondary"
                     size="lg"
@@ -306,7 +313,7 @@ const Login = () => {
                   </View>
                   <View style={styles.dividerContainer}>
                     <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                      {t('login.altOptions.divider.guest')}
+                      {t('auth.divider.guest')}
                     </Text>
                   </View>
                   <View style={styles.divider}>

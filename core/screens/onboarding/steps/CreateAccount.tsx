@@ -77,6 +77,20 @@ export const CreateAccount = ({
   const { theme } = useTheme()
   const { track } = useTracking()
 
+  const handleMessage = useCallback(
+    (messageId: number) => {
+      // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
+      if (messageId === 1040005) {
+        if (step === 'email-code') {
+          setStep('code')
+        }
+        return true
+      }
+      return false
+    },
+    [step]
+  )
+
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) return
 
@@ -139,6 +153,20 @@ export const CreateAccount = ({
 
         onRegister()
       } catch (err) {
+        if (
+          (
+            err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
+          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+        ) {
+          displayError(err, 'Failed to submit form', {
+            displayMessage: t('auth.login.message.1010016'),
+            location: 'CreateAccount.onSubmit',
+          })
+          initializeFlow()?.then(() => {
+            setStep('email-code')
+          })
+          return
+        }
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
           return
@@ -267,11 +295,7 @@ export const CreateAccount = ({
         onSubmit={onSubmit}
         style={styles.form}
         nodesToShow={nodesToShow}
-        onSuccess={() => {
-          if (step === 'email-code') {
-            setStep('code')
-          }
-        }}
+        handleMessage={handleMessage}
       />
 
       {!isLoaderShown && step === 'oidc' && (
@@ -282,7 +306,7 @@ export const CreateAccount = ({
             </View>
             <View style={styles.dividerContainer}>
               <Text size="md" textAlign="center" color="greyDark">
-                {t('registration.emailOption')}
+                {t('auth.divider.email')}
               </Text>
             </View>
             <View style={styles.divider}>
@@ -292,7 +316,7 @@ export const CreateAccount = ({
 
           <View style={styles.buttonContainer}>
             <Button
-              label={t('auth.login.input.label-SignInCode')}
+              label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-code')}
@@ -301,7 +325,7 @@ export const CreateAccount = ({
             />
 
             <Button
-              label={t('auth.login.input.label-EmailAndPassword')}
+              label={t('auth.CTA.emailPassword')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-password')}
@@ -316,7 +340,7 @@ export const CreateAccount = ({
             </View>
             <View style={styles.dividerContainer}>
               <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                {t('login.altOptions.divider.guest')}
+                {t('auth.divider.guest')}
               </Text>
             </View>
             <View style={styles.divider}>

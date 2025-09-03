@@ -11,7 +11,7 @@ import {
   type Duration,
   type Regularity,
 } from '@holi/api/graphql/graphql-codegen'
-import { CalendarEventLine, Global, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
+import { CalendarEventLine, Global, HeartHandshake, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
@@ -35,6 +35,7 @@ export type UseTaskDetailsData = {
   interactionSignupLink?: string
   taskDuration?: Duration
   taskRegularity?: Regularity
+  totalCompletions?: number
 }
 
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
@@ -52,7 +53,6 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     },
     skip: !taskId,
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-
     onError: (error) => {
       if (isNotFoundError(error) || isForbiddenError(error)) {
         return replaceRoute('/404')
@@ -119,6 +119,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     })(),
   }
 
+  const totalCompletions = data?.taskById?.totalCompletions
+    ? {
+        title: t('task.card.completionCounter', { count: data?.taskById?.totalCompletions }),
+        icon: HeartHandshake,
+      }
+    : undefined
   const hasTimeFrame = !!(data?.taskById?.timeframeEndDate && data?.taskById?.timeframeStartDate)
   const timeFrameStartDate = data?.taskById?.timeframeStartDate
   const timeFrameEndDate = data?.taskById?.timeframeEndDate
@@ -138,7 +144,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     : undefined
 
-  const infoList = [locationType, slots, timeFrame, regularityAndDuration].filter(
+  const infoList = [totalCompletions, locationType, slots, timeFrame, regularityAndDuration].filter(
     (detail) => detail !== undefined
   ) as DetailsScreenInfoList[]
 
@@ -182,6 +188,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     },
     spaceId: data?.taskById?.space?.id,
     spaceTitle: data?.taskById?.space?.title,
+    totalCompletions: data?.taskById?.totalCompletions,
     interactionType: data?.taskById?.interactionType,
     interactionSignupLink: data?.taskById?.interactionSignupLink,
     taskDuration: data?.taskById?.duration,
