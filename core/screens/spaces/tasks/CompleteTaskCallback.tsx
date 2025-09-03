@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import { useLoginState } from '@holi/core/auth/loginState'
@@ -27,6 +27,7 @@ const CompleteTaskCallback = () => {
   const { data, id, spaceId } = useTaskDetailsData()
   const { completeTask } = useCompleteTask()
   const { t } = useTranslation()
+  const [completed, setCompleted] = useState(false)
 
   const handleCompleteTask = useCallback(async () => {
     if (!id) return
@@ -46,10 +47,11 @@ const CompleteTaskCallback = () => {
 
   useEffect(() => {
     // Only run when user is logged in and we have the task ID
-    if (!isLoggedOut && id && data) {
+    if (!isLoggedOut && id && data && !completed) {
       handleCompleteTask()
+      setCompleted(true)
     }
-  }, [isLoggedOut, id, data, handleCompleteTask])
+  }, [isLoggedOut, id, data, handleCompleteTask, completed])
 
   return (
     <Screen
