@@ -79,6 +79,7 @@ export enum RouteName {
   AboutHoliApp = 'AboutHoliApp',
   Document = 'Document',
   Favorites = 'Favorites',
+  FavoritesAdd = 'FavoritesAdd',
   AboutMe = 'AboutMe',
   MyPosts = 'MyPosts',
   MySpaces = 'MySpaces',

@@ -50,6 +50,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.HelpSettings]: 'profile/settings/help',
             [RouteName.Document]: 'profile/settings/legalDocuments/document',
             [RouteName.Favorites]: 'profile/settings/favorites',
+            [RouteName.FavoritesAdd]: 'profile/settings/favorites/add',
             [RouteName.AboutMe]: 'profile/settings/aboutMe',
             [RouteName.MyPosts]: 'profile/settings/posts',
             [RouteName.MySpaces]: 'profile/settings/spaces',
