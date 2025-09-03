@@ -10,6 +10,7 @@ import { Button } from 'holi-bricks/components/button'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 type DoItLaterProps = {
   id: string
@@ -56,7 +57,9 @@ export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProp
         label={t('tasks.bookmark.unlogged.cta')}
         margin={{ top: 'lg' }}
         onPress={() => {
-          setPathToRedirect(`/profile/settings/favorites/add?taskId=${id}`)
+          const addToFavoritesPath = `/profile/settings/favorites/add?taskId=${id}`
+          setPathToRedirect(addToFavoritesPath)
+          setRedirectAfterSocialLogin(addToFavoritesPath)
           navigate('/onboarding')
         }}
       />
