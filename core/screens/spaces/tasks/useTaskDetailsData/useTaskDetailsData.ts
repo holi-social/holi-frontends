@@ -35,6 +35,7 @@ export type UseTaskDetailsData = {
   interactionSignupLink?: string
   taskDuration?: Duration
   taskRegularity?: Regularity
+  totalCompletions?: number
 }
 
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
@@ -182,6 +183,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
     },
     spaceId: data?.taskById?.space?.id,
     spaceTitle: data?.taskById?.space?.title,
+    totalCompletions: data?.taskById?.totalCompletions,
     interactionType: data?.taskById?.interactionType,
     interactionSignupLink: data?.taskById?.interactionSignupLink,
     taskDuration: data?.taskById?.duration,

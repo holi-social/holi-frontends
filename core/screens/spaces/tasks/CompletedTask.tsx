@@ -27,7 +27,7 @@ const CompletedTask = () => {
   const styles = getStyles(theme)
   const { navigate } = useRouting()
 
-  const { refetch, data } = useTaskDetailsData()
+  const { refetch, data, totalCompletions } = useTaskDetailsData()
 
   return (
     <Screen
@@ -72,7 +72,7 @@ const CompletedTask = () => {
                 <GoodDeedCounterCard
                   imageSrc={data.coverImage?.uri}
                   title={data.title}
-                  completedCount={1}
+                  completedCount={totalCompletions || 1}
                   totalCount={1}
                 />
               </View>

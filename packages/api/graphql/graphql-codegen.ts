@@ -42,6 +42,7 @@ export enum AccountType {
   Email = 'EMAIL',
   Facebook = 'FACEBOOK',
   Google = 'GOOGLE',
+  Otp = 'OTP',
   Unknown = 'UNKNOWN',
 }
 
@@ -5112,6 +5113,7 @@ export type TaskByIdQuery = {
     contactPhone?: string
     thumbnail?: string
     thumbnailBlurhash?: string
+    totalCompletions: number
     created: any
     skillsV2: Array<string>
     interactionSignupLink?: string
@@ -8060,6 +8062,7 @@ export const TaskByIdDocument = gql`
     contactPhone
     thumbnail
     thumbnailBlurhash
+    totalCompletions
     created
     creator {
       id

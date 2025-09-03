@@ -67,7 +67,7 @@ const TaskCompletionFlow = () => {
   const { navigate } = useRouting()
   const [step, setStep] = useState<'code' | 'email'>('email')
 
-  const { refetch, data, id, spaceId } = useTaskDetailsData()
+  const { refetch, data, id, spaceId, totalCompletions } = useTaskDetailsData()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const { completeTask } = useCompleteTask()
@@ -109,6 +109,23 @@ const TaskCompletionFlow = () => {
     }
   }, [flow])
 
+  const handleCompleteTask = async () => {
+    await completeTask(id as string)
+
+    try {
+      await updateUser({
+        variables: { input: { firstName: name, lastName: '', pronouns: '' } },
+      })
+    } catch (error) {
+      logger.debug('TaskCompletionFlow', 'Failed to update user', { error })
+      // ignore error - there is an async flow happening on ory and this can be unstable
+      // later on the user will be automatically redirect to the name input again if this fails
+    }
+
+    storeWelcomeGoodDeedsCounter(true)
+    navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
+  }
+
   const onSubmit = async (payload: UpdateRegistrationFlowBody, provider?: string) => {
     track(
       provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
@@ -143,12 +160,7 @@ const TaskCompletionFlow = () => {
           session_token: data.session_token,
         } as OrySessionContext)
 
-        await updateUser({
-          variables: { input: { firstName: name, lastName: '', pronouns: '' } },
-        })
-        await completeTask(id as string)
-        storeWelcomeGoodDeedsCounter(true)
-        navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
+        await handleCompleteTask()
       } catch (err) {
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
@@ -175,12 +187,7 @@ const TaskCompletionFlow = () => {
 
             if (data) {
               await doLogin(client, data)
-              await updateUser({
-                variables: { input: { firstName: name, lastName: '', pronouns: '' } },
-              })
-              await completeTask(id as string)
-              storeWelcomeGoodDeedsCounter(true)
-              navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
+              await handleCompleteTask()
             }
           }
         } else {
@@ -239,7 +246,11 @@ const TaskCompletionFlow = () => {
           <SafeArea>
             <HoliContainer>
               <TaskCompletionSteps />
-              <GoodDeedMoreCard title={data.title} imageSrc={data.coverImage?.uri} completedCount={0} />
+              <GoodDeedMoreCard
+                title={data.title}
+                imageSrc={data.coverImage?.uri}
+                completedCount={totalCompletions || 0}
+              />
             </HoliContainer>
           </SafeArea>
         </View>
