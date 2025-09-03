@@ -30,7 +30,6 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useCallback, useEffect } from 'react'
-import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -72,7 +71,6 @@ const Onboarding = () => {
 
   const finishOnboarding = async () => {
     breakOnboarding()
-    showOnboardingFinishModal()
   }
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen

@@ -19,6 +19,7 @@ import { Button } from 'holi-bricks/components/button'
 import { useWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -37,6 +38,7 @@ const CompletedTask = () => {
 
   useEffect(() => {
     setPathToRedirect(null)
+    removeRedirectAfterSocialLogin()
   }, [])
 
   return (

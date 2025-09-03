@@ -47,6 +47,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { storeWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 import { Button } from 'holi-bricks/components/button'
 import { Edit2 } from '@holi/icons/src/generated'
+import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -124,6 +125,7 @@ const TaskCompletionFlow = () => {
   useEffect(() => {
     if (spaceId && id) {
       setPathToRedirect(`/spaces/${spaceId}/tasks/${id}/callback`)
+      setRedirectAfterSocialLogin(`/spaces/${spaceId}/tasks/${id}/callback`)
     }
   }, [spaceId, id])
 

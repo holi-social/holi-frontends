@@ -38,6 +38,7 @@ import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 export type LoginParams = {
   flow?: string
@@ -91,12 +92,23 @@ const Login = () => {
   )
 
   useEffect(() => {
+    if (flow?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016)) {
+      displayError(new Error('Email already used'), 'Failed to submit form', {
+        displayMessage: t('auth.login.message.1010016'),
+        location: 'CreateAccount.onSubmit',
+      })
+      initializeFlow()?.then(() => {
+        setStep('oidc')
+      })
+    }
+
     if (isLoggedOut && !flow) {
       initializeFlow()
     } else if (!isLoggedOut) {
-      navigate('/')
+      const redirect = getRedirectAfterSocialLogin()
+      navigate(redirect || '/')
     }
-  }, [isLoggedOut, initializeFlow, flow, navigate])
+  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t])
 
   const performLogin = async (payload: UpdateLoginFlowBody & { identifier?: string }, provider?: string) => {
     if (payload.identifier) {
