@@ -20,9 +20,11 @@ export const GoodDeedCard = ({ title, imageSrc, completedCount }: GoodDeedCardPr
     <CompactCard title={title} imageLabel="" imageSrc={imageSrc}>
       <Stack direction="row" gap="4xs" alignItems="center">
         <HoliIcon icon={GoodDeeds} size={Spacing.xs} color="support" />
-        <Text size="md" color="support">
-          {t('task.card.completionCounter', { count: completedCount })}
-        </Text>
+        {completedCount > 0 && (
+          <Text size="md" color="support">
+            {t('task.card.completionCounter', { count: completedCount })}
+          </Text>
+        )}
       </Stack>
     </CompactCard>
   )

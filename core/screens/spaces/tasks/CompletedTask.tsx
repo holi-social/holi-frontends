@@ -18,6 +18,7 @@ import { Close } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
 import { useWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -30,7 +31,9 @@ const CompletedTask = () => {
   const { navigate } = useRouting()
   const welcomeGoodDeedsCounter = useWelcomeGoodDeedsCounter()
 
-  const { refetch, data, totalCompletions } = useTaskDetailsData()
+  const { refetch, data, totalCompletions = 0 } = useTaskDetailsData()
+  const { data: rewardsCounterData } = useGetRewardsCounterQuery()
+  const count = rewardsCounterData?.rewards_counter?.counter ?? 1 // optimistic 1 in case the async counter still hasn't updated
 
   useEffect(() => {
     setPathToRedirect(null)
@@ -85,8 +88,8 @@ const CompletedTask = () => {
                 <GoodDeedCounterCard
                   imageSrc={data.coverImage?.uri}
                   title={data.title}
-                  completedCount={totalCompletions || 1}
-                  totalCount={1}
+                  completedCount={totalCompletions}
+                  totalCount={count}
                 />
               </View>
               <View style={styles.counterContainer}>

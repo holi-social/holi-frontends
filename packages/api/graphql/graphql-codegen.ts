@@ -3544,6 +3544,7 @@ export type FullTaskFragment = {
   duration?: Duration
   timeframeEndDate?: any
   timeframeStartDate?: any
+  totalCompletions: number
   skillsV2: Array<string>
   interactionSignupLink?: string
   geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
@@ -3676,6 +3677,7 @@ export type FullSpaceFragment = {
     duration?: Duration
     timeframeEndDate?: any
     timeframeStartDate?: any
+    totalCompletions: number
     skillsV2: Array<string>
     interactionSignupLink?: string
     geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
@@ -3925,6 +3927,7 @@ export type CreateSpaceMutation = {
       duration?: Duration
       timeframeEndDate?: any
       timeframeStartDate?: any
+      totalCompletions: number
       skillsV2: Array<string>
       interactionSignupLink?: string
       geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
@@ -4300,6 +4303,7 @@ export type CompleteReadyToGoTaskMutation = {
       duration?: Duration
       timeframeEndDate?: any
       timeframeStartDate?: any
+      totalCompletions: number
       skillsV2: Array<string>
       interactionSignupLink?: string
       geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
@@ -4420,6 +4424,7 @@ export type SpaceByIdQuery = {
       duration?: Duration
       timeframeEndDate?: any
       timeframeStartDate?: any
+      totalCompletions: number
       skillsV2: Array<string>
       interactionSignupLink?: string
       geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
@@ -5831,6 +5836,7 @@ export const FullTaskFragmentDoc = gql`
   duration
   timeframeEndDate
   timeframeStartDate
+  totalCompletions
   creator {
     ...UserAvatar
   }

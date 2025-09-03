@@ -33,9 +33,11 @@ export const GoodDeedCounterCard = ({ totalCount, ...rest }: GoodDeedCardCounter
       <GoodDeedCard {...rest} />
 
       <Stack justifyContent="center" direction="row" gap="4xs" alignItems="center" margin={{ bottom: '3xs' }}>
-        <TextLink size="sm" textAlign="center" onPress={handleOpenCampaign}>
-          {t('task.card.goodDeeds.globalCounter', { count: totalCount })}
-        </TextLink>
+        {totalCount > 0 && (
+          <TextLink size="sm" textAlign="center" onPress={handleOpenCampaign}>
+            {t('task.card.goodDeeds.globalCounter', { count: totalCount })}
+          </TextLink>
+        )}
         <HoliIcon icon={Question} size={Spacing.xs} />
       </Stack>
     </Stack>
