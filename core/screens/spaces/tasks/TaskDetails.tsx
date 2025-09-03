@@ -153,9 +153,11 @@ const TaskDetails = () => {
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
         />
       </Screen>
-      <DoItLaterModal {...doItLaterModalProps}>
-        <DoItLater title={data.title} imageSrc={data.coverImage?.uri} />
-      </DoItLaterModal>
+      {id && (
+        <DoItLaterModal {...doItLaterModalProps}>
+          <DoItLater id={id} title={data.title} imageSrc={data.coverImage?.uri} />
+        </DoItLaterModal>
+      )}
     </>
   )
 }

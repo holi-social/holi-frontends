@@ -8,6 +8,8 @@ import { useStyles } from 'holi-bricks/styles'
 import { GoodDeedCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedCard'
 import { Button } from 'holi-bricks/components/button'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 const Frame = ({ children }: PropsWithChildren) => (
   <Stack padding="xxs" borderRadius="md" borderColor="default" borderWidth="sm" backgroundColor="support">
@@ -16,16 +18,18 @@ const Frame = ({ children }: PropsWithChildren) => (
 )
 
 type DoItLaterProps = {
+  id: string
   title: string
   imageSrc?: MultiPlatformImageSource
 }
 
-export const DoItLater = ({ title, imageSrc }: DoItLaterProps) => {
+export const DoItLater = ({ id, title, imageSrc }: DoItLaterProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   return (
-    <Stack gap="3xs" margin={{ top: 'lg' }} padding="xs">
-      <Text size="3xl" textAlign="center">
+    <Stack gap="3xs" margin={{ top: 'md' }} padding="xs">
+      <Text size="3xl" headingLevel="1" textAlign="center">
         {t('tasks.bookmark.unlogged.title')}
       </Text>
       <Text size="md" textAlign="center">
@@ -42,7 +46,14 @@ export const DoItLater = ({ title, imageSrc }: DoItLaterProps) => {
       <Frame>
         <Text size="md">{t('tasks.bookmark.unlogged.step3')}</Text>
       </Frame>
-      <Button label={t('tasks.bookmark.unlogged.cta')} margin={{ top: 'lg' }} />
+      <Button
+        label={t('tasks.bookmark.unlogged.cta')}
+        margin={{ top: 'lg' }}
+        onPress={() => {
+          setPathToRedirect(`/profile/settings/favorites/add?taskId=${id}`)
+          navigate('/onboarding')
+        }}
+      />
     </Stack>
   )
 }
@@ -54,9 +65,16 @@ type DoItLaterModalProps = PropsWithChildren & {
 
 export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {
   const { theme } = useStyles()
+  const { t } = useTranslation()
 
   return (
-    <HoliModal label={'TODO'} autoHeight={false} relativeHeight={100} backgroundColor={theme.colors.bg.main} {...rest}>
+    <HoliModal
+      label={t('tasks.bookmark.unlogged.subtitle')}
+      autoHeight={false}
+      relativeHeight={100}
+      backgroundColor={theme.colors.bg.main}
+      {...rest}
+    >
       {children}
     </HoliModal>
   )
