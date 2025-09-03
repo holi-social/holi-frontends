@@ -492,6 +492,15 @@ export enum CommentableType {
   Post = 'POST',
 }
 
+/** CompletedTask(id, task, user, completed_at) */
+export type CompletedTask = {
+  __typename?: 'CompletedTask'
+  completedAt: Scalars['DateTime']['output']
+  id: Scalars['UUID']['output']
+  task: Task
+  user: User
+}
+
 export enum ContentType {
   FeedPost = 'FEED_POST',
   Post = 'POST',
@@ -1031,6 +1040,7 @@ export type Mutation = {
   anonCount?: Maybe<Scalars['Void']['output']>
   appVolunteering_trackEngagementView: AppVolunteering_TrackEngagementViewResponse
   blockUser: Result
+  completeReadyToGoTask: CompletedTask
   createAppointment: Appointment
   createFeedPost: FeedPost
   createPoll: Poll
@@ -1062,6 +1072,7 @@ export type Mutation = {
   registerDevice: Result
   removeReactionFromComment: Comment
   reportContent: Result
+  rewards_markBadgeUnlockAsSeen: Rewards_UnlockedBadge
   /** @deprecated use newer api with string favoritable ids to favorite all the things, keep for <=1.57.1 */
   unfavorite: Result
   unfavoriteV2: Result
@@ -1121,6 +1132,10 @@ export type MutationAppVolunteering_TrackEngagementViewArgs = {
 
 export type MutationBlockUserArgs = {
   userId: Scalars['UUID']['input']
+}
+
+export type MutationCompleteReadyToGoTaskArgs = {
+  id: Scalars['UUID']['input']
 }
 
 export type MutationCreateAppointmentArgs = {
@@ -1230,6 +1245,10 @@ export type MutationReportContentArgs = {
   contentType: ContentType
   description?: InputMaybe<Scalars['String']['input']>
   objectId: Scalars['UUID']['input']
+}
+
+export type MutationRewards_MarkBadgeUnlockAsSeenArgs = {
+  unlockId: Scalars['ID']['input']
 }
 
 export type MutationUnfavoriteArgs = {
@@ -1661,6 +1680,7 @@ export type Query = {
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
+  rewards_badges: Rewards_BadgesOverview
   rewards_counter: Rewards_RewardsCounter
   rewards_globalCounter: Rewards_RewardsCounter
   rewards_transactions: Rewards_PagedTransactions
@@ -2125,6 +2145,19 @@ export type Result = {
   success: Scalars['Boolean']['output']
 }
 
+export type Rewards_BadgesOverview = {
+  __typename?: 'Rewards_BadgesOverview'
+  inProgress: Array<Maybe<Rewards_InProgressBadge>>
+  unlocked: Array<Maybe<Rewards_UnlockedBadge>>
+}
+
+export type Rewards_InProgressBadge = {
+  __typename?: 'Rewards_InProgressBadge'
+  progressGoal?: Maybe<Scalars['Int']['output']>
+  progressMade?: Maybe<Scalars['Int']['output']>
+  slug: Scalars['String']['output']
+}
+
 export type Rewards_PagedTransactions = {
   __typename?: 'Rewards_PagedTransactions'
   data: Array<Maybe<Rewards_Transaction>>
@@ -2147,6 +2180,14 @@ export type Rewards_Transaction = {
   createdAt: Scalars['DateTimeISO']['output']
   id: Scalars['ID']['output']
   rewardType: Rewards_RewardType
+}
+
+export type Rewards_UnlockedBadge = {
+  __typename?: 'Rewards_UnlockedBadge'
+  id: Scalars['ID']['output']
+  seenAt?: Maybe<Scalars['DateTimeISO']['output']>
+  slug: Scalars['String']['output']
+  unlockedAt: Scalars['DateTimeISO']['output']
 }
 
 /**
@@ -2371,6 +2412,7 @@ export type Task = {
   thumbnailBlurhash?: Maybe<Scalars['String']['output']>
   timeframeEndDate?: Maybe<Scalars['Date']['output']>
   timeframeStartDate?: Maybe<Scalars['Date']['output']>
+  totalCompletions: Scalars['Int']['output']
   visibility: VisibilityType
 }
 
@@ -2409,18 +2451,27 @@ export type Typesense_Document = {
   contact?: Maybe<Array<Maybe<Typesense_DocumentContact>>>
   description_de?: Maybe<Scalars['String']['output']>
   description_en?: Maybe<Scalars['String']['output']>
+  donation_open_amount_in_cents?: Maybe<Scalars['Int']['output']>
+  donation_progress_percentage?: Maybe<Scalars['Int']['output']>
   external_url?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   image_url?: Maybe<Scalars['String']['output']>
   link_locators?: Maybe<Typesense_DocumentLinkLocators>
   location?: Maybe<Scalars['String']['output']>
+  location_country_de?: Maybe<Scalars['String']['output']>
+  location_country_en?: Maybe<Scalars['String']['output']>
   location_lat_lng?: Maybe<Array<Maybe<Scalars['Float']['output']>>>
   location_type?: Maybe<Scalars['String']['output']>
   organizer_image_url?: Maybe<Scalars['String']['output']>
+  organizer_location?: Maybe<Scalars['String']['output']>
+  organizer_location_country_de?: Maybe<Scalars['String']['output']>
+  organizer_location_country_en?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
   organizer_url?: Maybe<Scalars['String']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   source?: Maybe<Scalars['String']['output']>
+  summary_de?: Maybe<Scalars['String']['output']>
+  summary_en?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
   title_en?: Maybe<Scalars['String']['output']>
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -2444,6 +2495,7 @@ export enum Typesense_DocumentContactType {
 
 export type Typesense_DocumentLinkLocators = {
   __typename?: 'Typesense_DocumentLinkLocators'
+  donation?: Maybe<Scalars['String']['output']>
   profile?: Maybe<Scalars['String']['output']>
   space?: Maybe<Scalars['String']['output']>
   task?: Maybe<Scalars['String']['output']>
@@ -2451,6 +2503,7 @@ export type Typesense_DocumentLinkLocators = {
 }
 
 export enum Typesense_DocumentType {
+  Donation = 'donation',
   Profile = 'profile',
   Space = 'space',
   Task = 'task',
@@ -4215,6 +4268,65 @@ export type DeleteSpacePostMutationVariables = Exact<{
 }>
 
 export type DeleteSpacePostMutation = { __typename?: 'Mutation'; deleteSpacePost: { __typename?: 'Space'; id: string } }
+
+export type CompleteReadyToGoTaskMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type CompleteReadyToGoTaskMutation = {
+  __typename?: 'Mutation'
+  completeReadyToGoTask: {
+    __typename?: 'CompletedTask'
+    id: string
+    completedAt: any
+    task: {
+      __typename?: 'Task'
+      id: string
+      name: string
+      description: string
+      impact?: string
+      slotsAvailable: number
+      slotsTaken: number
+      location?: string
+      visibility: VisibilityType
+      locationType: LocationType
+      interactionType?: InteractionType
+      contactEmail: string
+      contactPhone?: string
+      thumbnail?: string
+      thumbnailBlurhash?: string
+      regularity: Regularity
+      duration?: Duration
+      timeframeEndDate?: any
+      timeframeStartDate?: any
+      skillsV2: Array<string>
+      interactionSignupLink?: string
+      geolocation?: { __typename?: 'GeolocationPoint'; latitude: number; longitude: number }
+      creator: {
+        __typename?: 'User'
+        id: string
+        identity?: string
+        avatar?: string
+        avatarBlurhash?: string
+        avatarLabel: string
+        avatarDefaultColor: string
+        firstName?: string
+        fullName: string
+      }
+    }
+    user: {
+      __typename?: 'User'
+      id: string
+      identity?: string
+      avatar?: string
+      avatarBlurhash?: string
+      avatarLabel: string
+      avatarDefaultColor: string
+      firstName?: string
+      fullName: string
+    }
+  }
+}
 
 export type SpaceByIdQueryVariables = Exact<{
   idOrName: Scalars['String']['input']
@@ -6744,6 +6856,58 @@ export type DeleteSpacePostMutationResult = Apollo.MutationResult<DeleteSpacePos
 export type DeleteSpacePostMutationOptions = Apollo.BaseMutationOptions<
   DeleteSpacePostMutation,
   DeleteSpacePostMutationVariables
+>
+export const CompleteReadyToGoTaskDocument = gql`
+    mutation CompleteReadyToGoTask($id: UUID!) {
+  completeReadyToGoTask(id: $id) {
+    id
+    completedAt
+    task {
+      ...FullTask
+    }
+    user {
+      ...UserAvatar
+    }
+  }
+}
+    ${FullTaskFragmentDoc}
+${UserAvatarFragmentDoc}`
+export type CompleteReadyToGoTaskMutationFn = Apollo.MutationFunction<
+  CompleteReadyToGoTaskMutation,
+  CompleteReadyToGoTaskMutationVariables
+>
+
+/**
+ * __useCompleteReadyToGoTaskMutation__
+ *
+ * To run a mutation, you first call `useCompleteReadyToGoTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCompleteReadyToGoTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [completeReadyToGoTaskMutation, { data, loading, error }] = useCompleteReadyToGoTaskMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCompleteReadyToGoTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<CompleteReadyToGoTaskMutation, CompleteReadyToGoTaskMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CompleteReadyToGoTaskMutation, CompleteReadyToGoTaskMutationVariables>(
+    CompleteReadyToGoTaskDocument,
+    options
+  )
+}
+export type CompleteReadyToGoTaskMutationHookResult = ReturnType<typeof useCompleteReadyToGoTaskMutation>
+export type CompleteReadyToGoTaskMutationResult = Apollo.MutationResult<CompleteReadyToGoTaskMutation>
+export type CompleteReadyToGoTaskMutationOptions = Apollo.BaseMutationOptions<
+  CompleteReadyToGoTaskMutation,
+  CompleteReadyToGoTaskMutationVariables
 >
 export const SpaceByIdDocument = gql`
     query SpaceById($idOrName: String!) {
