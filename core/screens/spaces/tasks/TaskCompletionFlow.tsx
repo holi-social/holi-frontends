@@ -23,7 +23,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { doBrowserLogin, retrieveSubmitFlowBody } from '@holi/core/auth/helpers/auth/helpers'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { SocialLoginButton } from 'holi-bricks/components/button/SocialLoginButton'
 import { TrackingEvent } from '@holi/core/tracking'
 import { newKratosSdk, OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -123,7 +123,7 @@ const TaskCompletionFlow = () => {
 
   useEffect(() => {
     if (spaceId && id) {
-      setPathToRedirect(`/spaces/${spaceId}/tasks/${id}/complete`)
+      setPathToRedirect(`/spaces/${spaceId}/tasks/${id}/callback`)
     }
   }, [spaceId, id])
 
@@ -278,6 +278,11 @@ const TaskCompletionFlow = () => {
         </View>
 
         <View style={styles.container}>
+          {isLoaderShown && (
+            <View style={styles.loader}>
+              <HoliLoader />
+            </View>
+          )}
           {!isLoaderShown && (
             <HoliContainer>
               {/* Body */}
@@ -385,6 +390,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     learnMore: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: Spacing['4xs'] },
     body: { paddingTop: Spacing.md, paddingBottom: Spacing.lg, flex: 1 },
+    loader: { paddingTop: Spacing['4xl'] },
     titleContainer: { gap: Spacing.xxs, marginBottom: Spacing.xs },
     buttonContainer: { gap: Spacing['3xs'] },
     dividerContainer: {
