@@ -153,6 +153,20 @@ export const CreateAccount = ({
 
         onRegister()
       } catch (err) {
+        if (
+          (
+            err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
+          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+        ) {
+          displayError(err, 'Failed to submit form', {
+            displayMessage: t('auth.login.message.1010016'),
+            location: 'CreateAccount.onSubmit',
+          })
+          initializeFlow()?.then(() => {
+            setStep('email-code')
+          })
+          return
+        }
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
           return

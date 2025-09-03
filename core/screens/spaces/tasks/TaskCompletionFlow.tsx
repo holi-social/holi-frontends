@@ -45,6 +45,8 @@ import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask
 import { GoodDeedMoreCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { storeWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
+import { Button } from 'holi-bricks/components/button'
+import { Edit2 } from '@holi/icons/src/generated'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -66,6 +68,7 @@ const TaskCompletionFlow = () => {
   const client = useApolloClient()
   const { navigate } = useRouting()
   const [step, setStep] = useState<'code' | 'email'>('email')
+  const [email, setEmail] = useState<string | undefined>(undefined)
 
   const { refetch, data, id, spaceId, totalCompletions } = useTaskDetailsData()
 
@@ -126,7 +129,10 @@ const TaskCompletionFlow = () => {
     navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
   }
 
-  const onSubmit = async (payload: UpdateRegistrationFlowBody, provider?: string) => {
+  const onSubmit = async (payload: UpdateRegistrationFlowBody & { 'traits.email'?: string }, provider?: string) => {
+    if (payload['traits.email']) {
+      setEmail(payload['traits.email'])
+    }
     track(
       provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
     )
@@ -162,6 +168,20 @@ const TaskCompletionFlow = () => {
 
         await handleCompleteTask()
       } catch (err) {
+        if (
+          (
+            err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
+          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+        ) {
+          displayError(err, 'Failed to submit form', {
+            displayMessage: t('auth.login.message.1010016'),
+            location: 'TaskCompletionFlow.onSubmit',
+          })
+          initializeFlow()?.then(() => {
+            setStep('email')
+          })
+          return
+        }
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
           return
@@ -217,20 +237,18 @@ const TaskCompletionFlow = () => {
       headerOptions={{
         headerBackVisible: false,
         headerTitleAlign: 'center',
-        ...Platform.select({
-          native: {
-            title: t('tasks.register.unlogged.header'),
-            headerTransparent: Platform.OS === 'web' ? true : false,
-          },
-        }),
+        title: t('tasks.register.unlogged.header'),
         headerStyle: {
-          backgroundColor: theme.colors.brandB100,
+          backgroundColor: Platform.OS === 'web' ? theme.colors.background10 : theme.colors.brandB100,
         },
         headerLeft: () => (
           <HeaderBackButton
             {...(step === 'code'
               ? {
-                  onPress: () => setStep('email'),
+                  onPress: () =>
+                    initializeFlow()?.then(() => {
+                      setStep('email')
+                    }),
                 }
               : {})}
           />
@@ -307,6 +325,28 @@ const TaskCompletionFlow = () => {
                   onChange={setName}
                 />
               )}
+              {step === 'code' && (
+                <View style={styles.codeInputContainer}>
+                  <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
+                  <Text size="md">{t('registration.emailVerification.body')}</Text>
+                  <View style={styles.changeEmailContainer}>
+                    <Text size="md">{email}</Text>
+                    <Button
+                      icon={Edit2}
+                      transparent
+                      size="lg"
+                      label={t('global.edit')}
+                      onPress={() => {
+                        showLoader()
+                        initializeFlow()?.then(() => {
+                          setStep('email')
+                          hideLoader()
+                        })
+                      }}
+                    />
+                  </View>
+                </View>
+              )}
               <FormBuilder
                 flow={flow}
                 onSubmit={onSubmit}
@@ -354,6 +394,19 @@ const getStyles = (theme: HoliTheme) =>
     footer: {
       paddingBottom: Spacing.sm,
       gap: Spacing.xs,
+    },
+    codeInputContainer: {
+      marginTop: Spacing.md,
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      gap: Spacing['3xs'],
+    },
+    changeEmailContainer: {
+      marginTop: -Spacing.xxs,
+      gap: Spacing['3xs'],
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
     },
   })
 
