@@ -95,14 +95,10 @@ const TaskCompletionFlow = () => {
   }, [id, name, spaceId, completeTask, updateUser, navigate])
 
   const initializeFlow = useCallback(() => {
-    showLoader()
-
     if (!isLoggedOut) {
-      // if a user is logged in, we can complete the task directly
-      // this most likely means the user is being redirected here after authenticating with a non-OTP method
-      handleCompleteTask().finally(hideLoader)
       return
     }
+    showLoader()
 
     return (
       initRegistrationFlow()
@@ -118,7 +114,7 @@ const TaskCompletionFlow = () => {
         )
         .finally(hideLoader)
     )
-  }, [isLoggedOut, safeSetFlow, displayError, t, hideLoader, showLoader, handleCompleteTask])
+  }, [isLoggedOut, safeSetFlow, displayError, t, hideLoader, showLoader])
 
   // When the component is mounted, we initialize a new use login flow:
   useIsomorphicLayoutEffect(() => {
