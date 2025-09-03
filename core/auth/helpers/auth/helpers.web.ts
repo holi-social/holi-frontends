@@ -16,6 +16,7 @@ import type { AxiosPromise } from 'axios'
 import { extractValue, handleKratosSdkError, handleKratosSdkErrorIgnoringCodes } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { holiNextJSApiUrl } from '@holi/api/config'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 const userSessionName = 'user_session'
 
@@ -87,10 +88,12 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
       return flow
     }
   }
+  const redirect = getRedirectAfterSocialLogin()
+
   return newKratosSdk()
     .createBrowserLoginFlow({
       refresh: true,
-      returnTo: holiNextJSApiUrl,
+      returnTo: `${holiNextJSApiUrl}${redirect || ''}`,
     })
     .then(({ data }) => {
       return {
@@ -164,7 +167,10 @@ export const initRegistrationFlow = (flowId?: string): AxiosPromise<Registration
   if (flowId) {
     return newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
   }
-  return newKratosSdk().createBrowserRegistrationFlow().catch(handleKratosSdkError('createBrowserRegistrationFlow'))
+  const redirect = getRedirectAfterSocialLogin()
+  return newKratosSdk()
+    .createBrowserRegistrationFlow({ returnTo: `${holiNextJSApiUrl}${redirect || ''}` })
+    .catch(handleKratosSdkError('createBrowserRegistrationFlow'))
 }
 
 // Forgot Password

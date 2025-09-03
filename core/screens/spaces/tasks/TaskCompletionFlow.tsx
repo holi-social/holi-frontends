@@ -342,7 +342,9 @@ const TaskCompletionFlow = () => {
                     <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
                     <Text size="md">{t('registration.emailVerification.body')}</Text>
                     <View style={styles.changeEmailContainer}>
-                      <Text size="md">{email}</Text>
+                      <Text size="md" ellipsizeMode="tail" numberOfLines={1}>
+                        {email}
+                      </Text>
                       <Button
                         icon={Edit2}
                         transparent
@@ -416,6 +418,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing['3xs'],
     },
     changeEmailContainer: {
+      flex: 1,
       marginTop: -Spacing.xxs,
       gap: Spacing['3xs'],
       flexDirection: 'row',

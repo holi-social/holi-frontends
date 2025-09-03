@@ -15,7 +15,7 @@ import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboar
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { usePathToRedirect, useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -63,6 +63,7 @@ const Login = () => {
   const { theme } = useTheme()
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => createStyles(theme), [theme])
+  const pathToRedirect = usePathToRedirect()
 
   const handleMessage = useCallback(
     (messageId: number) => {
@@ -106,9 +107,9 @@ const Login = () => {
       initializeFlow()
     } else if (!isLoggedOut) {
       const redirect = getRedirectAfterSocialLogin()
-      navigate(redirect || '/')
+      navigate(redirect || pathToRedirect || '/')
     }
-  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t])
+  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t, pathToRedirect])
 
   const performLogin = async (payload: UpdateLoginFlowBody & { identifier?: string }, provider?: string) => {
     if (payload.identifier) {
