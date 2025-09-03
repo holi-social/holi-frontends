@@ -48,22 +48,15 @@ export const DoItLater = ({ title, imageSrc }: DoItLaterProps) => {
 }
 
 type DoItLaterModalProps = PropsWithChildren & {
-  isOpen?: boolean
-  onClose: () => void
+  shown: boolean
+  onDismiss: () => void
 }
 
-export const DoItLaterModal = ({ isOpen = false, onClose, children }: DoItLaterModalProps) => {
+export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {
   const { theme } = useStyles()
 
   return (
-    <HoliModal
-      label={'TODO'}
-      shown={isOpen}
-      onDismiss={onClose}
-      autoHeight={false}
-      relativeHeight={100}
-      backgroundColor={theme.colors.bg.main}
-    >
+    <HoliModal label={'TODO'} autoHeight={false} relativeHeight={100} backgroundColor={theme.colors.bg.main} {...rest}>
       {children}
     </HoliModal>
   )

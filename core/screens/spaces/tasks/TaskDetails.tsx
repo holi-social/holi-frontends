@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { Stack } from 'holi-bricks/components/stack'
@@ -23,6 +23,7 @@ import { Button } from 'holi-bricks/components/button'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItLater'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 const isIos = Platform.OS === 'ios'
 
@@ -31,8 +32,7 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetails = () => {
-  const [showDoItLater, setShowDoItLater] = useState(false)
-
+  const { props: doItLaterModalProps, show: showDoItLater } = useModalState()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
 
@@ -123,10 +123,7 @@ const TaskDetails = () => {
             )}
             {id &&
               (isGoodDeed && !isLoggedIn ? (
-                <Button
-                  label={t('volunteering.progress.button.favorites.toSave')}
-                  onPress={() => setShowDoItLater(true)}
-                />
+                <Button label={t('volunteering.progress.button.favorites.toSave')} onPress={showDoItLater} />
               ) : (
                 <SaveForLaterButton
                   favoritableType={FavoritableType.Task}
@@ -156,7 +153,7 @@ const TaskDetails = () => {
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
         />
       </Screen>
-      <DoItLaterModal isOpen={showDoItLater} onClose={() => setShowDoItLater(false)}>
+      <DoItLaterModal {...doItLaterModalProps}>
         <DoItLater title={data.title} imageSrc={data.coverImage?.uri} />
       </DoItLaterModal>
     </>
