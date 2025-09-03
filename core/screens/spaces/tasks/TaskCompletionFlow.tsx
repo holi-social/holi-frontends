@@ -285,98 +285,96 @@ const TaskCompletionFlow = () => {
               <HoliLoader />
             </View>
           )}
-          {!isLoaderShown && (
-            <HoliContainer>
-              {/* Body */}
-              <View style={styles.body}>
-                {step === 'email' && (
-                  <>
-                    <View style={styles.titleContainer}>
-                      <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
-                      <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                      <FormBuilder
-                        flow={flow}
-                        onSubmit={onSubmit}
-                        nodesToShow={['oidc']}
-                        oidcProviders={['Google']}
-                        noAutofocusForEmail
-                      />
+          <HoliContainer>
+            {/* Body */}
+            <View style={styles.body}>
+              {step === 'email' && (
+                <>
+                  <View style={styles.titleContainer}>
+                    <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
+                    <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <FormBuilder
+                      flow={flow}
+                      onSubmit={onSubmit}
+                      nodesToShow={['oidc']}
+                      oidcProviders={['Google']}
+                      noAutofocusForEmail
+                    />
 
-                      <SocialLoginButton
-                        label={t('tasks.register.unlogged.verify.holi')}
-                        provider="Holi"
-                        testID={'ory-submit-email-button'}
-                        onPress={() => {
-                          navigate('/login')
-                        }}
-                      />
+                    <SocialLoginButton
+                      label={t('tasks.register.unlogged.verify.holi')}
+                      provider="Holi"
+                      testID={'ory-submit-email-button'}
+                      onPress={() => {
+                        navigate('/login')
+                      }}
+                    />
+                  </View>
+                  <View style={styles.dividerContainer}>
+                    <View style={styles.divider}>
+                      <HoliDivider />
                     </View>
                     <View style={styles.dividerContainer}>
-                      <View style={styles.divider}>
-                        <HoliDivider />
-                      </View>
-                      <View style={styles.dividerContainer}>
-                        <Text size="md" textAlign="center" color="greyDark">
-                          {t('auth.divider.email')}
-                        </Text>
-                      </View>
-                      <View style={styles.divider}>
-                        <HoliDivider />
-                      </View>
-                    </View>
-                  </>
-                )}
-                {step === 'email' && (
-                  <HoliTextInput
-                    placeholder={t('onboarding.names.firstName.input.placeHolder')}
-                    value={name}
-                    aria-label={t('user.profileForm.firstName')}
-                    inputLabel={t('user.profileForm.firstName')}
-                    onChange={setName}
-                  />
-                )}
-                {step === 'code' && (
-                  <View style={styles.codeInputContainer}>
-                    <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
-                    <Text size="md">{t('registration.emailVerification.body')}</Text>
-                    <View style={styles.changeEmailContainer}>
-                      <Text size="md" ellipsizeMode="tail" numberOfLines={1}>
-                        {email}
+                      <Text size="md" textAlign="center" color="greyDark">
+                        {t('auth.divider.email')}
                       </Text>
-                      <Button
-                        icon={Edit2}
-                        transparent
-                        size="lg"
-                        label={t('global.edit')}
-                        onPress={() => {
-                          showLoader()
-                          initializeFlow()?.then(() => {
-                            setStep('email')
-                            hideLoader()
-                          })
-                        }}
-                      />
+                    </View>
+                    <View style={styles.divider}>
+                      <HoliDivider />
                     </View>
                   </View>
-                )}
-                <FormBuilder
-                  flow={flow}
-                  onSubmit={onSubmit}
-                  nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
-                  withLoader={false}
-                  noAutofocusForEmail
-                />
-              </View>
+                </>
+              )}
               {step === 'email' && (
-                <View style={styles.footer}>
-                  <HoliDivider />
-                  <DocumentsFooter />
+                <HoliTextInput
+                  placeholder={t('onboarding.names.firstName.input.placeHolder')}
+                  value={name}
+                  aria-label={t('user.profileForm.firstName')}
+                  inputLabel={t('user.profileForm.firstName')}
+                  onChange={setName}
+                />
+              )}
+              {step === 'code' && (
+                <View style={styles.codeInputContainer}>
+                  <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
+                  <Text size="md">{t('registration.emailVerification.body')}</Text>
+                  <View style={styles.changeEmailContainer}>
+                    <Text size="md" ellipsizeMode="tail" numberOfLines={1}>
+                      {email}
+                    </Text>
+                    <Button
+                      icon={Edit2}
+                      transparent
+                      size="lg"
+                      label={t('global.edit')}
+                      onPress={() => {
+                        showLoader()
+                        initializeFlow()?.then(() => {
+                          setStep('email')
+                          hideLoader()
+                        })
+                      }}
+                    />
+                  </View>
                 </View>
               )}
-            </HoliContainer>
-          )}
+              <FormBuilder
+                flow={flow}
+                onSubmit={onSubmit}
+                nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
+                withLoader={false}
+                noAutofocusForEmail
+              />
+            </View>
+            {step === 'email' && (
+              <View style={styles.footer}>
+                <HoliDivider />
+                <DocumentsFooter />
+              </View>
+            )}
+          </HoliContainer>
         </View>
       </>
     </Screen>
