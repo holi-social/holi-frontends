@@ -81,14 +81,20 @@ const FormNode = (props: Props) => {
     }
     const key = getNodeTranslationKey(node)
 
-    const translationKey = props.submitLabelOverride ?? `${props.translationPrefix}input.label-${key}`
+    let translationKey = props.submitLabelOverride ?? `${props.translationPrefix}input.label-${key}`
+    if (key === 'SignInCode' || key === 'SignUpCode') {
+      translationKey = 'auth.otp.CTA'
+    }
+    if (key === 'SubmitCode') {
+      translationKey = 'registration.emailVerification.cta.verify'
+    }
 
     if (key === 'ResendCode') {
       return (
         <View style={styles.resendCodeContainer}>
           <Text size="md">{t('registration.emailVerification.resendInstruction')}</Text>
           <Button
-            label={t(translationKey)}
+            label={t('registration.emailVerification.resendEmail')}
             disabled={node.attributes.disabled}
             onPress={() => props.onSubmitPress({ method: 'code', resend: 'code' })}
             size="lg"

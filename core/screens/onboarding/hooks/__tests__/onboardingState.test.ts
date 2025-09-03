@@ -428,4 +428,24 @@ describe('useOnboardingRedirect', () => {
 
     expect(mockNavigate).not.toHaveBeenCalled()
   })
+
+  it('should not redirect to onboarding if user is on TaskCompletionFlow screen', () => {
+    onboardingStateVar('accountSetup')
+    mockUsePathname.mockReturnValue('/spaces/123/tasks/456/complete')
+
+    renderHook(() => useOnboardingRedirect())
+    jest.runOnlyPendingTimers()
+
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
+
+  it('should not redirect to onboarding if user is on TaskCompletionFlow screen with different path format', () => {
+    onboardingStateVar('emailVerification')
+    mockUsePathname.mockReturnValue('/spaces/my-space/tasks/task-123/complete')
+
+    renderHook(() => useOnboardingRedirect())
+    jest.runOnlyPendingTimers()
+
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
 })

@@ -51,6 +51,8 @@ import SpaceVideoCallList, {
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import { colors } from '@holi/ui/styles/globalVars'
+import TaskCompletionFlow, { TaskCompletionFlowParams } from '@holi/core/screens/spaces/tasks/TaskCompletionFlow'
+import CompletedTask, { CompletedTaskParams } from '@holi/core/screens/spaces/tasks/CompletedTask'
 
 export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
@@ -65,6 +67,8 @@ export type SpacesScreens = {
   [RouteName.CreateTaskDE]: CreateTaskParams
   [RouteName.EditTaskDE]: EditTaskParams
   [RouteName.TaskDetailsDE]: TaskDetailsParams
+  [RouteName.TaskCompletionFlow]: TaskCompletionFlowParams
+  [RouteName.CompletedTask]: CompletedTaskParams
   [RouteName.CreateUpdate]: CreateUpdateParams
   [RouteName.EditUpdate]: CreateUpdateParams
   [RouteName.SpaceUpdateDetailPage]: PostDetailPageParams
@@ -112,6 +116,8 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.CreateTask} component={CreateOrEditTask} />
       <SpacesStack.Screen name={RouteName.EditTask} component={CreateOrEditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetails} component={TaskDetails} />
+      <SpacesStack.Screen name={RouteName.TaskCompletionFlow} component={TaskCompletionFlow} />
+      <SpacesStack.Screen name={RouteName.CompletedTask} component={CompletedTask} />
       <SpacesStack.Screen name={RouteName.CreateTaskDE} component={CreateOrEditTask} />
       <SpacesStack.Screen name={RouteName.EditTaskDE} component={CreateOrEditTask} />
       <SpacesStack.Screen name={RouteName.TaskDetailsDE} component={TaskDetails} />

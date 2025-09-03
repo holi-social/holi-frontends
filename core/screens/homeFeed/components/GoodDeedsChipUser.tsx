@@ -14,6 +14,64 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Spacing } from 'holi-bricks/foundations'
 
+export const CounterModalContent = ({ count }: { count: number }) => {
+  const { t } = useTranslation()
+
+  return (
+    <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
+      <Stack
+        gap="4xs"
+        padding="xs"
+        backgroundColor="blueLight"
+        borderRadius="xs"
+        borderStyle="solid"
+        borderColor="main"
+        borderWidth="sm"
+        alignItems="center"
+      >
+        <Text size="xl">{t('personalGoodDeedCounter.drawer.default.banner.title')}</Text>
+        <Stack
+          borderRadius="pill"
+          backgroundColor="support"
+          direction="row"
+          alignItems="center"
+          gap="4xs"
+          padding={{ top: '4xs', bottom: '4xs', left: 'xs', right: 'xs' }}
+          borderColor="main"
+          borderStyle="solid"
+          borderWidth="sm"
+        >
+          <HoliIcon icon={GoodDeedsV2} size={40} />
+          <Text size="xxl" selectable={false}>
+            {count} {t('goodDeeds.name', { count: count })}
+          </Text>
+        </Stack>
+      </Stack>
+
+      <Stack gap="xs">
+        <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.h2')}</Text>
+
+        <Stack gap="3xs">
+          <Stack direction="row" gap="3xs">
+            <HoliIcon icon={Hearts} />
+            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+          </Stack>
+
+          <Stack direction="row" gap="3xs">
+            <HoliIcon icon={Challenges} />
+            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
+          </Stack>
+
+          <Stack direction="row" gap="3xs">
+            <HoliIcon icon={Draft} />
+            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
+          </Stack>
+        </Stack>
+      </Stack>
+    </Stack>
+  )
+}
+
 export const GoodDeedsChipUser: React.FC = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
@@ -27,59 +85,7 @@ export const GoodDeedsChipUser: React.FC = () => {
 
   const CountModal = {
     title: t('personalGoodDeedCounter.drawer.default.banner.title'),
-    content: (
-      <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
-        <Stack
-          gap="4xs"
-          padding="xs"
-          backgroundColor="blueLight"
-          borderRadius="xs"
-          borderStyle="solid"
-          borderColor="main"
-          borderWidth="sm"
-          alignItems="center"
-        >
-          <Text size="xl">{t('personalGoodDeedCounter.drawer.default.banner.title')}</Text>
-          <Stack
-            borderRadius="pill"
-            backgroundColor="support"
-            direction="row"
-            alignItems="center"
-            gap="4xs"
-            padding={{ top: '4xs', bottom: '4xs', left: 'xs', right: 'xs' }}
-            borderColor="main"
-            borderStyle="solid"
-            borderWidth="sm"
-          >
-            <HoliIcon icon={GoodDeedsV2} size={40} />
-            <Text size="xxl" selectable={false}>
-              {count} {t('goodDeeds.name', { count: count })}
-            </Text>
-          </Stack>
-        </Stack>
-
-        <Stack gap="xs">
-          <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.h2')}</Text>
-
-          <Stack gap="3xs">
-            <Stack direction="row" gap="3xs">
-              <HoliIcon icon={Hearts} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
-            </Stack>
-
-            <Stack direction="row" gap="3xs">
-              <HoliIcon icon={Challenges} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
-            </Stack>
-
-            <Stack direction="row" gap="3xs">
-              <HoliIcon icon={Draft} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Stack>
-    ),
+    content: <CounterModalContent count={count} />,
   }
 
   const TeaserModal = {
