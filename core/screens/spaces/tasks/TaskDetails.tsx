@@ -48,6 +48,7 @@ const TaskDetails = () => {
     interactionType,
     taskDuration,
     taskRegularity,
+    totalCompletions,
     isGoodDeed,
   } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
@@ -155,7 +156,12 @@ const TaskDetails = () => {
       </Screen>
       {id && (
         <DoItLaterModal {...doItLaterModalProps}>
-          <DoItLater id={id} title={data.title} imageSrc={data.coverImage?.uri} />
+          <DoItLater
+            id={id}
+            title={data.title}
+            imageSrc={data.coverImage?.uri}
+            completedCount={totalCompletions || 0}
+          />
         </DoItLaterModal>
       )}
     </>

@@ -11,19 +11,25 @@ import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
+type DoItLaterProps = {
+  id: string
+  title: string
+  imageSrc?: MultiPlatformImageSource
+  completedCount: number
+}
+
+type DoItLaterModalProps = PropsWithChildren & {
+  shown: boolean
+  onDismiss: () => void
+}
+
 const Frame = ({ children }: PropsWithChildren) => (
   <Stack padding="xxs" borderRadius="md" borderColor="default" borderWidth="sm" backgroundColor="support">
     {children}
   </Stack>
 )
 
-type DoItLaterProps = {
-  id: string
-  title: string
-  imageSrc?: MultiPlatformImageSource
-}
-
-export const DoItLater = ({ id, title, imageSrc }: DoItLaterProps) => {
+export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -38,7 +44,7 @@ export const DoItLater = ({ id, title, imageSrc }: DoItLaterProps) => {
       <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130 }} />
       <Frame>
         <Text size="md">{t('tasks.bookmark.unlogged.step1')}</Text>
-        <GoodDeedCard title={title} imageSrc={imageSrc} completedCount={10} />
+        <GoodDeedCard title={title} imageSrc={imageSrc} completedCount={completedCount} />
       </Frame>
       <Frame>
         <Text size="md">{t('tasks.bookmark.unlogged.step2')}</Text>
@@ -56,11 +62,6 @@ export const DoItLater = ({ id, title, imageSrc }: DoItLaterProps) => {
       />
     </Stack>
   )
-}
-
-type DoItLaterModalProps = PropsWithChildren & {
-  shown: boolean
-  onDismiss: () => void
 }
 
 export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {

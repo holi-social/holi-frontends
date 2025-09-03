@@ -15,6 +15,7 @@ import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } fro
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CalendarEventLine, Global, HeartHandshake, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
+import { useRateLimit } from '@holi/ui/helper'
 import { useTranslation } from 'react-i18next'
 
 export type TaskDetailsParams = {
