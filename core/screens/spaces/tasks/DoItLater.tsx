@@ -6,17 +6,19 @@ import { Stack } from 'holi-bricks/components/stack'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useStyles } from 'holi-bricks/styles'
 import { GoodDeedCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCard'
-import { Button } from 'holi-bricks/components/button'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 type DoItLaterProps = {
   id: string
   title: string
   imageSrc?: MultiPlatformImageSource
   completedCount: number
+  trackingProps: TrackingEvent.TaskProperties
 }
 
 type DoItLaterModalProps = PropsWithChildren & {
@@ -30,7 +32,7 @@ const Frame = ({ children }: PropsWithChildren) => (
   </Stack>
 )
 
-export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProps) => {
+export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }: DoItLaterProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -53,7 +55,7 @@ export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProp
       <Frame>
         <Text size="md">{t('tasks.bookmark.unlogged.step3')}</Text>
       </Frame>
-      <Button
+      <ButtonTracked
         label={t('tasks.bookmark.unlogged.cta')}
         margin={{ top: 'lg' }}
         onPress={() => {
@@ -62,6 +64,10 @@ export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProp
           setRedirectAfterSocialLogin(addToFavoritesPath)
           navigate('/onboarding')
         }}
+        trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
+          step: 'register',
+          ...trackingProps,
+        })}
       />
     </Stack>
   )

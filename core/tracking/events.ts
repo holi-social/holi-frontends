@@ -1,4 +1,4 @@
-import type { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
+import type { Duration, InteractionType, Regularity } from '@holi/api/graphql/graphql-codegen'
 import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 import type { OnboardingStepKey } from '@holi/core/screens/onboarding/hooks/useOnboardingCurrentStepKey'
 /* eslint-disable @typescript-eslint/no-namespace */
@@ -126,11 +126,12 @@ export namespace TrackingEvent {
     },
   }
 
-  interface TaskProperties {
+  export interface TaskProperties {
     taskId: string
     taskName: string
     regularity?: Regularity
     duration?: Duration
+    interactionType?: InteractionType
   }
 
   export const Task = {
@@ -153,8 +154,15 @@ export namespace TrackingEvent {
         properties: { ...props },
         ...versionOne,
       }),
-      illDoIt: (props: TaskProperties) => ({
+      illDoIt: (
+        props: TaskProperties & { step: 'started' | 'completed'; authState: 'registered' | 'unregistered' }
+      ) => ({
         name: 'task_cta_illDoIt_pressed',
+        properties: { ...props },
+        ...versionOne,
+      }),
+      saveForLater: (props: TaskProperties & { step: 'save' | 'register' }) => ({
+        name: 'task_cta_saveForLater_pressed',
         properties: { ...props },
         ...versionOne,
       }),
@@ -524,30 +532,31 @@ export namespace TrackingEvent {
     }),
   }
 
+  type AuthScreen = 'mainRegistration' | 'taskRegistration' | 'mainLogin'
+
   export namespace Auth {
     // Others
     export const RegisterButtonPressed: TrackingEvent = {
       name: 'registerButtonPressed',
       ...versionOne,
     }
-    export const SocialRegisterButtonPressed = (provider: string): TrackingEvent => ({
+    export const SocialRegisterButtonPressed = (properties: {
+      provider: string
+      screen: AuthScreen
+    }): TrackingEvent => ({
       name: 'socialRegisterButtonPressed',
       ...versionOne,
-      properties: {
-        provider,
-      },
+      properties,
     })
 
     export const LoginButtonPressed: TrackingEvent = {
       name: 'loginButtonPressed',
       ...versionOne,
     }
-    export const SocialLoginButtonPressed = (provider: string): TrackingEvent => ({
+    export const SocialLoginButtonPressed = (properties: { provider: string; screen: AuthScreen }): TrackingEvent => ({
       name: 'socialLoginButtonPressed',
       ...versionOne,
-      properties: {
-        provider,
-      },
+      properties,
     })
     export const LoginCompleted: TrackingEvent = {
       name: 'loginCompleted',
@@ -569,6 +578,30 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
+    export const HoliRegisterPressed = (properties: {
+      method: 'otp' | 'email' | 'verify' | 'back'
+      screen: AuthScreen
+    }): TrackingEvent => ({
+      name: 'holiRegisterPressed',
+      ...versionOne,
+      properties,
+    })
+    export const HoliLoginPressed = (properties: {
+      method: 'otp' | 'email' | 'back'
+      screen: AuthScreen
+    }): TrackingEvent => ({
+      name: 'holiLoginPressed',
+      ...versionOne,
+      properties,
+    })
+    export const OneTimeCodePressed = (properties: {
+      step: 'email' | 'code' | 'resend' | 'edit'
+      screen: AuthScreen
+    }): TrackingEvent => ({
+      name: 'oneTimeCodePressed',
+      ...versionOne,
+      properties,
+    })
   }
 
   export const ContentTranslated = (
@@ -870,6 +903,14 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
   }
+
+  export const Explain1MioGoodDeedsPressed = (properties: {
+    screen: 'taskRegistration' | 'taskCompletion'
+  }): TrackingEvent => ({
+    name: 'explain_1millionGoodDeeds_pressed',
+    ...versionOne,
+    properties,
+  })
 }
 
 export const Unknown: TrackingEvent = {

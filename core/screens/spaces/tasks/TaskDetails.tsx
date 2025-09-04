@@ -19,12 +19,12 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { Button } from 'holi-bricks/components/button'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItLater'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { BookmarkLine } from '@holi/icons/src/generated'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 
 const isIos = Platform.OS === 'ios'
 
@@ -65,16 +65,15 @@ const TaskDetails = () => {
     [id, isOwner, spaceName]
   )
 
-  useTrackOnce(
-    id
-      ? TrackingEvent.Task.detailPage.visited({
-          taskId: id,
-          taskName: data?.title,
-          regularity: taskRegularity,
-          duration: taskDuration,
-        })
-      : undefined
-  )
+  const taskProps = {
+    taskId: id ?? '',
+    taskName: data?.title,
+    regularity: taskRegularity,
+    duration: taskDuration,
+    interactionType,
+  }
+
+  useTrackOnce(id ? TrackingEvent.Task.detailPage.visited(taskProps) : undefined)
 
   return (
     <>
@@ -125,11 +124,15 @@ const TaskDetails = () => {
             )}
             {id &&
               (isGoodDeed && !isLoggedIn ? (
-                <Button
+                <ButtonTracked
                   variant="secondary"
                   label={t('volunteering.progress.button.favorites.toSave')}
                   onPress={showDoItLater}
                   icon={BookmarkLine}
+                  trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
+                    step: 'save',
+                    ...taskProps,
+                  })}
                 />
               ) : (
                 <SaveForLaterButton
@@ -167,6 +170,7 @@ const TaskDetails = () => {
             title={data.title}
             imageSrc={data.coverImage?.uri}
             completedCount={totalCompletions || 0}
+            trackingProps={taskProps}
           />
         </DoItLaterModal>
       )}

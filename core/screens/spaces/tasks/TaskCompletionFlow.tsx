@@ -45,9 +45,9 @@ import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask
 import { GoodDeedMoreCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { storeWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
-import { Button } from 'holi-bricks/components/button'
 import { Edit2 } from '@holi/icons/src/generated'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -140,7 +140,9 @@ const TaskCompletionFlow = () => {
       setEmail(payload['traits.email'])
     }
     track(
-      provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
+      provider
+        ? TrackingEvent.Auth.SocialRegisterButtonPressed({ provider, screen: 'taskRegistration' })
+        : TrackingEvent.Auth.RegisterButtonPressed
     )
     if (flow) {
       showLoader()
@@ -251,10 +253,17 @@ const TaskCompletionFlow = () => {
           <HeaderBackButton
             {...(step === 'code'
               ? {
-                  onPress: () =>
-                    initializeFlow()?.then(() => {
+                  onPress: () => {
+                    track(
+                      TrackingEvent.Auth.HoliRegisterPressed({
+                        method: 'back',
+                        screen: 'taskRegistration',
+                      })
+                    )
+                    return initializeFlow()?.then(() => {
                       setStep('email')
-                    }),
+                    })
+                  },
                 }
               : {})}
           />
@@ -310,6 +319,7 @@ const TaskCompletionFlow = () => {
                       onPress={() => {
                         navigate('/login')
                       }}
+                      // TODO(SF) tracking
                     />
                   </View>
                   <View style={styles.dividerContainer}>
@@ -344,7 +354,7 @@ const TaskCompletionFlow = () => {
                     <Text size="md" ellipsizeMode="tail" numberOfLines={1}>
                       {email}
                     </Text>
-                    <Button
+                    <ButtonTracked
                       icon={Edit2}
                       transparent
                       size="lg"
@@ -356,6 +366,10 @@ const TaskCompletionFlow = () => {
                           hideLoader()
                         })
                       }}
+                      trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
+                        step: 'edit',
+                        screen: 'taskRegistration',
+                      })}
                     />
                   </View>
                 </View>
