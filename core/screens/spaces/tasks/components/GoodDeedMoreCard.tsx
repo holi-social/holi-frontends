@@ -5,13 +5,14 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Question } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { GoodDeedCard, type GoodDeedCardProps } from 'holi-bricks/patterns/good-deed-card/GoodDeedCard'
+import { GoodDeedCard, type GoodDeedCardProps } from './GoodDeedCard'
+import useLink from '@holi/core/navigation/hooks/useLink'
 
 export const GoodDeedMoreCard = (props: GoodDeedCardProps) => {
   const { t } = useTranslation()
 
-  //const handleOpenCampaign = useLink({ href: 'https://holi.social/1million', external: true })
-  const handleOpenCampaign = () => {}
+  const handleOpenCampaign = useLink({ href: 'https://holi.social/1million', external: true })
+
   return (
     <Stack gap="4xs">
       <GoodDeedCard {...props} />
