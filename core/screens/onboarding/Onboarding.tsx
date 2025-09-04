@@ -36,8 +36,6 @@ import { GoodDeedsExplain, GoodDeedsDo } from '@holi/core/screens/onboarding/ste
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 export type OnboardingParams = {
   flow?: string
@@ -55,7 +53,9 @@ const Onboarding = () => {
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
-  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  // TODO: override "rewardsPhaseTwoEnabled" to "false" to hide the good deeds steps, till we improve the Desktop design
+  // const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const rewardsPhaseTwoEnabled = false
 
   const redirect = useRedirect('/act')
 
