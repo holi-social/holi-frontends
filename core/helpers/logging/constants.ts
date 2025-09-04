@@ -9,7 +9,7 @@ export const DEBUG_LOG_COMPONENTS = {
   GoodNews: false,
   NavigationProvider: false,
   Notifications: false,
-  Tracking: false,
+  Tracking: true,
   Other: false,
   RandomizationState: false,
 }

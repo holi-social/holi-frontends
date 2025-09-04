@@ -41,9 +41,10 @@ import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask
 import { GoodDeedMoreCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
-import { Button } from 'holi-bricks/components/button'
 import { Edit2 } from '@holi/icons/src/generated'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -121,9 +122,7 @@ const TaskCompletionFlow = () => {
     if (payload['traits.email']) {
       setEmail(payload['traits.email'])
     }
-    track(
-      provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
-    )
+    track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'taskRegistration' }))
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -242,10 +241,17 @@ const TaskCompletionFlow = () => {
             <HeaderBackButton
               {...(step === 'code'
                 ? {
-                    onPress: () =>
-                      initializeFlow()?.then(() => {
+                    onPress: () => {
+                      track(
+                        TrackingEvent.Auth.HoliRegisterPressed({
+                          method: 'back',
+                          screen: 'taskRegistration',
+                        })
+                      )
+                      return initializeFlow()?.then(() => {
                         setStep('email')
-                      }),
+                      })
+                    },
                   }
                 : {})}
             />
@@ -309,6 +315,12 @@ const TaskCompletionFlow = () => {
                         provider="Holi"
                         testID={'ory-submit-email-button'}
                         onPress={() => {
+                          track(
+                            TrackingEvent.Auth.HoliRegisterPressed({
+                              method: 'verify',
+                              screen: 'taskRegistration',
+                            })
+                          )
                           navigate('/login')
                         }}
                       />
@@ -345,7 +357,7 @@ const TaskCompletionFlow = () => {
                       <Text size="md" ellipsizeMode="tail" numberOfLines={1}>
                         {email}
                       </Text>
-                      <Button
+                      <ButtonTracked
                         icon={Edit2}
                         transparent
                         size="lg"
@@ -357,6 +369,10 @@ const TaskCompletionFlow = () => {
                             hideLoader()
                           })
                         }}
+                        trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
+                          step: 'edit',
+                          screen: 'taskRegistration',
+                        })}
                       />
                     </View>
                   </View>

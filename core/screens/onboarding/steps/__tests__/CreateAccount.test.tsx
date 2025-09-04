@@ -187,7 +187,9 @@ describe('CreateAccount', () => {
 
       await user.press(screen.getByLabelText('social-submit-button'))
 
-      expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.SocialRegisterButtonPressed('Google'))
+      expect(track).toHaveBeenCalledWith(
+        TrackingEvent.Auth.SocialRegisterButtonPressed({ provider: 'Google', screen: 'mainRegistration' })
+      )
     })
 
     it('should clear guest mode', async () => {

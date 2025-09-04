@@ -1,5 +1,4 @@
 import React from 'react'
-import { TextLink } from 'holi-bricks/components/text'
 import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Question } from '@holi/icons/src/generated'
@@ -10,6 +9,8 @@ import { createStyleSheet } from 'holi-bricks/styles'
 import { View } from 'react-native'
 import { GoodDeedCard, type GoodDeedCardProps } from './GoodDeedCard'
 import useLink from '@holi/core/navigation/hooks/useLink'
+import { TextLinkTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 type GoodDeedCardCounterProps = GoodDeedCardProps & {
   totalCount: number
@@ -34,9 +35,14 @@ export const GoodDeedCounterCard = ({ totalCount, ...rest }: GoodDeedCardCounter
 
       <Stack justifyContent="center" direction="row" gap="4xs" alignItems="center" margin={{ bottom: '3xs' }}>
         {totalCount > 0 && (
-          <TextLink size="sm" textAlign="center" onPress={handleOpenCampaign}>
+          <TextLinkTracked
+            size="sm"
+            textAlign="center"
+            onPress={handleOpenCampaign}
+            trackingEvent={TrackingEvent.Explain1MioGoodDeedsPressed({ screen: 'taskCompletion' })}
+          >
             {t('task.card.goodDeeds.globalCounter', { count: totalCount })}
-          </TextLink>
+          </TextLinkTracked>
         )}
         <HoliIcon icon={Question} size={Spacing.xs} />
       </Stack>

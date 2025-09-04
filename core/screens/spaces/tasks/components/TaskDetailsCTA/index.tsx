@@ -115,6 +115,7 @@ export const TaskDetailsCTA = ({
     taskName,
     regularity: taskRegularity,
     duration: taskDuration,
+    interactionType,
   }
 
   if (existingRoomId) {
@@ -215,7 +216,11 @@ export const TaskDetailsCTA = ({
         icon={HeartHandshake}
         loading={completeTaskLoading}
         label={t('spaces.tasks.contactOrganization.cta.ready')}
-        trackingEvent={TrackingEvent.Task.CTAButton.illDoIt(taskProps)}
+        trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+          ...taskProps,
+          step: 'started',
+          authState: loggedInUser ? 'registered' : 'unregistered',
+        })}
       />
     </>
   )

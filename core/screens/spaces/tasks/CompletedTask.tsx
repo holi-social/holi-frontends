@@ -14,11 +14,12 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
-import { Button } from 'holi-bricks/components/button'
 import { useWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -31,9 +32,25 @@ const CompletedTask = () => {
   const { navigate } = useRouting()
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
 
-  const { refetch, data, totalCompletions = 0 } = useTaskDetailsData()
+  const {
+    refetch,
+    data,
+    totalCompletions = 0,
+    taskDuration,
+    taskRegularity,
+    interactionType,
+    id,
+  } = useTaskDetailsData()
   const { data: rewardsCounterData } = useGlobalRewardsCounterQuery()
   const count = rewardsCounterData?.rewards_globalCounter?.counter ?? 0
+
+  const taskProps = {
+    taskId: id ?? '',
+    taskName: data?.title,
+    regularity: taskRegularity,
+    duration: taskDuration,
+    interactionType,
+  }
 
   useEffect(() => {
     setPathToRedirect(null)
@@ -69,11 +86,28 @@ const CompletedTask = () => {
               label={t('navigation.title')}
             />
             <Text size="sm">{t('tasks.register.success.brandSubtitle')}</Text>
-            <Button label={t('tasks.register.success.newUser.cta')} inline onPress={() => navigate('/act')} />
+            <ButtonTracked
+              label={t('tasks.register.success.newUser.cta')}
+              inline
+              onPress={() => navigate('/act')}
+              trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+                step: 'completed',
+                authState: 'unregistered',
+                ...taskProps,
+              })}
+            />
           </View>
         ) : (
           <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounterModal]}>
-            <Button label={t('goodDeed.rewardsMessage.button')} onPress={() => navigate('/act')} />
+            <ButtonTracked
+              label={t('goodDeed.rewardsMessage.button')}
+              onPress={() => navigate('/act')}
+              trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+                step: 'completed',
+                authState: 'registered',
+                ...taskProps,
+              })}
+            />
           </View>
         )
       }

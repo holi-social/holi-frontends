@@ -36,12 +36,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
-import { Button } from 'holi-bricks/components/button'
 import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 const logger = getLogger('CreateAccount')
 
@@ -118,9 +118,7 @@ export const CreateAccount = ({
     if (payload.identifier) {
       setEmail(payload.identifier)
     }
-    track(
-      provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
-    )
+    track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'mainRegistration' }))
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -220,6 +218,7 @@ export const CreateAccount = ({
         {...(step !== 'oidc'
           ? {
               onPress: () => {
+                track(TrackingEvent.Auth.HoliRegisterPressed({ method: 'back', screen: 'mainRegistration' }))
                 if (step === 'email-password' || step === 'email-code') {
                   setStep('oidc')
                   // re-initialize flow to reset the form and include the oidc nodes
@@ -274,7 +273,7 @@ export const CreateAccount = ({
           </Text>
           <View style={styles.changeEmailContainer}>
             <Text size="md">{email}</Text>
-            <Button
+            <ButtonTracked
               icon={Edit2}
               transparent
               size="lg"
@@ -286,6 +285,10 @@ export const CreateAccount = ({
                   hideLoader()
                 })
               }}
+              trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
+                step: 'edit',
+                screen: 'mainRegistration',
+              })}
             />
           </View>
         </View>
@@ -315,22 +318,30 @@ export const CreateAccount = ({
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button
+            <ButtonTracked
               label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-code')}
               icon={Mail}
               testID={'ory-submit-email-button'}
+              trackingEvent={TrackingEvent.Auth.HoliRegisterPressed({
+                method: 'otp',
+                screen: 'mainRegistration',
+              })}
             />
 
-            <Button
+            <ButtonTracked
               label={t('auth.CTA.emailPassword')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-password')}
               icon={Key2}
               testID="btn-to-email-password-form"
+              trackingEvent={TrackingEvent.Auth.HoliRegisterPressed({
+                method: 'email',
+                screen: 'mainRegistration',
+              })}
             />
           </View>
 
