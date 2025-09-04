@@ -202,7 +202,9 @@ describe('OAuth2Login', () => {
 
       await user.press(screen.getByLabelText('social-submit-button'))
 
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.SocialLoginButtonPressed('Google'))
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.SocialLoginButtonPressed({ provider: 'Google', screen: 'oauth2Login' })
+      )
     })
 
     it('should perform login', async () => {

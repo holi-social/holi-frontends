@@ -216,7 +216,9 @@ describe('Login', () => {
 
       await user.press(screen.getByLabelText('social-submit-button'))
 
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.SocialLoginButtonPressed('Google'))
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.SocialLoginButtonPressed({ provider: 'Google', screen: 'mainLogin' })
+      )
     })
 
     it('should perform login', async () => {
