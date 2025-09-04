@@ -2,7 +2,7 @@ import { lightAvatarTheme } from 'holi-bricks/components/avatar/avatar.theme'
 import { lightButtonTheme } from 'holi-bricks/components/button/button.theme'
 import { lightChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { lightSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
-import { blue, green, mono, orange, purple, red, transparent, yellow } from 'holi-bricks/foundations'
+import { blue, green, mono, orange, pink, purple, red, transparent, yellow } from 'holi-bricks/foundations'
 
 const decorative = {
   black: mono[800],
@@ -27,6 +27,7 @@ const decorative = {
   redLight: red[300],
   redDefault: red[400],
   redDark: red[600],
+  pinkDefault: pink[400],
 }
 
 export const lightTheme = {

@@ -47,6 +47,7 @@ export type LoginParams = {
 const { useParam } = createParamHooks<LoginParams>()
 
 const Login = () => {
+  const [displayedExistingAccountError, setDisplayedExistingAccountError] = useState(false)
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -93,14 +94,19 @@ const Login = () => {
   )
 
   useEffect(() => {
-    if (flow?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016)) {
+    if (
+      flow?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016) &&
+      !displayedExistingAccountError
+    ) {
       displayError(new Error('Email already used'), 'Failed to submit form', {
         displayMessage: t('auth.login.message.1010016'),
         location: 'CreateAccount.onSubmit',
       })
+
       initializeFlow()?.then(() => {
         setStep('oidc')
       })
+      setDisplayedExistingAccountError(true)
     }
 
     if (isLoggedOut && !flow) {
@@ -109,7 +115,7 @@ const Login = () => {
       const redirect = getRedirectAfterSocialLogin()
       navigate(redirect || pathToRedirect || '/')
     }
-  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t, pathToRedirect])
+  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t, pathToRedirect, displayedExistingAccountError])
 
   const performLogin = async (payload: UpdateLoginFlowBody & { identifier?: string }, provider?: string) => {
     if (payload.identifier) {

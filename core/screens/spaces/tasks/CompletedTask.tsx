@@ -6,8 +6,7 @@ import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { View } from 'react-native'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Platform, View } from 'react-native'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { StyleSheet } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -15,9 +14,9 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
-import { useWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
+import { useWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -31,7 +30,7 @@ const CompletedTask = () => {
   const { t } = useTranslation()
   const styles = getStyles(theme)
   const { navigate } = useRouting()
-  const welcomeGoodDeedsCounter = useWelcomeGoodDeedsCounter()
+  const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
 
   const {
     refetch,
@@ -42,8 +41,8 @@ const CompletedTask = () => {
     interactionType,
     id,
   } = useTaskDetailsData()
-  const { data: rewardsCounterData } = useGetRewardsCounterQuery()
-  const count = rewardsCounterData?.rewards_counter?.counter ?? 1 // optimistic 1 in case the async counter still hasn't updated
+  const { data: rewardsCounterData } = useGlobalRewardsCounterQuery()
+  const count = rewardsCounterData?.rewards_globalCounter?.counter ?? 0
 
   const taskProps = {
     taskId: id ?? '',
@@ -77,7 +76,7 @@ const CompletedTask = () => {
         },
       }}
       StickyBottomComponent={
-        welcomeGoodDeedsCounter ? (
+        !welcomeGoodDeedsCounterModal ? (
           <View style={styles.footer}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
@@ -99,7 +98,7 @@ const CompletedTask = () => {
             />
           </View>
         ) : (
-          <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounter]}>
+          <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounterModal]}>
             <ButtonTracked
               label={t('goodDeed.rewardsMessage.button')}
               onPress={() => navigate('/act')}
@@ -115,7 +114,7 @@ const CompletedTask = () => {
     >
       <View style={styles.body}>
         <SafeArea>
-          <HoliContainer>
+          <View style={styles.nativePadding}>
             <View style={styles.container}>
               <Text size="3xl" textAlign="center">
                 {t('tasks.register.success.title')}
@@ -144,7 +143,7 @@ const CompletedTask = () => {
                 </Text>
               </View>
             </View>
-          </HoliContainer>
+          </View>
         </SafeArea>
       </View>
     </Screen>
@@ -174,9 +173,10 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       padding: Spacing.xs,
     },
-    footerWithoutWelcomeGoodDeedsCounter: {
+    footerWithoutWelcomeGoodDeedsCounterModal: {
       backgroundColor: 'transparent',
     },
+    nativePadding: { paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0 },
   })
 
 export default memo(CompletedTask)
