@@ -1,1 +1,1 @@
-export * from './useDisplayWelcomeGoodDeedsCounter'
+export * from './useDisplayWelcomeGoodDeedsCounterModalVisibility'

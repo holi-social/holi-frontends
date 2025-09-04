@@ -19,9 +19,9 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import {
-  storeWelcomeGoodDeedsCounter,
-  useWelcomeGoodDeedsCounter,
-} from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
+  storeWelcomeGoodDeedsCounterModalVisibility,
+  useWelcomeGoodDeedsCounterModalVisibility,
+} from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModalVisibility'
 
 type ActHomeParams = {
   section: string
@@ -34,18 +34,18 @@ const ActHome = () => {
   const title = t('act.title')
   const [selectedContentType] = useParam('section')
   const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const welcomeGoodDeedsCounter = useWelcomeGoodDeedsCounter()
+  const welcomeGoodDeedsCounterModalVisibility = useWelcomeGoodDeedsCounterModalVisibility()
 
   const sections = orderedSections(selectedContentType)
 
   const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
 
   useEffect(() => {
-    if (welcomeGoodDeedsCounter) {
+    if (welcomeGoodDeedsCounterModalVisibility) {
       showWelcomeModal()
-      storeWelcomeGoodDeedsCounter(false)
+      storeWelcomeGoodDeedsCounterModalVisibility(false)
     }
-  }, [welcomeGoodDeedsCounter, showWelcomeModal])
+  }, [welcomeGoodDeedsCounterModalVisibility, showWelcomeModal])
 
   return (
     <>
