@@ -114,9 +114,12 @@ export const CreateAccount = ({
     initializeFlow()
   }, [initializeFlow])
 
-  const onSubmit = async (payload: UpdateRegistrationFlowBody & { identifier?: string }, provider?: string) => {
-    if (payload.identifier) {
-      setEmail(payload.identifier)
+  const onSubmit = async (
+    payload: UpdateRegistrationFlowBody & { identifier?: string; 'traits.email'?: string },
+    provider?: string
+  ) => {
+    if (payload['traits.email']) {
+      setEmail(payload['traits.email'])
     }
     track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'mainRegistration' }))
     if (flow) {
