@@ -11,6 +11,8 @@ import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { StepCheck, StepText } from '@holi/core/screens/spaces/tasks/components/progressSteps'
 
 type DoItLaterProps = {
   id: string
@@ -25,7 +27,15 @@ type DoItLaterModalProps = PropsWithChildren & {
 }
 
 const Frame = ({ children }: PropsWithChildren) => (
-  <Stack padding="xxs" borderRadius="md" borderColor="default" borderWidth="sm" backgroundColor="support">
+  <Stack
+    padding="xxs"
+    borderRadius="md"
+    borderColor="default"
+    borderWidth="sm"
+    backgroundColor="support"
+    direction="row"
+    gap="xs"
+  >
     {children}
   </Stack>
 )
@@ -44,13 +54,18 @@ export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProp
       </Text>
       <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130 }} />
       <Frame>
-        <Text size="md">{t('tasks.bookmark.unlogged.step1')}</Text>
-        <GoodDeedCard title={title} imageSrc={imageSrc} completedCount={completedCount} />
+        <StepCheck stage="done" />
+        <Stack gap="3xs">
+          <Text size="md">{t('tasks.bookmark.unlogged.step1')}</Text>
+          <GoodDeedCard title={title} imageSrc={imageSrc} completedCount={completedCount} />
+        </Stack>
       </Frame>
       <Frame>
+        <StepText value="2" stage="inprogress" />
         <Text size="md">{t('tasks.bookmark.unlogged.step2')}</Text>
       </Frame>
       <Frame>
+        <StepText value={3} />
         <Text size="md">{t('tasks.bookmark.unlogged.step3')}</Text>
       </Frame>
       <Button
@@ -79,7 +94,7 @@ export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {
       backgroundColor={theme.colors.bg.main}
       {...rest}
     >
-      {children}
+      <HoliContainer>{children}</HoliContainer>
     </HoliModal>
   )
 }
