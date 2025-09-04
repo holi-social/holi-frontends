@@ -6,8 +6,7 @@ import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { View } from 'react-native'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Platform, View } from 'react-native'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { StyleSheet } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -60,7 +59,7 @@ const CompletedTask = () => {
         },
       }}
       StickyBottomComponent={
-        welcomeGoodDeedsCounterModal ? (
+        !welcomeGoodDeedsCounterModal ? (
           <View style={styles.footer}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
@@ -81,7 +80,7 @@ const CompletedTask = () => {
     >
       <View style={styles.body}>
         <SafeArea>
-          <HoliContainer>
+          <View style={styles.nativePadding}>
             <View style={styles.container}>
               <Text size="3xl" textAlign="center">
                 {t('tasks.register.success.title')}
@@ -110,7 +109,7 @@ const CompletedTask = () => {
                 </Text>
               </View>
             </View>
-          </HoliContainer>
+          </View>
         </SafeArea>
       </View>
     </Screen>
@@ -143,6 +142,7 @@ const getStyles = (theme: HoliTheme) =>
     footerWithoutWelcomeGoodDeedsCounterModal: {
       backgroundColor: 'transparent',
     },
+    nativePadding: { paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0 },
   })
 
 export default memo(CompletedTask)

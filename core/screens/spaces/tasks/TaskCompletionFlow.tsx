@@ -269,25 +269,23 @@ const TaskCompletionFlow = () => {
         <>
           {/* Header */}
           <View style={styles.header}>
-            <SafeArea>
-              <HoliContainer>
-                <TaskCompletionSteps />
-                <GoodDeedMoreCard
-                  title={data.title}
-                  imageSrc={data.coverImage?.uri}
-                  completedCount={totalCompletions || 0}
-                />
-              </HoliContainer>
+            <SafeArea style={styles.globalPadding}>
+              <TaskCompletionSteps />
+              <GoodDeedMoreCard
+                title={data.title}
+                imageSrc={data.coverImage?.uri}
+                completedCount={totalCompletions || 0}
+              />
             </SafeArea>
           </View>
 
+          {isLoaderShown && (
+            <View style={styles.loader}>
+              <HoliLoader />
+            </View>
+          )}
           <View style={[styles.container, styles.extraPaddingBottom]}>
-            {isLoaderShown && (
-              <View style={styles.loader}>
-                <HoliLoader />
-              </View>
-            )}
-            <HoliContainer>
+            <View style={styles.nativePadding}>
               {/* Body */}
               <View style={styles.body}>
                 {step === 'email' && (
@@ -303,6 +301,7 @@ const TaskCompletionFlow = () => {
                         nodesToShow={['oidc']}
                         oidcProviders={['Google']}
                         noAutofocusForEmail
+                        withLoader={false}
                       />
 
                       <SocialLoginButton
@@ -370,7 +369,7 @@ const TaskCompletionFlow = () => {
                   noAutofocusForEmail
                 />
               </View>
-            </HoliContainer>
+            </View>
           </View>
         </>
       </Screen>
@@ -389,6 +388,8 @@ const TaskCompletionFlow = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: { flex: 1, backgroundColor: theme.colors.background20 },
+    nativePadding: { paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0 },
+    globalPadding: { paddingHorizontal: Spacing.xs },
     header: {
       backgroundColor: theme.colors.brandB100,
       borderBottomStartRadius: BorderRadius.xl,
@@ -397,7 +398,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     learnMore: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: Spacing['4xs'] },
     body: { paddingTop: Spacing.md, paddingBottom: Spacing.lg, flex: 1 },
-    loader: { paddingTop: Spacing['4xl'] },
+    loader: { paddingTop: Spacing['4xl'], position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 10000 },
     titleContainer: { gap: Spacing.xxs, marginBottom: Spacing.xs },
     buttonContainer: { gap: Spacing['3xs'] },
     dividerContainer: {

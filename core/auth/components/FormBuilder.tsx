@@ -196,6 +196,7 @@ const FormBuilder = <
       ) : !flow ? null : (
         nodes.filter(nodeFilter).map((node: UiNode, index) => {
           const name = getNodeId(node)
+          const isSubmitButton = name !== 'provider' && (node.attributes as UiNodeInputAttributes).type === 'submit'
 
           return (
             <FormNode
@@ -214,7 +215,7 @@ const FormBuilder = <
               }}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
-              style={{ marginTop: Spacing['3xs'] }}
+              style={{ marginTop: isSubmitButton ? Spacing.xs : Spacing['3xs'] }}
               isSignin={isSignin}
               submitLabelOverride={submitLabelOverride}
             />
