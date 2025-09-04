@@ -41,6 +41,7 @@ import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesBy
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 const logger = getLogger('CreateAccount')
 
@@ -117,11 +118,7 @@ export const CreateAccount = ({
     if (payload.identifier) {
       setEmail(payload.identifier)
     }
-    track(
-      provider
-        ? TrackingEvent.Auth.SocialRegisterButtonPressed({ provider, screen: 'mainRegistration' })
-        : TrackingEvent.Auth.RegisterButtonPressed
-    )
+    track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'mainRegistration' }))
     if (flow) {
       showLoader()
       Keyboard.dismiss()

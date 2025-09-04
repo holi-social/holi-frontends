@@ -38,6 +38,7 @@ import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesBy
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 export type LoginParams = {
   flow?: string
@@ -114,11 +115,7 @@ const Login = () => {
     if (payload.identifier) {
       setEmail(payload.identifier)
     }
-    track(
-      provider
-        ? TrackingEvent.Auth.SocialLoginButtonPressed({ provider, screen: 'mainLogin' })
-        : TrackingEvent.Auth.LoginButtonPressed
-    )
+    track(getTrackingEventForLoginFlowSubmit({ payload, provider }))
     if (!flow) return
 
     showLoader()

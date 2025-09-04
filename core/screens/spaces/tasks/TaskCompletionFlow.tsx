@@ -48,6 +48,7 @@ import { storeWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayW
 import { Edit2 } from '@holi/icons/src/generated'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
 import { ButtonTracked } from '@holi/core/components/Trackable'
+import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -139,11 +140,7 @@ const TaskCompletionFlow = () => {
     if (payload['traits.email']) {
       setEmail(payload['traits.email'])
     }
-    track(
-      provider
-        ? TrackingEvent.Auth.SocialRegisterButtonPressed({ provider, screen: 'taskRegistration' })
-        : TrackingEvent.Auth.RegisterButtonPressed
-    )
+    track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'taskRegistration' }))
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -317,9 +314,14 @@ const TaskCompletionFlow = () => {
                       provider="Holi"
                       testID={'ory-submit-email-button'}
                       onPress={() => {
+                        track(
+                          TrackingEvent.Auth.HoliRegisterPressed({
+                            method: 'verify',
+                            screen: 'taskRegistration',
+                          })
+                        )
                         navigate('/login')
                       }}
-                      // TODO(SF) tracking
                     />
                   </View>
                   <View style={styles.dividerContainer}>

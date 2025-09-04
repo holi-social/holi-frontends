@@ -532,7 +532,7 @@ export namespace TrackingEvent {
     }),
   }
 
-  type AuthScreen = 'mainRegistration' | 'taskRegistration' | 'mainLogin'
+  export type AuthScreen = 'mainRegistration' | 'taskRegistration' | 'mainLogin'
 
   export namespace Auth {
     // Others
