@@ -54,18 +54,18 @@ export const DoItLater = ({ id, title, imageSrc, completedCount }: DoItLaterProp
       </Text>
       <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130 }} />
       <Frame>
-        <StepCheck stage="done" />
+        <StepCheck stage="done" size="lg" />
         <Stack gap="3xs">
           <Text size="md">{t('tasks.bookmark.unlogged.step1')}</Text>
           <GoodDeedCard title={title} imageSrc={imageSrc} completedCount={completedCount} />
         </Stack>
       </Frame>
       <Frame>
-        <StepText value="2" stage="inprogress" />
+        <StepText value="2" stage="inprogress" size="lg" />
         <Text size="md">{t('tasks.bookmark.unlogged.step2')}</Text>
       </Frame>
       <Frame>
-        <StepText value={3} />
+        <StepText value={3} size="lg" />
         <Text size="md">{t('tasks.bookmark.unlogged.step3')}</Text>
       </Frame>
       <Button

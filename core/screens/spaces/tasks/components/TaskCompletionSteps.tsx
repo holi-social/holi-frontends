@@ -45,7 +45,7 @@ export const TaskCompletionSteps = () => {
           <View style={styles.stepContainer} key={`step-${index}`}>
             {/* Step Circle */}
             {step.number === 1 && <StepCheck stage="done" />}
-            {step.number === 2 && <StepText value={step.number} stage="inprogress" />}
+            {step.number === 2 && <StepText value={step.number} stage="inprogress" size="lg" />}
 
             {step.number === 3 && (
               <View style={styles.step}>

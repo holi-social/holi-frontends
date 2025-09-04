@@ -10,9 +10,11 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 
 type Stage = 'todo' | 'inprogress' | 'done'
+type Size = 'md' | 'lg'
 
 type ProgressProps = {
   stage?: Stage
+  size?: Size
 }
 
 type StepProps = ProgressProps & {
@@ -27,33 +29,32 @@ type StepTextProps = ProgressProps & {
   value: number | string
 }
 
-export const Step = ({ content, stage = 'todo' }: StepProps) => {
-  const { styles } = useStyles(stylesheet, { stage })
+export const Step = ({ content, stage = 'todo', size = 'md' }: StepProps) => {
+  const { styles } = useStyles(stylesheet, { stage, size })
 
   return <View style={styles.step}>{content}</View>
 }
 
-export const StepIcon = ({ icon, stage }: StepIconProps) => (
-  <Step content={<HoliIcon icon={icon} size={Spacing.sm} color="white" />} stage={stage} />
+export const StepIcon = ({ icon, stage, size }: StepIconProps) => (
+  <Step content={<HoliIcon icon={icon} size={Spacing.xs} color="white" />} stage={stage} size={size} />
 )
 
-export const StepCheck = ({ stage }: ProgressProps) => <StepIcon icon={Check} stage={stage} />
+export const StepCheck = (props: ProgressProps) => <StepIcon icon={Check} {...props} />
 
-export const StepText = ({ value, stage = 'todo' }: StepTextProps) => (
+export const StepText = ({ value, stage = 'todo', size }: StepTextProps) => (
   <Step
     content={
-      <Text size="md" color={stage === 'todo' ? 'purpleDefault' : 'white'}>
+      <Text size="xs" color={stage === 'todo' ? 'purpleDefault' : 'white'}>
         {value}
       </Text>
     }
     stage={stage}
+    size={size}
   />
 )
 
 const stylesheet = createStyleSheet((theme) => ({
   step: {
-    height: Spacing.lg,
-    width: Spacing.lg,
     borderRadius: BorderRadius.pill,
     alignItems: 'center',
     justifyContent: 'center',
@@ -66,12 +67,21 @@ const stylesheet = createStyleSheet((theme) => ({
         },
         inprogress: {
           backgroundColor: theme.colors.bg.purpleDark,
-          outlineStyle: 'solid',
-          outlineWidth: 6,
-          outlineColor: theme.colors.border.purpleDefault,
+          borderWidth: BorderWidth.xl,
+          borderColor: theme.colors.border.purpleDefault,
         },
         done: {
           backgroundColor: theme.colors.bg.purpleDefault,
+        },
+      },
+      size: {
+        md: {
+          height: Spacing.md,
+          width: Spacing.md,
+        },
+        lg: {
+          height: Spacing.lg,
+          width: Spacing.lg,
         },
       },
     },
