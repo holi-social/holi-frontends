@@ -35,6 +35,8 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { Stack } from 'holi-bricks/components/stack'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
+import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
 const FeedListItem = memo(
   ({
@@ -103,7 +105,9 @@ const HomeFeed = () => {
   const numberOfColumns = useBreakpointMatcher() || 2
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+
+  const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({ skip: !showGoodDeeds })
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
@@ -138,7 +142,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <GoodDeedsChip />}
+            {showGoodDeeds && <GoodDeedsChip />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -150,7 +154,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeeds])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)
@@ -209,6 +213,14 @@ const HomeFeed = () => {
           <HoliContainer>
             <HoliTransition.FadeDown visible>
               <HomeFeedHeader />
+
+              {showGoodDeeds && (
+                <GoodDeedsBanner
+                  counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
+                  variant="action"
+                  hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
+                />
+              )}
             </HoliTransition.FadeDown>
 
             <ErrorBoundary>

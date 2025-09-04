@@ -74,6 +74,10 @@ export const red = {
   '800': '#8f0007',
 } as const
 
+export const pink = {
+  '400': '#ffbbf5',
+}
+
 export const transparent = {
   mono800: {
     at12: 'rgba(38, 36, 36, 0.12)',
