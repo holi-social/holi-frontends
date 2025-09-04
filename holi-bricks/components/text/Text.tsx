@@ -121,9 +121,9 @@ const stylesheet = createStyleSheet((theme) => ({
       variants: {
         size: {
           '5xl': {
-            fontSize: 120,
-            lineHeight: 120 * 1.2,
-            letterSpacing: -4.8,
+            fontSize: 80,
+            lineHeight: 80 * 1.2,
+            letterSpacing: -2.8,
           },
           '4xl': {
             fontSize: 36,
