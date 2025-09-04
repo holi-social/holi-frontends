@@ -94,10 +94,6 @@ const Login = () => {
 
   useEffect(() => {
     if (flow?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016)) {
-      displayError(new Error('Email already used'), 'Failed to submit form', {
-        displayMessage: t('auth.login.message.1010016'),
-        location: 'CreateAccount.onSubmit',
-      })
       initializeFlow()?.then(() => {
         setStep('oidc')
       })
