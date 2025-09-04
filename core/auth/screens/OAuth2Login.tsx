@@ -24,6 +24,7 @@ import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Screen } from '@holi/core/components/Screen'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProps {
   returnTo?: string
@@ -60,6 +61,8 @@ export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWeb
     if (isLoggedIn) {
       confirmOAuth2Login()
       window.location.href = returnTo
+    } else {
+      setRedirectAfterSocialLogin(returnTo)
     }
   }, [returnTo, isLoggedIn])
 
@@ -131,7 +134,13 @@ export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWeb
     <Screen preset="scroll" backgroundColor="support" keyboardShouldPersistTaps="always">
       <DefaultLayout>
         <HoliContainer>
-          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
+          <FormBuilder
+            flow={flow}
+            onSubmit={performLogin}
+            style={styles.loginForm}
+            nodesToShow={['oidc', 'email', 'password']}
+            isSignin
+          />
         </HoliContainer>
         {isLoaderShown && <HoliLoader testID="loader" />}
       </DefaultLayout>
