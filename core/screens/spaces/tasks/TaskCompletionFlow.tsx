@@ -32,14 +32,10 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useApolloClient, useMutation } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import {
-  updateAuthenticatedUserV2Mutation,
-  type UpdateAuthenticatedUserV2Response,
-} from '@holi/core/screens/userprofile/queries'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 import { GoodDeedMoreCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedMoreCard'
@@ -73,27 +69,13 @@ const TaskCompletionFlow = () => {
 
   const { refetch, data, id, spaceId, totalCompletions } = useTaskDetailsData()
 
-  const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const { completeTask } = useCompleteTask()
 
   const handleCompleteTask = useCallback(async () => {
     await completeTask(id as string)
-
-    try {
-      if (name) {
-        await updateUser({
-          variables: { input: { firstName: name, lastName: '', pronouns: '' } },
-        })
-      }
-    } catch (error) {
-      logger.debug('TaskCompletionFlow', 'Failed to update user', { error })
-      // ignore error - there is an async flow happening on ory and this can be unstable
-      // later on the user will be automatically redirect to the name input again if this fails
-    }
-
     storeWelcomeGoodDeedsCounter(true)
     navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
-  }, [id, name, spaceId, completeTask, updateUser, navigate])
+  }, [id, spaceId, completeTask, navigate])
 
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) {
@@ -148,10 +130,18 @@ const TaskCompletionFlow = () => {
 
       try {
         const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
+        const extraBody: { 'traits.given_name'?: string } = {}
+        if (name) {
+          extraBody['traits.given_name'] = name
+        }
         const { data } = await newKratosSdk().updateRegistrationFlow({
           flow: flow.id,
-          updateRegistrationFlowBody,
+          updateRegistrationFlowBody: {
+            ...updateRegistrationFlowBody,
+            ...extraBody,
+          },
         })
+
         // ORY Kratos can be configured in such a way that it requires a login after
         // registration. You could handle that case by navigating to the Login screen
         // but for simplicity we'll just print an error here:
