@@ -4,7 +4,7 @@ import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetai
 import { useLoginState } from '@holi/core/auth/loginState'
 import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { storeWelcomeGoodDeedsCounterModalVisibility } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModalVisibility'
+import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { View, StyleSheet } from 'react-native'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -35,7 +35,7 @@ const CompleteTaskCallback = () => {
     try {
       showLoader()
       await completeTask(id)
-      storeWelcomeGoodDeedsCounterModalVisibility(true)
+      storeWelcomeGoodDeedsCounterModal(true)
       navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
     } catch (error) {
       logger.debug('CompleteTaskCallback', 'Failed to complete task', { error })

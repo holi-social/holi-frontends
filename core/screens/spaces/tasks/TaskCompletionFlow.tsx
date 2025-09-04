@@ -40,7 +40,7 @@ import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 import { GoodDeedMoreCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { storeWelcomeGoodDeedsCounterModalVisibility } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModalVisibility'
+import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { Button } from 'holi-bricks/components/button'
 import { Edit2 } from '@holi/icons/src/generated'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
@@ -73,7 +73,7 @@ const TaskCompletionFlow = () => {
 
   const handleCompleteTask = useCallback(async () => {
     await completeTask(id as string)
-    storeWelcomeGoodDeedsCounterModalVisibility(true)
+    storeWelcomeGoodDeedsCounterModal(true)
     navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
   }, [id, spaceId, completeTask, navigate])
 
