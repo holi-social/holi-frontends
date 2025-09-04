@@ -23,7 +23,9 @@ import AboutMe from '@holi/core/screens/userprofile/AboutMe'
 import MyPosts from '@holi/core/screens/userprofile/MyPosts'
 import MyConnections from '@holi/core/screens/userprofile/MyConnections'
 import MySpaces from '@holi/core/screens/userprofile/MySpaces'
-import AddToFavorites from '@holi/core/screens/userprofile/Favorites/AddToFavorites'
+import AddToFavoritesWithParams, {
+  type AddToFavoritesParams,
+} from '@holi/core/screens/userprofile/Favorites/AddToFavorites'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -39,7 +41,7 @@ export type AuthStackScreensList = {
   Document: undefined
   AboutHoliApp: undefined
   Favorites: undefined
-  FavoritesAdd: undefined
+  FavoritesAdd: AddToFavoritesParams
   AboutMe: undefined
   MyConnections: undefined
   MyPosts: undefined
@@ -83,7 +85,7 @@ const AuthStackNavigator = () => {
       <AuthStack.Screen name={RouteName.Document} component={LegalDocumentItem} />
       <AuthStack.Screen name={RouteName.AboutHoliApp} component={AboutHoliApp} />
       <AuthStack.Screen name={RouteName.Favorites} component={Favorites} />
-      <AuthStack.Screen name={RouteName.FavoritesAdd} component={AddToFavorites} />
+      <AuthStack.Screen name={RouteName.FavoritesAdd} component={AddToFavoritesWithParams} />
       <AuthStack.Screen name={RouteName.AboutMe} component={AboutMe} />
       <AuthStack.Screen name={RouteName.MyPosts} component={MyPosts} />
       <AuthStack.Screen name={RouteName.MyConnections} component={MyConnections} />

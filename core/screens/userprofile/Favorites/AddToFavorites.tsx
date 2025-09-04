@@ -10,11 +10,11 @@ import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 
-export type TaskDetailsParams = {
+export type AddToFavoritesParams = {
   taskId: string
 }
 
-const { useUUIDParam } = createParamHooks<TaskDetailsParams>()
+const { useUUIDParam } = createParamHooks<AddToFavoritesParams>()
 
 const AddToFavoritesWithParams = () => {
   const [taskId] = useUUIDParam('taskId')
@@ -25,7 +25,7 @@ const AddToFavoritesWithParams = () => {
   }
 }
 
-const AddToFavorites = ({ taskId }: TaskDetailsParams) => {
+const AddToFavorites = ({ taskId }: AddToFavoritesParams) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
