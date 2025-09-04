@@ -11,6 +11,13 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { render, screen } from '@testing-library/react-native'
 import type React from 'react'
 
+jest.useFakeTimers()
+
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
+}))
+
 const mockUseRedirect = useRedirect as jest.Mock
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
@@ -95,6 +102,7 @@ describe('Onboarding', () => {
     mockStoreOnboardingUserDataAsyncStore.mockResolvedValue(undefined)
     mockUseRedirect.mockReturnValue(redirect)
     mockUseOnboardingCurrentStepKey.mockReturnValue(['WELCOME_SCREEN', jest.fn()])
+    mockUseFeatureFlag.mockReturnValue([true])
   })
 
   it('should display loader until step is determined', () => {
@@ -155,7 +163,7 @@ describe('Onboarding', () => {
     )
 
     // Should attempt to clean up and redirect
-    expect(mockUseRedirect).toHaveBeenCalledWith('/')
+    expect(mockUseRedirect).toHaveBeenCalledWith('/act')
   })
 
   it('should render account setup for logged in users with incomplete accounts', () => {

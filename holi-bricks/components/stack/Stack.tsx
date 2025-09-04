@@ -8,6 +8,7 @@ import {
   type AccessibilityRole,
   type DimensionValue,
   type FlexStyle,
+  type LayoutChangeEvent,
 } from 'react-native'
 import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
 import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
@@ -52,6 +53,7 @@ export type StackProps = AccessibilityProps &
     overflow?: 'hidden' | 'visible'
     aspectRatio?: number | string
     elevation?: ElevationLevel
+    onLayout?: (event: LayoutChangeEvent) => void
   }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
@@ -67,6 +69,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
       accessibilityState={otherProps.disabled ? { disabled: true } : undefined}
       accessibilityLabel={otherProps.accessibilityLabel}
       testID={otherProps?.testID}
+      onLayout={otherProps?.onLayout}
       {...accessibilityProps(otherProps)}
     >
       {children}
