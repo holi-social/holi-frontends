@@ -24,7 +24,7 @@ import { Screen } from '@holi/core/components/Screen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { Spacing } from 'holi-bricks/foundations'
-import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
+import { ButtonTracked, HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ArrowLeft, Close, Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -33,12 +33,12 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import { Button } from 'holi-bricks/components/button'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 export type LoginParams = {
   flow?: string
@@ -121,8 +121,7 @@ const Login = () => {
     if (payload.identifier) {
       setEmail(payload.identifier)
     }
-    // TODO(SF) differentiate buttons when tracking: if (payload.method === 'code') / if (!!payload.code)
-    track(provider ? TrackingEvent.Auth.SocialLoginButtonPressed(provider) : TrackingEvent.Auth.LoginButtonPressed)
+    track(getTrackingEventForLoginFlowSubmit({ payload, provider }))
     if (!flow) return
 
     showLoader()
@@ -218,6 +217,7 @@ const Login = () => {
                 {...(step !== 'oidc'
                   ? {
                       onPress: () => {
+                        track(TrackingEvent.Auth.HoliLoginPressed({ method: 'back', screen: 'mainLogin' }))
                         if (step === 'email-password' || step === 'email-code') {
                           setStep('oidc')
                           // re-initialize flow to reset the form and include the oidc nodes
@@ -279,7 +279,7 @@ const Login = () => {
                 </Text>
                 <View style={styles.changeEmailContainer}>
                   <Text size="md">{email}</Text>
-                  <Button
+                  <ButtonTracked
                     icon={Edit2}
                     transparent
                     size="lg"
@@ -291,6 +291,10 @@ const Login = () => {
                         hideLoader()
                       })
                     }}
+                    trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
+                      step: 'edit',
+                      screen: 'mainLogin',
+                    })}
                   />
                 </View>
               </View>
@@ -321,22 +325,30 @@ const Login = () => {
                 </View>
 
                 <View style={styles.buttonContainer}>
-                  <Button
+                  <ButtonTracked
                     label={t('auth.CTA.OTP')}
                     variant="secondary"
                     size="lg"
                     onPress={() => setStep('email-code')}
                     icon={Mail}
                     testID="ory-submit-email-button"
+                    trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
+                      method: 'otp',
+                      screen: 'mainLogin',
+                    })}
                   />
 
-                  <Button
+                  <ButtonTracked
                     label={t('auth.CTA.emailPassword')}
                     testID="btn-to-email-password-form"
                     variant="secondary"
                     size="lg"
                     onPress={() => setStep('email-password')}
                     icon={Key2}
+                    trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
+                      method: 'email',
+                      screen: 'mainLogin',
+                    })}
                   />
                 </View>
 
@@ -353,11 +365,12 @@ const Login = () => {
                     <HoliDivider />
                   </View>
                 </View>
-                <Button
+                <ButtonTracked
                   variant="secondary"
                   label={t('auth.loginProtection.continueAsGuest')}
                   onPress={() => navigateBack()}
                   size="lg"
+                  trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
                 />
               </>
             )}

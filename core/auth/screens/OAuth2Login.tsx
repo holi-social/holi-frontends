@@ -81,7 +81,11 @@ export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWeb
   }, [isLoggedIn, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody, provider?: string) => {
-    track(provider ? TrackingEvent.Auth.SocialLoginButtonPressed(provider) : TrackingEvent.Auth.LoginButtonPressed)
+    track(
+      provider
+        ? TrackingEvent.Auth.SocialLoginButtonPressed({ provider, screen: 'oauth2Login' })
+        : TrackingEvent.Auth.LoginButtonPressed
+    )
 
     if (!flow) return
 
