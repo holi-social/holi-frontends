@@ -32,9 +32,12 @@ import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataA
 import { useCallback, useEffect } from 'react'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { GoodDeedsExplain, GoodDeedsDo } from '@holi/core/screens/onboarding/steps/GoodDeeds'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 export type OnboardingParams = {
   flow?: string
@@ -52,7 +55,9 @@ const Onboarding = () => {
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
-  const redirect = useRedirect('/')
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+
+  const redirect = useRedirect('/act')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -64,24 +69,20 @@ const Onboarding = () => {
     storeOnboardingState('finished')
     await clearOnboardingUserDataAsyncStore()
   }
-  const breakOnboarding = useCallback(async () => {
+  const finishOnboarding = useCallback(async () => {
     await cleanUp()
     redirect(true)
   }, [redirect])
 
-  const finishOnboarding = async () => {
-    breakOnboarding()
-  }
-
   // Abort and clean-up onboarding if user already is logged in when entering the screen
   useEffect(() => {
     if (isLoggedIn && onboardingState === 'finished') {
-      breakOnboarding()
+      finishOnboarding()
     } else if (flowId) {
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }
-  }, [breakOnboarding, flowId, isLoggedIn, onboardingState])
+  }, [finishOnboarding, flowId, isLoggedIn, onboardingState])
 
   // No longer needed since we removed location/interests/skills steps
   const clearSelection = () => {
@@ -94,7 +95,6 @@ const Onboarding = () => {
         return (
           <Intro
             onContinue={() => {
-              track(OnboardingStepCompleted('welcome', ['continue'], 'continue'))
               setCurrentStep('CREATE_ACCOUNT')
             }}
           />
@@ -109,7 +109,11 @@ const Onboarding = () => {
             }}
             onContinueAsGuest={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
-              breakOnboarding()
+              if (rewardsPhaseTwoEnabled) {
+                setCurrentStep('GOOD_DEEDS_EXPLANATION')
+              } else {
+                finishOnboarding()
+              }
             }}
             onRegister={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
@@ -128,7 +132,7 @@ const Onboarding = () => {
             }}
             onDismiss={() => {
               track(SignupStepCompleted({ step: 'verificationCode', answer: 'continueAsGuest' }))
-              breakOnboarding()
+              finishOnboarding()
             }}
             testID="onboarding-email-verification"
           />
@@ -139,12 +143,20 @@ const Onboarding = () => {
             <NamesSelection
               onFinish={() => {
                 track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
-                finishOnboarding()
+                if (rewardsPhaseTwoEnabled) {
+                  setCurrentStep('GOOD_DEEDS_EXPLANATION')
+                } else {
+                  finishOnboarding()
+                }
               }}
               testID="onboarding-name-selection"
             />
           </View>
         )
+      case 'GOOD_DEEDS_EXPLANATION':
+        return <GoodDeedsExplain />
+      case 'GOOD_DEEDS_DO':
+        return <GoodDeedsDo />
       default:
         throw new HoliError(`Onboarding: "${key}" is not a valid step`)
     }
@@ -165,13 +177,31 @@ const Onboarding = () => {
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
         onChange={(key, previousKey, buttonPressed) => {
+          // finish onboarding if user is on last step and clicks on continue
+          if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
+            track(OnboardingStepCompleted(key as OnboardingStepKey, ['fihish'], 'continue'))
+            finishOnboarding()
+            return
+          }
+
           if (buttonPressed === 'skip') {
+            track(OnboardingStepCompleted(key as OnboardingStepKey, ['skip'], 'skip'))
             clearSelection()
           }
+
           setCurrentStep(key as OnboardingStepKey)
         }}
-        paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}
-        paddingBottom={safeAreaBottom ? safeAreaBottom : Spacing.xxs}
+        WrapperComponent={
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep)
+            ? ({ children }) => <>{children}</>
+            : undefined
+        }
+        paddingTop={
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaTop ?? Spacing.xxs)
+        }
+        paddingBottom={
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaBottom ?? Spacing.xxs)
+        }
         testID="onboarding-stepper"
       />
       {currentStep === 'CREATE_ACCOUNT' && (

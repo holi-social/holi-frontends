@@ -172,6 +172,10 @@ const finishAccountSetup = async (
   // submit
   await clickElementByTestId(page, 'onboarding-name-selection-btn-submit')
 
+  // finish Good Deeds steps
+  await clickElementByAriaLabel(page, 'onboarding.modal.step01.buttonPrimary')
+  await clickElementByAriaLabel(page, 'onboarding.modal.step02.buttonPrimary')
+
   return {
     fullName: firstName + ' ' + lastName,
   }
