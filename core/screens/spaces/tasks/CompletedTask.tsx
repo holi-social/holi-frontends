@@ -59,7 +59,7 @@ const CompletedTask = () => {
         },
       }}
       StickyBottomComponent={
-        !welcomeGoodDeedsCounterModal ? (
+        welcomeGoodDeedsCounterModal ? (
           <View style={styles.footer}>
             <HoliLocalImage
               imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
