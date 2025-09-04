@@ -8,17 +8,18 @@ import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { View } from 'react-native'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { StyleSheet } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { GoodDeedCounterCard } from 'holi-bricks/patterns/good-deed-card/GoodDeedCounterCard'
+import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
 import { useWelcomeGoodDeedsCounter } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounter'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useGetRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -37,6 +38,7 @@ const CompletedTask = () => {
 
   useEffect(() => {
     setPathToRedirect(null)
+    removeRedirectAfterSocialLogin()
   }, [])
 
   return (

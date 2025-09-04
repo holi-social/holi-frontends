@@ -132,7 +132,8 @@ export const useOnboardingRedirect = () => {
     const isAccountSetup = onboardingState === 'accountSetup'
 
     // Skip redirect to onboarding if user is on TaskCompletionFlow screen
-    const isOnTaskCompletionFlow = pathname?.includes('/complete')
+    const isOnTaskCompletionFlow =
+      pathname?.includes('/complete') || pathname?.includes('/callback') || pathname?.includes('/act')
 
     if ((isAccountSetup || isEmailVerification) && pathname !== '/onboarding' && !isOnTaskCompletionFlow) {
       navigateWithTimeout('/onboarding')

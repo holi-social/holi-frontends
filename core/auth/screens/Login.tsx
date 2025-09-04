@@ -15,7 +15,7 @@ import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboar
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { usePathToRedirect, useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -38,6 +38,7 @@ import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
 export type LoginParams = {
   flow?: string
@@ -62,6 +63,7 @@ const Login = () => {
   const { theme } = useTheme()
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => createStyles(theme), [theme])
+  const pathToRedirect = usePathToRedirect()
 
   const handleMessage = useCallback(
     (messageId: number) => {
@@ -91,12 +93,23 @@ const Login = () => {
   )
 
   useEffect(() => {
+    if (flow?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016)) {
+      displayError(new Error('Email already used'), 'Failed to submit form', {
+        displayMessage: t('auth.login.message.1010016'),
+        location: 'CreateAccount.onSubmit',
+      })
+      initializeFlow()?.then(() => {
+        setStep('oidc')
+      })
+    }
+
     if (isLoggedOut && !flow) {
       initializeFlow()
     } else if (!isLoggedOut) {
-      navigate('/')
+      const redirect = getRedirectAfterSocialLogin()
+      navigate(redirect || pathToRedirect || '/')
     }
-  }, [isLoggedOut, initializeFlow, flow, navigate])
+  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t, pathToRedirect])
 
   const performLogin = async (payload: UpdateLoginFlowBody & { identifier?: string }, provider?: string) => {
     if (payload.identifier) {
@@ -114,6 +127,20 @@ const Login = () => {
       storeOnboardingState('finished')
       redirect(true)
     } catch (err) {
+      if (
+        (
+          err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
+        )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016)
+      ) {
+        displayError(err, 'Failed to submit form', {
+          displayMessage: t('auth.login.message.1010016'),
+          location: 'CreateAccount.onSubmit',
+        })
+        initializeFlow()?.then(() => {
+          setStep('email-code')
+        })
+        return
+      }
       if (err instanceof HoliLoginCancelledError) {
         // Do not display error if user cancelled the login
         return
