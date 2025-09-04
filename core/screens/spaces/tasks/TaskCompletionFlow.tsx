@@ -291,7 +291,7 @@ const TaskCompletionFlow = () => {
                 {step === 'email' && (
                   <>
                     <View style={styles.titleContainer}>
-                      <Text size="4xl">{t('tasks.register.unlogged.title')}</Text>
+                      <Text size="3xl">{t('tasks.register.unlogged.title')}</Text>
                       <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
