@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItLater'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { BookmarkLine } from '@holi/icons/src/generated'
 
 const isIos = Platform.OS === 'ios'
 
@@ -124,7 +125,12 @@ const TaskDetails = () => {
             )}
             {id &&
               (isGoodDeed && !isLoggedIn ? (
-                <Button label={t('volunteering.progress.button.favorites.toSave')} onPress={showDoItLater} />
+                <Button
+                  variant="secondary"
+                  label={t('volunteering.progress.button.favorites.toSave')}
+                  onPress={showDoItLater}
+                  icon={BookmarkLine}
+                />
               ) : (
                 <SaveForLaterButton
                   favoritableType={FavoritableType.Task}
