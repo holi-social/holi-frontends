@@ -38,14 +38,14 @@ const StatusInfoHeader = () => {
           <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
             <Stack gap="3xs">
               <Text size="3xl">{t('profile.myVolunteer.modal.title')}</Text>
-              <Text size="md">{t('profile.myVolunteer.modal.description')}</Text>
+              <Text>{t('profile.myVolunteer.modal.description')}</Text>
             </Stack>
 
             <Stack gap="xs">
               {volunteeringStatuses.map(({ description, chip }) => (
                 <Stack key={description} gap="4xs">
                   <ChipLabel {...chip} />
-                  <Text size="md">{description}</Text>
+                  <Text>{description}</Text>
                 </Stack>
               ))}
             </Stack>

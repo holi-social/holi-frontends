@@ -35,7 +35,7 @@ const TestComponent = () => {
 
   const state = isLoggedIn ? `isLoggedIn: ${user.id}` : isLoggedOut ? 'isLoggedOut' : 'isLoading'
 
-  return <Text size="md">{state}</Text>
+  return <Text>{state}</Text>
 }
 
 const mockUserRequest = (userId?: string) => {

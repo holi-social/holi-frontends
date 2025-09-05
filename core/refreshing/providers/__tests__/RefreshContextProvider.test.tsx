@@ -7,14 +7,14 @@ import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshC
 
 const ContextUsingComponent = () => {
   const context = useContext(RefreshContext)
-  return <Text size="md">{context && 'has context'}</Text>
+  return <Text>{context && 'has context'}</Text>
 }
 
 describe('RefreshContextProvider', () => {
   it('should render children', () => {
     render(
       <RefreshContextProvider>
-        <Text size="md">Child Content</Text>
+        <Text>Child Content</Text>
       </RefreshContextProvider>
     )
     expect(screen.getByText('Child Content')).toBeDefined()

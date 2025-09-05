@@ -95,9 +95,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
               height={164}
             />
             <Stack gap="3xs">
-              <Text size="md" textAlign="center">
-                {t('profile.tabs.spaces.tagline.empty')}
-              </Text>
+              <Text textAlign="center">{t('profile.tabs.spaces.tagline.empty')}</Text>
               <Text size="xxl" textAlign="center">
                 {t('profile.tabs.spaces.empty')}
               </Text>

@@ -158,11 +158,11 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
                 </TouchableOpacity>
               </Stack>
               <Stack testID={`${testID}-confirmation-description`}>
-                <Text size="md">{description}</Text>
+                <Text>{description}</Text>
               </Stack>
               {!!subline && (
                 <Stack testID={`${testID}-confirmation-description-part-two`}>
-                  <Text size="md">{subline}</Text>
+                  <Text>{subline}</Text>
                 </Stack>
               )}
             </Stack>

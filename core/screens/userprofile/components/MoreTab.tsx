@@ -32,9 +32,7 @@ export const MoreTab = () => {
           <Stack direction="row" gap="xxs">
             <HoliIcon icon={subpage.icon} color="main" />
             <Stack justifyContent="center">
-              <Text size="md" textAlign="center">
-                {subpage.name}
-              </Text>
+              <Text textAlign="center">{subpage.name}</Text>
             </Stack>
           </Stack>
           <HoliIcon icon={ArrowRight} />

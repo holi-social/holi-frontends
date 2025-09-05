@@ -28,7 +28,7 @@ const OptionSection = ({ title, description, value = false, onToggle }: Props) =
 
       <HoliGap direction="vertical" size="xs" />
 
-      <Text size="md">{description}</Text>
+      <Text>{description}</Text>
     </HoliBox>
   )
 }

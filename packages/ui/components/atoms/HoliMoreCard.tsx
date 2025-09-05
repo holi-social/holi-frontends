@@ -69,7 +69,7 @@ const HoliMoreCard = ({
           children
         ) : (
           <Stack padding={{ left: '3xs' }}>
-            <Text size="md">{children}</Text>
+            <Text>{children}</Text>
           </Stack>
         )}
       </Stack>

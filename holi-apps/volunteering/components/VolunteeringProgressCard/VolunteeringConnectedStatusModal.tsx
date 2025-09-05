@@ -48,7 +48,7 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
 
                 <Text size="3xl">{t('volunteer.progress.contactConfirmed.modal.title')}</Text>
 
-                <Text size="md">{t('volunteer.progress.contactConfirmed.modal.text')}</Text>
+                <Text>{t('volunteer.progress.contactConfirmed.modal.text')}</Text>
               </Stack>
 
               <Stack padding={{ top: 'xxs', bottom: 'xxs' }}>

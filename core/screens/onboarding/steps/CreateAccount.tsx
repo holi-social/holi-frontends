@@ -254,9 +254,7 @@ export const CreateAccount = ({
             />
           </Text>
           <HoliGap size="xs" />
-          <Text size="md" textAlign="center">
-            {t('registration.signUp.description')}
-          </Text>
+          <Text textAlign="center">{t('registration.signUp.description')}</Text>
         </>
       )}
       {step === 'code' && (
@@ -271,11 +269,9 @@ export const CreateAccount = ({
           <Text size="3xl" textAlign="center">
             {t('registration.emailVerification.heading')}
           </Text>
-          <Text size="md" textAlign="center">
-            {t('registration.emailVerification.body')}
-          </Text>
+          <Text textAlign="center">{t('registration.emailVerification.body')}</Text>
           <View style={styles.changeEmailContainer}>
-            <Text size="md">{email}</Text>
+            <Text>{email}</Text>
             <ButtonTracked
               icon={Edit2}
               transparent
@@ -311,7 +307,7 @@ export const CreateAccount = ({
               <HoliDivider />
             </View>
             <View style={styles.dividerContainer}>
-              <Text size="md" textAlign="center" color="greyDark">
+              <Text textAlign="center" color="greyDark">
                 {t('auth.divider.email')}
               </Text>
             </View>
@@ -353,7 +349,7 @@ export const CreateAccount = ({
               <HoliDivider />
             </View>
             <View style={styles.dividerContainer}>
-              <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
+              <Text textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
                 {t('auth.divider.guest')}
               </Text>
             </View>

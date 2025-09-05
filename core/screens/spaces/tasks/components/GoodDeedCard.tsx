@@ -23,9 +23,7 @@ export const GoodDeedCard = ({ title, imageSrc, completedCount }: GoodDeedCardPr
         <Stack direction="row" gap="4xs" alignItems="center">
           <HoliIcon icon={HeartHandshake2} size={Spacing.xs} color="support" />
 
-          <Text size="md" color="support">
-            {t('task.card.completionCounter', { count: completedCount })}
-          </Text>
+          <Text color="support">{t('task.card.completionCounter', { count: completedCount })}</Text>
         </Stack>
       )}
     </CompactCard>

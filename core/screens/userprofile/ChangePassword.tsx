@@ -233,7 +233,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                 <>
                   {isOidc && reauthFlow ? (
                     <HoliBox padding={16}>
-                      <Text size="md" textAlign="center">
+                      <Text textAlign="center">
                         <Trans
                           t={t}
                           i18nKey="auth.changePassword.oidc"
@@ -248,7 +248,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                     </HoliBox>
                   ) : (
                     <>
-                      <Text size="md">
+                      <Text>
                         {t(
                           forgotPasswordFlow
                             ? 'auth.changePassword.description-forgotflow'

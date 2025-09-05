@@ -56,7 +56,7 @@ describe('Trackable', () => {
       name: 'HoliLinkTracked',
       renderComponent: (props) => (
         <HoliLinkTracked label="test" href="/" {...props}>
-          <Text size="md">click me</Text>
+          <Text>click me</Text>
         </HoliLinkTracked>
       ),
       handlesEventPropagation: true,
@@ -91,7 +91,7 @@ describe('Trackable', () => {
       name: 'StackTracked',
       renderComponent: (props) => (
         <StackTracked {...props}>
-          <Text size="md">click me</Text>
+          <Text>click me</Text>
         </StackTracked>
       ),
     },

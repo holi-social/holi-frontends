@@ -26,7 +26,7 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ displayMessage }) => {
     location: 'ErrorComponent',
   })
 
-  return <Text size="md">Child Content</Text>
+  return <Text>Child Content</Text>
 }
 
 describe('useErrorHandling', () => {

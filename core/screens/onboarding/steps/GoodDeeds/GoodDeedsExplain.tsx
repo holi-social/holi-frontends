@@ -56,14 +56,14 @@ export const GoodDeedsExplain = () => {
             />
           </Text>
 
-          <Text size="md">{t('onboarding.modal.step01.text')}</Text>
+          <Text>{t('onboarding.modal.step01.text')}</Text>
 
-          <Text size="md">
+          <Text>
             <Trans
               t={t}
               i18nKey="onboarding.modal.step01.text02"
               components={{
-                i: <Text size="md" italic />,
+                i: <Text italic />,
                 span: <HoliFigmaSpanPlaceholder />,
               }}
             />

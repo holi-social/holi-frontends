@@ -120,7 +120,7 @@ export const VolunteeringContact = ({
                     )}
 
                     <Text size="3xl">{t('volunteer.progress.initiate.modal.title')}</Text>
-                    <Text size="md">{t('volunteer.progress.initiate.modal.text')}</Text>
+                    <Text>{t('volunteer.progress.initiate.modal.text')}</Text>
                   </Stack>
 
                   <Stack gap="4xs" margin={{ bottom: 'lg' }}>
