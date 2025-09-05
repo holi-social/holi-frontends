@@ -2,10 +2,12 @@
   "name": "@holi/icons",
   "version": "1.0.0",
   "scripts": {
-    "build": "yarn svgr -d ./src/generated ./assets",
+    "build": "yarn svgr -d ./src/generated ./assets --config-file .svgrrc.cjs && yarn svgr -d ./src/generated ./assets --config-file .svgrrc.web.cjs --ext web.js && yarn format",
     "clean": "echo 'nothing to be done'",
     "clean:all": "yarn clean",
-    "lint": "TIMING=1 eslint ."
+    "lint": "TIMING=1 eslint .",
+    "format": "yarn workspace holi-frontends biome format --write packages/icons/src",
+    "format:check": "yarn workspace holi-frontends biome format packages/icons/src"
   },
   "dependencies": {
     "eslint": "^8.33.0",
