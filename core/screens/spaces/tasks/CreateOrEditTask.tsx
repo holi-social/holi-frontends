@@ -30,6 +30,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { z } from 'zod'
 import type { ApolloError } from '@apollo/client'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { logError } from '@holi/core/errors/helpers'
 
 export type CreateTaskParams = {
   spaceIdOrName: string
@@ -155,8 +156,17 @@ const CreateOrEditTask = () => {
 
   const validateForm = () => {
     const { error, success } = createOrEditTaskSchemaRefinedInteractionSignupLink.safeParse(taskInput)
-    const fromErrors = error?.flatten().fieldErrors
-    setFieldErrors(fromErrors ?? {})
+
+    if (!success) {
+      const formErrors = error.flatten().fieldErrors
+      setFieldErrors(formErrors ?? {})
+
+      logError(error, 'Error initializing authentication', {
+        location: '_app.initAuth',
+      })
+
+      return false
+    }
 
     return success
   }
