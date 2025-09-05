@@ -2,7 +2,7 @@
   "name": "@holi/icons",
   "version": "1.0.0",
   "scripts": {
-    "build": "yarn svgr -d ./src/generated ./assets --config-file .svgrrc.cjs && yarn svgr -d ./src/generated ./assets --config-file .svgrrc.web.cjs --ext web.js && yarn format",
+    "build": "yarn svgr -d ./src/generated ./assets && yarn format",
     "clean": "echo 'nothing to be done'",
     "clean:all": "yarn clean",
     "lint": "TIMING=1 eslint .",
