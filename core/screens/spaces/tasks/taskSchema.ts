@@ -1,18 +1,18 @@
 import { z } from 'zod'
 
 export const CreateOrEditTaskSchema = z.object({
-  visibility: z.string() /* VisibilityType */,
+  visibility: z.string(),
   name: z.string().min(2).max(128),
   description: z.string().min(2).trim().max(1200),
-  impact: z.string().trim().max(1200).optional(),
-  locationType: z.string() /* LocationType */,
-  interactionType: z.string() /* InteractionType */,
-  regularity: z.string() /* Regularity */,
+  impact: z.string().trim().max(1200).optional().nullable(),
+  locationType: z.string(),
+  interactionType: z.string(),
+  regularity: z.string(),
   duration: z.string(),
   timeframeStartDate: z.string().optional().nullable(),
   timeframeEndDate: z.string().optional().nullable(),
   contactEmail: z.string().email(),
-  location: z.string().optional(),
+  location: z.string().optional().nullable(),
   geolocation: z
     .object({
       latitude: z.number(),
