@@ -5,8 +5,8 @@ import { Stack } from 'holi-bricks/components/stack'
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
-import { Platform } from 'react-native'
-import { white } from 'holi-bricks/foundations'
+import { Platform, StyleSheet, View } from 'react-native'
+import { BorderRadius, Spacing, white } from 'holi-bricks/foundations'
 import { TaskDetailsCTA } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -25,6 +25,7 @@ import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItL
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { BookmarkLine } from '@holi/icons/src/generated'
 import { ButtonTracked } from '@holi/core/components/Trackable'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isIos = Platform.OS === 'ios'
 
@@ -54,6 +55,8 @@ const TaskDetails = () => {
   } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
   const { displayError } = useErrorHandling()
+  const { theme } = useTheme()
+  const styles = getStyles(theme)
 
   const renderActionDrawer = useCallback(
     (tintColor?: string) =>
@@ -99,14 +102,7 @@ const TaskDetails = () => {
         }}
         statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
         StickyBottomComponent={
-          <Stack
-            padding={{ left: 'md', right: 'md', bottom: 'lg' }}
-            alignItems="center"
-            justifyContent="center"
-            alignSelf="center"
-            width="100%"
-            gap="xxs"
-          >
+          <View style={styles.stickyBottomComponent}>
             {displayCta && (
               <Stack width="100%">
                 <TaskDetailsCTA
@@ -154,7 +150,7 @@ const TaskDetails = () => {
                   }
                 />
               ))}
-          </Stack>
+          </View>
         }
       >
         <DetailsScreen
@@ -177,5 +173,22 @@ const TaskDetails = () => {
     </>
   )
 }
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    stickyBottomComponent: {
+      backgroundColor: theme.colors.background10,
+      paddingHorizontal: Spacing.xs,
+      paddingTop: Spacing.xs,
+      paddingBottom: Spacing.md,
+      borderTopRightRadius: BorderRadius.xxl,
+      borderTopLeftRadius: BorderRadius.xxl,
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center',
+      width: '100%',
+      gap: Spacing['3xs'],
+    },
+  })
 
 export default memo(TaskDetails)
