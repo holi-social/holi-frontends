@@ -1,0 +1,17 @@
+import * as React from 'react'
+const SvgPencilFilled = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#pencil-filled_svg__a)">
+      <path
+        fill="currentColor"
+        d="m12.9 6.858 4.242 4.243-9.9 9.9H3v-4.244zm1.414-1.414 2.121-2.122a1 1 0 0 1 1.414 0l2.829 2.83a1 1 0 0 1 0 1.413l-2.122 2.121z"
+      />
+    </g>
+    <defs>
+      <clipPath id="pencil-filled_svg__a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+export default SvgPencilFilled

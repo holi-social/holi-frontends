@@ -1,0 +1,10 @@
+import * as React from 'react'
+const SvgNotification2Filled = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <path
+      fill="currentColor"
+      d="M22 20H2v-2h1v-6.969C3 6.043 7.03 2 12 2s9 4.043 9 9.031V18h1zM9.5 21h5a2.5 2.5 0 0 1-5 0"
+    />
+  </svg>
+)
+export default SvgNotification2Filled

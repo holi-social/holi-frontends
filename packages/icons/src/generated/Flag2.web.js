@@ -1,0 +1,17 @@
+import * as React from 'react'
+const SvgFlag2 = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#flag-2_svg__a)">
+      <path
+        fill="currentColor"
+        d="M4 17v5H2V3h19.138a.5.5 0 0 1 .435.748L18 10l3.573 6.252a.499.499 0 0 1-.435.748zM4 5v10h14.554l-2.858-5 2.858-5z"
+      />
+    </g>
+    <defs>
+      <clipPath id="flag-2_svg__a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+export default SvgFlag2

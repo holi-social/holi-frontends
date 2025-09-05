@@ -1,0 +1,10 @@
+import * as React from 'react'
+const SvgStarSmile = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <path
+      fill="currentColor"
+      d="m11.999.5 4.226 6.183 7.187 2.109-4.575 5.93.215 7.486-7.053-2.518-7.053 2.518.215-7.486-4.575-5.93 7.187-2.109zm0 3.544L9.02 8.402 3.956 9.887l3.225 4.178-.153 5.275 4.97-1.774 4.97 1.774-.151-5.275 3.224-4.178-5.064-1.485zm-2 7.956a2 2 0 0 0 4 0h2a4 4 0 1 1-8 0z"
+    />
+  </svg>
+)
+export default SvgStarSmile

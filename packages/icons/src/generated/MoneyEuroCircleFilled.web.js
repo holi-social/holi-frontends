@@ -1,0 +1,17 @@
+import * as React from 'react'
+const SvgMoneyEuroCircleFilled = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#money-euro-circle-filled_svg__a)">
+      <path
+        fill="currentColor"
+        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m-1.95-11a2.5 2.5 0 0 1 4.064-1.41l1.701-1.133A4.5 4.5 0 0 0 8.028 11H7v2h1.027a4.5 4.5 0 0 0 7.788 2.543l-1.701-1.134A2.5 2.5 0 0 1 10.05 13l4.95.001v-2z"
+      />
+    </g>
+    <defs>
+      <clipPath id="money-euro-circle-filled_svg__a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+export default SvgMoneyEuroCircleFilled

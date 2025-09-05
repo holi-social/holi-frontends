@@ -1,0 +1,11 @@
+import * as React from 'react'
+const SvgStarRoundedFilled = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 40 40" {...props}>
+    <path
+      stroke="currentColor"
+      strokeMiterlimit={10}
+      d="m23.583 4.228 2.776 5.625a4 4 0 0 0 3.01 2.187l6.208.902a3.997 3.997 0 0 1 2.216 6.818L33.3 24.137a4 4 0 0 0-1.15 3.539l1.06 6.183a3.997 3.997 0 0 1-5.8 4.214l-5.551-2.919a4 4 0 0 0-3.72 0l-5.552 2.919a3.997 3.997 0 0 1-5.8-4.214l1.06-6.182a4 4 0 0 0-1.15-3.538l-4.49-4.378a3.997 3.997 0 0 1 2.215-6.818l6.207-.902a4 4 0 0 0 3.01-2.187l2.774-5.626a3.997 3.997 0 0 1 7.17 0Z"
+    />
+  </svg>
+)
+export default SvgStarRoundedFilled

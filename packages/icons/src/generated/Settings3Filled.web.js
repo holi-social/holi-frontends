@@ -1,0 +1,17 @@
+import * as React from 'react'
+const SvgSettings3Filled = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#settings-3-filled_svg__a)">
+      <path
+        fill="currentColor"
+        d="M9.952 2.21a10 10 0 0 1 4.091-.002 4 4 0 0 0 1.955 2.862 4 4 0 0 0 3.457.261 10 10 0 0 1 2.043 3.545 4 4 0 0 0-1.5 3.124 3.99 3.99 0 0 0 1.502 3.124 10 10 0 0 1-2.046 3.543 3.994 3.994 0 0 0-4.76 1.468 4 4 0 0 0-.65 1.653 10 10 0 0 1-4.09.004 4 4 0 0 0-1.956-2.865 4 4 0 0 0-3.457-.26 10 10 0 0 1-2.043-3.546A4 4 0 0 0 3.998 12a4 4 0 0 0-1.502-3.124 10 10 0 0 1 2.046-3.543 4 4 0 0 0 3.456-.26 4 4 0 0 0 1.954-2.86zM11.998 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+      />
+    </g>
+    <defs>
+      <clipPath id="settings-3-filled_svg__a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+export default SvgSettings3Filled

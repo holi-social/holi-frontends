@@ -1,0 +1,17 @@
+import * as React from 'react'
+const SvgHeartFilled = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <g clipPath="url(#heart-filled_svg__a)">
+      <path
+        fill="currentColor"
+        d="M12.001 4.529a6 6 0 0 1 8.242.228 6 6 0 0 1 .236 8.236l-8.48 8.492-8.478-8.492a6 6 0 0 1 8.48-8.464"
+      />
+    </g>
+    <defs>
+      <clipPath id="heart-filled_svg__a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
+  </svg>
+)
+export default SvgHeartFilled
