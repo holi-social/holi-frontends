@@ -161,8 +161,8 @@ const CreateOrEditTask = () => {
       const formErrors = error.flatten().fieldErrors
       setFieldErrors(formErrors ?? {})
 
-      logError(error, 'Error initializing authentication', {
-        location: '_app.initAuth',
+      logError(error, 'Invalid form input', {
+        location: 'CreateOrEditTask.validateForm',
       })
 
       return false
