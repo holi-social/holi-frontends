@@ -1,10 +1,8 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 import { View } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -37,11 +35,8 @@ export const Example: ComponentStory<typeof Card> = () => {
             <HoliHeading size="m">Grace Brewster Hopper</HoliHeading>
             <HoliText color="gray300">She/Her</HoliText>
           </View>
-          <HoliColumns>
-            <HoliColumn width="auto">
-              <HoliButton label="">Start Chatting</HoliButton>
-            </HoliColumn>
-          </HoliColumns>
+
+          <HoliButton label="">Start Chatting</HoliButton>
         </Slot>
         <HoliDivider />
         <Slot>

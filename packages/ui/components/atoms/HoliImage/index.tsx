@@ -8,7 +8,9 @@ import type { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types
 // left in here for future possibility of speed comparison
 const debugWithReactNativeImage = false
 
-// https://github.com/expo/expo/issues/21921 is fixed, so we can use expo-image again
+/**
+ * @deprecated Use `Image` from holiBricks instead.
+ */
 const HoliImage = ({
   source,
   blurhash,
