@@ -173,7 +173,7 @@ const stylesheet = createStyleSheet(() => ({
   topLeft: {
     position: 'absolute',
     top: -15,
-    left: -40,
+    left: -28,
     zIndex: 1,
   },
   bottomRight: {
