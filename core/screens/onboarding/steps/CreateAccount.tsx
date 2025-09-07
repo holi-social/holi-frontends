@@ -36,12 +36,12 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
-import { Button } from 'holi-bricks/components/button'
 import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
 const logger = getLogger('CreateAccount')
 
@@ -77,6 +77,20 @@ export const CreateAccount = ({
   const { theme } = useTheme()
   const { track } = useTracking()
 
+  const handleMessage = useCallback(
+    (messageId: number) => {
+      // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
+      if (messageId === 1040005) {
+        if (step === 'email-code') {
+          setStep('code')
+        }
+        return true
+      }
+      return false
+    },
+    [step]
+  )
+
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) return
 
@@ -100,13 +114,14 @@ export const CreateAccount = ({
     initializeFlow()
   }, [initializeFlow])
 
-  const onSubmit = async (payload: UpdateRegistrationFlowBody & { identifier?: string }, provider?: string) => {
-    if (payload.identifier) {
-      setEmail(payload.identifier)
+  const onSubmit = async (
+    payload: UpdateRegistrationFlowBody & { identifier?: string; 'traits.email'?: string },
+    provider?: string
+  ) => {
+    if (payload['traits.email']) {
+      setEmail(payload['traits.email'])
     }
-    track(
-      provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
-    )
+    track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'mainRegistration' }))
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -139,6 +154,20 @@ export const CreateAccount = ({
 
         onRegister()
       } catch (err) {
+        if (
+          (
+            err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
+          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+        ) {
+          displayError(err, 'Failed to submit form', {
+            displayMessage: t('auth.login.message.1010016'),
+            location: 'CreateAccount.onSubmit',
+          })
+          initializeFlow()?.then(() => {
+            setStep('email-code')
+          })
+          return
+        }
         if (err instanceof HoliLoginCancelledError) {
           // Do not display error if user cancelled the login
           return
@@ -192,6 +221,7 @@ export const CreateAccount = ({
         {...(step !== 'oidc'
           ? {
               onPress: () => {
+                track(TrackingEvent.Auth.HoliRegisterPressed({ method: 'back', screen: 'mainRegistration' }))
                 if (step === 'email-password' || step === 'email-code') {
                   setStep('oidc')
                   // re-initialize flow to reset the form and include the oidc nodes
@@ -246,7 +276,7 @@ export const CreateAccount = ({
           </Text>
           <View style={styles.changeEmailContainer}>
             <Text size="md">{email}</Text>
-            <Button
+            <ButtonTracked
               icon={Edit2}
               transparent
               size="lg"
@@ -258,6 +288,10 @@ export const CreateAccount = ({
                   hideLoader()
                 })
               }}
+              trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
+                step: 'edit',
+                screen: 'mainRegistration',
+              })}
             />
           </View>
         </View>
@@ -267,11 +301,7 @@ export const CreateAccount = ({
         onSubmit={onSubmit}
         style={styles.form}
         nodesToShow={nodesToShow}
-        onSuccess={() => {
-          if (step === 'email-code') {
-            setStep('code')
-          }
-        }}
+        handleMessage={handleMessage}
       />
 
       {!isLoaderShown && step === 'oidc' && (
@@ -282,7 +312,7 @@ export const CreateAccount = ({
             </View>
             <View style={styles.dividerContainer}>
               <Text size="md" textAlign="center" color="greyDark">
-                {t('registration.emailOption')}
+                {t('auth.divider.email')}
               </Text>
             </View>
             <View style={styles.divider}>
@@ -291,22 +321,30 @@ export const CreateAccount = ({
           </View>
 
           <View style={styles.buttonContainer}>
-            <Button
-              label={t('auth.login.input.label-SignInCode')}
+            <ButtonTracked
+              label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-code')}
               icon={Mail}
               testID={'ory-submit-email-button'}
+              trackingEvent={TrackingEvent.Auth.HoliRegisterPressed({
+                method: 'otp',
+                screen: 'mainRegistration',
+              })}
             />
 
-            <Button
-              label={t('auth.login.input.label-EmailAndPassword')}
+            <ButtonTracked
+              label={t('auth.CTA.emailPassword')}
               variant="secondary"
               size="lg"
               onPress={() => setStep('email-password')}
               icon={Key2}
               testID="btn-to-email-password-form"
+              trackingEvent={TrackingEvent.Auth.HoliRegisterPressed({
+                method: 'email',
+                screen: 'mainRegistration',
+              })}
             />
           </View>
 
@@ -316,7 +354,7 @@ export const CreateAccount = ({
             </View>
             <View style={styles.dividerContainer}>
               <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                {t('login.altOptions.divider.guest')}
+                {t('auth.divider.guest')}
               </Text>
             </View>
             <View style={styles.divider}>

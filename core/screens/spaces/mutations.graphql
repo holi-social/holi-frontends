@@ -76,3 +76,16 @@ mutation deleteSpacePost($id: UUID!) {
     id
   }
 }
+
+mutation CompleteReadyToGoTask($id: UUID!) {
+  completeReadyToGoTask(id: $id) {
+    id
+    completedAt
+    task {
+      ...FullTask
+    }
+    user {
+      ...UserAvatar
+    }
+  }
+}

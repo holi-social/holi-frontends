@@ -18,6 +18,7 @@ import { View, type ViewStyle } from 'react-native'
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormNode from '@holi/core/auth/components/FormNode'
 import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/helpers/form'
+import { getNodeProviderName } from '@holi/core/auth/helpers/auth'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -30,10 +31,10 @@ export type NodeType = 'oidc' | 'password' | 'code' | 'email'
 
 interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
-  onSuccess?: () => void
+  handleMessage?: (messageId: number) => boolean
   isSignin?: boolean
+
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
-  only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
   textInputOverride?: TextInputOverride
   submitLabelOverride?: string
   scrollToInputWithId?: (id: string) => ScrollToProps
@@ -42,6 +43,8 @@ interface Props<T> {
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
   nodesToShow?: NodeType[]
+  oidcProviders?: string[]
+  withLoader?: boolean
 }
 
 interface FlowData<T> {
@@ -54,10 +57,9 @@ const FormBuilder = <
   T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody,
 >({
   onSubmit,
-  onSuccess,
+  handleMessage,
   isSignin,
   flow,
-  only,
   textInputOverride,
   submitLabelOverride,
   scrollToInputWithId,
@@ -66,6 +68,8 @@ const FormBuilder = <
   translationPrefix = 'auth.login.',
   style,
   nodesToShow = [],
+  oidcProviders = ['Google', 'Facebook', 'Apple'],
+  withLoader = true,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
@@ -118,9 +122,7 @@ const FormBuilder = <
           store.values[name] = node.attributes.value
         }
 
-        if (!only || node.group === only || node.group === 'default') {
-          store.nodes.push(node)
-        }
+        store.nodes.push(node)
 
         return store
       },
@@ -140,6 +142,9 @@ const FormBuilder = <
 
     // show global messages
     globalMessages?.map((message) => {
+      if (handleMessage?.(message.id)) {
+        return
+      }
       const messageKey = `auth.login.message.${message.id}`
       const fallbackErrorMessage = t('auth.login.message.default')
       const messageText = i18n.exists(messageKey) ? t(messageKey) : fallbackErrorMessage
@@ -152,11 +157,9 @@ const FormBuilder = <
       }
       if (message.type === 'error') {
         openToast(messageText, HoliToastType.ERROR, { testID: `message-${message.id}` })
-      } else {
-        onSuccess?.()
       }
     })
-  }, [flow, only, i18n, openToast, t, onSuccess])
+  }, [flow, i18n, openToast, t, handleMessage])
 
   const onChange = (name: string) => (value: string) => {
     setFlowData((currFlowData) => ({
@@ -177,7 +180,7 @@ const FormBuilder = <
       nodeType = 'email'
     } else if (node.group === 'password') {
       nodeType = 'password'
-    } else if (node.group === 'oidc') {
+    } else if (node.group === 'oidc' && oidcProviders.includes(getNodeProviderName(node) as string)) {
       nodeType = 'oidc'
     } else if (node.group === 'code') {
       nodeType = 'code'
@@ -188,11 +191,12 @@ const FormBuilder = <
 
   return (
     <View style={style}>
-      {!flow ? (
+      {!flow && withLoader ? (
         <HoliLoader />
-      ) : (
+      ) : !flow ? null : (
         nodes.filter(nodeFilter).map((node: UiNode, index) => {
           const name = getNodeId(node)
+          const isSubmitButton = name !== 'provider' && (node.attributes as UiNodeInputAttributes).type === 'submit'
 
           return (
             <FormNode
@@ -203,14 +207,15 @@ const FormBuilder = <
               onChange={onChange(name)}
               node={node}
               onSubmitPress={(overrides, provider) => {
-                if ('code' in values && values.code) {
+                // Only submit resend if specifically requested, as it's otherwise hard to detect (and display errors for) missing inputs
+                if (overrides && !('resend' in overrides)) {
                   delete submitType.resend
                 }
                 return onSubmit({ ...values, ...submitType, ...overrides }, provider)
               }}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
-              style={{ marginTop: Spacing['3xs'] }}
+              style={{ marginTop: isSubmitButton ? Spacing.xs : Spacing['3xs'] }}
               isSignin={isSignin}
               submitLabelOverride={submitLabelOverride}
             />

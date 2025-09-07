@@ -13,6 +13,7 @@ import { Key2, Mail } from '@holi/icons/src/generated'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 const AccountSettings = () => {
   const { t } = useTranslation()
@@ -23,6 +24,7 @@ const AccountSettings = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { user } = useLoggedInUser()
+  const isEmailAccount = user?.accountType === AccountType.Email
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.account.title') })
@@ -33,7 +35,7 @@ const AccountSettings = () => {
       <ScrollView>
         <LoginProtection>
           <View style={[mixins.container, styles.accountSettings]}>
-            {!user?.isOidc && (
+            {isEmailAccount && (
               <MoreOptionItem
                 label={t('profile.edit.changePassword')}
                 icon={Key2}
@@ -42,7 +44,7 @@ const AccountSettings = () => {
                 testID="btn-change-password"
               />
             )}
-            {!user?.isOidc && (
+            {isEmailAccount && (
               <MoreOptionItem
                 label={t('profile.edit.changeEmail')}
                 icon={Mail}

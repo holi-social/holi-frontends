@@ -31,6 +31,7 @@ jest.mock('@holi/core/errors/hooks', () => ({
 const mockUseRedirect = jest.mocked(useRedirect)
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
+  usePathToRedirect: jest.fn(),
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
@@ -215,7 +216,9 @@ describe('Login', () => {
 
       await user.press(screen.getByLabelText('social-submit-button'))
 
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.SocialLoginButtonPressed('Google'))
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.SocialLoginButtonPressed({ provider: 'Google', screen: 'mainLogin' })
+      )
     })
 
     it('should perform login', async () => {

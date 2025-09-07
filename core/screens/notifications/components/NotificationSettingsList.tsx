@@ -14,21 +14,19 @@ import {
   type UpdateWorkflowPreference,
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
-import Spacing from '@holi/ui/foundations/Spacing'
+import { Spacing } from 'holi-bricks/foundations'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { breakpoints } from 'holi-bricks/foundations'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
 
 const CATEGORY_ILLUSTRATIONS = {
   GLOBAL: require('@holi/ui/assets/img/illustrations/illustration_bell.svg'),
@@ -93,19 +91,19 @@ const NotificationSettingsList = () => {
             >
               <SettingsCategoryHeading category={category} />
 
-              <HoliColumns>
+              <Stack direction="row">
                 <SettingsNameColumn />
-                <HoliColumn>
-                  <HoliColumns>
-                    <HoliColumn padding={0} width={64} alignItems="center">
-                      <HoliText color="gray300">{t('profile.settings.notifications.channel.push')}</HoliText>
-                    </HoliColumn>
-                    <HoliColumn padding={0} width={64} alignItems="center">
-                      <HoliText color="gray300">{t('profile.settings.notifications.channel.email')}</HoliText>
-                    </HoliColumn>
-                  </HoliColumns>
-                </HoliColumn>
-              </HoliColumns>
+                <Stack width={Spacing['4xl']}>
+                  <Text color="support" size="md" textAlign="center">
+                    {t('profile.settings.notifications.channel.push')}
+                  </Text>
+                </Stack>
+                <Stack width={Spacing['4xl']}>
+                  <Text color="support" size="md" textAlign="center">
+                    {t('profile.settings.notifications.channel.email')}
+                  </Text>
+                </Stack>
+              </Stack>
 
               {workflows.map((workflow, index) => {
                 return (
@@ -130,14 +128,17 @@ const SettingsCategoryHeading = ({ category }: { category: NOTIFICATION_CATEGORY
 
   return (
     <>
-      <HoliColumns alignItems={'center'}>
+      <Stack direction="row" alignItems="center" margin={{ bottom: 'xs' }}>
         <CategoryIllustration category={category} />
         <View style={{ marginLeft: Spacing['xs'] }}>
-          <HoliHeading>{t(`profile.settings.notifications.${category}.title`)}</HoliHeading>
-          <HoliText color="gray300">{t(`profile.settings.notifications.${category}.description`)}</HoliText>
+          <Text headingLevel="2" size="xxl" bold>
+            {t(`profile.settings.notifications.${category}.title`)}
+          </Text>
+          <Text color="support" size="md">
+            {t(`profile.settings.notifications.${category}.description`)}
+          </Text>
         </View>
-      </HoliColumns>
-      <HoliGap size={'s'} />
+      </Stack>
     </>
   )
 }
@@ -167,7 +168,7 @@ const WorkflowSettings = ({
 
   return (
     <View style={[styles.row, style]} testID={workflow.id}>
-      <HoliColumns>
+      <Stack direction="row" padding={{ top: '3xs', bottom: '3xs' }}>
         <SettingsNameColumn>
           <HoliText>{workflowName}</HoliText>
         </SettingsNameColumn>
@@ -191,25 +192,21 @@ const WorkflowSettings = ({
             />
           )}
         </SettingsCheckBoxColumn>
-      </HoliColumns>
+      </Stack>
     </View>
   )
 }
 
 const SettingsCheckBoxColumn = ({ children }: React.PropsWithChildren) => {
   return (
-    <HoliColumn padding={10} width={64} alignItems="center">
+    <Stack width={Spacing['4xl']} alignItems="center" justifyContent="center">
       {children}
-    </HoliColumn>
+    </Stack>
   )
 }
 
 const SettingsNameColumn = ({ children }: React.PropsWithChildren) => {
-  return (
-    <HoliColumn alignSelf="center" flex={1}>
-      {children}
-    </HoliColumn>
-  )
+  return <Stack flex={1}>{children}</Stack>
 }
 
 const CategoryIllustration: React.FC<{ style?: ViewStyle; category: NOTIFICATION_CATEGORY }> = ({

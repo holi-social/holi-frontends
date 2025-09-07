@@ -19,6 +19,7 @@ query TaskById($id: UUID!) {
     contactPhone
     thumbnail
     thumbnailBlurhash
+    totalCompletions
     created
     creator {
       id
