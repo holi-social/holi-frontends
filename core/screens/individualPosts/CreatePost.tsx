@@ -61,6 +61,7 @@ const CreatePost = () => {
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
   const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
   const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
 
@@ -87,8 +88,8 @@ const CreatePost = () => {
     onCompleted: () => {
       if (isRewardsMessageEnabled && selectedCategoryId === goodDeedCategoryId) {
         refetch().then(() => {
-          setShowRewardMessage(true)
           track(TrackingEvent.Rewards.goodDeedClaimed('good_deed_post'))
+          setShowRewardMessage(true)
         })
       } else {
         openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
@@ -159,15 +160,19 @@ const CreatePost = () => {
   }
 
   const handleClaimReward = () => {
-    refetchBadges().then(() => {
-      const newlyUnlockedBadges = badges?.filter((badge: Badge) => badge.unlockedAt && !badge.seenAt)
-      if (newlyUnlockedBadges.length > 0) {
-        setShowRewardMessage(false)
-        setUnlockedBadges(newlyUnlockedBadges)
-      } else {
-        navigate('/')
-      }
-    })
+    if (rewardsPhaseThreeEnabled) {
+      refetchBadges().then(() => {
+        const newlyUnlockedBadges = badges?.filter((badge: Badge) => badge.unlockedAt && !badge.seenAt)
+        if (newlyUnlockedBadges.length > 0) {
+          setShowRewardMessage(false)
+          setUnlockedBadges(newlyUnlockedBadges)
+        } else {
+          navigate('/')
+        }
+      })
+    } else {
+      navigate('/')
+    }
   }
 
   const handleClaimBadge = () => {

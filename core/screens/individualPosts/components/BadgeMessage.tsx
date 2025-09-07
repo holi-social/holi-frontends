@@ -28,7 +28,7 @@ const IMAGE_WIDTH = 240
 const SHINING_SIZE = 293
 export const SCRATCHCARD_WIDTH = 324
 export const SCRATCHCARD_HEIGHT = 300
-const REVEAL_THRESHOLD = 0.9
+const REVEAL_THRESHOLD = 0.7
 
 export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
   const { t } = useTranslation()

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Text } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -24,11 +24,14 @@ const MyBadges = () => {
   const { track } = useTracking()
   const { t } = useTranslation()
   const [detailedBadge, setDetailedBadge] = useState<Badge>()
-  const { badges, loading } = useBadges()
+  const { badges, loading, refetchBadges } = useBadges()
 
-  useFocusEffect(() => {
-    track(TrackingEvent.UserProfile.badgesPageOpened())
-  })
+  useFocusEffect(
+    useCallback(() => {
+      track(TrackingEvent.UserProfile.badgesPageOpened())
+      refetchBadges()
+    }, [track, refetchBadges])
+  )
 
   if (loading) {
     return (
@@ -124,7 +127,7 @@ const MyBadges = () => {
               />
             </View>
 
-            <BadgeDetails badge={detailedBadge} />
+            <BadgeDetails badge={detailedBadge} onDismiss={() => setDetailedBadge(undefined)} />
           </Stack>
         </HoliModal>
       )}

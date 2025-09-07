@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
 const IMAGE_WIDTH = 240
 const SHINING_SIZE = 293
 
-const BadgeDetails = ({ badge }: { badge: Badge }) => {
+const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => void }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
 
@@ -100,6 +100,7 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
               label={t(`badge.${badge.localazyKey}.button`)}
               onPress={() => {
                 navigate(badge.buttonLink ?? '')
+                onDismiss?.()
               }}
             />
           </Stack>

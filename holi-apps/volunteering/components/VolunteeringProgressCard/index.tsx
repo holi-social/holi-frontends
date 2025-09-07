@@ -24,6 +24,8 @@ import { ButtonTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { EarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModal'
 import { type Badge, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
   onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
@@ -43,6 +45,7 @@ export const VolunteeringProgressCard = ({
   const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0)
   const { refetchBadges } = useBadges()
+  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
     onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Contacted),
@@ -53,9 +56,11 @@ export const VolunteeringProgressCard = ({
       track(TrackingEvent.Rewards.goodDeedClaimed('volunteer'))
       onStatusChange(VolunteeringOpportunityStatusValue.Doing)
 
-      const unlockedBadges = await newBadgeUnlocked()
-      if (unlockedBadges.length > 0) {
-        showBadgesModal()
+      if (rewardsPhaseThreeEnabled) {
+        const unlockedBadges = await newBadgeUnlocked()
+        if (unlockedBadges.length > 0) {
+          showBadgesModal()
+        }
       }
     },
   })

@@ -2,9 +2,9 @@ import { type BadgesQuery, useBadgesQuery } from '@holi/api/graphql/graphql-code
 
 export type Badge = {
   localazyKey: string
-  buttonLink: string
   state: BadgeState
   imgSrc: string
+  buttonLink?: string
   id?: string
   currentStep?: number
   totalSteps?: number
@@ -41,7 +41,7 @@ export const useBadges = () => {
         ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue_light.svg')
         : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange_light.svg'),
       localazyKey: slugTitleMapping[b.slug],
-      buttonLink: b.slug.includes('volunteering') ? '/act' : '/',
+      buttonLink: b.slug.includes('impact') ? '/act' : '/',
     }))
 
     const unlockedBadges = data?.rewards_badges.unlocked.map((b) => ({
@@ -55,7 +55,7 @@ export const useBadges = () => {
         ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg')
         : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
       localazyKey: slugTitleMapping[b.slug],
-      buttonLink: b.slug.includes('impact') ? '/act' : '/share',
+      buttonLink: undefined,
     }))
 
     return [...inProgressBadges, ...unlockedBadges]
