@@ -87,6 +87,7 @@ const CreatePost = () => {
     onCompleted: () => {
       if (isRewardsMessageEnabled && selectedCategoryId === goodDeedCategoryId) {
         refetch().then(() => {
+          setShowRewardMessage(true)
           track(TrackingEvent.Rewards.goodDeedClaimed('good_deed_post'))
         })
       } else {
@@ -161,6 +162,7 @@ const CreatePost = () => {
     refetchBadges().then(() => {
       const newlyUnlockedBadges = badges?.filter((badge: Badge) => badge.unlockedAt && !badge.seenAt)
       if (newlyUnlockedBadges.length > 0) {
+        setShowRewardMessage(false)
         setUnlockedBadges(newlyUnlockedBadges)
       } else {
         navigate('/')
