@@ -286,6 +286,8 @@ const styles = StyleSheet.create({
   listHeader: {
     gap: Spacing.sm,
     flex: 1,
+    paddingBottom: Spacing.sm,
+    paddingTop: Spacing.sm,
   },
   listContent: {
     paddingHorizontal: Spacing.sm,

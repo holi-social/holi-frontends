@@ -43,7 +43,7 @@ const HashtagBar = ({
             {t('oneMioGoodDeeds.hashtag')}
           </TextLink>
         </Stack>
-        <HoliIcon icon={Question} />
+        <HoliIcon icon={Question} size={20} />
       </Stack>
     </Stack>
   )
@@ -117,14 +117,14 @@ export const GoodDeedsBanner = ({
                 <Stack
                   backgroundColor="white"
                   borderRadius="md"
-                  borderColor="greyLight"
+                  borderColor="default"
                   borderStyle="solid"
                   borderWidth="sm"
                   width={250}
-                  height={100}
+                  height={107}
                   alignItems="center"
                   justifyContent="center"
-                  padding={{ top: '3xs', bottom: 'lg', left: 'xs', right: 'xs' }}
+                  padding={{ top: 'xs', bottom: 'lg', left: 'xs', right: 'xs' }}
                   margin={{ bottom: 'sm' }}
                 >
                   <Text size="4xl" color="main">
@@ -173,7 +173,7 @@ const stylesheet = createStyleSheet(() => ({
   topLeft: {
     position: 'absolute',
     top: -15,
-    left: -40,
+    left: -28,
     zIndex: 1,
   },
   bottomRight: {
