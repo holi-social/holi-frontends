@@ -58,7 +58,7 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
               {t(`badge.${badge.localazyKey}.name`)}
             </Text>
 
-            {badge.currentStep && badge.totalSteps && badge.totalSteps > 1 && badge.currentStep != badge.totalSteps && (
+            {badge.currentStep && badge.totalSteps && badge.totalSteps > 1 && badge.currentStep != badge.totalSteps ? (
               <Stack padding={{ bottom: 'xl' }} gap="3xs">
                 <Stack alignItems="center">
                   <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
@@ -71,7 +71,7 @@ const BadgeDetails = ({ badge }: { badge: Badge }) => {
                   })}
                 </Text>
               </Stack>
-            )}
+            ) : null}
 
             <Text size="md" textAlign="center">
               {badge.state === BadgeState.active || badge.state === BadgeState.locked

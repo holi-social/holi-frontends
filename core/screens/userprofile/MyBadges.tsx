@@ -79,13 +79,13 @@ const MyBadges = () => {
                   </Text>
 
                   {badge.currentStep &&
-                    badge.totalSteps &&
-                    badge.totalSteps > 1 &&
-                    badge.currentStep != badge.totalSteps && (
-                      <Stack width={PROGRESSBAR_WIDTH} alignItems="center">
-                        <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
-                      </Stack>
-                    )}
+                  badge.totalSteps &&
+                  badge.totalSteps > 1 &&
+                  badge.currentStep != badge.totalSteps ? (
+                    <Stack width={PROGRESSBAR_WIDTH} alignItems="center">
+                      <HoliProgressBar percentage={(badge.currentStep / badge.totalSteps) * 100 || 0} size="small" />
+                    </Stack>
+                  ) : null}
 
                   {badge.unlockedAt && (
                     <Stack alignItems="center">
