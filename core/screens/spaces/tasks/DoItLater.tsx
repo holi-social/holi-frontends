@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { GoodDeedCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCard'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,6 +14,7 @@ import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { StepCheck, StepText } from '@holi/core/screens/spaces/tasks/components/progressSteps'
+import { Spacing } from 'holi-bricks/foundations'
 
 type DoItLaterProps = {
   id: string
@@ -45,6 +46,7 @@ const Frame = ({ children }: PropsWithChildren) => (
 export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }: DoItLaterProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { styles } = useStyles(stylesheet)
 
   return (
     <Stack gap="3xs" margin={{ top: 'md' }} padding="xs">
@@ -54,7 +56,7 @@ export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }
       <Text size="md" textAlign="center">
         {t('tasks.bookmark.unlogged.subtitle')}
       </Text>
-      <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130 }} />
+      <HoliLottie animType="rocket" loop style={styles.animation} />
       <Frame>
         <StepCheck stage="done" size="lg" />
         <Stack gap="3xs">
@@ -104,3 +106,12 @@ export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {
     </HoliModal>
   )
 }
+
+const stylesheet = createStyleSheet({
+  animation: {
+    width: '100%',
+    position: 'relative',
+    aspectRatio: 342 / 130,
+    paddingVertical: Spacing.sm,
+  },
+})
