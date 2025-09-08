@@ -469,7 +469,7 @@
   "goodDeeds.name_one": "Gute Tat",
   "goodDeeds.name_other": "Gute Taten",
   "goodDeeds.name.count_one": "{{count}} Tat",
-  "goodDeeds.name.count_other": "{{count} Taten",
+  "goodDeeds.name.count_other": "{{count}} Taten",
   "goodDeeds.name.plural_zero": "Gute Taten",
   "goodDeeds.name.plural_one": "Gute Tat",
   "goodDeeds.name.plural_other": "Gute Taten",
