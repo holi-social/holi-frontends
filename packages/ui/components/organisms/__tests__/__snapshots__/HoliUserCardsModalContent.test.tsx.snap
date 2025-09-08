@@ -59,7 +59,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 "textAlign": "left",
                 "userSelect": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="holi-modal-content-heading"
@@ -197,7 +199,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -218,7 +222,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "width": 128,
                             },
                             {},
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       />
@@ -404,7 +410,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -435,7 +443,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                                 "textAlign": undefined,
                                 "userSelect": "auto",
                               },
-                              {},
+                              {
+                                "flexShrink": undefined,
+                              },
                             ]
                           }
                         >
@@ -624,7 +634,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -645,7 +657,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "width": 128,
                             },
                             {},
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       />
@@ -831,7 +845,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -862,7 +878,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                                 "textAlign": undefined,
                                 "userSelect": "auto",
                               },
-                              {},
+                              {
+                                "flexShrink": undefined,
+                              },
                             ]
                           }
                         >
@@ -1051,7 +1069,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -1072,7 +1092,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "width": 128,
                             },
                             {},
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       />
@@ -1258,7 +1280,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -1289,7 +1313,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                                 "textAlign": undefined,
                                 "userSelect": "auto",
                               },
-                              {},
+                              {
+                                "flexShrink": undefined,
+                              },
                             ]
                           }
                         >
@@ -1480,7 +1506,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "position": "relative",
                             "width": 128,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -1501,7 +1529,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "width": 128,
                             },
                             {},
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       />
@@ -2174,7 +2204,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             "paddingHorizontal": 16,
             "width": "100%",
           },
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
       testID="holi-modal-content-close-btn"
@@ -2217,7 +2249,9 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           >

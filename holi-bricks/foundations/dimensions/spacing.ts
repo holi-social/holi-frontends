@@ -1,3 +1,5 @@
+import type { FlexStyle } from 'react-native'
+
 export const Spacing = {
   '5xs': 2,
   '4xs': 4,
@@ -26,6 +28,7 @@ export type SizeToEdge =
 
 export type LayoutProps = {
   margin?: SizeToEdge
+  flexShrink?: FlexStyle['flexShrink']
 }
 
 type Margins = {
@@ -66,5 +69,8 @@ export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding'
 export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin) as Margins
 
 export const layoutStyle = (props: LayoutProps) => {
-  return makeMargin(props.margin)
+  return {
+    ...makeMargin(props.margin),
+    ...{ flexShrink: props.flexShrink },
+  }
 }

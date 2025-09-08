@@ -67,7 +67,9 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
               "position": "relative",
               "width": 24,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
       >
@@ -98,7 +100,9 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           >

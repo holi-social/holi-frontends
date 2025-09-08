@@ -49,7 +49,9 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
     style={
       [
         false,
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
     testID="bell-button"
@@ -187,7 +189,9 @@ exports[`React tree renders without new notifications badge 1`] = `
     style={
       [
         false,
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
     testID="bell-button"

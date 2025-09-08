@@ -22,8 +22,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
@@ -34,6 +32,7 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Stack } from 'holi-bricks/components/stack'
 
 interface Props {
   post: Post
@@ -103,11 +102,7 @@ const PostPreview = ({
     return (
       <View style={styles.container}>
         {/* Post Author */}
-        <HoliColumns>
-          <HoliColumn flex={2}>
-            <HoliMediaAuthorHeader loading role={post?.creator.role} />
-          </HoliColumn>
-        </HoliColumns>
+        <HoliMediaAuthorHeader loading role={post?.creator.role} />
 
         {/* Post Title */}
         <View style={styles.postTitleLink}>
@@ -135,33 +130,31 @@ const PostPreview = ({
     <View style={styles.container}>
       {/* Visibility for space update posts */}
       {hasVisibilityIcon ? (
-        <HoliColumns alignItems="center" padding={[0, 0, 16, 0]}>
+        <Stack alignItems="center" direction="row" padding={{ bottom: 'xs' }}>
           <HoliIcon icon={visibilityIcon} size={14} />
           <HoliBox padding={[0, 0, 0, 6]}>
             <HoliText size="extrasmall">{visibilityIconText}</HoliText>
           </HoliBox>
-        </HoliColumns>
+        </Stack>
       ) : null}
 
       {/* Author row with author, post date and three dot menu */}
-      <HoliColumns>
+      <Stack direction="row" justifyContent="space-between">
         {/* Author */}
-        <HoliColumn flex={2}>
-          <HoliLink
-            href={`/profile/${post?.creator.id}`}
-            label={post?.creator.fullName || ''}
-            testID="btn-to-post-creator-profile"
-          >
-            <HoliMediaAuthorHeader
-              author={post?.creator || ({} as User)}
-              authorBold
-              date={post?.created}
-              role={post?.creator.role}
-            />
-          </HoliLink>
-        </HoliColumn>
+        <HoliLink
+          href={`/profile/${post?.creator.id}`}
+          label={post?.creator.fullName || ''}
+          testID="btn-to-post-creator-profile"
+        >
+          <HoliMediaAuthorHeader
+            author={post?.creator || ({} as User)}
+            authorBold
+            date={post?.created}
+            role={post?.creator.role}
+          />
+        </HoliLink>
         {/* Action drawer (three dot menu) */}
-        <HoliColumn>
+        <View>
           <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
             {/* Report Action */}
             {/* reporting own content makes no sense, so we hide this option */}
@@ -207,8 +200,8 @@ const PostPreview = ({
               </HoliActionDrawer.Action>
             )}
           </HoliActionDrawer.Drawer>
-        </HoliColumn>
-      </HoliColumns>
+        </View>
+      </Stack>
 
       <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
         {/* Post title */}
