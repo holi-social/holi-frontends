@@ -59,18 +59,22 @@ export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }
       <HoliLottie animType="rocket" loop style={styles.animation} />
       <Frame>
         <StepCheck stage="done" size="lg" />
-        <Stack gap="3xs">
+        <Stack gap="3xs" flexShrink={1}>
           <Text size="md">{t('tasks.bookmark.unlogged.step1')}</Text>
           <GoodDeedCard title={title} imageSrc={imageSrc} completedCount={completedCount} />
         </Stack>
       </Frame>
       <Frame>
         <StepText value="2" stage="inprogress" size="lg" />
-        <Text size="md">{t('tasks.bookmark.unlogged.step2')}</Text>
+        <Text size="md" flexShrink={1}>
+          {t('tasks.bookmark.unlogged.step2')}
+        </Text>
       </Frame>
       <Frame>
         <StepText value={3} size="lg" />
-        <Text size="md">{t('tasks.bookmark.unlogged.step3')}</Text>
+        <Text size="md" flexShrink={1}>
+          {t('tasks.bookmark.unlogged.step3')}
+        </Text>
       </Frame>
       <ButtonTracked
         label={t('tasks.bookmark.unlogged.cta')}
