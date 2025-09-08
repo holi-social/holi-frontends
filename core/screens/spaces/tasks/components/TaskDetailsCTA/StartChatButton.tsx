@@ -37,16 +37,6 @@ export const StartChatButton = ({
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const safelyOpenSignupModal = () => {
-    /* prevent having two modals open as startChat shows another one for guest, which breaks on ios */
-    hideDrawer()
-
-    openSignupModal({
-      description: t('chat.start.loginRedirect.text'),
-      trackTrigger: 'START_CHAT',
-    })
-  }
-
   async function openChatRoom(chatPartners: User[]) {
     try {
       const room_id = await getOrCreateRoom()
@@ -67,7 +57,10 @@ export const StartChatButton = ({
 
   const startChat = async () => {
     if (!isLoggedIn) {
-      safelyOpenSignupModal()
+      openSignupModal({
+        description: t('chat.start.loginRedirect.text'),
+        trackTrigger: 'START_CHAT',
+      })
       return
     }
 
