@@ -56,7 +56,9 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
           "padding": 10,
           "width": 40,
         },
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
     testID="btn-to-invite"
@@ -188,7 +190,9 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
           "padding": 10,
           "width": 40,
         },
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
     testID="btn-to-invite"

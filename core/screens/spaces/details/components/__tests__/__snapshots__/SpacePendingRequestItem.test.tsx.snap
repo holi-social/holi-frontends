@@ -86,7 +86,9 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               "position": "relative",
               "width": 40,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
       >
@@ -108,7 +110,9 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
                 "width": 40,
               },
               {},
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         />
@@ -228,7 +232,9 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               "padding": 8,
               "width": 32,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="ignore-connection-request-button"
@@ -392,7 +398,9 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               "padding": 8,
               "width": 32,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="accept-connection-request-button"
@@ -556,7 +564,9 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               "position": "relative",
               "width": 40,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
       >
@@ -578,7 +588,9 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                 "width": 40,
               },
               {},
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         />
@@ -698,7 +710,9 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               "padding": 8,
               "width": 32,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="ignore-connection-request-button"
@@ -862,7 +876,9 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               "padding": 8,
               "width": 32,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="accept-connection-request-button"
@@ -1206,7 +1222,9 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                         "position": "relative",
                         "width": 48,
                       },
-                      {},
+                      {
+                        "flexShrink": undefined,
+                      },
                     ]
                   }
                 >
@@ -1228,7 +1246,9 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                           "width": 48,
                         },
                         {},
-                        {},
+                        {
+                          "flexShrink": undefined,
+                        },
                       ]
                     }
                   />

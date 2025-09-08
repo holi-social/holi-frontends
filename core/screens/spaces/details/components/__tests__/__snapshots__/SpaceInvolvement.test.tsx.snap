@@ -749,7 +749,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                             "overflow": "hidden",
                             "paddingHorizontal": 8,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -773,7 +775,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                               "textAlign": undefined,
                               "userSelect": "auto",
                             },
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       >
@@ -799,7 +803,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                             "overflow": "hidden",
                             "paddingHorizontal": 8,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -823,7 +829,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                               "textAlign": undefined,
                               "userSelect": "auto",
                             },
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       >
@@ -858,7 +866,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           "textAlign": undefined,
                           "userSelect": "auto",
                         },
-                        {},
+                        {
+                          "flexShrink": undefined,
+                        },
                       ]
                     }
                     testID="task-description"
@@ -1505,7 +1515,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                             "overflow": "hidden",
                             "paddingHorizontal": 8,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -1529,7 +1541,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                               "textAlign": undefined,
                               "userSelect": "auto",
                             },
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       >
@@ -1555,7 +1569,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                             "overflow": "hidden",
                             "paddingHorizontal": 8,
                           },
-                          {},
+                          {
+                            "flexShrink": undefined,
+                          },
                         ]
                       }
                     >
@@ -1579,7 +1595,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                               "textAlign": undefined,
                               "userSelect": "auto",
                             },
-                            {},
+                            {
+                              "flexShrink": undefined,
+                            },
                           ]
                         }
                       >
@@ -1614,7 +1632,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           "textAlign": undefined,
                           "userSelect": "auto",
                         },
-                        {},
+                        {
+                          "flexShrink": undefined,
+                        },
                       ]
                     }
                     testID="task-description"
@@ -1744,7 +1764,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     "paddingHorizontal": 16,
                     "width": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1786,7 +1808,9 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           "textAlign": undefined,
                           "userSelect": "auto",
                         },
-                        {},
+                        {
+                          "flexShrink": undefined,
+                        },
                       ]
                     }
                   >

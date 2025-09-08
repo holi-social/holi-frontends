@@ -184,7 +184,9 @@ exports[`PollSelection renders poll selection correctly 1`] = `
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           >
@@ -376,7 +378,9 @@ exports[`PollSelection renders poll selection correctly 1`] = `
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           >
@@ -574,7 +578,9 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
                 "textAlign": undefined,
                 "userSelect": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >

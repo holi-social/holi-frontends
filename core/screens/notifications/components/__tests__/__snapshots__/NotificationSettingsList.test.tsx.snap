@@ -122,7 +122,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -148,7 +150,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -269,7 +273,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -327,7 +333,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -811,7 +819,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -837,7 +847,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -958,7 +970,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1016,7 +1030,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1369,7 +1385,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1395,7 +1413,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1516,7 +1536,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1574,7 +1596,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -2316,7 +2340,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -2342,7 +2368,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -2463,7 +2491,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -2521,7 +2551,9 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -3244,7 +3276,9 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -3270,7 +3304,9 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -3391,7 +3427,9 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -3449,7 +3487,9 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     "textAlign": "center",
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >

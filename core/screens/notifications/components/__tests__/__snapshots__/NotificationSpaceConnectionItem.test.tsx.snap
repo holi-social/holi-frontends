@@ -83,7 +83,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                   "position": "relative",
                   "width": 40,
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
             testID="space-avatar"
@@ -105,7 +107,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                     "width": 40,
                   },
                   {},
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             />
@@ -328,7 +332,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="decline-connection-request-button"
@@ -371,7 +377,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -435,7 +443,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="accept-connection-request-button"
@@ -478,7 +488,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -576,7 +588,9 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                   "position": "relative",
                   "width": 40,
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
             testID="space-avatar"
@@ -598,7 +612,9 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                     "width": 40,
                   },
                   {},
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             />
@@ -836,7 +852,9 @@ I would like to join!
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="decline-connection-request-button"
@@ -879,7 +897,9 @@ I would like to join!
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -943,7 +963,9 @@ I would like to join!
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="accept-connection-request-button"
@@ -986,7 +1008,9 @@ I would like to join!
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
