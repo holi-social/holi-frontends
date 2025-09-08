@@ -80,7 +80,6 @@ export const CompactCard = (({
         borderWidth="sm"
         borderColor="support"
         borderStyle="solid"
-        flex={1}
       >
         {/* Card Cover */}
         <CompactCardImage
