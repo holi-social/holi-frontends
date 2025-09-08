@@ -37,7 +37,9 @@ exports[`HoliUserCard renders correctly 1`] = `
           "position": "relative",
           "width": 128,
         },
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
   >
@@ -58,7 +60,9 @@ exports[`HoliUserCard renders correctly 1`] = `
             "width": 128,
           },
           {},
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
     />
@@ -182,7 +186,9 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
           "position": "relative",
           "width": 128,
         },
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
   >
@@ -203,7 +209,9 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
             "width": 128,
           },
           {},
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
     />

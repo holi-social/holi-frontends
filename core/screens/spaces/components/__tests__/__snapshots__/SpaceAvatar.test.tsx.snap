@@ -17,7 +17,9 @@ exports[`React tree renders correctly 1`] = `
         "position": "relative",
         "width": 64,
       },
-      {},
+      {
+        "flexShrink": undefined,
+      },
     ]
   }
   testID="space-avatar"
@@ -40,7 +42,9 @@ exports[`React tree renders correctly 1`] = `
           "width": 64,
         },
         {},
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
   />
@@ -64,7 +68,9 @@ exports[`React tree renders initials with colored background, when given image p
         "position": "relative",
         "width": 64,
       },
-      {},
+      {
+        "flexShrink": undefined,
+      },
     ]
   }
   testID="space-avatar"
@@ -96,7 +102,9 @@ exports[`React tree renders initials with colored background, when given image p
             "textAlign": undefined,
             "userSelect": "auto",
           },
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
     >
