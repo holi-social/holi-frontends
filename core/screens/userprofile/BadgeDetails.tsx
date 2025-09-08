@@ -13,7 +13,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { useTranslation } from 'react-i18next'
 
-const IMAGE_WIDTH = 240
+const BADGE_WIDTH = 210
+const BADGE_HEIGHT = 240
 const SHINING_SIZE = 293
 
 const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => void }) => {
@@ -31,32 +32,37 @@ const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => vo
       >
         {/* image */}
         <Stack alignItems="center">
-          <View style={{ position: 'absolute', alignSelf: 'center', justifyContent: 'center', height: '100%' }}>
-            <Image
-              source={require('@holi/ui/assets/img/illustrations/illustration_shining.svg')}
-              alt="shining illustration"
-              width={SHINING_SIZE}
-              height={SHINING_SIZE}
-            />
-          </View>
-
-          <View style={{ position: 'relative' }}>
-            <Image source={badge.imgSrc} alt="badge illustration" width={IMAGE_WIDTH} height={IMAGE_WIDTH} />
-          </View>
-
-          {badge.state === BadgeState.locked && (
+          {badge.state === BadgeState.achieved && (
             <View style={{ position: 'absolute', alignSelf: 'center', justifyContent: 'center', height: '100%' }}>
-              <HoliIcon icon={LockFilled} color="muted" size={72} />
+              <Image
+                source={require('@holi/ui/assets/img/illustrations/illustration_shining.svg')}
+                alt="shining illustration"
+                width={SHINING_SIZE}
+                height={SHINING_SIZE}
+              />
             </View>
           )}
+
+          <View style={{ position: 'relative', opacity: badge.state !== BadgeState.achieved ? 0.3 : 1 }}>
+            <Image
+              source={badge.imgSrcDetailed}
+              alt="badge illustration"
+              width={BADGE_WIDTH}
+              height={BADGE_HEIGHT}
+              stretch
+            />
+          </View>
         </Stack>
 
         {/* description */}
         <Stack alignContent="center" gap="xs">
           <Stack alignContent="center" gap="4xs">
-            <Text size="xxl" textAlign="center">
-              {t(`badge.${badge.localazyKey}.name`)}
-            </Text>
+            <Stack direction="row" justifyContent="center" gap="4xs">
+              {badge.state === BadgeState.locked && <HoliIcon icon={LockFilled} color="muted" />}
+              <Text size="xxl" textAlign="center">
+                {t(`badge.${badge.localazyKey}.name`)}
+              </Text>
+            </Stack>
 
             {badge.currentStep && badge.totalSteps && badge.totalSteps > 1 && badge.currentStep != badge.totalSteps ? (
               <Stack padding={{ bottom: 'xl' }} gap="3xs">

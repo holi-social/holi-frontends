@@ -18,7 +18,8 @@ import { useTranslation } from 'react-i18next'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 
 const PROGRESSBAR_WIDTH = 100
-const IMAGE_WIDTH = 80
+const BADGE_WIDTH = 70
+const BADGE_HEIGHT = 80
 
 const MyBadges = () => {
   const { track } = useTracking()
@@ -58,21 +59,27 @@ const MyBadges = () => {
                 onPress={() => setDetailedBadge(badge)}
               >
                 <Stack alignItems="center">
-                  <View style={{ position: 'relative' }}>
-                    <Image source={badge.imgSrc} alt="badge illustration" width={IMAGE_WIDTH} height={IMAGE_WIDTH} />
+                  <View style={{ position: 'relative', opacity: badge.state !== BadgeState.achieved ? 0.3 : 1 }}>
+                    <Image
+                      source={badge.imgSrc}
+                      alt="badge illustration"
+                      width={BADGE_WIDTH}
+                      height={BADGE_HEIGHT}
+                      stretch
+                    />
                   </View>
-                  {badge.state === BadgeState.locked && (
-                    <View
-                      style={{ position: 'absolute', alignSelf: 'center', justifyContent: 'center', height: '100%' }}
-                    >
-                      <HoliIcon icon={LockFilled} color="muted" />
-                    </View>
-                  )}
                 </Stack>
                 <Stack gap="4xs" alignItems="center">
-                  <Text size="sm" textAlign="center">
-                    {t(`badge.${badge.localazyKey}.name`)}
-                  </Text>
+                  <Stack direction="row" justifyContent="center" gap="4xs">
+                    {badge.state === BadgeState.locked && (
+                      <Stack justifyContent="center">
+                        <HoliIcon icon={LockFilled} color="muted" size={16} />
+                      </Stack>
+                    )}
+                    <Text size="sm" textAlign="center">
+                      {t(`badge.${badge.localazyKey}.name`)}
+                    </Text>
+                  </Stack>
 
                   <Text size="xs" textAlign="center" color="support">
                     {t(`badge.${badge.localazyKey}.descriptionShort`, {

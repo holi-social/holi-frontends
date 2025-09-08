@@ -4,6 +4,7 @@ export type Badge = {
   localazyKey: string
   state: BadgeState
   imgSrc: string
+  imgSrcDetailed: string
   buttonLink?: string
   id?: string
   currentStep?: number
@@ -28,6 +29,20 @@ export const useBadges = () => {
     'story.explorer': 'goodDeedPost.levelOne',
   }
 
+  const slugIllustrationMapping: Record<string, string> = {
+    'impact.spark': require('@holi/ui/assets/img/badges/badge-impact-starter-small.svg'),
+    'impact.explorer': require('@holi/ui/assets/img/badges/badge-impact-explorer-small.svg'),
+    'story.spark': require('@holi/ui/assets/img/badges/badge-story-starter-small.svg'),
+    'story.explorer': require('@holi/ui/assets/img/badges/badge-story-explorer-small.svg'),
+  }
+
+  const slugDetailedIllustrationMapping: Record<string, string> = {
+    'impact.spark': require('@holi/ui/assets/img/badges/badge-impact-starter.svg'),
+    'impact.explorer': require('@holi/ui/assets/img/badges/badge-impact-explorer.svg'),
+    'story.spark': require('@holi/ui/assets/img/badges/badge-story-starter.svg'),
+    'story.explorer': require('@holi/ui/assets/img/badges/badge-story-explorer.svg'),
+  }
+
   const mapBadges = (data?: BadgesQuery): Badge[] => {
     if (!data) return []
 
@@ -37,9 +52,8 @@ export const useBadges = () => {
       totalSteps: b.progressGoal,
       unlockedAt: undefined,
       state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked,
-      imgSrc: b.slug.includes('spark')
-        ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue_light.svg')
-        : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange_light.svg'),
+      imgSrc: slugIllustrationMapping[b.slug],
+      imgSrcDetailed: slugDetailedIllustrationMapping[b.slug],
       localazyKey: slugTitleMapping[b.slug],
       buttonLink: b.slug.includes('impact') ? '/act' : '/',
     }))
@@ -51,9 +65,8 @@ export const useBadges = () => {
       unlockedAt: new Date(b.unlockedAt),
       seenAt: b.seenAt ? new Date(b.seenAt) : undefined,
       state: BadgeState.achieved,
-      imgSrc: b.slug.includes('spark')
-        ? require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg')
-        : require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_orange.svg'),
+      imgSrc: slugIllustrationMapping[b.slug], // todo: add gray out effect
+      imgSrcDetailed: slugDetailedIllustrationMapping[b.slug],
       localazyKey: slugTitleMapping[b.slug],
       buttonLink: undefined,
     }))
