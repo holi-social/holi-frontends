@@ -121,7 +121,7 @@ export const CompactCard = (({
             )}
             {/* titles */}
             <Stack gap="4xs" padding={hasTopLabel ? undefined : { top: '3xs' }}>
-              <TextLink ellipsizeMode="tail" size="sm" numberOfLines={2} role="presentation">
+              <TextLink ellipsizeMode="tail" size="sm" numberOfLines={3} role="presentation">
                 {title}
               </TextLink>
 
