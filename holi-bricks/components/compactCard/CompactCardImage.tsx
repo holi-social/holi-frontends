@@ -60,7 +60,6 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
           alt={imageLabel}
           onError={handleImageError}
           resizeMode="cover"
-          stretch
         />
       </Stack>
 
