@@ -12,8 +12,11 @@ import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
 
 const ANIMATION_DELAY = 3300
+const LOTTIE_ASPECT_RATIO = 342 / 130
+const LOTTIE_MAX_HEIGHT = 160
 
 export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
   const { t } = useTranslation()
@@ -22,18 +25,28 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
   const [volunteeringProgressStatus, setVolunteeringProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
     VolunteeringOpportunityStatusValue.ToDo
   )
+  const {
+    onLayout: onLayoutLottieContainer,
+    height: lottieHeight,
+    width: lottieWidth,
+  } = useLottieContainerSize({
+    aspectRatio: LOTTIE_ASPECT_RATIO,
+    maxHeight: LOTTIE_MAX_HEIGHT,
+  })
 
   return (
     <HoliModal {...props} label={t('volunteerProgress.connected.modal')}>
       <ScrollView contentContainerStyle={{ paddingBottom: bottom }}>
         <HoliContainer>
           <Stack gap="md" padding={{ bottom: 'md' }}>
-            <Stack width="100%">
-              <HoliLottie
-                animType="contactedSuccess"
-                loop={false}
-                style={{ aspectRatio: 342 / 130, position: 'relative' }}
-              />
+            <Stack width="100%" onLayout={onLayoutLottieContainer} alignItems="center">
+              <Stack width={lottieWidth} height={lottieHeight}>
+                <HoliLottie
+                  animType="contactedSuccess"
+                  loop={false}
+                  style={{ aspectRatio: LOTTIE_ASPECT_RATIO, position: 'relative' }}
+                />
+              </Stack>
             </Stack>
 
             <Animated.View

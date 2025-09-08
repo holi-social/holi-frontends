@@ -23,8 +23,11 @@ import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
 
 const ANIMATION_DELAY = 500
+const LOTTIE_ASPECT_RATIO = 342 / 130
+const LOTTIE_MAX_HEIGHT = 160
 
 interface VolunteeringContactProps {
   document: VolunteeringDetailsScreenData
@@ -53,6 +56,15 @@ export const VolunteeringContact = ({
   const { show: showContact, props: contactModalProps } = useModalState({ onDismiss: onModalDismiss })
   const { styles } = useStyles(stylesheet)
   const contactInfoDisplayed = document.contact?.map((contact) => contact.type)
+
+  const {
+    onLayout: onLayoutLottieContainer,
+    height: lottieHeight,
+    width: lottieWidth,
+  } = useLottieContainerSize({
+    aspectRatio: LOTTIE_ASPECT_RATIO,
+    maxHeight: LOTTIE_MAX_HEIGHT,
+  })
 
   return (
     <Stack
@@ -97,8 +109,17 @@ export const VolunteeringContact = ({
           <HoliContainer>
             <Stack gap="md">
               {rewardsPhaseTwoEnabled && (
-                <Stack width="100%">
-                  <HoliLottie animType="rocket" loop style={{ aspectRatio: 342 / 130, position: 'relative' }} />
+                <Stack width="100%" onLayout={onLayoutLottieContainer} alignItems="center">
+                  <Stack width={lottieWidth} height={lottieHeight}>
+                    <HoliLottie
+                      animType="rocket"
+                      loop
+                      style={{
+                        aspectRatio: LOTTIE_ASPECT_RATIO,
+                        position: 'relative',
+                      }}
+                    />
+                  </Stack>
                 </Stack>
               )}
 
