@@ -12,9 +12,8 @@ import { Button } from 'holi-bricks/components/button'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { useTranslation } from 'react-i18next'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 
-const BADGE_WIDTH = 210
-const BADGE_HEIGHT = 240
 const SHINING_SIZE = 293
 
 const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => void }) => {
@@ -44,12 +43,10 @@ const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => vo
           )}
 
           <View style={{ position: 'relative', opacity: badge.state !== BadgeState.achieved ? 0.3 : 1 }}>
-            <Image
-              source={badge.imgSrcDetailed}
-              alt="badge illustration"
-              width={BADGE_WIDTH}
-              height={BADGE_HEIGHT}
-              stretch
+            <HoliLottie
+              animType={badge.animationName}
+              loop={false}
+              style={{ aspectRatio: 342 / 130, position: 'relative' }}
             />
           </View>
         </Stack>

@@ -41,7 +41,9 @@ describe('EarnedBadgesModal', () => {
           unlockedAt: new Date('2024-01-01T00:00:00.000Z'),
           seenAt: undefined,
           state: BadgeState.achieved,
-          imgSrc: 'illustration_badge_placeholder_orange.svg',
+          imgSrc: require('@holi/ui/assets/img/badges/badge-impact-starter-small.svg'),
+          imgSrcDetailed: require('@holi/ui/assets/img/badges/badge-impact-starter.svg'),
+          animationName: 'badgeImpactStarter',
           localazyKey: 'volunteering.levelOne',
           buttonLink: '/act',
         }}

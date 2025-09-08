@@ -18,13 +18,13 @@ import { useCallback, useEffect, useState } from 'react'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useMarkBadgeAsSeenMutation } from '@holi/api/graphql/graphql-codegen'
 import { useScratchEffect } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
+import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 
 interface BadgeMessageProps {
   badge: Badge
   onClaim?: () => void
 }
 
-const IMAGE_WIDTH = 240
 const SHINING_SIZE = 293
 export const SCRATCHCARD_WIDTH = 324
 export const SCRATCHCARD_HEIGHT = 300
@@ -114,11 +114,10 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
               />
             </View>
             <View style={styles.badgeImage}>
-              <Image
-                source={require('@holi/ui/assets/img/illustrations/illustration_badge_placeholder_blue.svg')}
-                alt="badge illustration"
-                width={IMAGE_WIDTH}
-                height={IMAGE_WIDTH}
+              <HoliLottie
+                animType={badge.animationName}
+                loop={false}
+                style={{ aspectRatio: 342 / 130, position: 'relative' }} // todo: to be tested visually
               />
             </View>
           </View>

@@ -1,10 +1,12 @@
 import { type BadgesQuery, useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
+import type { animations } from '@holi/ui/lottie-animations'
 
 export type Badge = {
   localazyKey: string
   state: BadgeState
   imgSrc: string
-  imgSrcDetailed: string
+  imgSrcDetailed: string // todo: remove if unused
+  animationName: keyof typeof animations
   buttonLink?: string
   id?: string
   currentStep?: number
@@ -43,6 +45,13 @@ export const useBadges = () => {
     'story.explorer': require('@holi/ui/assets/img/badges/badge-story-explorer.svg'),
   }
 
+  const slugAnimationMapping: Record<string, keyof typeof animations> = {
+    'impact.spark': 'badgeImpactStarter',
+    'impact.explorer': 'badgeImpactExplorer',
+    'story.spark': 'badgeStoryStarter',
+    'story.explorer': 'badgeStoryExplorer',
+  }
+
   const mapBadges = (data?: BadgesQuery): Badge[] => {
     if (!data) return []
 
@@ -54,6 +63,7 @@ export const useBadges = () => {
       state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked,
       imgSrc: slugIllustrationMapping[b.slug],
       imgSrcDetailed: slugDetailedIllustrationMapping[b.slug],
+      animationName: slugAnimationMapping[b.slug],
       localazyKey: slugTitleMapping[b.slug],
       buttonLink: b.slug.includes('impact') ? '/act' : '/',
     }))
@@ -67,6 +77,7 @@ export const useBadges = () => {
       state: BadgeState.achieved,
       imgSrc: slugIllustrationMapping[b.slug], // todo: add gray out effect
       imgSrcDetailed: slugDetailedIllustrationMapping[b.slug],
+      animationName: slugAnimationMapping[b.slug],
       localazyKey: slugTitleMapping[b.slug],
       buttonLink: undefined,
     }))
