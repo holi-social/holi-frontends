@@ -249,7 +249,7 @@ const Login = () => {
 
                   <HoliLocalImage
                     imageSource={require('@holi/ui/assets/img/illustrations/illustration_hope.svg')}
-                    width={50}
+                    width={40}
                     height={40}
                     label={''}
                     isSvg
