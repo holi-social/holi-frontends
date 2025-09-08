@@ -8,6 +8,7 @@ import {
 } from './helpers/mocks'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const renderWithApollo = (component: React.ReactElement, mocks: MockedResponse[] = []) =>
   render(
@@ -24,6 +25,11 @@ jest.mock('@holi/api/graphql/graphql-codegen', () => ({
   useGetRewardsCounterLazyQuery: jest.fn(),
 }))
 const { useGetRewardsCounterLazyQuery } = require('@holi/api/graphql/graphql-codegen')
+
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
+}))
 
 jest.mock('@holi/core/components/Screen', () => {
   return {
@@ -43,6 +49,7 @@ describe('VolunteeringProgressCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     useGetRewardsCounterLazyQuery.mockReturnValue([jest.fn(), { data: { rewards_counter: { counter: 0 } } }])
+    mockUseFeatureFlag.mockReturnValue([false, undefined])
   })
 
   describe('Status TO_DO', () => {
