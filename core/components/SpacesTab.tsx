@@ -19,6 +19,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { useTranslation } from 'react-i18next'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export interface SpacesTabProps {
   memberId: string
@@ -29,6 +30,7 @@ export interface SpacesTabProps {
 const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) => {
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const { t } = useTranslation()
+  const { navigate } = useRouting()
 
   const { data, refetch } = useSpacesByMemberQuery({
     variables: { memberId },
@@ -103,7 +105,13 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
               </Text>
             </Stack>
             <Stack>
-              <Button label={t('profile.tabs.spaces.empty.callToAction')} inline />
+              <Button
+                label={t('profile.tabs.spaces.empty.callToAction')}
+                inline
+                onPress={() => {
+                  navigate('/spaces/explore')
+                }}
+              />
             </Stack>
           </Stack>
         )}
