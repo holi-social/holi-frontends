@@ -1,16 +1,17 @@
+import type React from 'react'
+import { useRef, useState } from 'react'
+import { View } from 'react-native'
+
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
-import { Stack } from 'holi-bricks/components/stack'
-import { Platform, View } from 'react-native'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { BorderRadius, IconSize, Spacing } from 'holi-bricks/foundations'
-import type React from 'react'
 import { pickByHash } from 'holi-bricks/components/image/helpers'
 import { placeholderImages } from 'holi-bricks/components/image/placeholderImages'
+import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 
 export interface CompactCardImageProps {
   imageSrc?: MultiPlatformImageSource
@@ -29,7 +30,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   topIcon,
   bottomIcon,
   avatar,
-  minHeight,
+  minHeight = 130,
   imageLabel,
   hashKey,
 }: CompactCardImageProps) => {
@@ -42,17 +43,8 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
   const randomPlaceholderImage = useRef(pickByHash(placeholderImages, hashKey)).current
 
   return (
-    <Stack alignItems="center" justifyContent="center">
-      <Stack
-        borderColor="default"
-        borderRadius="xs"
-        borderStyle="solid"
-        borderWidth="sm"
-        overflow="hidden"
-        width={90}
-        minHeight={minHeight}
-        {...(Platform.OS === 'web' ? { height: '100%' } : {})}
-      >
+    <View style={styles.container(minHeight)}>
+      <View style={styles.imageContainer}>
         <Image
           source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
           width={90}
@@ -60,8 +52,9 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
           alt={imageLabel}
           onError={handleImageError}
           resizeMode="cover"
+          stretch
         />
-      </Stack>
+      </View>
 
       {/* on top of the image */}
       {topIcon && (
@@ -84,11 +77,28 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
           <Avatar {...avatar} size="md" shape="square" border="light" />
         </View>
       )}
-    </Stack>
+    </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  container: (minHeight: number) => ({
+    position: 'relative',
+    borderColor: theme.colors.border.default,
+    borderWidth: BorderWidth.sm,
+    borderStyle: 'solid',
+    borderRadius: BorderRadius.sm,
+    overflow: 'hidden',
+    width: 90,
+    minHeight: minHeight,
+  }),
+  imageContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   topLeft: {
     position: 'absolute',
     top: 4,
