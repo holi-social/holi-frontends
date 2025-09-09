@@ -15,6 +15,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { StepCheck, StepText } from '@holi/core/screens/spaces/tasks/components/progressSteps'
 import { Spacing } from 'holi-bricks/foundations'
+import { ScrollView } from 'react-native'
 
 type DoItLaterProps = {
   id: string
@@ -49,7 +50,7 @@ export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }
   const { styles } = useStyles(stylesheet)
 
   return (
-    <Stack gap="3xs" margin={{ top: 'md' }} padding="xs">
+    <Stack gap="3xs" margin={{ top: 'md', bottom: 'xxl' }} padding="xs">
       <Text size="3xl" headingLevel="1" textAlign="center">
         {t('tasks.bookmark.unlogged.title')}
       </Text>
@@ -106,7 +107,9 @@ export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {
       backgroundColor={theme.colors.bg.main}
       {...rest}
     >
-      <HoliContainer>{children}</HoliContainer>
+      <HoliContainer noPaddingOnSmallViewports>
+        <ScrollView>{children}</ScrollView>
+      </HoliContainer>
     </HoliModal>
   )
 }
