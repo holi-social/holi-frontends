@@ -19,6 +19,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useMarkBadgeAsSeenMutation } from '@holi/api/graphql/graphql-codegen'
 import { useScratchEffect } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import { BADGE_HEIGHT, BADGE_WIDTH } from '@holi/core/screens/userprofile/BadgeDetails'
 
 interface BadgeMessageProps {
   badge: Badge
@@ -114,11 +115,9 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
               />
             </View>
             <View style={styles.badgeImage}>
-              <HoliLottie
-                animType={badge.animationName}
-                loop={false}
-                style={{ aspectRatio: 342 / 130, position: 'relative' }} // todo: to be tested visually
-              />
+              <Stack width={BADGE_WIDTH} height={BADGE_HEIGHT}>
+                <HoliLottie animType={badge.animationName} style={{ aspectRatio: BADGE_HEIGHT / BADGE_WIDTH }} />
+              </Stack>
             </View>
           </View>
 

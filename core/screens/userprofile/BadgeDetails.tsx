@@ -15,8 +15,8 @@ import { useTranslation } from 'react-i18next'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Platform } from 'react-native'
 
-const BADGE_WIDTH = 210
-const BADGE_HEIGHT = 240
+export const BADGE_WIDTH = 210
+export const BADGE_HEIGHT = 240
 const SHINING_SIZE = 293
 
 const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => void }) => {
@@ -46,7 +46,7 @@ const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => vo
           )}
 
           <View style={{ position: 'relative', opacity: badge.state !== BadgeState.achieved ? 0.3 : 1 }}>
-            {badge.state === BadgeState.locked ? (
+            {badge.state !== BadgeState.achieved ? (
               <Image
                 source={badge.imgSrcDetailed}
                 alt="badge illustration"
@@ -57,7 +57,11 @@ const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => vo
               />
             ) : (
               <Stack width={BADGE_WIDTH} height={BADGE_HEIGHT}>
-                <HoliLottie animType={badge.animationName} style={{ aspectRatio: BADGE_HEIGHT / BADGE_WIDTH }} />
+                <HoliLottie
+                  animType={badge.animationName}
+                  style={{ aspectRatio: BADGE_HEIGHT / BADGE_WIDTH }}
+                  loop={false}
+                />
               </Stack>
             )}
           </View>
