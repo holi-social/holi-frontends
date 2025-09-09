@@ -22,6 +22,7 @@ type DoItLaterProps = {
   title: string
   imageSrc?: MultiPlatformImageSource
   completedCount: number
+  onJoin?: () => void
   trackingProps: TrackingEvent.TaskProperties
 }
 
@@ -44,7 +45,7 @@ const Frame = ({ children }: PropsWithChildren) => (
   </Stack>
 )
 
-export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }: DoItLaterProps) => {
+export const DoItLater = ({ id, title, imageSrc, completedCount, onJoin, trackingProps }: DoItLaterProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { styles } = useStyles(stylesheet)
@@ -84,6 +85,7 @@ export const DoItLater = ({ id, title, imageSrc, completedCount, trackingProps }
           const addToFavoritesPath = `/profile/settings/favorites/add?taskId=${id}`
           setPathToRedirect(addToFavoritesPath)
           setRedirectAfterSocialLogin(addToFavoritesPath)
+          onJoin?.()
           navigate('/onboarding')
         }}
         trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
