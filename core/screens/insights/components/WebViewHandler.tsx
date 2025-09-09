@@ -60,7 +60,6 @@ const WebViewHandler: React.FC<WebViewHandlerProps> = ({
     const sourceName = extractDomainFromUrl(url)
 
     setScreenOptions({
-      headerBackTitleVisible: false,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{sourceName}</HeaderTitle>,
