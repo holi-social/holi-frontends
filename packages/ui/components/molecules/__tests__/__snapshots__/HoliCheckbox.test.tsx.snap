@@ -123,7 +123,9 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -259,7 +261,9 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -450,7 +454,9 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -642,7 +648,9 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -833,7 +841,9 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -1025,7 +1035,9 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -1216,7 +1228,9 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
                 "textAlign": undefined,
                 "userSelect": "none",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -1277,7 +1291,9 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
             "textAlign": undefined,
             "userSelect": "auto",
           },
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
     >

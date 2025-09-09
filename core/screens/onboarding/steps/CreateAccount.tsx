@@ -378,10 +378,6 @@ export const CreateAccount = ({
       {/* Sign in only fields */}
       {!isLoaderShown && step === 'oidc' && (
         <>
-          <HoliGap size="l" />
-          <Text size="xs" color="support" textAlign="center">
-            {t('auth.loginProtection.continueAsGuest.warning')}
-          </Text>
           <HoliGap size="m" />
           <AlreadyHaveAccountText onPress={onLogin} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </>

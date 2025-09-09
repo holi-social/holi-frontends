@@ -187,7 +187,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 "position": "relative",
                 "width": 40,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -209,7 +211,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   "width": 40,
                 },
                 {},
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           />
@@ -306,7 +310,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             "padding": 10,
             "width": 40,
           },
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
       testID="withdraw-invite-button"
@@ -501,7 +507,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 "position": "relative",
                 "width": 40,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -523,7 +531,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   "width": 40,
                 },
                 {},
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           />
@@ -620,7 +630,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             "padding": 10,
             "width": 40,
           },
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
       testID="withdraw-invite-button"
@@ -815,7 +827,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 "position": "relative",
                 "width": 40,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -837,7 +851,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   "width": 40,
                 },
                 {},
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
           />
@@ -934,7 +950,9 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             "padding": 10,
             "width": 40,
           },
-          {},
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
       testID="withdraw-invite-button"

@@ -21,7 +21,9 @@ exports[`HoliRichTextOutput full text starting with word followed by colon is no
         "textAlign": undefined,
         "userSelect": "auto",
       },
-      {},
+      {
+        "flexShrink": undefined,
+      },
     ]
   }
   testID="the-rich-text-output-element"
@@ -51,7 +53,9 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
         "textAlign": undefined,
         "userSelect": "auto",
       },
-      {},
+      {
+        "flexShrink": undefined,
+      },
     ]
   }
   testID="the-rich-text-output-element"
@@ -78,7 +82,9 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
           "textAlign": undefined,
           "userSelect": "auto",
         },
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
   >
