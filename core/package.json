@@ -25,6 +25,7 @@
     "@graphql-eslint/eslint-plugin": "^3.18.0",
     "@types/react": "~18.3.12",
     "@types/tinycolor2": "1.4.6",
+    "expo-router": "~4.0.9",
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "4.6.2",
@@ -36,8 +37,6 @@
   },
   "name": "@holi/core",
   "peerDependencies": {
-    "@react-navigation/native": "^6.0.13",
-    "@react-navigation/native-stack": "^6.9.1",
     "expo": "^52.0.46",
     "expo-calendar": "~14.0.6",
     "expo-image-picker": "~16.0.6",

@@ -144,6 +144,7 @@ const config: ExpoConfig = {
     'expo-localization',
     'expo-secure-store',
     'expo-apple-authentication',
+    'expo-router',
     [
       '@sentry/react-native/expo',
       {
