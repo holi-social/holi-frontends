@@ -1,36 +1,31 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import { Pressable, StyleSheet } from 'react-native'
 
+import { Link } from 'expo-router'
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
-import useLink from '@holi/core/navigation/hooks/useLink'
+import { TextLink } from 'holi-bricks/components/text'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 export const HoliLink = ({
   href,
   label,
-  external,
-  onPress,
   children,
   isFullHeight = false,
   testID = 'link',
+  onPress,
+  size,
 }: PropsWithChildren<HoliLinkProps>) => {
-  const handleLinkPress = useLink({ href, external, onPress })
-
+  const { styles } = useStyles(stylesheet)
   return (
-    <Pressable
-      role="link"
-      aria-label={label}
-      accessible
-      onPress={handleLinkPress}
-      testID={testID}
-      style={[isFullHeight && styles.fullHeight]}
-    >
-      {children}
-    </Pressable>
+    <Link href={href} testID={testID} asChild style={[isFullHeight && styles.fullHeight]}>
+      <TextLink role="link" aria-label={label} accessible onPress={onPress} size={size || 'sm'}>
+        {children}
+      </TextLink>
+    </Link>
   )
 }
 
-const styles = StyleSheet.create({
+const stylesheet = createStyleSheet({
   fullHeight: {
     flex: 1,
     display: 'flex',
