@@ -65,7 +65,8 @@ const MyBadges = () => {
                       alt="badge illustration"
                       width={BADGE_WIDTH}
                       height={BADGE_HEIGHT}
-                      stretch
+                      stretch={Platform.OS === 'web'}
+                      resizeMode="contain"
                     />
                   </View>
                 </Stack>

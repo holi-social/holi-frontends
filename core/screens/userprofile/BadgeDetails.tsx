@@ -13,7 +13,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { useTranslation } from 'react-i18next'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import { Platform } from 'react-native'
 
+const BADGE_WIDTH = 210
+const BADGE_HEIGHT = 240
 const SHINING_SIZE = 293
 
 const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => void }) => {
@@ -43,11 +46,20 @@ const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => vo
           )}
 
           <View style={{ position: 'relative', opacity: badge.state !== BadgeState.achieved ? 0.3 : 1 }}>
-            <HoliLottie
-              animType={badge.animationName}
-              loop={false}
-              style={{ aspectRatio: 342 / 130, position: 'relative' }}
-            />
+            {badge.state === BadgeState.locked ? (
+              <Image
+                source={badge.imgSrcDetailed}
+                alt="badge illustration"
+                width={BADGE_WIDTH}
+                height={BADGE_HEIGHT}
+                stretch={Platform.OS === 'web'}
+                resizeMode="contain"
+              />
+            ) : (
+              <Stack width={BADGE_WIDTH} height={BADGE_HEIGHT}>
+                <HoliLottie animType={badge.animationName} style={{ aspectRatio: BADGE_HEIGHT / BADGE_WIDTH }} />
+              </Stack>
+            )}
           </View>
         </Stack>
 
