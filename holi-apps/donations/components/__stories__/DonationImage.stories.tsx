@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
@@ -40,13 +40,7 @@ export const Responsive: ComponentStory<typeof DonationImage> = Template.bind({}
 Responsive.argTypes = argTypes
 
 Responsive.args = {
-  picture: [
-    { url: 'http://placekitten.com/320/213', type: 'fill' },
-    { url: 'http://placekitten.com/576/384', type: 'fill', width: 576, height: 384 },
-    { url: 'http://placekitten.com/992/661', type: 'fill', width: 992, height: 661 },
-    { url: 'http://placekitten.com/1200/800', type: 'fill', width: 1200, height: 800 },
-    { url: 'http://placekitten.com/1400/933', type: 'original' },
-  ],
+  imageUrl: 'http://placekitten.com/1400/933',
   label: 'Donate for cute kittens',
   style: {
     maxWidth: 1200,
@@ -61,10 +55,7 @@ export const FixedSize: ComponentStory<typeof DonationImage> = Template.bind({})
 FixedSize.argTypes = argTypes
 
 FixedSize.args = {
-  picture: [
-    { url: 'http://placekitten.com/100/100', type: 'fill', width: 100, height: 100 },
-    { url: 'http://placekitten.com/500/500', type: 'original' },
-  ],
+  imageUrl: 'http://placekitten.com/500/500',
   label: 'Donate for cute kittens',
   style: {
     width: 100,
@@ -78,7 +69,7 @@ export const Original: ComponentStory<typeof DonationImage> = Template.bind({})
 Original.argTypes = argTypes
 
 Original.args = {
-  picture: [{ url: 'http://placekitten.com/500/500', type: 'original' }],
+  imageUrl: 'http://placekitten.com/500/500',
   label: 'Donate for cute kittens',
   style: {},
   resizeMode: 'cover',

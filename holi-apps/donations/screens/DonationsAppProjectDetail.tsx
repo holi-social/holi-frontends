@@ -118,7 +118,7 @@ const DonationsAppProjectDetail = () => {
               <View style={styles.location}>
                 <HoliIcon icon={Globe} size={20} />
                 <HoliText size="small" style={{ marginLeft: 8 }}>
-                  {project.location}, {project.locationCountry}
+                  {project.location}, {project.location_country}
                 </HoliText>
               </View>
             </View>

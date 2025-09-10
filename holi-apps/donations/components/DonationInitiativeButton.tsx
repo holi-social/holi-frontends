@@ -48,7 +48,7 @@ const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) =>
               </HoliText>
             </View>
             <HoliText style={styles.initiativeOrigin} size="small">
-              {project.organizer_location}, {project.organizerLocationCountry}
+              {project.organizer_location}, {project.organizer_location_country}
             </HoliText>
           </View>
         </View>

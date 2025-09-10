@@ -27,9 +27,9 @@ export type LocalizedTypesenseDocument = Omit<
 > & {
   title: string
   description: string
-  summary: string
-  locationCountry: string
-  organizerLocationCountry: string
+  summary?: string
+  location_country?: string
+  organizer_location_country?: string
 }
 
 export interface TypesenseFacetCounts {
