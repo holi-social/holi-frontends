@@ -17,9 +17,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, ShareBox } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -35,6 +33,7 @@ import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import { Image } from 'holi-bricks/components/image'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { Text } from 'holi-bricks/components/text'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -46,7 +45,7 @@ const IMAGE_HEIGHT = 420
 const { useParam } = createParamHooks<DonationsAppProjectDetailParams>()
 
 const DonationsAppProjectDetail = () => {
-  const [projectId] = useParam('projectId')
+  const [projectId = ''] = useParam('projectId')
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const statusBarHeight = constants.statusBarHeight
@@ -61,21 +60,17 @@ const DonationsAppProjectDetail = () => {
 
   const { windowHeight, windowWidth } = useWindowDimensionsWithImageScaling()
 
-  const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(
-    projectId ?? '',
-    TypesenseDocumentType.Donation,
-    {
-      onError: (error) => {
-        displayError(error, 'Failed to load donation project', {
-          location: 'DonationsAppProjectDetail.useSingleTypesenseDocumentQuery',
-          projectId,
-        })
-      },
-      onNotFound: () => {
-        return replaceRoute('/404')
-      },
-    }
-  )
+  const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(projectId, TypesenseDocumentType.Donation, {
+    onError: (error) => {
+      displayError(error, 'Failed to load donation project', {
+        location: 'DonationsAppProjectDetail.useSingleTypesenseDocumentQuery',
+        projectId,
+      })
+    },
+    onNotFound: () => {
+      return replaceRoute('/404')
+    },
+  })
 
   const project = useMemo(
     () => (document ? localizeTypesenseDocument(document, language) : undefined),
@@ -89,12 +84,11 @@ const DonationsAppProjectDetail = () => {
   }, [setScreenOptions, t])
 
   if (!projectId || isLoading || !project) {
-    return <HoliLoader />
+    return <HoliLoader testID="loader" />
   }
 
   const placeholderImage = getPlaceholderImage(project.title)
   const imageWidth = Math.min(windowWidth, IMAGE_HEIGHT * 2)
-  console.log({ imageWidth })
 
   return (
     <>
@@ -120,14 +114,14 @@ const DonationsAppProjectDetail = () => {
               stretch
             />
             <View style={styles.header}>
-              <HoliHeading level="1" size="l" testID="donations-project-title">
+              <Text size="3xl" headingLevel="1" testID="donations-project-title">
                 {project.title}
-              </HoliHeading>
+              </Text>
               <View style={styles.location}>
                 <HoliIcon icon={Globe} size={20} />
-                <HoliText size="small" style={{ marginLeft: 8 }}>
+                <Text size="sm" margin={{ left: '3xs' }}>
                   {project.location}, {project.location_country}
-                </HoliText>
+                </Text>
               </View>
             </View>
             <DonationProgress
@@ -139,9 +133,9 @@ const DonationsAppProjectDetail = () => {
             />
             <View style={[styles.card, { paddingVertical: 24 }]} testID="donations-project-description">
               <DonationInitiativeButton project={project} />
-              <HoliText size={'large'} style={{ marginVertical: 24 }}>
+              <Text size="xxl" margin={{ top: 'md', bottom: 'md' }}>
                 &ldquo;{project.summary}&rdquo;
-              </HoliText>
+              </Text>
               <HtmlRenderer content={project.description} />
             </View>
           </View>

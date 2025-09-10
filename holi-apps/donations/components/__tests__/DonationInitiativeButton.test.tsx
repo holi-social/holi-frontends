@@ -1,3 +1,4 @@
+import React from 'react'
 import { localizedTypesenseDonation } from '@holi-apps/donations/components/__tests__/testData'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import { render, screen, userEvent } from '@testing-library/react-native'
