@@ -89,6 +89,7 @@ export type AppDonationsProjectsResponse = {
   appDonations_projects: ProjectsResponse
 }
 
+// TODO(SF) remove all of this
 export const donationProjectByIdQuery = gql`
   ${fullProjectFragment}
 

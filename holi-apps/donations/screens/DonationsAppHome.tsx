@@ -17,6 +17,12 @@ import DonationSearchForm from '@holi-apps/donations/components/DonationSearchFo
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Filter3 } from '@holi/icons/src/generated'
+import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -31,43 +37,49 @@ const DonationsAppHome = () => {
   const { height: deviceHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { displayError } = useErrorHandling()
 
   const [showSearchModal, setShowSearchModal] = useState(false)
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
   }, [])
-  const [locationQuery] = useParam('location')
+  const [locationId] = useParam('location')
   const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const submitSearch = useCallback(
-    (location?: string) => {
-      updateParams({ location })
+  const geolocationProps = useGeolocationDetailsWithSuggestion(locationId, (error) =>
+    displayError(error, 'Failed to load geolocation details', {
+      displayMessage: t('donations.donationListing.error'),
+      location: 'DonationsAppHome.useGeolocationDetailsWithSuggestion',
+      locationId,
+    })
+  )
+  const [selectedLocation, setSelectedLocation] = useState(geolocationProps.geolocationSuggestion)
+
+  const onSelectLocation = useCallback(
+    (location?: GeolocationSuggestion) => {
+      updateParams({ location: location?.id })
+      setSelectedLocation(location)
       closeModal()
     },
     [updateParams, closeModal]
   )
-  const resetSearch = useCallback(() => {
-    updateParams({ location: undefined })
-    closeModal()
-  }, [updateParams, closeModal])
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
   useIsomorphicLayoutEffect(() => {
-    // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
     // https://holi.atlassian.net/browse/HOLI-9717
-    // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
-    // const searchButton = (
-    //   <HoliButton
-    //     label={t('donations.search.heading')}
-    //     inline
-    //     transparent
-    //     onPress={() => setShowSearchModal(true)}
-    //     testID="donations-search-button"
-    //   >
-    //     <HoliIcon icon={Filter3} />
-    //   </HoliButton>
-    // )
+    // TODO: Re-enable the e2e test web and mobile!
+    const searchButton = (
+      <HoliButton
+        label={t('donations.search.heading')}
+        inline
+        transparent
+        onPress={() => setShowSearchModal(true)}
+        testID="donations-search-button"
+      >
+        <HoliIcon icon={Filter3} />
+      </HoliButton>
+    )
 
     setScreenOptions({
       headerTitle: () => (
@@ -76,6 +88,7 @@ const DonationsAppHome = () => {
         </HoliHeading>
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerRight: () => searchButton,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -95,10 +108,14 @@ const DonationsAppHome = () => {
           // larger ones should have more space above for clicking the backdrop pane
           relativeHeight={deviceHeight > 750 ? 0.85 : 1}
         >
-          <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
+          <DonationSearchForm selectedLocation={selectedLocation} onSelectLocation={onSelectLocation} />
         </HoliModal>
         <View style={[mixins.container]} testID={'donations-list-container'}>
-          <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
+          <DonationListingContainer
+            loadingGeolocation={geolocationProps.loadingGeolocation}
+            selectedLocation={selectedLocation}
+            resetSearch={() => setSelectedLocation(undefined)}
+          />
         </View>
       </ScrollViewRefreshable>
     </>

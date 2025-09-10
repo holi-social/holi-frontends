@@ -21,6 +21,7 @@ interface DonationCarouselProps {
   cardWidth: number
 }
 
+// TODO(SF) next
 const DonationCarousel = ({ locationQuery, cardWidth }: DonationCarouselProps) => {
   const { t } = useTranslation()
 

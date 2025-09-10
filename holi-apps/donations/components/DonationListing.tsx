@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -18,15 +17,20 @@ import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
-import type { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import { Button } from 'holi-bricks/components/button'
 import { DonationCard } from '@holi-apps/donations/components/DonationCard'
 import { Spacing } from 'holi-bricks/foundations'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 
 type DonationListingProps = {
-  locationQuery?: string
+  isFiltering?: boolean
+  isLoading?: boolean
+  footerComponent?: React.ReactNode
+  projects: LocalizedTypesenseDocument[]
   resetSearch: () => void
+  totalResults?: number
 }
 
 const DONATIONS_IMG_SOURCES_MAPPING: {
@@ -49,31 +53,23 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
   },
 }
 
-const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
+const DonationListing = ({
+  isFiltering,
+  isLoading = false,
+  totalResults = 0,
+  footerComponent,
+  projects,
+  resetSearch,
+}: DonationListingProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
-  const { displayError } = useErrorHandling()
-
-  const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
-
   const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
   const partner = DONATIONS_IMG_SOURCES_MAPPING['betterplace.org']
 
-  useEffect(() => {
-    if (error) {
-      displayError(error, 'Failed to load donation projects', {
-        displayMessage: t('donations.donationListing.error'),
-        location: 'DonationListing.useEffect',
-        locationQuery,
-      })
-    }
-  }, [error, displayError, t, locationQuery])
-
-  if (loading) {
+  if (isLoading) {
     return <DonationListingSkeleton isFiltering={isFiltering} amount={6} />
   }
 
@@ -150,6 +146,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
           ))}
         </HoliGridWrapper>
       </HoliBox>
+      {footerComponent}
     </View>
   )
 }
