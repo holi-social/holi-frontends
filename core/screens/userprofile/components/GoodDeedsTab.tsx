@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -22,7 +22,17 @@ export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery()
+  const {
+    data: personalGoodDeeds,
+    loading: personalGoodDeedsLoading,
+    refetch: personalGoodDeedsRefetch,
+  } = useGetRewardsCounterQuery({
+    fetchPolicy: 'network-only',
+  })
+  useEffect(() => {
+    personalGoodDeedsRefetch()
+  }, [personalGoodDeedsRefetch])
+
   const { data: globalGoodDeeds, loading: globalGoodDeedsLoading } = useGlobalRewardsCounterQuery()
   const { data: rewardTransactions } = useRewardsTransactionsQuery({
     variables: {
