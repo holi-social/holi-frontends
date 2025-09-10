@@ -233,7 +233,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "position": "relative",
                 "width": 48,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -264,7 +266,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -379,7 +383,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               "padding": 10,
               "width": 40,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="btn-to-invite"
@@ -539,7 +545,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "position": "relative",
                 "width": 48,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -570,7 +578,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -718,7 +728,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               "padding": 10,
               "width": 40,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="btn-to-invite"
@@ -878,7 +890,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "position": "relative",
                 "width": 48,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -909,7 +923,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1152,7 +1168,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "position": "relative",
                 "width": 48,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -1183,7 +1201,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1331,7 +1351,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               "padding": 10,
               "width": 40,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
         testID="btn-to-invite"
@@ -1491,7 +1513,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "position": "relative",
                 "width": 48,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -1522,7 +1546,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1701,7 +1727,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "position": "relative",
                 "width": 48,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -1732,7 +1760,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >

@@ -36,7 +36,6 @@ import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
@@ -246,18 +245,20 @@ const Login = () => {
             {step !== 'code' && (
               <>
                 <Text headingLevel="1" size="4xl" textAlign="center">
-                  {t('registration.signUp.heading')}
+                  {t('registration.login.heading')}
 
                   <HoliLocalImage
-                    imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
-                    width={50}
+                    imageSource={require('@holi/ui/assets/img/illustrations/illustration_hope.svg')}
+                    width={40}
                     height={40}
                     label={''}
                     isSvg
                   />
                 </Text>
                 <HoliGap size="xs" />
-                <Text textAlign="center">{t('registration.signUp.description')}</Text>
+                <Text size="md" textAlign="center">
+                  {t('registration.login.description')}
+                </Text>
               </>
             )}
             {step === 'code' && (
@@ -347,27 +348,6 @@ const Login = () => {
                     })}
                   />
                 </View>
-
-                <View style={styles.dividerContainer}>
-                  <View style={styles.divider}>
-                    <HoliDivider />
-                  </View>
-                  <View style={styles.dividerContainer}>
-                    <Text textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                      {t('auth.divider.guest')}
-                    </Text>
-                  </View>
-                  <View style={styles.divider}>
-                    <HoliDivider />
-                  </View>
-                </View>
-                <ButtonTracked
-                  variant="secondary"
-                  label={t('auth.loginProtection.continueAsGuest')}
-                  onPress={() => navigateBack()}
-                  size="lg"
-                  trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-                />
               </>
             )}
 
@@ -393,8 +373,15 @@ const Login = () => {
                   {t('auth.login.signUp.link.headline')}
                 </Text>
 
-                <View style={styles.formItemContainer}>
+                <View style={[styles.formItemContainer, styles.buttonContainer]}>
                   <RegistrationButton size="lg" trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+                  <ButtonTracked
+                    variant="secondary"
+                    label={t('auth.loginProtection.continueAsGuest')}
+                    onPress={() => navigateBack()}
+                    size="lg"
+                    trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+                  />
                 </View>
               </>
             )}

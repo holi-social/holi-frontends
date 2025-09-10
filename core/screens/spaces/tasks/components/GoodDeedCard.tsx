@@ -19,13 +19,13 @@ export const GoodDeedCard = ({ title, imageSrc, completedCount }: GoodDeedCardPr
 
   return (
     <CompactCard title={title} imageLabel="" imageSrc={imageSrc}>
-      {completedCount > 0 && (
-        <Stack direction="row" gap="4xs" alignItems="center">
-          <HoliIcon icon={HeartHandshake2} size={Spacing.xs} color="support" />
+      <Stack direction="row" gap="4xs" alignItems="center">
+        <HoliIcon icon={HeartHandshake2} size={Spacing.xs} color="support" />
 
-          <Text color="support">{t('task.card.completionCounter', { count: completedCount })}</Text>
-        </Stack>
-      )}
+        <Text size="md" color="support">
+          {t('task.card.completionCounter', { count: completedCount })}
+        </Text>
+      </Stack>
     </CompactCard>
   )
 }

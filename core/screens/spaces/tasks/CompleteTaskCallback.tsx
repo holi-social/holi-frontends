@@ -39,7 +39,9 @@ const CompleteTaskCallback = () => {
       navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
     } catch (error) {
       logger.debug('CompleteTaskCallback', 'Failed to complete task', { error })
-      // Handle error if needed
+      // Navigate anyway to the completed task screen to avoid the user being stuck on the callback screen
+      // This is a "forced" success scenario only done because an error in this flow is worse than not registering the task completion
+      navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
     } finally {
       hideLoader()
     }

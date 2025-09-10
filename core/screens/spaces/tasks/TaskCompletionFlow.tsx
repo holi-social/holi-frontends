@@ -24,7 +24,6 @@ import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingErr
 import { doBrowserLogin, retrieveSubmitFlowBody } from '@holi/core/auth/helpers/auth/helpers'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { SocialLoginButton } from 'holi-bricks/components/button/SocialLoginButton'
 import { TrackingEvent } from '@holi/core/tracking'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -45,6 +44,7 @@ import { Edit2 } from '@holi/icons/src/generated'
 import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
+import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -309,21 +309,6 @@ const TaskCompletionFlow = () => {
                         noAutofocusForEmail
                         withLoader={false}
                       />
-
-                      <SocialLoginButton
-                        label={t('tasks.register.unlogged.verify.holi')}
-                        provider="Holi"
-                        testID={'ory-submit-email-button'}
-                        onPress={() => {
-                          track(
-                            TrackingEvent.Auth.HoliRegisterPressed({
-                              method: 'verify',
-                              screen: 'taskRegistration',
-                            })
-                          )
-                          navigate('/login')
-                        }}
-                      />
                     </View>
                     <View style={styles.dividerContainer}>
                       <View style={styles.divider}>
@@ -385,6 +370,12 @@ const TaskCompletionFlow = () => {
                   noAutofocusForEmail
                 />
               </View>
+              {
+                <AlreadyHaveAccountText
+                  onPress={() => navigate('/login')}
+                  trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
+                />
+              }
             </View>
           </View>
         </>

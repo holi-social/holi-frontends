@@ -86,7 +86,9 @@ exports[`SpaceInviteItem renders correctly 1`] = `
               "position": "relative",
               "width": 40,
             },
-            {},
+            {
+              "flexShrink": undefined,
+            },
           ]
         }
       >
@@ -108,7 +110,9 @@ exports[`SpaceInviteItem renders correctly 1`] = `
                 "width": 40,
               },
               {},
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         />
@@ -205,7 +209,9 @@ exports[`SpaceInviteItem renders correctly 1`] = `
           "padding": 10,
           "width": 40,
         },
-        {},
+        {
+          "flexShrink": undefined,
+        },
       ]
     }
     testID="withdraw-invite-button"

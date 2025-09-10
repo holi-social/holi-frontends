@@ -66,8 +66,7 @@ export const GoodDeedsTab = () => {
       </Stack>
     )
   }
-
-  if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && totalCounter === 0) {
+  if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && personalCounter === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
         <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>

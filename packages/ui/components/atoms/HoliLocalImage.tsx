@@ -10,6 +10,9 @@ import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.sh
 // <HoliLocalImage imageSource={PngLogo} width={30} height={30} label="some alt text" />
 // <HoliLocalImage imageSource={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} width={30} height={30} label="some alt text" />
 
+/**
+ * @deprecated Use `Image` from holiBricks instead.
+ */
 const HoliLocalImage = ({
   imageSource,
   isSvg = false,

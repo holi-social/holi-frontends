@@ -44,6 +44,7 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.petitions.thumbnail.label')}
+        fullHeight
       >
         <CompactCard.FooterProgressBar
           progressBarPercentage={petition.percentage}

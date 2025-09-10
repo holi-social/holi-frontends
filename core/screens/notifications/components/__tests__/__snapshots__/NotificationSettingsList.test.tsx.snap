@@ -58,12 +58,34 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
         }
       >
         <View
+          accessibilityRole="none"
           style={
             {
-              "alignContent": "space-between",
+              "alignContent": "flex-start",
               "alignItems": "center",
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "marginBottom": 16,
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
@@ -85,46 +107,53 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               role="heading"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 21,
-                  "fontWeight": "500",
-                  "lineHeight": 29.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "600",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.GLOBAL.title
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
+              role="none"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.GLOBAL.description
@@ -132,126 +161,186 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           </View>
         </View>
         <View
+          accessibilityRole="none"
           style={
             {
-              "height": 16,
-            }
-          }
-        />
-        <View
-          style={
-            {
-              "alignContent": "space-between",
-              "alignItems": "stretch",
+              "alignContent": "flex-start",
+              "alignItems": undefined,
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignSelf": "center",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
                 "flex": 1,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           />
           <View
-            style={{}}
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
           >
-            <View
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
               style={
-                {
-                  "alignContent": "space-between",
-                  "alignItems": "stretch",
-                  "flexDirection": "row",
-                  "justifyContent": "flex-start",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
-              <View
-                style={
+              profile.settings.notifications.channel.push
+            </Text>
+          </View>
+          <View
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.push
-                </Text>
-              </View>
-              <View
-                style={
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.email
-                </Text>
-              </View>
-            </View>
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+            >
+              profile.settings.notifications.channel.email
+            </Text>
           </View>
         </View>
         <View
@@ -278,20 +367,66 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           testID="GLOBAL"
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignContent": "space-between",
-                "alignItems": "stretch",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
                 "flexDirection": "row",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
                 "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "paddingBottom": 8,
+                "paddingTop": 8,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           >
             <View
+              accessibilityRole="none"
               style={
                 {
-                  "alignSelf": "center",
+                  "alignContent": "flex-start",
+                  "alignItems": undefined,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
                   "flex": 1,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "flex-start",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
+                  "width": undefined,
                 }
               }
             >
@@ -329,10 +464,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </Text>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -413,10 +570,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </View>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -576,12 +755,34 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
         }
       >
         <View
+          accessibilityRole="none"
           style={
             {
-              "alignContent": "space-between",
+              "alignContent": "flex-start",
               "alignItems": "center",
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "marginBottom": 16,
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
@@ -603,46 +804,53 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               role="heading"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 21,
-                  "fontWeight": "500",
-                  "lineHeight": 29.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "600",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.POSTS_AND_COMMENTS.title
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
+              role="none"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.POSTS_AND_COMMENTS.description
@@ -650,126 +858,186 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           </View>
         </View>
         <View
+          accessibilityRole="none"
           style={
             {
-              "height": 16,
-            }
-          }
-        />
-        <View
-          style={
-            {
-              "alignContent": "space-between",
-              "alignItems": "stretch",
+              "alignContent": "flex-start",
+              "alignItems": undefined,
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignSelf": "center",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
                 "flex": 1,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           />
           <View
-            style={{}}
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
           >
-            <View
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
               style={
-                {
-                  "alignContent": "space-between",
-                  "alignItems": "stretch",
-                  "flexDirection": "row",
-                  "justifyContent": "flex-start",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
-              <View
-                style={
+              profile.settings.notifications.channel.push
+            </Text>
+          </View>
+          <View
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.push
-                </Text>
-              </View>
-              <View
-                style={
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.email
-                </Text>
-              </View>
-            </View>
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+            >
+              profile.settings.notifications.channel.email
+            </Text>
           </View>
         </View>
         <View
@@ -796,20 +1064,66 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           testID="POST_COMMENT_MENTION"
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignContent": "space-between",
-                "alignItems": "stretch",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
                 "flexDirection": "row",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
                 "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "paddingBottom": 8,
+                "paddingTop": 8,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           >
             <View
+              accessibilityRole="none"
               style={
                 {
-                  "alignSelf": "center",
+                  "alignContent": "flex-start",
+                  "alignItems": undefined,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
                   "flex": 1,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "flex-start",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
+                  "width": undefined,
                 }
               }
             >
@@ -847,10 +1161,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </Text>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -931,10 +1267,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </View>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -963,12 +1321,34 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
         }
       >
         <View
+          accessibilityRole="none"
           style={
             {
-              "alignContent": "space-between",
+              "alignContent": "flex-start",
               "alignItems": "center",
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "marginBottom": 16,
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
@@ -990,46 +1370,53 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               role="heading"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 21,
-                  "fontWeight": "500",
-                  "lineHeight": 29.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "600",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.SPACES.title
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
+              role="none"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.SPACES.description
@@ -1037,126 +1424,186 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           </View>
         </View>
         <View
+          accessibilityRole="none"
           style={
             {
-              "height": 16,
-            }
-          }
-        />
-        <View
-          style={
-            {
-              "alignContent": "space-between",
-              "alignItems": "stretch",
+              "alignContent": "flex-start",
+              "alignItems": undefined,
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignSelf": "center",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
                 "flex": 1,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           />
           <View
-            style={{}}
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
           >
-            <View
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
               style={
-                {
-                  "alignContent": "space-between",
-                  "alignItems": "stretch",
-                  "flexDirection": "row",
-                  "justifyContent": "flex-start",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
-              <View
-                style={
+              profile.settings.notifications.channel.push
+            </Text>
+          </View>
+          <View
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.push
-                </Text>
-              </View>
-              <View
-                style={
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.email
-                </Text>
-              </View>
-            </View>
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+            >
+              profile.settings.notifications.channel.email
+            </Text>
           </View>
         </View>
         <View
@@ -1180,20 +1627,66 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           testID="SPACE_MEMBERSHIP_REQUEST"
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignContent": "space-between",
-                "alignItems": "stretch",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
                 "flexDirection": "row",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
                 "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "paddingBottom": 8,
+                "paddingTop": 8,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           >
             <View
+              accessibilityRole="none"
               style={
                 {
-                  "alignSelf": "center",
+                  "alignContent": "flex-start",
+                  "alignItems": undefined,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
                   "flex": 1,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "flex-start",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
+                  "width": undefined,
                 }
               }
             >
@@ -1231,10 +1724,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </Text>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -1315,10 +1830,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </View>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -1480,20 +2017,66 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           testID="SPACE_NEW_POST"
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignContent": "space-between",
-                "alignItems": "stretch",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
                 "flexDirection": "row",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
                 "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "paddingBottom": 8,
+                "paddingTop": 8,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           >
             <View
+              accessibilityRole="none"
               style={
                 {
-                  "alignSelf": "center",
+                  "alignContent": "flex-start",
+                  "alignItems": undefined,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
                   "flex": 1,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "flex-start",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
+                  "width": undefined,
                 }
               }
             >
@@ -1531,10 +2114,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </Text>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -1615,10 +2220,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </View>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -1649,12 +2276,34 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
         }
       >
         <View
+          accessibilityRole="none"
           style={
             {
-              "alignContent": "space-between",
+              "alignContent": "flex-start",
               "alignItems": "center",
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "marginBottom": 16,
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
@@ -1676,46 +2325,53 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               role="heading"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 21,
-                  "fontWeight": "500",
-                  "lineHeight": 29.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "600",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.CHALLENGES.title
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
+              role="none"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.CHALLENGES.description
@@ -1723,126 +2379,186 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           </View>
         </View>
         <View
+          accessibilityRole="none"
           style={
             {
-              "height": 16,
-            }
-          }
-        />
-        <View
-          style={
-            {
-              "alignContent": "space-between",
-              "alignItems": "stretch",
+              "alignContent": "flex-start",
+              "alignItems": undefined,
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignSelf": "center",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
                 "flex": 1,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           />
           <View
-            style={{}}
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
           >
-            <View
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
               style={
-                {
-                  "alignContent": "space-between",
-                  "alignItems": "stretch",
-                  "flexDirection": "row",
-                  "justifyContent": "flex-start",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
-              <View
-                style={
+              profile.settings.notifications.channel.push
+            </Text>
+          </View>
+          <View
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.push
-                </Text>
-              </View>
-              <View
-                style={
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.email
-                </Text>
-              </View>
-            </View>
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+            >
+              profile.settings.notifications.channel.email
+            </Text>
           </View>
         </View>
         <View
@@ -1869,20 +2585,66 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
           testID="CHALLENGE_APPROVAL"
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignContent": "space-between",
-                "alignItems": "stretch",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
                 "flexDirection": "row",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
                 "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "paddingBottom": 8,
+                "paddingTop": 8,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           >
             <View
+              accessibilityRole="none"
               style={
                 {
-                  "alignSelf": "center",
+                  "alignContent": "flex-start",
+                  "alignItems": undefined,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
                   "flex": 1,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "flex-start",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
+                  "width": undefined,
                 }
               }
             >
@@ -1920,10 +2682,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </Text>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -2004,10 +2788,32 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               </View>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -2406,12 +3212,34 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
         }
       >
         <View
+          accessibilityRole="none"
           style={
             {
-              "alignContent": "space-between",
+              "alignContent": "flex-start",
               "alignItems": "center",
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "marginBottom": 16,
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
@@ -2433,46 +3261,53 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               role="heading"
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 21,
-                  "fontWeight": "500",
-                  "lineHeight": 29.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "600",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.GLOBAL.title
             </Text>
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
+              role="none"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 16,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
               profile.settings.notifications.GLOBAL.description
@@ -2480,126 +3315,186 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
           </View>
         </View>
         <View
+          accessibilityRole="none"
           style={
             {
-              "height": 16,
-            }
-          }
-        />
-        <View
-          style={
-            {
-              "alignContent": "space-between",
-              "alignItems": "stretch",
+              "alignContent": "flex-start",
+              "alignItems": undefined,
+              "alignSelf": undefined,
+              "aspectRatio": undefined,
+              "backgroundColor": undefined,
+              "borderColor": undefined,
+              "borderStyle": undefined,
+              "borderWidth": 0,
+              "display": "flex",
+              "flex": undefined,
+              "flexBasis": undefined,
               "flexDirection": "row",
+              "flexShrink": undefined,
+              "flexWrap": undefined,
+              "gap": 0,
+              "height": undefined,
               "justifyContent": "flex-start",
+              "maxHeight": undefined,
+              "maxWidth": undefined,
+              "minHeight": undefined,
+              "minWidth": undefined,
+              "overflow": undefined,
+              "textAlign": "left",
+              "width": undefined,
             }
           }
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignSelf": "center",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
                 "flex": 1,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           />
           <View
-            style={{}}
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
           >
-            <View
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
               style={
-                {
-                  "alignContent": "space-between",
-                  "alignItems": "stretch",
-                  "flexDirection": "row",
-                  "justifyContent": "flex-start",
-                }
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
               }
             >
-              <View
-                style={
+              profile.settings.notifications.channel.push
+            </Text>
+          </View>
+          <View
+            accessibilityRole="none"
+            style={
+              {
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
+                "flexDirection": "column",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
+                "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "textAlign": "left",
+                "width": 64,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.push
-                </Text>
-              </View>
-              <View
-                style={
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.128,
+                    "lineHeight": 23.68,
+                    "textAlign": "center",
+                    "userSelect": "auto",
+                  },
                   {
-                    "alignItems": "center",
-                    "width": 64,
-                  }
-                }
-              >
-                <Text
-                  accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
-                  jestInlineStyle={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#787777",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  profile.settings.notifications.channel.email
-                </Text>
-              </View>
-            </View>
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+            >
+              profile.settings.notifications.channel.email
+            </Text>
           </View>
         </View>
         <View
@@ -2626,20 +3521,66 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
           testID="GLOBAL"
         >
           <View
+            accessibilityRole="none"
             style={
               {
-                "alignContent": "space-between",
-                "alignItems": "stretch",
+                "alignContent": "flex-start",
+                "alignItems": undefined,
+                "alignSelf": undefined,
+                "aspectRatio": undefined,
+                "backgroundColor": undefined,
+                "borderColor": undefined,
+                "borderStyle": undefined,
+                "borderWidth": 0,
+                "display": "flex",
+                "flex": undefined,
+                "flexBasis": undefined,
                 "flexDirection": "row",
+                "flexShrink": undefined,
+                "flexWrap": undefined,
+                "gap": 0,
+                "height": undefined,
                 "justifyContent": "flex-start",
+                "maxHeight": undefined,
+                "maxWidth": undefined,
+                "minHeight": undefined,
+                "minWidth": undefined,
+                "overflow": undefined,
+                "paddingBottom": 8,
+                "paddingTop": 8,
+                "textAlign": "left",
+                "width": undefined,
               }
             }
           >
             <View
+              accessibilityRole="none"
               style={
                 {
-                  "alignSelf": "center",
+                  "alignContent": "flex-start",
+                  "alignItems": undefined,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
                   "flex": 1,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "flex-start",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
+                  "width": undefined,
                 }
               }
             >
@@ -2677,10 +3618,32 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               </Text>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }
@@ -2761,10 +3724,32 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               </View>
             </View>
             <View
+              accessibilityRole="none"
               style={
                 {
+                  "alignContent": "flex-start",
                   "alignItems": "center",
-                  "padding": 10,
+                  "alignSelf": undefined,
+                  "aspectRatio": undefined,
+                  "backgroundColor": undefined,
+                  "borderColor": undefined,
+                  "borderStyle": undefined,
+                  "borderWidth": 0,
+                  "display": "flex",
+                  "flex": undefined,
+                  "flexBasis": undefined,
+                  "flexDirection": "column",
+                  "flexShrink": undefined,
+                  "flexWrap": undefined,
+                  "gap": 0,
+                  "height": undefined,
+                  "justifyContent": "center",
+                  "maxHeight": undefined,
+                  "maxWidth": undefined,
+                  "minHeight": undefined,
+                  "minWidth": undefined,
+                  "overflow": undefined,
+                  "textAlign": "left",
                   "width": 64,
                 }
               }

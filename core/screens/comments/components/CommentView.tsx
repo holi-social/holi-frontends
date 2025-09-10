@@ -16,7 +16,6 @@ import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComme
 import { type Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Comments as CommentsIcon, Delete, Flag, SupportReaction } from '@holi/icons/src/generated'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
@@ -25,10 +24,10 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Comments from './Comments'
-import { type AvatarSizes } from 'holi-bricks/components/avatar'
+import type { AvatarSizes } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
 import ReactionsDrawer from '@holi/core/components/ReactionsDrawer'
-import { User } from '@holi/api/graphql/graphql-codegen'
+import type { User } from '@holi/api/graphql/graphql-codegen'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
@@ -110,7 +109,7 @@ const CommentView = ({
             </HoliLink>
           </View>
 
-          <HoliColumn>
+          <View>
             <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
               {/* reporting own content makes no sense, so we hide this option */}
               {!isCurrentUserCommentCreator && (
@@ -147,7 +146,7 @@ const CommentView = ({
                 </HoliActionDrawer.Action>
               )}
             </HoliActionDrawer.Drawer>
-          </HoliColumn>
+          </View>
         </View>
 
         <View style={styles.body}>

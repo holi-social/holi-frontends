@@ -25,7 +25,7 @@ import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItL
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { BookmarkLine } from '@holi/icons/src/generated'
 import { ButtonTracked } from '@holi/core/components/Trackable'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isIos = Platform.OS === 'ios'
 
@@ -167,6 +167,7 @@ const TaskDetails = () => {
             imageSrc={data.coverImage?.uri}
             completedCount={totalCompletions || 0}
             trackingProps={taskProps}
+            onJoin={doItLaterModalProps.onDismiss}
           />
         </DoItLaterModal>
       )}
