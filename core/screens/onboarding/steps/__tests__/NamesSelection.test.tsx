@@ -4,7 +4,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
 import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
 import { NamesSelection } from '@holi/core/screens/onboarding/steps/NamesSelection'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
@@ -42,19 +42,6 @@ describe('NamesSelection', () => {
     lastName: '',
     pronouns: '',
   } as User
-  const userData: OnboardingUserData = {
-    location: {
-      id: '1',
-      label: 'Hamburg, Germany',
-      geolocation: {
-        place_id: '1',
-        properties: { formatted: 'Hamburg, Germany', lat: 1, lon: 2 },
-        geometry: { type: 'MultiPolygon', coordinates: [] },
-      },
-    },
-    interests: ['topic-1'],
-    skills: ['skill-1', 'skill-2'],
-  }
 
   const updateMock = {
     request: {
@@ -62,10 +49,6 @@ describe('NamesSelection', () => {
       variables: {
         input: {
           ...loggedInUser,
-          interestsV2: userData.interests,
-          skillsV2: userData.skills,
-          location: userData.location?.label,
-          geolocation: userData.location?.geolocation,
         },
       },
     },
@@ -81,10 +64,6 @@ describe('NamesSelection', () => {
       variables: {
         input: {
           ...loggedInUser,
-          interestsV2: userData.interests,
-          skillsV2: userData.skills,
-          location: userData.location?.label,
-          geolocation: userData.location?.geolocation,
         },
       },
     },
@@ -99,7 +78,7 @@ describe('NamesSelection', () => {
   it('should render texts and input fields', () => {
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -116,7 +95,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -126,7 +105,7 @@ describe('NamesSelection', () => {
   it('should use initial user names in input fields', () => {
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -141,7 +120,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -151,7 +130,7 @@ describe('NamesSelection', () => {
   it('should disable submit button if input is not valid', () => {
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -165,7 +144,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -181,7 +160,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -197,7 +176,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider mocks={[updateMock]}>
-        <NamesSelection userData={userData} onFinish={onFinish} />
+        <NamesSelection onFinish={onFinish} />
       </MockedProvider>
     )
 
@@ -211,7 +190,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 
@@ -226,7 +205,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider mocks={[failingUpdateMock]}>
-        <NamesSelection userData={userData} onFinish={onFinish} />
+        <NamesSelection onFinish={onFinish} />
       </MockedProvider>
     )
 
@@ -243,7 +222,7 @@ describe('NamesSelection', () => {
 
     render(
       <MockedProvider>
-        <NamesSelection userData={userData} onFinish={jest.fn()} />
+        <NamesSelection onFinish={jest.fn()} />
       </MockedProvider>
     )
 

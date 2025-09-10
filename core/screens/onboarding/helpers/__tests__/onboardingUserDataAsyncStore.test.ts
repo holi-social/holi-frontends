@@ -23,26 +23,9 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 })
 
 describe('onboardingUserDataAsyncStore', () => {
-  const fullUserData: OnboardingUserData = {
-    location: {
-      id: 'location1',
-      label: 'Location name',
-      coordinates: { latitude: 1, longitude: 2 },
-      geolocation: {
-        place_id: 'location1',
-        properties: { formatted: 'Location name', lat: 1, lon: 2 },
-        geometry: { type: '', coordinates: [] },
-      },
-    },
-    interests: ['topic-1', 'topic-2'],
-    skills: ['skill-1'],
-  }
+  const fullUserData: OnboardingUserData = {}
   const fullUserDataJSON = JSON.stringify(fullUserData)
-  const minimalUserData: OnboardingUserData = {
-    location: undefined,
-    interests: [],
-    skills: [],
-  }
+  const minimalUserData: OnboardingUserData = {}
   const testError = new Error('Test error')
 
   it('should store user data as JSON', async () => {

@@ -1,5 +1,4 @@
 import type React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -9,7 +8,7 @@ import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBack
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
-import { HoliStepper, type StepperButtonType } from '@holi/ui/components/organisms/HoliStepperV2'
+import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
 import { Spacing, mono } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
@@ -21,12 +20,9 @@ import {
   onboardingSteps,
   useOnboardingCurrentStepKey,
 } from './hooks/useOnboardingCurrentStepKey'
-import { useUserData } from './hooks/useUserData'
-import { ChipsSelection } from './steps/ChipsSelection'
 import { CreateAccount } from './steps/CreateAccount'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
-import LocationSelection from './steps/LocationSelection'
 import { NamesSelection } from './steps/NamesSelection'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
@@ -34,9 +30,12 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useCallback, useEffect } from 'react'
-import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { GoodDeedsExplain, GoodDeedsDo } from '@holi/core/screens/onboarding/steps/GoodDeeds'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
+import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 export type OnboardingParams = {
   flow?: string
@@ -45,7 +44,6 @@ export type OnboardingParams = {
 const { useParam } = createParamHooks<OnboardingParams>()
 
 const Onboarding = () => {
-  const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
@@ -54,9 +52,12 @@ const Onboarding = () => {
   const [flowId] = useParam('flow')
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-  const { userData, updateLocation, updateInterests, updateSkills, clearInterests, clearSkills } = useUserData()
 
-  const redirect = useRedirect('/')
+  // TODO: override "rewardsPhaseTwoEnabled" to "false" to hide the good deeds steps, till we improve the Desktop design
+  // const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const rewardsPhaseTwoEnabled = false
+
+  const redirect = useRedirect('/act')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -68,54 +69,24 @@ const Onboarding = () => {
     storeOnboardingState('finished')
     await clearOnboardingUserDataAsyncStore()
   }
-  const breakOnboarding = useCallback(async () => {
+  const finishOnboarding = useCallback(async () => {
     await cleanUp()
     redirect(true)
   }, [redirect])
 
-  const finishOnboarding = async () => {
-    breakOnboarding()
-    showOnboardingFinishModal()
-  }
-
   // Abort and clean-up onboarding if user already is logged in when entering the screen
   useEffect(() => {
     if (isLoggedIn && onboardingState === 'finished') {
-      breakOnboarding()
+      finishOnboarding()
     } else if (flowId) {
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }
-  }, [breakOnboarding, flowId, isLoggedIn, onboardingState])
+  }, [finishOnboarding, flowId, isLoggedIn, onboardingState])
 
-  const clearSelection = (key: OnboardingStepKey) => {
-    switch (key) {
-      case 'LOCATION_SELECTION':
-        return updateLocation(undefined)
-      case 'INTERESTS_SELECTION':
-        return clearInterests()
-      case 'SKILLS_SELECTION':
-        return clearSkills()
-    }
-  }
-
-  // events shall only be emitted when user clicks on continue/skip/back, not during answer selection
-  // therefore this callback hooks into HoliStepper.onChange
-  const trackOnboardingStepCompletion = (key: OnboardingStepKey, buttonPressed: StepperButtonType) => {
-    switch (key) {
-      case 'LOCATION_SELECTION': {
-        track(OnboardingStepCompleted('locationSelection', [userData.location?.label as string], buttonPressed))
-        break
-      }
-      case 'INTERESTS_SELECTION': {
-        track(OnboardingStepCompleted('interestsSelection', userData.interests, buttonPressed))
-        break
-      }
-      case 'SKILLS_SELECTION': {
-        track(OnboardingStepCompleted('skillsSelection', userData.skills, buttonPressed))
-        break
-      }
-    }
+  // No longer needed since we removed location/interests/skills steps
+  const clearSelection = () => {
+    // No-op for remaining steps
   }
 
   const renderStep = (key: OnboardingStepKey) => {
@@ -124,43 +95,11 @@ const Onboarding = () => {
         return (
           <Intro
             onContinue={() => {
-              track(OnboardingStepCompleted('welcome', ['continue'], 'continue'))
-              setCurrentStep('LOCATION_SELECTION')
+              setCurrentStep('CREATE_ACCOUNT')
             }}
           />
         )
-      case 'LOCATION_SELECTION':
-        return (
-          <View style={styles.stepWrapper}>
-            <LocationSelection
-              selected={userData.location}
-              onChange={updateLocation}
-              testID="onboarding-location-selection"
-            />
-          </View>
-        )
-      case 'INTERESTS_SELECTION':
-        return (
-          <View style={styles.stepWrapper}>
-            <ChipsSelection
-              chipType="interests"
-              selectedChipIds={userData.interests}
-              onSelect={updateInterests}
-              testID="onboarding-interests-selection"
-            />
-          </View>
-        )
-      case 'SKILLS_SELECTION':
-        return (
-          <View style={styles.stepWrapper}>
-            <ChipsSelection
-              chipType="skills"
-              selectedChipIds={userData.skills}
-              onSelect={updateSkills}
-              testID="onboarding-skills-selection"
-            />
-          </View>
-        )
+
       case 'CREATE_ACCOUNT':
         return (
           <CreateAccount
@@ -170,7 +109,11 @@ const Onboarding = () => {
             }}
             onContinueAsGuest={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
-              breakOnboarding()
+              if (rewardsPhaseTwoEnabled) {
+                setCurrentStep('GOOD_DEEDS_EXPLANATION')
+              } else {
+                finishOnboarding()
+              }
             }}
             onRegister={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
@@ -189,7 +132,7 @@ const Onboarding = () => {
             }}
             onDismiss={() => {
               track(SignupStepCompleted({ step: 'verificationCode', answer: 'continueAsGuest' }))
-              breakOnboarding()
+              finishOnboarding()
             }}
             testID="onboarding-email-verification"
           />
@@ -198,15 +141,22 @@ const Onboarding = () => {
         return (
           <View style={styles.nameSelectionWrapper}>
             <NamesSelection
-              userData={userData}
               onFinish={() => {
                 track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
-                finishOnboarding()
+                if (rewardsPhaseTwoEnabled) {
+                  setCurrentStep('GOOD_DEEDS_EXPLANATION')
+                } else {
+                  finishOnboarding()
+                }
               }}
               testID="onboarding-name-selection"
             />
           </View>
         )
+      case 'GOOD_DEEDS_EXPLANATION':
+        return <GoodDeedsExplain />
+      case 'GOOD_DEEDS_DO':
+        return <GoodDeedsDo />
       default:
         throw new HoliError(`Onboarding: "${key}" is not a valid step`)
     }
@@ -214,25 +164,9 @@ const Onboarding = () => {
 
   if (!currentStep) return <HoliLoader testID="loader" />
 
-  // Modify footer navigation `nextButtonLabel` based on user data for `LOCATION_SELECTION`, `INTERESTS_SELECTION` and `SKILLS_SELECTION`
-  // It is not an good way to do it like that because we update `onboardingSteps` object on every change,
-  // but as designers mean it is VERY important for then! So, here we are.
+  // No longer needed since we removed the steps with dynamic button labels
   const modifyStepWithNextButtonLabel = (step: OnboardingStepItem): OnboardingStepItem => {
-    const stepKeyToNextButtonLabel: Partial<Record<OnboardingStepItem['key'], string | null>> = {
-      LOCATION_SELECTION: !userData.location ? t('onboarding.location.nextButtonLabel.skip') : null,
-      INTERESTS_SELECTION: userData.interests.length === 0 ? t('onboarding.interests.nextButtonLabel.skip') : null,
-      SKILLS_SELECTION: userData.skills.length === 0 ? t('onboarding.skills.nextButtonLabel.skip') : null,
-    }
-
-    return step.key in stepKeyToNextButtonLabel
-      ? {
-          ...step,
-          footerNavigation: {
-            ...step.footerNavigation,
-            nextButtonLabel: stepKeyToNextButtonLabel[step.key] ?? t('onboarding.welcome.forward'),
-          },
-        }
-      : step
+    return step
   }
 
   return (
@@ -243,16 +177,41 @@ const Onboarding = () => {
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
         onChange={(key, previousKey, buttonPressed) => {
-          if (buttonPressed === 'skip') {
-            clearSelection(previousKey as OnboardingStepKey)
+          // finish onboarding if user is on last step and clicks on continue
+          if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
+            track(OnboardingStepCompleted(key as OnboardingStepKey, ['fihish'], 'continue'))
+            finishOnboarding()
+            return
           }
-          trackOnboardingStepCompletion(previousKey as OnboardingStepKey, buttonPressed)
+
+          if (buttonPressed === 'skip') {
+            track(OnboardingStepCompleted(key as OnboardingStepKey, ['skip'], 'skip'))
+            clearSelection()
+          }
+
           setCurrentStep(key as OnboardingStepKey)
         }}
-        paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}
-        paddingBottom={safeAreaBottom ? safeAreaBottom : Spacing.xxs}
+        WrapperComponent={
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep)
+            ? ({ children }) => <>{children}</>
+            : undefined
+        }
+        paddingTop={
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaTop ?? Spacing.xxs)
+        }
+        paddingBottom={
+          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaBottom ?? Spacing.xxs)
+        }
         testID="onboarding-stepper"
       />
+      {currentStep === 'CREATE_ACCOUNT' && (
+        <View style={styles.footer}>
+          <HoliDivider />
+          <HoliContainer>
+            <DocumentsFooter />
+          </HoliContainer>
+        </View>
+      )}
     </HoliKeyboardSafeAreaView>
   )
 }
@@ -270,6 +229,10 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.md,
     paddingBottom: Spacing['4xs'],
     flex: 1,
+  },
+  footer: {
+    paddingBottom: Spacing.sm,
+    gap: Spacing.xs,
   },
 })
 

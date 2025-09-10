@@ -34,6 +34,7 @@ export type TextProps = AccessibilityProps &
     ellipsizeMode?: RNTextProps['ellipsizeMode']
     headingLevel?: TextHeadingLevel
     bold?: boolean
+    italic?: boolean
     testID?: string
   }
 
@@ -66,6 +67,7 @@ export const Text = ({
   ellipsizeMode,
   headingLevel,
   bold,
+  italic,
   children,
   testID,
   ...rest
@@ -86,7 +88,7 @@ export const Text = ({
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
       style={[
-        styles.text(color, selectable, colorOverride, textAlign, bold) as unknown as TextStyle,
+        styles.text(color, selectable, colorOverride, textAlign, bold, italic) as unknown as TextStyle,
         layoutStyle(rest),
       ]}
     >
@@ -101,7 +103,8 @@ const stylesheet = createStyleSheet((theme) => ({
     selectable: boolean,
     colorOverride?: ColorValue,
     textAlign?: TextStyle['textAlign'],
-    bold?: boolean
+    bold?: boolean,
+    italic?: boolean
   ) => {
     const textColor = color ? theme.colors.fill[color] : theme.colors.fill.default
     return {
@@ -118,12 +121,13 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       ...(bold && { fontWeight: '600' }),
+      ...(italic && { fontStyle: 'italic' }),
       variants: {
         size: {
           '5xl': {
-            fontSize: 120,
-            lineHeight: 120 * 1.2,
-            letterSpacing: -4.8,
+            fontSize: 80,
+            lineHeight: 80 * 1.2,
+            letterSpacing: -2.8,
           },
           '4xl': {
             fontSize: 36,

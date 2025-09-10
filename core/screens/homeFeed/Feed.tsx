@@ -34,10 +34,12 @@ import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import { Stack } from 'holi-bricks/components/stack'
-import { ChipGoodDeeds } from '@holi/core/screens/homeFeed/components/ChipGoodDeeds'
+import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 import * as Appcues from '@appcues/react-native'
+import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
+import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
@@ -50,7 +52,8 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
-  const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({ skip: !showGoodDeeds })
 
   const { refreshControlProps } = useRefreshContext()
 
@@ -117,10 +120,18 @@ const HomeFeed = () => {
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
           <HomeFeedHeader />
+
+          {showGoodDeeds && (
+            <GoodDeedsBanner
+              counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
+              variant="action"
+              hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
+            />
+          )}
         </View>
       </HoliTransition.FadeDown>
     ),
-    []
+    [globalGoodDeeds?.rewards_globalCounter.counter, showGoodDeeds]
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {
@@ -185,7 +196,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeedChip && <ChipGoodDeeds />}
+            {showGoodDeeds && <GoodDeedsChip />}
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -197,7 +208,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeedChip])
+  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeeds])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 
@@ -275,6 +286,8 @@ const styles = StyleSheet.create({
   listHeader: {
     gap: Spacing.sm,
     flex: 1,
+    paddingBottom: Spacing.sm,
+    paddingTop: Spacing.sm,
   },
   listContent: {
     paddingHorizontal: Spacing.sm,

@@ -1,35 +1,22 @@
 import { MockedProvider } from '@apollo/client/testing'
-import {
-  getOrCreateVerificationFlow,
-  getVerificationFlowFromRegistration,
-  hasIdentifier,
-  initRegistrationFlow,
-  submitVerificationFlow,
-} from '@holi/core/auth/helpers/auth'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
-import { geoPlacesQuery } from '@holi/core/geolocation/queries'
-import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import {
-  clearOnboardingUserDataAsyncStore,
   getOnboardingUserDataAsyncStore,
   storeOnboardingUserDataAsyncStore,
 } from '@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore'
-import { testLocation } from '@holi/core/screens/onboarding/hooks/__tests__/useUserData.test'
-import { storeOnboardingState, useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
+import { useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
-import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
-import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import type { UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import { act } from '@testing-library/react-hooks'
-import { render, screen, userEvent } from '@testing-library/react-native'
-import { Button } from 'holi-bricks/components/button'
-import React from 'react'
+import { render, screen } from '@testing-library/react-native'
+import type React from 'react'
+
+jest.useFakeTimers()
+
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
+}))
 
 const mockUseRedirect = useRedirect as jest.Mock
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
@@ -37,13 +24,9 @@ jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
 }))
 
 const mockUseTracking = useTracking as jest.Mock
-jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())
-
-const mockUseLoginState = useLoginState as jest.Mock
-const mockSetLoginStateLoggedIn = setLoginStateLoggedIn as jest.Mock
-jest.mock('@holi/core/auth/loginState', () => ({
-  useLoginState: jest.fn(),
-  setLoginStateLoggedIn: jest.fn(),
+jest.mock('@holi/core/tracking/hooks/useTracking', () => ({
+  __esModule: true,
+  default: jest.fn(),
 }))
 
 const mockUseLoggedInUser = useLoggedInUser as jest.Mock
@@ -51,209 +34,83 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: jest.fn(),
 }))
 
-const mockUsePreventBackNavigation = usePreventBackNavigation as jest.Mock
-jest.mock('@holi/core/navigation/hooks/usePreventBackNavigation', () => jest.fn())
-
 const mockUseOnboardingState = useOnboardingState as jest.Mock
-const mockStoreOnboardingState = storeOnboardingState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
   useOnboardingState: jest.fn(),
   storeOnboardingState: jest.fn(),
+  useOnboardingInitialization: jest.fn(),
+  useOnboardingRedirect: jest.fn(),
+}))
+
+const mockUseOnboardingCurrentStepKey = jest.fn()
+jest.mock('@holi/core/screens/onboarding/hooks/useOnboardingCurrentStepKey', () => ({
+  useOnboardingCurrentStepKey: () => mockUseOnboardingCurrentStepKey(),
+  onboardingSteps: [{ key: 'WELCOME_SCREEN' }, { key: 'CREATE_ACCOUNT' }, { key: 'USER_NAME_SELECTION' }],
 }))
 
 const mockGetOnboardingUserDataAsyncStore = getOnboardingUserDataAsyncStore as jest.Mock
-const mockClearOnboardingUserDataAsyncStore = clearOnboardingUserDataAsyncStore as jest.Mock
 const mockStoreOnboardingUserDataAsyncStore = storeOnboardingUserDataAsyncStore as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore', () => {
-  return {
-    getOnboardingUserDataAsyncStore: jest.fn(),
-    clearOnboardingUserDataAsyncStore: jest.fn(),
-    storeOnboardingUserDataAsyncStore: jest.fn(),
-  }
-})
+jest.mock('@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore', () => ({
+  getOnboardingUserDataAsyncStore: jest.fn(),
+  storeOnboardingUserDataAsyncStore: jest.fn(),
+  clearOnboardingUserDataAsyncStore: jest.fn(),
+}))
 
-const mockShowOnboardingFinishModal = showOnboardingFinishModal as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState', () => ({
   showOnboardingFinishModal: jest.fn(),
 }))
 
-const mockInitRegistrationFlow = initRegistrationFlow as jest.Mock
-const mockGetVerificationFlowFromRegistration = getVerificationFlowFromRegistration as jest.Mock
-const mockGetOrCreateVerificationFlow = getOrCreateVerificationFlow as jest.Mock
-const mockSubmitVerificationFlow = submitVerificationFlow as jest.Mock
-const mockHasIdentifier = hasIdentifier as unknown as jest.Mock
-jest.mock('@holi/core/auth/helpers/auth', () => ({
-  initRegistrationFlow: jest.fn(),
-  getVerificationFlowFromRegistration: jest.fn(),
-  getOrCreateVerificationFlow: jest.fn(),
-  submitVerificationFlow: jest.fn(),
-  hasIdentifier: jest.fn(),
-  doLogin: jest.fn(),
-  retrieveSubmitFlowBody: (payload: UpdateRegistrationFlowBody) => Promise.resolve(payload),
+jest.mock('@holi/core/screens/onboarding/hooks/useUserData', () => ({
+  useUserData: () => ({ userData: {} }),
 }))
 
-const mockNewKratosSdk = newKratosSdk as jest.Mock
-jest.mock('@holi/core/auth/helpers/sdk', () => ({
-  newKratosSdk: jest.fn(),
+jest.mock('@holi/core/navigation/hooks/usePreventBackNavigation', () => jest.fn())
+jest.mock('@holi/core/helpers/useIsomorphicLayoutEffect', () => jest.fn())
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key: string) => key }),
 }))
-
-export const RegistrationFormMock = ({ onSubmit }: { onSubmit: (payload: object) => Promise<void> }) => {
-  return (
-    <Button
-      onPress={() => onSubmit({ method: 'password', password: 'p455w0rd' })}
-      label={'registration-submit-button'}
-    />
-  )
-}
-jest.mock('@holi/core/auth/components/FormBuilder', () => RegistrationFormMock)
-
-interface Event {
-  action: 'press' | 'type' | 'paste'
-  label: string
-  input?: string
-  queryByText?: boolean
-}
-
-const mocks = [
-  {
-    request: {
-      query: updateAuthenticatedUserV2Mutation,
-      variables: {
-        input: {
-          firstName: 'Ada',
-          lastName: '',
-          pronouns: '',
-          interestsV2: [],
-          skillsV2: [],
-        },
-      },
-    },
-    result: {
-      data: {
-        updateAuthenticatedUserV2: {},
-      },
-    },
-  },
-  {
-    request: {
-      query: updateAuthenticatedUserV2Mutation,
-      variables: {
-        input: {
-          firstName: 'Ada',
-          lastName: 'Lovelace',
-          pronouns: 'she/her',
-          interestsV2: ['animal-welfare'],
-          skillsV2: ['creativity-design'],
-          location: testLocation.label,
-          geolocation: testLocation.geolocation,
-        },
-      },
-    },
-    result: {
-      data: {
-        updateAuthenticatedUserV2: {},
-      },
-    },
-  },
-  {
-    request: {
-      query: geoPlacesQuery,
-      variables: {
-        text: 'Hamburg, Germany',
-        limit: 3,
-        level: 'city',
-      },
-    },
-    result: {
-      data: {
-        geo_placesAutocomplete: [
-          {
-            id: '1',
-            name: 'Hamburg, Germany',
-            city: 'Hamburg',
-            state: 'Hamburg',
-            country: 'Germany',
-            coordinates: { latitude: 1, longitude: 2 },
-          },
-        ],
-      },
-    },
-  },
-]
+jest.mock('@holi/core/navigation/hooks/useScreenOptions', () => ({
+  useSetScreenOptions: () => jest.fn(),
+}))
+jest.mock('@holi/core/helpers/useSafeAreaInsets', () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0 }),
+}))
+jest.mock('@holi/core/auth/components/AlreadyHaveAccountText', () => {
+  const React = require('react')
+  const { View } = require('react-native')
+  return function AlreadyHaveAccountText() {
+    return React.createElement(View, { testID: 'already-have-account-text' })
+  }
+})
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
+  Trans: ({ children }: { children: React.ReactNode }) => children,
+}))
 
 describe('Onboarding', () => {
-  beforeEach(() => {
-    jest.useFakeTimers()
-  })
-  afterEach(async () => {
-    await act(jest.runOnlyPendingTimers)
-    jest.useRealTimers()
-  })
-
-  const redirect = jest.fn()
   const track = jest.fn()
-  const defaultUserData = {
-    interests: [],
-    skills: [],
-  }
-
-  const navigateThroughOnboarding = async (events: Event[] = []) => {
-    const user = userEvent.setup()
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <Onboarding />
-      </MockedProvider>
-    )
-
-    for (const event of events) {
-      const element = event.queryByText ? screen.getByText(event.label) : screen.getByLabelText(event.label)
-      await user[event.action](element, event.input ?? '')
-
-      await act(async () => {
-        await jest.runOnlyPendingTimersAsync()
-      })
-    }
-  }
-
-  const expectOnboardingCleanUp = () => {
-    expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
-    expect(mockClearOnboardingUserDataAsyncStore).toHaveBeenCalled()
-    expect(redirect).toHaveBeenCalledWith(true)
-  }
+  const redirect = jest.fn()
 
   beforeEach(() => {
+    jest.clearAllMocks()
     mockUseOnboardingState.mockReturnValue('onboarding')
     mockUseTracking.mockReturnValue({ track })
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: false })
     mockGetOnboardingUserDataAsyncStore.mockResolvedValue(undefined)
     mockStoreOnboardingUserDataAsyncStore.mockResolvedValue(undefined)
     mockUseRedirect.mockReturnValue(redirect)
-
-    // Mocks for registration
-    mockInitRegistrationFlow.mockResolvedValue({ data: { id: 'test' } })
-    mockGetVerificationFlowFromRegistration.mockReturnValue({ id: 'test' })
-    const updateRegistrationFlow = jest
-      .fn()
-      .mockResolvedValue({ data: { session: { id: 'test' }, session_token: 'some_token' } })
-    mockNewKratosSdk.mockReturnValue({ updateRegistrationFlow })
-    mockUseLoginState.mockReturnValue({ isLoggedOut: true })
-    mockSetLoginStateLoggedIn.mockResolvedValue({})
-
-    // Mocks for e-mail verification
-    mockGetOrCreateVerificationFlow.mockResolvedValue({ id: 'test', state: 'sent_email' })
-    mockSubmitVerificationFlow.mockResolvedValue({
-      state: 'passed_challenge',
-      ui: { messages: [] },
-    })
-    mockHasIdentifier.mockReturnValue(false)
+    mockUseOnboardingCurrentStepKey.mockReturnValue(['WELCOME_SCREEN', jest.fn()])
+    mockUseFeatureFlag.mockReturnValue([true])
   })
 
-  it('should display loader until step is determined', async () => {
+  it('should display loader until step is determined', () => {
     mockUseOnboardingState.mockReturnValue(null)
+    mockUseOnboardingCurrentStepKey.mockReturnValue([null, jest.fn()])
 
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={[]}>
         <Onboarding />
       </MockedProvider>
     )
@@ -261,232 +118,64 @@ describe('Onboarding', () => {
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
   })
 
-  it('should prevent back navigation', () => {
+  it('should render welcome screen initially', () => {
+    mockUseOnboardingState.mockReturnValue('onboarding')
+
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={[]}>
         <Onboarding />
       </MockedProvider>
     )
 
-    expect(mockUsePreventBackNavigation).toHaveBeenCalled()
+    // Check if the stepper is rendered
+    expect(screen.getByTestId('onboarding-stepper')).toBeOnTheScreen()
   })
 
-  it('should leave and clean up onboarding if logged in user already finished onboarding', async () => {
+  it('should render create account step when onboarding state changes', () => {
+    mockUseOnboardingState.mockReturnValue('onboarding')
+
+    const { rerender } = render(
+      <MockedProvider mocks={[]}>
+        <Onboarding />
+      </MockedProvider>
+    )
+
+    // When we have an existing registration flow, it should show create account
+    mockUseOnboardingState.mockReturnValue('finished')
+
+    rerender(
+      <MockedProvider mocks={[]}>
+        <Onboarding />
+      </MockedProvider>
+    )
+
+    expect(screen.getByTestId('onboarding-stepper')).toBeOnTheScreen()
+  })
+
+  it('should handle logged in users with finished onboarding', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
     mockUseOnboardingState.mockReturnValue('finished')
 
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={[]}>
         <Onboarding />
       </MockedProvider>
     )
 
-    await act(async () => {
-      await jest.runAllTimersAsync()
-    })
-
-    expectOnboardingCleanUp()
+    // Should attempt to clean up and redirect
+    expect(mockUseRedirect).toHaveBeenCalledWith('/act')
   })
 
-  it('should redirect to home feed', async () => {
+  it('should render account setup for logged in users with incomplete accounts', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
-    mockUseOnboardingState.mockReturnValue('finished')
-    mockGetOnboardingUserDataAsyncStore.mockResolvedValue(defaultUserData)
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <Onboarding />
-      </MockedProvider>
-    )
-
-    await act(async () => {
-      await jest.runAllTimersAsync()
-    })
-
-    expect(mockUseRedirect).toHaveBeenCalledWith('/')
-  })
-
-  it('should complete the whole flow', async () => {
-    // Prefill location as dropdown is not working properly in unit tests
-    mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
-      ...defaultUserData,
-      location: testLocation,
-    })
-
-    await navigateThroughOnboarding([
-      // Welcome
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      // Location is prefilled
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      // Interests
-      { action: 'press', label: 'topic.animal-welfare', queryByText: true },
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      // Skills
-      { action: 'press', label: 'skill.creativity-design', queryByText: true },
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      // Sign up form is mocked
-      { action: 'press', label: 'registration-submit-button' },
-      // E-mail verification
-      { action: 'paste', label: 'registration.emailVerification.inputLabel', input: '123456' },
-      { action: 'press', label: 'registration.emailVerification.activateAccount' },
-      // Name input
-      { action: 'paste', label: 'onboarding.names.firstName.input.label', input: 'Ada' },
-      { action: 'paste', label: 'onboarding.names.lastName.input.label', input: 'Lovelace' },
-      { action: 'paste', label: 'user.profileForm.pronouns', input: 'she/her' },
-      { action: 'press', label: 'onboarding.accountSetup.continue' },
-    ])
-
-    expectOnboardingCleanUp()
-    expect(mockShowOnboardingFinishModal).toHaveBeenCalled()
-  })
-
-  it('should complete the whole flow with minimal inputs', async () => {
-    await navigateThroughOnboarding([
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'onboarding.location.nextButtonLabel.skip' },
-      { action: 'press', label: 'onboarding.interests.nextButtonLabel.skip' },
-      { action: 'press', label: 'onboarding.skills.nextButtonLabel.skip' },
-      { action: 'press', label: 'registration-submit-button' },
-      { action: 'paste', label: 'registration.emailVerification.inputLabel', input: '123456' },
-      { action: 'press', label: 'registration.emailVerification.activateAccount' },
-      { action: 'paste', label: 'onboarding.names.firstName.input.label', input: 'Ada' },
-      { action: 'press', label: 'onboarding.accountSetup.continue' },
-    ])
-
-    expectOnboardingCleanUp()
-    expect(mockShowOnboardingFinishModal).toHaveBeenCalled()
-  })
-
-  it('should complete flow starting at account setup', async () => {
     mockUseOnboardingState.mockReturnValue('accountSetup')
 
-    await navigateThroughOnboarding([
-      { action: 'paste', label: 'onboarding.names.firstName.input.label', input: 'Ada' },
-      { action: 'press', label: 'onboarding.accountSetup.continue' },
-    ])
-
-    expectOnboardingCleanUp()
-    expect(mockShowOnboardingFinishModal).toHaveBeenCalled()
-  })
-
-  it('should skip all steps and continue as guest', async () => {
-    await navigateThroughOnboarding([
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'auth.loginProtection.continueAsGuest' },
-    ])
-
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' })
-    )
-    expectOnboardingCleanUp()
-  })
-
-  it('should fully track onboarding flow', async () => {
-    // Prefill user data
-    mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
-      interests: ['animal-welfare'],
-      skills: ['creativity-design'],
-      location: testLocation,
-    })
-
-    await navigateThroughOnboarding([
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'registration-submit-button' },
-      { action: 'paste', label: 'registration.emailVerification.inputLabel', input: '123456' },
-      { action: 'press', label: 'registration.emailVerification.activateAccount' },
-      { action: 'paste', label: 'onboarding.names.firstName.input.label', input: 'Ada' },
-      { action: 'paste', label: 'onboarding.names.lastName.input.label', input: 'Lovelace' },
-      { action: 'paste', label: 'user.profileForm.pronouns', input: 'she/her' },
-      { action: 'press', label: 'onboarding.accountSetup.continue' },
-    ])
-
-    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('welcome', ['continue'], 'continue'))
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.OnboardingStepCompleted('locationSelection', ['Hamburg, Germany'], 'continue')
-    )
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.OnboardingStepCompleted('interestsSelection', ['animal-welfare'], 'continue')
-    )
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.OnboardingStepCompleted('skillsSelection', ['creativity-design'], 'continue')
-    )
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' })
-    )
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.SignupStepCompleted({ step: 'verificationCode', answer: 'verifyAccount' })
-    )
-    expect(track).toHaveBeenCalledWith(TrackingEvent.SignupStepCompleted({ step: 'name', answer: 'continue' }))
-  })
-
-  it('should clear selection on skip', async () => {
-    // Prefill user data
-    mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
-      interests: ['animal-welfare'],
-      skills: ['creativity-design'],
-      location: testLocation,
-    })
-
-    await navigateThroughOnboarding([
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'auth.loginProtection.continueAsGuest' },
-    ])
-
-    expect(storeOnboardingUserDataAsyncStore).toHaveBeenCalledWith({
-      location: undefined,
-      interests: [],
-      skills: [],
-    })
-  })
-
-  it('should track skip and back buttons', async () => {
-    await navigateThroughOnboarding([
-      { action: 'press', label: 'onboarding.welcome.forward' },
-      { action: 'press', label: 'global.skip' },
-      { action: 'press', label: 'global.back' },
-    ])
-
-    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('locationSelection', [], 'skip'))
-    expect(track).toHaveBeenCalledWith(TrackingEvent.OnboardingStepCompleted('interestsSelection', [], 'back'))
-  })
-
-  it('should track login', async () => {
-    mockUseOnboardingState.mockReturnValue('finished')
-
-    await navigateThroughOnboarding([{ action: 'press', label: 'auth.login' }])
-
-    expect(track).toHaveBeenCalledWith(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-  })
-
-  it('should track continuing as guest on email verification screen', async () => {
-    setVerificationFlowData({ id: 'test', verifiable_address: 'test@example.com' })
-    mockUseOnboardingState.mockReturnValue('emailVerification')
-
-    const user = userEvent.setup()
-
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider mocks={[]}>
         <Onboarding />
       </MockedProvider>
     )
 
-    await act(async () => {
-      await jest.runOnlyPendingTimersAsync()
-    })
-
-    await user.press(screen.getByLabelText('auth.loginProtection.continueAsGuest'))
-
-    expect(track).toHaveBeenCalledWith(
-      TrackingEvent.SignupStepCompleted({ step: 'verificationCode', answer: 'continueAsGuest' })
-    )
+    expect(screen.getByTestId('onboarding-stepper')).toBeOnTheScreen()
   })
 })

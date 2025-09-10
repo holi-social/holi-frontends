@@ -15,9 +15,7 @@ import type { Choice, Poll } from '@holi/core/screens/polls/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import userTeam from '@holi/icons/src/generated/UserTeam'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
@@ -25,6 +23,8 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { breakpoints } from 'holi-bricks/foundations'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
 
 export type PollComponentProps = {
   poll: Poll
@@ -148,12 +148,12 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
       )}
 
       <View style={styles.bottomBar}>
-        <HoliColumns justifyContent="space-between" flexDirection={screenWidth > breakpoints.sm ? 'row' : 'column'}>
+        <Stack justifyContent="space-between" direction={screenWidth > breakpoints.sm ? 'row' : 'column'}>
           <HoliBox padding={[0, 0, 0, 0]} layout={styles.headlineContainer}>
             <HoliIcon icon={userTeam} size={20} style={styles.icon} />
-            <HoliText size={'default'} style={styles.counter}>
+            <Text size="md" margin={{ left: '3xs' }} color="default">
               {votesSum} {t('homeFeed.pollComponent.anonymousVotes')}
-            </HoliText>
+            </Text>
           </HoliBox>
           {!userHasVoted?.userHasVotedByPollId && (
             <View style={screenWidth < breakpoints.sm && styles.button}>
@@ -165,7 +165,7 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
               />
             </View>
           )}
-        </HoliColumns>
+        </Stack>
       </View>
     </View>
   )
@@ -197,10 +197,6 @@ const getStyles = (theme: HoliTheme, bordered: boolean) =>
     },
     icon: {
       marginLeft: 7,
-    },
-    counter: {
-      marginLeft: 8,
-      color: theme.colors.foreground20,
     },
     userItemContent: {
       flexShrink: 1,

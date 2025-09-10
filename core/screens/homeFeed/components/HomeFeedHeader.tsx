@@ -16,7 +16,7 @@ const HomeFeedHeader = () => {
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
 
   return (
-    <Stack gap="sm" margin={{ bottom: '3xs', top: 'md' }} testID="home-feed-insights-heading">
+    <Stack gap="sm" testID="home-feed-insights-heading">
       {new Date() < bannerShowCutoff && (
         <>
           <HoliGap size="s" />

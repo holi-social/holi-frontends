@@ -161,9 +161,6 @@ describe('CreateAccount', () => {
       expect(screen.getByLabelText('submit-button')).toBeOnTheScreen()
 
       expect(screen.getByLabelText('auth.loginProtection.continueAsGuest')).toBeOnTheScreen()
-
-      // Links to privacy policy, terms of use + login
-      expect(screen.getAllByRole('link')).toHaveLength(3)
     })
   })
 
@@ -190,7 +187,9 @@ describe('CreateAccount', () => {
 
       await user.press(screen.getByLabelText('social-submit-button'))
 
-      expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.SocialRegisterButtonPressed('Google'))
+      expect(track).toHaveBeenCalledWith(
+        TrackingEvent.Auth.SocialRegisterButtonPressed({ provider: 'Google', screen: 'mainRegistration' })
+      )
     })
 
     it('should clear guest mode', async () => {

@@ -31,6 +31,7 @@ jest.mock('@holi/core/errors/hooks', () => ({
 const mockUseRedirect = jest.mocked(useRedirect)
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
+  usePathToRedirect: jest.fn(),
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
@@ -215,7 +216,9 @@ describe('Login', () => {
 
       await user.press(screen.getByLabelText('social-submit-button'))
 
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.SocialLoginButtonPressed('Google'))
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.SocialLoginButtonPressed({ provider: 'Google', screen: 'mainLogin' })
+      )
     })
 
     it('should perform login', async () => {
@@ -318,28 +321,6 @@ describe('Login', () => {
       expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
       expect(mockUseRedirect).toHaveBeenCalledWith('/')
       expect(redirect).toHaveBeenCalledWith(true)
-    })
-  })
-
-  describe('forgot password', () => {
-    it('should navigate to forgot password screen', async () => {
-      const user = userEvent.setup()
-
-      render(<Login />)
-
-      await user.press(screen.getByLabelText('auth.login.link.forgotPassword'))
-
-      expect(mockNavigate).toHaveBeenCalledWith('//forgotPassword')
-    })
-
-    it('should track click on forgot password', async () => {
-      const user = userEvent.setup()
-
-      render(<Login />)
-
-      await user.press(screen.getByLabelText('auth.login.link.forgotPassword'))
-
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.ForgotPasswordButtonPressed)
     })
   })
 

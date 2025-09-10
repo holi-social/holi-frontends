@@ -116,7 +116,6 @@ export const DetailsScreen = ({
   status,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
-
   const [imageFailed, setImageFailed] = useState(false)
   const randomPlaceholderImage = placeholderImage ?? getPlaceholderImage(title)
   const { width } = useWindowDimensions()

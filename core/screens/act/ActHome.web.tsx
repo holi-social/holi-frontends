@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -11,6 +11,17 @@ import { ActNavBar } from '@holi/core/screens/act/ActNavBar'
 import { Screen } from '@holi/core/components/Screen'
 import { Spacing } from 'holi-bricks/foundations'
 import { orderedSections } from './sections'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
+import { CounterModalContent } from '@holi/core/screens/homeFeed/components/GoodDeedsChipUser'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import {
+  storeWelcomeGoodDeedsCounterModal,
+  useWelcomeGoodDeedsCounterModal,
+} from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 
 type ActHomeParams = {
   section: string
@@ -22,37 +33,64 @@ const ActHome = () => {
   const { t } = useTranslation()
   const title = t('act.title')
   const [selectedContentType] = useParam('section')
+  const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
 
   const sections = orderedSections(selectedContentType)
 
+  const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
+
+  useEffect(() => {
+    if (welcomeGoodDeedsCounterModal) {
+      showWelcomeModal()
+      storeWelcomeGoodDeedsCounterModal(false)
+    }
+  }, [welcomeGoodDeedsCounterModal, showWelcomeModal])
+
   return (
-    <Screen
-      preset="scroll"
-      scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
-      headerOptions={{
-        title,
-        headerBackTitleVisible: true,
-        headerBackVisible: true,
-        headerTitle: '',
-        headerLeft: ({ tintColor }) => (
-          <HeaderTitle size="large" tintColor={tintColor}>
-            {title}
-          </HeaderTitle>
-        ),
-        headerRight: () => <NotificationAndSearchHeader />,
-      }}
-    >
-      <Stack direction="column" gap="xs" testID="act-home">
-        <ActNavBar />
-        <Stack direction="column">
-          <Stack gap="xxl">
-            {sections.map((sectionName) => (
-              <ActSection type={sectionName} key={sectionName} />
-            ))}
+    <>
+      <Screen
+        preset="scroll"
+        scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
+        headerOptions={{
+          title,
+          headerBackTitleVisible: true,
+          headerBackVisible: true,
+          headerTitle: '',
+          headerLeft: ({ tintColor }) => (
+            <Stack direction="row" gap="xxs" alignItems="center">
+              <HeaderTitle size="large" tintColor={tintColor}>
+                {title}
+              </HeaderTitle>
+              {showGoodDeedChip && <GoodDeedsChip />}
+            </Stack>
+          ),
+          headerRight: () => <NotificationAndSearchHeader />,
+        }}
+      >
+        <Stack direction="column" gap="xs" testID="act-home">
+          <ActNavBar />
+          <Stack direction="column">
+            <Stack gap="xxl">
+              {sections.map((sectionName) => (
+                <ActSection type={sectionName} key={sectionName} />
+              ))}
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
-    </Screen>
+      </Screen>
+
+      {/* Welcome Modal */}
+      <HoliModal
+        {...welcomeModalProps}
+        label={t('personalGoodDeedCounter.drawer.default.banner.title', 'Welcome to Good Deeds')}
+        autoHeight
+      >
+        <HoliModalContentWrapper actionButtonText={t('modal.close', 'Close')} onActionButtonPress={hideWelcomeModal}>
+          <CounterModalContent count={1} />
+        </HoliModalContentWrapper>
+      </HoliModal>
+    </>
   )
 }
 

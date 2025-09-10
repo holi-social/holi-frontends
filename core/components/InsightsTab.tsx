@@ -8,12 +8,10 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { insightsByUserIdQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
-import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
 
 export interface InsightsTabProps {
   userId: string
@@ -39,12 +37,16 @@ const InsightsTab = ({ userId }: InsightsTabProps) => {
   return insights.data.map((insight) => (
     <View key={insight.id} style={styles.itemContainer}>
       <HoliLink label="" href={`/insights/${insight.id}`}>
-        <HoliColumns padding={[Spacing.xl, Spacing.md]} alignItems="flex-start">
-          <HoliColumn padding={[0, Spacing.xs, 0, 0]} flex={2}>
-            <HoliHeading level="3" size="s">
-              {insight.title}
-            </HoliHeading>
-          </HoliColumn>
+        <Stack
+          padding={{ left: 'md', right: 'md', top: 'xl', bottom: 'xl' }}
+          direction="row"
+          alignItems="flex-start"
+          justifyContent="space-between"
+          gap="xs"
+        >
+          <Text headingLevel="3" size="md" bold>
+            {insight.title}
+          </Text>
           {!!insight.headerImage && (
             <View style={styles.imageColumn}>
               <HoliImage
@@ -59,7 +61,7 @@ const InsightsTab = ({ userId }: InsightsTabProps) => {
               />
             </View>
           )}
-        </HoliColumns>
+        </Stack>
       </HoliLink>
     </View>
   ))

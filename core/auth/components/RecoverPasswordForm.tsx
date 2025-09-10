@@ -72,6 +72,7 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
         flow={flow}
         onSubmit={requestPasswordRecovery}
         style={styles.recoverPasswordForm}
+        submitLabelOverride={t('auth.login.input.label-ResetPassword')}
       />
       {!props.webview && (
         <>

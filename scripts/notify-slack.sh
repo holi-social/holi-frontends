@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # notify-slack.sh - Script to send release notifications to Slack
 # Usage: ./notify-slack.sh [options]
@@ -29,23 +29,27 @@ AVATAR_COLOR=""
 MESSAGE=""
 
 # Parse command-line arguments
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     case "$1" in
         -w|--webhook)
             WEBHOOK="$2"
-            shift 2
+            shift
+            shift
             ;;
         -r|--release)
             RELEASE="$2"
-            shift 2
+            shift
+            shift
             ;;
         -c|--color)
             AVATAR_COLOR="$2"
-            shift 2
+            shift
+            shift
             ;;
         -m|--message)
             MESSAGE="$2"
-            shift 2
+            shift
+            shift
             ;;
         -h|--help)
             show_help
@@ -57,10 +61,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate required parameters
-[[ -z "$WEBHOOK" ]] && error "Webhook URL is required. Use -w or --webhook to specify."
-[[ -z "$RELEASE" ]] && error "Release tag is required. Use -r or --release to specify."
-[[ -z "$AVATAR_COLOR" ]] && error "Avatar color is required. Use -c or --color to specify."
-[[ -z "$MESSAGE" ]] && error "Message text is required. Use -m or --message to specify."
+[ -z "$WEBHOOK" ] && error "Webhook URL is required. Use -w or --webhook to specify."
+[ -z "$RELEASE" ] && error "Release tag is required. Use -r or --release to specify."
+[ -z "$AVATAR_COLOR" ] && error "Avatar color is required. Use -c or --color to specify."
+[ -z "$MESSAGE" ] && error "Message text is required. Use -m or --message to specify."
 
 # Escape special characters in strings for JSON
 escape_json() {
@@ -77,6 +81,14 @@ RELEASE_ESCAPED=$(escape_json "$RELEASE")
 MESSAGE_STRIPPED=$(strip_leading_whitespace "$MESSAGE")
 MESSAGE_ESCAPED=$(escape_json "$MESSAGE_STRIPPED")
 
-curl -X POST -H "Content-Type: application/json" -s \
-  --data '{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
-  "$WEBHOOK" 1> /dev/null || echo "WARNING: Failed to send notification to Slack."
+if command -v curl >/dev/null 2>&1; then
+  curl -X POST -H "Content-Type: application/json" -s \
+    --data '{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
+    "$WEBHOOK" 1> /dev/null || echo "WARNING: Failed to send notification to Slack."
+else
+  wget --quiet \
+    --header="Content-Type: application/json" \
+    --post-data='{"username": "'"$RELEASE_ESCAPED"' Release Status", "icon_url": "https://placehold.co/72x72/'"$AVATAR_COLOR"'/white?text='"$RELEASE_ESCAPED"'", "text": "'"$MESSAGE_ESCAPED"'"}' \
+    -O /dev/null \
+    "$WEBHOOK" || echo "WARNING: Failed to send notification to Slack."
+fi

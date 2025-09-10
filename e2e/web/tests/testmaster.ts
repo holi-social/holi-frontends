@@ -1,6 +1,5 @@
 import { type Browser, type BrowserContext, type Page, test as baseTest } from '@playwright/test'
 
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import { withRandomUserSession } from './helpers'
 import {
   type E2ETestSpaceResponse,
@@ -39,7 +38,7 @@ export class UserHandler {
     }: {
       email?: string
       password?: string
-      userData?: OnboardingUserData
+      userData?: boolean
       expectedScreen?: string
     } = {}
   ) {

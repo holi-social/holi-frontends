@@ -1,21 +1,68 @@
-import { Question } from '@holi/icons/src/generated'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Linking, View } from 'react-native'
+
+import { ArrowRight, Question } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { Image } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { Linking, View } from 'react-native'
+import type { DecorativeColors } from 'holi-bricks/foundations/colors/themes/types'
+import { Button } from 'holi-bricks/components/button'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
-export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number }) => {
+type GoodDeedsBannerProps = {
+  counter: number
+  hashtag?: {
+    position?: 'top' | 'bottom'
+    backgroundColor?: DecorativeColors
+  }
+  variant?: 'informative' | 'action'
+}
+
+const HashtagBar = ({
+  position = 'bottom',
+  backgroundColor = 'yellowDefault',
+}: GoodDeedsBannerProps['hashtag'] = {}) => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   return (
-    <Stack onPress={() => Linking.openURL('https://holi.social/1million')}>
-      <Stack borderRadius={{ topLeft: 'md', topRight: 'md' }} overflow="hidden" height={205} alignSelf="stretch">
+    <Stack
+      backgroundColor={backgroundColor}
+      alignContent="center"
+      justifyContent="center"
+      padding={{ top: '5xs', bottom: '5xs', left: '3xs', right: '3xs' }}
+      onPress={() => Linking.openURL('https://holi.social/1million')}
+      testID={`good-deeds-banner__hashtag-bar--${position}`}
+    >
+      <Stack direction="row" justifyContent="center" gap="4xs">
+        <Stack justifyContent="center" alignItems="center">
+          <TextLink size="sm" textAlign="center">
+            {t('oneMioGoodDeeds.hashtag')}
+          </TextLink>
+        </Stack>
+        <HoliIcon icon={Question} size={20} />
+      </Stack>
+    </Stack>
+  )
+}
+
+export const GoodDeedsBanner = ({
+  counter,
+  hashtag: { position: hashtagPosition = 'bottom', backgroundColor: hashtagBackgroundColor = 'yellowDefault' } = {},
+  variant = 'informative',
+}: GoodDeedsBannerProps) => {
+  const { t } = useTranslation()
+  const { styles } = useStyles(stylesheet)
+  const { navigate } = useRouting()
+
+  return (
+    <Stack borderRadius="md" overflow="hidden" testID="good-deeds-banner">
+      {hashtagPosition === 'top' && <HashtagBar position={hashtagPosition} backgroundColor={hashtagBackgroundColor} />}
+
+      <Stack overflow="hidden" height={205} alignSelf="stretch">
         <View style={styles.container}>
           {/* Background image */}
           <Image
@@ -28,61 +75,83 @@ export const GoodDeedsBanner = ({ goodDeedsCounter }: { goodDeedsCounter: number
 
           {/* Overlay */}
           <View style={styles.overlay}>
-            <Stack>
-              {/* Middle element */}
-              <Stack
-                backgroundColor="white"
-                borderRadius="md"
-                borderColor="main"
-                borderStyle="solid"
-                borderWidth="sm"
-                width={250}
-                height={100}
-                alignItems="center"
-                justifyContent="center"
-                padding={{ top: '3xs', bottom: '3xs', left: 'xs', right: 'xs' }}
-              >
-                <Text size="4xl" color="main">
-                  {goodDeedsCounter.toLocaleString('de-DE')}
-                </Text>
-                <Text size="xs" color="support">
-                  {t('oneMioGoodDeeds.banner.globalCounter.label')}
-                </Text>
+            {variant === 'informative' && (
+              <Stack>
+                {/* Middle element */}
+                <Stack
+                  backgroundColor="white"
+                  borderRadius="md"
+                  borderColor="main"
+                  borderStyle="solid"
+                  borderWidth="sm"
+                  width={250}
+                  height={100}
+                  alignItems="center"
+                  justifyContent="center"
+                  padding={{ top: '3xs', bottom: '3xs', left: 'xs', right: 'xs' }}
+                >
+                  <Text size="4xl" color="main">
+                    {counter.toLocaleString('de-DE')}
+                  </Text>
+                  <Text size="xs" color="support">
+                    {t('oneMioGoodDeeds.banner.globalCounter.label')}
+                  </Text>
+                </Stack>
+
+                <View style={styles.topLeft}>
+                  <ChipLabel color="yellow" blackBorder>
+                    {t('oneMioGoodDeeds.banner.globalCounter.pill.top')}
+                  </ChipLabel>
+                </View>
+
+                <View style={styles.bottomRight}>
+                  <ChipLabel color="yellow" blackBorder>
+                    {t('oneMioGoodDeeds.banner.globalCounter.pill.bottom')}
+                  </ChipLabel>
+                </View>
               </Stack>
+            )}
 
-              <View style={styles.topLeft}>
-                <ChipLabel color="yellow" blackBorder>
-                  {t('oneMioGoodDeeds.banner.globalCounter.pill.top')}
-                </ChipLabel>
-              </View>
+            {variant === 'action' && (
+              <Stack>
+                <Stack
+                  backgroundColor="white"
+                  borderRadius="md"
+                  borderColor="default"
+                  borderStyle="solid"
+                  borderWidth="sm"
+                  width={250}
+                  height={107}
+                  alignItems="center"
+                  justifyContent="center"
+                  padding={{ top: 'xs', bottom: 'lg', left: 'xs', right: 'xs' }}
+                  margin={{ bottom: 'sm' }}
+                >
+                  <Text size="4xl" color="main">
+                    {counter.toLocaleString('de-DE')}
+                  </Text>
 
-              <View style={styles.bottomRight}>
-                <ChipLabel color="yellow" blackBorder>
-                  {t('oneMioGoodDeeds.banner.globalCounter.pill.bottom')}
-                </ChipLabel>
-              </View>
-            </Stack>
+                  <Text size="xs" color="support">
+                    {t('feed.banner.globalCounter.label')}
+                  </Text>
+
+                  <View style={{ position: 'absolute', bottom: -22 }}>
+                    <Button
+                      label={t('feed.banner.globalCounter.button')}
+                      icon={ArrowRight}
+                      onPress={() => navigate('/act')}
+                    />
+                  </View>
+                </Stack>
+              </Stack>
+            )}
           </View>
         </View>
       </Stack>
 
-      <Stack
-        borderRadius={{ bottomLeft: 'md', bottomRight: 'md' }}
-        backgroundColor="yellowDefault"
-        alignContent="center"
-        justifyContent="center"
-        padding={{ top: '5xs', bottom: '5xs', left: '3xs', right: '3xs' }}
-      >
-        <Stack direction="row" justifyContent="center" gap="4xs">
-          <Stack justifyContent="center" alignItems="center">
-            <TextLink size="sm" textAlign="center">
-              {t('oneMioGoodDeeds.hashtag')}
-            </TextLink>
-          </Stack>
-
-          <HoliIcon icon={Question} />
-        </Stack>
-      </Stack>
+      {hashtagPosition === 'bottom' && (
+        <HashtagBar position={hashtagPosition} backgroundColor={hashtagBackgroundColor} />
+      )}
     </Stack>
   )
 }
@@ -104,7 +173,7 @@ const stylesheet = createStyleSheet(() => ({
   topLeft: {
     position: 'absolute',
     top: -15,
-    left: -40,
+    left: -28,
     zIndex: 1,
   },
   bottomRight: {
