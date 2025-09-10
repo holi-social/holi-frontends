@@ -56,7 +56,7 @@ const TaskCompletionFlow = () => {
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = getStyles(theme)
-  const { isLoggedOut } = useLoginState()
+  const { isLoggedOut, isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
@@ -69,6 +69,10 @@ const TaskCompletionFlow = () => {
   const [email, setEmail] = useState<string | undefined>(undefined)
 
   const { refetch, data, id, spaceId, totalCompletions } = useTaskDetailsData()
+
+  if (isLoggedIn && spaceId && id) {
+    navigate(`/spaces/${spaceId}/tasks/${id}`)
+  }
 
   const { completeTask } = useCompleteTask()
 
