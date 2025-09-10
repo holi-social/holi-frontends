@@ -1,0 +1,33 @@
+{
+  "name": "holi-frontends",
+  "dockerFile": "Dockerfile",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "ms-vscode.vscode-typescript-next",
+        "expo.vscode-expo-tools",
+        "ms-vscode-remote.remote-containers"
+      ],
+      "settings": {
+        "typescript.preferences.includePackageJsonAutoImports": "on",
+        "typescript.suggest.autoImports": true,
+        "editor.formatOnSave": true,
+        "typescript.format.enable": true,
+        "editor.defaultFormatter": "biomejs.biome"
+      }
+    }
+  },
+  "forwardPorts": [3000, 19000, 19001, 19002, 19006, 8081],
+  "postCreateCommand": "yarn install",
+  "postStartCommand": "echo 'holi-frontends dev container is ready.'",
+  "mounts": [
+    "source=${localWorkspaceFolder}/.yarn/cache,target=/workspace/.yarn/cache,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "EXPO_DEVTOOLS_LISTEN_ADDRESS": "0.0.0.0",
+    "WDS_SOCKET_HOST": "localhost"
+  },
+  "remoteUser": "node"
+}
