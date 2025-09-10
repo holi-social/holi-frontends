@@ -8,9 +8,9 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import DonationImage from '@holi-apps/donations/components/DonationImage'
-import type { ProjectInitiative } from '@holi-apps/donations/typings'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type DonationInitiativeButtonProps = {
   project: LocalizedTypesenseDocument
@@ -22,6 +22,7 @@ const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) =>
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const name = project.organizer_name ?? ''
+  const placeholderImage = getPlaceholderImage(name)
   return (
     <HoliButton
       label={t('donations.initiative.link.button', { name })}
@@ -32,13 +33,7 @@ const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) =>
     >
       <View style={styles.initiative}>
         <View style={styles.initiativeContent}>
-          <DonationImage
-            imageUrl={project.organizer_image_url}
-            label={name}
-            style={styles.initiativeImage}
-            width={56}
-            height={56}
-          />
+          <Avatar label={name} source={project.organizer_image_url} size="md" border="strong" shape="square" />
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
               <HoliText style={styles.namePrefix} size="small">
@@ -87,13 +82,6 @@ const getStyles = (theme: HoliTheme) =>
       marginLeft: 12,
       alignContent: 'center',
       minWidth: 229,
-    },
-    initiativeImage: {
-      width: 56,
-      height: 56,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: theme.colors.background30,
     },
     projectSummary: {
       marginVertical: 24,
