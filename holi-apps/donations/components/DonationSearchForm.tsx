@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -21,7 +21,7 @@ const DonationSearchForm = ({ onSelectLocation, selectedLocation }: DonationSear
 
   const reset = useCallback(() => {
     onSelectLocation(undefined)
-  }, [])
+  }, [onSelectLocation])
 
   return (
     <HoliModalContentWrapper

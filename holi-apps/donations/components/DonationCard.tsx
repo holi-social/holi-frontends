@@ -33,12 +33,17 @@ export const DonationCard = ({ project, index, fixedWidth }: DonationCardProps) 
 
   return (
     <HoliLinkTracked
-      href={`/donations/${project.id}`}
+      href={`/donations/${project.link_locators?.donation}`}
       label={linkLabel}
       testID="donations-list-item"
-      trackingEvent={TrackingEvent.RecommendationPressed('donation', project.id.toString(), index, {
-        sourceSection: 'Donations',
-      })}
+      trackingEvent={TrackingEvent.RecommendationPressed(
+        'donation',
+        project.link_locators?.donation?.toString() ?? project.id,
+        index,
+        {
+          sourceSection: 'Donations',
+        }
+      )}
       isFullHeight={!!fixedWidth}
     >
       <CompactCard
