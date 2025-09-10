@@ -8,10 +8,11 @@ import type { User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 
-import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { ActSectionType } from '@holi/core/screens/act/sections'
+import { usePaginatedDonations } from '@holi-apps/donations/hooks/usePaginatedDonations'
+import { createLocalizedDonations } from '@holi-apps/donations/components/__tests__/testData'
 
 export const user: User = {
   id: '123',
@@ -38,107 +39,10 @@ const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
   useVolunteeringRecos: jest.fn(),
 }))
-
-const donationsRequest = {
-  request: {
-    query: donationProjectsQuery,
-    variables: { offset: 0, limit: 5, location: undefined },
-  },
-  result: {
-    data: {
-      appDonations_projects: {
-        totalResults: 345,
-        data: [
-          {
-            id: 141582,
-            title: 'Medizinisches Equipment für Kinderstation in Ghana ',
-            categories: ['development-aid', 'health', 'children', 'popular'],
-            donationsCount: 196,
-            progressPercentage: 89,
-            openAmountInCents: 214000,
-            picture: [
-              {
-                type: 'original',
-                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/141/582/crop_original_0fa83d27-0e92-412f-bea3-5711cd655bd8.jpeg',
-                width: null,
-                height: null,
-              },
-            ],
-            __typename: 'AppDonations_Project',
-          },
-          {
-            id: 63107,
-            title: 'Mikrokredite für Frauen in Äthiopien! ',
-            categories: ['education', 'development-aid', 'woman', 'popular'],
-            donationsCount: 4419,
-            progressPercentage: 85,
-            openAmountInCents: 4151300,
-            picture: [
-              {
-                type: 'original',
-                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/063/107/crop_original_bp1658321698_180424_LOV_Ethiopia_00194_preview.jpg',
-                width: null,
-                height: null,
-              },
-            ],
-            __typename: 'AppDonations_Project',
-          },
-          {
-            id: 85241,
-            title: 'Support for Our Animals at Wohlfühlhof Zeh',
-            categories: ['animals', 'environment', 'popular'],
-            donationsCount: 2096,
-            progressPercentage: 91,
-            openAmountInCents: 1216300,
-            picture: [
-              {
-                type: 'original',
-                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/085/241/crop_original_3232ecdb-b1fb-4e0a-ae76-9f73e079eb1d.jpg',
-                width: null,
-                height: null,
-              },
-            ],
-            __typename: 'AppDonations_Project',
-          },
-          {
-            id: 104592,
-            title: 'SARAH - Search and Rescue in the Mediterranean - Take Part in Saving Lifes',
-            categories: ['refugees', 'searescue', 'human_rights', 'popular'],
-            donationsCount: 1180,
-            progressPercentage: 95,
-            openAmountInCents: 981200,
-            picture: [
-              {
-                type: 'original',
-                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/104/592/crop_original_5d244920-0902-462e-897f-87fc42f31e06.jpg',
-                width: null,
-                height: null,
-              },
-            ],
-            __typename: 'AppDonations_Project',
-          },
-          {
-            id: 51400,
-            title: 'acTVism Munich Crowdfunding',
-            categories: ['education', 'human_rights', 'civic_education', 'civic_education', 'popular'],
-            donationsCount: 4731,
-            progressPercentage: 82,
-            openAmountInCents: 2126770,
-            picture: [
-              {
-                type: 'original',
-                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/051/400/crop_original_bp1658309949_Betterplace_Snowden.jpg',
-                width: null,
-                height: null,
-              },
-            ],
-            __typename: 'AppDonations_Project',
-          },
-        ],
-      },
-    },
-  },
-}
+const mockUsePaginatedDonations = jest.mocked(usePaginatedDonations)
+jest.mock('@holi-apps/donations/hooks/usePaginatedDonations', () => ({
+  usePaginatedDonations: jest.fn(),
+}))
 
 jest.mock('cross-fetch', () => () => {
   const response = {
@@ -312,14 +216,17 @@ describe('ActHome Section', () => {
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
+    mockUsePaginatedDonations.mockReturnValue({
+      isLoading: false,
+      projects: createLocalizedDonations(5),
+      canFetchMore: false,
+      fetchNextPage: jest.fn(),
+      totalResults: 123,
+    })
   })
 
   it('shows DONATIONS', async () => {
-    render(
-      <MockedProvider mocks={[donationsRequest]}>
-        <ActSection type={ActSectionType.DONATIONS} />
-      </MockedProvider>
-    )
+    render(<ActSection type={ActSectionType.DONATIONS} />)
     expect(await screen.findByTestId('donations-reco-slider-heading-button'))
     const donationsRecos = await screen.findAllByTestId('donations-list-item')
     expect(donationsRecos.length).toBe(5)

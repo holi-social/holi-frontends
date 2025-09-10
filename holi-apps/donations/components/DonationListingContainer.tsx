@@ -34,7 +34,7 @@ export const DonationListingContainer: React.FC<DonationListingProps> = ({
     onError: (error) => {
       displayError(error, 'Failed to load donation projects', {
         displayMessage: t('donations.donationListing.error'),
-        location: 'DonationListingContainer.useTypesensePaginationQuery',
+        location: 'DonationListingContainer.usePaginatedDonations',
         geolocation: selectedLocation?.id,
       })
     },

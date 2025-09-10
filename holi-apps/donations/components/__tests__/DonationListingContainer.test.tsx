@@ -73,7 +73,7 @@ describe('DonationListingContainer', () => {
 
     expect(displayError).toHaveBeenCalledWith(testError, 'Failed to load donation projects', {
       displayMessage: 'donations.donationListing.error',
-      location: 'DonationListingContainer.useTypesensePaginationQuery',
+      location: 'DonationListingContainer.usePaginatedDonations',
       geolocation: '123',
     })
   })
