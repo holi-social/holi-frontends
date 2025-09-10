@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { Text, TextLink } from 'holi-bricks/components/text'
 
 export type DonationInitiativeButtonProps = {
   project: LocalizedTypesenseDocument
@@ -22,13 +21,11 @@ const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) =>
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const name = project.organizer_name ?? ''
-  const placeholderImage = getPlaceholderImage(name)
   return (
-    <HoliButton
+    <HoliLink
       label={t('donations.initiative.link.button', { name })}
-      transparent
-      disabled={!project.organizer_url}
-      onPress={() => project.organizer_url && Linking.openURL(project.organizer_url)}
+      href={project.organizer_url ?? '#'}
+      external
       testID="donations-project-initiative-btn"
     >
       <View style={styles.initiative}>
@@ -36,20 +33,20 @@ const DonationInitiativeButton = ({ project }: DonationInitiativeButtonProps) =>
           <Avatar label={name} source={project.organizer_image_url} size="md" border="strong" shape="square" />
           <View style={styles.initiativeDetails}>
             <View style={{ flexDirection: 'row' }}>
-              <HoliText style={styles.namePrefix} size="small">
+              <Text size="sm" color="support">
                 <Trans t={t} i18nKey="donations.initiative.indication" values={{ name }} shouldUnescape={true}>
-                  <HoliText style={styles.initiativeName} bold size="small" />
+                  <TextLink color="informative" size="sm" />
                 </Trans>
-              </HoliText>
+              </Text>
             </View>
-            <HoliText style={styles.initiativeOrigin} size="small">
+            <Text size="sm" color="support">
               {project.organizer_location}, {project.organizer_location_country}
-            </HoliText>
+            </Text>
           </View>
         </View>
         <HoliIcon icon={ShareBox} size={18} style={{ ...(!project.organizer_url && { display: 'none' }) }} />
       </View>
-    </HoliButton>
+    </HoliLink>
   )
 }
 
