@@ -12,7 +12,7 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
+import { DonationListingContainer } from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'

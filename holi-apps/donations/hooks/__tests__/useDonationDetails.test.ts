@@ -31,7 +31,7 @@ describe('useDonationDetails', () => {
     mockUseUserLanguage.mockReturnValue('en')
   })
 
-  it('should fetch project with correct paramters', () => {
+  it('should fetch project with correct parameters', () => {
     const onError = jest.fn()
     const onNotFound = jest.fn()
     renderHook(() => useDonationDetails({ projectId: '123', onError, onNotFound }))

@@ -38,7 +38,7 @@ describe('DonationDetailView', () => {
   it('should render project texts', () => {
     render(<DonationDetailView projectId="123" />)
 
-    expect(screen.getByText('English Title')).toBeOnTheScreen()
+    expect(screen.getByText('English Title 123')).toBeOnTheScreen()
     expect(screen.getByText('Berlin, Germany')).toBeOnTheScreen()
     expect(screen.getByText('“English Summary”')).toBeOnTheScreen()
     expect(screen.getByText('English Description')).toBeOnTheScreen()
