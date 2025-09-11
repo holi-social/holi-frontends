@@ -97,11 +97,11 @@ describe('useDonationDetails', () => {
     expect(result.current.isLoading).toBeTruthy()
   })
 
-  it('should return callback and flag to fetch more projects', () => {
+  it('should return callback and flags for fetching more projects', () => {
     const fetchNextPage = jest.fn()
     mockUseTypesensePaginationQuery.mockReturnValue({
       isLoading: false,
-      isFetchingMore: false,
+      isFetchingMore: true,
       refetch: jest.fn(),
       fetchNextPage,
       state: { ...searchResultState, canFetchMore: true },
@@ -110,6 +110,7 @@ describe('useDonationDetails', () => {
     const { result } = renderHook(() => usePaginatedDonations({ pageSize }))
 
     expect(result.current.canFetchMore).toBeTruthy()
+    expect(result.current.isFetchingMore).toBeTruthy()
 
     result.current.fetchNextPage()
 

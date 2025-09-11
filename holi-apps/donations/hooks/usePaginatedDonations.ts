@@ -39,7 +39,7 @@ export const usePaginatedDonations = ({
     }
   }, [selectedLocation, pageSize])
 
-  const { state, isLoading, fetchNextPage, refetch } = useTypesensePaginationQuery({
+  const { state, isLoading, fetchNextPage, refetch, isFetchingMore } = useTypesensePaginationQuery({
     parameters,
     skip: loadingGeolocation,
     onError,
@@ -55,6 +55,7 @@ export const usePaginatedDonations = ({
   return {
     isLoading: isLoading || loadingGeolocation,
     fetchNextPage,
+    isFetchingMore,
     canFetchMore: state.canFetchMore,
     totalResults: state.totalResults,
     projects,
