@@ -22,14 +22,17 @@ export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery()
+  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery({
+    fetchPolicy: 'no-cache',
+  })
+
   const { data: globalGoodDeeds, loading: globalGoodDeedsLoading } = useGlobalRewardsCounterQuery()
   const { data: rewardTransactions } = useRewardsTransactionsQuery({
     variables: {
       offset: 0,
       limit: 10,
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   })
 
   const goodDeeds = rewardTransactions?.rewards_transactions.data || []

@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Trans, useTranslation } from 'react-i18next'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -77,7 +77,10 @@ export const GoodDeedsChipUser: React.FC = () => {
   const { t } = useTranslation()
   const { track } = useTracking()
 
-  const { data } = useGetRewardsCounterQuery()
+  const { data } = useGetRewardsCounterQuery({
+    fetchPolicy: 'no-cache',
+  })
+
   const count = data?.rewards_counter?.counter ?? 0
   const hasDeed = count && count > 0
 
