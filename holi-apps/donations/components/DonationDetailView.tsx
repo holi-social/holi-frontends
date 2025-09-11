@@ -91,7 +91,7 @@ export const DonationDetailView = ({ projectId }: DonationDetailViewProps) => {
               height={imageWidth / 2}
               alt={project.title}
               fallbackSource={placeholderImage}
-              stretch
+              stretch={Platform.OS === 'web'}
             />
             <View style={styles.header}>
               <Text size="3xl" headingLevel="1" testID="donations-project-title">

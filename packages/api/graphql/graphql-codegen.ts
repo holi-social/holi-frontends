@@ -5322,6 +5322,7 @@ export type FullTypesenseDocumentFragment = {
     space?: string
     task?: string
     profile?: string
+    donation?: string
   }
   contact?: Array<{
     __typename?: 'Typesense_DocumentContact'
@@ -5381,6 +5382,7 @@ export type Typesense_DocumentByIdQuery = {
               space?: string
               task?: string
               profile?: string
+              donation?: string
             }
             contact?: Array<{
               __typename?: 'Typesense_DocumentContact'
@@ -5446,6 +5448,7 @@ export type Typesense_MultiSearchQuery = {
                 space?: string
                 task?: string
                 profile?: string
+                donation?: string
               }
               contact?: Array<{
                 __typename?: 'Typesense_DocumentContact'
@@ -6058,6 +6061,7 @@ export const FullTypesenseDocumentFragmentDoc = gql`
     space
     task
     profile
+    donation
   }
   topics_v2
   skills_v2
