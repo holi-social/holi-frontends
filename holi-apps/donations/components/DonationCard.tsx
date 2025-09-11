@@ -5,6 +5,7 @@ import { CompactCard } from 'holi-bricks/components/compactCard'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 
 interface DonationCardProps {
   project: LocalizedTypesenseDocument
@@ -33,7 +34,7 @@ export const DonationCard = ({ project, index, fixedWidth }: DonationCardProps) 
 
   return (
     <HoliLinkTracked
-      href={`/donations/${project.link_locators?.donation}`}
+      href={linkFromLocator(project.type, project.link_locators)}
       label={linkLabel}
       testID="donations-list-item"
       trackingEvent={TrackingEvent.RecommendationPressed(
