@@ -61,7 +61,7 @@ const CreatePost = () => {
   const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
 
-  const { data, refetch } = useGetRewardsCounterQuery()
+  const { data, refetch } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
   const counter = data?.rewards_counter.counter
 
   useEffect(() => {

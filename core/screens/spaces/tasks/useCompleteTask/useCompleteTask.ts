@@ -10,6 +10,7 @@ export const useCompleteTask = () => {
   const { isLoggedIn } = useLoggedInUser()
   const [completeTask, { loading, error, data }] = useCompleteReadyToGoTaskMutation()
   const { refetch: refetchRewardsCounter } = useGetRewardsCounterQuery({
+    fetchPolicy: 'no-cache',
     skip: !isLoggedIn,
   })
   const { refetch: refetchGlobalRewardsCounter } = useGlobalRewardsCounterQuery({
