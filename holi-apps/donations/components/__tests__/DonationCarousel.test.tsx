@@ -23,6 +23,7 @@ describe('DonationCarousel', () => {
       canFetchMore: true,
       fetchNextPage: jest.fn(),
       totalResults: 123,
+      isFetchingMore: false,
     })
   })
   it('should render nothing while loading', () => {
@@ -32,6 +33,7 @@ describe('DonationCarousel', () => {
       canFetchMore: false,
       fetchNextPage: jest.fn(),
       totalResults: 0,
+      isFetchingMore: false,
     })
 
     render(<DonationCarousel cardWidth={100} />)

@@ -33,6 +33,7 @@ describe('DonationListingContainer', () => {
       canFetchMore: true,
       totalResults: 123,
       projects: createLocalizedDonations(10),
+      isFetchingMore: false,
     })
     mockUseErrorHandling.mockReturnValue({
       displayError: jest.fn(),
@@ -85,6 +86,7 @@ describe('DonationListingContainer', () => {
       canFetchMore: true,
       totalResults: 10,
       projects: createLocalizedDonations(10),
+      isFetchingMore: false,
     })
     render(<DonationListingContainer resetSearch={jest.fn()} />)
 
@@ -98,6 +100,7 @@ describe('DonationListingContainer', () => {
       canFetchMore: false,
       totalResults: 10,
       projects: createLocalizedDonations(10),
+      isFetchingMore: false,
     })
     render(<DonationListingContainer resetSearch={jest.fn()} />)
 
@@ -111,6 +114,7 @@ describe('DonationListingContainer', () => {
       canFetchMore: true,
       totalResults: 0,
       projects: [],
+      isFetchingMore: false,
     })
     const resetSearch = jest.fn()
     const user = userEvent.setup()

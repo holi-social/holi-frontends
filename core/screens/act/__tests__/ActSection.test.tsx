@@ -222,6 +222,7 @@ describe('ActHome Section', () => {
       canFetchMore: false,
       fetchNextPage: jest.fn(),
       totalResults: 123,
+      isFetchingMore: false,
     })
   })
 
