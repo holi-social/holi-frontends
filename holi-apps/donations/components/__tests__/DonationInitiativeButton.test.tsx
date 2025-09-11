@@ -10,7 +10,7 @@ describe('DonationInitiativeButton', () => {
 
     await user.press(screen.getByTestId('donations-project-initiative-btn'))
 
-    expect(mockOpenURL).toHaveBeenCalledWith('https://www.test-initiative.ch')
+    expect(mockOpenURL).toHaveBeenCalledWith('https://example.com/donation/organizer')
   })
 
   it('should render organizer location', () => {
