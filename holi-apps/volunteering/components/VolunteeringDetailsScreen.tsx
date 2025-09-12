@@ -19,12 +19,13 @@ import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/Vol
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 const isIos = Platform.OS === 'ios'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
+  const loginState = useLoginState()
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-
   const { displayError } = useErrorHandling()
   const onOpenLink = useOpenLink()
 
@@ -47,6 +48,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
     refetch: refetchFavorite,
   } = useFavoriteExternalVolunteeringOpportunityQuery({
     variables: { favoritableId: engagementId },
+    skip: !loginState.isLoggedIn,
   })
   const isFavorite = !!favorite && !error
 
