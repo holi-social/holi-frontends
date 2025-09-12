@@ -15,8 +15,8 @@ import { logError } from '@holi/core/errors/helpers'
 import { isDevice } from '@holi/core/helpers/isDevice'
 import { getLogger } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
-import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
-import { isChatNotification, maybeScheduleChatNotification } from '@holi/mobile/notifications/chatNotifications'
+// import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
+import { isChatNotification /*maybeScheduleChatNotification*/ } from '@holi/mobile/notifications/chatNotifications'
 import type { NotificationData } from '@holi/mobile/notifications/index'
 
 const logger = getLogger('Notifications')
@@ -82,8 +82,8 @@ const handleNotification = async (notification: Notification): Promise<Notificat
     // Only chat notifications may be displayed in the foreground
     // It's a product decision, that Novu notifications are not shown while the App is active
     if (isChatNotification(data)) {
-      const currentRoute = navigationRef.current?.getCurrentRoute()
-      await maybeScheduleChatNotification(currentRoute, data)
+      // const currentRoute = navigationRef.current?.getCurrentRoute()
+      // await maybeScheduleChatNotification(currentRoute, data)
     }
     // Push Notifications are never shown directly
     return {
