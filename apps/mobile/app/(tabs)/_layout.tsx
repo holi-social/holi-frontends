@@ -15,15 +15,15 @@ import {
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import { Tabs, SplashScreen } from 'expo-router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
+import { useStyles } from 'holi-bricks/styles'
 
 export default function Layout() {
-  const { theme } = useBricks()
+  const { theme } = useStyles()
   const { t } = useTranslation()
   const { isLoggedIn, user } = useLoggedInUser()
 

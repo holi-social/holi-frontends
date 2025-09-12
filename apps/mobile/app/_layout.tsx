@@ -4,7 +4,7 @@ import { AppProviders } from '@holi/mobile/lib/AppProviders'
 import { Stack, useFocusEffect } from 'expo-router'
 import { useAppInit } from '@holi/mobile/lib/initializeApp'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
+import { useStyles } from 'holi-bricks/styles'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -20,7 +20,7 @@ SplashScreen.preventAutoHideAsync()
 
 export default function Layout() {
   const { isReady, initializeApp } = useAppInit()
-  const { theme } = useBricks()
+  const { theme } = useStyles()
 
   useFocusEffect(() => {
     initializeApp()
