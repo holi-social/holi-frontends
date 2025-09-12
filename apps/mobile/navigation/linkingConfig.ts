@@ -102,7 +102,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.EditTaskDE]: 'spaces/:spaceIdOrName/aufgaben/:taskId/edit',
         [RouteName.TaskCompletionFlow]: 'spaces/:spaceIdOrName/tasks/:taskId/complete',
         [RouteName.CompletedTask]: 'spaces/:spaceIdOrName/tasks/:taskId/completed',
-        [RouteName.CompleteTaskCallback]: 'spaces/:spaceIdOrName/tasks/:taskId/complete/callback',
+        [RouteName.CompleteTaskCallback]: 'spaces/:spaceIdOrName/tasks/:taskId/callback',
         [RouteName.CreateUpdate]: 'spaces/:spaceIdOrName/updates/create',
         [RouteName.EditUpdate]: 'spaces/:spaceIdOrName/updates/:postId/edit',
         [RouteName.SpaceUpdateDetailPage]: 'spaces/:spaceIdOrName/updates/:postId',

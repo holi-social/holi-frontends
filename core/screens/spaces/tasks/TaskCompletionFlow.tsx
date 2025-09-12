@@ -71,7 +71,7 @@ const TaskCompletionFlow = () => {
 
   useEffect(() => {
     if (isLoggedIn && spaceId && id) {
-      navigate(`/spaces/${spaceId}/tasks/${id}/complete/callback`)
+      navigate(`/spaces/${spaceId}/tasks/${id}/callback`)
     }
   }, [isLoggedIn, spaceId, id, navigate])
 
