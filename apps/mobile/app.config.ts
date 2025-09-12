@@ -74,6 +74,7 @@ const config: ExpoConfig = {
       usesNonExemptEncryption: false,
     },
     infoPlist: {
+      UIViewControllerBasedStatusBarAppearance: true,
       CFBundleAllowMixedLocalizations: true,
       LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       UIBackgroundModes: [

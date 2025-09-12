@@ -1,5 +1,5 @@
-import { PostHog, PostHogOptions, PostHogProvider } from 'posthog-react-native'
-import React, { PropsWithChildren } from 'react'
+import { PostHog, type PostHogOptions, PostHogProvider } from 'posthog-react-native'
+import React, { type PropsWithChildren } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
@@ -12,7 +12,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
   const posthog = new PostHog(posthogKey, {
     host: posthogHost,
     defaultOptIn: false,
-    captureNativeAppLifecycleEvents: true,
+    captureAppLifecycleEvents: true,
     bootstrap: {
       ...featureFlagBootstrapValues,
       ...bootstrapState,
