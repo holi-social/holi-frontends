@@ -8481,8 +8481,8 @@ __metadata:
   linkType: hard
 
 "@react-native-google-signin/google-signin@npm:^14.0.1":
-  version: 14.0.1
-  resolution: "@react-native-google-signin/google-signin@npm:14.0.1"
+  version: 14.0.2
+  resolution: "@react-native-google-signin/google-signin@npm:14.0.2"
   peerDependencies:
     expo: ">=52.0.40"
     react: "*"
@@ -8493,7 +8493,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/fe816f80608b031401e423628f4584d525acbf4ef71b6d97ee6397545969d21d8eafe6ff0e6529c60cca1245863bcead9495a074563488b3f0137449c16bb9e7
+  checksum: 10c0/7ca59a59a4613d973688213fd527ad4e6269772a4816355ee41ac1688b391672a25cac6f20b74279cd2c66c76e05e33ba359a8772a12cf527a3811c3a0ae0f29
   languageName: node
   linkType: hard
 
