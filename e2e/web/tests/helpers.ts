@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Browser, type BrowserContext, type Locator, type Page, expect } from '@playwright/test'
+import { type Browser, type Locator, type Page, expect } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
@@ -42,22 +42,16 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
-const prepareForLoginOrRegistration = async (context: BrowserContext) => {
-  await context.clearCookies()
-}
+export const login = async (page: Page, email: string, password: string) => {
+  await page.context().clearCookies()
 
-export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
-  await prepareForLoginOrRegistration(context)
-  await clickElementByTestId(page, 'anonymous-profile-login-btn')
+  await page.goto('/login')
+  await page.getByRole('button', { name: 'Continue with email and password' }).click()
 
-  await clickElementByTestId(page, 'btn-to-email-password-form')
-  const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
-  await emailInput.fill(email)
+  await page.getByRole('textbox', { name: 'Email' }).fill(email)
+  await page.getByRole('textbox', { name: 'Password' }).fill(password)
 
-  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
-  await passwordInput.fill(password)
-
-  await clickElementByTestId(page, 'ory-submit-password')
+  await page.getByRole('button', { name: 'Log in' }).click()
 }
 
 const skipOnboardingInitialSteps = async (page: Page) => {
@@ -91,12 +85,11 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await clickElementByTestId(page, 'btn-to-home-view')
 }
 
-export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
+export const loginAsE2EUser = async (page: Page): Promise<void> => {
   test.expect(!!process.env.E2E_USER_USERNAME, 'Env E2E_USER_USERNAME is set up correctly').toBeTruthy()
   test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
-  await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
 
-  await page.waitForSelector(byTestId('home-feed-listing'))
+  await login(page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
 }
 
 export const checkAccessibility = async (page: Page, failOnError = true) => {
