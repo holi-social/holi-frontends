@@ -36,7 +36,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 import { GoodDeedMoreCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
@@ -56,7 +55,7 @@ const TaskCompletionFlow = () => {
   const { theme } = useTheme()
   const { t } = useTranslation()
   const styles = getStyles(theme)
-  const { isLoggedOut } = useLoginState()
+  const { isLoggedOut, isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
@@ -70,13 +69,15 @@ const TaskCompletionFlow = () => {
 
   const { refetch, data, id, spaceId, totalCompletions } = useTaskDetailsData()
 
-  const { completeTask } = useCompleteTask()
+  useEffect(() => {
+    if (isLoggedIn && spaceId && id) {
+      navigate(`/spaces/${spaceId}/tasks/${id}/callback`)
+    }
+  }, [isLoggedIn, spaceId, id, navigate])
 
-  const handleCompleteTask = useCallback(async () => {
-    await completeTask(id as string)
+  const handleCompleteTask = () => {
     storeWelcomeGoodDeedsCounterModal(true)
-    navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
-  }, [id, spaceId, completeTask, navigate])
+  }
 
   const initializeFlow = useCallback(() => {
     if (!isLoggedOut) {
