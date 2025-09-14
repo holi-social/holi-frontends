@@ -85,11 +85,12 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await clickElementByTestId(page, 'btn-to-home-view')
 }
 
-export const loginAsE2EUser = async (page: Page): Promise<void> => {
+export const loginAsE2EUser = async (page: Page) => {
   test.expect(!!process.env.E2E_USER_USERNAME, 'Env E2E_USER_USERNAME is set up correctly').toBeTruthy()
   test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
 
   await login(page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
+  await expect(page.getByLabel('Bottom navigation').getByText('Me')).toBeVisible()
 }
 
 export const checkAccessibility = async (page: Page, failOnError = true) => {
