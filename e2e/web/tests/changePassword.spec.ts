@@ -1,6 +1,7 @@
+import { expect } from '@playwright/test'
+
 import { newUserEmail, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ChangePassword', () => {
@@ -12,21 +13,23 @@ test.describe('@ChangePassword', () => {
     const { page } = await sessions.signUp(email, oldPassword)
     page.goto('/profile')
 
-    await clickElementByTestId(page, 'btn-to-settings')
-    await clickElementByTestId(page, 'btn-your-account')
-    await clickElementByTestId(page, 'btn-change-password')
+    await page.getByRole('button', { name: 'Settings' }).click()
+    await page.getByRole('button', { name: 'Your account' }).click()
+    await page.getByRole('button', { name: 'Change password' }).click()
 
     // provide invalid old password
-    await (await locateElementByTestId(page, 'old-password-input')).fill('wrongOldPassword')
-    await (await locateElementByTestId(page, 'new-password-input')).fill(newPassword)
-    await clickElementByTestId(page, 'btn-submit-change-password')
-    await page.waitForSelector(byTestId('old-password-input-error-message'))
+    await page.getByRole('textbox', { name: 'Old password' }).fill('wrongOldPassword')
+    await page.getByRole('textbox', { name: 'New password' }).fill(newPassword)
+    await page.getByRole('button', { name: 'Change password' }).click()
+
+    await expect(page.getByTestId('old-password-input-error-message')).toBeVisible()
 
     // provide invalid new password
-    await (await locateElementByTestId(page, 'old-password-input')).fill(oldPassword)
-    await (await locateElementByTestId(page, 'new-password-input')).fill('1234')
-    await clickElementByTestId(page, 'btn-submit-change-password')
-    await page.waitForSelector(byTestId('new-password-input-error-message'))
+    await page.getByRole('textbox', { name: 'Old password' }).fill(oldPassword)
+    await page.getByRole('textbox', { name: 'New password' }).fill('1234')
+    await page.getByRole('button', { name: 'Change passwors' }).click()
+
+    await expect(page.getByTestId('new-password-input-error-message')).toBeVisible()
 
     // FIXME: Re-Enable after ORY is fixed
     // // provide correct passwords
