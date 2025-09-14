@@ -1,18 +1,9 @@
-import { byTestId, checkAccessibility, clickElementByTestId, clickFirstElement, locateElementByTestId } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ForgotPassword', () => {
   test('user journey', async ({ page }) => {
-    await page.goto('/')
-
-    await clickElementByTestId(page, 'btn-to-onboarding')
-
-    const loginLink = (await locateElementByTestId(page, 'already-have-account-text')).getByRole('link')
-    await clickFirstElement(loginLink)
-
-    await clickElementByTestId(page, 'btn-to-email-password-form')
-    const forgotPasswordLink = page.getByText('I forgot my password')
-    await clickFirstElement(forgotPasswordLink)
+    await page.goto('/forgotPassword')
 
     const emailInput = await locateElementByTestId(page, 'ory-email-input')
     await clickElementByTestId(page, 'ory-submit-code')
