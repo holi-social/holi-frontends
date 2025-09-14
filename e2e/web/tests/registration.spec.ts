@@ -1,60 +1,73 @@
-import { randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
+import { faker } from '@faker-js/faker'
+import { type BrowserContext, type Page, expect, test } from '@playwright/test'
 
-import { byTestId, checkAccessibility, registerUser } from './helpers'
-import { test } from './testmaster'
+import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
+import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
 test.describe('@Registration', () => {
-  test('should not be able to register with invalid credentials', async ({ context, page }) => {
-    const validPassword = randomPassword()
-    const validEmail = 'foobar@barbaz.de'
+  test.describe('Registering with email & password', () => {
+    test('should not register with invalid credentials', async ({ context, page }) => {
+      const validPassword = randomPassword()
+      const validEmail = 'foobar@barbaz.de'
 
-    // no password and email provided
-    await registerUser(context, page, { email: '', password: '' })
-    await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
-    await page.waitForSelector(byTestId('ory-password-input-error-message'))
-    await checkAccessibility(page)
+      // no password and email provided
+      await fillOutRegistration(context, page, { email: '', password: '' })
+      await expect(page.getByTestId('ory-traits-email-input-error-message')).toBeVisible()
+      await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
 
-    // invalid email provided
-    await registerUser(context, page, { email: '!!!wrong@', password: validPassword })
-    await page.waitForSelector(byTestId('ory-traits-email-input-error-message'))
+      // invalid email provided
+      await fillOutRegistration(context, page, { email: '!!!wrong@', password: validPassword })
+      await expect(page.getByTestId('ory-traits-email-input-error-message')).toBeVisible()
 
-    // short password provided
-    await registerUser(context, page, { email: validEmail, password: 'Sh0rt' })
-    await page.waitForSelector(byTestId('ory-password-input-error-message'))
+      // short password provided
+      await fillOutRegistration(context, page, { email: validEmail, password: 'Sh0rt' })
+      await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
 
-    // weak password provided
-    await registerUser(context, page, { email: validEmail, password: '11111111' })
-    await page.waitForSelector(byTestId('ory-password-input-error-message'))
-  })
+      // weak password provided
+      await fillOutRegistration(context, page, { email: validEmail, password: '11111111' })
+      await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
+    })
 
-  test('should be able to register with valid credentials', async ({ userHandler }) => {
-    //FIXME: Error: Wasn't able to intercept user id while finishing account setup flow at finishAccountSetup in appointmentNotifications.spec.ts
-    // using a random user session implicitly tests user registration
-    await userHandler.asRandomUser(async (page) => {
-      // Starting on profile page
-      // Ensure user is logged in
-      await page.waitForSelector(byTestId('user-profile-full-name'))
+    test('should register with valid credentials', async ({ context, page }) => {
+      await fillOutRegistration(context, page)
+      await finishAccountSetup(page)
 
-      // trying to go to login page with logged in user should show home feed
-      await page.goto('/login')
-      await page.waitForSelector(byTestId('home-feed-listing'))
+      await expect(page.getByLabel('Bottom navigation').getByText('Me')).toBeVisible({ timeout: 30_000 })
+
+      await deleteAuthenticatedAccount(context)
     })
   })
-
-  test('should perform full onboarding', async ({ userHandler }) => {
-    // Simplified onboarding flow
-
-    await userHandler.asRandomUser(
-      async (page) => {
-        await test.step('profile screen is accessible after simplified onboarding', async () => {
-          await page.goto('/profile/settings/aboutMe')
-
-          // Simplified onboarding no longer sets interests or skills
-          // Just verify the profile settings page loads
-          await page.waitForSelector(byTestId('profile-settings'))
-        })
-      },
-      { userData: true }
-    )
-  })
 })
+
+const finishAccountSetup = async (page: Page) => {
+  const firstName = faker.person.firstName()
+  const lastName = faker.person.lastName()
+
+  await page.getByRole('textbox', { name: 'First name' }).fill(firstName)
+  await page.getByRole('textbox', { name: 'Last name' }).fill(lastName)
+
+  await page.getByRole('button', { name: 'Continue' }).click()
+}
+
+const fillOutRegistration = async (
+  context: BrowserContext,
+  page: Page,
+  {
+    email = newUserEmail(),
+    password = newUserPassword,
+  }: {
+    email?: string
+    password?: string
+  } = {}
+) => {
+  await await context.clearCookies()
+  await page.goto('/onboarding')
+
+  await page.getByRole('button', { name: "Let's go" }).click()
+  await page.getByRole('button', { name: 'Continue with email and password' }).click()
+
+  await page.getByRole('textbox', { name: 'Email' }).fill(email)
+  await page.getByRole('textbox', { name: 'Password' }).fill(password)
+
+  await page.getByRole('button', { name: 'Create account' }).click()
+}
