@@ -54,35 +54,13 @@ export const login = async (page: Page, email: string, password: string) => {
   await page.getByRole('button', { name: 'Log in' }).click()
 }
 
-const skipOnboardingInitialSteps = async (page: Page) => {
-  await Promise.all([
-    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
-    clickElementByTestId(page, 'btn-to-onboarding'),
-  ])
-
-  const onboardingStepsToSkip = [
-    'onboarding-location-selection',
-    'onboarding-interests-selection',
-    'onboarding-skills-selection',
-  ]
-  for (const step of onboardingStepsToSkip) {
-    await page.waitForSelector(byTestId(step))
-    await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
-  }
-}
-
 export const proceedAsGuest = async (page: Page): Promise<void> => {
-  //Introduced exception handling if first attempt to hit the server does not succeed
-  await gotoWithRetries(page, '/')
+  await page.goto('/onboarding')
 
-  await skipOnboardingInitialSteps(page)
+  await page.getByRole('button', { name: "Let's go" }).click()
+  await page.getByRole('button', { name: 'Continue as a guest' }).click()
 
-  await clickElementByTestId(page, 'onboarding-account-creation-btn-continue-as-guest')
-
-  await page.waitForSelector(byTestId('onboarding-account-creation-btn-continue-as-guest'), { state: 'detached' })
-
-  // User will land on act screen after onboarding > navigate to home feed
-  await clickElementByTestId(page, 'btn-to-home-view')
+  await page.getByLabel('Bottom navigation').getByText('Feed').click()
 }
 
 export const loginAsE2EUser = async (page: Page) => {
