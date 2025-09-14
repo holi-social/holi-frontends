@@ -1,35 +1,35 @@
 import { faker } from '@faker-js/faker'
-import { type BrowserContext, type Page, expect, test } from '@playwright/test'
+import { type Page, expect, test } from '@playwright/test'
 
 import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
 import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
 test.describe('@Registration', () => {
   test.describe('Registering with email & password', () => {
-    test('should not register with invalid credentials', async ({ context, page }) => {
+    test('should not register with invalid credentials', async ({ page }) => {
       const validPassword = randomPassword()
       const validEmail = 'foobar@barbaz.de'
 
       // no password and email provided
-      await fillOutRegistration(context, page, { email: '', password: '' })
+      await fillOutRegistration(page, { email: '', password: '' })
       await expect(page.getByTestId('ory-traits-email-input-error-message')).toBeVisible()
       await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
 
       // invalid email provided
-      await fillOutRegistration(context, page, { email: '!!!wrong@', password: validPassword })
+      await fillOutRegistration(page, { email: '!!!wrong@', password: validPassword })
       await expect(page.getByTestId('ory-traits-email-input-error-message')).toBeVisible()
 
       // short password provided
-      await fillOutRegistration(context, page, { email: validEmail, password: 'Sh0rt' })
+      await fillOutRegistration(page, { email: validEmail, password: 'Sh0rt' })
       await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
 
       // weak password provided
-      await fillOutRegistration(context, page, { email: validEmail, password: '11111111' })
+      await fillOutRegistration(page, { email: validEmail, password: '11111111' })
       await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
     })
 
     test('should register with valid credentials', async ({ context, page }) => {
-      await fillOutRegistration(context, page)
+      await fillOutRegistration(page)
       await finishAccountSetup(page)
 
       await expect(page.getByLabel('Bottom navigation').getByText('Me')).toBeVisible({ timeout: 30_000 })
@@ -50,7 +50,6 @@ const finishAccountSetup = async (page: Page) => {
 }
 
 const fillOutRegistration = async (
-  context: BrowserContext,
   page: Page,
   {
     email = newUserEmail(),
@@ -60,7 +59,7 @@ const fillOutRegistration = async (
     password?: string
   } = {}
 ) => {
-  await await context.clearCookies()
+  await await page.context().clearCookies()
   await page.goto('/onboarding')
 
   await page.getByRole('button', { name: "Let's go" }).click()
