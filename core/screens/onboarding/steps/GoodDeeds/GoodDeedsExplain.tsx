@@ -7,8 +7,8 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { Trans, useTranslation } from 'react-i18next'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliHeroBecome } from '@holi/icons/src/generated'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+
 import { WrapperComponent } from './WrapperComponent'
 
 const isWeb = Platform.OS === 'web'
@@ -34,7 +34,13 @@ export const GoodDeedsExplain = () => {
               setHeroBecomeHeight(Math.min(event.nativeEvent.layout.height, event.nativeEvent.layout.width))
             }
           >
-            <HoliIcon icon={HoliHeroBecome} size={heroBecomeHeight} />
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/goodDeeds/holi-hero-become.svg')}
+              isSvg
+              width={heroBecomeHeight}
+              height={heroBecomeHeight}
+              label={t('navigation.title')}
+            />
           </View>
         </WrapperComponent>
       </Stack>
