@@ -1,14 +1,17 @@
 import type { TFunction } from 'i18next'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
 import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
-import { AiEstimatedTime, Global, MapPin2, Refresh } from '@holi/icons/src/generated'
+import { AiEstimatedTime, Global, Globe, MapPin2, Refresh } from '@holi/icons/src/generated'
 import {
   VOLUNTEERING_IMG_SOURCES_MAPPING,
   type VolunteeringDetailsScreenData,
 } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
-import type { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import {
+  Typesense_DocumentContactType,
+  type VolunteeringOpportunityStatusValue,
+} from '@holi/api/graphql/graphql-codegen'
 
 interface TransformTypesenseDocumentProps {
   t: TFunction
@@ -73,6 +76,14 @@ export const transformTypesenseDocument = ({
         }
       : undefined
 
+  const websiteUrl =
+    engagement.contact?.find((contact) => contact.type === Typesense_DocumentContactType.Website)?.value ??
+    document.external_url
+  const websiteDomain = websiteUrl ? new URL(websiteUrl).hostname : undefined
+  const externalWebsite = websiteUrl
+    ? { icon: Globe, title: websiteDomain, onPress: () => onOpenLink(websiteUrl), showExternalIcon: true }
+    : undefined
+
   const coverImage = document.image_url
     ? {
         uri: document.image_url,
@@ -90,7 +101,7 @@ export const transformTypesenseDocument = ({
     onPress: document.organizer_url ? () => onOpenLink(document.organizer_url) : undefined,
   }
 
-  const infoList = [locationInfo, commitmentRegularity, commitmentDuration].filter(
+  const infoList = [locationInfo, commitmentRegularity, commitmentDuration, externalWebsite].filter(
     (detail) => detail !== undefined
   ) as DetailsScreenInfoList[]
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { Check } from '@holi/icons/src/generated'
@@ -156,7 +157,15 @@ export const VolunteeringProgressCard = ({
                     <Text size="md">{t('volunteer.progress.progressCard.helping.text')}</Text>
                   </Stack>
 
-                  <Button label={t('volunteering.progress.button.nextAction')} onPress={() => navigate('/act')} />
+                  <Stack alignItems="flex-start">
+                    <View>
+                      <Button
+                        label={t('volunteering.progress.button.nextAction')}
+                        onPress={() => navigate('/act')}
+                        inline
+                      />
+                    </View>
+                  </Stack>
                 </Stack>
               </Stack>
             </>

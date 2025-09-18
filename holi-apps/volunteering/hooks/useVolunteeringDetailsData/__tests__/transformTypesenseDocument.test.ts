@@ -1,7 +1,7 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import { Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
-import { AiEstimatedTime, Global, MapPin2, Refresh } from '@holi/icons/src/generated'
+import { AiEstimatedTime, Global, Globe, MapPin2, Refresh } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 
 jest.mock('react-i18next', () => ({
@@ -71,6 +71,12 @@ describe('transformDocument', () => {
           subtitle: 'volunteeringDetails.timeAI',
           subtitleColor: 'informative',
           title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
+        },
+        {
+          icon: Globe,
+          title: 'www.lovelace.com',
+          onPress: expect.any(Function),
+          showExternalIcon: true,
         },
       ],
       coverImage: undefined,
@@ -304,6 +310,12 @@ describe('transformDocument', () => {
         subtitleColor: 'informative',
         title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
       },
+      {
+        icon: Globe,
+        title: 'www.lovelace.com',
+        onPress: expect.any(Function),
+        showExternalIcon: true,
+      },
     ])
   })
 
@@ -329,6 +341,12 @@ describe('transformDocument', () => {
       {
         title: 'volunteering.engagement.commitment_label.recurring',
         icon: Refresh,
+      },
+      {
+        icon: Globe,
+        title: 'www.lovelace.com',
+        onPress: expect.any(Function),
+        showExternalIcon: true,
       },
     ])
   })
