@@ -6,17 +6,16 @@ import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-co
 
 jest.useFakeTimers()
 jest.mock('@holi/ui/components/atoms/HoliLottie', () => jest.fn())
-
 jest.mock('@holi/api/graphql/graphql-codegen', () => ({
   ...jest.requireActual('@holi/api/graphql/graphql-codegen'),
-  useGetRewardsCounterLazyQuery: jest.fn(),
+  useGetRewardsCounterQuery: jest.fn(),
 }))
-const { useGetRewardsCounterLazyQuery } = require('@holi/api/graphql/graphql-codegen')
+const { useGetRewardsCounterQuery } = require('@holi/api/graphql/graphql-codegen')
 
 describe('VolunteeringProgressCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    useGetRewardsCounterLazyQuery.mockReturnValue([jest.fn(), { data: { rewards_counter: { counter: 0 } } }])
+    useGetRewardsCounterQuery.mockReturnValue({ data: { rewards_counter: { counter: 0 } } })
   })
 
   describe('Status TO_DO', () => {

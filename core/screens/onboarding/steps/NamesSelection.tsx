@@ -62,7 +62,7 @@ export const NamesSelection = ({ onFinish, testID = 'name-selection' }: NamesSel
         </Text>
 
         <HoliGap size="s" />
-        <Text size="md">{t('onboarding.names.subline')}</Text>
+        <Text>{t('onboarding.names.subline')}</Text>
 
         <HoliGap size="ml" />
         <HoliTextInput

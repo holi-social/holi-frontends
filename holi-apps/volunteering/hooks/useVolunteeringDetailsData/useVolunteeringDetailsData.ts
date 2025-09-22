@@ -7,8 +7,10 @@ import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVol
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 import { useVolunteeringOpportunityStatusQuery } from '@holi/api/graphql/graphql-codegen'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 export const useVolunteeringDetailsData = (volunteeringId: string, onOpenLink: (url?: string) => void) => {
+  const loginState = useLoginState()
   const { replaceRoute } = useRouting()
   const { t } = useTranslation()
   const language = useUserLanguage()
@@ -38,6 +40,7 @@ export const useVolunteeringDetailsData = (volunteeringId: string, onOpenLink: (
     variables: {
       volunteeringOpportunityId: volunteeringId,
     },
+    skip: !loginState.isLoggedIn,
   })
 
   useOnRefresh(refresh)

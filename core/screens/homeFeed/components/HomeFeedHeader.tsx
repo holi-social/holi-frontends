@@ -21,7 +21,7 @@ const HomeFeedHeader = () => {
         <>
           <HoliGap size="s" />
           <AnnouncementBanner>
-            <Text size="md">
+            <Text>
               <Trans t={t} i18nKey="homeFeed.banner.privacyPolicyUpdated">
                 <HoliTextLink
                   label={t('profile.settings.legalDocuments.privacyPolicy')}

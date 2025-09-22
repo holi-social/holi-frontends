@@ -48,7 +48,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
 
         <View style={styles.ctaDrawerContent}>
           <Text size="3xl">{t('spaces.connectTitle')}</Text>
-          <Text size="md">{t('spaces.connectDescription')}</Text>
+          <Text>{t('spaces.connectDescription')}</Text>
         </View>
 
         <StartChatButton

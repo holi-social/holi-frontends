@@ -58,7 +58,7 @@ const PartnerInfoRow: React.FC<PartnerInfoRowProps> = ({
         }
         {!!rowText && (
           <View style={{ flex: 3 }}>
-            <Text size="md">{rowText}</Text>
+            <Text>{rowText}</Text>
           </View>
         )}
         {showOutlinkIcon && partners[0]?.url && (

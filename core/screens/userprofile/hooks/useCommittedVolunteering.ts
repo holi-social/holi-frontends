@@ -42,7 +42,7 @@ export const useCommittedVolunteering = (
   const { displayError } = useErrorHandling()
 
   const opportunitiesQuery = useCommittedVolunteeringOpportunitiesQuery({
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
+    fetchPolicy: isSSR ? 'cache-first' : 'network-only',
     variables: {
       offset: 0,
       limit,

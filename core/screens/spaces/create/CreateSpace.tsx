@@ -116,11 +116,7 @@ const CreateSpace = () => {
       animation: 'slide_from_bottom',
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: () => (
-        <Text headingLevel="1" size="md">
-          {t('spaces.create.title')}
-        </Text>
-      ),
+      headerTitle: () => <Text headingLevel="1">{t('spaces.create.title')}</Text>,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,

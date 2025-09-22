@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
@@ -26,7 +26,7 @@ export const GoodDeedsChipGuest: React.FC = () => {
         <Trans
           i18nKey="personalGoodDeedCounter.drawer.campaignHint"
           components={{
-            span: <Text size="md" />,
+            span: <Text />,
             b: <Text size="lg" />,
           }}
         />

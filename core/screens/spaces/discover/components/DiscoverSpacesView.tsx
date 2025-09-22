@@ -86,11 +86,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
       headerStyle: {
         backgroundColor: theme.colors.bg.main,
       },
-      headerTitle: () => (
-        <Text headingLevel="1" size="md">
-          {t('spaces.discover.explore')}
-        </Text>
-      ),
+      headerTitle: () => <Text headingLevel="1">{t('spaces.discover.explore')}</Text>,
       headerTransparent: false,
       headerBackVisible: false,
       headerTitleAlign: 'center',

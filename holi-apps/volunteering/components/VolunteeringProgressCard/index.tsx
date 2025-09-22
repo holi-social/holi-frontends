@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { Check } from '@holi/icons/src/generated'
@@ -71,7 +72,7 @@ export const VolunteeringProgressCard = ({
             <>
               <Stack gap="3xs">
                 <Text size="lg">{t('volunteer.progress.progressCard.connect.title')}</Text>
-                <Text size="md">{t('volunteer.progress.progressCard.connect.text')}</Text>
+                <Text>{t('volunteer.progress.progressCard.connect.text')}</Text>
 
                 <Stack padding={{ top: '3xs', bottom: 'md' }} gap="3xs">
                   {document.contact?.length ? (
@@ -120,7 +121,7 @@ export const VolunteeringProgressCard = ({
               <Stack gap="xs">
                 <Stack gap="3xs">
                   <Text size="lg">{t('volunteer.progress.progressCard.act.title')}</Text>
-                  <Text size="md">{t('volunteer.progress.progressCard.act.text')}</Text>
+                  <Text>{t('volunteer.progress.progressCard.act.text')}</Text>
                 </Stack>
 
                 <ButtonTracked
@@ -153,10 +154,18 @@ export const VolunteeringProgressCard = ({
                 <Stack flexShrink={1} gap="xs" justifyContent="space-between">
                   <Stack gap="3xs">
                     <Text size="lg">{t('volunteer.progress.progressCard.helping.title')}</Text>
-                    <Text size="md">{t('volunteer.progress.progressCard.helping.text')}</Text>
+                    <Text>{t('volunteer.progress.progressCard.helping.text')}</Text>
                   </Stack>
 
-                  <Button label={t('volunteering.progress.button.nextAction')} onPress={() => navigate('/act')} />
+                  <Stack alignItems="flex-start">
+                    <View>
+                      <Button
+                        label={t('volunteering.progress.button.nextAction')}
+                        onPress={() => navigate('/act')}
+                        inline
+                      />
+                    </View>
+                  </Stack>
                 </Stack>
               </Stack>
             </>

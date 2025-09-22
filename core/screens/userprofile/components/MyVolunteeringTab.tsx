@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
@@ -38,14 +38,14 @@ const StatusInfoHeader = () => {
           <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
             <Stack gap="3xs">
               <Text size="3xl">{t('profile.myVolunteer.modal.title')}</Text>
-              <Text size="md">{t('profile.myVolunteer.modal.description')}</Text>
+              <Text>{t('profile.myVolunteer.modal.description')}</Text>
             </Stack>
 
             <Stack gap="xs">
               {volunteeringStatuses.map(({ description, chip }) => (
                 <Stack key={description} gap="4xs">
                   <ChipLabel {...chip} />
-                  <Text size="md">{description}</Text>
+                  <Text>{description}</Text>
                 </Stack>
               ))}
             </Stack>
@@ -58,8 +58,12 @@ const StatusInfoHeader = () => {
 
 export const MyVolunteeringTab = () => {
   const { styles } = useStyles(stylesheet)
-  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults } =
+  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults, refetch } =
     useCommittedVolunteering()
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isInitialLoad) {
     return (

@@ -20,7 +20,7 @@ describe('PermissionsGuard', () => {
   it('should render children when permissionType is AUTH and userId is not null', () => {
     render(
       <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/">
-        <Text size="md">Child Component</Text>
+        <Text>Child Component</Text>
       </PermissionsGuard>
     )
 
@@ -34,7 +34,7 @@ describe('PermissionsGuard', () => {
         spaceConnectionType={SpaceUserConnectionType.Member}
         space={{ connectionStatusToMyself: [SpaceUserConnectionType.Member] } as Space}
       >
-        <Text size="md">Child Component</Text>
+        <Text>Child Component</Text>
       </PermissionsGuard>
     )
 
@@ -48,7 +48,7 @@ describe('PermissionsGuard', () => {
         spaceConnectionType={SpaceUserConnectionType.Follower}
         space={{ connectionStatusToMyself: [SpaceUserConnectionType.Member], name: 'space_name' } as Space}
       >
-        <Text size="md">Child Component</Text>
+        <Text>Child Component</Text>
       </PermissionsGuard>
     )
 

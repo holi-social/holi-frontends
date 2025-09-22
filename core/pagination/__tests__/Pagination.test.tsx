@@ -1,7 +1,7 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { act, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
-import React from 'react'
+import type React from 'react'
 import { View } from 'react-native'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -14,7 +14,7 @@ import {
   totalResults,
 } from '@holi/core/pagination/__tests__/testData'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const TestComponent: React.FC = () => {
@@ -22,17 +22,15 @@ const TestComponent: React.FC = () => {
 
   return (
     <View>
-      <Text size="md">{loading && 'Loading'}</Text>
-      <Text size="md">{error && error.message}</Text>
-      <Text size="md">{totalResults} results</Text>
+      <Text>{loading && 'Loading'}</Text>
+      <Text>{error && error.message}</Text>
+      <Text>{totalResults} results</Text>
       {data.map((element) =>
         element ? (
-          <Text size="md" key={element.id}>
-            Element {element.id}
-          </Text>
+          <Text key={element.id}>Element {element.id}</Text>
         ) : (
           // eslint-disable-next-line react/jsx-key
-          <Text size="md">Erroneous element</Text>
+          <Text>Erroneous element</Text>
         )
       )}
     </View>

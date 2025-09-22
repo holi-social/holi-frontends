@@ -29,6 +29,13 @@ const CompleteTaskCallback = () => {
   const { t } = useTranslation()
   const [completed, setCompleted] = useState(false)
 
+  useEffect(() => {
+    if (isLoggedOut) {
+      // go back to the complete task screen with the authentication flow
+      navigate(`/spaces/${spaceId}/tasks/${id}/complete`)
+    }
+  }, [isLoggedOut, spaceId, id, navigate])
+
   const handleCompleteTask = useCallback(async () => {
     if (!id) return
 

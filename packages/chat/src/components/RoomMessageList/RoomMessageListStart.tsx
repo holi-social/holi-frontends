@@ -31,7 +31,7 @@ const RoomMessageListStart = ({
   const chatDescription = () => {
     if (taskId) {
       return (
-        <Text size="md" color="support">
+        <Text color="support">
           <Trans
             t={t}
             i18nKey={'chat.room.start.group.description'}
@@ -41,7 +41,7 @@ const RoomMessageListStart = ({
                 <>
                   {chatPartnerHoliUsers.map((user, index) => (
                     <React.Fragment key={user.id}>
-                      {index > 0 && <Text size="md">, </Text>}
+                      {index > 0 && <Text>, </Text>}
                       <TextLink onPress={() => navigate(`/profile/${user.id}`)} size="md" color="informative">
                         {user.fullName}
                       </TextLink>
@@ -65,7 +65,7 @@ const RoomMessageListStart = ({
       )
     }
     return (
-      <Text size="md" color="support">
+      <Text color="support">
         <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: chatPartnerHoliUsers[0].fullName }}>
           <TextLink onPress={() => navigate(`/profile/${chatPartnerHoliUsers[0].id}`)} size="md" color="informative" />
         </Trans>

@@ -167,7 +167,7 @@ export const TaskDetailsCTA = ({
 
             <Text size="3xl">{t('spaces.tasks.contactOrganization.title')}</Text>
 
-            <Text size="md" color="support">
+            <Text color="support">
               <Trans t={t} i18nKey="spaces.tasks.contactOrganization.description" values={{ organization: spaceTitle }}>
                 <Text size="lg" />
               </Trans>

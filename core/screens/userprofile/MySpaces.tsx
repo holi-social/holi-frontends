@@ -24,7 +24,7 @@ const MySpaces = () => {
     return (
       <DefaultLayout>
         <Stack alignItems="center" alignSelf="center">
-          <Text size="md">{t('user.profileView.noUser')}</Text>
+          <Text>{t('user.profileView.noUser')}</Text>
         </Stack>
       </DefaultLayout>
     )

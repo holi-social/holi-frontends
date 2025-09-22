@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Platform, useWindowDimensions } from 'react-native'
+import { Platform } from 'react-native'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
@@ -7,10 +7,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { View } from 'react-native'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { GoodDeedsCards, HoliHeroFind } from '@holi/icons/src/generated'
 import { WrapperComponent } from './WrapperComponent'
-import { breakpoints } from 'holi-bricks/foundations/dimensions/breakpoints'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 
 const isWeb = Platform.OS === 'web'
 const GOOD_DEEDS_CARD_ASPECT_RATIO = 353 / 258
@@ -18,8 +16,6 @@ const GOOD_DEEDS_CARD_ASPECT_RATIO = 353 / 258
 export const GoodDeedsDo = () => {
   const { t } = useTranslation()
   const { top: safeAreaTop } = useSafeAreaInsets()
-  const { width } = useWindowDimensions()
-  const isDesktop = width >= breakpoints.md
 
   const [goodDeedsCardHeight, setGoodDeedsCardHeight] = useState(0)
   const [heroFindHeight, setHeroFindHeight] = useState(0)
@@ -32,15 +28,15 @@ export const GoodDeedsDo = () => {
             <Stack gap="3xs" padding={{ top: 'lg', bottom: 'lg', left: 'md', right: 'md' }}>
               <Text size="3xl">{t('onboarding.modal.step02.title')}</Text>
 
-              <Text size="md">{t('onboarding.modal.step02.text')}</Text>
+              <Text>{t('onboarding.modal.step02.text')}</Text>
 
-              <Text size="md">
+              <Text>
                 <Trans
                   t={t}
                   i18nKey="onboarding.modal.step02.text02"
                   components={{
-                    b: <Text size="md" bold />,
-                    i: <Text size="md" italic />,
+                    b: <Text bold />,
+                    i: <Text italic />,
                     span: <HoliFigmaSpanPlaceholder />,
                   }}
                 />
@@ -48,7 +44,7 @@ export const GoodDeedsDo = () => {
             </Stack>
           </View>
 
-          <Stack flex={1} direction={isDesktop ? 'row' : 'column'}>
+          <Stack flex={1}>
             <Stack
               alignItems="center"
               flex={5}
@@ -60,12 +56,12 @@ export const GoodDeedsDo = () => {
                 )
               }
             >
-              <HoliIcon
-                icon={GoodDeedsCards}
-                size={{
-                  width: goodDeedsCardHeight * GOOD_DEEDS_CARD_ASPECT_RATIO,
-                  height: goodDeedsCardHeight,
-                }}
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/goodDeeds/good-deeds-cards.svg')}
+                isSvg
+                width={goodDeedsCardHeight * GOOD_DEEDS_CARD_ASPECT_RATIO}
+                height={goodDeedsCardHeight}
+                label={t('navigation.title')}
                 style={{
                   position: 'absolute',
                 }}
@@ -82,25 +78,16 @@ export const GoodDeedsDo = () => {
                 )
               }
             >
-              <HoliIcon
-                icon={HoliHeroFind}
-                size={{
-                  width: heroFindHeight * (isDesktop ? 2 : 1.6) * GOOD_DEEDS_CARD_ASPECT_RATIO,
-                  height: heroFindHeight * (isDesktop ? 2 : 1.6),
+              <HoliLocalImage
+                imageSource={require('@holi/ui/assets/img/goodDeeds/holi-hero-find.svg')}
+                isSvg
+                width={heroFindHeight}
+                height={heroFindHeight * GOOD_DEEDS_CARD_ASPECT_RATIO}
+                label={t('navigation.title')}
+                style={{
+                  position: 'absolute',
+                  right: 0,
                 }}
-                style={
-                  isDesktop
-                    ? {
-                        position: 'absolute',
-                        bottom: '-25%',
-                        right: '-50%',
-                      }
-                    : {
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                      }
-                }
               />
             </Stack>
           </Stack>
