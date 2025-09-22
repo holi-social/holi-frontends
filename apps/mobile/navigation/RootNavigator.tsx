@@ -67,7 +67,6 @@ export type RootStackScreens = {
   [RouteName.MyConnections]: undefined
   [RouteName.MyPosts]: undefined
   [RouteName.MySpaces]: undefined
-  [RouteName.MyBadges]: undefined
 
   [RouteName.CreatePost]: undefined
   [RouteName.EditPost]: undefined

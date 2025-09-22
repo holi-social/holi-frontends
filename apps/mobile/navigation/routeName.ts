@@ -84,7 +84,6 @@ export enum RouteName {
   MyPosts = 'MyPosts',
   MySpaces = 'MySpaces',
   MyConnections = 'MyConnections',
-  MyBadges = 'MyBadges',
 
   // Donation app
   DonationsAppHome = 'DonationsAppHome',

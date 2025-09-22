@@ -55,7 +55,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.MyPosts]: 'profile/settings/posts',
             [RouteName.MySpaces]: 'profile/settings/spaces',
             [RouteName.MyConnections]: 'profile/settings/connections',
-            [RouteName.MyBadges]: 'profile/settings/badges',
           },
         },
       },
