@@ -23,7 +23,7 @@ jest.mock('@holi/api/graphql/graphql-codegen', () => ({
   ...jest.requireActual('@holi/api/graphql/graphql-codegen'),
   useGetRewardsCounterQuery: jest.fn(),
 }))
-const { useGetRewardsCounterLazyQuery } = require('@holi/api/graphql/graphql-codegen')
+const { useGetRewardsCounterQuery } = require('@holi/api/graphql/graphql-codegen')
 
 const mockUseFeatureFlag = jest.fn()
 jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
@@ -47,7 +47,7 @@ jest.mock('@holi/core/components/Screen', () => {
 describe('VolunteeringProgressCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    useGetRewardsCounterLazyQuery.mockReturnValue([jest.fn(), { data: { rewards_counter: { counter: 0 } } }])
+    useGetRewardsCounterQuery.mockReturnValue([jest.fn(), { data: { rewards_counter: { counter: 0 } } }])
     mockUseFeatureFlag.mockReturnValue([false, undefined])
   })
 
