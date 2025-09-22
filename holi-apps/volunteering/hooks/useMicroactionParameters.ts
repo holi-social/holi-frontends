@@ -7,7 +7,7 @@ import { useMemo } from 'react'
 const GOOD_DEEDS_PRODUCTION = [
   '08f77396-5baa-40f3-aa58-53665d704e9c',
   '09dd42fe-d3f1-4cfe-a802-6ac7bce00db4',
-  '0f79cc2b-0e0a-4ad3-b8c8-2587cdaae04d',
+  '96fd656d-a5dd-46e9-9612-9afa86c7b477',
   '0f79cc2b-0e0a-4ad3-b8c8-2587cdaae04d',
   'bbcc785a-4d87-44ed-a895-e09b69071338',
   'f26d83a8-90f4-42f3-9ba7-998b249956d1',
