@@ -25,7 +25,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 
 export type DonationsAppHomeParams = {
-  location?: string
+  geolocationId?: string
 }
 
 const { useParam, useUpdateParams } = createParamHooks<DonationsAppHomeParams>()
@@ -43,20 +43,20 @@ const DonationsAppHome = () => {
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
   }, [])
-  const [locationId] = useParam('location')
+  const [geolocationId] = useParam('geolocationId')
   const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const geolocationProps = useGeolocationDetailsWithSuggestion(locationId, (error) =>
+  const geolocationProps = useGeolocationDetailsWithSuggestion(geolocationId, (error) =>
     displayError(error, 'Failed to load geolocation details', {
       displayMessage: t('donations.donationListing.error'),
       location: 'DonationsAppHome.useGeolocationDetailsWithSuggestion',
-      locationId,
+      geolocationId,
     })
   )
   const [selectedLocation, setSelectedLocation] = useState(geolocationProps.geolocationSuggestion)
 
   const onSelectLocation = useCallback(
     (location?: GeolocationSuggestion) => {
-      updateParams({ location: location?.id })
+      updateParams({ geolocationId: location?.id })
       setSelectedLocation(location)
       closeModal()
     },
