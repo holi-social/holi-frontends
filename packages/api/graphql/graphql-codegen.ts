@@ -2169,6 +2169,7 @@ export enum Rewards_RewardType {
   ChallengeSubmitted = 'ChallengeSubmitted',
   ExternalVolunteeringOpportunityStarted = 'ExternalVolunteeringOpportunityStarted',
   GoodDeedPostCreated = 'GoodDeedPostCreated',
+  TaskCompleted = 'TaskCompleted',
 }
 
 export type Rewards_RewardsCounter = {

@@ -48,6 +48,8 @@ export const GoodDeedsTab = () => {
         return t('goodDeed.history.goodDeedPostCreated')
       case 'ExternalVolunteeringOpportunityStarted':
         return t('goodDeed.history.ExternalVolunteeringOpportunityStarted')
+      case 'TaskCompleted':
+        return t('goodDeed.history.taskDone')
       default:
         return rewardType
     }
