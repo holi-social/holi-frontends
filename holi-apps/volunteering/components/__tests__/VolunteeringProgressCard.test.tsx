@@ -19,10 +19,9 @@ const renderWithApollo = (component: React.ReactElement, mocks: MockedResponse[]
 
 jest.useFakeTimers()
 jest.mock('@holi/ui/components/atoms/HoliLottie', () => jest.fn())
-
 jest.mock('@holi/api/graphql/graphql-codegen', () => ({
   ...jest.requireActual('@holi/api/graphql/graphql-codegen'),
-  useGetRewardsCounterLazyQuery: jest.fn(),
+  useGetRewardsCounterQuery: jest.fn(),
 }))
 const { useGetRewardsCounterLazyQuery } = require('@holi/api/graphql/graphql-codegen')
 

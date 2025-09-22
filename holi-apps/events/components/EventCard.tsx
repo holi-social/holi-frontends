@@ -34,6 +34,7 @@ const EventCard = ({ event, maxCardWidth: cardWidth }: EventProps) => {
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.events.thumbnail.label')}
+        fullHeight
       >
         {event.startDate ? <CompactCard.FooterDate startDate={event.startDate} endDate={event.endDate} /> : undefined}
       </CompactCard>

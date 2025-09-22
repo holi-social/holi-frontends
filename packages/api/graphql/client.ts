@@ -192,6 +192,7 @@ export const createCache = () =>
           typesense_multiSearch: {
             keyArgs: keyArgsWithoutTypesenseMultiSearchPageInfo,
           },
+          rewards_transactions: pagedPolicy(),
         },
       },
     },

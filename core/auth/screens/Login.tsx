@@ -29,7 +29,6 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ArrowLeft, Close, Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -38,6 +37,7 @@ import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesBy
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
+import { Image } from 'holi-bricks/components/image'
 
 export type LoginParams = {
   flow?: string
@@ -245,14 +245,12 @@ const Login = () => {
             {step !== 'code' && (
               <>
                 <Text headingLevel="1" size="4xl" textAlign="center">
-                  {t('registration.login.heading')}
-
-                  <HoliLocalImage
-                    imageSource={require('@holi/ui/assets/img/illustrations/illustration_hope.svg')}
-                    width={40}
-                    height={40}
-                    label={''}
-                    isSvg
+                  {t('registration.login.heading')}{' '}
+                  <Image
+                    source={require('@holi/ui/assets/img/illustrations/illustration_hope.svg')}
+                    width={32}
+                    height={32}
+                    alt={''}
                   />
                 </Text>
                 <HoliGap size="xs" />
@@ -263,12 +261,11 @@ const Login = () => {
             )}
             {step === 'code' && (
               <View style={styles.mailImage}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
+                <Image
+                  source={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
                   width={251}
                   height={181}
-                  label={t('profile.loggedOut.image')}
-                  isSvg
+                  alt={t('profile.loggedOut.image')}
                 />
                 <Text size="3xl" textAlign="center">
                   {t('registration.emailVerification.heading')}

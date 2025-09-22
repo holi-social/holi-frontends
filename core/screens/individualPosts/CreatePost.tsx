@@ -65,7 +65,7 @@ const CreatePost = () => {
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
   const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
 
-  const { data, refetch } = useGetRewardsCounterQuery()
+  const { data, refetch } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
   const { badges, refetchBadges } = useBadges()
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0)
   const counter = data?.rewards_counter.counter
