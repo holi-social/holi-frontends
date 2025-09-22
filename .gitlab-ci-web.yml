@@ -109,7 +109,7 @@ web_build:
     paths:
       - apps/web/.next
     exclude:
-      - apps/web/.next/cache
+      - apps/web/.next/cache/**/*
     expire_in: 1 week
   interruptible: true
   tags:
