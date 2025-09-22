@@ -13,11 +13,8 @@ test.describe('@Task collaboration multi user journey', () => {
     const space = await aliceApi.createSpace()
     const task = await aliceApi.createSpaceTask(space.id)
 
-    // wait for the home to stabilize
-    await expect(alice.getByTestId('home-feed-insights-heading')).toBeVisible()
-
     await test.step('Another User is promoted to space admin', async () => {
-      //A invites B to space
+      //  Alice invites Bob to space
       await alice.goto('/spaces/' + space.name)
       await clickElementByTestId(alice, 'btn-space-invite')
       const messageTextField = await locateElementByTestId(alice, 'space-invite-user-input')
@@ -25,7 +22,7 @@ test.describe('@Task collaboration multi user journey', () => {
 
       await clickElementByTestId(alice, 'btn-to-invite')
 
-      // B accepts the invite notification
+      //  Bob accepts the invite notification
       await retry(async () => {
         await bob.goto('/notifications')
         await expect(
@@ -34,7 +31,7 @@ test.describe('@Task collaboration multi user journey', () => {
       })
       await clickElementByTestId(bob, 'accept-invite-button')
 
-      //make B admin
+      //  make Bob admin
       await alice.goto('/spaces/' + space.name)
       await clickElementByTestId(alice, 'btn-to-open-space-collaborators-modal')
       await clickButtonByText(alice, bobFullName)
