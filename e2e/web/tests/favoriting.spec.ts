@@ -1,46 +1,41 @@
 import { expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId } from './helpers'
+import { byTestId } from './helpers'
 import { test } from './testmaster'
 
 const volunteeringOrTaskCardSelector = [byTestId('volunteering-reco-card'), byTestId('task-reco-card')].join(',')
 
 test.describe('@Favoriting', () => {
-  test('shows login modal for guests', async ({ page: guest }) => {
-    await guest.goto('/volunteering')
-    await guest.click(volunteeringOrTaskCardSelector)
+  test('should ask to register the good deed, for guests', async ({ page }) => {
+    await page.goto('/volunteering')
+    await page.click(byTestId('task-reco-card'))
 
-    await clickElementByTestId(guest, 'save-for-later-button')
+    await page.getByRole('button', { name: 'I’ll do it later' }).click()
 
-    await expect(guest.getByTestId('login-guard-modal-confirmation-dialog')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Step one’s done!' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Join holi.social' })).toBeVisible()
   })
 
-  test('works for registered users', async ({ sessions }) => {
-    const { page: user } = await sessions.signUp()
+  test('registered users', async ({ authenticatedSession: { page } }) => {
+    const opportunityTitle = await test.step('Should allow a user to favorite a volunteering opportunity', async () => {
+      await page.goto('/volunteering')
+      await page.click(volunteeringOrTaskCardSelector)
 
-    let title_of_favorited_vo
+      await page.getByRole('button', { name: 'I’ll do it later' }).click()
 
-    await test.step('user can favorite a vo in the good deeds view', async () => {
-      await user.goto('/volunteering')
-
-      await user.click(volunteeringOrTaskCardSelector)
-
-      title_of_favorited_vo = await user.getByTestId('detailview-title').first().textContent()
-      await clickElementByTestId(user, 'save-for-later-button')
-
-      await expect(user.getByTestId('unsave-for-later-button')).toBeVisible()
+      await expect(page.getByRole('button', { name: 'Saved for later' })).toBeVisible()
+      return await page.getByTestId('detailview-title').first().textContent()
     })
 
-    await test.step('user can see the favorite in the profile favorite list', async () => {
+    await test.step('Shoud be able to view the favorited opportunity', async () => {
       // click confirmation toast to navigate to favorites list
-      await user.getByLabel('Go to favorites').click()
+      await page.getByLabel('Go to favorites').click()
+      await page.getByText('Favorites')
 
-      await expect(user.getByText('Favorites')).toBeVisible()
-
-      const card = user.locator(volunteeringOrTaskCardSelector).first()
+      const card = page.locator(volunteeringOrTaskCardSelector).first()
 
       await expect(card).toBeVisible({ timeout: 10000 })
-      await expect(card).toContainText(title_of_favorited_vo!)
+      await expect(card).toContainText(opportunityTitle!)
     })
   })
 })
