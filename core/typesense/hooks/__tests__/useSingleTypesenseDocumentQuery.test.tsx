@@ -1,9 +1,7 @@
 import React from 'react'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import {
-  type Typesense_Document,
   Typesense_DocumentByIdDocument,
-  Typesense_DocumentType,
   type Typesense_SearchResponse,
   type Typesense_SearchResponseError,
   type Typesense_SearchResponseHit,
@@ -12,44 +10,14 @@ import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useS
 import { act, renderHook } from '@testing-library/react-native'
 import { createCache } from '@holi/api/graphql/client'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
+import { createDocument } from '@holi/core/typesense/hooks/__tests__/testData'
 
 const testId = '123'
 const documentType = TypesenseDocumentType.Volunteering
 
-const createDocument = (id = testId): Typesense_Document => ({
-  __typename: 'Typesense_Document',
-  id,
-  type: Typesense_DocumentType.Volunteering,
-  description_de: '',
-  description_en: '',
-  external_url: '',
-  image_url: '',
-  link_locators: {
-    __typename: 'Typesense_DocumentLinkLocators',
-    volunteering: id,
-    profile: '',
-    space: '',
-    task: '',
-  },
-  location: '',
-  location_lat_lng: [1, 2],
-  organizer_image_url: '',
-  organizer_name: '',
-  organizer_url: '',
-  skills_v2: [],
-  source: '',
-  title_de: '',
-  title_en: '',
-  topics_v2: [],
-  user_full_name: '',
-  commitment_duration: '',
-  commitment_label: '',
-  location_type: '',
-})
-
 const hit: Typesense_SearchResponseHit = {
   __typename: 'Typesense_SearchResponseHit',
-  document: createDocument(),
+  document: createDocument(testId),
   highlight: undefined,
 }
 
@@ -144,7 +112,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
             {
               ...hit,
               document: {
-                ...createDocument(),
+                ...createDocument(testId),
                 title_de: 'new title',
               },
             },

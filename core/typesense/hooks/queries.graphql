@@ -14,6 +14,7 @@ fragment FullTypesenseDocument on Typesense_Document {
     space
     task
     profile
+    donation
   }
   topics_v2
   skills_v2
@@ -21,15 +22,24 @@ fragment FullTypesenseDocument on Typesense_Document {
   organizer_name
   organizer_image_url
   organizer_url
+  organizer_location
+  organizer_location_country_de
+  organizer_location_country_en
   external_url
   commitment_label
   commitment_duration
   location_type
+  location_country_de
+  location_country_en
   contact {
     type
     value
     label
   }
+  summary_de
+  summary_en
+  donation_progress_percentage
+  donation_open_amount_in_cents
 }
 
 query typesense_documentById($id: String!, $documentType: String!) {
