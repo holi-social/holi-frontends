@@ -17,7 +17,11 @@ import { ScratchMask } from '@holi/core/screens/individualPosts/components/Scrat
 import { useCallback, useEffect, useState } from 'react'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useMarkBadgeAsSeenMutation } from '@holi/api/graphql/graphql-codegen'
-import { useScratchEffect } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
+import {
+  SCRATCHCARD_HEIGHT,
+  SCRATCHCARD_WIDTH,
+  useScratchEffect,
+} from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { BADGE_HEIGHT, BADGE_WIDTH } from '@holi/core/screens/userprofile/BadgeDetails'
 
@@ -27,8 +31,6 @@ interface BadgeMessageProps {
 }
 
 const SHINING_SIZE = 293
-export const SCRATCHCARD_WIDTH = 324
-export const SCRATCHCARD_HEIGHT = 300
 const REVEAL_THRESHOLD = 0.7
 
 export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {

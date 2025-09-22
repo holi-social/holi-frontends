@@ -7,10 +7,10 @@ import {
 import { useCallback, useState } from 'react'
 import { runOnJS, useSharedValue } from 'react-native-reanimated'
 
-const MIN_DISTANCE = 10
 export const BRUSH_RADIUS = 20
-const SCRATCHCARD_WIDTH = 324
-const SCRATCHCARD_HEIGHT = 300
+export const SCRATCHCARD_WIDTH = 324
+export const SCRATCHCARD_HEIGHT = 300
+const MIN_DISTANCE = 10
 const INTERPOLATION_STEP = 10
 
 export const useScratchEffect = () => {
@@ -31,7 +31,7 @@ export const useScratchEffect = () => {
       erasedArea += stroke.length * Math.PI * BRUSH_RADIUS * BRUSH_RADIUS
     }
 
-    const totalArea = SCRATCHCARD_WIDTH * SCRATCHCARD_HEIGHT // todo
+    const totalArea = SCRATCHCARD_WIDTH * SCRATCHCARD_HEIGHT
     return Math.min(1, erasedArea / totalArea)
   }
   const onPanUpdate = (e: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
