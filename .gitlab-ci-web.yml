@@ -310,7 +310,7 @@ web_release_candidate_deploy:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "🌐 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and is available on https://$SLACK_NOTIFICATION_ENV_URL.
+        --message "🌐 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and is available at: https://$SLACK_NOTIFICATION_ENV_URL.
     
           If the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a \`PR_END_OF_FILE_ERROR\` in your browser.
     

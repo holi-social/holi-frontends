@@ -74,7 +74,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "position": "relative",
                 "width": 24,
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
         >
@@ -105,7 +107,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                     "textAlign": undefined,
                     "userSelect": "auto",
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -330,7 +334,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="ignore-connection-request-button"
@@ -373,7 +379,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -437,7 +445,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                 "paddingHorizontal": 12,
                 "width": "auto",
               },
-              {},
+              {
+                "flexShrink": undefined,
+              },
             ]
           }
           testID="accept-connection-request-button"
@@ -480,7 +490,9 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >

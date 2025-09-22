@@ -22,14 +22,17 @@ export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery()
+  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery({
+    fetchPolicy: 'no-cache',
+  })
+
   const { data: globalGoodDeeds, loading: globalGoodDeedsLoading } = useGlobalRewardsCounterQuery()
   const { data: rewardTransactions } = useRewardsTransactionsQuery({
     variables: {
       offset: 0,
       limit: 10,
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   })
 
   const goodDeeds = rewardTransactions?.rewards_transactions.data || []
@@ -45,6 +48,8 @@ export const GoodDeedsTab = () => {
         return t('goodDeed.history.goodDeedPostCreated')
       case 'ExternalVolunteeringOpportunityStarted':
         return t('goodDeed.history.ExternalVolunteeringOpportunityStarted')
+      case 'TaskCompleted':
+        return t('goodDeed.history.taskDone')
       default:
         return rewardType
     }
@@ -66,8 +71,7 @@ export const GoodDeedsTab = () => {
       </Stack>
     )
   }
-
-  if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && totalCounter === 0) {
+  if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && personalCounter === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
         <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>

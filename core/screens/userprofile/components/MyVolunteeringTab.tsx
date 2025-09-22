@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
@@ -58,8 +58,12 @@ const StatusInfoHeader = () => {
 
 export const MyVolunteeringTab = () => {
   const { styles } = useStyles(stylesheet)
-  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults } =
+  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults, refetch } =
     useCommittedVolunteering()
+
+  useEffect(() => {
+    refetch()
+  }, [refetch])
 
   if (isInitialLoad) {
     return (

@@ -29,16 +29,15 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ArrowLeft, Close, Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
+import { Image } from 'holi-bricks/components/image'
 
 export type LoginParams = {
   flow?: string
@@ -246,30 +245,27 @@ const Login = () => {
             {step !== 'code' && (
               <>
                 <Text headingLevel="1" size="4xl" textAlign="center">
-                  {t('registration.signUp.heading')}
-
-                  <HoliLocalImage
-                    imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
-                    width={50}
-                    height={40}
-                    label={''}
-                    isSvg
+                  {t('registration.login.heading')}{' '}
+                  <Image
+                    source={require('@holi/ui/assets/img/illustrations/illustration_hope.svg')}
+                    width={32}
+                    height={32}
+                    alt={''}
                   />
                 </Text>
                 <HoliGap size="xs" />
                 <Text size="md" textAlign="center">
-                  {t('registration.signUp.description')}
+                  {t('registration.login.description')}
                 </Text>
               </>
             )}
             {step === 'code' && (
               <View style={styles.mailImage}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
+                <Image
+                  source={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
                   width={251}
                   height={181}
-                  label={t('profile.loggedOut.image')}
-                  isSvg
+                  alt={t('profile.loggedOut.image')}
                 />
                 <Text size="3xl" textAlign="center">
                   {t('registration.emailVerification.heading')}
@@ -351,27 +347,6 @@ const Login = () => {
                     })}
                   />
                 </View>
-
-                <View style={styles.dividerContainer}>
-                  <View style={styles.divider}>
-                    <HoliDivider />
-                  </View>
-                  <View style={styles.dividerContainer}>
-                    <Text size="md" textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                      {t('auth.divider.guest')}
-                    </Text>
-                  </View>
-                  <View style={styles.divider}>
-                    <HoliDivider />
-                  </View>
-                </View>
-                <ButtonTracked
-                  variant="secondary"
-                  label={t('auth.loginProtection.continueAsGuest')}
-                  onPress={() => navigateBack()}
-                  size="lg"
-                  trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-                />
               </>
             )}
 
@@ -397,8 +372,15 @@ const Login = () => {
                   {t('auth.login.signUp.link.headline')}
                 </Text>
 
-                <View style={styles.formItemContainer}>
+                <View style={[styles.formItemContainer, styles.buttonContainer]}>
                   <RegistrationButton size="lg" trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+                  <ButtonTracked
+                    variant="secondary"
+                    label={t('auth.loginProtection.continueAsGuest')}
+                    onPress={() => navigateBack()}
+                    size="lg"
+                    trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+                  />
                 </View>
               </>
             )}

@@ -77,7 +77,10 @@ export const GoodDeedsChipUser: React.FC = () => {
   const { t } = useTranslation()
   const { track } = useTracking()
 
-  const { data } = useGetRewardsCounterQuery()
+  const { data } = useGetRewardsCounterQuery({
+    fetchPolicy: 'no-cache',
+  })
+
   const count = data?.rewards_counter?.counter ?? 0
   const hasDeed = count && count > 0
 

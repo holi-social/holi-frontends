@@ -604,7 +604,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "overflow": "hidden",
                     "paddingHorizontal": 8,
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -628,7 +630,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -654,7 +658,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "overflow": "hidden",
                     "paddingHorizontal": 8,
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -678,7 +684,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -713,7 +721,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
             testID="task-description"
@@ -1360,7 +1370,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "overflow": "hidden",
                     "paddingHorizontal": 8,
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1384,7 +1396,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -1410,7 +1424,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "overflow": "hidden",
                     "paddingHorizontal": 8,
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -1434,7 +1450,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -1469,7 +1487,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
             testID="task-description"
@@ -2116,7 +2136,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "overflow": "hidden",
                     "paddingHorizontal": 8,
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -2140,7 +2162,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -2166,7 +2190,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "overflow": "hidden",
                     "paddingHorizontal": 8,
                   },
-                  {},
+                  {
+                    "flexShrink": undefined,
+                  },
                 ]
               }
             >
@@ -2190,7 +2216,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       "textAlign": undefined,
                       "userSelect": "auto",
                     },
-                    {},
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
@@ -2225,7 +2253,9 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   "textAlign": undefined,
                   "userSelect": "auto",
                 },
-                {},
+                {
+                  "flexShrink": undefined,
+                },
               ]
             }
             testID="task-description"
