@@ -5304,16 +5304,26 @@ export type FullTypesenseDocumentFragment = {
   organizer_name?: string
   organizer_image_url?: string
   organizer_url?: string
+  organizer_location?: string
+  organizer_location_country_de?: string
+  organizer_location_country_en?: string
   external_url?: string
   commitment_label?: string
   commitment_duration?: string
   location_type?: string
+  location_country_de?: string
+  location_country_en?: string
+  summary_de?: string
+  summary_en?: string
+  donation_progress_percentage?: number
+  donation_open_amount_in_cents?: number
   link_locators?: {
     __typename?: 'Typesense_DocumentLinkLocators'
     volunteering?: string
     space?: string
     task?: string
     profile?: string
+    donation?: string
   }
   contact?: Array<{
     __typename?: 'Typesense_DocumentContact'
@@ -5354,16 +5364,26 @@ export type Typesense_DocumentByIdQuery = {
             organizer_name?: string
             organizer_image_url?: string
             organizer_url?: string
+            organizer_location?: string
+            organizer_location_country_de?: string
+            organizer_location_country_en?: string
             external_url?: string
             commitment_label?: string
             commitment_duration?: string
             location_type?: string
+            location_country_de?: string
+            location_country_en?: string
+            summary_de?: string
+            summary_en?: string
+            donation_progress_percentage?: number
+            donation_open_amount_in_cents?: number
             link_locators?: {
               __typename?: 'Typesense_DocumentLinkLocators'
               volunteering?: string
               space?: string
               task?: string
               profile?: string
+              donation?: string
             }
             contact?: Array<{
               __typename?: 'Typesense_DocumentContact'
@@ -5410,16 +5430,26 @@ export type Typesense_MultiSearchQuery = {
               organizer_name?: string
               organizer_image_url?: string
               organizer_url?: string
+              organizer_location?: string
+              organizer_location_country_de?: string
+              organizer_location_country_en?: string
               external_url?: string
               commitment_label?: string
               commitment_duration?: string
               location_type?: string
+              location_country_de?: string
+              location_country_en?: string
+              summary_de?: string
+              summary_en?: string
+              donation_progress_percentage?: number
+              donation_open_amount_in_cents?: number
               link_locators?: {
                 __typename?: 'Typesense_DocumentLinkLocators'
                 volunteering?: string
                 space?: string
                 task?: string
                 profile?: string
+                donation?: string
               }
               contact?: Array<{
                 __typename?: 'Typesense_DocumentContact'
@@ -6032,6 +6062,7 @@ export const FullTypesenseDocumentFragmentDoc = gql`
     space
     task
     profile
+    donation
   }
   topics_v2
   skills_v2
@@ -6039,15 +6070,24 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   organizer_name
   organizer_image_url
   organizer_url
+  organizer_location
+  organizer_location_country_de
+  organizer_location_country_en
   external_url
   commitment_label
   commitment_duration
   location_type
+  location_country_de
+  location_country_en
   contact {
     type
     value
     label
   }
+  summary_de
+  summary_en
+  donation_progress_percentage
+  donation_open_amount_in_cents
 }
     `
 export const FullEventFragmentDoc = gql`

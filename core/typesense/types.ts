@@ -14,10 +14,22 @@ export const TypesenseDocumentType = Typesense_DocumentType
 
 export type LocalizedTypesenseDocument = Omit<
   TypesenseDocument,
-  'title_de' | 'title_en' | 'description_de' | 'description_en'
+  | 'title_de'
+  | 'title_en'
+  | 'description_de'
+  | 'description_en'
+  | 'summary_de'
+  | 'summary_en'
+  | 'location_country_de'
+  | 'location_country_en'
+  | 'organizer_location_country_de'
+  | 'organizer_location_country_en'
 > & {
   title: string
   description: string
+  summary?: string
+  location_country?: string
+  organizer_location_country?: string
 }
 
 export interface TypesenseFacetCounts {
