@@ -24,7 +24,7 @@ const Logout = () => {
     <DefaultLayout>
       <HoliContainer alignItems="center">
         <HoliBox padding={[dimensions.topBarHeight + 50, 0, 0, 0]}>
-          <Text size="md">{isLoggedIn ? t('oauth2.logout') : t('oauth2.loggedOut')}</Text>
+          <Text>{isLoggedIn ? t('oauth2.logout') : t('oauth2.loggedOut')}</Text>
         </HoliBox>
       </HoliContainer>
     </DefaultLayout>

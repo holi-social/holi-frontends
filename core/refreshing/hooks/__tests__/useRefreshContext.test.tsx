@@ -7,7 +7,7 @@ import { RefreshContext, useRefreshContext } from '@holi/core/refreshing/hooks/u
 const RefreshControlComponent = () => {
   const context = useRefreshContext()
 
-  return <Text size="md">{context.refreshControlProps.refreshing && 'is refreshing'}</Text>
+  return <Text>{context.refreshControlProps.refreshing && 'is refreshing'}</Text>
 }
 
 const RefreshCallbackRegisteringComponent = ({ callback }: { callback: () => unknown }) => {

@@ -73,7 +73,7 @@ export const VolunteeringContactItem = ({ contact, trackingEvent, onWebViewOpen 
         <Text size="xs" color="support">
           {t(`volunteering.engagementDetail.contactsDrawer.${contact.type}`)}
         </Text>
-        <Text size="md">{contact.value}</Text>
+        <Text>{contact.value}</Text>
       </Stack>
 
       <ButtonIconTracked

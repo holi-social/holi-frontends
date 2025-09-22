@@ -54,17 +54,17 @@ export const CounterModalContent = ({ count }: { count: number }) => {
         <Stack gap="3xs">
           <Stack direction="row" gap="3xs">
             <HoliIcon icon={Hearts} />
-            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+            <Text>{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
           </Stack>
 
           <Stack direction="row" gap="3xs">
             <HoliIcon icon={Challenges} />
-            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
+            <Text>{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
           </Stack>
 
           <Stack direction="row" gap="3xs">
             <HoliIcon icon={Draft} />
-            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
+            <Text>{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
           </Stack>
         </Stack>
       </Stack>
@@ -97,7 +97,7 @@ export const GoodDeedsChipUser: React.FC = () => {
       <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
         <Stack gap="3xs">
           <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.title')}</Text>
-          <Text size="md">{t('personalGoodDeedCounter.drawer.empty.text')}</Text>
+          <Text>{t('personalGoodDeedCounter.drawer.empty.text')}</Text>
         </Stack>
 
         <Stack gap="xs">
@@ -106,27 +106,27 @@ export const GoodDeedsChipUser: React.FC = () => {
           <Stack gap="3xs">
             <Stack direction="row" gap="3xs">
               <HoliIcon icon={Hearts} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+              <Text>{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
             </Stack>
 
             <Stack direction="row" gap="3xs">
               <HoliIcon icon={Challenges} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
+              <Text>{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
             </Stack>
 
             <Stack direction="row" gap="3xs">
               <HoliIcon icon={Draft} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
+              <Text>{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
             </Stack>
           </Stack>
         </Stack>
 
-        <Text size="md">
+        <Text>
           <Trans
             i18nKey="personalGoodDeedCounter.drawer.campaignHint"
             components={{
-              span: <Text size="md" />,
-              b: <Text size="md" bold />,
+              span: <Text />,
+              b: <Text bold />,
             }}
           />
         </Text>

@@ -244,7 +244,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
               <Stack gap="3xs" margin={{ left: '3xs', right: '3xs' }}>
                 <Text size="3xl">{t('spaces.input.task.tipsForDescription.modal.title')}</Text>
 
-                <Text size="md" colorOverride={styles.tipDescription.color}>
+                <Text colorOverride={styles.tipDescription.color}>
                   {t('spaces.input.task.tipsForDescription.modal.description')}
                 </Text>
               </Stack>
@@ -330,9 +330,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           <Text size="lg">{t('spaces.input.task.section.skills.title')}</Text>
 
           <Stack margin={{ top: '3xs' }}>
-            <Text color="support" size="md">
-              {t('spaces.input.task.section.skills.description')}
-            </Text>
+            <Text color="support">{t('spaces.input.task.section.skills.description')}</Text>
           </Stack>
 
           {!!taskInput.skillsV2?.length && (

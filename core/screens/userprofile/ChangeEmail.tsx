@@ -200,7 +200,7 @@ const ChangeEmail = () => {
             <>
               {isOidc ? (
                 <HoliBox padding={16}>
-                  <Text size="md" textAlign="center">
+                  <Text textAlign="center">
                     <Trans
                       t={t}
                       i18nKey="auth.changeEmail.oidc"
@@ -212,7 +212,7 @@ const ChangeEmail = () => {
                 </HoliBox>
               ) : (
                 <>
-                  <Text size="md">
+                  <Text>
                     <Trans t={t} i18nKey="auth.changeEmail.description" values={{ email }}>
                       <Text size="lg" />
                     </Trans>

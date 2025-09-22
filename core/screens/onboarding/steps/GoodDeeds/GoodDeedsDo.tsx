@@ -28,15 +28,15 @@ export const GoodDeedsDo = () => {
             <Stack gap="3xs" padding={{ top: 'lg', bottom: 'lg', left: 'md', right: 'md' }}>
               <Text size="3xl">{t('onboarding.modal.step02.title')}</Text>
 
-              <Text size="md">{t('onboarding.modal.step02.text')}</Text>
+              <Text>{t('onboarding.modal.step02.text')}</Text>
 
-              <Text size="md">
+              <Text>
                 <Trans
                   t={t}
                   i18nKey="onboarding.modal.step02.text02"
                   components={{
-                    b: <Text size="md" bold />,
-                    i: <Text size="md" italic />,
+                    b: <Text bold />,
+                    i: <Text italic />,
                     span: <HoliFigmaSpanPlaceholder />,
                   }}
                 />

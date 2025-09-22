@@ -20,7 +20,7 @@ export type TextHeadingLevel = '1' | '2' | '3'
 export type TextProps = AccessibilityProps &
   LayoutProps &
   React.PropsWithChildren & {
-    size: TextSize
+    size?: TextSize
     /**
      * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
      */
@@ -58,7 +58,7 @@ const createAccessibilityProps = (headingLevel?: TextHeadingLevel): Accessibilit
 }
 
 export const Text = ({
-  size,
+  size = 'md',
   selectable = true,
   numberOfLines,
   color = 'main',

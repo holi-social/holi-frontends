@@ -15,7 +15,7 @@ export default {
 export const Example: ComponentStory<typeof Drawer> = () => (
   <Drawer label="a11y-label">
     {/* <Action action="edit" title="Edit"> */}
-    <Text size="md">Hi mom</Text>
+    <Text>Hi mom</Text>
     {/* </Action> */}
   </Drawer>
 )

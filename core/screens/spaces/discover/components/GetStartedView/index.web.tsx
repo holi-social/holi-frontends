@@ -41,7 +41,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
           <Text headingLevel="2" size="3xl">
             {t('spaces.discover.welcome')}
           </Text>
-          <Text size="md">{t('spaces.discover.description')}</Text>
+          <Text>{t('spaces.discover.description')}</Text>
         </View>
         <View style={styles.createSpaceButtonContainer}>
           <Button
@@ -82,7 +82,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
           <Text headingLevel="2" size="3xl">
             {t('spaces.discover.firstcard')}
           </Text>
-          <Text size="md">{t('spaces.discover.firstcard.description')}</Text>
+          <Text>{t('spaces.discover.firstcard.description')}</Text>
         </View>
         <View>
           <HoliLocalImage
@@ -101,7 +101,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
           <Text headingLevel="2" size="3xl">
             {t('spaces.discover.secondcard')}
           </Text>
-          <Text size="md">{t('spaces.discover.secondcard.description')}</Text>
+          <Text>{t('spaces.discover.secondcard.description')}</Text>
         </View>
         <View>
           <HoliLocalImage

@@ -68,7 +68,7 @@ describe('LoginProtection', () => {
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
         <LoginProtection>
-          <Text size="md">Protected Content</Text>
+          <Text>Protected Content</Text>
         </LoginProtection>
       </MockedProvider>
     )

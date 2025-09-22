@@ -32,7 +32,7 @@ describe('HoliUserAvatarPile', () => {
     render(
       <HoliUserAvatarPile users={users} counter>
         <View>
-          <Text size="md">{dummyText}</Text>
+          <Text>{dummyText}</Text>
         </View>
       </HoliUserAvatarPile>
     )
