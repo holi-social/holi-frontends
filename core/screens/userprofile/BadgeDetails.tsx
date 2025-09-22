@@ -14,6 +14,7 @@ import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { useTranslation } from 'react-i18next'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { Platform } from 'react-native'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 
 export const BADGE_WIDTH = 210
 export const BADGE_HEIGHT = 240
@@ -21,7 +22,8 @@ const SHINING_SIZE = 293
 
 const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => void }) => {
   const { navigate } = useRouting()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const currentLanguage = getLocale(i18n.language || '')
 
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
@@ -102,7 +104,7 @@ const BadgeDetails = ({ badge, onDismiss }: { badge: Badge; onDismiss?: () => vo
           {badge.unlockedAt && (
             <Stack alignSelf="center">
               <ChipLabel>
-                {badge.unlockedAt.toLocaleDateString('de-DE', {
+                {badge.unlockedAt.toLocaleDateString(currentLanguage, {
                   day: '2-digit',
                   month: '2-digit',
                   year: 'numeric',

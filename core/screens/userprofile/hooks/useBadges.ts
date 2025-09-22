@@ -60,7 +60,7 @@ export const useBadges = () => {
       currentStep: b.progressMade,
       totalSteps: b.progressGoal,
       unlockedAt: undefined,
-      state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked,
+      state: b.slug.includes('spark') || (b.progressMade && b.progressMade > 0) ? BadgeState.active : BadgeState.locked, // badges including 'spark' are the starter badges and should be active by default
       imgSrc: slugIllustrationMapping[b.slug],
       imgSrcDetailed: slugDetailedIllustrationMapping[b.slug],
       animationName: slugAnimationMapping[b.slug],

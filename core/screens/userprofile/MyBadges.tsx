@@ -16,6 +16,7 @@ import { ButtonIcon } from 'holi-bricks/components/button'
 import { type Badge, BadgeState, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
 import { useTranslation } from 'react-i18next'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 
 const PROGRESSBAR_WIDTH = 100
 const BADGE_WIDTH = 70
@@ -23,7 +24,8 @@ const BADGE_HEIGHT = 80
 
 const MyBadges = () => {
   const { track } = useTracking()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const currentLanguage = getLocale(i18n.language || '')
   const [detailedBadge, setDetailedBadge] = useState<Badge>()
   const { badges, loading, refetchBadges } = useBadges()
 
@@ -101,7 +103,7 @@ const MyBadges = () => {
                   {badge.unlockedAt && (
                     <Stack alignItems="center">
                       <ChipLabel size="sm" color="mono">
-                        {badge.unlockedAt.toLocaleDateString('de-DE', {
+                        {badge.unlockedAt.toLocaleDateString(currentLanguage, {
                           day: '2-digit',
                           month: '2-digit',
                           year: 'numeric',
