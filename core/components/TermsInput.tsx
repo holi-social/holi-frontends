@@ -76,9 +76,7 @@ export const TermsInput = ({
           <HoliGap size="s" />
         </>
       )}
-      <Text size="md" color="support">
-        {description}
-      </Text>
+      <Text color="support">{description}</Text>
       <HoliGap size="ml" />
       <HoliTextInput
         aria-label={searchPlaceholder}

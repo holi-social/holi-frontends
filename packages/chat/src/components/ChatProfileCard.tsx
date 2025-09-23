@@ -64,11 +64,7 @@ const ChatProfileCard = ({ member, roomId, user, taskName }: PropsWithChildren<P
                   {chatPartnerName}
                 </Text>
 
-                {!!user?.pronouns && (
-                  <Text color="default" size="md">
-                    {user?.pronouns}
-                  </Text>
-                )}
+                {!!user?.pronouns && <Text color="default">{user?.pronouns}</Text>}
               </View>
             </>
           ) : null}
@@ -76,15 +72,13 @@ const ChatProfileCard = ({ member, roomId, user, taskName }: PropsWithChildren<P
         <HoliDivider />
         <HoliCardBoard.Slot>
           {taskName ? (
-            <Text size="md" color="default">
+            <Text color="default">
               <Trans t={t} i18nKey={'chat.invitation.copy.taskChat'} values={{ fullName: chatPartnerName, taskName }}>
-                <Text size="md" color="informative" />
+                <Text color="informative" />
               </Trans>
             </Text>
           ) : (
-            <Text size="md" color="default">
-              {t('chat.invitation.copy', { fullName: chatPartnerName })}
-            </Text>
+            <Text color="default">{t('chat.invitation.copy', { fullName: chatPartnerName })}</Text>
           )}
 
           <View style={styles.buttons}>

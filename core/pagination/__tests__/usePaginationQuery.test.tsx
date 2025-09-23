@@ -64,14 +64,12 @@ const TestComponent: React.FC<TestComponentProps> = ({
 
   return (
     <View>
-      {loading && <Text size="md">Loading</Text>}
-      {isFetchingMore && <Text size="md">Fetching more</Text>}
-      {error && <Text size="md">{error.message}</Text>}
-      {data && <Text size="md">{totalResults} results</Text>}
+      {loading && <Text>Loading</Text>}
+      {isFetchingMore && <Text>Fetching more</Text>}
+      {error && <Text>{error.message}</Text>}
+      {data && <Text>{totalResults} results</Text>}
       {data.map((element) => (
-        <Text size="md" key={element.id}>
-          Element {element.id}
-        </Text>
+        <Text key={element.id}>Element {element.id}</Text>
       ))}
       {canFetchMore && <HoliButtonLoading onPress={fetchNextPage} testID="btn-fetch-more" label={'Fetch more'} />}
     </View>

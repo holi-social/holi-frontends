@@ -1,30 +1,32 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
+import PlacesAutocomplete, {
+  GeolocationLevel,
+  type GeolocationSuggestion,
+} from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { Button } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
 
 type DonationSearchFormProps = {
-  locationQuery?: string
-  onSubmit: (locationQuery?: string) => void
+  selectedLocation?: GeolocationSuggestion | undefined
+  onSelectLocation: (location: GeolocationSuggestion | undefined) => void
 }
 
-const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps) => {
+const DonationSearchForm = ({ onSelectLocation, selectedLocation }: DonationSearchFormProps) => {
   const { t } = useTranslation()
-  const [selectedLocation, setSelectedLocation] = useState(locationQuery ? { label: locationQuery, id: '' } : undefined)
 
   const reset = useCallback(() => {
-    setSelectedLocation(undefined)
-  }, [])
+    onSelectLocation(undefined)
+  }, [onSelectLocation])
 
   return (
     <HoliModalContentWrapper
       actionButtonText={t('donations.search.submitButton')}
-      onActionButtonPress={() => onSubmit(selectedLocation?.label)}
+      onActionButtonPress={() => onSelectLocation(selectedLocation)}
       style={styles.modalWrapper}
       testID="donations-search-modal-content"
       keyboardShouldPersistTaps="always"
@@ -32,7 +34,9 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
     >
       <View style={styles.container}>
         <View style={styles.headingRow}>
-          <HoliHeading>{t('donations.search.heading')}</HoliHeading>
+          <Text size="xxl" headingLevel="2">
+            {t('donations.search.heading')}
+          </Text>
           <Button
             inline
             label={t('global.reset')}
@@ -47,10 +51,16 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
           selected={selectedLocation}
           label={t('donations.search.location.label')}
           placeholder={t('donations.search.location.placeholder')}
-          inputProps={{ autoFocus: true }}
           testID="donations-search-location"
           id="donations-search-location"
-          onChange={setSelectedLocation}
+          onChange={onSelectLocation}
+          level={GeolocationLevel.CITY}
+          inputProps={{
+            autoFocus: true,
+            inputMode: 'search',
+            returnKeyType: 'search',
+            'aria-label': t('donations.search.location.label'),
+          }}
         />
       </View>
     </HoliModalContentWrapper>

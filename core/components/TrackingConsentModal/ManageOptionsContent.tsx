@@ -65,7 +65,7 @@ const ManageOptionsContent = ({
 
       <HoliGap size="m" />
 
-      <Text size="md">
+      <Text>
         <Trans t={t} i18nKey="tracking.consentModal.manageOptions.privacyStatement">
           <HoliTextLink
             href="/profile/settings/legalDocuments/document?type=privacyPolicy"
@@ -77,7 +77,7 @@ const ManageOptionsContent = ({
 
       <HoliGap size="m" />
 
-      <Text size="md">{t('tracking.consentModal.manageOptions.note')}</Text>
+      <Text>{t('tracking.consentModal.manageOptions.note')}</Text>
     </>
   )
 }

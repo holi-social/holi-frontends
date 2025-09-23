@@ -37,7 +37,7 @@ describe('HoliModalFullscreen.tsx', () => {
     const text = 'Fullscreen modal content'
     const { getByText } = render(
       <HoliModalFullscreen label="test" shown={true} onDismiss={() => null} testID="testmodal">
-        <Text size="md">{text}</Text>
+        <Text>{text}</Text>
       </HoliModalFullscreen>
     )
 

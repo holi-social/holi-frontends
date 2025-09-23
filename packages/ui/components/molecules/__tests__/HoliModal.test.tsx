@@ -8,7 +8,7 @@ describe('HoliModal', () => {
   it('renders content when shown', () => {
     render(
       <HoliModal label="Test" testID="test-modal" shown={true} onDismiss={() => null}>
-        <Text size="md">Content</Text>
+        <Text>Content</Text>
       </HoliModal>
     )
     expect(screen.getByText('Content'))
@@ -17,7 +17,7 @@ describe('HoliModal', () => {
   it('is not rendered when not shown', async () => {
     render(
       <HoliModal label="Test" testID="test-modal" shown={false} onDismiss={() => null}>
-        <Text size="md">Content</Text>
+        <Text>Content</Text>
       </HoliModal>
     )
     expect(screen.toJSON()).toBeNull()

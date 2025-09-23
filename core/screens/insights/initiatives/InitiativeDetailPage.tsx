@@ -141,9 +141,7 @@ const InitiativeDetailPage = () => {
                   <Text size="lg">{t('insights.recommendations.creator_reason')}</Text>
                 </View>
 
-                <Text size="md" margin={{ bottom: 'xs' }}>
-                  {initiative.comment}
-                </Text>
+                <Text margin={{ bottom: 'xs' }}>{initiative.comment}</Text>
                 <Stack direction="row" justifyContent="space-between">
                   <ReactionCount count={initiative.reactions.HEART} />
                   <InsightReactions item={initiative} itemType={ItemType.INITIATIVE} />

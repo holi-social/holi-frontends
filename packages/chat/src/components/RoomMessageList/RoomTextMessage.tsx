@@ -82,7 +82,7 @@ const RoomTextMessage = ({
             {content.body ? (
               <HoliRichTextOutput size="md" text={content.body} allowAllLinks />
             ) : (
-              <Text size="md">{t('chat.message.deleted')}</Text>
+              <Text>{t('chat.message.deleted')}</Text>
             )}
 
             <View style={styles.date}>

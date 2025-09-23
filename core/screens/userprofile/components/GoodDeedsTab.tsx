@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -17,28 +17,43 @@ import {
 import { GoodDeedsEmptyState } from '@holi/core/screens/userprofile/components/GoodDeedsEmptyState'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeedsV2 } from '@holi/icons/src/generated'
+import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 
 export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
+  const isFocused = useIsFocused()
 
-  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery({
-    fetchPolicy: 'no-cache',
-  })
+  const {
+    data: personalGoodDeeds,
+    loading: personalGoodDeedsLoading,
+    refetch: refetchPersonal,
+  } = useGetRewardsCounterQuery({ fetchPolicy: 'cache-and-network', notifyOnNetworkStatusChange: true })
 
-  const { data: globalGoodDeeds, loading: globalGoodDeedsLoading } = useGlobalRewardsCounterQuery()
-  const { data: rewardTransactions } = useRewardsTransactionsQuery({
+  const {
+    data: globalGoodDeeds,
+    loading: globalGoodDeedsLoading,
+    refetch: refetchGlobal,
+  } = useGlobalRewardsCounterQuery({ notifyOnNetworkStatusChange: true })
+  const { data: rewardTransactions, refetch: refetchTransactions } = useRewardsTransactionsQuery({
     variables: {
       offset: 0,
       limit: 10,
     },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
   })
+
+  useEffect(() => {
+    if (!isFocused) return
+    refetchPersonal()
+    refetchGlobal()
+    refetchTransactions({ offset: 0, limit: 10 })
+  }, [isFocused, refetchPersonal, refetchGlobal, refetchTransactions])
 
   const goodDeeds = rewardTransactions?.rewards_transactions.data || []
   const personalCounter = personalGoodDeeds?.rewards_counter?.counter ?? 0
   const globalCounter = globalGoodDeeds?.rewards_globalCounter.counter ?? 0
-  const totalCounter = personalCounter + globalCounter
 
   const formatRewardType = (rewardType: Rewards_RewardType) => {
     switch (rewardType) {
@@ -74,10 +89,10 @@ export const GoodDeedsTab = () => {
   if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && personalCounter === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
+        <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
         <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs">
-          <GoodDeedsBanner counter={totalCounter} />
+          <GoodDeedsBanner counter={globalCounter} />
         </Stack>
 
         <GoodDeedsEmptyState />
@@ -87,10 +102,10 @@ export const GoodDeedsTab = () => {
 
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-      <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
+      <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
       <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs" gap="md">
-        <GoodDeedsBanner counter={totalCounter} />
+        <GoodDeedsBanner counter={globalCounter} />
 
         {/* blue box */}
         <Stack gap="4xs" padding="xs" backgroundColor="blueLight" borderRadius="md" alignItems="center">
@@ -125,7 +140,7 @@ export const GoodDeedsTab = () => {
                 justifyContent="space-between"
               >
                 <Stack gap="4xs">
-                  <Text size="md">{formatRewardType(goodDeed.rewardType)}</Text>
+                  <Text>{formatRewardType(goodDeed.rewardType)}</Text>
                   <Text size="xs" color="support">
                     {formatRewardDate(goodDeed.createdAt)}
                   </Text>

@@ -92,7 +92,7 @@ const FormNode = (props: Props) => {
     if (key === 'ResendCode') {
       return (
         <View style={styles.resendCodeContainer}>
-          <Text size="md">{t('registration.emailVerification.resendInstruction')}</Text>
+          <Text>{t('registration.emailVerification.resendInstruction')}</Text>
           <Button
             label={t('registration.emailVerification.resendEmail')}
             disabled={node.attributes.disabled}

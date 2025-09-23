@@ -46,7 +46,7 @@ export const AuthorBanner = ({
               {topTitle}
             </Text>
           )}
-          <Text size="md">{title}</Text>
+          <Text>{title}</Text>
           {subtitle && <Text size="sm">{subtitle}</Text>}
         </Stack>
         {isExternalLink && <HoliIcon icon={ExternalLink} size={20} />}

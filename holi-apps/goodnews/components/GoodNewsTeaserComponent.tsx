@@ -90,7 +90,7 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
             resizeMode={'contain'}
           />
         )}
-        <Text size="md" textAlign="center">
+        <Text textAlign="center">
           <Trans t={t} i18nKey={'goodnews.listing.teaser.description'}>
             <HoliTextLink
               label={t('goodnews.listing.teaser.textLink.label')}

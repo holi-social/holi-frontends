@@ -68,7 +68,7 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
         <View style={styles.radio}>
           <View style={styles.radioDot(selected)} />
         </View>
-        <Text size="md" color={textColor} selectable={false}>
+        <Text color={textColor} selectable={false}>
           {label}
         </Text>
       </Stack>

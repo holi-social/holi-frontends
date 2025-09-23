@@ -26,7 +26,7 @@ export const GoodDeedsChipGuest: React.FC = () => {
         <Trans
           i18nKey="personalGoodDeedCounter.drawer.campaignHint"
           components={{
-            span: <Text size="md" />,
+            span: <Text />,
             b: <Text size="lg" />,
           }}
         />

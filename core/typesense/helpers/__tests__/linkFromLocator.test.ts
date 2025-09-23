@@ -52,6 +52,20 @@ describe('linkFromLocator', () => {
     },
     {
       document: {
+        type: TypesenseDocumentType.Donation,
+        link_locators: { donation: '157403' },
+      },
+      expectedLink: '/donations/157403',
+    },
+    {
+      document: {
+        type: TypesenseDocumentType.Donation,
+        link_locators: {},
+      },
+      expectedLink: '#',
+    },
+    {
+      document: {
         type: TypesenseDocumentType.Task,
         link_locators: { space: 'coworking-mitte', task: '9035322c-3d67-46ca-a2b8-657be490ec00' },
       },

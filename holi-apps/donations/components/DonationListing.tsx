@@ -1,32 +1,32 @@
-import React, { useEffect, useMemo } from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
-import type { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import { Button } from 'holi-bricks/components/button'
 import { DonationCard } from '@holi-apps/donations/components/DonationCard'
 import { Spacing } from 'holi-bricks/foundations'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { Text, TextLink } from 'holi-bricks/components/text'
+import { Image } from 'holi-bricks/components/image'
 
 type DonationListingProps = {
-  locationQuery?: string
+  isFiltering?: boolean
+  isLoading?: boolean
+  footerComponent?: React.ReactNode
+  projects: LocalizedTypesenseDocument[]
   resetSearch: () => void
+  totalResults?: number
 }
 
 const DONATIONS_IMG_SOURCES_MAPPING: {
@@ -49,31 +49,20 @@ const DONATIONS_IMG_SOURCES_MAPPING: {
   },
 }
 
-const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) => {
+const DonationListing = ({
+  isFiltering,
+  isLoading = false,
+  totalResults = 0,
+  footerComponent,
+  projects,
+  resetSearch,
+}: DonationListingProps) => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
-
-  const isFiltering = useMemo(() => !!locationQuery, [locationQuery])
-  const { displayError } = useErrorHandling()
-
-  const { loading, data: projects, error, totalResults } = usePaginationContext<Project>()
 
   const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
   const partner = DONATIONS_IMG_SOURCES_MAPPING['betterplace.org']
 
-  useEffect(() => {
-    if (error) {
-      displayError(error, 'Failed to load donation projects', {
-        displayMessage: t('donations.donationListing.error'),
-        location: 'DonationListing.useEffect',
-        locationQuery,
-      })
-    }
-  }, [error, displayError, t, locationQuery])
-
-  if (loading) {
+  if (isLoading) {
     return <DonationListingSkeleton isFiltering={isFiltering} amount={6} />
   }
 
@@ -81,9 +70,9 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
     <View testID={isFiltering ? 'donations-list-filtered' : 'donations-list-unfiltered'}>
       {!!projects.length && (
         <HoliBox padding={[24, 0, 16, 0]}>
-          <HoliHeading level="2" size="l" testID="donations-list-search-heading">
+          <Text size="3xl" headingLevel="2" testID="donations-list-search-heading">
             {t('donations.donationListing.heading')}
-          </HoliHeading>
+          </Text>
         </HoliBox>
       )}
       {!!projects.length && (
@@ -105,10 +94,10 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
 
       {isFiltering && !!projects.length && (
         <HoliBox padding={[16, 0, 0, 0]}>
-          <View style={styles.searchFilter}>
-            <HoliText bold testID="donations-list-search-summary" style={{ color: colors.foreground20 }}>
+          <View style={styles.searchFilter} testID="donations-list-search-summary">
+            <TextLink color="support" size="md">
               {t('donations.donationListing.search.resultCount', { count: totalResults })}
-            </HoliText>
+            </TextLink>
             <Button
               inline
               label={t('global.reset')}
@@ -127,12 +116,11 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             <HoliNoResults
               firstText={t('donations.donationListing.search.empty.tagline')}
               media={
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
+                <Image
+                  source={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
                   width={152}
                   height={152}
-                  label=""
-                  isSvg
+                  alt=""
                 />
               }
               secondText={t('donations.donationListing.search.empty.headline')}
@@ -150,30 +138,20 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
           ))}
         </HoliGridWrapper>
       </HoliBox>
+      {footerComponent}
     </View>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    searchQuery: {
-      color: theme.colors.brandColorB30,
-    },
-    searchFilter: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    noResultsMessage: {
-      marginTop: 24,
-    },
-    clearFilter: {
-      paddingLeft: 3,
-    },
-    category: {
-      color: theme.colors.foreground20,
-      marginTop: 8,
-    },
-  })
+const styles = StyleSheet.create({
+  searchFilter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  noResultsMessage: {
+    marginTop: 24,
+  },
+})
 
 export default DonationListing

@@ -21,7 +21,7 @@ const TestStep = ({ idx }: { idx: number }) => {
   return (
     <Pressable testID={stepId} onPress={goNext}>
       <View>
-        <Text size="md">{stepId}</Text>
+        <Text>{stepId}</Text>
       </View>
     </Pressable>
   )

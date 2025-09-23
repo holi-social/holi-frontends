@@ -23,7 +23,7 @@ describe('HoliLink', () => {
   it('renders child component', () => {
     render(
       <HoliLink label="test" href="/">
-        <Text size="md">inner</Text>
+        <Text>inner</Text>
       </HoliLink>
     )
 

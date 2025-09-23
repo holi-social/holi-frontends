@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useEffect } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Trans, useTranslation } from 'react-i18next'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -13,6 +14,7 @@ import { Pressable } from 'react-native'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Spacing } from 'holi-bricks/foundations'
+import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 
 export const CounterModalContent = ({ count }: { count: number }) => {
   const { t } = useTranslation()
@@ -54,17 +56,17 @@ export const CounterModalContent = ({ count }: { count: number }) => {
         <Stack gap="3xs">
           <Stack direction="row" gap="3xs">
             <HoliIcon icon={Hearts} />
-            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+            <Text>{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
           </Stack>
 
           <Stack direction="row" gap="3xs">
             <HoliIcon icon={Challenges} />
-            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
+            <Text>{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
           </Stack>
 
           <Stack direction="row" gap="3xs">
             <HoliIcon icon={Draft} />
-            <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
+            <Text>{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
           </Stack>
         </Stack>
       </Stack>
@@ -77,9 +79,17 @@ export const GoodDeedsChipUser: React.FC = () => {
   const { t } = useTranslation()
   const { track } = useTracking()
 
-  const { data } = useGetRewardsCounterQuery({
-    fetchPolicy: 'no-cache',
+  const isFocused = useIsFocused()
+
+  const { data, refetch } = useGetRewardsCounterQuery({
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
   })
+
+  useEffect(() => {
+    if (!isFocused) return
+    refetch()
+  }, [isFocused, refetch])
 
   const count = data?.rewards_counter?.counter ?? 0
   const hasDeed = count && count > 0
@@ -97,7 +107,7 @@ export const GoodDeedsChipUser: React.FC = () => {
       <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
         <Stack gap="3xs">
           <Text size="3xl">{t('personalGoodDeedCounter.drawer.empty.title')}</Text>
-          <Text size="md">{t('personalGoodDeedCounter.drawer.empty.text')}</Text>
+          <Text>{t('personalGoodDeedCounter.drawer.empty.text')}</Text>
         </Stack>
 
         <Stack gap="xs">
@@ -106,27 +116,27 @@ export const GoodDeedsChipUser: React.FC = () => {
           <Stack gap="3xs">
             <Stack direction="row" gap="3xs">
               <HoliIcon icon={Hearts} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
+              <Text>{t('personalGoodDeedCounter.drawer.listItem.volunteering')}</Text>
             </Stack>
 
             <Stack direction="row" gap="3xs">
               <HoliIcon icon={Challenges} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
+              <Text>{t('personalGoodDeedCounter.drawer.listItem.challenges')}</Text>
             </Stack>
 
             <Stack direction="row" gap="3xs">
               <HoliIcon icon={Draft} />
-              <Text size="md">{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
+              <Text>{t('personalGoodDeedCounter.drawer.listItem.posts')}</Text>
             </Stack>
           </Stack>
         </Stack>
 
-        <Text size="md">
+        <Text>
           <Trans
             i18nKey="personalGoodDeedCounter.drawer.campaignHint"
             components={{
-              span: <Text size="md" />,
-              b: <Text size="md" bold />,
+              span: <Text />,
+              b: <Text bold />,
             }}
           />
         </Text>

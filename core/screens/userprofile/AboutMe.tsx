@@ -76,7 +76,7 @@ const AboutMe = () => {
     return (
       <DefaultLayout>
         <Stack alignItems="center" alignSelf="center">
-          <Text size="md">{t('user.profileView.noUser')}</Text>
+          <Text>{t('user.profileView.noUser')}</Text>
         </Stack>
       </DefaultLayout>
     )
@@ -136,10 +136,10 @@ const AboutMe = () => {
           <Stack gap="xs" direction="row">
             <Avatar source={user.avatar} label={user.avatarLabel} />
             <Stack gap="4xs">
-              <Text size="md">
+              <Text>
                 {user.firstName} {user.lastName}
               </Text>
-              <Text size="md" color="support">
+              <Text color="support">
                 {user.pronouns}
                 {user.pronouns && user.location && ' ∙ '}
                 {user.location}
@@ -165,7 +165,7 @@ const AboutMe = () => {
           </Stack>
 
           {user.aboutMe ? (
-            <Text size="md" color="support" numberOfLines={3}>
+            <Text color="support" numberOfLines={3}>
               {user.aboutMe}
             </Text>
           ) : (

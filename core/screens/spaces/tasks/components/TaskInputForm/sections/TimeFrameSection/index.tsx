@@ -30,7 +30,7 @@ const TimeFrameSection = ({
       </Stack>
 
       <Stack direction="row" gap="md" justifyContent="space-between" margin={{ top: 'xxs' }}>
-        <Text size="md">{t('spaces.input.task.section.timeFrame.anytime.label')}</Text>
+        <Text>{t('spaces.input.task.section.timeFrame.anytime.label')}</Text>
         <HoliSwitch value={timeFrame.anytime} size="small" onChange={onChangeAnytimeToggle} />
       </Stack>
 
