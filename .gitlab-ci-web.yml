@@ -103,7 +103,7 @@ web_build:
     - yarn install --immutable --immutable-cache
     - yarn web:build
     - ./scripts/generate-license-documents.sh
-    - find . -type f -exec du -h {} +
+    - find apps/web/.next -type f -exec du -h {} +
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
