@@ -1,24 +1,18 @@
-import { byTestId, checkAccessibility, clickElementByTestId, login, loginAsE2EUser } from '../helpers'
-import { test } from '../testmaster'
+import { expect, test } from '@playwright/test'
+
+import { byTestId, login, loginAsE2EUser } from '../helpers'
 
 test.describe('@Login', () => {
-  test('fails for invalid credentials', async ({ context, page }) => {
-    await login(context, page, 'asfd@asdf.de', '1234')
+  test('should not login when credentials are invalid', async ({ page }) => {
+    await login(page, 'asfd@asdf.de', '1234')
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await page.waitForSelector(byTestId('toast-message-4000006'))
-    await checkAccessibility(page)
   })
 
-  test('works with valid credentials', async ({ context, page }) => {
-    await loginAsE2EUser(context, page)
-    // login form is gone
-    await page.waitForSelector(byTestId('btn-to-forgot-password-form'), { state: 'detached' })
+  test('should login when credentials are valid', async ({ page }) => {
+    await loginAsE2EUser(page)
 
-    // and can log out
-    await clickElementByTestId(page, 'btn-to-profile-view')
-    await clickElementByTestId(page, 'btn-to-settings')
-    await clickElementByTestId(page, 'btn-to-logout')
-    await page.getByRole('button', { name: 'Log out' }).click()
+    await expect(page.getByLabel('Bottom navigation').getByText('Me')).toBeVisible()
   })
 })

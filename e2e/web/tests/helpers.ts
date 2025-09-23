@@ -1,9 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { type Browser, type BrowserContext, type Locator, type Page, expect } from '@playwright/test'
+import { type Browser, type Locator, type Page, expect } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
-
-import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
-import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
 import { test } from './testmaster'
 
@@ -45,191 +42,33 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
-const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
-  await context.clearCookies()
+export const login = async (page: Page, email: string, password: string) => {
+  await page.context().clearCookies()
 
-  //Introduced exception handling if first attempt to hit the server does not succeed
+  await page.goto('/login')
+  await page.getByRole('button', { name: 'Continue with email and password' }).click()
 
-  await gotoWithRetries(page, '/profile')
-}
+  await page.getByRole('textbox', { name: 'Email' }).fill(email)
+  await page.getByRole('textbox', { name: 'Password' }).fill(password)
 
-export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
-  await prepareForLoginOrRegistration(context, page)
-  await clickElementByTestId(page, 'anonymous-profile-login-btn')
-
-  await clickElementByTestId(page, 'btn-to-email-password-form')
-  const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
-  await emailInput.fill(email)
-
-  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
-  await passwordInput.fill(password)
-
-  await clickElementByTestId(page, 'ory-submit-password')
-}
-
-const registerUserAccount = async (
-  context: BrowserContext,
-  page: Page,
-  {
-    email,
-    password,
-    userData,
-  }: {
-    email: string
-    password: string
-    userData?: boolean
-  }
-): Promise<{ fullName: string }> => {
-  await gotoWithRetries(page, '/profile')
-
-  await registerUser(context, page, { email, password, userData })
-  return await finishAccountSetup(page)
-}
-
-const skipOnboardingInitialSteps = async (page: Page) => {
-  await Promise.all([
-    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
-    clickElementByTestId(page, 'btn-to-onboarding'),
-  ])
-
-  const onboardingStepsToSkip = [
-    'onboarding-location-selection',
-    'onboarding-interests-selection',
-    'onboarding-skills-selection',
-  ]
-  for (const step of onboardingStepsToSkip) {
-    await page.waitForSelector(byTestId(step))
-    await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
-  }
-}
-
-const fillOutOnboarding = async (page: Page) => {
-  await Promise.all([
-    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
-    clickElementByTestId(page, 'btn-to-onboarding'),
-  ])
-
-  // Simplified onboarding flow - just navigate to account creation
-  await page.waitForSelector(byTestId('onboarding-account-creation'))
-}
-
-export const registerUser = async (
-  context: BrowserContext,
-  page: Page,
-  {
-    email,
-    password,
-    userData,
-  }: {
-    email: string
-    password: string
-    userData?: boolean
-  }
-): Promise<void> => {
-  await prepareForLoginOrRegistration(context, page)
-
-  await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForAnimationEnd(page, byTestId('onboarding-stepper'))
-
-  if (userData) {
-    await fillOutOnboarding(page)
-  } else {
-    await skipOnboardingInitialSteps(page)
-  }
-
-  await clickElementByTestId(page, 'btn-to-email-password-form')
-  const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
-  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
-
-  await expect(async () => {
-    await expect(emailInput).toBeVisible()
-    await expect(passwordInput).toBeVisible()
-  }).toPass()
-
-  await emailInput.fill(email)
-  await passwordInput.fill(password)
-
-  await clickElementByTestId(page, 'ory-submit-password')
-}
-
-const finishAccountSetup = async (
-  page: Page,
-  {
-    firstName = faker.person.firstName(),
-    lastName = faker.person.lastName(),
-  }: {
-    firstName?: string
-    lastName?: string
-  } = {}
-): Promise<{ fullName: string }> => {
-  // go through account setup
-  // provide user names
-  const firstNameInput = await locateElementByTestId(page, 'onboarding-name-selection-first-name-input')
-  await firstNameInput.fill(firstName)
-
-  const lastNameInput = await locateElementByTestId(page, 'onboarding-name-selection-last-name-input')
-  await lastNameInput.fill(lastName)
-  // submit
-  await clickElementByTestId(page, 'onboarding-name-selection-btn-submit')
-
-  // finish Good Deeds steps
-  await clickElementByAriaLabel(page, 'onboarding.modal.step01.buttonPrimary')
-  await clickElementByAriaLabel(page, 'onboarding.modal.step02.buttonPrimary')
-
-  return {
-    fullName: firstName + ' ' + lastName,
-  }
+  await page.getByRole('button', { name: 'Log in' }).click()
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
-  //Introduced exception handling if first attempt to hit the server does not succeed
-  await gotoWithRetries(page, '/')
+  await page.goto('/onboarding')
 
-  await skipOnboardingInitialSteps(page)
+  await page.getByRole('button', { name: "Let's go" }).click()
+  await page.getByRole('button', { name: 'Continue as a guest' }).click()
 
-  await clickElementByTestId(page, 'onboarding-account-creation-btn-continue-as-guest')
-
-  await page.waitForSelector(byTestId('onboarding-account-creation-btn-continue-as-guest'), { state: 'detached' })
-
-  // User will land on act screen after onboarding > navigate to home feed
-  await clickElementByTestId(page, 'btn-to-home-view')
+  await page.getByLabel('Bottom navigation').getByText('Feed').click()
 }
 
-export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
+export const loginAsE2EUser = async (page: Page) => {
   test.expect(!!process.env.E2E_USER_USERNAME, 'Env E2E_USER_USERNAME is set up correctly').toBeTruthy()
   test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
-  await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
 
-  await page.waitForSelector(byTestId('home-feed-listing'))
-}
-
-const registerNewUserAccount = async (
-  context: BrowserContext,
-  page: Page,
-  {
-    email,
-    password,
-    userData,
-    expectedScreen = 'home-feed-listing',
-  }: {
-    email?: string
-    password?: string
-    userData?: boolean
-    expectedScreen?: string
-  } = {}
-): Promise<{ fullName: string }> => {
-  const emailToUse = email || newUserEmail()
-  const passwordToUse = password || newUserPassword
-  const newAccount = await registerUserAccount(context, page, {
-    email: emailToUse,
-    password: passwordToUse,
-    userData,
-  })
-  await page.waitForSelector(byTestId('community-guidelines-modal-btn-submit'))
-  await clickElementByTestId(page, 'community-guidelines-modal-btn-submit')
-  // wait for expected screen (usually home feed) - registration succeeded
-  await page.waitForSelector(byTestId(expectedScreen))
-  return newAccount
+  await login(page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
+  await expect(page.getByLabel('Bottom navigation').getByText('Me')).toBeVisible()
 }
 
 export const checkAccessibility = async (page: Page, failOnError = true) => {
@@ -280,39 +119,6 @@ export const sendConnectionRequest = async (page: Page) => {
 
 export const randomSpaceName = () => {
   return faker.animal.type() + faker.number.int()
-}
-
-export const withRandomUserSession = async (
-  browser: Browser,
-  actions: (page: Page, userFullName: string) => Promise<void>,
-  {
-    email = newUserEmail(),
-    password = randomPassword(),
-    userData,
-    expectedScreen,
-  }: {
-    email?: string
-    password?: string
-    userData?: boolean
-    expectedScreen?: string
-  } = {}
-): Promise<() => Promise<void>> => {
-  const context = await browser.newContext()
-  const page = await context.newPage()
-
-  const newAccount = await registerNewUserAccount(context, page, { email, password, userData, expectedScreen })
-
-  // If the initial attempt fails, fall back to retry logic
-  await gotoWithRetries(page, '/profile')
-
-  await page.waitForSelector(byTestId('user-profile-full-name'))
-
-  await actions(page, newAccount.fullName)
-
-  return async () => {
-    await deleteAuthenticatedAccount(context)
-    await context.close()
-  }
 }
 
 export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {

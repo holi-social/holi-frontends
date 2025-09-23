@@ -5,9 +5,7 @@ import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers
 import { test } from './testmaster'
 
 test.describe('@Rewards', () => {
-  test('verify rewards flow', async ({ sessions }) => {
-    const { page: user } = await sessions.signUp()
-
+  test('verify rewards flow', async ({ authenticatedSession: { page: user } }) => {
     await test.step('initial counter does not show good deed count', async () => {
       await user.goto('/')
       const counterLabelText = await user.locator(byTestId('good-deeds-counter')).textContent()
