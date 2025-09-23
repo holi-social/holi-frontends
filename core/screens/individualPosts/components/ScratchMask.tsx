@@ -3,8 +3,11 @@ import Svg, { Mask, Rect, G, Path } from 'react-native-svg'
 import ScratchCard from '@holi/ui/assets/img/badges/ScratchCard'
 import { GestureDetector, type PanGesture } from 'react-native-gesture-handler'
 import { View } from 'react-native'
-import { SCRATCHCARD_HEIGHT, SCRATCHCARD_WIDTH } from '@holi/core/screens/individualPosts/components/BadgeMessage'
-import { BRUSH_RADIUS } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
+import {
+  BRUSH_RADIUS,
+  SCRATCHCARD_HEIGHT,
+  SCRATCHCARD_WIDTH,
+} from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
 
 interface ScratchMaskProps {
   panGesture: PanGesture
