@@ -74,7 +74,7 @@ export const GoodDeedsTab = () => {
   if (!personalGoodDeedsLoading && !globalGoodDeedsLoading && personalCounter === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
+        <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
         <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs">
           <GoodDeedsBanner counter={totalCounter} />
@@ -87,7 +87,7 @@ export const GoodDeedsTab = () => {
 
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-      <Text size="md">{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
+      <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
       <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs" gap="md">
         <GoodDeedsBanner counter={totalCounter} />
@@ -125,7 +125,7 @@ export const GoodDeedsTab = () => {
                 justifyContent="space-between"
               >
                 <Stack gap="4xs">
-                  <Text size="md">{formatRewardType(goodDeed.rewardType)}</Text>
+                  <Text>{formatRewardType(goodDeed.rewardType)}</Text>
                   <Text size="xs" color="support">
                     {formatRewardDate(goodDeed.createdAt)}
                   </Text>

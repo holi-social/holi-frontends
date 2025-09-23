@@ -14,7 +14,7 @@ const EmptyTab = ({ callToAction, text }: Props) => {
   const { navigate } = useRouting()
   return (
     <HoliBox padding={[72, 56]} layout={{ alignItems: 'center' }}>
-      <Text textAlign="center" color="support" size="md">
+      <Text textAlign="center" color="support">
         {text}
       </Text>
       {callToAction !== undefined && (

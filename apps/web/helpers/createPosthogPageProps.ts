@@ -9,5 +9,7 @@ export const createPosthogPageProps = async (userId?: string) => {
 
   const featureFlagsAndPayloads = await client.getAllFlagsAndPayloads(userId ?? '')
 
-  return featureFlagsAndPayloads
+  // JSON transform as workaround for issue "`undefined` cannot be serialized as JSON. Please use `null` or omit this value all together."
+  // see open NextJS issue: https://github.com/vercel/next.js/discussions/11209
+  return JSON.parse(JSON.stringify(featureFlagsAndPayloads))
 }

@@ -20,14 +20,14 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ throwError = true }) =>
     throw new HoliError('Test')
   }
 
-  return <Text size="md">Child Content</Text>
+  return <Text>Child Content</Text>
 }
 
 describe('ErrorBoundary', () => {
   it('renders child components without error', () => {
     const { queryByText } = render(
       <ErrorBoundary>
-        <Text size="md">Child Content</Text>
+        <Text>Child Content</Text>
       </ErrorBoundary>
     )
 

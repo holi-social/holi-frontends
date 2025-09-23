@@ -8,7 +8,7 @@ describe('HoliSeparatedList.tsx', () => {
   it('renders no comma or "and" word with only one child', () => {
     const { queryByText, getByText } = render(
       <HoliSeparatedList>
-        <Text size="md">Some text</Text>
+        <Text>Some text</Text>
       </HoliSeparatedList>
     )
 
@@ -20,8 +20,8 @@ describe('HoliSeparatedList.tsx', () => {
   it('renders "and" separator with two children', () => {
     const { queryByText, getByText } = render(
       <HoliSeparatedList>
-        <Text size="md">Bonnie</Text>
-        <Text size="md">Clyde</Text>
+        <Text>Bonnie</Text>
+        <Text>Clyde</Text>
       </HoliSeparatedList>
     )
 
@@ -35,9 +35,7 @@ describe('HoliSeparatedList.tsx', () => {
     const { getAllByText } = render(
       <HoliSeparatedList>
         {children.map((v) => (
-          <Text size="md" key={v}>
-            {v}
-          </Text>
+          <Text key={v}>{v}</Text>
         ))}
       </HoliSeparatedList>
     )

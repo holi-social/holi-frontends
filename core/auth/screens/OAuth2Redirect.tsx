@@ -34,7 +34,7 @@ export const OAuth2Redirect = ({ error, errorContext }: OAuth2RedirectProps) => 
   return (
     <DefaultLayout>
       <View style={[mixins.container, styles.messageContainer]}>
-        <Text size="md">{error ? t('oauth2.redirect.error') : t('oauth2.redirecting')}</Text>
+        <Text>{error ? t('oauth2.redirect.error') : t('oauth2.redirecting')}</Text>
       </View>
     </DefaultLayout>
   )

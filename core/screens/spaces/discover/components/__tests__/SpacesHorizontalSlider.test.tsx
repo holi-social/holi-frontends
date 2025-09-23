@@ -8,9 +8,9 @@ describe('HoliSlider', () => {
   it('renders correctly', () => {
     const { getByText } = render(
       <SpacesHorizontalSlider cardWidth={0} slideGap={0}>
-        <Text size="md">Card 1</Text>
-        <Text size="md">Card 2</Text>
-        <Text size="md">Card 3</Text>
+        <Text>Card 1</Text>
+        <Text>Card 2</Text>
+        <Text>Card 3</Text>
       </SpacesHorizontalSlider>
     )
 

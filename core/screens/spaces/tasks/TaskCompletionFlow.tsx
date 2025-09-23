@@ -299,7 +299,7 @@ const TaskCompletionFlow = () => {
                   <>
                     <View style={styles.titleContainer}>
                       <Text size="3xl">{t('tasks.register.unlogged.title')}</Text>
-                      <Text size="md">{t('tasks.register.unlogged.subtitle')}</Text>
+                      <Text>{t('tasks.register.unlogged.subtitle')}</Text>
                     </View>
                     <View style={styles.buttonContainer}>
                       <FormBuilder
@@ -316,7 +316,7 @@ const TaskCompletionFlow = () => {
                         <HoliDivider />
                       </View>
                       <View style={styles.dividerContainer}>
-                        <Text size="md" textAlign="center" color="greyDark">
+                        <Text textAlign="center" color="greyDark">
                           {t('auth.divider.email')}
                         </Text>
                       </View>
@@ -338,9 +338,9 @@ const TaskCompletionFlow = () => {
                 {step === 'code' && (
                   <View style={styles.codeInputContainer}>
                     <Text size="3xl">{t('registration.emailVerification.heading')}</Text>
-                    <Text size="md">{t('registration.emailVerification.body')}</Text>
+                    <Text>{t('registration.emailVerification.body')}</Text>
                     <View style={styles.changeEmailContainer}>
-                      <Text size="md" ellipsizeMode="tail" numberOfLines={1}>
+                      <Text ellipsizeMode="tail" numberOfLines={1}>
                         {email}
                       </Text>
                       <ButtonTracked

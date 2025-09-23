@@ -64,22 +64,20 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
           </Text>
 
           <HoliBox padding={[Spacing.md, 0]}>
-            <Text size="md" color="support">
-              {t('onboarding.communityGuidelines.description')}
-            </Text>
+            <Text color="support">{t('onboarding.communityGuidelines.description')}</Text>
 
             <HoliGap size="s" />
             <View style={styles.descriptionList}>
               {icons.map((icon, index) => (
                 <View key={index} style={styles.descriptionListItem}>
                   <HoliIcon icon={icon} colorOverride={theme.colors.black300} />
-                  <Text size="md">{t(`onboarding.communityGuidelines.description.point_${index}`)}</Text>
+                  <Text>{t(`onboarding.communityGuidelines.description.point_${index}`)}</Text>
                 </View>
               ))}
             </View>
           </HoliBox>
 
-          <Text size="md" color="support">
+          <Text color="support">
             <Trans t={t} i18nKey={'onboarding.communityGuidelines.readDocument'}>
               <HoliTextLink
                 label={t('onboarding.communityGuidelines.term')}

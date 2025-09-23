@@ -202,9 +202,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
                       initials={connection.avatarLabel}
                     />
                     <Stack direction="row" justifyContent="space-between" flex={1} alignItems="center">
-                      <Text size="md" textAlign="center">
-                        {connection.fullName}
-                      </Text>
+                      <Text textAlign="center">{connection.fullName}</Text>
                       <ButtonIcon
                         icon={Chat3}
                         label="start chat with connection"
@@ -236,9 +234,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
                 resizeMode="contain"
               />
               <Stack gap="3xs">
-                <Text size="md" textAlign="center">
-                  {t('user.profile.own.connections.tagline.empty')}
-                </Text>
+                <Text textAlign="center">{t('user.profile.own.connections.tagline.empty')}</Text>
                 <Text size="xxl" textAlign="center">
                   {t('user.profile.own.connections.title.empty')}
                 </Text>

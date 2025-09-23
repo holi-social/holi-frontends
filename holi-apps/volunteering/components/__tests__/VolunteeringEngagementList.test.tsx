@@ -45,7 +45,7 @@ describe('VolunteeringEngagementList', () => {
   })
 
   it('should render footer if given', () => {
-    const footerComponent = <Text size="md">Test text</Text>
+    const footerComponent = <Text>Test text</Text>
     render(<VolunteeringEngagementList engagements={engagements} footerComponent={footerComponent} />)
 
     expect(screen.getByText('Test text')).toBeOnTheScreen()

@@ -57,7 +57,7 @@ export const EmailContent: React.FC<EmailContentProps> = ({
 
       {!isResubscribed && resubscribe ? (
         <>
-          <Text size="md" color="main" textAlign="left">
+          <Text color="main" textAlign="left">
             {t('email.unsubscribe.subText')}
           </Text>
 

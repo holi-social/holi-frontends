@@ -13,7 +13,7 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 }))
 
 const MockedRootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) => (
-  <Text size="md">{showOnboardingOnStartup ? 'onboarding' : 'something else'}</Text>
+  <Text>{showOnboardingOnStartup ? 'onboarding' : 'something else'}</Text>
 )
 
 jest.mock('@holi/mobile/navigation/RootNavigator', () => ({

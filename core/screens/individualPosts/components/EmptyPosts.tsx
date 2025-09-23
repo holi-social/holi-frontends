@@ -29,9 +29,7 @@ const EmptyPosts = () => {
         height={164}
       />
       <Stack gap="3xs">
-        <Text size="md" textAlign="center">
-          {t('individuals.post.emptyTitle')}
-        </Text>
+        <Text textAlign="center">{t('individuals.post.emptyTitle')}</Text>
         <Text size="xxl" textAlign="center">
           {t('individuals.post.emptyPrompt')}
         </Text>

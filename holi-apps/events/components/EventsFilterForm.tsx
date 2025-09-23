@@ -59,7 +59,7 @@ const EventsFilterForm = ({ onSubmit, filters }: EventFilterFormProps) => {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Text size="md">{t('core.act.events.filter.remote')}</Text>
+          <Text>{t('core.act.events.filter.remote')}</Text>
           <HoliSwitch value={localOnly} size="small" onChange={setLocalOnly} />
         </Stack>
       </View>

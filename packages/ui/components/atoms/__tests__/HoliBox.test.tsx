@@ -11,7 +11,7 @@ describe('HoliBox', () => {
     const paddingValue = 10
     const { getByTestId } = render(
       <HoliBox padding={paddingValue} testID={testID}>
-        <Text size="md">Box with spacing/padding shorthand</Text>
+        <Text>Box with spacing/padding shorthand</Text>
       </HoliBox>
     )
     const box = getByTestId(testID)
@@ -23,7 +23,7 @@ describe('HoliBox', () => {
     const paddingValue = [10, 20]
     const { getByTestId } = render(
       <HoliBox padding={paddingValue} testID={testID}>
-        <Text size="md">Box with spacing/padding shorthand</Text>
+        <Text>Box with spacing/padding shorthand</Text>
       </HoliBox>
     )
     const box = getByTestId(testID)
@@ -38,7 +38,7 @@ describe('HoliBox', () => {
     const paddingValue = [10, 20, 5, 6]
     const { getByTestId } = render(
       <HoliBox padding={paddingValue} testID={testID}>
-        <Text size="md">Box with spacing/padding shorthand</Text>
+        <Text>Box with spacing/padding shorthand</Text>
       </HoliBox>
     )
     const box = getByTestId(testID)
@@ -56,7 +56,7 @@ describe('HoliBox', () => {
     const paddingValue = [10, 20, 5]
     const { getByTestId } = render(
       <HoliBox padding={paddingValue} testID={testID}>
-        <Text size="md">Box with spacing/padding shorthand</Text>
+        <Text>Box with spacing/padding shorthand</Text>
       </HoliBox>
     )
     const box = getByTestId(testID)
@@ -74,7 +74,7 @@ describe('HoliBox', () => {
     }
     const { getByTestId } = render(
       <HoliBox padding={paddingValue} layout={layoutValue} testID={testID}>
-        <Text size="md">Box with spacing/padding shorthand</Text>
+        <Text>Box with spacing/padding shorthand</Text>
       </HoliBox>
     )
     const box = getByTestId(testID)
