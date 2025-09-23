@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -23,8 +23,7 @@ import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/Vo
 import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { EarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModal'
-import { type Badge, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
@@ -43,9 +42,7 @@ export const VolunteeringProgressCard = ({
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { track } = useTracking()
-  const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
-  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0)
-  const { refetchBadges } = useBadges()
+  const { checkNewBadges } = useEarnedBadgesModal()
   const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
@@ -58,30 +55,10 @@ export const VolunteeringProgressCard = ({
       onStatusChange(VolunteeringOpportunityStatusValue.Doing)
 
       if (rewardsPhaseThreeEnabled) {
-        const unlockedBadges = await newBadgeUnlocked()
-        if (unlockedBadges.length > 0) {
-          showBadgesModal()
-        }
+        await checkNewBadges()
       }
     },
   })
-
-  const { show: showBadgesModal, props: badgesModalProps } = useModalState({
-    onDismiss: () => {
-      const nextIndex = currentBadgeIndex + 1
-
-      if (nextIndex < unlockedBadges.length) {
-        setCurrentBadgeIndex(nextIndex) // Show the next unlocked but unseen badge
-      }
-    },
-  })
-
-  const newBadgeUnlocked = async () => {
-    const updatedBadges = await refetchBadges()
-    const newlyUnlockedBadges = updatedBadges.filter((badge) => badge.unlockedAt && !badge.seenAt) ?? []
-    setUnlockedBadges(newlyUnlockedBadges)
-    return newlyUnlockedBadges
-  }
 
   const contactInfoDisplayed = document.contact?.map((contact) => contact.type)
 
@@ -208,7 +185,6 @@ export const VolunteeringProgressCard = ({
 
       <VolunteeringConnectedStatusModal {...connectedStatusModalProps} label="Connected status" />
       <VolunteeringFinishedModal {...finishedModalProps} label="Finished status" />
-      <EarnedBadgesModal {...badgesModalProps} label="Earned a badge" badge={unlockedBadges[currentBadgeIndex]} />
     </>
   )
 }

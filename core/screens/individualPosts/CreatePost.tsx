@@ -31,8 +31,7 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
-import BadgeMessage from '@holi/core/screens/individualPosts/components/BadgeMessage'
-import { type Badge, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -63,12 +62,10 @@ const CreatePost = () => {
   const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
-  const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
 
   const { data, refetch } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
-  const { badges, refetchBadges } = useBadges()
-  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0)
   const counter = data?.rewards_counter.counter
+  const { checkNewBadges } = useEarnedBadgesModal()
 
   useEffect(() => {
     if (!isOnboarded) {
@@ -159,30 +156,11 @@ const CreatePost = () => {
     setIsOnboarded().finally(hide)
   }
 
-  const handleClaimReward = () => {
+  const handleClaimReward = async () => {
     if (rewardsPhaseThreeEnabled) {
-      refetchBadges().then(() => {
-        const newlyUnlockedBadges = badges?.filter((badge: Badge) => badge.unlockedAt && !badge.seenAt)
-        if (newlyUnlockedBadges.length > 0) {
-          setShowRewardMessage(false)
-          setUnlockedBadges(newlyUnlockedBadges)
-        } else {
-          navigate('/')
-        }
-      })
-    } else {
-      navigate('/')
+      await checkNewBadges()
     }
-  }
-
-  const handleClaimBadge = () => {
-    const nextIndex = currentBadgeIndex + 1
-
-    if (nextIndex < unlockedBadges.length) {
-      setCurrentBadgeIndex(nextIndex) // Show the next unlocked but unseen badge
-    } else {
-      navigate('/')
-    }
+    navigate('/')
   }
 
   const handleSubmit = () => {
@@ -192,16 +170,6 @@ const CreatePost = () => {
 
   if (showRewardMessage) {
     return <RewardMessage deedCount={counter} campaignTag="#1MioguteTaten" onClaim={handleClaimReward} />
-  }
-
-  if (unlockedBadges.length > 0) {
-    return (
-      <BadgeMessage
-        key={unlockedBadges[currentBadgeIndex].localazyKey}
-        badge={unlockedBadges[currentBadgeIndex]}
-        onClaim={handleClaimBadge}
-      />
-    )
   }
 
   return (
