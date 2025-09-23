@@ -107,7 +107,11 @@ const HomeFeed = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({ skip: !showGoodDeeds })
+  const { data: globalGoodDeeds, refetch: refetchGlobalCounter } = useGlobalRewardsCounterQuery({
+    skip: !showGoodDeeds,
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+  })
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
@@ -201,6 +205,25 @@ const HomeFeed = () => {
       window.history.replaceState = originalReplaceState
     }
   }, [getFeedStats])
+
+  // Refetch global counter when page becomes visible or flag toggles
+  useEffect(() => {
+    if (!showGoodDeeds) return
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        refetchGlobalCounter()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibility)
+    // Also do an immediate refetch on mount/flag enable for freshness
+    refetchGlobalCounter()
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
+  }, [showGoodDeeds, refetchGlobalCounter])
 
   const updateLastViewedIndex = (index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
