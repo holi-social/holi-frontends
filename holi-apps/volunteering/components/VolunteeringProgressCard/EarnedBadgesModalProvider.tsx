@@ -1,48 +1,33 @@
 import type React from 'react'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { useBadges, type Badge } from '@holi/core/screens/userprofile/hooks/useBadges'
 import { EarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModal'
 
-interface BadgesModalContextType {
-  checkNewBadges: () => Promise<void>
-}
-const BadgesModalContext = createContext<BadgesModalContextType | undefined>(undefined)
+const BadgesModalContext = createContext<() => Promise<Badge[]>>(() => Promise.resolve([]))
 
 export const EarnedBadgesModalProvider = ({ children }: React.PropsWithChildren<unknown>) => {
-  const { refetchBadges } = useBadges()
-  const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([])
-  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0)
+  const { badges, refetchBadges } = useBadges()
+
+  const newBadges = badges.filter((badge) => badge.unlockedAt && !badge.seenAt)
+  const haveNewBadgesToShow = newBadges.length > 0
 
   const { show: showBadgesModal, props: badgesModalProps } = useModalState({
-    onDismiss: () => {
-      const nextIndex = currentBadgeIndex + 1
-
-      if (nextIndex < unlockedBadges.length) {
-        setCurrentBadgeIndex(nextIndex) // Show the next unlocked but unseen badge
-        showBadgesModal()
-      }
-    },
+    onDismiss: refetchBadges,
   })
 
-  const checkNewBadges = async () => {
-    const updatedBadges = await refetchBadges()
-    const newlyUnlockedBadges = updatedBadges.filter((badge) => badge.unlockedAt && !badge.seenAt) ?? []
-    if (newlyUnlockedBadges.length > 0) {
-      setUnlockedBadges(newlyUnlockedBadges)
-      setCurrentBadgeIndex(0)
+  useEffect(() => {
+    if (haveNewBadgesToShow) {
       showBadgesModal()
     }
-  }
+  }, [haveNewBadgesToShow, showBadgesModal])
 
   return (
-    <BadgesModalContext.Provider value={{ checkNewBadges }}>
+    <BadgesModalContext.Provider value={refetchBadges}>
       {children}
 
-      {unlockedBadges.length > 0 && (
-        <EarnedBadgesModal {...badgesModalProps} badge={unlockedBadges[currentBadgeIndex]} label="Earned a badge" />
-      )}
+      {haveNewBadgesToShow && <EarnedBadgesModal {...badgesModalProps} badge={newBadges[0]} label="Earned a badge" />}
     </BadgesModalContext.Provider>
   )
 }

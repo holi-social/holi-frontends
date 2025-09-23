@@ -42,7 +42,7 @@ export const VolunteeringProgressCard = ({
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { track } = useTracking()
-  const { checkNewBadges } = useEarnedBadgesModal()
+  const checkNewBadges = useEarnedBadgesModal()
   const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({

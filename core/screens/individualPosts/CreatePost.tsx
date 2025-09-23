@@ -65,7 +65,7 @@ const CreatePost = () => {
 
   const { data, refetch } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
   const counter = data?.rewards_counter.counter
-  const { checkNewBadges } = useEarnedBadgesModal()
+  const checkNewBadges = useEarnedBadgesModal()
 
   useEffect(() => {
     if (!isOnboarded) {
