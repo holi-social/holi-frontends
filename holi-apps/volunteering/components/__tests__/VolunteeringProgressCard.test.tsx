@@ -9,11 +9,12 @@ import {
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
-const renderWithApollo = (component: React.ReactElement, mocks: MockedResponse[] = []) =>
+const renderWithApolloAndProvider = (component: React.ReactElement, mocks: MockedResponse[] = []) =>
   render(
     <MockedProvider mocks={[...mocks]} addTypename={false}>
-      {component}
+      <EarnedBadgesModalProvider>{component}</EarnedBadgesModalProvider>
     </MockedProvider>
   )
 
@@ -53,7 +54,9 @@ describe('VolunteeringProgressCard', () => {
 
   describe('Status TO_DO', () => {
     it('renders correctly', () => {
-      renderWithApollo(<VolunteeringProgressCard onStatusChange={jest.fn()} document={document} engagementId="123" />)
+      renderWithApolloAndProvider(
+        <VolunteeringProgressCard onStatusChange={jest.fn()} document={document} engagementId="123" />
+      )
 
       expect(screen.getByText('volunteer.progress.progressCard.connect.title')).toBeOnTheScreen()
       expect(screen.getByText('volunteer.progress.progressCard.connect.text')).toBeOnTheScreen()
@@ -63,7 +66,7 @@ describe('VolunteeringProgressCard', () => {
     it('changes status to CONTACTED when "reachedOut" button is pressed and modal is dismissed', async () => {
       const user = userEvent.setup()
       const onStatusChange = jest.fn()
-      renderWithApollo(
+      renderWithApolloAndProvider(
         <VolunteeringProgressCard onStatusChange={onStatusChange} document={document} engagementId="123" />
       )
 
@@ -81,7 +84,7 @@ describe('VolunteeringProgressCard', () => {
 
   describe('Status CONTACTED without badges', () => {
     it('renders correctly', () => {
-      renderWithApollo(
+      renderWithApolloAndProvider(
         <VolunteeringProgressCard
           status={VolunteeringOpportunityStatusValue.Contacted}
           onStatusChange={jest.fn()}
@@ -102,7 +105,7 @@ describe('VolunteeringProgressCard', () => {
         request: { query: badgesMockWithUnseen.request.query },
         result: badgesMockWithUnseen.result,
       }
-      renderWithApollo(
+      renderWithApolloAndProvider(
         <VolunteeringProgressCard
           status={VolunteeringOpportunityStatusValue.Contacted}
           onStatusChange={onStatusChange}
@@ -123,7 +126,7 @@ describe('VolunteeringProgressCard', () => {
 
   describe('Status DOING', () => {
     it('renders correctly', () => {
-      renderWithApollo(
+      renderWithApolloAndProvider(
         <VolunteeringProgressCard
           status={VolunteeringOpportunityStatusValue.Doing}
           onStatusChange={jest.fn()}
