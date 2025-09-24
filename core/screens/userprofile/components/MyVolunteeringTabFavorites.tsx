@@ -26,6 +26,7 @@ export const MyVolunteeringTabFavorites = () => {
   const cardWidth = useRecoCardWidth()
 
   const { favoriteItems, refetch: refetchFavorites, totalResults } = useFavorites(MAX_SHOWN_FAVORITES)
+  const volunteeringFavorites = favoriteItems.filter((item) => item.__typename === 'Typesense_Document')
 
   useFocusEffect(() => {
     refetchFavorites()
@@ -119,7 +120,7 @@ export const MyVolunteeringTabFavorites = () => {
               return null
           }
         }}
-        data={favoriteItems}
+        data={volunteeringFavorites}
         heading={t('profile.tabs.myVolunteer.favorites.title')}
         seeMoreCard={favoriteItems.length > MAX_SHOWN_FAVORITES}
       />
