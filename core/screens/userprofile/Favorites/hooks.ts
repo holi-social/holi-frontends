@@ -57,12 +57,12 @@ export const fromTypesenseId = (id: string) => {
   return id.split('_')[1]
 }
 
-export const useFavorites = () => {
+export const useFavorites = (limit?: number) => {
   const { displayError } = useErrorHandling()
 
   const {
     data: {
-      favorites: { data: favorites = [] } = {},
+      favorites: { data: favorites = [], totalResults = 0 } = {},
     } = {},
     loading: favoritesLoading,
     refetch,
@@ -75,7 +75,7 @@ export const useFavorites = () => {
     },
     variables: {
       offset: 0,
-      limit: 100, // limit it 100 for first iteration
+      limit: limit || 100, // limit it 100 for first iteration
     },
   })
 
@@ -119,6 +119,7 @@ export const useFavorites = () => {
 
   return {
     favoriteItems,
+    totalResults,
     refetch,
     loading: favoritesLoading || typesenseDocumentsLoading,
   }

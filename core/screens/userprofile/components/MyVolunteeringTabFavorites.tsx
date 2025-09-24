@@ -16,13 +16,15 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
+const MAX_SHOWN_FAVORITES = 5
+
 export const MyVolunteeringTabFavorites = () => {
   const { t, i18n } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
   const cardWidth = useRecoCardWidth()
 
-  const { favoriteItems, refetch: refetchFavorites } = useFavorites()
+  const { favoriteItems, refetch: refetchFavorites, totalResults } = useFavorites(MAX_SHOWN_FAVORITES)
 
   useFocusEffect(() => {
     refetchFavorites()
@@ -33,6 +35,7 @@ export const MyVolunteeringTabFavorites = () => {
     <Stack padding={{ top: 'xs', bottom: 'xs' }}>
       <RecoSlider
         name="favorites"
+        seeAllPath={totalResults > MAX_SHOWN_FAVORITES ? '/profile/settings/favorites' : undefined}
         renderItem={({ item: favorite }) => {
           switch (favorite.__typename) {
             case 'Insight':
@@ -106,6 +109,7 @@ export const MyVolunteeringTabFavorites = () => {
         }}
         data={favoriteItems}
         heading={'Favorites'}
+        seeMoreCard={favoriteItems.length > MAX_SHOWN_FAVORITES}
       />
     </Stack>
   )

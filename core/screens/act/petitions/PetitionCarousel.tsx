@@ -29,7 +29,6 @@ const PetitionCarousel = ({ cardWidth }: PetitionCarouselProps) => {
         icon={PencilFilled}
         heading={t('act.petitions.title')}
         subline={t('act.petitions.subline')}
-        labelSeeMore={t('act.petitions.showAll')}
         onPressSeeMore={() => setShowConfirmationModal(true)}
         seeMoreTrackingEvent={TrackingEvent.Petitions.seeAll}
       />
