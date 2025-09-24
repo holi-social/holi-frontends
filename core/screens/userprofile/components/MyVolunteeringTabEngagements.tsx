@@ -76,7 +76,11 @@ export const MyVolunteeringTabEngagements = () => {
 
   if (!isLoading && totalResults === 0) {
     return (
-      <Stack padding={{ top: '3xl', bottom: '3xl' }}>
+      <Stack padding={{ bottom: 'xs' }} gap="xxs">
+        <Stack direction="row" justifyContent="space-between">
+          <Text size="xl">{t('profile.tabs.badges.title')}</Text>
+          <StatusInfoHeader />
+        </Stack>
         <VolunteeringEmptyState />
       </Stack>
     )

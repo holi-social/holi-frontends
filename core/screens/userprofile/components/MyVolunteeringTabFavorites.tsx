@@ -15,6 +15,7 @@ import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/Volunte
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { Text } from 'holi-bricks/components/text'
 
 const MAX_SHOWN_FAVORITES = 5
 
@@ -30,6 +31,17 @@ export const MyVolunteeringTabFavorites = () => {
     refetchFavorites()
     track(TrackingEvent.UserProfile.favoritesSubpageOpened())
   })
+
+  if (favoriteItems.length === 0) {
+    return (
+      <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
+        <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
+        <Stack justifyContent="center" backgroundColor="support" padding="xs" borderRadius="md">
+          {t('favoritesOverview.emptyState.preline')}
+        </Stack>
+      </Stack>
+    )
+  }
 
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }}>
@@ -108,7 +120,7 @@ export const MyVolunteeringTabFavorites = () => {
           }
         }}
         data={favoriteItems}
-        heading={'Favorites'}
+        heading={t('profile.tabs.myVolunteer.favorites.title')}
         seeMoreCard={favoriteItems.length > MAX_SHOWN_FAVORITES}
       />
     </Stack>
