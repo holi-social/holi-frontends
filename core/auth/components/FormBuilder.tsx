@@ -27,7 +27,8 @@ import { logError } from '@holi/core/errors/helpers'
 
 type NodeId = string
 
-export type NodeType = 'oidc' | 'password' | 'code' | 'email'
+const allNodeTypes = ['oidc', 'password', 'code', 'email'] as const satisfies string[]
+export type NodeType = (typeof allNodeTypes)[number]
 
 interface Props<T> {
   onSubmit: (payload: T, provider?: string) => Promise<void>
@@ -67,7 +68,7 @@ const FormBuilder = <
   noAutofocusForEmail = false,
   translationPrefix = 'auth.login.',
   style,
-  nodesToShow = [],
+  nodesToShow = allNodeTypes,
   oidcProviders = ['Google', 'Facebook', 'Apple'],
   withLoader = true,
 }: Props<T>) => {
