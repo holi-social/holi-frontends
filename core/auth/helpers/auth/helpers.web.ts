@@ -135,14 +135,17 @@ export const initReauthFlow = (): AxiosPromise<LoginFlow> => {
   return newKratosSdk().createBrowserLoginFlow({ refresh: true }).catch(handleKratosSdkError('initReauthFlow'))
 }
 
-export const submitReauthFlow = (flow: LoginFlow, password: string): AxiosPromise<SuccessfulNativeLogin> => {
-  const identifier = extractValue(flow, 'identifier')
+export const submitReauthFlow = (
+  flow: LoginFlow,
+  password: string,
+  email: string
+): AxiosPromise<SuccessfulNativeLogin> => {
   const csrf_token = extractValue(flow, 'csrf_token')
   return newKratosSdk()
     .updateLoginFlow(
       {
         flow: flow.id,
-        updateLoginFlowBody: { method: 'password', identifier, password, csrf_token },
+        updateLoginFlowBody: { method: 'password', identifier: email, password, csrf_token },
       },
       { withCredentials: true }
     )

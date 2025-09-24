@@ -165,7 +165,11 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       }
       try {
         if (!forgotPasswordFlow && reauthFlow) {
-          await submitReauthFlow(reauthFlow, oldPwd, sessionToken)
+          const session = await getSessionFromStorage()
+          const email = session?.session.identity?.traits.email as string | undefined
+          if (!email) throw Error('Cannot reset password for an account that does not have an email')
+
+          await submitReauthFlow(reauthFlow, oldPwd, email, sessionToken)
           setOldPwdNode(undefined)
         }
         try {
