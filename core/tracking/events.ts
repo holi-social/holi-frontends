@@ -122,7 +122,7 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
     unfavorited: ({ type, id }: { type: string; id: string }) => ({
-      name: 'favorites_favorited',
+      name: 'favorites_unfavorited',
       properties: {
         type,
         id,
