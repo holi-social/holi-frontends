@@ -16,6 +16,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
 import { VolunteeringEmptyState } from '@holi/core/screens/userprofile/components/VolunteeringEmptyState'
+import { EngagementsListErrorState } from '@holi/core/screens/userprofile/components/EngagementsListErrorState'
 
 const StatusInfoHeader = () => {
   const { t } = useTranslation()
@@ -59,12 +60,16 @@ const StatusInfoHeader = () => {
 export const MyVolunteeringTabEngagements = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults, refetch } =
+  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults, refetch, error } =
     useCommittedVolunteering()
 
   useEffect(() => {
     refetch()
   }, [refetch])
+
+  if (error) {
+    return <EngagementsListErrorState refetch={refetch} />
+  }
 
   if (isInitialLoad) {
     return (

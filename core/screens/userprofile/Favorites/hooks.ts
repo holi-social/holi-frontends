@@ -66,6 +66,7 @@ export const useFavorites = (limit?: number) => {
     } = {},
     loading: favoritesLoading,
     refetch,
+    error,
   } = useFavoritesQuery({
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     onError: (error) => {
@@ -122,5 +123,6 @@ export const useFavorites = (limit?: number) => {
     totalResults,
     refetch,
     loading: favoritesLoading || typesenseDocumentsLoading,
+    error,
   }
 }

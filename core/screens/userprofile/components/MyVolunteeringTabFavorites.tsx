@@ -16,6 +16,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Text } from 'holi-bricks/components/text'
+import { FavoritesListErrorState } from '@holi/core/screens/userprofile/components/FavoritesListErrorState'
 
 const MAX_SHOWN_FAVORITES = 5
 
@@ -25,13 +26,27 @@ export const MyVolunteeringTabFavorites = () => {
   const { track } = useTracking()
   const cardWidth = useRecoCardWidth()
 
-  const { favoriteItems, refetch: refetchFavorites, totalResults } = useFavorites(MAX_SHOWN_FAVORITES)
+  const {
+    favoriteItems,
+    refetch: refetchFavorites,
+    totalResults,
+    error: favoritesError,
+  } = useFavorites(MAX_SHOWN_FAVORITES)
   const volunteeringFavorites = favoriteItems.filter((item) => item.__typename === 'Typesense_Document')
 
   useFocusEffect(() => {
     refetchFavorites()
     track(TrackingEvent.UserProfile.favoritesSubpageOpened())
   })
+
+  if (favoritesError) {
+    return (
+      <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
+        <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
+        <FavoritesListErrorState refetch={() => refetchFavorites().then(() => {})} />
+      </Stack>
+    )
+  }
 
   if (favoriteItems.length === 0) {
     return (
