@@ -37,7 +37,6 @@ type RecoSliderProps = {
   seeMoreTrackingEvent?: TrackingEvent
   headerTitleSeeMoreTrackingEvent?: TrackingEvent
   headerTitleTrackingEvent?: TrackingEvent
-  showHeader?: boolean
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -56,7 +55,6 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   seeMoreTrackingEvent,
   headerTitleSeeMoreTrackingEvent,
   headerTitleTrackingEvent,
-  showHeader: header = true,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -150,49 +148,47 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
   return (
     <Stack gap="xxs" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
-      {header && (
+      <Stack
+        onPress={handleHeaderTitlePress}
+        testID={`${name}-reco-slider-heading-button`}
+        padding={{ left: 'xs', right: 'xs' }}
+      >
         <Stack
-          onPress={handleHeaderTitlePress}
-          testID={`${name}-reco-slider-heading-button`}
-          padding={{ left: 'xs', right: 'xs' }}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          gap={'xs'}
+          flex={1}
+          testID={`${name}-reco-slider-heading`}
         >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            gap={'xs'}
-            flex={1}
-            testID={`${name}-reco-slider-heading`}
-          >
-            <Stack width={'100%'} direction="row" gap="xxs" justifyContent="center" alignItems="flex-start">
-              <Stack justifyContent="center" alignItems="center">
-                <HoliIcon icon={icon} size={ICON_SIZE} color="support" />
-              </Stack>
-
-              <Stack direction="column" flex={1}>
-                <Text size="xl" headingLevel="3">
-                  {heading}
-                </Text>
-              </Stack>
-
-              {(seeAllPath || onPressSeeMore) && (
-                <Stack direction="row">
-                  <TextLink size="sm" role="none" onPress={handleSeeMoreHeaderTitlePress}>
-                    {t('global.seeMore')}
-                  </TextLink>
-                  <HoliIcon icon={ArrowRightS} size={ICON_SIZE} />
-                </Stack>
-              )}
+          <Stack width={'100%'} direction="row" gap="xxs" justifyContent="center" alignItems="flex-start">
+            <Stack justifyContent="center" alignItems="center">
+              <HoliIcon icon={icon} size={ICON_SIZE} color="support" />
             </Stack>
-          </Stack>
 
-          <Stack direction="row" padding={{ left: 'lg' }}>
-            <Text size="sm" color="support">
-              {subline}
-            </Text>
+            <Stack direction="column" flex={1}>
+              <Text size="xl" headingLevel="3">
+                {heading}
+              </Text>
+            </Stack>
+
+            {(seeAllPath || onPressSeeMore) && (
+              <Stack direction="row">
+                <TextLink size="sm" role="none" onPress={handleSeeMoreHeaderTitlePress}>
+                  {t('global.seeMore')}
+                </TextLink>
+                <HoliIcon icon={ArrowRightS} size={ICON_SIZE} />
+              </Stack>
+            )}
           </Stack>
         </Stack>
-      )}
+
+        <Stack direction="row" padding={{ left: 'lg' }}>
+          <Text size="sm" color="support">
+            {subline}
+          </Text>
+        </Stack>
+      </Stack>
 
       {ListComponent}
     </Stack>
