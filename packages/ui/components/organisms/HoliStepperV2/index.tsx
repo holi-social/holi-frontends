@@ -1,6 +1,6 @@
 import type React from 'react'
 import { useState } from 'react'
-import { Platform, ScrollView, type ScrollViewProps, StyleSheet, View } from 'react-native'
+import { ScrollView, type ScrollViewProps, StyleSheet, View } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -167,10 +167,5 @@ const styles = StyleSheet.create({
   stepContainer: {
     flex: 1,
     width: '100%',
-    ...Platform.select({
-      web: {
-        flexBasis: 0,
-      },
-    }),
   },
 })
