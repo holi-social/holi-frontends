@@ -57,7 +57,6 @@ const DonationCarousel = ({ cardWidth }: DonationCarouselProps) => {
       subline={t('donations.app.subline')}
       seeAllPath="/donations"
       loading={isLoading}
-      testID="donation-carousel"
     />
   )
 }

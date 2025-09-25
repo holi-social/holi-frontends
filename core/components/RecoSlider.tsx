@@ -24,9 +24,9 @@ type RecoSliderProps = {
   renderItem: ListRenderItem<any>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: readonly any[]
-  icon?: HoliIconType
+  icon: HoliIconType
   heading: string
-  subline?: string
+  subline: string
   seeAllPath?: string
   onPressSeeMore?: (event: React.SyntheticEvent | GestureResponderEvent) => void
   seeMoreCard?: boolean
@@ -37,6 +37,7 @@ type RecoSliderProps = {
   seeMoreTrackingEvent?: TrackingEvent
   headerTitleSeeMoreTrackingEvent?: TrackingEvent
   headerTitleTrackingEvent?: TrackingEvent
+  showHeader?: boolean
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -55,6 +56,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   seeMoreTrackingEvent,
   headerTitleSeeMoreTrackingEvent,
   headerTitleTrackingEvent,
+  showHeader: header = true,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -118,6 +120,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     horizontal: true,
     contentContainerStyle: {
       paddingBottom: Platform.OS === 'web' ? Spacing.xxs : undefined,
+      paddingLeft: Spacing.xs,
+      paddingRight: Spacing.xs,
       gap: Spacing['3xs'],
     },
     data,
@@ -146,47 +150,49 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
   return (
     <Stack gap="xxs" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
-      <Stack onPress={handleHeaderTitlePress} testID={`${name}-reco-slider-heading-button`}>
+      {header && (
         <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          gap={'xs'}
-          flex={1}
-          testID={`${name}-reco-slider-heading`}
+          onPress={handleHeaderTitlePress}
+          testID={`${name}-reco-slider-heading-button`}
+          padding={{ left: 'xs', right: 'xs' }}
         >
-          <Stack width={'100%'} direction="row" gap="xxs" justifyContent="center" alignItems="flex-start">
-            {icon && (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            gap={'xs'}
+            flex={1}
+            testID={`${name}-reco-slider-heading`}
+          >
+            <Stack width={'100%'} direction="row" gap="xxs" justifyContent="center" alignItems="flex-start">
               <Stack justifyContent="center" alignItems="center">
                 <HoliIcon icon={icon} size={ICON_SIZE} color="support" />
               </Stack>
-            )}
 
-            <Stack direction="column" flex={1}>
-              <Text size="xl" headingLevel="3">
-                {heading}
-              </Text>
-            </Stack>
-
-            {(seeAllPath || onPressSeeMore) && (
-              <Stack direction="row">
-                <TextLink size="sm" role="none" onPress={handleSeeMoreHeaderTitlePress}>
-                  {t('global.seeMore')}
-                </TextLink>
-                <HoliIcon icon={ArrowRightS} size={ICON_SIZE} />
+              <Stack direction="column" flex={1}>
+                <Text size="xl" headingLevel="3">
+                  {heading}
+                </Text>
               </Stack>
-            )}
-          </Stack>
-        </Stack>
 
-        {subline && (
+              {(seeAllPath || onPressSeeMore) && (
+                <Stack direction="row">
+                  <TextLink size="sm" role="none" onPress={handleSeeMoreHeaderTitlePress}>
+                    {t('global.seeMore')}
+                  </TextLink>
+                  <HoliIcon icon={ArrowRightS} size={ICON_SIZE} />
+                </Stack>
+              )}
+            </Stack>
+          </Stack>
+
           <Stack direction="row" padding={{ left: 'lg' }}>
             <Text size="sm" color="support">
               {subline}
             </Text>
           </Stack>
-        )}
-      </Stack>
+        </Stack>
+      )}
 
       {ListComponent}
     </Stack>
