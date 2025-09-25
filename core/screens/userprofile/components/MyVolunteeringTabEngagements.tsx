@@ -68,7 +68,15 @@ export const MyVolunteeringTabEngagements = () => {
   }, [refetch])
 
   if (error) {
-    return <EngagementsListErrorState refetch={refetch} />
+    return (
+      <Stack padding={{ bottom: 'xs' }} gap="xxs">
+        <Stack direction="row" justifyContent="space-between">
+          <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
+          <StatusInfoHeader />
+        </Stack>
+        <EngagementsListErrorState refetch={refetch} />
+      </Stack>
+    )
   }
 
   if (isInitialLoad) {
@@ -83,7 +91,7 @@ export const MyVolunteeringTabEngagements = () => {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
-          <Text size="xl">{t('profile.tabs.badges.title')}</Text>
+          <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
           <StatusInfoHeader />
         </Stack>
         <VolunteeringEmptyState />
@@ -94,7 +102,7 @@ export const MyVolunteeringTabEngagements = () => {
   return (
     <Stack padding={{ bottom: 'xs' }} gap="xxs">
       <Stack direction="row" justifyContent="space-between">
-        <Text size="xl">{t('profile.tabs.badges.title')}</Text>
+        <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
         <StatusInfoHeader />
       </Stack>
 

@@ -5,16 +5,22 @@ import {
   makeCommittedVolunteeringItems,
   mockCommittedVolunteeringHookResult,
 } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
+import { MockedProvider } from '@apollo/client/testing'
+import { FavoritesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseCommittedVolunteering = jest.fn()
-const mockUseMyVolunteeringStatuses = jest.fn()
-
 jest.mock('@holi/core/screens/userprofile/hooks/useCommittedVolunteering', () => ({
   useCommittedVolunteering: () => mockUseCommittedVolunteering(),
 }))
 
+const mockUseMyVolunteeringStatuses = jest.fn()
 jest.mock('@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses', () => ({
   useMyVolunteeringStatuses: () => mockUseMyVolunteeringStatuses(),
+}))
+
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
 jest.mock('@holi/core/screens/userprofile/components/VolunteeringEmptyState', () => ({
@@ -39,6 +45,34 @@ jest.mock('@holi/core/screens/userprofile/components/VolunteeringRecoCardWithSta
   },
 }))
 
+const mocks = [
+  {
+    request: {
+      query: FavoritesDocument,
+      variables: {
+        offset: 0,
+        limit: 100,
+      },
+    },
+    result: {
+      data: {
+        favorites: {
+          data: [
+            {
+              id: 'fav1',
+              favoritable: { __typename: 'Insight', id: 'insight1', title: 'Mocked insight' },
+            },
+          ],
+          totalResults: 1,
+        },
+      },
+      loading: false,
+      error: undefined,
+      refetch: jest.fn(),
+    },
+  },
+]
+
 describe('MyVolunteeringTab', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -50,6 +84,7 @@ describe('MyVolunteeringTab', () => {
       ],
       getVolunteeringStatus: jest.fn(),
     })
+    mockUseFeatureFlag.mockReturnValue([true, undefined])
   })
 
   it('should render loader during initial load', () => {
@@ -59,7 +94,12 @@ describe('MyVolunteeringTab', () => {
       items: [],
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
     expect(screen.getByTestId('initial-loader')).toBeOnTheScreen()
   })
 
@@ -71,7 +111,11 @@ describe('MyVolunteeringTab', () => {
       items: [],
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
 
     expect(screen.getByTestId('volunteering-empty-state')).toBeOnTheScreen()
   })
@@ -84,7 +128,11 @@ describe('MyVolunteeringTab', () => {
       totalResults: items.length,
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
 
     expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
     items.forEach((item) => {
@@ -100,7 +148,11 @@ describe('MyVolunteeringTab', () => {
       items: makeCommittedVolunteeringItems(1),
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
     await user.press(screen.getByText('profile.myVolunteer.link.status'))
 
     expect(screen.getByText('profile.myVolunteer.modal.title')).toBeOnTheScreen()
@@ -118,7 +170,11 @@ describe('MyVolunteeringTab', () => {
       isFetchingMore: true,
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
 
     expect(screen.getByTestId('next-page-loader')).toBeOnTheScreen()
   })
@@ -131,7 +187,11 @@ describe('MyVolunteeringTab', () => {
       isFetchingMore: false,
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
     expect(screen.queryByTestId('next-page-loader')).not.toBeOnTheScreen()
     expect(screen.queryByTestId('load-more-button')).not.toBeOnTheScreen()
   })
@@ -146,7 +206,11 @@ describe('MyVolunteeringTab', () => {
       isFetchingMore: false,
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
 
     const loadMoreButton = screen.getByTestId('load-more-button')
     expect(loadMoreButton).toBeOnTheScreen()
@@ -164,7 +228,11 @@ describe('MyVolunteeringTab', () => {
       isFetchingMore: false,
     })
 
-    render(<MyVolunteeringTab />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
     await user.press(screen.getByTestId('load-more-button'))
 
     expect(mockFetchMore).toHaveBeenCalledTimes(1)

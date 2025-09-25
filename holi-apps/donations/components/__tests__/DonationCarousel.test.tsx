@@ -94,7 +94,7 @@ describe('DonationCarousel', () => {
 
     render(<DonationCarousel cardWidth={100} />)
 
-    await user.press(await screen.getByLabelText('donations.donationListing.loadMoreButton.text'))
+    await user.press(await screen.getByTestId('donations-reco-slider-load-more-button'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/donations')
   })
