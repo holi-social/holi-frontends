@@ -7,13 +7,14 @@ import type { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 're
 
 import { useNavigation } from '@react-navigation/native'
 
-import { mobileWebviewHeader } from '@holi/core/auth/helpers/oauth2'
 import type { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import type { HoliTheme } from '@holi/ui/styles/theme'
+
+const mobileWebviewHeader = 'x-mobile-webview'
 
 const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewSourceUri => {
   return !!value && 'uri' in value
