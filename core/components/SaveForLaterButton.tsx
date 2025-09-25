@@ -12,6 +12,8 @@ import { Spacing } from 'holi-bricks/foundations'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
 import { BookmarkLine, BookmarkFill } from '@holi/icons/src/generated'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 interface SaveForLaterButtonProps extends Omit<FavoritingMutationOptions, '__typename'> {
   favoritableId: string
@@ -33,6 +35,7 @@ export const SaveForLaterButton = ({
 }: SaveForLaterButtonProps) => {
   const { requireLogin } = useSignupModal()
   const { t } = useTranslation()
+  const { track } = useTracking()
 
   const { favorite, unfavorite } = useFavoriting(favoritableId, favoritableType, {
     __typename,
@@ -52,6 +55,12 @@ export const SaveForLaterButton = ({
           visible: true,
           offset: Spacing['4xl'] + Spacing.xl,
         })
+        track(
+          TrackingEvent.Favorites.unfavorited({
+            type: favoritableType,
+            id: favoritableId,
+          })
+        )
       }
     } else {
       const success = await favorite()
@@ -75,6 +84,12 @@ export const SaveForLaterButton = ({
           visible: true,
           offset: Spacing['4xl'] + Spacing.xl,
         })
+        track(
+          TrackingEvent.Favorites.favorited({
+            type: favoritableType,
+            id: favoritableId,
+          })
+        )
       }
     }
   }
