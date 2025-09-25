@@ -23,6 +23,7 @@ export const FavoritesListErrorState = ({ refetch }: FavoritesListErrorStateProp
       padding="lg"
       borderRadius="md"
       gap="md"
+      testID="favorites-list-error-state"
     >
       <Image
         alt="Favorites could not be loaded" // todo: localazy

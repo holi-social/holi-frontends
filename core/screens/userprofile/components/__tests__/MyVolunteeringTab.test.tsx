@@ -23,6 +23,15 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
+const mockUseFavorites = jest.fn()
+jest.mock('@holi/core/screens/userprofile/Favorites/hooks', () => {
+  const actual = jest.requireActual('@holi/core/screens/userprofile/Favorites/hooks')
+  return {
+    ...actual, // keep fromTypesenseId, toTypesenseId, types
+    useFavorites: () => mockUseFavorites(),
+  }
+})
+
 jest.mock('@holi/core/screens/userprofile/components/VolunteeringEmptyState', () => ({
   VolunteeringEmptyState: () => {
     const { View, Text } = require('react-native')
@@ -85,6 +94,13 @@ describe('MyVolunteeringTab', () => {
       getVolunteeringStatus: jest.fn(),
     })
     mockUseFeatureFlag.mockReturnValue([true, undefined])
+    mockUseFavorites.mockReturnValue({
+      favoriteItems: [],
+      totalResults: 0,
+      loading: false,
+      refetch: jest.fn(),
+      error: undefined,
+    })
   })
 
   it('should render loader during initial load', () => {
@@ -236,5 +252,156 @@ describe('MyVolunteeringTab', () => {
     await user.press(screen.getByTestId('load-more-button'))
 
     expect(mockFetchMore).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('MyVolunteeringTab with Favorites', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    mockUseMyVolunteeringStatuses.mockReturnValue({
+      volunteeringStatuses: [],
+      getVolunteeringStatus: jest.fn(),
+    })
+    mockUseFeatureFlag.mockReturnValue([true, undefined])
+    mockUseCommittedVolunteering.mockReturnValue({
+      ...mockCommittedVolunteeringHookResult,
+      items: [],
+      totalResults: 0,
+      isInitialLoad: false,
+    })
+  })
+
+  it('should render empty state if no favorites available', () => {
+    mockUseFavorites.mockReturnValue({
+      favoriteItems: [],
+      refetch: jest.fn(),
+      totalResults: 0,
+      error: undefined,
+    })
+
+    render(
+      <MockedProvider>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
+    expect(screen.getByText('Favorites')).toBeOnTheScreen()
+    expect(screen.getByText('No favourites saved yet')).toBeOnTheScreen()
+  })
+
+  it('should render error state for favorites if query returns an error', () => {
+    mockUseFavorites.mockReturnValue({
+      favoriteItems: [],
+      refetch: jest.fn(),
+      totalResults: 0,
+      error: new Error('Something went wrong'),
+    })
+
+    render(
+      <MockedProvider>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
+    expect(screen.getByText('Favorites')).toBeOnTheScreen()
+    expect(screen.getByTestId('favorites-list-error-state')).toBeOnTheScreen()
+  })
+
+  it('should render volunteering favorites but no insight favorites', () => {
+    const volunteeringFavorite = {
+      __typename: 'Typesense_Document',
+      id: 'vol1',
+      type: 'volunteering',
+      title: 'Volunteer favorite',
+    }
+    const insightFavorite = {
+      __typename: 'Insight',
+      id: 'ins1',
+      type: 'insight',
+      title: 'Insight favorite',
+    }
+
+    mockUseFavorites.mockReturnValue({
+      favoriteItems: [volunteeringFavorite, insightFavorite],
+      refetch: jest.fn(),
+      totalResults: 2,
+      error: undefined,
+    })
+
+    render(
+      <MockedProvider>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
+    expect(screen.getByText('Favorites')).toBeOnTheScreen()
+    expect(screen.getByText('Volunteer favorite')).toBeOnTheScreen()
+    expect(screen.queryByText('Insight favorite')).not.toBeOnTheScreen()
+  })
+
+  it('should render "See more" link when there are more than 5 favorites', () => {
+    mockUseFavorites.mockReturnValue({
+      favoriteItems: [
+        { __typename: 'Typesense_Document', id: 'vol1', type: 'volunteering', title: 'Fav1' },
+        { __typename: 'Typesense_Document', id: 'vol2', type: 'volunteering', title: 'Fav2' },
+        { __typename: 'Typesense_Document', id: 'vol3', type: 'volunteering', title: 'Fav3' },
+        { __typename: 'Typesense_Document', id: 'vol4', type: 'volunteering', title: 'Fav4' },
+        { __typename: 'Typesense_Document', id: 'vol5', type: 'volunteering', title: 'Fav5' },
+        { __typename: 'Typesense_Document', id: 'vol6', type: 'volunteering', title: 'Fav6' },
+      ],
+      refetch: jest.fn(),
+      totalResults: 6,
+      error: undefined,
+    })
+
+    render(
+      <MockedProvider>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
+    expect(screen.getByText('global.seeMore')).toBeOnTheScreen()
+  })
+
+  it('should not render "See more" link when there are less or equal 5 favorites', () => {
+    mockUseFavorites.mockReturnValue({
+      favoriteItems: [
+        { __typename: 'Typesense_Document', id: 'vol1', type: 'volunteering', title: 'Fav1' },
+        { __typename: 'Typesense_Document', id: 'vol2', type: 'volunteering', title: 'Fav2' },
+        { __typename: 'Typesense_Document', id: 'vol3', type: 'volunteering', title: 'Fav3' },
+        { __typename: 'Typesense_Document', id: 'vol4', type: 'volunteering', title: 'Fav4' },
+        { __typename: 'Typesense_Document', id: 'vol5', type: 'volunteering', title: 'Fav5' },
+      ],
+      refetch: jest.fn(),
+      totalResults: 5,
+      error: undefined,
+    })
+
+    render(
+      <MockedProvider>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
+    expect(screen.queryByText('global.seeMore')).not.toBeOnTheScreen()
+  })
+
+  it('should not render favorite section when feature flag disabled', () => {
+    mockUseFeatureFlag.mockReturnValue([false, undefined])
+    mockUseCommittedVolunteering.mockReturnValue({
+      ...mockCommittedVolunteeringHookResult,
+      items: [],
+      totalResults: 0,
+      isInitialLoad: false,
+    })
+
+    render(
+      <MockedProvider>
+        <MyVolunteeringTab />
+      </MockedProvider>
+    )
+
+    expect(screen.queryByText('Favorites')).toBeNull()
+    expect(mockUseFavorites).not.toHaveBeenCalled()
   })
 })

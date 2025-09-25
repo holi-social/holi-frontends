@@ -23,7 +23,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
 
-const MAX_SHOWN_FAVORITES = 5
+export const MAX_SHOWN_FAVORITES = 5
 const ICON_SIZE = 20
 
 export const MyVolunteeringTabFavorites = () => {
