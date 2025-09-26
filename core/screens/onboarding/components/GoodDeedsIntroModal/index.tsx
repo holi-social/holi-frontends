@@ -55,6 +55,11 @@ export const GoodDeedsIntroModal = () => {
 
   const { visible, hide } = useGoodDeedsIntroModalState()
 
+  const handleClose = () => {
+    hide()
+    setCurrentStep('GOOD_DEEDS_EXPLANATION')
+  }
+
   const renderStep = isDesktopView
     ? (key: GoodDeedsOnboardingStepKey) => {
         switch (key) {
@@ -62,7 +67,10 @@ export const GoodDeedsIntroModal = () => {
             return <GoodDeedsExplainDesktop onNextPress={() => setCurrentStep('GOOD_DEEDS_DO')} />
           case 'GOOD_DEEDS_DO':
             return (
-              <GoodDeedsDoDesktop onNextPress={hide} onBackPress={() => setCurrentStep('GOOD_DEEDS_EXPLANATION')} />
+              <GoodDeedsDoDesktop
+                onNextPress={handleClose}
+                onBackPress={() => setCurrentStep('GOOD_DEEDS_EXPLANATION')}
+              />
             )
           default:
             throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
@@ -86,7 +94,7 @@ export const GoodDeedsIntroModal = () => {
       relativeHeight={1}
       autoHeight={false}
       shown={visible}
-      onDismiss={hide}
+      onDismiss={handleClose}
       style={isDesktopView ? styles.modalDesktop : styles.modalMobile}
       testID="onboarding-good-deeds-modal"
     >
@@ -98,7 +106,7 @@ export const GoodDeedsIntroModal = () => {
         onChange={(key, previousKey, buttonPressed) => {
           // finish onboarding if user is on last step and clicks on continue
           if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
-            hide()
+            handleClose()
             return
           }
 
