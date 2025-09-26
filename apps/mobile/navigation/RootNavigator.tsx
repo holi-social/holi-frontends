@@ -35,7 +35,7 @@ import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
 import EventsAppNavigator from '@holi/mobile/navigation/EventsAppNavigator'
 import { LoginCallback, type LoginCallbackParams } from '@holi/core/auth/screens/LoginCallback'
 import { AuthError, type AuthErrorParams } from '@holi/core/auth/screens/AuthError'
-import { PetitionDetails } from '@holi/core/screens/act/petitions/PetitionDetails'
+import { PetitionDetails, type PetitionDetailsParams } from '@holi/core/screens/act/petitions/PetitionDetails'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -83,7 +83,7 @@ export type RootStackScreens = {
 
   [RouteName.EventList]: undefined
 
-  [RouteName.PetitionDetailsScreen]: undefined
+  [RouteName.PetitionDetailsScreen]: PetitionDetailsParams
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
