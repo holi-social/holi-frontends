@@ -36,7 +36,7 @@ import { Intro } from './steps/Intro'
 import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { DocumentsFooter } from './components/DocumentsFooter'
-import { useGoodDeedsIntroModalState } from './hooks/useGoodDeedsIntroModalState'
+import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
 
 export type OnboardingParams = {
   flow?: string
