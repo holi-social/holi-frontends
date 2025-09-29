@@ -31,6 +31,7 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -59,10 +60,12 @@ const CreatePost = () => {
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
   const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
+  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
 
   const { data, refetch } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
   const counter = data?.rewards_counter.counter
+  const checkNewBadges = useEarnedBadgesModal()
 
   useEffect(() => {
     if (!isOnboarded) {
@@ -153,7 +156,10 @@ const CreatePost = () => {
     setIsOnboarded().finally(hide)
   }
 
-  const handleClaimReward = () => {
+  const handleClaimReward = async () => {
+    if (rewardsPhaseThreeEnabled) {
+      await checkNewBadges()
+    }
     navigate('/')
   }
 

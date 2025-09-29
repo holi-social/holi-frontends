@@ -23,6 +23,9 @@ import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/Vo
 import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
   onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
@@ -39,14 +42,21 @@ export const VolunteeringProgressCard = ({
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const { track } = useTracking()
+  const checkNewBadges = useEarnedBadgesModal()
+  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
     onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Contacted),
   })
+
   const { show: showFinishedModal, props: finishedModalProps } = useModalState({
-    onDismiss: () => {
+    onDismiss: async () => {
       track(TrackingEvent.Rewards.goodDeedClaimed('volunteer'))
       onStatusChange(VolunteeringOpportunityStatusValue.Doing)
+
+      if (rewardsPhaseThreeEnabled) {
+        await checkNewBadges()
+      }
     },
   })
 
