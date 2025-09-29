@@ -1,5 +1,5 @@
 import type React from 'react'
-import { createContext, useContext, useEffect } from 'react'
+import { createContext, useContext } from 'react'
 
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { useBadges, type Badge } from '@holi/core/screens/userprofile/hooks/useBadges'
@@ -13,21 +13,22 @@ export const EarnedBadgesModalProvider = ({ children }: React.PropsWithChildren<
   const newBadges = badges.filter((badge) => badge.unlockedAt && !badge.seenAt)
   const haveNewBadgesToShow = newBadges.length > 0
 
-  const { show: showBadgesModal, props: badgesModalProps } = useModalState({
+  const { props: badgesModalProps } = useModalState({
     onDismiss: refetchBadges,
   })
-
-  useEffect(() => {
-    if (haveNewBadgesToShow) {
-      showBadgesModal()
-    }
-  }, [haveNewBadgesToShow, showBadgesModal])
 
   return (
     <BadgesModalContext.Provider value={refetchBadges}>
       {children}
 
-      {haveNewBadgesToShow && <EarnedBadgesModal {...badgesModalProps} badge={newBadges[0]} label="Earned a badge" />}
+      {haveNewBadgesToShow && (
+        <EarnedBadgesModal
+          {...badgesModalProps}
+          shown={haveNewBadgesToShow}
+          badge={newBadges[0]}
+          label="Earned a badge"
+        />
+      )}
     </BadgesModalContext.Provider>
   )
 }
