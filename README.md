@@ -45,7 +45,6 @@
 - [Authentication](#authentication)
   - [Mobile](#mobile)
   - [Web](#web)
-  - [OAuth2](#oauth2)
 - [Tracking](#tracking)
   - [Impression tracking](#impression-tracking)
     - [FlatList as a render component](#flatlist-as-a-render-component)
@@ -681,18 +680,6 @@ request header `Authorization: Bearer $TOKEN`.
 During login, Ory (respectively the Ory API bridge, see `apps/web/pages/api/.ory/[...paths].js`) sets an HTTP-only
 secure cookie with domain-wide validity that includes a session token. This cookie is then sent with every request to
 the backend (which is reverse-proxied on Next.JS server side, see `apps/web/pages/api/graphql.js`).
-
-### OAuth2
-
-In order to support an OAuth2 flow there are some web specific SSR pages to handle login and consent (see `apps/web/pages/oauth2`).
-
-The URLs pointing to these pages have to be configured in the OAuth2 Configuration of Ory and are valid project wide. As custom domains are a paid feature, we only have one shared Ory project for staging, review and local development. In order to work on these OAuth2 pages locally (and to prevent breaking staging or review environments), you can add the following to your `/etc/hosts` file:
-
-```sh
-127.0.0.1 staging.dev.holi.social
-```
-
-However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
 
 ## Tracking
 

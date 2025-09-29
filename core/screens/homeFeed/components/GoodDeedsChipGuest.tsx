@@ -7,7 +7,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { Text } from 'holi-bricks/components/text'
 import { Pressable } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { GoodDeeds, Information } from '@holi/icons/src/generated'
+import { GoodDeeds } from '@holi/icons/src/generated'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Spacing } from 'holi-bricks/foundations'
 
@@ -45,7 +45,6 @@ export const GoodDeedsChipGuest: React.FC = () => {
       <Text size="sm" selectable={false}>
         {t('goodDeeds.name_other')}
       </Text>
-      <HoliIcon icon={Information} size={18} />
     </Pressable>
   )
 }

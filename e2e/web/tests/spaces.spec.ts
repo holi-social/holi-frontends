@@ -22,13 +22,14 @@ test.describe.configure({ mode: 'serial' })
 test.describe('@Spaces', () => {
   let guest: Page
   let user: Page
+  let sessionHandler: SessionHandler
 
   test.beforeAll(async ({ browser }) => {
     guest = await browser.newPage()
 
-    const api = new SessionHandler(browser)
-    const { page: userPage } = await api.signUp()
-    user = userPage
+    sessionHandler = new SessionHandler(browser)
+    const session = await sessionHandler.signUp()
+    user = session.page
 
     if (process.env.DEBUG) guest.on('console', (msg) => console.debug('  GUEST>', msg.text(), '<')) // eslint-disable-line no-console
     if (process.env.DEBUG) user.on('console', (msg) => console.debug('  ADMIN>', msg.text(), '<')) // eslint-disable-line no-console
@@ -61,6 +62,7 @@ test.describe('@Spaces', () => {
   })
 
   test.afterAll(async () => {
+    sessionHandler.cleanup()
     await guest.close()
     await user.close()
   })

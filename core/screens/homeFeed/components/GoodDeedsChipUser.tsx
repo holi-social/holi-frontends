@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useEffect } from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Trans, useTranslation } from 'react-i18next'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -7,12 +8,13 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Challenges, Draft, GoodDeeds, GoodDeedsV2, Hearts, Information } from '@holi/icons/src/generated'
+import { Challenges, Draft, GoodDeeds, GoodDeedsV2, Hearts } from '@holi/icons/src/generated'
 import { TrackingEvent } from '@holi/core/tracking'
 import { Pressable } from 'react-native'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Spacing } from 'holi-bricks/foundations'
+import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 
 export const CounterModalContent = ({ count }: { count: number }) => {
   const { t } = useTranslation()
@@ -77,9 +79,17 @@ export const GoodDeedsChipUser: React.FC = () => {
   const { t } = useTranslation()
   const { track } = useTracking()
 
-  const { data } = useGetRewardsCounterQuery({
-    fetchPolicy: 'no-cache',
+  const isFocused = useIsFocused()
+
+  const { data, refetch } = useGetRewardsCounterQuery({
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
   })
+
+  useEffect(() => {
+    if (!isFocused) return
+    refetch()
+  }, [isFocused, refetch])
 
   const count = data?.rewards_counter?.counter ?? 0
   const hasDeed = count && count > 0
@@ -156,7 +166,6 @@ export const GoodDeedsChipUser: React.FC = () => {
             {t('goodDeeds.name_other')}
           </Text>
         )}
-        <HoliIcon icon={Information} size={18} />
       </Pressable>
 
       <HoliModal {...modalState.props} label={hasDeed ? CountModal.title : TeaserModal.title} autoHeight>

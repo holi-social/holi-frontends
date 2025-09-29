@@ -113,6 +113,22 @@ export namespace TrackingEvent {
       },
       ...versionOne,
     }),
+    favorited: ({ type, id }: { type: string; id: string }) => ({
+      name: 'favorites_favorited',
+      properties: {
+        type,
+        id,
+      },
+      ...versionOne,
+    }),
+    unfavorited: ({ type, id }: { type: string; id: string }) => ({
+      name: 'favorites_unfavorited',
+      properties: {
+        type,
+        id,
+      },
+      ...versionOne,
+    }),
   }
 
   export const SpaceAskQuestion = {
@@ -532,7 +548,7 @@ export namespace TrackingEvent {
     }),
   }
 
-  export type AuthScreen = 'mainRegistration' | 'taskRegistration' | 'mainLogin' | 'oauth2Login'
+  export type AuthScreen = 'mainRegistration' | 'taskRegistration' | 'mainLogin'
 
   export namespace Auth {
     // Others

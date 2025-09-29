@@ -28,6 +28,7 @@ import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCar
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import { useScrollToTop } from '@react-navigation/native'
+import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
@@ -53,7 +54,12 @@ const HomeFeed = () => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
   const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({ skip: !showGoodDeeds })
+  const isFocused = useIsFocused()
+  const { data: globalGoodDeeds, refetch: refetchGlobalCounter } = useGlobalRewardsCounterQuery({
+    skip: !showGoodDeeds,
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+  })
 
   const { refreshControlProps } = useRefreshContext()
 
@@ -62,6 +68,11 @@ const HomeFeed = () => {
   const { track } = useTracking()
   const navigation = useNavigation()
   const ref = useRef(null)
+
+  useEffect(() => {
+    if (!isFocused || !showGoodDeeds) return
+    refetchGlobalCounter()
+  }, [isFocused, showGoodDeeds, refetchGlobalCounter])
 
   const keyExtractor = useCallback((item: CombinedFeedItem, index: number) => {
     return (
