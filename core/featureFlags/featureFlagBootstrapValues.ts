@@ -31,6 +31,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.START_SMALL_CAROUSEL]: true,
     [FeatureFlagKey.REWARDS_PHASE_1]: false,
     [FeatureFlagKey.REWARDS_PHASE_2]: false,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_1]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -49,6 +50,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.START_SMALL_CAROUSEL]: null,
     [FeatureFlagKey.REWARDS_PHASE_1]: null,
     [FeatureFlagKey.REWARDS_PHASE_2]: null,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_1]: null,
   },
 }
 
