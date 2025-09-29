@@ -22,14 +22,16 @@ test.describe('@ChangePassword', () => {
     await page.getByRole('textbox', { name: 'New password' }).fill(newPassword)
     await page.getByRole('button', { name: 'Change password' }).click()
 
-    await expect(page.getByTestId('old-password-input-error-message')).toBeVisible()
+    await expect(page.getByTestId('old-password-input-error-message')).toHaveText('The password does not match')
 
     // provide invalid new password
     await page.getByRole('textbox', { name: 'Old password' }).fill(oldPassword)
     await page.getByRole('textbox', { name: 'New password' }).fill('1234')
-    await page.getByRole('button', { name: 'Change passwors' }).click()
+    await page.getByRole('button', { name: 'Change password' }).click()
 
-    await expect(page.getByTestId('new-password-input-error-message')).toBeVisible()
+    await expect(page.getByTestId('new-password-input-error-message')).toHaveText(
+      /The password must be at least 8 characters long/
+    )
 
     // FIXME: Re-Enable after ORY is fixed
     // // provide correct passwords

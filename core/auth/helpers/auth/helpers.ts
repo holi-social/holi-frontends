@@ -17,7 +17,7 @@ import * as AppleAuthentication from 'expo-apple-authentication'
 import * as ExpoCrypto from 'expo-crypto'
 import { LoginManager } from 'react-native-fbsdk-next'
 
-import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
+import { handleKratosSdkError } from '@holi/core/auth/helpers/helper'
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import * as AuthSession from 'expo-auth-session'
 import * as WebBrowser from 'expo-web-browser'
@@ -297,11 +297,14 @@ export const initReauthFlow = async (sessionToken?: string) =>
     .createNativeLoginFlow({ refresh: true, xSessionToken: sessionToken })
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 
-export const submitReauthFlow = async (flow: LoginFlow, password: string, sessionToken?: string) => {
-  const identifier = extractValue(flow, 'identifier')
+export const submitReauthFlow = async (flow: LoginFlow, password: string, email: string, sessionToken?: string) => {
   return newKratosSdk()
     .updateLoginFlow(
-      { flow: flow.id, updateLoginFlowBody: { method: 'password', identifier, password }, xSessionToken: sessionToken },
+      {
+        flow: flow.id,
+        updateLoginFlowBody: { method: 'password', identifier: email, password },
+        xSessionToken: sessionToken,
+      },
       { withCredentials: true }
     )
     .catch(handleKratosSdkError('submitReauthFlow'))
