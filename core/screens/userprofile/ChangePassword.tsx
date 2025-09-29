@@ -81,6 +81,9 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const safeSetReauthFlow = useSafeDispatch(setReauthFlow)
   const safeSetIsOidc = useSafeDispatch(setIsOidc)
 
+  // @ts-ignore
+  const email = settingsFlow && findInputNodeByNameAndType('traits.email', 'email', settingsFlow)?.attributes?.value
+
   const initForm = useCallback(async () => {
     if (isLoggedIn) {
       const session = await getSessionFromStorage()
@@ -165,8 +168,6 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       }
       try {
         if (!forgotPasswordFlow && reauthFlow) {
-          const session = await getSessionFromStorage()
-          const email = session?.session.identity?.traits.email as string | undefined
           if (!email) throw Error('Cannot reset password for an account that does not have an email')
 
           await submitReauthFlow(reauthFlow, oldPwd, email, sessionToken)
