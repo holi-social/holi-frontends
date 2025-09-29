@@ -62,6 +62,7 @@ query badges {
     unlocked {
       id
       seenAt
+      progressGoal
       slug
       unlockedAt
     }

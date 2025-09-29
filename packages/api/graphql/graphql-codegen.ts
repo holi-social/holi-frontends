@@ -2187,6 +2187,7 @@ export type Rewards_Transaction = {
 export type Rewards_UnlockedBadge = {
   __typename?: 'Rewards_UnlockedBadge'
   id: Scalars['ID']['output']
+  progressGoal: Scalars['Int']['output']
   seenAt?: Maybe<Scalars['DateTimeISO']['output']>
   slug: Scalars['String']['output']
   unlockedAt: Scalars['DateTimeISO']['output']
@@ -5298,7 +5299,14 @@ export type BadgesQuery = {
       progressMade?: number
       slug: string
     }>
-    unlocked: Array<{ __typename?: 'Rewards_UnlockedBadge'; id: string; seenAt?: any; slug: string; unlockedAt: any }>
+    unlocked: Array<{
+      __typename?: 'Rewards_UnlockedBadge'
+      id: string
+      seenAt?: any
+      progressGoal: number
+      slug: string
+      unlockedAt: any
+    }>
   }
 }
 
@@ -8610,6 +8618,7 @@ export const BadgesDocument = gql`
     unlocked {
       id
       seenAt
+      progressGoal
       slug
       unlockedAt
     }

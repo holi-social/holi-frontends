@@ -68,8 +68,8 @@ const mapBadges = (data?: BadgesQuery): Badge[] => {
 
   const unlockedBadges = data?.rewards_badges.unlocked.map((b) => ({
     id: b.id,
-    currentStep: undefined,
-    totalSteps: undefined,
+    currentStep: b.progressGoal,
+    totalSteps: b.progressGoal,
     unlockedAt: new Date(b.unlockedAt),
     seenAt: b.seenAt ? new Date(b.seenAt) : undefined,
     state: BadgeState.achieved,
