@@ -6,7 +6,7 @@ export type Badge = {
   localazyKey: string
   state: BadgeState
   imgSrc: string
-  imgSrcDetailed: string // todo: remove if unused
+  imgSrcDetailed: string
   animationName: keyof typeof animations
   buttonLink?: string
   id?: string
@@ -73,7 +73,7 @@ const mapBadges = (data?: BadgesQuery): Badge[] => {
     unlockedAt: new Date(b.unlockedAt),
     seenAt: b.seenAt ? new Date(b.seenAt) : undefined,
     state: BadgeState.achieved,
-    imgSrc: slugIllustrationMapping[b.slug], // todo: add gray out effect
+    imgSrc: slugIllustrationMapping[b.slug],
     imgSrcDetailed: slugDetailedIllustrationMapping[b.slug],
     animationName: slugAnimationMapping[b.slug],
     localazyKey: slugTitleMapping[b.slug],

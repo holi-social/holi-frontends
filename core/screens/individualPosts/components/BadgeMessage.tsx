@@ -24,6 +24,7 @@ import {
 } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { BADGE_HEIGHT, BADGE_WIDTH } from '@holi/core/screens/userprofile/BadgeDetails'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 
 interface BadgeMessageProps {
   badge: Badge
@@ -123,15 +124,15 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
             </View>
           </View>
 
+          <HoliTransition.Fade visible={!revealed} skipInitialEnter style={{ position: 'absolute', zIndex: 10 }}>
+            <ScratchMask {...scratchProps} />
+          </HoliTransition.Fade>
           {!revealed && (
-            <>
-              <ScratchMask {...scratchProps} />
-              <View style={styles.chipLabel}>
-                <ChipLabel color="yellow" blackBorder>
-                  {t('scratchCard.pill.label')}
-                </ChipLabel>
-              </View>
-            </>
+            <View style={styles.chipLabel}>
+              <ChipLabel color="yellow" blackBorder>
+                {t('scratchCard.pill.label')}
+              </ChipLabel>
+            </View>
           )}
         </View>
 

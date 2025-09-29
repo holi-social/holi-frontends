@@ -84,6 +84,8 @@ const MyBadges = () => {
                     </Text>
                   </Stack>
 
+                  {/* todo: when the badge is unlocked, both totalSteps and currentSteps are undefined as we dont get the data from the backend.
+                  This results in a text like " / Engagements". So we should either return it by the backend or use a different localazy key when its reached. */}
                   <Text size="xs" textAlign="center" color="support">
                     {t(`badge.${badge.localazyKey}.descriptionShort`, {
                       totalSteps: badge.totalSteps,

@@ -19,7 +19,7 @@ interface ScratchMaskProps {
 export const ScratchMask = ({ panGesture, strokes, currentStroke, renderStrokesAsPath }: ScratchMaskProps) => {
   return (
     <GestureDetector gesture={panGesture}>
-      <View style={{ position: 'absolute', width: SCRATCHCARD_WIDTH, height: SCRATCHCARD_HEIGHT, zIndex: 10 }}>
+      <View style={{ width: SCRATCHCARD_WIDTH, height: SCRATCHCARD_HEIGHT }}>
         <Svg width="100%" height="100%">
           <Mask id="mask" maskUnits="userSpaceOnUse">
             <Rect width="100%" height="100%" fill="white" />

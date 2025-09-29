@@ -1,6 +1,5 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
-import { useTranslation } from 'react-i18next'
 
 import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -12,13 +11,12 @@ interface EarnedBadgesModalProps extends HoliModalProps {
 }
 
 export const EarnedBadgesModal = (props: EarnedBadgesModalProps) => {
-  const { t } = useTranslation()
   const { bottom } = useSafeAreaInsets()
 
   return (
-    <HoliModal {...props} label={t('badge.earned.modal')} autoHeight={false}>
+    <HoliModal {...props} label="Scratch to reveal superpower" autoHeight={false}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: bottom, flex: 1 }}>
-        <BadgeMessage key={props.badge?.localazyKey} badge={props.badge} onClaim={props.onDismiss} />
+        <BadgeMessage key={props.badge.localazyKey} badge={props.badge} onClaim={props.onDismiss} />
       </ScrollView>
     </HoliModal>
   )
