@@ -111,7 +111,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
           <View style={styles.cardContainer}>
             <View style={styles.shining}>
               <Image
-                source={require('@holi/ui/assets/img/illustrations/illustration_shining.svg')}
+                source={require('@holi/ui/assets/img/badges/illustration_shining.svg')}
                 alt="shining illustration"
                 width={SHINING_SIZE}
                 height={SHINING_SIZE}
