@@ -21,6 +21,7 @@ import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
 import { SnackbarGlobal } from '@holi/core/components/SnackbarGlobal'
 import { HoliWebViewGlobalModal } from '@holi/ui/components/organisms/HoliWebViewGlobalModal'
+import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -52,9 +53,11 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
                     {isMobile ? <UpdateAppModal /> : null}
                     {isMobile ? <HoliWebViewGlobalModal /> : null}
                     <SignupModalProvider>
-                      <ChatSessionInitializer>
-                        <ChatProvider>{children}</ChatProvider>
-                      </ChatSessionInitializer>
+                      <EarnedBadgesModalProvider>
+                        <ChatSessionInitializer>
+                          <ChatProvider>{children}</ChatProvider>
+                        </ChatSessionInitializer>
+                      </EarnedBadgesModalProvider>
                     </SignupModalProvider>
                   </RefreshContextProvider>
                 </SessionExpiryProtection>
