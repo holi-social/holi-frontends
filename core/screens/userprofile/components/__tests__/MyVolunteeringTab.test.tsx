@@ -285,8 +285,8 @@ describe('MyVolunteeringTab with Favorites', () => {
       </MockedProvider>
     )
 
-    expect(screen.getByText('Favorites')).toBeOnTheScreen()
-    expect(screen.getByText('No favourites saved yet')).toBeOnTheScreen()
+    expect(screen.getByText('profile.tabs.myVolunteer.favorites.title')).toBeOnTheScreen()
+    expect(screen.getByText('favoritesOverview.emptyState.preline')).toBeOnTheScreen()
   })
 
   it('should render error state for favorites if query returns an error', () => {
@@ -303,7 +303,7 @@ describe('MyVolunteeringTab with Favorites', () => {
       </MockedProvider>
     )
 
-    expect(screen.getByText('Favorites')).toBeOnTheScreen()
+    expect(screen.getByText('profile.tabs.myVolunteer.favorites.title')).toBeOnTheScreen()
     expect(screen.getByTestId('favorites-list-error-state')).toBeOnTheScreen()
   })
 
@@ -334,7 +334,7 @@ describe('MyVolunteeringTab with Favorites', () => {
       </MockedProvider>
     )
 
-    expect(screen.getByText('Favorites')).toBeOnTheScreen()
+    expect(screen.getByText('profile.tabs.myVolunteer.favorites.title')).toBeOnTheScreen()
     expect(screen.getByText('Volunteer favorite')).toBeOnTheScreen()
     expect(screen.queryByText('Insight favorite')).not.toBeOnTheScreen()
   })
@@ -401,7 +401,7 @@ describe('MyVolunteeringTab with Favorites', () => {
       </MockedProvider>
     )
 
-    expect(screen.queryByText('Favorites')).toBeNull()
+    expect(screen.queryByText('profile.tabs.myVolunteer.favorites.title')).toBeNull()
     expect(mockUseFavorites).not.toHaveBeenCalled()
   })
 })
