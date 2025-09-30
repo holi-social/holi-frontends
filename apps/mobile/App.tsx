@@ -22,6 +22,7 @@ import * as Appcues from '@appcues/react-native'
 import { appcuesAccountId, appcuesAppId } from '@holi/core/helpers/config'
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import { Linking } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const logger = getLogger('AppInit')
 
@@ -84,22 +85,24 @@ const App = () => {
   if (!isReady) return null
 
   return (
-    <BricksTheme initialTheme={'light'}>
-      <ThemeProvider theme={defaultHoliTheme}>
-        <NavigationProvider>
-          <RootProvider apolloClient={apolloClient}>
-            <KeyboardProvider>
-              <OnboardingAwaitingNavigator
-                onReady={async () => {
-                  await SplashScreen.hideAsync()
-                  return true
-                }}
-              />
-            </KeyboardProvider>
-          </RootProvider>
-        </NavigationProvider>
-      </ThemeProvider>
-    </BricksTheme>
+    <GestureHandlerRootView>
+      <BricksTheme initialTheme={'light'}>
+        <ThemeProvider theme={defaultHoliTheme}>
+          <NavigationProvider>
+            <RootProvider apolloClient={apolloClient}>
+              <KeyboardProvider>
+                <OnboardingAwaitingNavigator
+                  onReady={async () => {
+                    await SplashScreen.hideAsync()
+                    return true
+                  }}
+                />
+              </KeyboardProvider>
+            </RootProvider>
+          </NavigationProvider>
+        </ThemeProvider>
+      </BricksTheme>
+    </GestureHandlerRootView>
   )
 }
 
