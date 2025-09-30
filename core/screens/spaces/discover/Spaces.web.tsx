@@ -92,7 +92,6 @@ const Spaces = () => {
       })
 
     setScreenOptions({
-      headerShown: true,
       /* have white background appearance */
       headerTransparent: false,
       /* hide title on ios with empty title string */
