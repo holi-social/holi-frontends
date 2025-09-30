@@ -111,7 +111,6 @@ const OwnProfile = () => {
 
     setScreenOptions({
       title: '', // explicitly set to empty string to override the header title. The title is set in the headerLeft.
-      headerShown: true,
       headerBackVisible: true,
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
