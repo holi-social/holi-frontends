@@ -147,7 +147,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   )
 
   return (
-    <Stack gap="xxs" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
+    <Stack gap="sm" minHeight="auto" flex={1} testID={testID || `${name}-reco-slider`}>
       <Stack
         onPress={handleHeaderTitlePress}
         testID={`${name}-reco-slider-heading-button`}

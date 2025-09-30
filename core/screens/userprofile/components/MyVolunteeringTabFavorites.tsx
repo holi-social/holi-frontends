@@ -50,10 +50,7 @@ export const MyVolunteeringTabFavorites = () => {
   if (favoritesError) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Text size="xl">
-          {/* {t('profile.tabs.myVolunteer.favorites.title')} */}
-          Favorites
-        </Text>
+        <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
         <FavoritesListErrorState refetch={() => refetchFavorites().then(() => {})} />
       </Stack>
     )
@@ -62,15 +59,9 @@ export const MyVolunteeringTabFavorites = () => {
   if (favoriteItems.length === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Text size="xl">
-          {/* {t('profile.tabs.myVolunteer.favorites.title')} */}
-          Favorites
-        </Text>
+        <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
         <Stack justifyContent="center" backgroundColor="support" padding="xs" borderRadius="md">
-          <Text>
-            {/* {t('favoritesOverview.emptyState.preline')} */}
-            No favourites saved yet
-          </Text>
+          <Text>{t('favoritesOverview.emptyState.preline')}</Text>
         </Stack>
       </Stack>
     )
@@ -155,10 +146,7 @@ export const MyVolunteeringTabFavorites = () => {
   return (
     <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
       <Stack onPress={handleSeeMore} direction="row" justifyContent="space-between">
-        <Text size="xl">
-          {/* {t('profile.tabs.myVolunteer.favorites.title')} */}
-          Favorites
-        </Text>
+        <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
 
         {totalResults > MAX_SHOWN_FAVORITES && (
           <Stack direction="row">
