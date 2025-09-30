@@ -2187,6 +2187,7 @@ export type Rewards_Transaction = {
 export type Rewards_UnlockedBadge = {
   __typename?: 'Rewards_UnlockedBadge'
   id: Scalars['ID']['output']
+  progressGoal: Scalars['Int']['output']
   seenAt?: Maybe<Scalars['DateTimeISO']['output']>
   slug: Scalars['String']['output']
   unlockedAt: Scalars['DateTimeISO']['output']
@@ -5283,6 +5284,44 @@ export type RewardsTransactionsQuery = {
     __typename?: 'Rewards_PagedTransactions'
     totalResults: number
     data: Array<{ __typename?: 'Rewards_Transaction'; id: string; rewardType: Rewards_RewardType; createdAt: any }>
+  }
+}
+
+export type BadgesQueryVariables = Exact<{ [key: string]: never }>
+
+export type BadgesQuery = {
+  __typename?: 'Query'
+  rewards_badges: {
+    __typename?: 'Rewards_BadgesOverview'
+    inProgress: Array<{
+      __typename?: 'Rewards_InProgressBadge'
+      progressGoal?: number
+      progressMade?: number
+      slug: string
+    }>
+    unlocked: Array<{
+      __typename?: 'Rewards_UnlockedBadge'
+      id: string
+      seenAt?: any
+      progressGoal: number
+      slug: string
+      unlockedAt: any
+    }>
+  }
+}
+
+export type MarkBadgeAsSeenMutationVariables = Exact<{
+  unlockId: Scalars['ID']['input']
+}>
+
+export type MarkBadgeAsSeenMutation = {
+  __typename?: 'Mutation'
+  rewards_markBadgeUnlockAsSeen: {
+    __typename?: 'Rewards_UnlockedBadge'
+    id: string
+    seenAt?: any
+    slug: string
+    unlockedAt: any
   }
 }
 
@@ -8567,6 +8606,102 @@ export type RewardsTransactionsSuspenseQueryHookResult = ReturnType<typeof useRe
 export type RewardsTransactionsQueryResult = Apollo.QueryResult<
   RewardsTransactionsQuery,
   RewardsTransactionsQueryVariables
+>
+export const BadgesDocument = gql`
+    query badges {
+  rewards_badges {
+    inProgress {
+      progressGoal
+      progressMade
+      slug
+    }
+    unlocked {
+      id
+      seenAt
+      progressGoal
+      slug
+      unlockedAt
+    }
+  }
+}
+    `
+
+/**
+ * __useBadgesQuery__
+ *
+ * To run a query within a React component, call `useBadgesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBadgesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBadgesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBadgesQuery(baseOptions?: Apollo.QueryHookOptions<BadgesQuery, BadgesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+}
+export function useBadgesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BadgesQuery, BadgesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+}
+export function useBadgesSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BadgesQuery, BadgesQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+}
+export type BadgesQueryHookResult = ReturnType<typeof useBadgesQuery>
+export type BadgesLazyQueryHookResult = ReturnType<typeof useBadgesLazyQuery>
+export type BadgesSuspenseQueryHookResult = ReturnType<typeof useBadgesSuspenseQuery>
+export type BadgesQueryResult = Apollo.QueryResult<BadgesQuery, BadgesQueryVariables>
+export const MarkBadgeAsSeenDocument = gql`
+    mutation markBadgeAsSeen($unlockId: ID!) {
+  rewards_markBadgeUnlockAsSeen(unlockId: $unlockId) {
+    id
+    seenAt
+    slug
+    unlockedAt
+  }
+}
+    `
+export type MarkBadgeAsSeenMutationFn = Apollo.MutationFunction<
+  MarkBadgeAsSeenMutation,
+  MarkBadgeAsSeenMutationVariables
+>
+
+/**
+ * __useMarkBadgeAsSeenMutation__
+ *
+ * To run a mutation, you first call `useMarkBadgeAsSeenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkBadgeAsSeenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markBadgeAsSeenMutation, { data, loading, error }] = useMarkBadgeAsSeenMutation({
+ *   variables: {
+ *      unlockId: // value for 'unlockId'
+ *   },
+ * });
+ */
+export function useMarkBadgeAsSeenMutation(
+  baseOptions?: Apollo.MutationHookOptions<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>(MarkBadgeAsSeenDocument, options)
+}
+export type MarkBadgeAsSeenMutationHookResult = ReturnType<typeof useMarkBadgeAsSeenMutation>
+export type MarkBadgeAsSeenMutationResult = Apollo.MutationResult<MarkBadgeAsSeenMutation>
+export type MarkBadgeAsSeenMutationOptions = Apollo.BaseMutationOptions<
+  MarkBadgeAsSeenMutation,
+  MarkBadgeAsSeenMutationVariables
 >
 export const Typesense_DocumentByIdDocument = gql`
     query typesense_documentById($id: String!, $documentType: String!) {

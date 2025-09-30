@@ -890,6 +890,10 @@ export namespace TrackingEvent {
       name: 'userProfile_ConnectionsSubpage_opened',
       ...versionOne,
     }),
+    badgesPageOpened: (): TrackingEvent => ({
+      name: 'userProfile_BadgesSubpage_opened',
+      ...versionOne,
+    }),
   }
 
   export const NotificationPreferenceChanged = (
@@ -916,6 +920,18 @@ export namespace TrackingEvent {
     goodDeedClaimed: (type: 'challenge' | 'volunteer' | 'good_deed_post'): TrackingEvent => ({
       name: 'good_deed_claimed',
       properties: { type },
+      ...versionOne,
+    }),
+
+    badgeEarned: (badgeKey: string): TrackingEvent => ({
+      name: 'badge_earned',
+      properties: { badgeKey },
+      ...versionOne,
+    }),
+
+    badgeRevealedButton: (badgeKey: string): TrackingEvent => ({
+      name: 'badge_revealed_button',
+      properties: { badgeKey },
       ...versionOne,
     }),
   }

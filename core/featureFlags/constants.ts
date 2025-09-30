@@ -15,5 +15,6 @@ export enum FeatureFlagKey {
   SOCIAL_LOGIN = 'social-login', // boolean
   REWARDS_PHASE_1 = 'rewards-phase-1', // boolean
   REWARDS_PHASE_2 = 'rewards-phase-2', // boolean
+  REWARDS_PHASE_3 = 'rewards-phase-3', // boolean
   GOOD_DEEDS_INTRO_1 = 'good-deeds-intro-1', // boolean
 }

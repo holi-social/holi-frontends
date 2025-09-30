@@ -5,4 +5,8 @@ export const animations = {
   highFive: require('./highFive.json'),
   contactedSuccess: require('./contactedSuccess.json'),
   rocket: require('./rocket.json'),
+  badgeImpactStarter: require('./badgeImpactStarter.json'),
+  badgeImpactExplorer: require('./badgeImpactExplorer.json'),
+  badgeStoryStarter: require('./badgeStoryStarter.json'),
+  badgeStoryExplorer: require('./badgeStoryExplorer.json'),
 }
