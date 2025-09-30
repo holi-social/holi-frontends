@@ -54,7 +54,9 @@ export default function Layout() {
             fontWeight: '600',
           },
         }}
-      />
+      >
+        <Stack.Screen name="search" options={{ headerShown: true }} />
+      </Stack>
     </AppProviders>
   )
 }
