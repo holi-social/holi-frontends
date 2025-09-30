@@ -163,7 +163,7 @@ describe('Onboarding', () => {
     )
 
     // Should attempt to clean up and redirect
-    expect(mockUseRedirect).toHaveBeenCalledWith('/')
+    expect(mockUseRedirect).toHaveBeenCalledWith('/act')
   })
 
   it('should render account setup for logged in users with incomplete accounts', () => {
