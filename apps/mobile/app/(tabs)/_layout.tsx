@@ -35,6 +35,7 @@ export default function Layout() {
       }}
     >
       <Tabs
+        initialRouteName={RouteName.TabFeed}
         screenOptions={{
           tabBarInactiveTintColor: theme.colors.fill.default,
           tabBarActiveTintColor: theme.colors.fill.main,
@@ -49,11 +50,11 @@ export default function Layout() {
         }}
       >
         <Tabs.Screen
-          name={RouteName.TabHome}
+          name={RouteName.TabFeed}
           options={{
             tabBarButtonTestID: 'btn-to-home-view',
             tabBarLabel: t('navigation.home'),
-            headerShown: true,
+            headerShown: false,
             tabBarIcon: ({ focused, color }) => {
               return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} colorOverride={color} />
             },

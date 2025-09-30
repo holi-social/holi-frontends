@@ -39,6 +39,7 @@ export default function Layout() {
         initialRouteName="(tabs)"
         screenOptions={{
           headerShown: false,
+          title: '',
           headerBackVisible: false,
           headerBackButtonDisplayMode: 'minimal',
           headerTitleAlign: 'center',
@@ -46,11 +47,11 @@ export default function Layout() {
             backgroundColor: theme.colors.bg.support,
           },
           headerShadowVisible: false,
+          headerTintColor: theme.colors.fill.main,
           headerTitleStyle: {
             fontFamily: fontFamilies.regular,
             fontSize: 16,
             fontWeight: '600',
-            color: theme.colors.fill.main,
           },
         }}
       />

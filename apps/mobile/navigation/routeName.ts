@@ -1,5 +1,5 @@
 export enum RouteName {
-  TabHome = 'index',
+  TabFeed = 'index',
   TabAct = 'act',
   TabChat = 'chat',
   TabSpaces = 'spaces',
