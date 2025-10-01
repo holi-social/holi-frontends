@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import {
   Animated,
   type ModalProps,
+  TouchableOpacity,
   Platform,
   type StyleProp,
   StyleSheet,
@@ -26,6 +27,7 @@ import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import { constants } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Spacing } from 'holi-bricks/foundations'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 const IOS_STATUS_BAR_HEIGHT = constants.statusBarHeight
@@ -237,7 +239,21 @@ const HoliModal: React.FC<HoliModalProps> = ({
         </HoliButton>
 
         {desktop ? (
-          <Animated.View style={[styles.rootDesktop, style]}>{children}</Animated.View>
+          <Animated.View style={[styles.rootDesktop, style]}>
+            {children}
+
+            {onDismiss && (
+              <TouchableOpacity
+                accessibilityLabel={t('modal.close')}
+                accessibilityRole="button"
+                testID={`${testID}-close-button`}
+                onPress={onDismiss}
+                style={styles.closeButton}
+              >
+                <HoliIcon size={24} icon={Close} />
+              </TouchableOpacity>
+            )}
+          </Animated.View>
         ) : (
           <Animated.View
             style={[
@@ -370,5 +386,10 @@ const getStyles = (theme: HoliTheme, backgroundColor?: string) =>
     },
     titleContainer: {
       width: '80%',
+    },
+    closeButton: {
+      position: 'absolute',
+      top: Spacing.lg,
+      right: Spacing.lg,
     },
   })

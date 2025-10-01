@@ -13,6 +13,16 @@ import { Spacing, mono } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
+import SignupStepCompleted = TrackingEvent.SignupStepCompleted
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { useCallback, useEffect } from 'react'
+import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
   type OnboardingStepItem,
@@ -24,18 +34,9 @@ import { CreateAccount } from './steps/CreateAccount'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
 import { NamesSelection } from './steps/NamesSelection'
-import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
-import SignupStepCompleted = TrackingEvent.SignupStepCompleted
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
-import { useCallback, useEffect } from 'react'
-import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import { GoodDeedsExplain, GoodDeedsDo } from '@holi/core/screens/onboarding/steps/GoodDeeds'
-import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { DocumentsFooter } from './components/DocumentsFooter'
+import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
 
 export type OnboardingParams = {
   flow?: string
@@ -53,11 +54,7 @@ const Onboarding = () => {
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
-  // TODO: override "rewardsPhaseTwoEnabled" to "false" to hide the good deeds steps, till we improve the Desktop design
-  // const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const rewardsPhaseTwoEnabled = false
-
-  const redirect = useRedirect('/')
+  const redirect = useRedirect('/act')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -65,6 +62,7 @@ const Onboarding = () => {
 
   usePreventBackNavigation(true)
 
+  const { show: showGoodDeedsIntroModal } = useGoodDeedsIntroModalState()
   const cleanUp = async () => {
     storeOnboardingState('finished')
     await clearOnboardingUserDataAsyncStore()
@@ -72,7 +70,8 @@ const Onboarding = () => {
   const finishOnboarding = useCallback(async () => {
     await cleanUp()
     redirect(true)
-  }, [redirect])
+    showGoodDeedsIntroModal()
+  }, [redirect, showGoodDeedsIntroModal])
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen
   useEffect(() => {
@@ -109,11 +108,7 @@ const Onboarding = () => {
             }}
             onContinueAsGuest={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
-              if (rewardsPhaseTwoEnabled) {
-                setCurrentStep('GOOD_DEEDS_EXPLANATION')
-              } else {
-                finishOnboarding()
-              }
+              finishOnboarding()
             }}
             onRegister={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
@@ -143,20 +138,12 @@ const Onboarding = () => {
             <NamesSelection
               onFinish={() => {
                 track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
-                if (rewardsPhaseTwoEnabled) {
-                  setCurrentStep('GOOD_DEEDS_EXPLANATION')
-                } else {
-                  finishOnboarding()
-                }
+                finishOnboarding()
               }}
               testID="onboarding-name-selection"
             />
           </View>
         )
-      case 'GOOD_DEEDS_EXPLANATION':
-        return <GoodDeedsExplain />
-      case 'GOOD_DEEDS_DO':
-        return <GoodDeedsDo />
       default:
         throw new HoliError(`Onboarding: "${key}" is not a valid step`)
     }
@@ -191,17 +178,8 @@ const Onboarding = () => {
 
           setCurrentStep(key as OnboardingStepKey)
         }}
-        WrapperComponent={
-          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep)
-            ? ({ children }) => <>{children}</>
-            : undefined
-        }
-        paddingTop={
-          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaTop ?? Spacing.xxs)
-        }
-        paddingBottom={
-          ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'].includes(currentStep) ? 0 : (safeAreaBottom ?? Spacing.xxs)
-        }
+        paddingTop={safeAreaTop ?? Spacing.xxs}
+        paddingBottom={safeAreaBottom ?? Spacing.xxs}
         testID="onboarding-stepper"
       />
       {currentStep === 'CREATE_ACCOUNT' && (
