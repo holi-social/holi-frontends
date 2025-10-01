@@ -97,7 +97,6 @@ const RecommendedChallenges = () => {
       headerTitleSeeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'all')}
       onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
       seeMoreTrackingEvent={TrackingEvent.ChallengeCard.AllChallengesVisited('act', 'more-card')}
-      labelSeeMore={t('challenges.carousel.seeMore')}
       loading={isLoading}
     />
   )

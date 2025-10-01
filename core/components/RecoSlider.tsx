@@ -29,7 +29,7 @@ type RecoSliderProps = {
   subline: string
   seeAllPath?: string
   onPressSeeMore?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  labelSeeMore?: string
+  seeMoreCard?: boolean
   loading?: boolean
   testID?: string
   viewTrackingParams?: TrackableFlatListParams
@@ -48,7 +48,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   subline,
   seeAllPath,
   onPressSeeMore,
-  labelSeeMore,
+  seeMoreCard = true,
   loading,
   testID,
   viewTrackingParams,
@@ -125,15 +125,15 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
     data,
     renderItem: renderItemWithMeasurement,
     ListFooterComponent:
-      labelSeeMore && (seeAllPath || onPressSeeMore) ? (
+      seeMoreCard && (seeAllPath || onPressSeeMore) ? (
         <View style={styles.seeMoreButton(itemsWidth || 0)}>
           <HoliMoreCard
             role="link"
-            label={labelSeeMore}
+            label={t('global.seeMore.plusIcon.label')}
             onPress={handleSeeMore}
             testID={`${name}-reco-slider-load-more-button`}
           >
-            {labelSeeMore}
+            {t('global.seeMore')}
           </HoliMoreCard>
         </View>
       ) : null,

@@ -65,6 +65,7 @@ const VolunteeringRecosSlider = ({ recos, rows = 1 }: VolunteeringRecosSliderPro
       heading={t('volunteering.app.name')}
       subline={t('volunteering.app.subline')}
       seeAllPath="/volunteering"
+      seeMoreCard={false}
     />
   )
 }
