@@ -22,6 +22,8 @@ import { SnackbarGlobal } from '@holi/core/components/SnackbarGlobal'
 import { HoliWebViewGlobalModal } from '@holi/ui/components/organisms/HoliWebViewGlobalModal'
 import { GoodDeedsIntroModal } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal'
 import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import FeatureFlagGuard from '@holi/core/featureFlags/components/FeatureFlagGuard'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -48,7 +50,9 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
                 <SessionExpiryProtection>
                   <RefreshContextProvider>
                     <FeatureFlagsFetcher />
-                    <GoodDeedsIntroModal />
+                    <FeatureFlagGuard flag={FeatureFlagKey.GOOD_DEEDS_INTRO_1}>
+                      <GoodDeedsIntroModal />
+                    </FeatureFlagGuard>
                     {isMobile ? <DeviceRegistration /> : null}
                     {isMobile ? <UpdateAppModal /> : null}
                     {isMobile ? <HoliWebViewGlobalModal /> : null}
