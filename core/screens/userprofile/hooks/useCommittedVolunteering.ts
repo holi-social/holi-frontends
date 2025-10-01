@@ -1,3 +1,4 @@
+import type { ApolloError } from '@apollo/client'
 import {
   useCommittedVolunteeringOpportunitiesQuery,
   type VolunteeringOpportunityStatusValue,
@@ -31,6 +32,7 @@ interface VolunteeringPaginationState {
   isInitialLoad: boolean
   isFetchingMore: boolean
   refetch(): Promise<void>
+  error?: ApolloError
 }
 
 export const useCommittedVolunteering = (
@@ -122,5 +124,6 @@ export const useCommittedVolunteering = (
     isFetchingMore,
     fetchMore,
     refetch,
+    error: opportunitiesQuery.error,
   }
 }

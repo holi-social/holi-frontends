@@ -24,7 +24,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const isWeb = Platform.OS === 'web'
 
-const UnfavoriteButton = ({
+export const UnfavoriteButton = ({
   favoritableId,
   favoritableType,
   onCompleted,

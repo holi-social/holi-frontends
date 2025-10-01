@@ -16,6 +16,7 @@ import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
 import { VolunteeringEmptyState } from '@holi/core/screens/userprofile/components/VolunteeringEmptyState'
+import { EngagementsListErrorState } from '@holi/core/screens/userprofile/components/EngagementsListErrorState'
 
 const StatusInfoHeader = () => {
   const { t } = useTranslation()
@@ -23,7 +24,7 @@ const StatusInfoHeader = () => {
   const { show, hide, props: modalProps } = useModalState()
 
   return (
-    <Stack alignItems="flex-end" padding={{ left: 'xs', right: 'xs', top: 'xs' }}>
+    <Stack>
       <TextLink size="sm" onPress={show} color="purpleDark">
         <Stack direction="row" alignItems="center" gap="4xs">
           <Text size="lg" color="purpleDark">
@@ -56,14 +57,36 @@ const StatusInfoHeader = () => {
   )
 }
 
-export const MyVolunteeringTab = () => {
+export const SavedEngagements = () => {
   const { styles } = useStyles(stylesheet)
-  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults, refetch } =
-    useCommittedVolunteering()
+  const { t } = useTranslation()
+  const {
+    items: committedVolunteeringOpportunities,
+    canFetchMore,
+    isFetchingMore,
+    isLoading,
+    isInitialLoad,
+    fetchMore,
+    totalResults,
+    refetch,
+    error,
+  } = useCommittedVolunteering()
 
   useEffect(() => {
     refetch()
   }, [refetch])
+
+  if (error) {
+    return (
+      <Stack padding={{ bottom: 'xs' }} gap="xxs">
+        <Stack direction="row" justifyContent="space-between">
+          <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
+          <StatusInfoHeader />
+        </Stack>
+        <EngagementsListErrorState refetch={refetch} />
+      </Stack>
+    )
+  }
 
   if (isInitialLoad) {
     return (
@@ -75,25 +98,32 @@ export const MyVolunteeringTab = () => {
 
   if (!isLoading && totalResults === 0) {
     return (
-      <Stack padding={{ top: '3xl', bottom: '3xl' }}>
+      <Stack padding={{ bottom: 'xs' }} gap="xxs">
+        <Stack direction="row" justifyContent="space-between">
+          <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
+          <StatusInfoHeader />
+        </Stack>
         <VolunteeringEmptyState />
       </Stack>
     )
   }
 
   return (
-    <Stack padding={{ bottom: 'xs' }}>
-      <StatusInfoHeader />
+    <Stack padding={{ bottom: 'xs' }} gap="xxs">
+      <Stack direction="row" justifyContent="space-between">
+        <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
+        <StatusInfoHeader />
+      </Stack>
 
-      <Stack gap="xs" padding={{ top: 'xs' }}>
-        {items.map((item) => (
+      <Stack gap="xs">
+        {committedVolunteeringOpportunities.map((item) => (
           <ErrorBoundary key={item.id}>
             <VolunteeringRecoCardWithStatus engagement={item} />
           </ErrorBoundary>
         ))}
       </Stack>
 
-      {items.length > 0 && canFetchMore && (
+      {committedVolunteeringOpportunities.length > 0 && canFetchMore && (
         <Stack justifyContent="center" alignItems="center" padding={{ top: 'md' }}>
           {isFetchingMore ? (
             <HoliLoader style={styles.loader} testID="next-page-loader" />
