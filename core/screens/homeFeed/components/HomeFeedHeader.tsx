@@ -9,10 +9,12 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { Stack } from 'holi-bricks/components/stack'
 import MarketingBanner from '@holi/core/screens/homeFeed/components/MarketingBanner'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 const HomeFeedHeader = () => {
   const { t } = useTranslation()
-
+  const showAppcuesBanner = useFeatureFlagToggle(FeatureFlagKey.APPCUES_BANNER)
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
 
   return (
@@ -36,7 +38,7 @@ const HomeFeedHeader = () => {
         </>
       )}
 
-      <MarketingBanner frameId="home-feed-banner" />
+      {showAppcuesBanner && <MarketingBanner frameId="home-feed-banner" />}
 
       <AttendingChallengeEvents />
     </Stack>
