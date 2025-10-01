@@ -26,7 +26,7 @@ import { Button } from 'holi-bricks/components/button'
 export const MAX_SHOWN_FAVORITES = 5
 const ICON_SIZE = 20
 
-export const MyVolunteeringTabFavorites = () => {
+export const FavoritesSlider = () => {
   const { t, i18n } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()

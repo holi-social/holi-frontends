@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
-import { MyVolunteeringTab } from '@holi/core/screens/userprofile/components/MyVolunteeringTab'
+import { MyVolunteeringTab } from '@holi/core/screens/userprofile/MyVolunteeringTab/MyVolunteeringTab'
 import {
   makeCommittedVolunteeringItems,
   mockCommittedVolunteeringHookResult,

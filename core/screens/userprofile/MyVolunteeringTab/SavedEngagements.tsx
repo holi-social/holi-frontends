@@ -57,11 +57,20 @@ const StatusInfoHeader = () => {
   )
 }
 
-export const MyVolunteeringTabEngagements = () => {
+export const SavedEngagements = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const { items, canFetchMore, isFetchingMore, isLoading, isInitialLoad, fetchMore, totalResults, refetch, error } =
-    useCommittedVolunteering()
+  const {
+    items: committedVolunteeringOpportunities,
+    canFetchMore,
+    isFetchingMore,
+    isLoading,
+    isInitialLoad,
+    fetchMore,
+    totalResults,
+    refetch,
+    error,
+  } = useCommittedVolunteering()
 
   useEffect(() => {
     refetch()
@@ -107,14 +116,14 @@ export const MyVolunteeringTabEngagements = () => {
       </Stack>
 
       <Stack gap="xs">
-        {items.map((item) => (
+        {committedVolunteeringOpportunities.map((item) => (
           <ErrorBoundary key={item.id}>
             <VolunteeringRecoCardWithStatus engagement={item} />
           </ErrorBoundary>
         ))}
       </Stack>
 
-      {items.length > 0 && canFetchMore && (
+      {committedVolunteeringOpportunities.length > 0 && canFetchMore && (
         <Stack justifyContent="center" alignItems="center" padding={{ top: 'md' }}>
           {isFetchingMore ? (
             <HoliLoader style={styles.loader} testID="next-page-loader" />
