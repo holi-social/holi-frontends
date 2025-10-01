@@ -83,7 +83,7 @@ const FormNode = (props: Props) => {
 
     let translationKey = props.submitLabelOverride ?? `${props.translationPrefix}input.label-${key}`
     if (key === 'SignInCode' || key === 'SignUpCode') {
-      translationKey = 'auth.otp.CTA'
+      translationKey = 'tasks.register.unlogged.verify.email'
     }
     if (key === 'SubmitCode') {
       translationKey = 'registration.emailVerification.cta.verify'

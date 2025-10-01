@@ -196,6 +196,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
     [RouteName.UserProfile]: 'profile/:userId',
+    [RouteName.PetitionDetailsScreen]: 'petitions/:petitionId',
     [RouteName.NotFound]: '404',
     [RouteName.Unsubscribe]: 'unsubscribe',
   },

@@ -32,6 +32,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.REWARDS_PHASE_1]: false,
     [FeatureFlagKey.REWARDS_PHASE_2]: false,
     [FeatureFlagKey.FAVORITES_SLIDER]: false,
+    [FeatureFlagKey.REWARDS_PHASE_3]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -51,6 +52,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.REWARDS_PHASE_1]: null,
     [FeatureFlagKey.REWARDS_PHASE_2]: null,
     [FeatureFlagKey.FAVORITES_SLIDER]: null,
+    [FeatureFlagKey.REWARDS_PHASE_3]: null,
   },
 }
 

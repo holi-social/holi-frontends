@@ -14,7 +14,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useLoginState } from '@holi/core/auth/loginState'
 
-import { volunteeringDetailsScreenData as document } from './helpers/seedData'
+import { volunteeringDetailsScreenDataMock as document } from './helpers/mocks'
 
 const mockUseLoginState = jest.mocked(useLoginState)
 

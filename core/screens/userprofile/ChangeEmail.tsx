@@ -123,7 +123,7 @@ const ChangeEmail = () => {
     }
     if (reauthFlow) {
       try {
-        await submitReauthFlow(reauthFlow, oldPwd, sessionToken)
+        await submitReauthFlow(reauthFlow, oldPwd, email, sessionToken)
         setOldPwdNode(undefined)
       } catch (err) {
         handleFormSubmitError(

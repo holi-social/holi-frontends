@@ -109,7 +109,7 @@ export const DoItLaterModal = ({ children, ...rest }: DoItLaterModalProps) => {
       backgroundColor={theme.colors.bg.main}
       {...rest}
     >
-      <HoliContainer noPaddingOnSmallViewports>
+      <HoliContainer noPaddingOnSmallViewports flex={1}>
         <ScrollView>{children}</ScrollView>
       </HoliContainer>
     </HoliModal>

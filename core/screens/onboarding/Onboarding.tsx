@@ -57,7 +57,7 @@ const Onboarding = () => {
   // const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const rewardsPhaseTwoEnabled = false
 
-  const redirect = useRedirect('/act')
+  const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })

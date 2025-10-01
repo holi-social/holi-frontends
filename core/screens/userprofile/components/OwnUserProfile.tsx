@@ -32,6 +32,9 @@ import { GoodDeedsTab } from '@holi/core/screens/userprofile/components/GoodDeed
 import { MoreTab } from '@holi/core/screens/userprofile/components/MoreTab'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import MyBadges from '@holi/core/screens/userprofile/MyBadges'
+
+// todo: featureflag
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'aboutMe'
 
@@ -44,6 +47,7 @@ export enum Tab {
   CONNECTIONS = 'connections',
   GOOD_DEEDS = 'goodDeeds',
   MORE = 'more',
+  BADGES = 'badges',
 }
 
 interface OwnProfileTab {
@@ -81,6 +85,9 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
     if (activeTab === Tab.GOOD_DEEDS) {
       track(TrackingEvent.UserProfile.globalGoodDeedsTabOpened())
     }
+    if (activeTab === Tab.BADGES) {
+      track(TrackingEvent.UserProfile.badgesPageOpened())
+    }
     if (activeTab === Tab.MY_VOLUNTEERING) {
       track(TrackingEvent.UserProfile.myVolunteerTabOpened())
     }
@@ -93,12 +100,18 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const hasInsights = totalInsights > 0
 
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const tabs = rewardsPhaseTwoEnabled
+  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
+  const tabs = rewardsPhaseThreeEnabled
     ? ([
         {
           key: Tab.MY_VOLUNTEERING,
           tabTitle: t('profile.tabs.myVolunteer'),
           content: () => <MyVolunteeringTab />,
+        },
+        {
+          key: Tab.BADGES,
+          tabTitle: t('profile.tabs.badges'),
+          content: () => <MyBadges />,
         },
         {
           key: Tab.GOOD_DEEDS,
@@ -111,58 +124,76 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
           content: () => <MoreTab />,
         },
       ].filter(Boolean) as OwnProfileTab[])
-    : ([
-        {
-          key: Tab.PROFILE,
-          tabTitle: t('profile.tabs.profile'),
-          content: () => (
-            <View style={styles.profileContainer}>
-              <View style={styles.chipRowContainer} key="engagementLevel">
-                <HoliText size="small">{t('profile.engagementLevel')}</HoliText>
-                {user?.engagementLevel ? (
-                  <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
-                ) : (
-                  <ChipAction
-                    id="engagementLevel"
-                    color="white"
-                    onPress={() => toggleEditMode('engagementLevel')}
-                    iconTrailing={Add}
-                    aria-label={t('profile.engagementLevel.add')}
-                  />
-                )}
+    : rewardsPhaseTwoEnabled
+      ? ([
+          {
+            key: Tab.MY_VOLUNTEERING,
+            tabTitle: t('profile.tabs.myVolunteer'),
+            content: () => <MyVolunteeringTab />,
+          },
+          {
+            key: Tab.GOOD_DEEDS,
+            tabTitle: t('profile.tabs.oneMioGoodDeeds.title'),
+            content: () => <GoodDeedsTab />,
+          },
+          {
+            key: Tab.MORE,
+            tabTitle: t('profile.tabs.more'),
+            content: () => <MoreTab />,
+          },
+        ].filter(Boolean) as OwnProfileTab[])
+      : ([
+          {
+            key: Tab.PROFILE,
+            tabTitle: t('profile.tabs.profile'),
+            content: () => (
+              <View style={styles.profileContainer}>
+                <View style={styles.chipRowContainer} key="engagementLevel">
+                  <HoliText size="small">{t('profile.engagementLevel')}</HoliText>
+                  {user?.engagementLevel ? (
+                    <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
+                  ) : (
+                    <ChipAction
+                      id="engagementLevel"
+                      color="white"
+                      onPress={() => toggleEditMode('engagementLevel')}
+                      iconTrailing={Add}
+                      aria-label={t('profile.engagementLevel.add')}
+                    />
+                  )}
+                </View>
+                <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
+                  <UserTermsRow termType="topic" onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)} />
+                </View>
+                <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
+                  <UserTermsRow termType="skill" onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)} />
+                </View>
               </View>
-              <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
-                <UserTermsRow termType="topic" onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)} />
-              </View>
-              <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
-                <UserTermsRow termType="skill" onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)} />
-              </View>
-            </View>
-          ),
-        },
-        {
-          key: Tab.POSTS,
-          tabTitle: t('individuals.post.name'),
-          content: () => <MyPostsTab />,
-        },
+            ),
+          },
+          {
+            key: Tab.POSTS,
+            tabTitle: t('individuals.post.name'),
+            content: () => <MyPostsTab />,
+          },
 
-        {
-          key: Tab.SPACES,
-          tabTitle: t('profile.tabs.spaces'),
-          content: () => (
-            <SpacesTab
-              emptyText={t('profile.tabs.spaces.empty')}
-              emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
-              memberId={user.id}
-            />
-          ),
-        },
-        {
-          key: Tab.CONNECTIONS,
-          tabTitle: t('profile.tabs.connections'),
-          content: () => <OwnConnectionsTab emptyText={t('user.profile.own.connections.title.empty')} />,
-        },
-      ].filter(Boolean) as OwnProfileTab[])
+          {
+            key: Tab.SPACES,
+            tabTitle: t('profile.tabs.spaces'),
+            content: () => (
+              <SpacesTab
+                emptyText={t('profile.tabs.spaces.empty')}
+                emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
+                memberId={user.id}
+              />
+            ),
+          },
+          {
+            key: Tab.CONNECTIONS,
+            tabTitle: t('profile.tabs.connections'),
+            content: () => <OwnConnectionsTab emptyText={t('user.profile.own.connections.title.empty')} />,
+          },
+        ].filter(Boolean) as OwnProfileTab[])
 
   if (hasInsights) {
     tabs.splice(1, 0, {
