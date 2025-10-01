@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
+import { Image } from 'holi-bricks/components/image'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { NavigationButtonsProps } from '@holi/ui/components/organisms/HoliStepperV2/NavigationButtons'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
@@ -32,30 +33,23 @@ export const GoodDeedsDoDesktop = ({ onNextPress, onBackPress }: GoodDeedsDoDesk
           flex={5}
           onLayout={(event) => setGoodDeedsCardWidth(event.nativeEvent.layout.width - 48)}
         >
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/goodDeeds/good-deeds-cards.svg')}
-            isSvg
+          <Image
+            source={require('@holi/ui/assets/img/goodDeeds/good-deeds-cards.svg')}
             width={goodDeedsCardWidth}
             height={goodDeedsCardWidth / GOOD_DEEDS_CARD_ASPECT_RATIO}
-            label={t('navigation.title')}
-            style={{
-              position: 'absolute',
-            }}
+            alt={t('navigation.title')}
           />
         </Stack>
 
         <Stack flex={4} onLayout={(event) => setHeroFindWidth(event.nativeEvent.layout.height)}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/goodDeeds/holi-hero-find.svg')}
-            isSvg
-            width={heroFindWidth}
-            height={heroFindWidth * GOOD_DEEDS_CARD_ASPECT_RATIO}
-            label={t('navigation.title')}
-            style={{
-              position: 'absolute',
-              right: 24,
-            }}
-          />
+          <View style={{ position: 'absolute', right: 24 }}>
+            <Image
+              source={require('@holi/ui/assets/img/goodDeeds/holi-hero-find.svg')}
+              width={heroFindWidth}
+              height={heroFindWidth * GOOD_DEEDS_CARD_ASPECT_RATIO}
+              alt={t('navigation.title')}
+            />
+          </View>
         </Stack>
       </Stack>
 

@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { Stack } from 'holi-bricks/components/stack'
+import { Image } from 'holi-bricks/components/image'
 import { Text } from 'holi-bricks/components/text'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { NavigationButtonsProps } from '@holi/ui/components/organisms/HoliStepperV2/NavigationButtons'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
@@ -34,12 +34,11 @@ export const GoodDeedsExplainDesktop = ({ onNextPress }: GoodDeedsExplainDesktop
             setHeroBecomeHeight(Math.min(event.nativeEvent.layout.height, event.nativeEvent.layout.width) * 0.9)
           }
         >
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/goodDeeds/holi-hero-become.svg')}
-            isSvg
+          <Image
+            source={require('@holi/ui/assets/img/goodDeeds/holi-hero-become.svg')}
             width={heroBecomeHeight}
             height={heroBecomeHeight}
-            label={t('navigation.title')}
+            alt={t('navigation.title')}
           />
         </View>
       </Stack>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
+import { Image } from 'holi-bricks/components/image'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 
 const isWeb = Platform.OS === 'web'
 const GOOD_DEEDS_CARD_ASPECT_RATIO = 353 / 258
@@ -49,15 +49,14 @@ export const GoodDeedsDoMobile = () => {
               )
             }
           >
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/goodDeeds/good-deeds-cards.png')}
-              width={goodDeedsCardHeight * GOOD_DEEDS_CARD_ASPECT_RATIO}
-              height={goodDeedsCardHeight}
-              label={t('navigation.title')}
-              style={{
-                position: 'absolute',
-              }}
-            />
+            <View style={{ position: 'absolute' }}>
+              <Image
+                source={require('@holi/ui/assets/img/goodDeeds/good-deeds-cards.png')}
+                width={goodDeedsCardHeight * GOOD_DEEDS_CARD_ASPECT_RATIO}
+                height={goodDeedsCardHeight}
+                alt={t('navigation.title')}
+              />
+            </View>
           </Stack>
 
           <Stack
@@ -70,17 +69,14 @@ export const GoodDeedsDoMobile = () => {
               )
             }
           >
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/goodDeeds/holi-hero-find.svg')}
-              isSvg
-              width={heroFindHeight}
-              height={heroFindHeight * GOOD_DEEDS_CARD_ASPECT_RATIO}
-              label={t('navigation.title')}
-              style={{
-                position: 'absolute',
-                right: 0,
-              }}
-            />
+            <View style={{ position: 'absolute', right: 0 }}>
+              <Image
+                source={require('@holi/ui/assets/img/goodDeeds/holi-hero-find.svg')}
+                width={heroFindHeight}
+                height={heroFindHeight * GOOD_DEEDS_CARD_ASPECT_RATIO}
+                alt={t('navigation.title')}
+              />
+            </View>
           </Stack>
         </Stack>
       </Stack>

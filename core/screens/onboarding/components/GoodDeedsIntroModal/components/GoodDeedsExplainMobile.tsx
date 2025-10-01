@@ -1,12 +1,11 @@
 import type React from 'react'
 import { useState } from 'react'
-import { View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
+import { Image } from 'holi-bricks/components/image'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 
 export const GoodDeedsExplainMobile = () => {
   const { t } = useTranslation()
@@ -20,18 +19,18 @@ export const GoodDeedsExplainMobile = () => {
         padding={{ bottom: 'sm' }}
         borderRadius={{ bottomLeft: 'xxl', bottomRight: 'xxl' }}
       >
-        <View
-          style={{ flex: 1, alignItems: 'center' }}
+        <Stack
+          flex={1}
+          alignItems="center"
           onLayout={(event) => setHeroBecomeHeight(event.nativeEvent.layout.width - 24)}
         >
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/goodDeeds/holi-hero-become.svg')}
-            isSvg
+          <Image
+            source={require('@holi/ui/assets/img/goodDeeds/holi-hero-become.svg')}
             width={heroBecomeHeight}
             height={heroBecomeHeight}
-            label={t('navigation.title')}
+            alt={t('navigation.title')}
           />
-        </View>
+        </Stack>
       </Stack>
 
       <Stack gap="3xs" padding={{ top: 'lg', bottom: 'lg', left: 'md', right: 'md' }} flex={1}>
