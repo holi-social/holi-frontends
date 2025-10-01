@@ -51,7 +51,11 @@ export const FavoritesSlider = () => {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
         <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
-        <FavoritesListErrorState refetch={() => refetchFavorites().then(() => {})} />
+        <FavoritesListErrorState
+          refetch={async () => {
+            await refetchFavorites()
+          }}
+        />
       </Stack>
     )
   }
@@ -150,7 +154,7 @@ export const FavoritesSlider = () => {
 
         {totalResults > MAX_SHOWN_FAVORITES && (
           <Stack direction="row">
-            <TextLink size="sm" role="none" onPress={handleSeeMore}>
+            <TextLink size="sm" role="none">
               {t('global.seeMore')}
             </TextLink>
             <HoliIcon icon={ArrowRightS} size={ICON_SIZE} />
