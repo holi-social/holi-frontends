@@ -8,6 +8,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { isRemoteSource, transformSource } from 'holi-bricks/components/image/helpers'
 import { WithLocalSvg } from 'react-native-svg/css'
 import { layoutStyle } from 'holi-bricks/foundations'
+import { imageStretching } from 'holi-bricks/components/image/styles'
 
 const isLocalSvg = (source: number) => {
   try {
@@ -66,61 +67,37 @@ export const Image: React.FC<MultiPlatformImage> = ({
         width={stretch ? '100%' : width}
         height={stretch ? '100%' : height}
         preserveAspectRatio={getSVGPreserveAspectRatio(resizeMode)}
-        accessibilityLabel={alt}
-        accessible={otherProps?.['aria-hidden'] === true}
-        accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
-        style={[
-          styles.imageSize(width, height),
-          styles.aspectRatio(aspectRatio),
-          styles.stretch(stretch),
-          layoutStyle(otherProps),
-        ]}
+        style={[styles.imageSize(width, height), styles.imageStretching(stretch, aspectRatio), layoutStyle(otherProps)]}
         {...accessibilityProps(otherProps)}
       />
     )
   }
 
   return (
-    <>
-      <ExpoImage
-        source={(hasError || !transformedSource) && fallbackSource ? fallbackSource : transformedSource}
-        alt={alt}
-        role="img"
-        accessibilityLabel={alt}
-        accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
-        accessible={otherProps?.['aria-hidden'] === true}
-        placeholder={isRemote ? blurhash : undefined}
-        style={[styles.imageSize(width, height), styles.stretch(stretch), layoutStyle(otherProps)]}
-        contentFit={resizeMode}
-        onError={() => {
-          setHasError(true)
-          // eslint-disable-next-line no-console
-          console.warn(`[Image] Failed to load image: ${source}`)
-          if (onError) onError()
-        }}
-        aria-label={alt}
-        onLoadEnd={onLoadEnd}
-        {...accessibilityProps(otherProps)}
-      />
-    </>
+    <ExpoImage
+      source={(hasError || !transformedSource) && fallbackSource ? fallbackSource : transformedSource}
+      alt={alt}
+      placeholder={isRemote ? blurhash : undefined}
+      style={[styles.imageSize(width, height), styles.imageStretching(stretch, aspectRatio), layoutStyle(otherProps)]}
+      contentFit={resizeMode}
+      onError={() => {
+        setHasError(true)
+        // eslint-disable-next-line no-console
+        console.warn(`[Image] Failed to load image: ${source}`)
+        if (onError) onError()
+      }}
+      aria-label={alt}
+      onLoadEnd={onLoadEnd}
+      {...accessibilityProps(otherProps)}
+    />
   )
 }
 
-const stylesheet = createStyleSheet({
-  imageSize: (width: number, height: number) => {
-    return {
-      width,
-      height,
-    }
-  },
-  aspectRatio: (n?: string | number) => ({
-    aspectRatio: n,
+export const stylesheet = createStyleSheet({
+  imageSize: (width: number, height: number) => ({
+    width,
+    height,
+    maxWidth: '100%',
   }),
-  stretch: (stretch?: boolean) => {
-    if (!stretch) return {}
-    return {
-      width: '100%',
-      height: '100%',
-    }
-  },
+  imageStretching,
 })

@@ -1,5 +1,6 @@
 import type { MultiPlatformImage } from 'holi-bricks/components/image'
 import { transformSource } from 'holi-bricks/components/image/helpers'
+import { imageStretching } from 'holi-bricks/components/image/styles'
 import { layoutStyle } from 'holi-bricks/foundations'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -38,15 +39,12 @@ export const Image: React.FC<MultiPlatformImage> = ({
     <NextImage
       src={(hasError || !source) && fallbackSource ? (fallbackSource as string) : transformedSource}
       alt={alt}
-      role="img"
-      aria-label={alt}
       blurDataURL={isRemote ? blurhash : undefined}
       width={width}
       height={height}
+      objectFit={resizeMode}
       style={{
-        ...styles.objectFit(resizeMode),
-        ...styles.aspectRatio(aspectRatio),
-        ...styles.stretch(stretch),
+        ...styles.imageStretching(stretch, aspectRatio),
         ...layoutStyle(otherProps),
       }}
       onError={() => {
@@ -61,18 +59,6 @@ export const Image: React.FC<MultiPlatformImage> = ({
   )
 }
 
-const stylesheet = createStyleSheet({
-  objectFit: (resize?: MultiPlatformImage['resizeMode']) => ({
-    objectFit: resize,
-  }),
-  aspectRatio: (n?: string | number) => ({
-    aspectRatio: n,
-  }),
-  stretch: (full?: boolean) => {
-    if (!full) return {}
-    return {
-      width: '100%',
-      height: '100%',
-    }
-  },
+export const stylesheet = createStyleSheet({
+  imageStretching,
 })
