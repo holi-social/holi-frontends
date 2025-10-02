@@ -28,6 +28,6 @@ describe('HoliTextLink', () => {
 
     fireEvent.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//spaces')
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces')
   })
 })
