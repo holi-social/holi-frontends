@@ -18,7 +18,7 @@ export type TextLinkSize = 'md' | 'sm' | 'xs'
 export type TextLinkProps = AccessibilityProps &
   LayoutProps &
   React.PropsWithChildren & {
-    size: TextLinkSize
+    size?: TextLinkSize
     numberOfLines?: number
     /** Managed Theme color. */
     color?: TextProps['color']
@@ -30,7 +30,7 @@ export type TextLinkProps = AccessibilityProps &
   }
 
 export const TextLink = ({
-  size,
+  size = 'md',
   numberOfLines,
   color = 'main',
   colorOverride,
