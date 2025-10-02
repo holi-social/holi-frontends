@@ -30,6 +30,7 @@ require('@shopify/flash-list/jestSetup')
 initializeBricks()
 
 global.mockNavigate = jest.fn()
+global.mockBack = jest.fn()
 global.captureSentryException = jest.fn()
 
 global.mockSetOptions = jest.fn()
@@ -39,13 +40,107 @@ global.mockTrack = jest.fn()
 
 global.TextEncoder = jest.fn<() => TextEncoder>()
 
+// NOTE: Expo Router recommends using renderRouter() from 'expo-router/testing-library'
+// for testing routing behavior. However, most of our tests are component tests that just
+// need navigation mocks to work. For our tests, we use this global mock.
+// For tests that need actual routing behavior, use renderRouter() instead.
+// See: https://docs.expo.dev/router/reference/testing/
+jest.mock('expo-router', () => {
+  const React = require('react')
+  return {
+    useRouter: () => ({
+      push: global.mockNavigate,
+      replace: global.mockNavigate,
+      back: global.mockBack,
+      canGoBack: jest.fn(() => true),
+      setParams: jest.fn(),
+    }),
+    useNavigation: () => ({
+      navigate: global.mockNavigate,
+      setOptions: global.mockSetOptions,
+      canGoBack: jest.fn(() => true),
+      goBack: jest.fn(),
+      isFocused: jest.fn(() => true),
+    }),
+    usePathname: () => '/',
+    useGlobalSearchParams: () => {
+      const React = require('react')
+      const { NavigationRouteContext } = require('@react-navigation/native')
+      const route = React.useContext(NavigationRouteContext)
+      return route?.params || {}
+    },
+    useLocalSearchParams: () => {
+      const React = require('react')
+      const { NavigationRouteContext } = require('@react-navigation/native')
+      const route = React.useContext(NavigationRouteContext)
+      return route?.params || {}
+    },
+    useSegments: () => [],
+    useRootNavigationState: () => ({
+      key: 'root',
+      index: 0,
+      routeNames: [],
+      routes: [],
+      type: 'stack',
+      stale: false,
+    }),
+    Link: ({ children, href, onPress, asChild, style, ...props }: any) => {
+      const handlePress = (e: any) => {
+        // call child onpress if it exists (asChild pattern)
+        const childOnPress = asChild && React.isValidElement(children) ? children.props?.onPress : undefined
+        // Call the Link's onPress if provided
+        const linkOnPress = onPress
+        let preventNavigation = false
+        if (childOnPress) {
+          const result = childOnPress(e)
+          if (result === false) {
+            preventNavigation = true
+          }
+        }
+        if (linkOnPress) {
+          const result = linkOnPress(e)
+          if (result === false) {
+            preventNavigation = true
+          }
+        }
+
+        // Only navigate if not prevented
+        if (href && !preventNavigation && !e?.defaultPrevented) {
+          global.mockNavigate(href)
+        }
+      }
+
+      if (asChild && React.isValidElement(children)) {
+        // while using asChild, clone the child with the enhanced onPress handler
+        // and preserve accessibility props from the Link to the child for testing
+        const { 'aria-label': ariaLabel, accessibilityLabel, testID, ...otherProps } = props
+        return React.cloneElement(children as React.ReactElement<any>, {
+          onPress: handlePress,
+          ...(ariaLabel && !children.props['aria-label'] && { 'aria-label': ariaLabel }),
+          ...(accessibilityLabel && !children.props.accessibilityLabel && { accessibilityLabel }),
+          ...(testID && !children.props.testID && { testID }),
+        })
+      }
+
+      return React.createElement('a', { ...props, style, onPress: handlePress }, children)
+    },
+    Redirect: () => null,
+    Stack: {
+      Screen: () => null,
+    },
+    Tabs: {
+      Screen: () => null,
+    },
+  }
+})
+
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native') as object
   return {
     ...actualNav,
     useIsFocused: () => true,
     useNavigation: () => ({
-      navigate: jest.fn(),
+      navigate: global.mockNavigate,
       dispatch: jest.fn(),
       getState: jest.fn(() => ({
         routes: [{}],
