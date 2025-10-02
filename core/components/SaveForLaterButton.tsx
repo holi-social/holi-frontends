@@ -71,9 +71,7 @@ export const SaveForLaterButton = ({
               t={t}
               i18nKey="favorites.favoriteSaved"
               components={{
-                b: (
-                  <HoliTextLink href="/profile/settings/favorites" label="Go to favorites" size="sm" color="selected" />
-                ),
+                b: <HoliTextLink href="/profile" label="Go to favorites" size="sm" color="selected" />,
                 span: <HoliFigmaSpanPlaceholder />,
               }}
             />
