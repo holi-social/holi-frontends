@@ -7,7 +7,6 @@ export default function Layout() {
       screenOptions={{
         headerTintColor: '#000',
         headerShadowVisible: false,
-        headerTitle: '',
         headerTitleAlign: 'center',
       }}
     />
