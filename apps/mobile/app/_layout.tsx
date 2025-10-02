@@ -5,6 +5,7 @@ import { Stack, useFocusEffect } from 'expo-router'
 import { useAppInit } from '@holi/mobile/lib/initializeApp'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/styles'
+import { useTrackCurrentRoute } from '@holi/core/navigation/hooks/useCurrentRoute'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -21,6 +22,8 @@ SplashScreen.preventAutoHideAsync()
 export default function Layout() {
   const { isReady, initializeApp } = useAppInit()
   const { theme } = useStyles()
+
+  useTrackCurrentRoute()
 
   useFocusEffect(() => {
     initializeApp()
