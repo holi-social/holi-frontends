@@ -85,9 +85,9 @@ const HoliBlockItem = ({
   }
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container}>
       <View style={styles.mainSection}>
-        <HoliLink label={label} href={href}>
+        <HoliLink label={label} href={href} testID={testID}>
           <View style={styles.blockItemInner}>
             <View style={styles.imageContainer}>
               {!imageElement ? (
