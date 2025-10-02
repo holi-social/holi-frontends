@@ -56,7 +56,6 @@ const DonationCarousel = ({ cardWidth }: DonationCarouselProps) => {
       heading={t('donations.app.name')}
       subline={t('donations.app.subline')}
       seeAllPath="/donations"
-      labelSeeMore={t('donations.donationListing.loadMoreButton.text')}
       loading={isLoading}
     />
   )

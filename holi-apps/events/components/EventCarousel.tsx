@@ -33,7 +33,6 @@ const EventCarousel = ({ cardWidth }: EventCarouselProps) => {
       icon={CalendarEventFilled}
       heading={t('act.events.title')}
       subline={t('act.events.subline')}
-      labelSeeMore={t('act.events.showAll')}
       seeAllPath="/events"
       seeMoreTrackingEvent={TrackingEvent.Events.seeAll}
     />

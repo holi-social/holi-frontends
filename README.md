@@ -103,8 +103,8 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
 #### iOS simulator (if you have a Mac)
 
 - Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
-- Install a simulator build on the Simulator by executing `eas build:run -p ios`
-- Run `yarn mobile:dev`, usually via our mprocs setup in the meta project
+- Install a simulator build on the Simulator by executing in the apps/mobile folder: `npx eas-cli build:run -p ios` (or `eas build:run -p ios`, if you want to use you locally installed eas tool)
+- You can now execute the holi app on the simulator against a local server or against staging by choosing an appropriate bundle. To start a local server you run `yarn mobile:dev`, usually via our mprocs setup in the meta project
 
 #### Docker (optional)
 
