@@ -72,11 +72,7 @@ export const ActNavBar = () => {
           onPress={() => navigate('/donations')}
           label={t('act.nav.donations.title')}
         />
-        <NavBarButton
-          icon={BookmarkFill}
-          onPress={() => navigate('/profile/settings/favorites')}
-          label={t('act.nav.favorites.title')}
-        />
+        <NavBarButton icon={BookmarkFill} onPress={() => navigate('/profile')} label={t('act.nav.favorites.title')} />
       </Stack>
     </View>
   )
