@@ -5,41 +5,31 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
   <View
     testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
-    <View
-      accessibilityLabel="Foo"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
+    <Text
       accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      aria-label="Foo"
+      onPress={[Function]}
       role="link"
+      selectable={false}
       style={
         [
-          false,
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 15,
+            "fontVariant": [
+              "lining-nums",
+              "tabular-nums",
+            ],
+            "fontWeight": "500",
+            "letterSpacing": -0.03,
+            "lineHeight": 21,
+            "textAlign": undefined,
+            "userSelect": "auto",
+          },
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
       testID="link"
@@ -254,7 +244,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           />
         </View>
       </View>
-    </View>
+    </Text>
     <View
       style={
         [
@@ -504,41 +494,31 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
   <View
     testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
-    <View
-      accessibilityLabel="Foo"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
+    <Text
       accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      aria-label="Foo"
+      onPress={[Function]}
       role="link"
+      selectable={false}
       style={
         [
-          false,
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 15,
+            "fontVariant": [
+              "lining-nums",
+              "tabular-nums",
+            ],
+            "fontWeight": "500",
+            "letterSpacing": -0.03,
+            "lineHeight": 21,
+            "textAlign": undefined,
+            "userSelect": "auto",
+          },
+          {
+            "flexShrink": undefined,
+          },
         ]
       }
       testID="link"
@@ -767,7 +747,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           />
         </View>
       </View>
-    </View>
+    </Text>
     <View
       style={
         [
