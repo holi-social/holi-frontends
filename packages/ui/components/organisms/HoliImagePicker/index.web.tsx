@@ -136,7 +136,7 @@ const HoliImagePicker = ({
     <>
       <input
         type="file"
-        accept="image/jpeg,image/jpg,image/png"
+        accept="image/jpeg,image/jpg,image/png,image/webp"
         style={{ display: 'none' }}
         ref={imageInputNode}
         onChange={onChangeHandler}
