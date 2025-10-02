@@ -6,6 +6,7 @@ import type { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvi
 
 declare global {
   var mockNavigate: (routeName: string) => void
+  var mockBack: jest.Mock<() => void>
   var captureSentryException: Mock<(error: Error) => void>
   var mockSetOptions: (options: Partial<ScreenOptions>) => void
   var mockOpenURL: (url: string) => void
