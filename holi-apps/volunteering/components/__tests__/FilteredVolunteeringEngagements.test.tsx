@@ -116,7 +116,7 @@ describe('FilteredVolunteeringEngagements', () => {
 
     await user.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`/volunteering/${engagement.link_locators?.volunteering}`)
   })
 
   it('should track pressing cards', async () => {

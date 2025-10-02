@@ -73,7 +73,7 @@ describe('SearchHit', () => {
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     await user.press(screen.getByRole('link'))
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${hit.link_locators!.volunteering}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    expect(mockNavigate).toHaveBeenCalledWith(`/volunteering/${hit.link_locators!.volunteering}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
   it('renders the correct link (user)', async () => {
     const user = userEvent.setup()
@@ -82,7 +82,7 @@ describe('SearchHit', () => {
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     await user.press(screen.getByRole('link'))
-    expect(mockNavigate).toHaveBeenCalledWith(`//profile/${hit.link_locators!.profile}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    expect(mockNavigate).toHaveBeenCalledWith(`/profile/${hit.link_locators!.profile}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
   it('renders the correct link (space)', async () => {
     const user = userEvent.setup()
@@ -91,7 +91,7 @@ describe('SearchHit', () => {
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     await user.press(screen.getByRole('link'))
-    expect(mockNavigate).toHaveBeenCalledWith(`//spaces/${hit.link_locators!.space}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    expect(mockNavigate).toHaveBeenCalledWith(`/spaces/${hit.link_locators!.space}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
   it('correctly renders profile item with user_full_name', async () => {
     useUserLanguageMock.mockReturnValue('de')

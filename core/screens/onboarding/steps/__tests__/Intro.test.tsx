@@ -36,7 +36,7 @@ describe('Intro', () => {
 
     await user.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//login')
+    expect(mockNavigate).toHaveBeenCalledWith('/login')
   })
 
   it('should track pressing the login button', async () => {

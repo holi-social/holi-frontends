@@ -21,7 +21,7 @@ describe('SearchExamples', () => {
       render(<SearchExamples onQuerySelect={onQuerySelect} currentFacet={facet} />)
 
       const examples = await screen.findAllByLabelText(new RegExp(`search.examples.${facet}\\d+`))
-      const query = examples[0].props['accessibilityLabel']
+      const query = examples[0].props['aria-label']
 
       await user.press(examples[0])
 

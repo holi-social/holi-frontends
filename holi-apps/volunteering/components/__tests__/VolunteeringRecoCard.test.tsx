@@ -67,7 +67,7 @@ describe('VolunteeringRecoCard', () => {
 
     await user.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${reco.link_locators?.volunteering}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`/volunteering/${reco.link_locators?.volunteering}`)
   })
 
   it('should navigate on press to task recommendation', async () => {
@@ -78,7 +78,7 @@ describe('VolunteeringRecoCard', () => {
 
     await user.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//spaces/${reco.link_locators?.space}/tasks/${reco.link_locators?.task}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`/spaces/${reco.link_locators?.space}/tasks/${reco.link_locators?.task}`)
   })
 
   it('tracks press on volunteering recommendation', async () => {

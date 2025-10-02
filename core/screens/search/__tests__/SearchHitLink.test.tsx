@@ -11,7 +11,7 @@ describe('SearchHitLink', () => {
 
     await user.press(screen.getByLabelText('space'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//spaces/coworking-mitte')
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces/coworking-mitte')
   })
 
   it('should create correct link for user', async () => {
@@ -21,7 +21,7 @@ describe('SearchHitLink', () => {
 
     await user.press(screen.getByLabelText('user'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//profile/9035322c-3d67-46ca-a2b8-657be490ec00')
+    expect(mockNavigate).toHaveBeenCalledWith('/profile/9035322c-3d67-46ca-a2b8-657be490ec00')
   })
 
   it('should create correct link for volunteering engagement', async () => {
@@ -31,7 +31,7 @@ describe('SearchHitLink', () => {
 
     await user.press(screen.getByLabelText('volunteering'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//volunteering/157403')
+    expect(mockNavigate).toHaveBeenCalledWith('/volunteering/157403')
   })
 
   it('should create fallback href if link locators are missing', async () => {
@@ -46,7 +46,7 @@ describe('SearchHitLink', () => {
 
     await user.press(screen.getByLabelText('space'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/#')
+    expect(mockNavigate).toHaveBeenCalledWith('#')
   })
 
   it('should call onPress callback', async () => {
