@@ -151,7 +151,7 @@ describe('StartSmallCarousel', () => {
 
     await user.press(await screen.findByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+    expect(mockNavigate).toHaveBeenCalledWith(`/volunteering/${engagement.link_locators?.volunteering}`)
   })
 
   it('should fetch more results on button click', async () => {

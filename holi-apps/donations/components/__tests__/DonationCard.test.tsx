@@ -26,7 +26,7 @@ describe('DonationCard', () => {
 
     await user.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//donations/123')
+    expect(mockNavigate).toHaveBeenCalledWith('/donations/123')
   })
 
   it('tracks press on card', async () => {
