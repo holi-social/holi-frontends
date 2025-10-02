@@ -60,7 +60,7 @@ export const FavoritesSlider = () => {
     )
   }
 
-  if (favoriteItems.length === 0) {
+  if (volunteeringFavorites.length === 0) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
         <Text size="xl">{t('profile.tabs.myVolunteer.favorites.title')}</Text>
