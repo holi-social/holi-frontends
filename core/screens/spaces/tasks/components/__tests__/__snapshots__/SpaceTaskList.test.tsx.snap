@@ -121,43 +121,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             }
           }
         >
-          <View
-            accessibilityLabel="Task title"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
+          <Text
             accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+            aria-label="Task title"
+            onPress={[Function]}
             role="link"
+            selectable={false}
             style={
               [
                 {
-                  "display": "flex",
-                  "flex": 1,
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {
+                  "flexShrink": undefined,
                 },
               ]
             }
@@ -239,43 +226,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <View
-                accessibilityLabel="Task title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
+              <Text
                 accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+                aria-label="Task title"
+                onPress={[Function]}
                 role="link"
+                selectable={false}
                 style={
                   [
                     {
-                      "display": "flex",
-                      "flex": 1,
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
                     },
                   ]
                 }
@@ -741,43 +715,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               }
             }
           >
-            <View
-              accessibilityLabel="Task title"
-              accessibilityState={
-                {
-                  "busy": undefined,
-                  "checked": undefined,
-                  "disabled": undefined,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
+            <Text
               accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              aria-label="Task title"
+              onPress={[Function]}
               role="link"
+              selectable={false}
               style={
                 [
                   {
-                    "display": "flex",
-                    "flex": 1,
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
                   },
                 ]
               }
@@ -887,43 +848,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             }
           }
         >
-          <View
-            accessibilityLabel="Task title"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
+          <Text
             accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+            aria-label="Task title"
+            onPress={[Function]}
             role="link"
+            selectable={false}
             style={
               [
                 {
-                  "display": "flex",
-                  "flex": 1,
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {
+                  "flexShrink": undefined,
                 },
               ]
             }
@@ -1005,43 +953,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <View
-                accessibilityLabel="Task title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
+              <Text
                 accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+                aria-label="Task title"
+                onPress={[Function]}
                 role="link"
+                selectable={false}
                 style={
                   [
                     {
-                      "display": "flex",
-                      "flex": 1,
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
                     },
                   ]
                 }
@@ -1507,43 +1442,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               }
             }
           >
-            <View
-              accessibilityLabel="Task title"
-              accessibilityState={
-                {
-                  "busy": undefined,
-                  "checked": undefined,
-                  "disabled": undefined,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
+            <Text
               accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              aria-label="Task title"
+              onPress={[Function]}
               role="link"
+              selectable={false}
               style={
                 [
                   {
-                    "display": "flex",
-                    "flex": 1,
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
                   },
                 ]
               }
@@ -1653,43 +1575,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             }
           }
         >
-          <View
-            accessibilityLabel="Task title"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
+          <Text
             accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+            aria-label="Task title"
+            onPress={[Function]}
             role="link"
+            selectable={false}
             style={
               [
                 {
-                  "display": "flex",
-                  "flex": 1,
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                },
+                {
+                  "flexShrink": undefined,
                 },
               ]
             }
@@ -1771,43 +1680,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <View
-                accessibilityLabel="Task title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
+              <Text
                 accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+                aria-label="Task title"
+                onPress={[Function]}
                 role="link"
+                selectable={false}
                 style={
                   [
                     {
-                      "display": "flex",
-                      "flex": 1,
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "500",
+                      "letterSpacing": -0.03,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
                     },
                   ]
                 }
@@ -2273,43 +2169,30 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               }
             }
           >
-            <View
-              accessibilityLabel="Task title"
-              accessibilityState={
-                {
-                  "busy": undefined,
-                  "checked": undefined,
-                  "disabled": undefined,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
+            <Text
               accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              aria-label="Task title"
+              onPress={[Function]}
               role="link"
+              selectable={false}
               style={
                 [
                   {
-                    "display": "flex",
-                    "flex": 1,
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
                   },
                 ]
               }
