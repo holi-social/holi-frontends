@@ -12,6 +12,8 @@ import {
   StarSmileFilled,
 } from '@holi/icons/src/generated'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useTranslation } from 'react-i18next'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
@@ -42,6 +44,21 @@ const NavBarButton = ({ icon, onPress, label }: { icon: HoliIconType; onPress: (
 export const ActNavBar = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { openSignupModal } = useSignupModal()
+  const { isLoggedIn } = useLoggedInUser()
+
+  const handleFavoritesPress = () => {
+    if (isLoggedIn) {
+      navigate('/profile/settings/favorites')
+    } else {
+      openSignupModal({
+        title: t('profile.settings.favorites.title'),
+        description: t('loginRedirect.favoritesDescription'),
+        trackTrigger: 'VIEW_FAVORITES',
+      })
+    }
+  }
+
   return (
     <View style={{ overflowX: 'auto' }}>
       <Stack
@@ -72,7 +89,7 @@ export const ActNavBar = () => {
           onPress={() => navigate('/donations')}
           label={t('act.nav.donations.title')}
         />
-        <NavBarButton icon={BookmarkFill} onPress={() => navigate('/profile')} label={t('act.nav.favorites.title')} />
+        <NavBarButton icon={BookmarkFill} onPress={handleFavoritesPress} label={t('act.nav.favorites.title')} />
       </Stack>
     </View>
   )
