@@ -44,7 +44,7 @@ describe('HoliLink', () => {
 
     fireEvent.press(screen.getByTestId('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//spaces')
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces')
   })
 
   describe('web', () => {
