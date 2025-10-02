@@ -18,13 +18,13 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { CounterModalContent } from '@holi/core/screens/homeFeed/components/GoodDeedsChipUser'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import {
   storeWelcomeGoodDeedsCounterModal,
   useWelcomeGoodDeedsCounterModal,
 } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 
 type ActHomeParams = {
   section: string
@@ -39,6 +39,7 @@ const ActHome = () => {
   const [selectedContentType] = useParam('section')
   const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
+  const showAppcuesBanner = useFeatureFlagToggle(FeatureFlagKey.APPCUES_BANNER)
 
   const sections = orderedSections(selectedContentType)
 
@@ -75,9 +76,11 @@ const ActHome = () => {
         <Stack direction="column" gap="xs" testID="act-home">
           <ActNavBar />
           <Stack direction="column">
-            <HoliContainer>
-              <MarketingBanner frameId="act-home-banner" />
-            </HoliContainer>
+            {showAppcuesBanner && (
+              <HoliContainer>
+                <MarketingBanner frameId="act-home-banner" />
+              </HoliContainer>
+            )}
             <Stack gap="xxl">
               {sections.map((sectionName) => (
                 <ActSection type={sectionName} key={sectionName} />
