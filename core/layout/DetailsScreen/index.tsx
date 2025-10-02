@@ -126,9 +126,9 @@ export const DetailsScreen = ({
 
   const _seoDescription = seoDescription || (bodyContent && !Array.isArray(bodyContent) ? bodyContent!.content : '')
 
-  // Use full width on all platforms to avoid blurriness
-  const imageWidth = Platform.OS === 'web' ? Math.min(width, 750) : width
-  // And maintain 16:9 aspect ratio
+  // Use full width to avoid blurriness - default to 750 for SSR when width is 0
+  const imageWidth = Platform.OS === 'web' ? Math.min(width || 750, 750) : width
+  // Maintain 16:9 aspect ratio
   const imageHeight = Math.round(imageWidth / 1.77)
 
   return (
