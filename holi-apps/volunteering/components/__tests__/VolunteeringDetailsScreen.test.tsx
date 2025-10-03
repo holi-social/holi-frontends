@@ -148,7 +148,7 @@ describe('VolunteeringDetailsScreen', () => {
     renderComponent()
     await act(jest.runAllTimersAsync)
 
-    expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 424))
+    expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 848))
     expect(screen.getByText(document.title_en!)).toBeVisible()
     expect(screen.getByText(document.description_en!)).toBeVisible()
     expect(screen.getByText(document.organizer_name!)).toBeVisible()

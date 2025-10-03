@@ -126,6 +126,11 @@ export const DetailsScreen = ({
 
   const _seoDescription = seoDescription || (bodyContent && !Array.isArray(bodyContent) ? bodyContent!.content : '')
 
+  // Use full width to avoid blurriness - default to 750 for SSR when width is 0
+  const imageWidth = Platform.OS === 'web' ? Math.min(width || 750, 750) : width
+  // Maintain 16:9 aspect ratio
+  const imageHeight = Math.round(imageWidth / 1.77)
+
   return (
     <>
       <HoliHead
@@ -140,8 +145,8 @@ export const DetailsScreen = ({
         <Stack>
           <Image
             source={!imageFailed && coverImage?.uri ? coverImage.uri : randomPlaceholderImage}
-            width={Platform.OS === 'web' ? 375 : width}
-            height={212}
+            width={imageWidth}
+            height={imageHeight}
             alt={t('act.events.thumbnail.label')}
             onError={() => setImageFailed(true)}
             resizeMode="cover"
