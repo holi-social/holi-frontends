@@ -8,14 +8,14 @@ import {
   KEY_ARROW_DOWN_COMMAND,
   KEY_ARROW_UP_COMMAND,
   KEY_ENTER_COMMAND,
-  LexicalEditor,
-  RangeSelection,
-  TextNode,
+  type LexicalEditor,
+  type RangeSelection,
+  type TextNode,
 } from 'lexical'
 import { useCallback, useEffect, useState } from 'react'
-import React from 'react'
+import type React from 'react'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -23,7 +23,7 @@ import { usePortals } from '@holi/core/providers/PortalProvider'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
-import { Mention, findMentionMatches } from '@holi/ui/helper/richText'
+import { type Mention, findMentionMatches } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
 
 export type HoliMentionsPluginProps = {
@@ -177,17 +177,25 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
 
   const onArrowUp = useCallback(
     (event: KeyboardEvent | null) => {
+      // Only intercept arrow keys when suggestions are visible, otherwise allow normal cursor navigation
+      if (results.length === 0) {
+        return false
+      }
       const newIndex = selectedOptionIndex <= 0 ? 0 : selectedOptionIndex - 1
       setSelectedOptionIndex(newIndex)
       event?.preventDefault()
       event?.stopPropagation()
       return true
     },
-    [selectedOptionIndex, setSelectedOptionIndex]
+    [selectedOptionIndex, setSelectedOptionIndex, results.length]
   )
 
   const onArrowDown = useCallback(
     (event: KeyboardEvent | null) => {
+      // Only intercept arrow keys when suggestions are visible, otherwise allow normal cursor navigation
+      if (results.length === 0) {
+        return false
+      }
       const maxIndex = results.length > maxSuggestionOptions ? maxSuggestionOptions : results.length
       const newIndex = selectedOptionIndex >= maxIndex ? maxIndex : selectedOptionIndex + 1
       setSelectedOptionIndex(newIndex)
@@ -195,7 +203,7 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
       event?.stopPropagation()
       return true
     },
-    [maxSuggestionOptions, results, selectedOptionIndex, setSelectedOptionIndex]
+    [maxSuggestionOptions, results.length, selectedOptionIndex, setSelectedOptionIndex]
   )
 
   // on input text
