@@ -203,7 +203,7 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
       event?.stopPropagation()
       return true
     },
-    [maxSuggestionOptions, results, selectedOptionIndex, setSelectedOptionIndex]
+    [maxSuggestionOptions, results.length, selectedOptionIndex, setSelectedOptionIndex]
   )
 
   // on input text
