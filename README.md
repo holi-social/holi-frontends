@@ -180,8 +180,6 @@ Currently we only use these kinds of tests for Holi components (i.e. components 
 
 We do not want to rely on actual translations, so `i18next` is configured in `jest.setup.ts` without any translations and will only render the i18n-keys instead.
 
-There is a global mock to check for navigation behaviour (`mockNavigate`, used e.g. in `core/auth/components/__tests__/LoginProtection.test.tsx`).
-
 #### Web e2e tests
 
 The web e2e tests are built with [Playwright](https://playwright.dev/). They are executed in the CI pipeline against
