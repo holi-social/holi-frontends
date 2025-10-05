@@ -5,6 +5,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { type Space, SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import { useFocusEffect } from 'expo-router'
 
 export enum PermissionsType {
   SPACES = 'SPACES',
@@ -30,23 +31,22 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   const { navigate } = useRouting()
   const loginState = useLoggedInUser()
 
-  if (forceRestrict) {
-    navigate(redirectRoute || '/')
-    return null
-  }
+  useFocusEffect(() => {
+    if (forceRestrict) {
+      navigate(redirectRoute || '/')
+    }
+
+    if (permissionType === PermissionsType.AUTH && loginState.isLoggedOut) {
+      navigate(redirectRoute || '/')
+    }
+
+    if (permissionType === PermissionsType.SPACES && !space?.connectionStatusToMyself?.includes(spaceConnectionType)) {
+      navigate(redirectRoute || `/spaces/${space?.name}`)
+    }
+  })
 
   if (permissionType === PermissionsType.AUTH && loginState.isLoading) {
     return <HoliLoader />
-  }
-
-  if (permissionType === PermissionsType.AUTH && loginState.isLoggedOut) {
-    navigate(redirectRoute || '/')
-    return null
-  }
-
-  if (permissionType === PermissionsType.SPACES && !space?.connectionStatusToMyself?.includes(spaceConnectionType)) {
-    navigate(redirectRoute || `/spaces/${space?.name}`)
-    return null
   }
 
   return children as React.ReactElement
