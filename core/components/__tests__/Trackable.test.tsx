@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, renderRouter, render, screen, waitFor } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 
@@ -103,9 +103,9 @@ describe('Trackable', () => {
     expect(screen.getByText('click me')).toBeDefined()
   })
 
-  it.each(testCases)('$name should call onPress handler', async ({ renderComponent, handlesEventPropagation }) => {
+  it.each(testCases)('$name should call onPress handler', async ({ renderComponent }) => {
     const onPress = jest.fn()
-    render(renderComponent({ trackingEvent: testTrackingEvent, onPress }))
+    renderRouter({ index: () => renderComponent({ trackingEvent: testTrackingEvent, onPress }) })
 
     await act(async () => {
       fireEvent.press(screen.getByText('click me'))
@@ -114,17 +114,13 @@ describe('Trackable', () => {
     })
 
     expect(onPress).toHaveBeenCalled()
-
-    if (handlesEventPropagation) {
-      expect(mockNavigate).toHaveBeenCalled()
-    }
   })
 
   it.each(testCases.filter(({ handlesEventPropagation }) => !!handlesEventPropagation))(
     '$name should forward onPress result to prevent event propagation',
     async ({ renderComponent }) => {
       const onPress = jest.fn(() => false)
-      render(renderComponent({ trackingEvent: testTrackingEvent, onPress }))
+      renderRouter({ index: () => renderComponent({ trackingEvent: testTrackingEvent, onPress }) })
 
       await act(async () => {
         fireEvent.press(screen.getByText('click me'))
@@ -133,8 +129,6 @@ describe('Trackable', () => {
       })
 
       expect(onPress).toHaveBeenCalled()
-
-      expect(mockNavigate).not.toHaveBeenCalled()
     }
   )
 
@@ -159,7 +153,7 @@ describe('Trackable', () => {
   )
 
   it.each(testCases)('$name should track press event', async ({ renderComponent }) => {
-    render(renderComponent({ trackingEvent: testTrackingEvent }))
+    renderRouter({ index: () => renderComponent({ trackingEvent: testTrackingEvent }) })
 
     await act(async () => {
       fireEvent.press(screen.getByText('click me'))

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
 import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { makeCommittedVolunteeringItem } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
@@ -14,7 +14,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
   }
 
   it('should render engagement title and organization', () => {
-    render(<VolunteeringRecoCardWithStatus {...defaultProps} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus {...defaultProps} />,
+    })
 
     expect(screen.getByText(defaultProps.engagement.title)).toBeOnTheScreen()
     expect(screen.getByText('volunteering.engagement.organization')).toBeOnTheScreen()
@@ -25,7 +27,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       status: VolunteeringOpportunityStatusValue.ToDo,
     })
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
 
     expect(screen.getByText('status.planned')).toBeOnTheScreen()
   })
@@ -35,7 +39,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       status: VolunteeringOpportunityStatusValue.Contacted,
     })
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
 
     expect(screen.getByText('status.connected')).toBeOnTheScreen()
   })
@@ -45,7 +51,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       status: VolunteeringOpportunityStatusValue.Doing,
     })
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
 
     expect(screen.getByText('status.help')).toBeOnTheScreen()
   })
@@ -55,7 +63,9 @@ describe('VolunteeringRecoCardWithStatus', () => {
       location: false,
     })
     engagement.locationType = 'remote'
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
     expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
   })
 
@@ -63,45 +73,55 @@ describe('VolunteeringRecoCardWithStatus', () => {
     const engagement = makeCommittedVolunteeringItem({
       location: true,
     })
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
     expect(screen.getByText(engagement.location!)).toBeOnTheScreen()
   })
 
-  it('should be clickable and track events', async () => {
-    const user = userEvent.setup()
+  it('should be clickable and track events', () => {
     const engagement = makeCommittedVolunteeringItem()
 
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
     const card = screen.getByRole('link')
-    await user.press(card)
+    fireEvent.press(card)
 
     expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.MyVolunteering.pressed(engagement.id))
   })
 
-  it('should use custom tracking event when provided', async () => {
-    const user = userEvent.setup()
+  it('should use custom tracking event when provided', () => {
     const customTrackingEvent = TrackingEvent.Volunteering.pressed('test')
-    render(<VolunteeringRecoCardWithStatus {...defaultProps} trackingEvent={customTrackingEvent} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus {...defaultProps} trackingEvent={customTrackingEvent} />,
+    })
     const card = screen.getByRole('link')
-    await user.press(card)
+    fireEvent.press(card)
     expect(mockTrack).toHaveBeenCalledWith(customTrackingEvent)
   })
 
   it('should handle engagement without organizer', () => {
     const engagement = makeCommittedVolunteeringItem()
     engagement.organizerName = ''
-    render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
+    })
     expect(screen.getByText(engagement.title)).toBeOnTheScreen()
     expect(screen.queryByText('volunteering.engagement.organization')).not.toBeOnTheScreen()
   })
 
   it('should render with fixed width when provided', () => {
-    render(<VolunteeringRecoCardWithStatus {...defaultProps} fixedWidth="100%" />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus {...defaultProps} fixedWidth="100%" />,
+    })
     expect(screen.getByRole('link')).toBeOnTheScreen()
   })
 
   it('should have correct test ID', () => {
-    render(<VolunteeringRecoCardWithStatus {...defaultProps} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCardWithStatus {...defaultProps} />,
+    })
     expect(screen.getByTestId('volunteering-reco-card-with-status')).toBeOnTheScreen()
   })
 })
