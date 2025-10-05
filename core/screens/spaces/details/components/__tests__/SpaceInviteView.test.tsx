@@ -1,5 +1,5 @@
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -83,13 +83,15 @@ export const inviteMutationSuccessMock = {
 }
 
 const renderComponent = (mocks: MockedResponse[] = [userSearchSuccessMock]) =>
-  render(
-    <ToastProvider>
-      <MockedProvider mocks={mocks}>
-        <SpaceInviteView spaceId={spaceId} idOrName={''} />
-      </MockedProvider>
-    </ToastProvider>
-  )
+  renderRouter({
+    index: () => (
+      <ToastProvider>
+        <MockedProvider mocks={mocks}>
+          <SpaceInviteView spaceId={spaceId} idOrName={''} />
+        </MockedProvider>
+      </ToastProvider>
+    ),
+  })
 
 const enterSearchTerm = (input: string) => fireEvent(screen.getByTestId('space-invite-user-input'), 'onChange', input)
 

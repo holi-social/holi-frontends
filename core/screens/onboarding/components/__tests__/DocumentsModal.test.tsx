@@ -1,7 +1,7 @@
 import React from 'react'
 import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { act, renderHook } from '@testing-library/react-hooks'
-import { render, screen } from '@testing-library/react-native'
+import { render, screen } from 'expo-router/testing-library'
 
 describe('useDocumentModal', () => {
   it('should not show modal initially', () => {

@@ -3,7 +3,7 @@ import { useVolunteeringRecoParameters } from '@holi-apps/volunteering/hooks/use
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { logError } from '@holi/core/errors/helpers'
 

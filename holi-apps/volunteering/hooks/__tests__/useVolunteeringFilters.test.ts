@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-native'
+import { act, renderHook } from 'expo-router/testing-library'
 import type { ApolloError } from '@apollo/client'
 
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'

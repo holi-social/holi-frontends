@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent } from 'expo-router/testing-library'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 import { emptyFilters, fullFilters, testLocation } from '@holi-apps/volunteering/__tests__/testData'
 import { TrackingEvent } from '@holi/core/tracking'

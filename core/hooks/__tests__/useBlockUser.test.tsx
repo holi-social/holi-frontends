@@ -12,7 +12,7 @@ import { useBlockUser } from '@holi/core/hooks/useBlockUser'
 import { BlockUserMutation } from '@holi/core/queries'
 import { MockedProvider } from '@apollo/client/testing'
 import type { User } from '@holi/core/domain/shared/types'
-import { waitFor } from '@testing-library/react-native'
+import { waitFor } from 'expo-router/testing-library'
 import { toMatrixIdentity } from '@holi/chat/src/store'
 
 jest.mock('matrix-js-sdk')

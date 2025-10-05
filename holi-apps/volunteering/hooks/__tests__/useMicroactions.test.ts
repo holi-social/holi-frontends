@@ -1,7 +1,7 @@
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import type { SearchParams, SearchResponseHit } from '@holi/core/typesense/types'
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 import { logError } from '@holi/core/errors/helpers'
 import { MICROACTION_PAGE_SIZE, useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import { useMicroactionParameters } from '@holi-apps/volunteering/hooks/useMicroactionParameters'

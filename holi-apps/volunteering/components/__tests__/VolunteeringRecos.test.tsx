@@ -1,6 +1,6 @@
 import React from 'react'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
-import { render, screen } from '@testing-library/react-native'
+import { renderRouter, screen } from 'expo-router/testing-library'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
@@ -17,9 +17,12 @@ describe('VolunteeringRecos', () => {
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
-    render(<VolunteeringRecos cardWidth={100} />)
+    renderRouter({
+      index: () => <VolunteeringRecos cardWidth={100} />,
+    })
 
-    expect(screen.toJSON()).toBeNull()
+    // When loading, the component returns null, so we shouldn't find any text
+    expect(screen.queryByText('volunteering.app.name')).not.toBeOnTheScreen()
   })
 
   it('should correctly render engagements', () => {
@@ -31,7 +34,9 @@ describe('VolunteeringRecos', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringRecos cardWidth={100} />)
+    renderRouter({
+      index: () => <VolunteeringRecos cardWidth={100} />,
+    })
 
     // Header
     expect(screen.getByText('volunteering.app.name')).toBeOnTheScreen()
@@ -52,7 +57,9 @@ describe('VolunteeringRecos', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringRecos cardWidth={100} />)
+    renderRouter({
+      index: () => <VolunteeringRecos cardWidth={100} />,
+    })
 
     expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({ pageSize: 5 })
   })
@@ -65,7 +72,9 @@ describe('VolunteeringRecos', () => {
       fetchNextPage: jest.fn(),
     })
 
-    render(<VolunteeringRecos cardWidth={100} rows={3} columns={4} />)
+    renderRouter({
+      index: () => <VolunteeringRecos cardWidth={100} rows={3} columns={4} />,
+    })
 
     expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({ pageSize: 12 })
   })

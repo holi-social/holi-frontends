@@ -1,6 +1,6 @@
 import React, { act } from 'react'
 import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent } from 'expo-router/testing-library'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
 import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'

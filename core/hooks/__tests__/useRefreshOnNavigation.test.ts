@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 
 import useRefreshOnNavigation from '@holi/core/hooks/useRefreshOnNavigation'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'

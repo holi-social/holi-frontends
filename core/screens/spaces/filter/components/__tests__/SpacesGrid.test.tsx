@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render } from 'expo-router/testing-library'
 import React from 'react'
 
 import { spaces } from '@holi/core/screens/spaces/__tests__/testData'

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import ActHome from '@holi/core/screens/act/ActHome.web'
@@ -75,7 +75,9 @@ describe('ActHome Section', () => {
     mockParameters({ section })
 
     mockActSection.mockReturnValue(<></>)
-    render(<ActHome />)
+    renderRouter({
+      index: () => <ActHome />,
+    })
     const calls = mockActSection.mock.calls
     expect(mockActSection).toHaveBeenCalledTimes(order.length)
     calls.forEach((call, i) => {

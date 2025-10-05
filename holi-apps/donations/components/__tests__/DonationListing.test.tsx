@@ -1,7 +1,7 @@
 import React from 'react'
 import { createLocalizedDonations } from '@holi-apps/donations/components/__tests__/testData'
 import DonationListing from '@holi-apps/donations/components/DonationListing'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text'
 
 describe('DonationListing', () => {

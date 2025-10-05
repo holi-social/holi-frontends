@@ -1,12 +1,13 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { DonationCard } from '@holi-apps/donations/components/DonationCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import { localizedTypesenseDonation } from '@holi-apps/donations/components/__tests__/testData'
+import { Text } from 'react-native'
 
 describe('DonationCard', () => {
   it('should render title and progress', () => {
-    render(<DonationCard project={localizedTypesenseDonation} index={0} />)
+    renderRouter({ index: () => <DonationCard project={localizedTypesenseDonation} index={0} /> })
 
     expect(screen.getByText(localizedTypesenseDonation.title)).toBeOnTheScreen()
     expect(screen.getByText('donations.donationProgress.percentFunded')).toBeOnTheScreen()
@@ -14,27 +15,29 @@ describe('DonationCard', () => {
   })
 
   it('should render initiative', () => {
-    render(<DonationCard project={localizedTypesenseDonation} index={0} />)
+    renderRouter({ index: () => <DonationCard project={localizedTypesenseDonation} index={0} /> })
 
     expect(screen.getByText('donations.project.initiative')).toBeOnTheScreen()
   })
 
-  it('should navigate on press to project', async () => {
-    const user = userEvent.setup()
+  it('should navigate on press to project', () => {
+    const context = renderRouter({
+      index: () => <DonationCard project={localizedTypesenseDonation} index={0} />,
+      'donations/[id]': () => <Text>Donation</Text>,
+    })
 
-    render(<DonationCard project={localizedTypesenseDonation} index={0} />)
+    fireEvent.press(screen.getByRole('link'))
 
-    await user.press(screen.getByRole('link'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/donations/123')
+    expect(context).toHavePathname('/donations/123')
   })
 
-  it('tracks press on card', async () => {
-    const user = userEvent.setup()
+  it('tracks press on card', () => {
+    renderRouter({
+      index: () => <DonationCard project={localizedTypesenseDonation} index={13} />,
+      'donations/[id]': () => <Text>Donation</Text>,
+    })
 
-    render(<DonationCard project={localizedTypesenseDonation} index={13} />)
-
-    await user.press(screen.getByRole('link'))
+    fireEvent.press(screen.getByRole('link'))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('donation', '123', 13, {

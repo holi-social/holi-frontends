@@ -4,7 +4,7 @@ import {
   type TypesensePaginationState,
   useTypesensePaginationMultiQuery,
 } from '@holi/core/typesense/hooks/useTypesensePaginationMultiQuery'
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 
