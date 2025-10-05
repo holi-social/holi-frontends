@@ -3,7 +3,7 @@ import React from 'react'
 import { useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
 import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library'
 
 const mockUseOnboardingFinishModalState = useOnboardingFinishModalState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState', () => ({
@@ -37,37 +37,43 @@ describe('OnboardingFinishModal', () => {
   it('should render nothing if not visible', () => {
     mockUseOnboardingFinishModalState.mockReturnValue({ visible: false, hide: jest.fn() })
 
-    render(<OnboardingFinishModal />)
+    renderRouter({
+      index: () => <OnboardingFinishModal />,
+    })
 
     expect(screen.queryByText('onboarding.communityGuidelines.heading')).not.toBeOnTheScreen()
   })
 
   it('should render modal if visible', () => {
-    render(<OnboardingFinishModal />)
+    renderRouter({
+      index: () => <OnboardingFinishModal />,
+    })
 
     expect(screen.getByText('onboarding.communityGuidelines.heading')).toBeOnTheScreen()
   })
 
-  it('should render link to modal with community guidelines', async () => {
+  it('should render link to modal with community guidelines', () => {
     const showDocModal = jest.fn()
     mockUseDocumentModal.mockReturnValue({ show: showDocModal, modalProps: {} })
-    const user = userEvent.setup()
 
-    render(<OnboardingFinishModal />)
+    renderRouter({
+      index: () => <OnboardingFinishModal />,
+    })
 
-    await user.press(screen.getByRole('link'))
+    fireEvent.press(screen.getByRole('link'))
 
     expect(showDocModal).toHaveBeenCalledWith('communityGuidelines')
   })
 
-  it('should close modal, on dismiss', async () => {
+  it('should close modal, on dismiss', () => {
     const hideModal = jest.fn()
     mockUseOnboardingFinishModalState.mockReturnValue({ visible: true, hide: hideModal })
-    const user = userEvent.setup()
 
-    render(<OnboardingFinishModal />)
+    renderRouter({
+      index: () => <OnboardingFinishModal />,
+    })
 
-    await user.press(screen.getByText('onboarding.communityGuidelines.acceptButton'))
+    fireEvent.press(screen.getByText('onboarding.communityGuidelines.acceptButton'))
 
     expect(hideModal).toHaveBeenCalled()
   })

@@ -1,5 +1,5 @@
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import type { User } from '@holi/core/domain/shared/types'

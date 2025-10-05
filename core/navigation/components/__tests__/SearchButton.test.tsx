@@ -1,21 +1,26 @@
 import React from 'react'
 import { SearchButton } from '@holi/core/navigation/components/header/SearchButton'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Text } from 'react-native'
 
 describe('SearchButton', () => {
-  it('links to search', async () => {
-    const user = userEvent.setup()
-    render(<SearchButton />)
+  it('links to search', () => {
+    const context = renderRouter({
+      index: () => <SearchButton />,
+      search: () => <Text>Search</Text>,
+    })
 
-    await user.press(screen.getByRole('button'))
-    expect(mockNavigate).toHaveBeenCalledWith('/search')
+    fireEvent.press(screen.getByRole('button'))
+    expect(context).toHavePathname('/search')
   })
-  it('tracks clicks', async () => {
-    const user = userEvent.setup()
-    render(<SearchButton />)
+  it('tracks clicks', () => {
+    renderRouter({
+      index: () => <SearchButton />,
+      search: () => <Text>Search</Text>,
+    })
 
-    await user.press(screen.getByRole('button'))
+    fireEvent.press(screen.getByRole('button'))
     expect(mockTrack).toHaveBeenCalledWith({
       name: 'searchButtonPressed',
       event_version__major: 1,

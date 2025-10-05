@@ -1,10 +1,9 @@
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
-import { NavigationRouteContext, type Route } from '@react-navigation/native'
-
 import { createCache } from '@holi/api/graphql/client'
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
@@ -14,11 +13,7 @@ import { SpacesDocument } from '@holi/api/graphql/graphql-codegen'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())
-
-// prevent logging about incomplete apollo mocks,
-// because we didn't flesh out the response data
-global.console.error = jest.fn()
-global.console.warn = jest.fn()
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 const createSpacesMock = (variables = {}) => ({
   request: {
@@ -119,16 +114,18 @@ describe('FilteredSpaces', () => {
   const renderFilteredSpaces = (
     mocks: MockedResponse[],
     params?: Partial<{ location: string; topic: string[]; skill: string[] }>
-  ) =>
-    render(
-      <NavigationRouteContext.Provider value={{ params } as Route<string>}>
+  ) => {
+    mockParameters(params)
+    return renderRouter({
+      index: () => (
         <MockedProvider mocks={mocks} cache={createCache()}>
           <ToastProvider>
             <FilteredSpaces />
           </ToastProvider>
         </MockedProvider>
-      </NavigationRouteContext.Provider>
-    )
+      ),
+    })
+  }
 
   it('displays loading screen while loading', async () => {
     renderFilteredSpaces([spacesMock])
@@ -157,17 +154,16 @@ describe('FilteredSpaces', () => {
     renderFilteredSpaces([createSpacesPaginationMock(), createSpacesPaginationMock(SPACES_PAGE_SIZE)])
 
     // expect 12 spaces
-    await waitFor(async () =>
-      expect((await screen.findAllByTestId('filtered-spaces-container')).length).toBeGreaterThan(0)
-    )
-    await waitFor(async () => expect((await screen.findAllByTestId('space-link')).length).toBe(SPACES_PAGE_SIZE))
+    expect(screen.getByTestId('filtered-spaces-container')).toBeOnTheScreen()
+    expect((await screen.findAllByTestId('space-link')).length).toBe(SPACES_PAGE_SIZE)
 
     // load more
-    await act(async () => fireEvent.press(await screen.findByText('spaces.spaceListing.loadMoreButton.text')))
+    const loadMoreButton = await screen.findByText('spaces.spaceListing.loadMoreButton.text')
+    fireEvent.press(loadMoreButton)
 
     // expect 24 spaces
-    await waitFor(async () => expect(await screen.findByText('spaces.spaceListing.loadMoreButton.text')))
-    await waitFor(async () => expect((await screen.findAllByTestId('space-link')).length).toBe(2 * SPACES_PAGE_SIZE))
+    await waitFor(() => expect(screen.getAllByTestId('space-link').length).toBe(2 * SPACES_PAGE_SIZE))
+    expect(screen.getByText('spaces.spaceListing.loadMoreButton.text')).toBeOnTheScreen()
   })
 
   it('displays no results screen if no spaces were found', async () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from 'expo-router/testing-library'
 import { useAnonCount } from '@holi/core/domain/shared/hooks'
 import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { updateConsentState, useConsentState } from '@holi/core/tracking/TrackingInitializer'

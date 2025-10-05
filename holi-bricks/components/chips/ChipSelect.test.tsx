@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { fireEvent, render, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import { ChipSelect } from './ChipSelect'

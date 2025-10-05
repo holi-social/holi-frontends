@@ -6,7 +6,7 @@ import type React from 'react'
 
 import { VolunteeringContact } from '@holi-apps/volunteering/components/VolunteeringContact'
 import { Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
-import { render, userEvent, screen, act } from '@testing-library/react-native'
+import { render, userEvent, screen, act } from 'expo-router/testing-library'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { TrackingEvent } from '@holi/core/tracking'

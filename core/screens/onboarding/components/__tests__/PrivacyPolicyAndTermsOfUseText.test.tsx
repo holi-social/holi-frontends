@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
 import PrivacyPolicyAndTermsOfUseText from '@holi/core/screens/onboarding/components/PrivacyPolicyAndTermsOfUseText'
 
 describe('PrivacyPolicyAndTermsOfUseText', () => {
@@ -7,7 +7,9 @@ describe('PrivacyPolicyAndTermsOfUseText', () => {
     const showDocModal = jest.fn()
     const user = userEvent.setup()
 
-    render(<PrivacyPolicyAndTermsOfUseText legalDocPath="" showDocModal={showDocModal} />)
+    renderRouter({
+      index: () => <PrivacyPolicyAndTermsOfUseText legalDocPath="" showDocModal={showDocModal} />,
+    })
 
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(2)
@@ -21,7 +23,9 @@ describe('PrivacyPolicyAndTermsOfUseText', () => {
     const showDocModal = jest.fn()
     const user = userEvent.setup()
 
-    render(<PrivacyPolicyAndTermsOfUseText legalDocPath="" showDocModal={showDocModal} />)
+    renderRouter({
+      index: () => <PrivacyPolicyAndTermsOfUseText legalDocPath="" showDocModal={showDocModal} />,
+    })
 
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(2)

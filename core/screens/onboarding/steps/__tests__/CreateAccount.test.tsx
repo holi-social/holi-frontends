@@ -9,7 +9,7 @@ import {
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { CreateAccount, type CreateAccountProps } from '@holi/core/screens/onboarding/steps/CreateAccount'
-import { act, render, screen, userEvent, within } from '@testing-library/react-native'
+import { act, fireEvent, renderRouter, screen, userEvent, within } from 'expo-router/testing-library'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -111,15 +111,17 @@ describe('CreateAccount', () => {
   })
 
   const renderScreen = async ({ onRegister, onContinueAsGuest, onLogin }: Partial<CreateAccountProps> = {}) => {
-    render(
-      <MockedProvider>
-        <CreateAccount
-          onRegister={onRegister ?? jest.fn()}
-          onContinueAsGuest={onContinueAsGuest ?? jest.fn()}
-          onLogin={onLogin ?? jest.fn()}
-        />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <CreateAccount
+            onRegister={onRegister ?? jest.fn()}
+            onContinueAsGuest={onContinueAsGuest ?? jest.fn()}
+            onLogin={onLogin ?? jest.fn()}
+          />
+        </MockedProvider>
+      ),
+    })
 
     await act(async () => {
       await jest.runAllTimersAsync()
@@ -320,11 +322,9 @@ describe('CreateAccount', () => {
 
   describe('login with existing account', () => {
     const login = async ({ onLogin }: Partial<CreateAccountProps> = {}) => {
-      const user = userEvent.setup()
-
       await renderScreen({ onLogin })
 
-      await user.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
+      fireEvent.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
     }
 
     it('should track request to login', async () => {
