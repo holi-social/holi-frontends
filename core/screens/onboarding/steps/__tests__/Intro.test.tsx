@@ -1,8 +1,9 @@
 import { Intro } from '@holi/core/screens/onboarding/steps/Intro'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { act, render, screen, userEvent, within } from '@testing-library/react-native'
+import { act, renderRouter, screen, fireEvent, within } from 'expo-router/testing-library'
 import React from 'react'
+import { Text } from 'react-native'
 
 const mockUseTracking = useTracking as jest.Mock
 jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())
@@ -18,7 +19,7 @@ describe('Intro', () => {
   })
 
   it('should display texts, buttons and links', () => {
-    render(<Intro onContinue={jest.fn()} />)
+    renderRouter({ index: () => <Intro onContinue={jest.fn()} /> })
 
     expect(screen.getByText('onboarding.welcome.title')).toBeOnTheScreen()
 
@@ -29,35 +30,37 @@ describe('Intro', () => {
     expect(screen.getAllByRole('link')).toHaveLength(4)
   })
 
-  it('should navigate to login page when pressing login link', async () => {
-    const user = userEvent.setup()
+  it('should navigate to login page when pressing login link', () => {
+    const context = renderRouter({
+      index: () => <Intro onContinue={jest.fn()} />,
+      login: () => <Text>Login</Text>,
+    })
 
-    render(<Intro onContinue={jest.fn()} />)
+    fireEvent.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
 
-    await user.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/login')
+    expect(context).toHavePathname('/login')
   })
 
-  it('should track pressing the login button', async () => {
+  it('should track pressing the login button', () => {
     const track = jest.fn()
-    const user = userEvent.setup()
     mockUseTracking.mockReturnValue({ track })
 
-    render(<Intro onContinue={jest.fn()} />)
+    renderRouter({
+      index: () => <Intro onContinue={jest.fn()} />,
+      login: () => <Text>Login</Text>,
+    })
 
-    await user.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
+    fireEvent.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
 
     expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.LoginButtonPressed)
   })
 
-  it('should call onContinue callback when pressing continue button', async () => {
+  it('should call onContinue callback when pressing continue button', () => {
     const onContinue = jest.fn()
-    const user = userEvent.setup()
 
-    render(<Intro onContinue={onContinue} />)
+    renderRouter({ index: () => <Intro onContinue={onContinue} /> })
 
-    await user.press(screen.getByRole('button'))
+    fireEvent.press(screen.getByRole('button'))
 
     expect(onContinue).toHaveBeenCalled()
   })

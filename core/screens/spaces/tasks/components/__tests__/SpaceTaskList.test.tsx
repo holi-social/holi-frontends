@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
@@ -46,11 +46,13 @@ const authenticatedUserMock = {
 
 describe('SpaceTaskList', () => {
   it('renders correctly when there are tasks within space', () => {
-    render(
-      <MockedProvider mocks={[authenticatedUserMock]}>
-        <SpaceTaskList space={space} isCollaborator={false} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[authenticatedUserMock]}>
+          <SpaceTaskList space={space} isCollaborator={false} />
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -59,12 +61,14 @@ describe('SpaceTaskList', () => {
       ...space,
       tasks: [],
     }
-    render(
-      <MockedProvider mocks={[authenticatedUserMock]}>
-        <SpaceTaskList space={spaceWithoutTasks} isCollaborator={false} />
-      </MockedProvider>
-    )
-    expect(screen.toJSON()).toHaveTextContent('spaces.spaceDetails.tasks.empty.title.forNonMembers')
-    expect(screen.toJSON()).toHaveTextContent('spaces.spaceDetails.tasks.empty.message.forNonMembers')
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[authenticatedUserMock]}>
+          <SpaceTaskList space={spaceWithoutTasks} isCollaborator={false} />
+        </MockedProvider>
+      ),
+    })
+    expect(screen.getByText('spaces.spaceDetails.tasks.empty.title.forNonMembers')).toBeOnTheScreen()
+    expect(screen.getByText('spaces.spaceDetails.tasks.empty.message.forNonMembers')).toBeOnTheScreen()
   })
 })

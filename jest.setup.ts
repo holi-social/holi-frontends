@@ -44,6 +44,8 @@ jest.mock('react-native-reanimated', () => {
     ...Reanimated,
     FadeIn: { createInstance: () => makeBuilder() },
     FadeOut: { createInstance: () => makeBuilder() },
+    FadeInRight: { createInstance: () => makeBuilder() },
+    FadeOutRight: { createInstance: () => makeBuilder() },
   }
 })
 
@@ -54,8 +56,6 @@ require('@shopify/flash-list/jestSetup')
 
 initializeBricks()
 
-global.mockNavigate = jest.fn()
-global.mockBack = jest.fn()
 global.captureSentryException = jest.fn()
 
 global.mockSetOptions = jest.fn()
