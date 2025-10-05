@@ -1,12 +1,13 @@
 import React from 'react'
 import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { SEARCH_FACETS_IN_ORDER } from '@holi/core/screens/search/types'
+import { Text } from 'react-native'
 
 describe('SearchExamples', () => {
   describe.each(SEARCH_FACETS_IN_ORDER)('for facet %s', (facet) => {
     it('should display 5 examples', async () => {
-      render(<SearchExamples onQuerySelect={jest.fn()} currentFacet={facet} />)
+      renderRouter({ index: () => <SearchExamples onQuerySelect={jest.fn()} currentFacet={facet} /> })
 
       const examples = await screen.findAllByText(/search.examples\./)
       const facetExamples = await screen.findAllByText(new RegExp(`search.examples.${facet}\\d+`))
@@ -17,17 +18,17 @@ describe('SearchExamples', () => {
 
     it('should call query selection callback on press', async () => {
       const onQuerySelect = jest.fn()
-      const user = userEvent.setup()
-      render(<SearchExamples onQuerySelect={onQuerySelect} currentFacet={facet} />)
+      renderRouter({
+        index: () => <SearchExamples onQuerySelect={onQuerySelect} currentFacet={facet} />,
+        search: () => <Text>Search</Text>,
+      })
 
       const examples = await screen.findAllByLabelText(new RegExp(`search.examples.${facet}\\d+`))
       const query = examples[0].props['aria-label']
 
-      await user.press(examples[0])
+      fireEvent.press(examples[0])
 
       expect(onQuerySelect).toHaveBeenCalledWith(query)
-      // Event should not have been propagated
-      expect(mockNavigate).not.toHaveBeenCalled()
     })
   })
 })

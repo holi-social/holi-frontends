@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { logError } from '@holi/core/errors/helpers'

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { renderHook, waitFor } from 'expo-router/testing-library'
 
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 

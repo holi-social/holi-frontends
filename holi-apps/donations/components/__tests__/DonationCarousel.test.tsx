@@ -1,9 +1,10 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import DonationCarousel from '@holi-apps/donations/components/DonationCarousel'
 import { usePaginatedDonations } from '@holi-apps/donations/hooks/usePaginatedDonations'
 import { createLocalizedDonations } from '@holi-apps/donations/components/__tests__/testData'
 import { logError } from '@holi/core/errors/helpers'
+import { Text } from 'react-native'
 
 const mockUsePaginatedDonations = jest.mocked(usePaginatedDonations)
 jest.mock('@holi-apps/donations/hooks/usePaginatedDonations', () => ({
@@ -36,13 +37,14 @@ describe('DonationCarousel', () => {
       isFetchingMore: false,
     })
 
-    render(<DonationCarousel cardWidth={100} />)
+    renderRouter({ index: () => <DonationCarousel cardWidth={100} /> })
 
-    expect(screen.toJSON()).toBeNull()
+    expect(screen.queryByText('donations.app.name')).not.toBeOnTheScreen()
+    expect(screen.queryAllByRole('link')).toHaveLength(0)
   })
 
   it('should render projects', () => {
-    render(<DonationCarousel cardWidth={100} />)
+    renderRouter({ index: () => <DonationCarousel cardWidth={100} /> })
 
     // Header
     expect(screen.getByText('donations.app.name')).toBeOnTheScreen()
@@ -58,7 +60,7 @@ describe('DonationCarousel', () => {
   })
 
   it('should fetch projects with correct paramters', () => {
-    render(<DonationCarousel cardWidth={100} />)
+    renderRouter({ index: () => <DonationCarousel cardWidth={100} /> })
 
     expect(mockUsePaginatedDonations).toHaveBeenCalledWith({
       pageSize: 5,
@@ -69,7 +71,7 @@ describe('DonationCarousel', () => {
   it('should log error if fetch projects failed', () => {
     const testError = new Error('Test')
 
-    render(<DonationCarousel cardWidth={100} />)
+    renderRouter({ index: () => <DonationCarousel cardWidth={100} /> })
 
     // Simulate error
     mockUsePaginatedDonations.mock.calls[0][0].onError?.(testError)
@@ -79,23 +81,25 @@ describe('DonationCarousel', () => {
     })
   })
 
-  it('click on header should navigate to donations home screen', async () => {
-    const user = userEvent.setup()
+  it('click on header should navigate to donations home screen', () => {
+    const context = renderRouter({
+      index: () => <DonationCarousel cardWidth={100} />,
+      donations: () => <Text>Donations</Text>,
+    })
 
-    render(<DonationCarousel cardWidth={100} />)
+    fireEvent.press(screen.getByText('donations.app.name'))
 
-    await user.press(screen.getByText('donations.app.name'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/donations')
+    expect(context).toHavePathname('/donations')
   })
 
-  it('click on see more card should navigate to donations home screen', async () => {
-    const user = userEvent.setup()
+  it('click on see more card should navigate to donations home screen', () => {
+    const context = renderRouter({
+      index: () => <DonationCarousel cardWidth={100} />,
+      donations: () => <Text>Donations</Text>,
+    })
 
-    render(<DonationCarousel cardWidth={100} />)
+    fireEvent.press(screen.getByLabelText('donations.donationListing.loadMoreButton.text'))
 
-    await user.press(await screen.getByLabelText('donations.donationListing.loadMoreButton.text'))
-
-    expect(mockNavigate).toHaveBeenCalledWith('/donations')
+    expect(context).toHavePathname('/donations')
   })
 })

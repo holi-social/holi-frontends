@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { act, render, screen } from '@testing-library/react-native'
+import { act, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
@@ -57,11 +57,13 @@ describe('CommentView', () => {
   })
 
   it('renders correctly', () => {
-    render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
-        <CommentView commentableId={post.id} commentableType={CommentableType.POST} comment={comment} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+          <CommentView commentableId={post.id} commentableType={CommentableType.POST} comment={comment} />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('comment-item')).toBeOnTheScreen()
     expect(screen.getByTestId('btn-to-commenter-profile')).toBeOnTheScreen()

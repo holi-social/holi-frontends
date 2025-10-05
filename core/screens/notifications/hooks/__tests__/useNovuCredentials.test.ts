@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { renderHook, waitFor } from 'expo-router/testing-library'
 import axios from 'axios'
 
 import { novuCredentialsUrl } from '@holi/core/screens/notifications/config'

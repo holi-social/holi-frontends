@@ -26,6 +26,7 @@ jest.mock('@react-native-clipboard/clipboard', () => mockClipboard)
 
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock')
+  const React = require('react')
 
   const makeBuilder = () => {
     const builder: any = new Proxy(() => builder, {
@@ -33,19 +34,37 @@ jest.mock('react-native-reanimated', () => {
         if (prop === 'createInstance') {
           return () => builder
         }
-        return builder
+
+        return () => builder
       },
       apply: () => builder,
     })
     return builder
   }
 
+  const animation = makeBuilder()
+
   return {
     ...Reanimated,
-    FadeIn: { createInstance: () => makeBuilder() },
-    FadeOut: { createInstance: () => makeBuilder() },
-    FadeInRight: { createInstance: () => makeBuilder() },
-    FadeOutRight: { createInstance: () => makeBuilder() },
+    FadeIn: animation,
+    FadeOut: animation,
+    FadeInRight: animation,
+    FadeOutRight: animation,
+    FadeInUp: animation,
+    FadeOutUp: animation,
+    FadeInDown: animation,
+    FadeOutDown: animation,
+    FadeInLeft: animation,
+    FadeOutLeft: animation,
+    SlideInRight: animation,
+    SlideOutRight: animation,
+    SlideInLeft: animation,
+    SlideOutLeft: animation,
+    SlideInUp: animation,
+    SlideOutUp: animation,
+    SlideInDown: animation,
+    SlideOutDown: animation,
+    LayoutAnimationConfig: ({ children }: { children: React.ReactNode }) => children,
   }
 })
 

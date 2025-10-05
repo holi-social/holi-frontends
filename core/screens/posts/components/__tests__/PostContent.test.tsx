@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
@@ -46,11 +46,13 @@ const authenticatedUserMock = {
 
 describe('PostContent', () => {
   it('renders public post correctly', () => {
-    const { getByText, getByTestId, getAllByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
-        <PostContent hasVisibilityIcon post={post} />
-      </MockedProvider>
-    )
+    const { getByText, getByTestId, getAllByTestId } = renderRouter({
+      index: () => (
+        <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+          <PostContent hasVisibilityIcon post={post} />
+        </MockedProvider>
+      ),
+    })
 
     expect(getByTestId('post-content-container')).toBeDefined()
     expect(getByText('spaces.updates.filter.public')).toBeDefined()
@@ -66,11 +68,13 @@ describe('PostContent', () => {
   it('renders private post correctly', () => {
     const newPost = { ...post, isPublic: false }
 
-    const { getByText, getByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
-        <PostContent hasVisibilityIcon post={newPost} />
-      </MockedProvider>
-    )
+    const { getByText, getByTestId } = renderRouter({
+      index: () => (
+        <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+          <PostContent hasVisibilityIcon post={newPost} />
+        </MockedProvider>
+      ),
+    })
 
     expect(getByTestId('post-content-container')).toBeDefined()
     expect(getByText('spaces.updates.filter.members')).toBeDefined()

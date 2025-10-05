@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react-native'
+import { act, render, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'

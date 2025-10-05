@@ -7,7 +7,7 @@ import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from 'expo-router/testing-library'
 
 const mockUseLoginState = jest.mocked(useLoginState)
 const mockSetLoginStateLoggedOut = jest.mocked(setLoginStateLoggedOut)
@@ -36,6 +36,16 @@ jest.mock('@apollo/client', () => {
     useApolloClient: jest.fn(),
   }
 })
+
+const mockNavigate = jest.fn()
+jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
+  __esModule: true,
+  default: () => ({
+    navigate: mockNavigate,
+    pathname: '/',
+    currentParams: {},
+  }),
+}))
 
 const authenticatedUserRequest = {
   request: {
@@ -86,6 +96,7 @@ describe('useLogout', () => {
 
   beforeEach(() => {
     jest.useFakeTimers()
+    mockNavigate.mockClear()
     mockUseLoginState.mockReturnValue({
       isLoggedIn: true,
       isLoggedOut: false,

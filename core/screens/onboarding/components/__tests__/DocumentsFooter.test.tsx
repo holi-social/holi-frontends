@@ -1,6 +1,6 @@
 import { useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 const mockUseDocumentModal = useDocumentModal as jest.Mock
@@ -20,14 +20,18 @@ describe('DocumentsFooter', () => {
   })
 
   it('should hide imprint if prop to display imprint is false', () => {
-    render(<DocumentsFooter />)
+    renderRouter({
+      index: () => <DocumentsFooter />,
+    })
 
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(2)
   })
 
   it('should render imprint if prop to display imprint is true', () => {
-    render(<DocumentsFooter displayImprint={true} />)
+    renderRouter({
+      index: () => <DocumentsFooter displayImprint={true} />,
+    })
 
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(3)
@@ -36,13 +40,14 @@ describe('DocumentsFooter', () => {
   })
 
   const documentsInOrder = ['privacyPolicy', 'termsOfUse', 'imprint']
-  it.each(documentsInOrder)('should open modal for document %s', async (document) => {
+  it.each(documentsInOrder)('should open modal for document %s', (document) => {
     const linkIndex = documentsInOrder.indexOf(document)
-    const user = userEvent.setup()
 
-    render(<DocumentsFooter displayImprint={true} />)
+    renderRouter({
+      index: () => <DocumentsFooter displayImprint={true} />,
+    })
 
-    await user.press(screen.getAllByRole('link')[linkIndex])
+    fireEvent.press(screen.getAllByRole('link')[linkIndex])
 
     expect(mockShowDocModal).toHaveBeenCalledWith(document)
   })

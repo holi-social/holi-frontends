@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent } from 'expo-router/testing-library'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/components/MyVolunteeringTab'
 import {
   makeCommittedVolunteeringItems,

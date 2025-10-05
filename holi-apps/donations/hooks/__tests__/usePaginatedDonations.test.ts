@@ -4,7 +4,7 @@ import type { GeolocationSuggestion } from '@holi/core/geolocation/components/Pl
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 
 const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
 jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({

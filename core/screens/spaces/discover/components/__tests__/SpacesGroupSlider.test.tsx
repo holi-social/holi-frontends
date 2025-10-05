@@ -1,8 +1,9 @@
 import { MockedProvider } from '@apollo/client/testing'
 import type { MockedResponse } from '@apollo/client/testing/core'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, renderRouter, waitFor } from 'expo-router/testing-library'
 import expect from 'expect'
 import React from 'react'
+import { Text } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
@@ -85,11 +86,14 @@ const discoverSpacesDataMock = ({
 describe('SpacesGroupSlider', () => {
   describe('with topic', () => {
     const renderTopic = (mocks: MockedResponse[]) =>
-      render(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <SpacesGroupSlider topic={'topic1'} pageSize={5} />
-        </MockedProvider>
-      )
+      renderRouter({
+        index: () => (
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <SpacesGroupSlider topic={'topic1'} pageSize={5} />
+          </MockedProvider>
+        ),
+        'spaces/filter': () => <Text>Filter</Text>,
+      })
 
     it('displays errors', async () => {
       const { getByText, getAllByTestId } = renderTopic([discoverSpacesErrorMock({ topicsV2: ['topic1'] })])
@@ -106,9 +110,8 @@ describe('SpacesGroupSlider', () => {
     })
 
     it('renders correctly with see more', async () => {
-      const { getByText, queryAllByTestId, getAllByText, getAllByRole, getByTestId } = renderTopic([
-        discoverSpacesDataMock({ topicsV2: ['topic1'] }),
-      ])
+      const context = renderTopic([discoverSpacesDataMock({ topicsV2: ['topic1'] })])
+      const { getByText, queryAllByTestId, getAllByText, getAllByRole, getByTestId } = context
 
       expect(getByText('topic.topic1')).toBeDefined()
 
@@ -138,17 +141,20 @@ describe('SpacesGroupSlider', () => {
 
       fireEvent.press(getByTestId('spaces-group-slider-see-more'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic1')
+      expect(context).toHavePathname('/spaces/filter')
+      expect(context).toHaveSearchParams({ topic: 'topic1' })
     })
   })
 
   describe('with skill', () => {
     const renderSkill = (mocks: ReadonlyArray<MockedResponse>) =>
-      render(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <SpacesGroupSlider skill={'skill1'} pageSize={5} />
-        </MockedProvider>
-      )
+      renderRouter({
+        index: () => (
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <SpacesGroupSlider skill={'skill1'} pageSize={5} />
+          </MockedProvider>
+        ),
+      })
 
     it('displays errors', async () => {
       const { getByText, getAllByTestId } = renderSkill([discoverSpacesErrorMock({ skillsV2: ['skill1'] })])
