@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render } from 'expo-router/testing-library'
 import React from 'react'
 
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'

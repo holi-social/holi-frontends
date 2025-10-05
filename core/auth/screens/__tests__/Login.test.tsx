@@ -1,12 +1,15 @@
 import React from 'react'
+import { Pressable } from 'react-native'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, renderRouter, screen, userEvent, waitFor } from 'expo-router/testing-library'
 import Login from '@holi/core/auth/screens/Login'
 import { Button } from 'holi-bricks/components/button'
+import { Text } from 'react-native'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Link } from 'expo-router'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
@@ -122,7 +125,15 @@ describe('Login', () => {
   const submitForm = async () => {
     const user = userEvent.setup()
 
-    render(<Login />)
+    renderRouter(
+      {
+        '/login': () => <Login />,
+        '/': () => <Text>home</Text>,
+        '/onboarding': () => <Text>onboarding</Text>,
+        '/forgotPassword': () => <Text>forgotPassword</Text>,
+      },
+      { initialUrl: '/login' }
+    )
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -139,32 +150,93 @@ describe('Login', () => {
       })
     })
 
-    it('should not initialize login flow', () => {
-      render(<Login />)
+    it('should not initialize login flow', async () => {
+      const user = userEvent.setup()
+
+      const context = renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => (
+            <Link href="/login" asChild>
+              <Pressable>
+                <Text>Go to login</Text>
+              </Pressable>
+            </Link>
+          ),
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/onboarding' }
+      )
+
+      // we do this because otherwise the tests fails as
+      // inside <Login>, if someone is logged in we try to navigate
+      // in the useEffect, but in the env seems to not work as the screen didn't finish rendering
+      await user.press(screen.getByText('Go to login'))
+
+      await waitFor(() => {
+        expect(context).toHavePathname('/')
+      })
 
       expect(mockInitLoginFlow).not.toHaveBeenCalled()
     })
 
-    it('should navigate to home', () => {
-      render(<Login />)
+    it('should navigate to home', async () => {
+      const user = userEvent.setup()
 
-      expect(mockNavigate).toHaveBeenCalledWith('/')
+      const context = renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => (
+            <Link href="/login" asChild>
+              <Pressable>
+                <Text>Go to login</Text>
+              </Pressable>
+            </Link>
+          ),
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/onboarding' }
+      )
+
+      await user.press(screen.getByText('Go to login'))
+
+      await waitFor(() => {
+        expect(context).toHavePathname('/')
+      })
     })
   })
 
   describe('flow initialization', () => {
     it('should initialize login flow', async () => {
-      render(<Login />)
-
-      expect(mockInitLoginFlow).toHaveBeenCalled()
+      renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
 
       await act(() => jest.runOnlyPendingTimersAsync())
+
+      expect(mockInitLoginFlow).toHaveBeenCalled()
     })
 
     it('should display error if initializing login flow fails', async () => {
       mockInitLoginFlow.mockRejectedValue('Test')
 
-      render(<Login />)
+      renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -175,7 +247,15 @@ describe('Login', () => {
     })
 
     it('should render text and form after initializing flow', async () => {
-      render(<Login />)
+      renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -186,11 +266,19 @@ describe('Login', () => {
     it('should initialize login flow with id if given', async () => {
       mockParameters({ flow: '123' })
 
-      render(<Login />)
-
-      expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
+      renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
 
       await act(() => jest.runOnlyPendingTimersAsync())
+
+      expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
     })
   })
 
@@ -210,7 +298,15 @@ describe('Login', () => {
     it('should track social login', async () => {
       const user = userEvent.setup()
 
-      render(<Login />)
+      renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -328,17 +424,37 @@ describe('Login', () => {
     it('should navigate to registration screen', async () => {
       const user = userEvent.setup()
 
-      render(<Login />)
+      const context = renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
+
+      await act(() => jest.runOnlyPendingTimersAsync())
 
       await user.press(screen.getByLabelText('auth.loginProtection.registration'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
+      expect(context).toHavePathname('/onboarding')
     })
 
     it('should track click on registration', async () => {
       const user = userEvent.setup()
 
-      render(<Login />)
+      renderRouter(
+        {
+          '/login': () => <Login />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => <Text>onboarding</Text>,
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/login' }
+      )
+
+      await act(() => jest.runOnlyPendingTimersAsync())
 
       await user.press(screen.getByLabelText('auth.loginProtection.registration'))
 

@@ -1,11 +1,18 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { fireEvent, renderRouter, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+
+// Mock reanimated animations for renderRouter compatibility
+jest.mock('react-native-reanimated', () => {
+  const Reanimated = jest.requireActual('react-native-reanimated/mock')
+  Reanimated.default.call = () => {}
+  return Reanimated
+})
 
 const loggedIn = (): LoginState => {
   return {
@@ -82,11 +89,13 @@ describe('LoginProtection', () => {
   it('renders AnonymousProfileView when logged out', async () => {
     useLoginStateMock.mockImplementation(loggedOut)
 
-    const { queryByText } = render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-        <LoginProtection>Protected Content</LoginProtection>
-      </MockedProvider>
-    )
+    const { queryByText } = renderRouter({
+      index: () => (
+        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <LoginProtection>Protected Content</LoginProtection>
+        </MockedProvider>
+      ),
+    })
 
     expect(queryByText('profile.anonymous.you')).toBeTruthy()
     expect(queryByText('auth.loginProtection.registration')).toBeTruthy()
@@ -98,29 +107,35 @@ describe('LoginProtection', () => {
     it('registration', async () => {
       useLoginStateMock.mockImplementation(loggedOut)
 
-      render(
-        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-          <LoginProtection>Protected Content</LoginProtection>
-        </MockedProvider>
-      )
+      const context = renderRouter({
+        index: () => (
+          <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+            <LoginProtection>Protected Content</LoginProtection>
+          </MockedProvider>
+        ),
+        onboarding: () => <Text>Onboarding</Text>,
+      })
 
       fireEvent.press(screen.getByTestId('btn-to-registration-form'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
+      expect(context).toHavePathname('/onboarding')
     })
 
     it('login', async () => {
       useLoginStateMock.mockImplementation(loggedOut)
 
-      render(
-        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
-          <LoginProtection>Protected Content</LoginProtection>
-        </MockedProvider>
-      )
+      const context = renderRouter({
+        index: () => (
+          <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+            <LoginProtection>Protected Content</LoginProtection>
+          </MockedProvider>
+        ),
+        login: () => <Text>Login</Text>,
+      })
 
       fireEvent.press(screen.getByTestId('anonymous-profile-login-btn'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/login')
+      expect(context).toHavePathname('/login')
     })
   })
 })
