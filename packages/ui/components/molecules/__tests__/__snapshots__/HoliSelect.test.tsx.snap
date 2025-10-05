@@ -45,22 +45,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#6267e7",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -392,22 +376,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -509,22 +477,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -685,22 +637,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -861,22 +797,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -978,22 +898,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1095,22 +999,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1212,22 +1100,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1329,22 +1201,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1431,22 +1287,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#6267e7",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -1778,22 +1618,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1895,22 +1719,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2071,22 +1879,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2188,22 +1980,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2305,22 +2081,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2422,22 +2182,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2539,22 +2283,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2656,22 +2384,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2758,22 +2470,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -3045,22 +2741,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#6267e7",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -3391,22 +3071,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3508,22 +3172,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3625,22 +3273,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3742,22 +3374,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3859,22 +3475,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3976,22 +3576,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4093,22 +3677,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4210,22 +3778,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4767,22 +4319,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4882,22 +4418,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4997,22 +4517,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5112,22 +4616,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5227,22 +4715,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5342,22 +4814,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5457,22 +4913,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5572,22 +5012,6 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6455,22 +5879,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6570,22 +5978,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6685,22 +6077,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6800,22 +6176,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6915,22 +6275,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -7030,22 +6374,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -7145,22 +6473,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -7260,22 +6572,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
-            }
             numberOfLines={2}
             selectable={false}
             style={
