@@ -106,238 +106,74 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
 `;
 
 exports[`SpaceInviteUserSearchResult displays text if no results where found 1`] = `
-<Text
-  accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
+<RNCSafeAreaView
+  edges={
     {
-      "value": {},
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
     }
   }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontWeight": "400",
-      "lineHeight": 22.4,
-      "userSelect": "auto",
-    }
-  }
-  selectable={true}
   style={
     {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontWeight": "400",
-      "lineHeight": 22.4,
-      "userSelect": "auto",
+      "flex": 1,
     }
   }
 >
-  spaces.invite.user.notFound
-</Text>
+  <Text
+    accessible={false}
+    selectable={true}
+    style={
+      {
+        "color": "#262424",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 16,
+        "fontWeight": "400",
+        "lineHeight": 22.4,
+        "userSelect": "auto",
+      }
+    }
+  >
+    spaces.invite.user.notFound
+  </Text>
+</RNCSafeAreaView>
 `;
 
 exports[`SpaceInviteUserSearchResult displays user with space and user connections 1`] = `
-<View
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
   style={
     {
-      "paddingVertical": 20,
+      "flex": 1,
     }
   }
 >
   <View
     style={
       {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 64,
+        "paddingVertical": 20,
       }
     }
   >
     <View
-      accessibilityLabel="user.visitProfile"
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        [
-          [
-            {
-              "width": "auto",
-            },
-          ],
-          {
-            "flex": 1,
-          },
-        ]
-      }
-      testID="user-list-item"
-    >
-      <View
-        style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            false,
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "alignItems": "center",
-                "backgroundColor": "#abff8b",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 48,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 48,
-              },
-              {
-                "flexShrink": undefined,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              {
-                "opacity": 0.8,
-              }
-            }
-          >
-            <Text
-              accessible={false}
-              role="none"
-              selectable={true}
-              style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              NO
-            </Text>
-          </View>
-        </View>
-        <View
-          style={
-            {
-              "paddingHorizontal": 16,
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            collapsable={false}
-            ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-            numberOfLines={1}
-            selectable={true}
-            style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-          >
-            No Connection
-          </Text>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "flexDirection": "row",
-              }
-            }
-          />
-        </View>
-      </View>
-    </View>
-    <View
       style={
         {
-          "paddingHorizontal": 6,
-          "paddingVertical": 6,
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 64,
         }
       }
     >
       <View
-        accessibilityLabel="spaces.invite.btn.send"
+        accessibilityLabel="user.visitProfile"
         accessibilityRole="button"
         accessibilityState={
           {
@@ -345,7 +181,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             "checked": undefined,
             "disabled": false,
             "expanded": undefined,
-            "selected": false,
+            "selected": undefined,
           }
         }
         accessibilityValue={
@@ -357,7 +193,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         }
         accessible={true}
-        aria-pressed={false}
         collapsable={false}
         focusable={true}
         onBlur={[Function]}
@@ -371,927 +206,255 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         onStartShouldSetResponder={[Function]}
         style={
           [
+            [
+              {
+                "width": "auto",
+              },
+            ],
             {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 40,
-              "padding": 10,
-              "width": 40,
-            },
-            {
-              "flexShrink": undefined,
+              "flex": 1,
             },
           ]
         }
-        testID="btn-to-invite"
-      >
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
-            }
-          }
-        >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={20}
-              bbWidth={20}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={20}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 20,
-                    "width": 20,
-                  },
-                ]
-              }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={20}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <RNSVGGroup
-                fill={null}
-                propList={
-                  [
-                    "fill",
-                  ]
-                }
-              >
-                <RNSVGPath
-                  d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
-                  fill={
-                    {
-                      "type": 2,
-                    }
-                  }
-                  propList={
-                    [
-                      "fill",
-                    ]
-                  }
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
-          </View>
-        </View>
-      </View>
-    </View>
-  </View>
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 64,
-      }
-    }
-  >
-    <View
-      accessibilityLabel="user.visitProfile"
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        [
-          [
-            {
-              "width": "auto",
-            },
-          ],
-          {
-            "flex": 1,
-          },
-        ]
-      }
-      testID="user-list-item"
-    >
-      <View
-        style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            false,
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-            },
-          ]
-        }
+        testID="user-list-item"
       >
         <View
           style={
             [
               {
-                "alignItems": "center",
-                "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 48,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 48,
+                "pointerEvents": "none",
               },
+              false,
               {
-                "flexShrink": undefined,
+                "alignItems": "center",
+                "flexDirection": "row",
               },
             ]
           }
         >
           <View
             style={
-              {
-                "opacity": 0.8,
-              }
-            }
-          >
-            <Text
-              accessible={false}
-              role="none"
-              selectable={true}
-              style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              CO
-            </Text>
-          </View>
-        </View>
-        <View
-          style={
-            {
-              "paddingHorizontal": 16,
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            collapsable={false}
-            ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-            numberOfLines={1}
-            selectable={true}
-            style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-          >
-            Connected
-          </Text>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "flexDirection": "row",
-              }
-            }
-          >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
+              [
                 {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
+                  "alignItems": "center",
+                  "backgroundColor": "#abff8b",
+                  "borderColor": "#262424",
+                  "borderRadius": 1000,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 48,
+                },
                 {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
-              selectable={true}
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          >
+            <View
               style={
                 {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
+                  "opacity": 0.8,
                 }
               }
             >
-              user.connectionStatus.CONNECTED
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
-      style={
-        {
-          "paddingHorizontal": 6,
-          "paddingVertical": 6,
-        }
-      }
-    >
-      <View
-        accessibilityLabel="spaces.invite.btn.send"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        aria-pressed={false}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 40,
-              "padding": 10,
-              "width": 40,
-            },
-            {
-              "flexShrink": undefined,
-            },
-          ]
-        }
-        testID="btn-to-invite"
-      >
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
-            }
-          }
-        >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={20}
-              bbWidth={20}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={20}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 20,
-                    "width": 20,
-                  },
-                ]
-              }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={20}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <RNSVGGroup
-                fill={null}
-                propList={
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
                   [
-                    "fill",
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
-                <RNSVGPath
-                  d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
-                  fill={
-                    {
-                      "type": 2,
-                    }
-                  }
-                  propList={
-                    [
-                      "fill",
-                    ]
-                  }
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
+                NO
+              </Text>
+            </View>
           </View>
-        </View>
-      </View>
-    </View>
-  </View>
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 64,
-      }
-    }
-  >
-    <View
-      accessibilityLabel="user.visitProfile"
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        [
-          [
-            {
-              "width": "auto",
-            },
-          ],
-          {
-            "flex": 1,
-          },
-        ]
-      }
-      testID="user-list-item"
-    >
-      <View
-        style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            false,
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "alignItems": "center",
-                "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 48,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 48,
-              },
-              {
-                "flexShrink": undefined,
-              },
-            ]
-          }
-        >
           <View
             style={
               {
-                "opacity": 0.8,
+                "paddingHorizontal": 16,
               }
             }
           >
             <Text
               accessible={false}
-              role="none"
-              selectable={true}
-              style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              CO
-            </Text>
-          </View>
-        </View>
-        <View
-          style={
-            {
-              "paddingHorizontal": 16,
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            collapsable={false}
-            ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-            numberOfLines={1}
-            selectable={true}
-            style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-          >
-            Connected and Space connection
-          </Text>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "flexDirection": "row",
-              }
-            }
-          >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
+              ellipsizeMode="tail"
+              numberOfLines={1}
               selectable={true}
               style={
                 {
-                  "color": "#787777",
+                  "color": "#262424",
                   "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
-            >
-              user.connectionStatus.CONNECTED
-            </Text>
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#6267e7",
-                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
-              }
-              selectable={true}
-              style={
-                {
-                  "color": "#6267e7",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
                   "userSelect": "auto",
                 }
               }
             >
-               ∙ 
+              No Connection
             </Text>
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
-              selectable={true}
+            <View
               style={
                 {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
+                  "alignItems": "center",
+                  "flexDirection": "row",
                 }
               }
-            >
-              space.userConnection.MEMBER
-            </Text>
+            />
           </View>
         </View>
       </View>
-    </View>
-  </View>
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 64,
-      }
-    }
-  >
-    <View
-      accessibilityLabel="user.visitProfile"
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        [
-          [
-            {
-              "width": "auto",
-            },
-          ],
-          {
-            "flex": 1,
-          },
-        ]
-      }
-      testID="user-list-item"
-    >
       <View
         style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            false,
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-            },
-          ]
+          {
+            "paddingHorizontal": 6,
+            "paddingVertical": 6,
+          }
         }
       >
         <View
+          accessibilityLabel="spaces.invite.btn.send"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             [
               {
-                "alignItems": "center",
-                "backgroundColor": "#8b95ff",
+                "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
+                "borderStyle": "solid",
                 "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
-                "height": 48,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 48,
+                "height": 40,
+                "padding": 10,
+                "width": 40,
               },
               {
                 "flexShrink": undefined,
               },
             ]
           }
+          testID="btn-to-invite"
         >
-          <View
-            style={
-              {
-                "opacity": 0.8,
-              }
-            }
-          >
-            <Text
-              accessible={false}
-              role="none"
-              selectable={true}
-              style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              FO
-            </Text>
-          </View>
-        </View>
-        <View
-          style={
-            {
-              "paddingHorizontal": 16,
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            collapsable={false}
-            ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-            numberOfLines={1}
-            selectable={true}
-            style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-          >
-            Follower
-          </Text>
           <View
             style={
               {
                 "alignItems": "center",
+                "display": "flex",
                 "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
               }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={20}
+                bbWidth={20}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={20}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 20,
+                      "width": 20,
+                    },
+                  ]
                 }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
-              selectable={true}
-              style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
-            >
-              space.userConnection.FOLLOWER
-            </Text>
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={20}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
           </View>
         </View>
       </View>
@@ -1299,13 +462,14 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
     <View
       style={
         {
-          "paddingHorizontal": 6,
-          "paddingVertical": 6,
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 64,
         }
       }
     >
       <View
-        accessibilityLabel="spaces.invite.btn.send"
+        accessibilityLabel="user.visitProfile"
         accessibilityRole="button"
         accessibilityState={
           {
@@ -1313,7 +477,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             "checked": undefined,
             "disabled": false,
             "expanded": undefined,
-            "selected": false,
+            "selected": undefined,
           }
         }
         accessibilityValue={
@@ -1325,7 +489,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           }
         }
         accessible={true}
-        aria-pressed={false}
         collapsable={false}
         focusable={true}
         onBlur={[Function]}
@@ -1339,522 +502,1167 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         onStartShouldSetResponder={[Function]}
         style={
           [
+            [
+              {
+                "width": "auto",
+              },
+            ],
             {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 40,
-              "padding": 10,
-              "width": 40,
-            },
-            {
-              "flexShrink": undefined,
+              "flex": 1,
             },
           ]
         }
-        testID="btn-to-invite"
+        testID="user-list-item"
       >
         <View
           style={
-            {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
-            }
+            [
+              {
+                "pointerEvents": "none",
+              },
+              false,
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+              },
+            ]
           }
         >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={20}
-              bbWidth={20}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={20}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#8b95ff",
+                  "borderColor": "#262424",
+                  "borderRadius": 1000,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 48,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          >
+            <View
               style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 20,
-                    "width": 20,
-                  },
-                ]
+                {
+                  "opacity": 0.8,
+                }
               }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={20}
-              xmlns="http://www.w3.org/2000/svg"
             >
-              <RNSVGGroup
-                fill={null}
-                propList={
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
                   [
-                    "fill",
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
                   ]
                 }
               >
-                <RNSVGPath
-                  d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
-                  fill={
-                    {
-                      "type": 2,
-                    }
+                CO
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "paddingHorizontal": 16,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                }
+              }
+            >
+              Connected
+            </Text>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
                   }
+                }
+              >
+                user.connectionStatus.CONNECTED
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "paddingHorizontal": 6,
+            "paddingVertical": 6,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="spaces.invite.btn.send"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 40,
+                "padding": 10,
+                "width": 40,
+              },
+              {
+                "flexShrink": undefined,
+              },
+            ]
+          }
+          testID="btn-to-invite"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={20}
+                bbWidth={20}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={20}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 20,
+                      "width": 20,
+                    },
+                  ]
+                }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={20}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup
+                  fill={null}
                   propList={
                     [
                       "fill",
                     ]
                   }
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
+                >
+                  <RNSVGPath
+                    d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 64,
-      }
-    }
-  >
     <View
-      accessibilityLabel="user.visitProfile"
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
-        [
-          [
-            {
-              "width": "auto",
-            },
-          ],
-          {
-            "flex": 1,
-          },
-        ]
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 64,
+        }
       }
-      testID="user-list-item"
     >
       <View
+        accessibilityLabel="user.visitProfile"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           [
+            [
+              {
+                "width": "auto",
+              },
+            ],
             {
-              "pointerEvents": "none",
-            },
-            false,
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
+              "flex": 1,
             },
           ]
         }
+        testID="user-list-item"
       >
         <View
           style={
             [
               {
-                "alignItems": "center",
-                "backgroundColor": "#8b95ff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 48,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 48,
+                "pointerEvents": "none",
               },
+              false,
               {
-                "flexShrink": undefined,
+                "alignItems": "center",
+                "flexDirection": "row",
               },
             ]
           }
         >
           <View
             style={
-              {
-                "opacity": 0.8,
-              }
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#8b95ff",
+                  "borderColor": "#262424",
+                  "borderRadius": 1000,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 48,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
             }
           >
-            <Text
-              accessible={false}
-              role="none"
-              selectable={true}
+            <View
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
+                {
+                  "opacity": 0.8,
+                }
               }
             >
-              ME
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                CO
+              </Text>
+            </View>
           </View>
-        </View>
-        <View
-          style={
-            {
-              "paddingHorizontal": 16,
-            }
-          }
-        >
-          <Text
-            accessible={false}
-            collapsable={false}
-            ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-            numberOfLines={1}
-            selectable={true}
-            style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-          >
-            Member
-          </Text>
           <View
             style={
               {
-                "alignItems": "center",
-                "flexDirection": "row",
+                "paddingHorizontal": 16,
               }
             }
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
+              ellipsizeMode="tail"
+              numberOfLines={1}
               selectable={true}
               style={
                 {
-                  "color": "#787777",
+                  "color": "#262424",
                   "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
+                  "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
+                  "lineHeight": 24,
                   "userSelect": "auto",
                 }
               }
             >
-              space.userConnection.MEMBER
+              Connected and Space connection
             </Text>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                user.connectionStatus.CONNECTED
+              </Text>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#6267e7",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                 ∙ 
+              </Text>
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                space.userConnection.MEMBER
+              </Text>
+            </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "height": 64,
-      }
-    }
-  >
     <View
-      accessibilityLabel="user.visitProfile"
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
-        [
-          [
-            {
-              "width": "auto",
-            },
-          ],
-          {
-            "flex": 1,
-          },
-        ]
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 64,
+        }
       }
-      testID="user-list-item"
     >
       <View
+        accessibilityLabel="user.visitProfile"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           [
+            [
+              {
+                "width": "auto",
+              },
+            ],
             {
-              "pointerEvents": "none",
-            },
-            false,
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
+              "flex": 1,
             },
           ]
         }
+        testID="user-list-item"
       >
         <View
           style={
             [
               {
-                "alignItems": "center",
-                "backgroundColor": "#abff8b",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderWidth": 1,
-                "display": "flex",
-                "height": 48,
-                "justifyContent": "center",
-                "overflow": "hidden",
-                "position": "relative",
-                "width": 48,
+                "pointerEvents": "none",
               },
+              false,
               {
-                "flexShrink": undefined,
+                "alignItems": "center",
+                "flexDirection": "row",
               },
             ]
           }
         >
           <View
             style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#8b95ff",
+                  "borderColor": "#262424",
+                  "borderRadius": 1000,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 48,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "opacity": 0.8,
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                FO
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
               {
-                "opacity": 0.8,
+                "paddingHorizontal": 16,
               }
             }
           >
             <Text
               accessible={false}
-              role="none"
+              ellipsizeMode="tail"
+              numberOfLines={1}
               selectable={true}
               style={
-                [
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 20,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": 0.2,
-                    "lineHeight": 24,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                }
               }
             >
-              AD
+              Follower
             </Text>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                space.userConnection.FOLLOWER
+              </Text>
+            </View>
           </View>
         </View>
+      </View>
+      <View
+        style={
+          {
+            "paddingHorizontal": 6,
+            "paddingVertical": 6,
+          }
+        }
+      >
         <View
-          style={
+          accessibilityLabel="spaces.invite.btn.send"
+          accessibilityRole="button"
+          accessibilityState={
             {
-              "paddingHorizontal": 16,
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
             }
           }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 40,
+                "padding": 10,
+                "width": 40,
+              },
+              {
+                "flexShrink": undefined,
+              },
+            ]
+          }
+          testID="btn-to-invite"
         >
-          <Text
-            accessible={false}
-            collapsable={false}
-            ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-            numberOfLines={1}
-            selectable={true}
-            style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
-            }
-          >
-            Admin
-          </Text>
           <View
             style={
               {
                 "alignItems": "center",
+                "display": "flex",
                 "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={20}
+                bbWidth={20}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={20}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 20,
+                      "width": 20,
+                    },
+                  ]
+                }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={20}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGPath
+                    d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
+                    fill={
+                      {
+                        "type": 2,
+                      }
+                    }
+                    propList={
+                      [
+                        "fill",
+                      ]
+                    }
+                  />
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 64,
+        }
+      }
+    >
+      <View
+        accessibilityLabel="user.visitProfile"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            [
+              {
+                "width": "auto",
+              },
+            ],
+            {
+              "flex": 1,
+            },
+          ]
+        }
+        testID="user-list-item"
+      >
+        <View
+          style={
+            [
+              {
+                "pointerEvents": "none",
+              },
+              false,
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#8b95ff",
+                  "borderColor": "#262424",
+                  "borderRadius": 1000,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 48,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "opacity": 0.8,
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                ME
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "paddingHorizontal": 16,
               }
             }
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
-              }
+              ellipsizeMode="tail"
+              numberOfLines={1}
               selectable={true}
               style={
                 {
-                  "color": "#787777",
+                  "color": "#262424",
                   "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
+                  "fontSize": 16,
                   "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
+                  "lineHeight": 24,
                   "userSelect": "auto",
                 }
               }
             >
-              space.userConnection.ADMINISTRATOR
+              Member
             </Text>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                space.userConnection.MEMBER
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 64,
+        }
+      }
+    >
+      <View
+        accessibilityLabel="user.visitProfile"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            [
+              {
+                "width": "auto",
+              },
+            ],
+            {
+              "flex": 1,
+            },
+          ]
+        }
+        testID="user-list-item"
+      >
+        <View
+          style={
+            [
+              {
+                "pointerEvents": "none",
+              },
+              false,
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "#abff8b",
+                  "borderColor": "#262424",
+                  "borderRadius": 1000,
+                  "borderWidth": 1,
+                  "display": "flex",
+                  "height": 48,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "position": "relative",
+                  "width": 48,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "opacity": 0.8,
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                AD
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "paddingHorizontal": 16,
+              }
+            }
+          >
+            <Text
+              accessible={false}
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                }
+              }
+            >
+              Admin
+            </Text>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <Text
+                accessible={false}
+                selectable={true}
+                style={
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                space.userConnection.ADMINISTRATOR
+              </Text>
+            </View>
           </View>
         </View>
       </View>
     </View>
   </View>
-</View>
+</RNCSafeAreaView>
 `;

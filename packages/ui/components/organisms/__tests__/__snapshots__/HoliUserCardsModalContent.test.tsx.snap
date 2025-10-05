@@ -123,30 +123,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/1"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -221,24 +204,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -265,23 +230,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -324,30 +272,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/2"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -435,24 +366,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -479,23 +392,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -538,30 +434,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/3"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -636,24 +515,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -680,23 +541,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -739,30 +583,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/4"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -850,24 +677,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -894,23 +703,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -953,30 +745,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/5"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -1051,24 +826,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -1095,23 +852,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -1154,30 +894,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/6"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -1265,24 +988,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -1309,23 +1014,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -1370,30 +1058,13 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                 }
               >
                 <Text
-                  accessible={true}
                   aria-label="user.visitProfile"
+                  href="/profile/7"
                   onPress={[Function]}
                   role="link"
-                  selectable={false}
                   style={
                     [
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "500",
-                        "letterSpacing": -0.03,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
+                      false,
                     ]
                   }
                   testID="link"
@@ -1468,24 +1139,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -1512,23 +1165,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
