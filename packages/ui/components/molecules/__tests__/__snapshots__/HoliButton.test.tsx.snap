@@ -76,23 +76,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -191,23 +174,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -308,23 +274,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -417,23 +366,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -529,23 +461,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -643,23 +558,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -756,23 +654,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -872,23 +753,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -990,23 +854,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1102,23 +949,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1217,23 +1047,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1334,23 +1147,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1443,23 +1239,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1555,23 +1334,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1669,23 +1431,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1782,23 +1527,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -1898,23 +1626,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2016,23 +1727,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2131,23 +1825,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2249,23 +1926,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2369,23 +2029,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2481,23 +2124,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2596,23 +2222,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2713,23 +2322,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2832,23 +2424,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -2954,23 +2529,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3078,23 +2636,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3193,23 +2734,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3311,23 +2835,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3431,23 +2938,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3543,23 +3033,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3658,23 +3131,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3775,23 +3231,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -3894,23 +3333,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4016,23 +3438,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4140,23 +3545,6 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4252,23 +3640,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4367,23 +3738,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4484,23 +3838,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4593,23 +3930,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4705,23 +4025,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4819,23 +4122,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -4932,23 +4218,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5048,23 +4317,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5166,23 +4418,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5278,23 +4513,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5393,23 +4611,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5510,23 +4711,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5619,23 +4803,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5731,23 +4898,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5845,23 +4995,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -5958,23 +5091,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6074,23 +5190,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6192,23 +5291,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6307,23 +5389,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6425,23 +5490,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6545,23 +5593,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6657,23 +5688,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6772,23 +5786,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -6889,23 +5886,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7008,23 +5988,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7130,23 +6093,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7254,23 +6200,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7369,23 +6298,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7487,23 +6399,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7607,23 +6502,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7719,23 +6597,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7834,23 +6695,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -7951,23 +6795,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -8070,23 +6897,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -8192,23 +7002,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -8316,23 +7109,6 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {

@@ -5,30 +5,13 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
   testID=""
 >
   <Text
-    accessible={true}
     aria-label="Some User"
+    href="/profile/77d695d7-fea0-4b20-a2a4-d641e63fb25b"
     onPress={[Function]}
     role="link"
-    selectable={false}
     style={
       [
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 15,
-          "fontVariant": [
-            "lining-nums",
-            "tabular-nums",
-          ],
-          "fontWeight": "500",
-          "letterSpacing": -0.03,
-          "lineHeight": 21,
-          "textAlign": undefined,
-          "userSelect": "auto",
-        },
-        {
-          "flexShrink": undefined,
-        },
+        false,
       ]
     }
     testID="link"
@@ -112,22 +95,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 14,
-              "fontWeight": "400",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -142,22 +109,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
-                "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
@@ -173,23 +124,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
         </Text>
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "marginTop": 4,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {

@@ -44,22 +44,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -291,22 +275,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#cc1820",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
           selectable={true}
           style={
             {
@@ -482,22 +450,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#cc1820",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {

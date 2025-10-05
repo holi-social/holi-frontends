@@ -3,30 +3,13 @@
 exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
   <Text
-    accessible={true}
     aria-label="Donate to animals on betterplace.org"
+    href="http://betterplace.org/en/discover/1-animals"
     onPress={[Function]}
     role="link"
-    selectable={false}
     style={
       [
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 15,
-          "fontVariant": [
-            "lining-nums",
-            "tabular-nums",
-          ],
-          "fontWeight": "500",
-          "letterSpacing": -0.03,
-          "lineHeight": 21,
-          "textAlign": undefined,
-          "userSelect": "auto",
-        },
-        {
-          "flexShrink": undefined,
-        },
+        false,
       ]
     }
     testID="link"
@@ -83,22 +66,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Medium",
-                "fontSize": 14,
-                "fontWeight": "500",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={3}
             selectable={true}
             style={
@@ -116,23 +83,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 8,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={2}
             selectable={true}
             style={
@@ -151,23 +101,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Medium",
-                "fontSize": 12,
-                "fontWeight": "500",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 8,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
