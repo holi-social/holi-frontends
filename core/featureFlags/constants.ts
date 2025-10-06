@@ -16,7 +16,7 @@ export enum FeatureFlagKey {
   REWARDS_PHASE_1 = 'rewards-phase-1', // boolean
   REWARDS_PHASE_2 = 'rewards-phase-2', // boolean
   FAVORITES_SLIDER = 'favorites-slider', // boolean
-  REWARDS_PHASE_3 = 'rewards-phase-3', // boolean
+  BADGES = 'badges', // boolean
   GOOD_DEEDS_INTRO_1 = 'good-deeds-intro-1', // boolean
   APPCUES_BANNER = 'appcues-banner', // boolean
 }

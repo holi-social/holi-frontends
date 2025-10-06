@@ -100,8 +100,8 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const hasInsights = totalInsights > 0
 
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
-  const tabs = rewardsPhaseThreeEnabled
+  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
+  const tabs = badgesEnabled
     ? ([
         {
           key: Tab.MY_VOLUNTEERING,

@@ -43,7 +43,7 @@ export const VolunteeringProgressCard = ({
   const { t } = useTranslation()
   const { track } = useTracking()
   const checkNewBadges = useEarnedBadgesModal()
-  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
+  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
     onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Contacted),
@@ -54,7 +54,7 @@ export const VolunteeringProgressCard = ({
       track(TrackingEvent.Rewards.goodDeedClaimed('volunteer'))
       onStatusChange(VolunteeringOpportunityStatusValue.Doing)
 
-      if (rewardsPhaseThreeEnabled) {
+      if (badgesEnabled) {
         await checkNewBadges()
       }
     },

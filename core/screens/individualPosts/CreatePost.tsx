@@ -60,7 +60,7 @@ const CreatePost = () => {
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
   const [isRewardsMessageEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const [rewardsPhaseThreeEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_3)
+  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
   const [showRewardMessage, setShowRewardMessage] = useState<boolean>(false)
 
   const { data, refetch } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
@@ -157,7 +157,7 @@ const CreatePost = () => {
   }
 
   const handleClaimReward = async () => {
-    if (rewardsPhaseThreeEnabled) {
+    if (badgesEnabled) {
       await checkNewBadges()
     }
     navigate('/')
