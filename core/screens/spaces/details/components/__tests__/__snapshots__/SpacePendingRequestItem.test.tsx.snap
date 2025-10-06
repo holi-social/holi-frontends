@@ -108,9 +108,6 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
           }
         >
           <Image
-            accessibilityLabel="Some Body"
-            accessibilityRole="image"
-            accessible={false}
             alt="Some Body"
             aria-label="Some Body"
             contentFit="cover"
@@ -122,9 +119,12 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
               [
                 {
                   "height": 40,
+                  "maxWidth": "100%",
                   "width": 40,
                 },
-                {},
+                {
+                  "aspectRatio": undefined,
+                },
                 {
                   "flexShrink": undefined,
                 },
@@ -586,9 +586,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           }
         >
           <Image
-            accessibilityLabel="Some Body"
-            accessibilityRole="image"
-            accessible={false}
             alt="Some Body"
             aria-label="Some Body"
             contentFit="cover"
@@ -600,9 +597,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               [
                 {
                   "height": 40,
+                  "maxWidth": "100%",
                   "width": 40,
                 },
-                {},
+                {
+                  "aspectRatio": undefined,
+                },
                 {
                   "flexShrink": undefined,
                 },
@@ -1228,9 +1228,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     }
                   >
                     <Image
-                      accessibilityLabel="Some Body"
-                      accessibilityRole="image"
-                      accessible={false}
                       alt="Some Body"
                       aria-label="Some Body"
                       contentFit="cover"
@@ -1242,9 +1239,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                         [
                           {
                             "height": 48,
+                            "maxWidth": "100%",
                             "width": 48,
                           },
-                          {},
+                          {
+                            "aspectRatio": undefined,
+                          },
                           {
                             "flexShrink": undefined,
                           },

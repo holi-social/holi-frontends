@@ -189,9 +189,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             }
           >
             <Image
-              accessibilityLabel="Some Body"
-              accessibilityRole="image"
-              accessible={false}
               alt="Some Body"
               aria-label="Some Body"
               contentFit="cover"
@@ -203,9 +200,12 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -493,9 +493,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             }
           >
             <Image
-              accessibilityLabel="Some Body"
-              accessibilityRole="image"
-              accessible={false}
               alt="Some Body"
               aria-label="Some Body"
               contentFit="cover"
@@ -507,9 +504,12 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -797,9 +797,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             }
           >
             <Image
-              accessibilityLabel="Some Body"
-              accessibilityRole="image"
-              accessible={false}
               alt="Some Body"
               aria-label="Some Body"
               contentFit="cover"
@@ -811,9 +808,12 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },

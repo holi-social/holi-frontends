@@ -4,16 +4,40 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
 <View
   testID=""
 >
-  <Text
-    aria-label="Some User"
-    href="/profile/77d695d7-fea0-4b20-a2a4-d641e63fb25b"
-    onPress={[Function]}
-    role="link"
-    style={
-      [
-        false,
-      ]
+  <View
+    accessibilityLabel="Some User"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
     }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    href="/profile/77d695d7-fea0-4b20-a2a4-d641e63fb25b"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    role="link"
+    style={{}}
     testID="link"
   >
     <View
@@ -179,6 +203,6 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
         />
       </View>
     </View>
-  </Text>
+  </View>
 </View>
 `;

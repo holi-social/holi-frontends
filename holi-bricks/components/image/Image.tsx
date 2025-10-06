@@ -86,6 +86,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
         console.warn(`[Image] Failed to load image: ${source}`)
         if (onError) onError()
       }}
+      role="img"
       aria-label={alt}
       onLoadEnd={onLoadEnd}
       {...accessibilityProps(otherProps)}

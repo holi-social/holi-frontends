@@ -108,9 +108,6 @@ exports[`SpaceInviteItem renders correctly 1`] = `
           }
         >
           <Image
-            accessibilityLabel="Some Body"
-            accessibilityRole="image"
-            accessible={false}
             alt="Some Body"
             aria-label="Some Body"
             contentFit="cover"
@@ -122,9 +119,12 @@ exports[`SpaceInviteItem renders correctly 1`] = `
               [
                 {
                   "height": 40,
+                  "maxWidth": "100%",
                   "width": 40,
                 },
-                {},
+                {
+                  "aspectRatio": undefined,
+                },
                 {
                   "flexShrink": undefined,
                 },

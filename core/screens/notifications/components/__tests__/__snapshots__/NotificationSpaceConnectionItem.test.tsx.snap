@@ -11,16 +11,40 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
     }
     testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
-    <Text
-      aria-label="Foo"
-      href="/spaces/foo"
-      onPress={[Function]}
-      role="link"
-      style={
-        [
-          false,
-        ]
+    <View
+      accessibilityLabel="Foo"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
       }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      href="/spaces/foo"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      role="link"
+      style={{}}
       testID="link"
     >
       <View
@@ -64,9 +88,6 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             testID="space-avatar"
           >
             <Image
-              accessibilityLabel="Foo"
-              accessibilityRole="image"
-              accessible={false}
               alt="Foo"
               aria-label="Foo"
               contentFit="cover"
@@ -77,9 +98,12 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -184,7 +208,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           />
         </View>
       </View>
-    </Text>
+    </View>
     <View
       style={
         [
@@ -440,16 +464,40 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
     }
     testID="notification-item_123_77d695d7-fea0-4b20-a2a4-d641e63fb25b"
   >
-    <Text
-      aria-label="Foo"
-      href="/spaces/foo"
-      onPress={[Function]}
-      role="link"
-      style={
-        [
-          false,
-        ]
+    <View
+      accessibilityLabel="Foo"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
       }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      href="/spaces/foo"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      role="link"
+      style={{}}
       testID="link"
     >
       <View
@@ -493,9 +541,6 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
             testID="space-avatar"
           >
             <Image
-              accessibilityLabel="Foo"
-              accessibilityRole="image"
-              accessible={false}
               alt="Foo"
               aria-label="Foo"
               contentFit="cover"
@@ -506,9 +551,12 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -624,7 +672,7 @@ I would like to join!
           />
         </View>
       </View>
-    </Text>
+    </View>
     <View
       style={
         [
