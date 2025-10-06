@@ -136,18 +136,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               }
             }
           >
-            <Text
-              aria-label="Task title"
+            <View
+              accessibilityLabel="Task title"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
               href="/spaces/space-title/tasks/task-1"
-              onPress={[Function]}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               role="link"
               style={
-                [
-                  {
-                    "display": "flex",
-                    "flex": 1,
-                  },
-                ]
+                {
+                  "display": "flex",
+                  "flex": 1,
+                }
               }
               testID="link"
             />
@@ -211,18 +237,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                <Text
-                  aria-label="Task title"
+                <View
+                  accessibilityLabel="Task title"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
                   href="/spaces/space-title/tasks/task-1"
-                  onPress={[Function]}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   role="link"
                   style={
-                    [
-                      {
-                        "display": "flex",
-                        "flex": 1,
-                      },
-                    ]
+                    {
+                      "display": "flex",
+                      "flex": 1,
+                    }
                   }
                   testID="link"
                 />
@@ -652,18 +704,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <Text
-                aria-label="Task title"
+              <View
+                accessibilityLabel="Task title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
                 href="/spaces/space-title/tasks/task-1"
-                onPress={[Function]}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 role="link"
                 style={
-                  [
-                    {
-                      "display": "flex",
-                      "flex": 1,
-                    },
-                  ]
+                  {
+                    "display": "flex",
+                    "flex": 1,
+                  }
                 }
                 testID="link"
               />
@@ -771,18 +849,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               }
             }
           >
-            <Text
-              aria-label="Task title"
+            <View
+              accessibilityLabel="Task title"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
               href="/spaces/space-title/tasks/task-2"
-              onPress={[Function]}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               role="link"
               style={
-                [
-                  {
-                    "display": "flex",
-                    "flex": 1,
-                  },
-                ]
+                {
+                  "display": "flex",
+                  "flex": 1,
+                }
               }
               testID="link"
             />
@@ -846,18 +950,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                <Text
-                  aria-label="Task title"
+                <View
+                  accessibilityLabel="Task title"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
                   href="/spaces/space-title/tasks/task-2"
-                  onPress={[Function]}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   role="link"
                   style={
-                    [
-                      {
-                        "display": "flex",
-                        "flex": 1,
-                      },
-                    ]
+                    {
+                      "display": "flex",
+                      "flex": 1,
+                    }
                   }
                   testID="link"
                 />
@@ -1287,18 +1417,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <Text
-                aria-label="Task title"
+              <View
+                accessibilityLabel="Task title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
                 href="/spaces/space-title/tasks/task-2"
-                onPress={[Function]}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 role="link"
                 style={
-                  [
-                    {
-                      "display": "flex",
-                      "flex": 1,
-                    },
-                  ]
+                  {
+                    "display": "flex",
+                    "flex": 1,
+                  }
                 }
                 testID="link"
               />
@@ -1406,18 +1562,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               }
             }
           >
-            <Text
-              aria-label="Task title"
+            <View
+              accessibilityLabel="Task title"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
               href="/spaces/space-title/tasks/task-3"
-              onPress={[Function]}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
               role="link"
               style={
-                [
-                  {
-                    "display": "flex",
-                    "flex": 1,
-                  },
-                ]
+                {
+                  "display": "flex",
+                  "flex": 1,
+                }
               }
               testID="link"
             />
@@ -1481,18 +1663,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                <Text
-                  aria-label="Task title"
+                <View
+                  accessibilityLabel="Task title"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
                   href="/spaces/space-title/tasks/task-3"
-                  onPress={[Function]}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   role="link"
                   style={
-                    [
-                      {
-                        "display": "flex",
-                        "flex": 1,
-                      },
-                    ]
+                    {
+                      "display": "flex",
+                      "flex": 1,
+                    }
                   }
                   testID="link"
                 />
@@ -1922,18 +2130,44 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 }
               }
             >
-              <Text
-                aria-label="Task title"
+              <View
+                accessibilityLabel="Task title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
                 href="/spaces/space-title/tasks/task-3"
-                onPress={[Function]}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
                 role="link"
                 style={
-                  [
-                    {
-                      "display": "flex",
-                      "flex": 1,
-                    },
-                  ]
+                  {
+                    "display": "flex",
+                    "flex": 1,
+                  }
                 }
                 testID="link"
               />

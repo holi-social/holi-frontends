@@ -122,16 +122,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/1"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/1"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -179,9 +203,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Dima Rosmait"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Dima Rosmait"
                         aria-label="Dima Rosmait"
                         contentFit="cover"
@@ -192,9 +213,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -245,7 +269,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
             <View
@@ -271,16 +295,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/2"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/2"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -407,7 +455,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
             <View
@@ -433,16 +481,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/3"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/3"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -490,9 +562,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Thomas Mueller"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Thomas Mueller"
                         aria-label="Thomas Mueller"
                         contentFit="cover"
@@ -503,9 +572,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -556,7 +628,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
             <View
@@ -582,16 +654,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/4"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/4"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -718,7 +814,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
             <View
@@ -744,16 +840,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/5"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/5"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -801,9 +921,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Peter Pan"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Peter Pan"
                         aria-label="Peter Pan"
                         contentFit="cover"
@@ -814,9 +931,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -867,7 +987,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
             <View
@@ -893,16 +1013,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/6"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/6"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -1029,7 +1173,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
             <View
@@ -1057,16 +1201,40 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   }
                 }
               >
-                <Text
-                  aria-label="user.visitProfile"
-                  href="/profile/7"
-                  onPress={[Function]}
-                  role="link"
-                  style={
-                    [
-                      false,
-                    ]
+                <View
+                  accessibilityLabel="user.visitProfile"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
                   }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/profile/7"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -1114,9 +1282,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Lionel Messi"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Lionel Messi"
                         aria-label="Lionel Messi"
                         contentFit="cover"
@@ -1127,9 +1292,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -1180,7 +1348,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       />
                     </View>
                   </View>
-                </Text>
+                </View>
               </View>
             </View>
           </View>

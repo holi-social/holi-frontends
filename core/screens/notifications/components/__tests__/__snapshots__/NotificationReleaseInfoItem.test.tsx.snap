@@ -4,16 +4,40 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
 <View
   testID=""
 >
-  <Text
-    aria-label="Someone trip loss government property like hold staff. School line three page single. Source lay popular."
-    href="/posts/893dbc08-527d-4572-936d-38bd70c6a939"
-    onPress={[Function]}
-    role="link"
-    style={
-      [
-        false,
-      ]
+  <View
+    accessibilityLabel="Someone trip loss government property like hold staff. School line three page single. Source lay popular."
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
     }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    href="/posts/893dbc08-527d-4572-936d-38bd70c6a939"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    role="link"
+    style={{}}
     testID="link"
   >
     <View
@@ -83,6 +107,6 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
         testID="notification-bell"
       />
     </View>
-  </Text>
+  </View>
 </View>
 `;
