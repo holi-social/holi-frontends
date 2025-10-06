@@ -125,7 +125,8 @@ lint_compile_test:
     - yarn format:check
     - yarn check-types
     - git fetch origin main:main # needed for 'yarn workspaces foreach ... (lint_all task)'
-    - git pull --rebase origin $CI_COMMIT_BRANCH:$CI_COMMIT_BRANCH
+    - git fetch origin $CI_COMMIT_BRANCH
+    - git rebase origin/$CI_COMMIT_BRANCH || true
     - yarn lint_all
     - yarn test:coverage
   coverage: '/^Statements\s*:\s*([^%]+)/'
