@@ -8,11 +8,10 @@ import { Image } from 'holi-bricks/components/image'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { HoliProgressBar } from '@holi/ui/components/molecules/HoliProgressBar'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Close, LockFilled } from '@holi/icons/src/generated'
+import { LockFilled } from '@holi/icons/src/generated'
 import { Platform, View } from 'react-native'
 import BadgeDetails from '@holi/core/screens/userprofile/BadgeDetails'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { ButtonIcon } from 'holi-bricks/components/button'
 import { type Badge, BadgeState, useBadges } from '@holi/core/screens/userprofile/hooks/useBadges'
 import { useTranslation } from 'react-i18next'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -128,19 +127,7 @@ const MyBadges = () => {
           desktop
           style={{ width: 600 }}
         >
-          <Stack onPress={() => setDetailedBadge(undefined)}>
-            <View style={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}>
-              <ButtonIcon
-                label="close"
-                icon={Close}
-                onPress={() => setDetailedBadge(undefined)}
-                variant="tertiary"
-                size="lg"
-              />
-            </View>
-
-            <BadgeDetails badge={detailedBadge} onDismiss={() => setDetailedBadge(undefined)} />
-          </Stack>
+          <BadgeDetails badge={detailedBadge} onDismiss={() => setDetailedBadge(undefined)} />
         </HoliModal>
       )}
 
