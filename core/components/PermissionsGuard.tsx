@@ -1,8 +1,9 @@
 import type React from 'react'
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { usePermissionsGuard, PermissionsType, type PermissionsGuardProps } from './usePermissionsGuard'
+import { useFocusEffect } from 'expo-router'
 
 export { PermissionsType }
 
@@ -22,9 +23,9 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
     forceRestrict,
   })
 
-  useEffect(() => {
+  useFocusEffect(() => {
     checkPermissions()
-  }, [checkPermissions])
+  })
 
   if (isLoading) {
     return <HoliLoader />

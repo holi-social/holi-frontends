@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent, renderRouter } from 'expo-router/testing-library'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/MyVolunteeringTab/MyVolunteeringTab'
 import {
   makeCommittedVolunteeringItems,
@@ -110,11 +110,13 @@ describe('MyVolunteeringTab', () => {
       items: [],
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('initial-loader')).toBeOnTheScreen()
   })
@@ -127,11 +129,13 @@ describe('MyVolunteeringTab', () => {
       items: [],
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('volunteering-empty-state')).toBeOnTheScreen()
   })
@@ -144,11 +148,13 @@ describe('MyVolunteeringTab', () => {
       totalResults: items.length,
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
     items.forEach((item) => {
@@ -163,12 +169,13 @@ describe('MyVolunteeringTab', () => {
       ...mockCommittedVolunteeringHookResult,
       items: makeCommittedVolunteeringItems(1),
     })
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
     await user.press(screen.getByText('profile.myVolunteer.link.status'))
 
     expect(screen.getByText('profile.myVolunteer.modal.title')).toBeOnTheScreen()
@@ -186,11 +193,13 @@ describe('MyVolunteeringTab', () => {
       isFetchingMore: true,
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('next-page-loader')).toBeOnTheScreen()
   })
@@ -203,11 +212,13 @@ describe('MyVolunteeringTab', () => {
       isFetchingMore: false,
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
     expect(screen.queryByTestId('next-page-loader')).not.toBeOnTheScreen()
     expect(screen.queryByTestId('load-more-button')).not.toBeOnTheScreen()
   })
@@ -279,11 +290,13 @@ describe('MyVolunteeringTab with Favorites', () => {
       error: undefined,
     })
 
-    render(
-      <MockedProvider>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByText('profile.tabs.myVolunteer.favorites.title')).toBeOnTheScreen()
     expect(screen.getByText('favoritesOverview.emptyState.preline')).toBeOnTheScreen()
@@ -297,12 +310,13 @@ describe('MyVolunteeringTab with Favorites', () => {
       error: new Error('Something went wrong'),
     })
 
-    render(
-      <MockedProvider>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
-
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
     expect(screen.getByText('profile.tabs.myVolunteer.favorites.title')).toBeOnTheScreen()
     expect(screen.getByTestId('favorites-list-error-state')).toBeOnTheScreen()
   })
@@ -328,11 +342,13 @@ describe('MyVolunteeringTab with Favorites', () => {
       error: undefined,
     })
 
-    render(
-      <MockedProvider>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByText('profile.tabs.myVolunteer.favorites.title')).toBeOnTheScreen()
     expect(screen.getByText('Volunteer favorite')).toBeOnTheScreen()
@@ -354,11 +370,13 @@ describe('MyVolunteeringTab with Favorites', () => {
       error: undefined,
     })
 
-    render(
-      <MockedProvider>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByText('global.seeMore')).toBeOnTheScreen()
   })
@@ -377,11 +395,13 @@ describe('MyVolunteeringTab with Favorites', () => {
       error: undefined,
     })
 
-    render(
-      <MockedProvider>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.queryByText('global.seeMore')).not.toBeOnTheScreen()
   })
@@ -395,11 +415,13 @@ describe('MyVolunteeringTab with Favorites', () => {
       isInitialLoad: false,
     })
 
-    render(
-      <MockedProvider>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <MyVolunteeringTab />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.queryByText('profile.tabs.myVolunteer.favorites.title')).toBeNull()
     expect(mockUseFavorites).not.toHaveBeenCalled()
