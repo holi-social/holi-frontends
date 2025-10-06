@@ -8,15 +8,16 @@ import type { NavigationCustomOptions } from './types'
 import { getLogger } from '@holi/core/helpers/logging'
 import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import { Platform } from 'react-native'
+import type { Themes } from 'holi-bricks/main'
 
 export const getStatusBarStyle = (
   { statusBarStyle }: NavigationCustomOptions = {},
-  themeName?: string // AvailableThemes
+  themeName?: keyof Themes // AvailableThemes
 ): NavigationCustomOptions['statusBarStyle'] => {
   const style = statusBarStyle ?? themeName
   // Android requires inverted style
   const androidStyle = style === 'light' ? 'dark' : 'light'
-  return Platform.OS === 'ios' ? style : androidStyle
+  return Platform.OS === 'ios' && style ? style : androidStyle
 }
 
 const screenOptions = makeVar<NavigationCustomOptions>(initialScreenOptions)

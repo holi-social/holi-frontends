@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
 import type { MockedResponse } from '@apollo/client/testing/core'
 import { fireEvent, renderRouter, waitFor } from 'expo-router/testing-library'
-import expect from 'expect'
 import React from 'react'
 import { Text } from 'react-native'
 
