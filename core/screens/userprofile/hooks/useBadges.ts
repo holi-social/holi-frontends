@@ -50,6 +50,8 @@ const slugAnimationMapping: Record<string, keyof typeof animations> = {
   'story.explorer': 'badgeStoryExplorer',
 }
 
+const badgeOrder = ['badgeImpactStarter', 'badgeStoryStarter', 'badgeImpactExplorer', 'badgeStoryExplorer']
+
 const mapBadges = (data?: BadgesQuery): Badge[] => {
   if (!data) return []
 
@@ -80,7 +82,12 @@ const mapBadges = (data?: BadgesQuery): Badge[] => {
     buttonLink: undefined,
   }))
 
-  return [...inProgressBadges, ...unlockedBadges]
+  const allBadges = [...inProgressBadges, ...unlockedBadges]
+  allBadges.sort(
+    (a, b) =>
+      (badgeOrder.indexOf(a.animationName as string) ?? 999) - (badgeOrder.indexOf(b.animationName as string) ?? 999)
+  )
+  return allBadges
 }
 
 export const useBadges = () => {
