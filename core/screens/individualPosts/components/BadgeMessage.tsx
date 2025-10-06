@@ -14,9 +14,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { ScratchMask } from '@holi/core/screens/individualPosts/components/ScratchMask'
-import { useCallback, useEffect, useState } from 'react'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useMarkBadgeAsSeenMutation } from '@holi/api/graphql/graphql-codegen'
+import { useEffect, useState } from 'react'
 import {
   SCRATCHCARD_HEIGHT,
   SCRATCHCARD_WIDTH,
@@ -39,8 +37,6 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
   const { navigate } = useRouting()
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
-  const { displayError } = useErrorHandling()
-  const [markBadgeAsSeen] = useMarkBadgeAsSeenMutation()
   const [revealed, setRevealed] = useState(false)
   const scratchProps = useScratchEffect()
 
@@ -49,19 +45,6 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
       setRevealed(true)
     }
   }, [scratchProps.progress, setRevealed])
-
-  const handleClaim = useCallback(async () => {
-    try {
-      if (badge?.id) {
-        await markBadgeAsSeen({ variables: { unlockId: badge.id } })
-      }
-      track(TrackingEvent.Rewards.badgeEarned(badge.localazyKey))
-    } catch (err) {
-      displayError(err, 'Failed to update badge status', { location: 'scratchEffect.handleClaim' })
-    } finally {
-      onClaim?.()
-    }
-  }, [badge, displayError, markBadgeAsSeen, onClaim, track])
 
   const StickyBottomComponent = () =>
     !revealed ? (
@@ -77,7 +60,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
       </Stack>
     ) : (
       <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xs">
-        <Button label={t('badge.modal.reward.button')} size="lg" onPress={handleClaim} />
+        <Button label={t('badge.modal.reward.button')} size="lg" onPress={onClaim} />
         <TextLink onPress={() => navigate('/profile')} size="md">
           {t('badge.modal.reward.link')}
         </TextLink>
