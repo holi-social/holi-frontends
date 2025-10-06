@@ -189,9 +189,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           >
             <Image
-              accessibilityLabel="Some Body"
-              accessibilityRole="image"
-              accessible={false}
               alt="Some Body"
               aria-label="Some Body"
               contentFit="cover"
@@ -203,9 +200,12 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -648,9 +648,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           >
             <Image
-              accessibilityLabel="Some Body"
-              accessibilityRole="image"
-              accessible={false}
               alt="Some Body"
               aria-label="Some Body"
               contentFit="cover"
@@ -662,9 +659,12 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -1107,9 +1107,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           >
             <Image
-              accessibilityLabel="Some Body"
-              accessibilityRole="image"
-              accessible={false}
               alt="Some Body"
               aria-label="Some Body"
               contentFit="cover"
@@ -1121,9 +1118,12 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },

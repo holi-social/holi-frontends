@@ -2,16 +2,40 @@
 
 exports[`HoliLinkPreview matches previous snapshot 1`] = `
 <View>
-  <Text
-    aria-label="Donate to animals on betterplace.org"
-    href="http://betterplace.org/en/discover/1-animals"
-    onPress={[Function]}
-    role="link"
-    style={
-      [
-        false,
-      ]
+  <View
+    accessibilityLabel="Donate to animals on betterplace.org"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
     }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    href="http://betterplace.org/en/discover/1-animals"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    role="link"
+    style={{}}
     testID="link"
   >
     <View
@@ -217,6 +241,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         </View>
       </View>
     </View>
-  </Text>
+  </View>
 </View>
 `;

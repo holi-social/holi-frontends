@@ -24,7 +24,7 @@ describe('SearchExamples', () => {
       })
 
       const examples = await screen.findAllByLabelText(new RegExp(`search.examples.${facet}\\d+`))
-      const query = examples[0].props['aria-label']
+      const query = examples[0].props.accessibilityLabel || examples[0].props['aria-label']
 
       fireEvent.press(examples[0])
 

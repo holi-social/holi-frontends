@@ -44,9 +44,6 @@ exports[`HoliUserCard renders correctly 1`] = `
     }
   >
     <Image
-      accessibilityLabel="Dima Rosmait"
-      accessibilityRole="image"
-      accessible={false}
       alt="Dima Rosmait"
       aria-label="Dima Rosmait"
       contentFit="cover"
@@ -57,9 +54,12 @@ exports[`HoliUserCard renders correctly 1`] = `
         [
           {
             "height": 128,
+            "maxWidth": "100%",
             "width": 128,
           },
-          {},
+          {
+            "aspectRatio": undefined,
+          },
           {
             "flexShrink": undefined,
           },
@@ -158,9 +158,6 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
     }
   >
     <Image
-      accessibilityLabel="Dima Rosmait"
-      accessibilityRole="image"
-      accessible={false}
       alt="Dima Rosmait"
       aria-label="Dima Rosmait"
       contentFit="cover"
@@ -171,9 +168,12 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
         [
           {
             "height": 128,
+            "maxWidth": "100%",
             "width": 128,
           },
-          {},
+          {
+            "aspectRatio": undefined,
+          },
           {
             "flexShrink": undefined,
           },
