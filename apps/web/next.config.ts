@@ -154,7 +154,6 @@ const nextConfig: NextConfig = {
     'recyclerlistview',
     'expo',
     'expo-modules-core',
-    'expo-router',
     'expo-camera',
     'expo-constants',
     'expo-device',
