@@ -35,6 +35,7 @@ import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
+import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
