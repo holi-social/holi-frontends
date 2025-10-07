@@ -6,12 +6,12 @@ export const buildVolunteeringFilterParameters = (
   filters: VolunteeringFilters,
   { excludeFilter }: { excludeFilter?: VolunteeringFilterKey } = {}
 ): Pick<Typesense_SearchParams_Input, 'filter_by' | 'sort_by'> => {
-  const sortBy = []
+  const sortBy: string[] = []
   const filterBy = ['type:=[volunteering,task]']
 
   if (filters.topics?.length || filters.skills?.length) {
     const topicsSkillsEmbedding = buildTopicsAndSkillsEmbedding({ topics: filters.topics, skills: filters.skills })
-    sortBy.push([`_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`])
+    sortBy.push(`_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc`)
   }
 
   if (excludeFilter !== 'topics' && filters.topics?.length) {
@@ -33,6 +33,12 @@ export const buildVolunteeringFilterParameters = (
       filterBy.push(`location_lat_lng:(${latitude},${longitude},30 km)`)
       sortBy.push(`location_lat_lng(${latitude},${longitude},precision:5km):asc`)
     }
+  }
+
+  if (excludeFilter !== 'remote' && filters.remote) {
+    // Filter for remote-only: location_type is remote AND (no location OR Germany-wide)
+    filterBy.push('location_type:=[remote]')
+    filterBy.push('(location:=[Bundesweit,Germany-wide] || location:="")')
   }
 
   return {

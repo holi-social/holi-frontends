@@ -20,6 +20,8 @@ interface VolunteeringRecoCardProps {
 export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEvent }: VolunteeringRecoCardProps) => {
   const { t } = useTranslation()
   const isRemote = engagement.location_type === 'remote'
+  const isGermanyWide = engagement.location === 'Bundesweit' || engagement.location === 'Germany-wide'
+  const isHybrid = isRemote && !!engagement.location?.trim() && !isGermanyWide
   const link = linkFromLocator(engagement.type, engagement.link_locators)
   const linkLabel = engagement?.organizer_name
     ? t('volunteering.engagement.title', {
@@ -89,7 +91,13 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEv
             : undefined
         }
         topLabelIcon={isRemote ? Global : engagement.location ? MapPin2Filled : undefined}
-        topLabel={isRemote ? t('volunteering.engagement.location_type.remote') : engagement.location}
+        topLabel={
+          isHybrid
+            ? t('volunteering.engagement.location_type.hybrid', { defaultValue: 'Hybrid' })
+            : isRemote
+              ? t('volunteering.engagement.location_type.remote')
+              : engagement.location
+        }
         fixedWidth={fixedWidth}
         fullHeight={!!fixedWidth}
         imageLabel={t('volunteering.engagement.thumbnail.label')}

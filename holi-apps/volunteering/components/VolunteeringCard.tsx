@@ -8,7 +8,7 @@ import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePre
 import { Spacing } from 'holi-bricks/foundations'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowRightS, MapPin2 } from '@holi/icons/src/generated'
+import { ArrowRightS, Global, MapPin2 } from '@holi/icons/src/generated'
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
@@ -28,6 +28,9 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const link = linkFromLocator(engagement.type, engagement.link_locators)
+  const isRemote = engagement.location_type === 'remote'
+  const isGermanyWide = engagement.location === 'Bundesweit' || engagement.location === 'Germany-wide'
+  const isHybrid = isRemote && !!engagement.location?.trim() && !isGermanyWide
 
   return (
     <View style={[styles.container, style]} testID="volunteering-card">
@@ -72,9 +75,13 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
           </View>
           <Text size="lg">{engagement.title}</Text>
           <View style={styles.locationFooter}>
-            <HoliIcon icon={MapPin2} size={16} colorOverride={theme.colors.gray300} />
+            <HoliIcon icon={isRemote ? Global : MapPin2} size={16} colorOverride={theme.colors.gray300} />
             <Text size="xs" colorOverride={theme.colors.gray300}>
-              {engagement.location}
+              {isHybrid
+                ? t('volunteering.engagement.location_type.hybrid', { defaultValue: 'Hybrid' })
+                : isRemote
+                  ? t('volunteering.engagement.location_type.remote')
+                  : engagement.location}
             </Text>
           </View>
         </View>

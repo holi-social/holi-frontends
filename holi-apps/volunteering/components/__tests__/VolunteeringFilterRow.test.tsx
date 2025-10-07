@@ -62,16 +62,18 @@ describe('VolunteeringFilterRow', () => {
     render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     const filters = screen.getAllByRole('switch')
-    expect(filters[0]).toHaveTextContent('location')
-    expect(filters[1]).toHaveTextContent('topics')
-    expect(filters[2]).toHaveTextContent('commitmentDurations')
-    expect(filters[3]).toHaveTextContent('commitmentLabels')
-    expect(filters[4]).toHaveTextContent('skills')
+    expect(filters[0]).toHaveTextContent('remote')
+    expect(filters[1]).toHaveTextContent('location')
+    expect(filters[2]).toHaveTextContent('topics')
+    expect(filters[3]).toHaveTextContent('commitmentDurations')
+    expect(filters[4]).toHaveTextContent('commitmentLabels')
+    expect(filters[5]).toHaveTextContent('skills')
   })
 
   it('should use correct label for unselected filters', () => {
     render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
+    expect(screen.getByText('volunteering.filter.remote.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.location.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.topics.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.commitmentDurations.label')).toBeOnTheScreen()
@@ -94,9 +96,10 @@ describe('VolunteeringFilterRow', () => {
     const filters = screen.getAllByRole('switch')
     expect(filters[0]).toHaveTextContent('topic')
     expect(filters[1]).toHaveTextContent('commitment_label')
-    expect(filters[2]).toHaveTextContent('location')
-    expect(filters[3]).toHaveTextContent('commitmentDurations')
-    expect(filters[4]).toHaveTextContent('skills')
+    expect(filters[2]).toHaveTextContent('remote')
+    expect(filters[3]).toHaveTextContent('location')
+    expect(filters[4]).toHaveTextContent('commitmentDurations')
+    expect(filters[5]).toHaveTextContent('skills')
   })
 
   it('should use correct label for selected filters', () => {

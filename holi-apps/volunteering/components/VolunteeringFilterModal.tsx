@@ -36,16 +36,23 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
 }: VolunteeringFilterModalProps<T>) => {
   const { t } = useTranslation()
   const { track } = useTracking()
-  const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(filters[filterKey])
+  const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(
+    filters[filterKey] as ArrayFilter | LocationFilter
+  )
   const longListOfOptions = ['topics', 'skills', 'location'].includes(filterKey)
 
   const submitSelection = useCallback(() => {
     const trackedSelection = selection && 'label' in selection ? selection.label : selection
     track(TrackingEvent.Volunteering.filterSelectionSaved(filterKey, trackedSelection))
-    onSubmit({
+
+    // Clear remote filter when location is selected (mutual exclusivity)
+    const updatedFilters = {
       ...filters,
       [filterKey]: selection,
-    })
+      ...(filterKey === 'location' && selection ? { remote: undefined } : {}),
+    }
+
+    onSubmit(updatedFilters)
     closeModal()
   }, [closeModal, filterKey, filters, onSubmit, selection, track])
 
