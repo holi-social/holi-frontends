@@ -31,12 +31,16 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { holiNextJSApiUrl } from '@holi/api/config'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+
+export type ProfileTabParams = {
+  tab?: Tab
+}
 
 const OwnProfile = () => {
   const { track } = useTracking()
 
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const [activeTab, setActiveTab] = useState<string>(rewardsPhaseTwoEnabled ? Tab.MY_VOLUNTEERING : Tab.PROFILE)
   const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -49,6 +53,21 @@ const OwnProfile = () => {
   const { openToast } = useToast()
 
   const { user, isLoggedIn } = useLoggedInUser()
+
+  const { useParam, useUpdateParams } = createParamHooks<ProfileTabParams>()
+
+  const [tabParam] = useParam('tab', singleParamConfig)
+  const [activeTab, setActiveTab] = useState<Tab>((tabParam as Tab) ?? Tab.MY_VOLUNTEERING)
+  const updateParams = useUpdateParams()
+  const onChangeTab = (tabKey: string) => {
+    updateParams({ tab: tabKey as Tab })
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    if (tabParam && tabParam !== activeTab) {
+      setActiveTab(tabParam as Tab)
+    }
+  }, [tabParam, activeTab])
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -191,7 +210,7 @@ const OwnProfile = () => {
               user={user}
               toggleEditMode={toggleEditMode}
               activeTab={activeTab}
-              onTabChange={setActiveTab}
+              onTabChange={onChangeTab}
             />
           </>
         ) : (
