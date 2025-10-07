@@ -35,7 +35,6 @@ import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
-import { initLoginFlow } from '@holi/core/auth/helpers/auth'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
@@ -79,7 +78,7 @@ const Onboarding = () => {
     if (isLoggedIn && onboardingState === 'finished') {
       finishOnboarding()
     } else if (flowId) {
-      initLoginFlow(flowId)
+      initRegistrationFlow(flowId)
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }
