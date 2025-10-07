@@ -30,6 +30,14 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: () => [false, {}],
 }))
 
+jest.mock('@holi/core/providers/SignupModalProvider', () => ({
+  ...jest.requireActual('@holi/core/providers/SignupModalProvider'),
+  useSignupModal: () => ({
+    requireLogin: jest.fn((callback: () => void) => callback()),
+    openSignupModal: jest.fn(),
+  }),
+}))
+
 const authenticatedUserMock = {
   request: {
     query: authenticatedUserV2Query,
