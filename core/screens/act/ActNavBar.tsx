@@ -47,8 +47,6 @@ export const ActNavBar = () => {
 
   const handleFavoritesPress = () => {
     requireLogin(() => navigate('/profile/settings/favorites'), {
-      title: t('profile.settings.favorites.title'),
-      description: t('loginRedirect.favoritesDescription'),
       trackTrigger: 'VIEW_FAVORITES',
     })
   }
