@@ -49,3 +49,4 @@ export type VolunteeringFilters = {
 }
 
 export type VolunteeringFilterKey = keyof VolunteeringFilters
+export type VolunteeringModalFilterKey = Exclude<VolunteeringFilterKey, 'remote'>

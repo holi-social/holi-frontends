@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringModalFilterKey } from '@holi-apps/volunteering/types'
 import { useTranslation } from 'react-i18next'
 import partition from 'lodash.partition'
 import { Stack } from 'holi-bricks/components/stack'
@@ -16,7 +16,7 @@ interface VolunteeringArrayFilterOption {
 }
 
 interface VolunteeringArrayFilterSelectionProps {
-  filterKey: keyof Omit<VolunteeringFilters, 'location'>
+  filterKey: Exclude<VolunteeringModalFilterKey, 'location'>
   selected?: string[]
   onSelect: (items: string[]) => void
   longListOfOptions?: boolean

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { Pressable } from 'react-native'
-import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringModalFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useTranslation } from 'react-i18next'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -16,7 +16,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
 
-export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
+export interface VolunteeringFilterModalProps<T extends VolunteeringModalFilterKey> {
   filterKey: T
   filters: VolunteeringFilters
   onSubmit: (filters?: VolunteeringFilters) => void
@@ -27,7 +27,7 @@ export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
 type ArrayFilter = string[] | undefined
 type LocationFilter = GeolocationSuggestion | undefined
 
-export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
+export const VolunteeringFilterModal = <T extends VolunteeringModalFilterKey>({
   filterKey,
   filters,
   onSubmit,

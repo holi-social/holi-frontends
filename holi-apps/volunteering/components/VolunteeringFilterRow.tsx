@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { FlatList, Platform } from 'react-native'
-import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type {
+  VolunteeringFilterKey,
+  VolunteeringModalFilterKey,
+  VolunteeringFilters,
+} from '@holi-apps/volunteering/types'
 import { useTranslation } from 'react-i18next'
 import partition from 'lodash.partition'
 import { ArrowDownS, Delete, Edit2, Global } from '@holi/icons/src/generated'
@@ -112,7 +116,7 @@ export const VolunteeringFilterRow = ({
     loadingFilters,
   })
 
-  const [selectedFilter, setSelectedFilter] = useState<VolunteeringFilterKey | undefined>()
+  const [selectedFilter, setSelectedFilter] = useState<VolunteeringModalFilterKey | undefined>()
 
   const handleFilterPress = (filterKey: VolunteeringFilterKey) => {
     // For binary remote filter, toggle it directly
