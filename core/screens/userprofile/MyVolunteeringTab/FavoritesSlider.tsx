@@ -2,15 +2,13 @@ import React from 'react'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { useRecoCardWidth } from '@holi/core/helpers/useRecoCardWidth'
 import { CompactCard } from 'holi-bricks/components/compactCard'
-import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { useTranslation } from 'react-i18next'
 import { type FavoriteItem, fromTypesenseId, useFavorites } from '@holi/core/screens/userprofile/Favorites/hooks'
-import { useFocusEffect } from '@holi/core/helpers'
+import { getInitials, useFocusEffect } from '@holi/core/helpers'
 import { Stack } from 'holi-bricks/components/stack'
 import { FlatList, View } from 'react-native'
 import { UnfavoriteButton } from '@holi/core/screens/userprofile/Favorites'
 import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
-import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -18,16 +16,17 @@ import { Text, TextLink } from 'holi-bricks/components/text'
 import { FavoritesListErrorState } from '@holi/core/screens/userprofile/components/FavoritesListErrorState'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowRightS } from '@holi/icons/src/generated'
+import { ArrowRightS, Global, MapPin2Filled } from '@holi/icons/src/generated'
 import { Spacing } from 'holi-bricks/foundations'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import { Button } from 'holi-bricks/components/button'
+import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 
 export const MAX_SHOWN_FAVORITES = 5
 const ICON_SIZE = 20
 
 export const FavoritesSlider = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
   const cardWidth = useRecoCardWidth()
@@ -76,75 +75,72 @@ export const FavoritesSlider = () => {
   }
 
   const renderItem = ({ item: favorite }: { item: FavoriteItem }) => {
-    switch (favorite.__typename) {
-      case 'Insight':
-        return (
-          <Stack height={'100%'}>
-            <HoliLinkTracked
-              key={favorite.id}
-              href={`/insights/${favorite.id}`}
-              label={favorite.title}
-              trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
-                type: FavoritableType.Insight,
-                id: favorite.id,
-              })}
-              isFullHeight
-            >
-              <CompactCard
-                topLabel={getRelativeDateString(favorite.datePublished, i18n.language)}
-                title={favorite.title}
-                subtitle={favorite.description}
-                avatar={{
-                  source: favorite.creator?.avatar,
-                  label: favorite.creator?.fullName || '',
-                }}
-                imageSrc={favorite.headerImage}
-                imageLabel={t('act.events.thumbnail.label')}
-                fixedWidth={cardWidth}
-                fullHeight
-              />
-            </HoliLinkTracked>
+    if (favorite.__typename !== 'Typesense_Document') return null
 
-            <View style={styles.unfavoriteButton}>
-              <UnfavoriteButton
-                favoritableId={favorite.id}
-                favoritableType={FavoritableType.Insight}
-                onCompleted={() => refetchFavorites()}
-              />
-            </View>
-          </Stack>
-        )
+    return (
+      <Stack height={'100%'}>
+        <HoliLinkTracked
+          href={linkFromLocator(favorite.type, favorite.link_locators)}
+          label={
+            favorite?.organizer_name
+              ? t('volunteering.engagement.title', {
+                  title: favorite.title,
+                  organization: favorite.organizer_name,
+                  interpolation: { escapeValue: false },
+                })
+              : (favorite.title ?? '')
+          }
+          trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
+            type: FavoritableType.Insight,
+            id: favorite.id,
+          })}
+          isFullHeight={!!cardWidth}
+          testID={`${favorite.type}-reco-card`}
+        >
+          <CompactCard
+            title={favorite.title}
+            subtitle={
+              favorite.organizer_name
+                ? t('volunteering.engagement.organization', {
+                    organization: favorite.organizer_name,
+                    interpolation: { escapeValue: false },
+                  })
+                : ''
+            }
+            imageSrc={favorite.image_url}
+            avatar={
+              favorite.organizer_name
+                ? {
+                    source: favorite.organizer_image_url,
+                    label: favorite.organizer_name,
+                    initials: getInitials(favorite.organizer_name),
+                  }
+                : undefined
+            }
+            topLabelIcon={favorite.location_type === 'remote' ? Global : favorite.location ? MapPin2Filled : undefined}
+            topLabel={
+              favorite.location_type === 'remote'
+                ? t('volunteering.engagement.location_type.remote')
+                : favorite.location
+            }
+            fixedWidth={cardWidth}
+            fullHeight={!!cardWidth}
+            imageLabel={t('volunteering.engagement.thumbnail.label')}
+            fallbackImageHashKey={favorite.id}
+          />
+        </HoliLinkTracked>
 
-      case 'Typesense_Document':
-        return (
-          <Stack height={'100%'}>
-            <VolunteeringRecoCard
-              engagement={favorite}
-              index={0}
-              trackingEvent={TrackingEvent.Favorites.navigateToFavorited({
-                type: FavoritableType.Insight,
-                id: favorite.id,
-              })}
-              fixedWidth={cardWidth}
-            />
-
-            <View style={styles.unfavoriteButton}>
-              <UnfavoriteButton
-                favoritableId={fromTypesenseId(favorite.id)}
-                favoritableType={
-                  favorite.type === 'volunteering'
-                    ? FavoritableType.ExternalVolunteeringOpportunity
-                    : FavoritableType.Task
-                }
-                onCompleted={() => refetchFavorites()}
-              />
-            </View>
-          </Stack>
-        )
-
-      default:
-        return null
-    }
+        <View style={styles.unfavoriteButton}>
+          <UnfavoriteButton
+            favoritableId={fromTypesenseId(favorite.id)}
+            favoritableType={
+              favorite.type === 'volunteering' ? FavoritableType.ExternalVolunteeringOpportunity : FavoritableType.Task
+            }
+            onCompleted={() => refetchFavorites()}
+          />
+        </View>
+      </Stack>
+    )
   }
 
   return (
