@@ -14,6 +14,7 @@ import {
   FavoriteExternalVolunteeringOpportunityDocument,
   Typesense_DocumentContactType,
 } from '@holi/api/graphql/graphql-codegen'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 jest.mock('@holi/core/components/HoliWebView')
 
@@ -92,6 +93,18 @@ jest.mock('@holi/ui/helper/useOpenLink', () => ({
   useOpenLink: () => mockUseOpenLink,
 }))
 
+const mockUseLoginState = jest.mocked(useLoginState)
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: jest.fn(),
+}))
+
+jest.mock('@holi/core/providers/SignupModalProvider', () => ({
+  useSignupModal: () => ({
+    requireLogin: jest.fn((callback: () => void) => callback()),
+    openSignupModal: jest.fn(),
+  }),
+}))
+
 jest.useFakeTimers()
 
 describe('VolunteeringDetailsScreen', () => {
@@ -122,6 +135,12 @@ describe('VolunteeringDetailsScreen', () => {
       },
       refetch: jest.fn(),
       fetchNextPage: jest.fn(),
+    })
+    mockUseLoginState.mockReturnValue({
+      isUnknown: false,
+      isLoggedOut: false,
+      isLoggedIn: true,
+      userId: 'test-user-id',
     })
   })
 

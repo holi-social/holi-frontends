@@ -24,6 +24,7 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 
 const ANIMATION_DELAY = 500
 const LOTTIE_ASPECT_RATIO = 342 / 130
@@ -48,6 +49,7 @@ export const VolunteeringContact = ({
 }: VolunteeringContactProps) => {
   const { t } = useTranslation()
   const { bottom } = useSafeAreaInsets()
+  const { requireLogin } = useSignupModal()
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
   const [progressStatus, setProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
@@ -83,7 +85,7 @@ export const VolunteeringContact = ({
           contact_info_displayed: contactInfoDisplayed,
         })}
         label={t('volunteering.engagementDetail.getInTouchDrawer')}
-        onPress={showContact}
+        onPress={() => requireLogin(() => showContact())}
         testID="volunteering-engagement-get-in-touch-btn"
       />
 
