@@ -1,5 +1,4 @@
-import type React from 'react'
-import { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -35,7 +34,9 @@ import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
-import { initRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import { getRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useTranslation } from 'react-i18next'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
@@ -52,6 +53,8 @@ const Onboarding = () => {
   const { track } = useTracking()
   const { isLoggedIn } = useLoggedInUser()
   const [flowId] = useParam('flow')
+  const { openToast } = useToast()
+  const { t } = useTranslation()
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
 
@@ -79,11 +82,21 @@ const Onboarding = () => {
     if (isLoggedIn && onboardingState === 'finished') {
       finishOnboarding()
     } else if (flowId) {
-      initRegistrationFlow(flowId)
+      getRegistrationFlow(flowId).then((flow) => {
+        const messages = flow?.data?.ui?.nodes
+          .filter((node) => node?.messages && node?.messages.length > 0)
+          .flatMap((node) => node.messages)
+        messages.forEach((message) => {
+          if (message.type === 'error') {
+            const msg = t(`auth.registration.error.message.${message.id}`)
+            openToast(msg ? msg : message.text, HoliToastType.ERROR)
+          }
+        })
+      })
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }
-  }, [finishOnboarding, flowId, isLoggedIn, onboardingState])
+  }, [finishOnboarding, flowId, isLoggedIn, onboardingState, openToast, t])
 
   // No longer needed since we removed location/interests/skills steps
   const clearSelection = () => {
