@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useCallback, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -9,15 +10,12 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
-import { Spacing, mono } from 'holi-bricks/foundations'
+import { mono, Spacing } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
-import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useCallback, useEffect } from 'react'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -37,6 +35,9 @@ import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
+import { initLoginFlow } from '@holi/core/auth/helpers/auth'
+import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
+import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
 export type OnboardingParams = {
   flow?: string
@@ -78,6 +79,7 @@ const Onboarding = () => {
     if (isLoggedIn && onboardingState === 'finished') {
       finishOnboarding()
     } else if (flowId) {
+      initLoginFlow(flowId)
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }

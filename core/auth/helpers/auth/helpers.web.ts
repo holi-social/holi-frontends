@@ -89,11 +89,12 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     }
   }
   const redirect = getRedirectAfterSocialLogin()
+  const returnTo = redirect ? { returnTo: `${holiNextJSApiUrl}${redirect || ''}` } : {}
 
   return newKratosSdk()
     .createBrowserLoginFlow({
       refresh: true,
-      returnTo: `${holiNextJSApiUrl}${redirect || ''}`,
+      ...returnTo,
     })
     .then(({ data }) => {
       return {
@@ -171,8 +172,9 @@ export const initRegistrationFlow = (flowId?: string): AxiosPromise<Registration
     return newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
   }
   const redirect = getRedirectAfterSocialLogin()
+  const returnTo = redirect ? { returnTo: `${holiNextJSApiUrl}${redirect || ''}` } : {}
   return newKratosSdk()
-    .createBrowserRegistrationFlow({ returnTo: `${holiNextJSApiUrl}${redirect || ''}` })
+    .createBrowserRegistrationFlow(returnTo)
     .catch(handleKratosSdkError('createBrowserRegistrationFlow'))
 }
 
