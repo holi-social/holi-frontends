@@ -116,12 +116,11 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
 
     return useCallback(
       (value: Partial<Props>) => {
-        // Merge current params with new ones
         const newParams = { ...searchParams, ...value }
 
-        // Remove undefined/null values
+        // Remove undefined/null values, otherwise the params become the strings "undefined" and "null"
         Object.keys(newParams).forEach((key) => {
-          if (newParams[key] === undefined || newParams[key] === null || newParams[key] === '') {
+          if (newParams[key] === undefined || newParams[key] === null) {
             delete newParams[key]
           }
         })
