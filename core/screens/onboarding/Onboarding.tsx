@@ -47,6 +47,7 @@ export type OnboardingParams = {
 const { useParam } = createParamHooks<OnboardingParams>()
 
 const Onboarding = () => {
+  const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
@@ -54,10 +55,7 @@ const Onboarding = () => {
   const { isLoggedIn } = useLoggedInUser()
   const [flowId] = useParam('flow')
   const { openToast } = useToast()
-  const { t } = useTranslation()
-
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-
   const redirect = useRedirect('/act')
 
   useIsomorphicLayoutEffect(() => {
@@ -88,15 +86,16 @@ const Onboarding = () => {
           .flatMap((node) => node.messages)
         messages.forEach((message) => {
           if (message.type === 'error') {
-            const msg = t(`auth.registration.error.message.${message.id}`)
-            openToast(msg ? msg : message.text, HoliToastType.ERROR)
+            const messageKey = `auth.registration.error.message.${message.id}`
+            const msg = i18n.exists(messageKey) ? t(messageKey) : message.text
+            openToast(msg, HoliToastType.ERROR)
           }
         })
       })
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }
-  }, [finishOnboarding, flowId, isLoggedIn, onboardingState, openToast, t])
+  }, [finishOnboarding, flowId, isLoggedIn, onboardingState, openToast, t, i18n])
 
   // No longer needed since we removed location/interests/skills steps
   const clearSelection = () => {
