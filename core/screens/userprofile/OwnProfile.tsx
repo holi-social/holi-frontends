@@ -35,6 +35,8 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import type { ProfileTabParams } from '@holi/core/screens/userprofile/OwnProfile.web'
 
+const { useParam, useUpdateParams } = createParamHooks<ProfileTabParams>()
+
 const OwnProfile = () => {
   Appcues.screen('Profile')
   const { track } = useTracking()
@@ -50,26 +52,15 @@ const OwnProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const { openToast } = useToast()
-
+  const { navigate } = useRouting()
+  const setScreenOptions = useSetScreenOptions()
   const { user, isLoggedIn } = useLoggedInUser()
 
-  const { useParam, useUpdateParams } = createParamHooks<ProfileTabParams>()
-
-  const [tabParam] = useParam('tab', singleParamConfig)
-  const [activeTab, setActiveTab] = useState<Tab>((tabParam as Tab) ?? Tab.MY_VOLUNTEERING)
+  const [activeTab = Tab.MY_VOLUNTEERING] = useParam('tab', singleParamConfig)
   const updateParams = useUpdateParams()
   const onChangeTab = (tabKey: string) => {
     updateParams({ tab: tabKey as Tab })
   }
-
-  useIsomorphicLayoutEffect(() => {
-    if (tabParam && tabParam !== activeTab) {
-      setActiveTab(tabParam as Tab)
-    }
-  }, [tabParam, activeTab])
-
-  const { navigate } = useRouting()
-  const setScreenOptions = useSetScreenOptions()
 
   const toggleEditMode = useCallback(
     (newEditMode: EditModeState) => {
