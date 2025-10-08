@@ -29,7 +29,9 @@ export default function Layout() {
     initializeApp()
   })
 
-  if (!isReady) return null
+  if (!isReady) {
+    return null
+  }
 
   //   const redirectedPath = handleRedirects(pathname)
   //   if (pathname !== redirectedPath) {

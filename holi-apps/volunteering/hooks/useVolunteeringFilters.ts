@@ -95,10 +95,20 @@ export const useVolunteeringFilters = () => {
     if (filterProps.loadingGeolocation) {
       return
     }
-    if (filterProps.geolocationSelection?.id !== filterProps.geolocationSelection?.id) {
+    if (
+      filterProps.geolocationSelection?.id &&
+      filterProps.geolocationSelection?.id !== filterProps.filters.location?.id
+    ) {
       setFilters({ ...filterProps.filters, location: filterProps.geolocationSelection })
     }
-  }, [filterProps, setFilters])
+  }, [
+    filterProps.loadingGeolocation,
+    filterProps.geolocationSelection?.id,
+    filterProps.filters.location?.id,
+    setFilters,
+    filterProps.filters,
+    filterProps.geolocationSelection,
+  ])
 
   return { ...filterProps, submit: setFilters }
 }
