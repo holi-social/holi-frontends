@@ -1,17 +1,19 @@
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import isEqual from 'lodash.isequal'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO: fix eslint warning
 // Based on solito@0.0.26
 // From https://gist.github.com/nandorojo/052887f99bb61b54845474f324aa41cc
 import { useCallback, useEffect, useState } from 'react'
-import { useLocalSearchParams, useRouter } from 'expo-router'
 
+import { coerceToUUIDString } from '@holi/core/helpers'
 import {
   type Params,
   type Returns,
   type UpdateOptions,
   useStableCallback,
 } from '@holi/core/navigation/hooks/useParam/shared'
-import { coerceToUUIDString } from '@holi/core/helpers'
 
 /**
  * This creates three hooks for handling query parameters:
@@ -67,7 +69,10 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
 
     useEffect(() => {
       const state = searchParams[name as string]
-      setNativeStateInternal((stableParse(state) as ParsedType) || (initial as InitialValue))
+      const newState = (stableParse(state) as ParsedType) || (initial as InitialValue)
+      setNativeStateInternal((prevState) => {
+        return isEqual(prevState, newState) ? prevState : newState
+      })
     }, [setNativeStateInternal, stableParse, searchParams, name, initial])
 
     // Create a setter that updates both state and URL params
