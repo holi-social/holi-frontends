@@ -1,4 +1,5 @@
 import React from 'react'
+import { useApolloClient } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -26,6 +27,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
 
 interface ProgressCardProps extends VolunteeringProgressStepperProps {
   onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
@@ -44,6 +46,7 @@ export const VolunteeringProgressCard = ({
   const { track } = useTracking()
   const checkNewBadges = useEarnedBadgesModal()
   const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
+  const client = useApolloClient()
 
   const { show: showConnectedStatusModal, props: connectedStatusModalProps } = useModalState({
     onDismiss: () => onStatusChange(VolunteeringOpportunityStatusValue.Contacted),
@@ -53,6 +56,10 @@ export const VolunteeringProgressCard = ({
     onDismiss: async () => {
       track(TrackingEvent.Rewards.goodDeedClaimed('volunteer'))
       onStatusChange(VolunteeringOpportunityStatusValue.Doing)
+
+      await client.refetchQueries({
+        include: [BadgesDocument],
+      })
 
       if (badgesEnabled) {
         await checkNewBadges()
