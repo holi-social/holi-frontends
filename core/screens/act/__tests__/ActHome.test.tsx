@@ -31,6 +31,20 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: string) => mockUseFeatureFlag(flag),
 }))
 
+jest.mock('@apollo/client', () => {
+  const actual = jest.requireActual('@apollo/client')
+  return {
+    ...actual,
+    useApolloClient: () => ({
+      refetchQueries: jest.fn().mockResolvedValue(undefined),
+    }),
+  }
+})
+
+jest.mock('@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider', () => ({
+  useEarnedBadgesModal: () => jest.fn().mockResolvedValue(undefined),
+}))
+
 jest.mock('@appcues/react-native', () => ({
   AppcuesFrameView: () => null,
   identify: jest.fn(),
@@ -69,7 +83,7 @@ const cases = [
 describe('ActHome Section', () => {
   it.each(cases)('query parameter section=$section gives order: $order', ({ section, order }) => {
     mockUseFeatureFlagToggle.mockReturnValue(false)
-    mockUseFeatureFlag.mockReturnValue([true, {}])
+    mockUseFeatureFlag.mockReturnValue([false, {}])
     const orderedSect = orderedSections(section)
     expect(orderedSect).toStrictEqual(order)
     mockParameters({ section })
