@@ -13,25 +13,25 @@ describe('buildVolunteeringFilterParameters', () => {
       filterKey: 'topics',
       filterQuery: 'topics_v2',
       excludeFilterQuery:
-        'type:=[volunteering,task]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        'type:=[volunteering,task]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&location_type:!=[remote]',
     },
     {
       filterKey: 'skills',
       filterQuery: 'skills_v2',
       excludeFilterQuery:
-        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&location_type:!=[remote]',
     },
     {
       filterKey: 'commitmentDurations',
       filterQuery: 'commitment_duration',
       excludeFilterQuery:
-        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&location_lat_lng:(1,2,30 km)',
+        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&location_lat_lng:(1,2,30 km)&&location_type:!=[remote]',
     },
     {
       filterKey: 'commitmentLabels',
       filterQuery: 'commitment_label',
       excludeFilterQuery:
-        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&location_type:!=[remote]',
     },
   ]
 
@@ -58,7 +58,7 @@ describe('buildVolunteeringFilterParameters', () => {
     const parameters = buildVolunteeringFilterParameters({ location: fullFilters.location })
 
     expect(parameters).toEqual({
-      filter_by: 'type:=[volunteering,task]&&location_lat_lng:(1,2,30 km)',
+      filter_by: 'type:=[volunteering,task]&&location_lat_lng:(1,2,30 km)&&location_type:!=[remote]',
       sort_by: 'location_lat_lng(1,2,precision:5km):asc',
     })
   })
@@ -83,7 +83,7 @@ describe('buildVolunteeringFilterParameters', () => {
 
     expect(parameters).toEqual({
       filter_by:
-        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+        'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&location_type:!=[remote]',
       sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
     })
   })

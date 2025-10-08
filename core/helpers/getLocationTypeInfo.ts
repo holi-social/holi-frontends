@@ -11,9 +11,9 @@ export type LocationTypeInfo = {
  * We have records that are tagged as "Remote" but have specific locations, making them actually "Hybrid".
  * This logic corrects such data quality issues by applying the following classification rules:
  *
- * - Remote: location_type='remote' + (no location OR "Bundesweit/Germany-wide")
- * - Hybrid: location_type='hybrid' OR location_type='remote' + has specific location (not Germany-wide)
  * - On-site: location_type='onsite'
+ * - Hybrid: location_type='hybrid' OR location_type='remote' + has specific location (not Germany-wide)
+ * - Remote: location_type='remote' + (no location OR "Bundesweit/Germany-wide")
  *
  * @param locationType - The location type field (REMOTE, HYBRID, ONSITE, etc.)
  * @param location - The location string (e.g., "Berlin", "Bundesweit", empty string)
