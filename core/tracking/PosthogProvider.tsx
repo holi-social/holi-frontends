@@ -1,5 +1,5 @@
 import { PostHog, type PostHogOptions, PostHogProvider } from 'posthog-react-native'
-import React, { type PropsWithChildren } from 'react'
+import React, { useMemo, type PropsWithChildren } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
@@ -9,17 +9,24 @@ export interface PosthogProviderProps {
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
-  const posthog = new PostHog(posthogKey, {
-    host: posthogHost,
-    defaultOptIn: false,
-    captureAppLifecycleEvents: true,
-    bootstrap: {
-      ...featureFlagBootstrapValues,
-      ...bootstrapState,
-    },
-  })
+  const posthogClient = useMemo(
+    () =>
+      new PostHog(posthogKey, {
+        host: posthogHost,
+        defaultOptIn: false,
+        captureAppLifecycleEvents: true,
+        bootstrap: {
+          ...featureFlagBootstrapValues,
+          ...bootstrapState,
+        },
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+  if (!posthogClient) return <>{children}</>
+
+  return <PostHogProvider client={posthogClient}>{children}</PostHogProvider>
 }
 
 export default PosthogProvider
