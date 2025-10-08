@@ -32,6 +32,9 @@ export const buildVolunteeringFilterParameters = (
     if (latitude && longitude) {
       filterBy.push(`location_lat_lng:(${latitude},${longitude},30 km)`)
       sortBy.push(`location_lat_lng(${latitude},${longitude},precision:5km):asc`)
+      // Exclude pure remote items (remote without specific location) from location-based searches
+      // This ensures only items with actual locations or hybrid items are shown
+      filterBy.push('location_type:!=[remote]')
     }
   }
 

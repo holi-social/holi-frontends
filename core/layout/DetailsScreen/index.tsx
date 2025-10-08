@@ -73,6 +73,8 @@ export type DetailsScreenData = {
   progressCard?: ReactNode
   isFavorite?: boolean
   status?: VolunteeringOpportunityStatusValue | null
+  location?: string
+  locationType?: string
 }
 
 type DetailsScreenProps = DetailsScreenData

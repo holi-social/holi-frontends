@@ -17,6 +17,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CalendarEventLine, Global, HeartHandshake, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useRateLimit } from '@holi/ui/helper'
 import { useTranslation } from 'react-i18next'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -84,12 +85,18 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     }) || []
 
+  const { isRemote, isHybrid } = getLocationTypeInfo(data?.taskById?.locationType, data?.taskById?.location)
+
   const locationType =
-    data?.taskById?.location || ['REMOTE', 'HYBRID'].includes(data?.taskById?.locationType ?? '')
+    data?.taskById?.location || isRemote || isHybrid
       ? {
-          subtitle: data?.taskById?.location ? data?.taskById?.location : undefined,
-          title: t(`task.locationType.${data?.taskById?.locationType ?? 'ONSITE'}`),
-          icon: data?.taskById?.locationType === 'ONSITE' ? MapPinLine : Global,
+          subtitle: data?.taskById?.location && !isRemote ? data?.taskById?.location : undefined,
+          title: isRemote
+            ? t('task.locationType.REMOTE')
+            : isHybrid
+              ? t('task.locationType.HYBRID')
+              : t('task.locationType.ONSITE'),
+          icon: isRemote || isHybrid ? Global : MapPinLine,
         }
       : undefined
 
@@ -170,6 +177,8 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       infoList,
       coverImage,
       isFavorite: data?.taskById?.isFavorite,
+      location: data?.taskById?.location,
+      locationType: data?.taskById?.locationType,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.title || data?.taskById?.name || '??',

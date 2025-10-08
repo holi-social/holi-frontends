@@ -8,6 +8,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { getInitials } from '@holi/core/helpers'
 import type { NormalizedCommittedVolunteeringItem } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 
 interface VolunteeringRecoCardWithStatusProps {
   engagement: NormalizedCommittedVolunteeringItem
@@ -20,7 +21,8 @@ export const VolunteeringRecoCardWithStatus = ({
   trackingEvent,
 }: VolunteeringRecoCardWithStatusProps) => {
   const { t } = useTranslation()
-  const isRemote = engagement.locationType === 'remote'
+  const { isRemote, isHybrid } = getLocationTypeInfo(engagement.locationType, engagement.location)
+
   const { getVolunteeringStatus } = useMyVolunteeringStatuses()
   const link = `/volunteering/${engagement.externalVolunteeringOpportunityId}`
   const linkLabel = engagement?.organizerName
@@ -60,8 +62,8 @@ export const VolunteeringRecoCardWithStatus = ({
               }
             : undefined
         }
-        topLabelIcon={isRemote ? Global : engagement.location ? MapPin2Filled : undefined}
-        topLabel={isRemote ? t('volunteering.engagement.location_type.remote') : engagement.location}
+        topLabelIcon={isRemote || isHybrid ? Global : engagement.location ? MapPin2Filled : undefined}
+        topLabel={isRemote ? t('task.locationType.REMOTE') : engagement.location}
         fixedWidth={fixedWidth}
         fullHeight={!!fixedWidth}
         imageLabel={t('volunteering.engagement.thumbnail.label')}

@@ -16,6 +16,7 @@ import { Image } from 'holi-bricks/components/image'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 
 type VolunteeringCardProps = {
   engagement: LocalizedTypesenseDocument
@@ -28,9 +29,7 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const link = linkFromLocator(engagement.type, engagement.link_locators)
-  const isRemote = engagement.location_type === 'remote'
-  const isGermanyWide = engagement.location === 'Bundesweit' || engagement.location === 'Germany-wide'
-  const isHybrid = isRemote && !!engagement.location?.trim() && !isGermanyWide
+  const { isRemote, isHybrid } = getLocationTypeInfo(engagement.location_type, engagement.location)
 
   return (
     <View style={[styles.container, style]} testID="volunteering-card">
@@ -75,12 +74,12 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
           </View>
           <Text size="lg">{engagement.title}</Text>
           <View style={styles.locationFooter}>
-            <HoliIcon icon={isRemote ? Global : MapPin2} size={16} colorOverride={theme.colors.gray300} />
+            <HoliIcon icon={isRemote || isHybrid ? Global : MapPin2} size={16} colorOverride={theme.colors.gray300} />
             <Text size="xs" colorOverride={theme.colors.gray300}>
               {isHybrid
-                ? t('volunteering.engagement.location_type.hybrid', { defaultValue: 'Hybrid' })
+                ? t('task.locationType.HYBRID')
                 : isRemote
-                  ? t('volunteering.engagement.location_type.remote')
+                  ? t('task.locationType.REMOTE')
                   : engagement.location}
             </Text>
           </View>

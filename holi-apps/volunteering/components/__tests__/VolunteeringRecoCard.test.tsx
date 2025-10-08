@@ -56,7 +56,7 @@ describe('VolunteeringRecoCard', () => {
 
     render(<VolunteeringRecoCard engagement={reco} index={0} />)
 
-    expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
+    expect(screen.getByText('task.locationType.REMOTE')).toBeOnTheScreen()
   })
 
   it('should navigate on press to volunteering recommendation', async () => {

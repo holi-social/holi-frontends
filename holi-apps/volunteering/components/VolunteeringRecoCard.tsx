@@ -9,6 +9,7 @@ import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import { TrackingEvent } from '@holi/core/tracking'
 import { getInitials } from '@holi/core/helpers'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 
 interface VolunteeringRecoCardProps {
   engagement: LocalizedTypesenseDocument
@@ -19,9 +20,7 @@ interface VolunteeringRecoCardProps {
 
 export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEvent }: VolunteeringRecoCardProps) => {
   const { t } = useTranslation()
-  const isRemote = engagement.location_type === 'remote'
-  const isGermanyWide = engagement.location === 'Bundesweit' || engagement.location === 'Germany-wide'
-  const isHybrid = isRemote && !!engagement.location?.trim() && !isGermanyWide
+  const { isRemote, isHybrid } = getLocationTypeInfo(engagement.location_type, engagement.location)
   const link = linkFromLocator(engagement.type, engagement.link_locators)
   const linkLabel = engagement?.organizer_name
     ? t('volunteering.engagement.title', {
@@ -90,13 +89,9 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEv
               }
             : undefined
         }
-        topLabelIcon={isRemote ? Global : engagement.location ? MapPin2Filled : undefined}
+        topLabelIcon={isRemote || isHybrid ? Global : engagement.location ? MapPin2Filled : undefined}
         topLabel={
-          isHybrid
-            ? t('volunteering.engagement.location_type.hybrid', { defaultValue: 'Hybrid' })
-            : isRemote
-              ? t('volunteering.engagement.location_type.remote')
-              : engagement.location
+          isHybrid ? t('task.locationType.HYBRID') : isRemote ? t('task.locationType.REMOTE') : engagement.location
         }
         fixedWidth={fixedWidth}
         fullHeight={!!fixedWidth}
