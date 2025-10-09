@@ -151,6 +151,17 @@ const HoliRichTextOutput = ({
     )
   }
 
+  // Check if there are any links in the text to avoid nested anchor tags
+  const hasLinks = links.length > 0 || REGEX_URL.test(text)
+
+  if (hasLinks && Platform.OS === 'web') {
+    return (
+      <View testID={testID} style={props?.style as StyleProp<ViewStyle>}>
+        {textWithMentions}
+      </View>
+    )
+  }
+
   return (
     <Text testID={testID} size={size} color={color} numberOfLines={numberOfLines} {...props}>
       {textWithMentions}
