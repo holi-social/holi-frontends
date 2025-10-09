@@ -26,7 +26,11 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
 
   if (!posthogClient) return <>{children}</>
 
-  return <PostHogProvider client={posthogClient}>{children}</PostHogProvider>
+  return (
+    <PostHogProvider client={posthogClient} autocapture={false}>
+      {children}
+    </PostHogProvider>
+  )
 }
 
 export default PosthogProvider
