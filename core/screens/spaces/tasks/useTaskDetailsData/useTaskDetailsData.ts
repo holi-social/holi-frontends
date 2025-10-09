@@ -9,6 +9,7 @@ import {
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
 import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
@@ -84,12 +85,18 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     }) || []
 
+  const { isRemote, isHybrid } = getLocationTypeInfo(data?.taskById?.locationType, data?.taskById?.location)
+
   const locationType =
-    data?.taskById?.location || ['REMOTE', 'HYBRID'].includes(data?.taskById?.locationType ?? '')
+    data?.taskById?.location || isRemote || isHybrid
       ? {
-          subtitle: data?.taskById?.location ? data?.taskById?.location : undefined,
-          title: t(`task.locationType.${data?.taskById?.locationType ?? 'ONSITE'}`),
-          icon: data?.taskById?.locationType === 'ONSITE' ? MapPinLine : Global,
+          subtitle: data?.taskById?.location && !isRemote ? data?.taskById?.location : undefined,
+          title: isRemote
+            ? t('task.locationType.REMOTE')
+            : isHybrid
+              ? t('task.locationType.HYBRID')
+              : t('task.locationType.ONSITE'),
+          icon: isRemote || isHybrid ? Global : MapPinLine,
         }
       : undefined
 
@@ -170,6 +177,8 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       infoList,
       coverImage,
       isFavorite: data?.taskById?.isFavorite,
+      location: data?.taskById?.location,
+      locationType: data?.taskById?.locationType,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.title || data?.taskById?.name || '??',

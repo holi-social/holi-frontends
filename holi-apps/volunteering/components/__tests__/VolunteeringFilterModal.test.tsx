@@ -1,13 +1,13 @@
-import React, { act } from 'react'
-import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
-import { render, screen, userEvent } from '@testing-library/react-native'
-import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
-import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
 import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 import { testLocation } from '@holi-apps/volunteering/__tests__/testData'
+import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
+import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
+import type { VolunteeringModalFilterKey } from '@holi-apps/volunteering/types'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { render, screen, userEvent } from '@testing-library/react-native'
+import React, { act } from 'react'
 
 const mockTrack = jest.fn()
 const mockUseTracking = useTracking as jest.Mock
@@ -54,7 +54,11 @@ describe('VolunteeringFilterModal', () => {
   })
 
   describe('Array filters', () => {
-    const arrayFilterTestData: { filterKey: VolunteeringFilterKey; option: string; facet: string }[] = [
+    const arrayFilterTestData: {
+      filterKey: Exclude<VolunteeringModalFilterKey, 'location'>
+      option: string
+      facet: string
+    }[] = [
       {
         filterKey: 'topics',
         option: 'migration-refugees',
@@ -248,7 +252,7 @@ describe('VolunteeringFilterModal', () => {
     })
   })
 
-  const allFilters = Object.keys(fullFilters) as VolunteeringFilterKey[]
+  const allFilters = Object.keys(fullFilters).filter((key) => key !== 'remote') as VolunteeringModalFilterKey[]
 
   it.each(allFilters)('should not call onSubmit when clearing the %s selection', async (filterKey) => {
     const onSubmit = jest.fn()

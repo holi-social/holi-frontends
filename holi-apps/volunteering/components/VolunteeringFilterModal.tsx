@@ -1,22 +1,22 @@
-import React, { useCallback, useState } from 'react'
-import { Pressable } from 'react-native'
-import type { VolunteeringFilterKey, VolunteeringFilters } from '@holi-apps/volunteering/types'
-import { useTranslation } from 'react-i18next'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { VolunteeringArrayFilterSelection } from '@holi-apps/volunteering/components/VolunteeringArrayFilterSelection'
-import { Stack } from 'holi-bricks/components/stack'
-import { Text, TextLink } from 'holi-bricks/components/text'
+import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
+import type { VolunteeringFilters, VolunteeringModalFilterKey } from '@holi-apps/volunteering/types'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete } from '@holi/icons/src/generated'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import { Stack } from 'holi-bricks/components/stack'
+import { Text, TextLink } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations'
-import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { TrackingEvent } from '@holi/core/tracking'
-import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
+import React, { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Pressable } from 'react-native'
 
-export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
+export interface VolunteeringFilterModalProps<T extends VolunteeringModalFilterKey> {
   filterKey: T
   filters: VolunteeringFilters
   onSubmit: (filters?: VolunteeringFilters) => void
@@ -27,7 +27,7 @@ export interface VolunteeringFilterModalProps<T extends VolunteeringFilterKey> {
 type ArrayFilter = string[] | undefined
 type LocationFilter = GeolocationSuggestion | undefined
 
-export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
+export const VolunteeringFilterModal = <T extends VolunteeringModalFilterKey>({
   filterKey,
   filters,
   onSubmit,
@@ -36,16 +36,23 @@ export const VolunteeringFilterModal = <T extends keyof VolunteeringFilters>({
 }: VolunteeringFilterModalProps<T>) => {
   const { t } = useTranslation()
   const { track } = useTracking()
-  const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(filters[filterKey])
+  const [selection, setSelection] = useState<ArrayFilter | LocationFilter>(
+    filters[filterKey] as ArrayFilter | LocationFilter
+  )
   const longListOfOptions = ['topics', 'skills', 'location'].includes(filterKey)
 
   const submitSelection = useCallback(() => {
     const trackedSelection = selection && 'label' in selection ? selection.label : selection
     track(TrackingEvent.Volunteering.filterSelectionSaved(filterKey, trackedSelection))
-    onSubmit({
+
+    // Clear remote filter when location is selected (mutual exclusivity)
+    const updatedFilters = {
       ...filters,
       [filterKey]: selection,
-    })
+      ...(filterKey === 'location' && selection ? { remote: undefined } : {}),
+    }
+
+    onSubmit(updatedFilters)
     closeModal()
   }, [closeModal, filterKey, filters, onSubmit, selection, track])
 

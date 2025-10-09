@@ -1,6 +1,6 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import { Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
-import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
+import { type TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
 import { AiEstimatedTime, Global, Globe, MapPin2, Refresh } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 
@@ -61,6 +61,7 @@ describe('transformDocument', () => {
         {
           title: 'Berlin, Germany',
           icon: MapPin2,
+          subtitle: undefined,
         },
         {
           title: 'volunteering.engagement.commitment_label.recurring',
@@ -91,6 +92,7 @@ describe('transformDocument', () => {
         onPress: expect.any(Function),
       },
       externalUrl: 'https://example.com/volunteering',
+      location: 'Berlin, Germany',
       locationType: 'onsite',
       commitmentType: 'recurring',
       source: 'Voltastics',
@@ -285,6 +287,7 @@ describe('transformDocument', () => {
     const remoteDocument: TypesenseDocument = {
       ...baseDocument,
       location_type: 'remote',
+      location: '', // No location for truly remote
     }
 
     const { t } = useTranslation()
@@ -297,8 +300,48 @@ describe('transformDocument', () => {
     })
     expect(result.infoList).toEqual([
       {
-        title: 'volunteering.engagement.location_type.remote',
+        title: 'task.locationType.REMOTE',
         icon: Global,
+      },
+      {
+        title: 'volunteering.engagement.commitment_label.recurring',
+        icon: Refresh,
+      },
+      {
+        icon: AiEstimatedTime,
+        subtitle: 'volunteeringDetails.timeAI',
+        subtitleColor: 'informative',
+        title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
+      },
+      {
+        icon: Globe,
+        title: 'www.lovelace.com',
+        onPress: expect.any(Function),
+        showExternalIcon: true,
+      },
+    ])
+  })
+
+  it('should handle hybrid opportunity (remote with location)', () => {
+    const hybridDocument: TypesenseDocument = {
+      ...baseDocument,
+      location_type: 'remote',
+      location: 'Berlin, Germany', // Has location, so it's hybrid
+    }
+
+    const { t } = useTranslation()
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: hybridDocument,
+      onOpenLink: jest.fn(),
+      status: null,
+    })
+    expect(result.infoList).toEqual([
+      {
+        title: 'task.locationType.HYBRID',
+        icon: Global,
+        subtitle: 'Berlin, Germany',
       },
       {
         title: 'volunteering.engagement.commitment_label.recurring',

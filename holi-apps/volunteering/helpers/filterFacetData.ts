@@ -1,5 +1,5 @@
-import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 export const sortedFilterOptions = {
   commitmentLabels: ['one-time', 'recurring', 'negotiable'],
@@ -24,6 +24,7 @@ export const MAX_FACET_COUNT = Math.max(
 )
 
 export const filterKeyToTranslationKeyMapping: { [key in VolunteeringFilterKey]: string } = {
+  remote: 'remote',
   topics: 'topic',
   skills: 'skill',
   location: 'location',
@@ -32,6 +33,7 @@ export const filterKeyToTranslationKeyMapping: { [key in VolunteeringFilterKey]:
 }
 
 export const filterKeyToFacetMapping: { [key in VolunteeringFilterKey]: string } = {
+  remote: 'location_type',
   topics: 'topics_v2',
   skills: 'skills_v2',
   location: 'location',

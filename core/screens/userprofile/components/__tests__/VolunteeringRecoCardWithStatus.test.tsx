@@ -1,9 +1,9 @@
-import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
-import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { makeCommittedVolunteeringItem } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
+import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { TrackingEvent } from '@holi/core/tracking'
+import { render, screen, userEvent } from '@testing-library/react-native'
+import React from 'react'
 
 describe('VolunteeringRecoCardWithStatus', () => {
   const defaultProps = {
@@ -56,7 +56,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
     })
     engagement.locationType = 'remote'
     render(<VolunteeringRecoCardWithStatus engagement={engagement} />)
-    expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
+    expect(screen.getByText('task.locationType.REMOTE')).toBeOnTheScreen()
   })
 
   it('should render onsite location when provided', () => {
