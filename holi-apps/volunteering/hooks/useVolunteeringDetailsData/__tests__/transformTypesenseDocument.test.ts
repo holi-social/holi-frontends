@@ -1,6 +1,6 @@
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import { Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
-import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
+import { type TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
 import { AiEstimatedTime, Global, Globe, MapPin2, Refresh } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 

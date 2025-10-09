@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import { FlatList, Platform } from 'react-native'
+import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
+import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
+import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 import type {
   VolunteeringFilterKey,
-  VolunteeringModalFilterKey,
   VolunteeringFilters,
+  VolunteeringModalFilterKey,
 } from '@holi-apps/volunteering/types'
-import { useTranslation } from 'react-i18next'
-import partition from 'lodash.partition'
-import { ArrowDownS, Delete, Edit2, Global } from '@holi/icons/src/generated'
-import { Spacing } from 'holi-bricks/foundations'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { VolunteeringFilterModal } from '@holi-apps/volunteering/components/VolunteeringFilterModal'
 import { ChipActionTracked, StackTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
-import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
-import { filterKeyToTranslationKeyMapping } from '@holi-apps/volunteering/helpers/filterFacetData'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowDownS, Delete, Edit2, Global } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Stack } from 'holi-bricks/components/stack'
 import { TextLink } from 'holi-bricks/components/text'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Spacing } from 'holi-bricks/foundations'
+import partition from 'lodash.partition'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FlatList, Platform } from 'react-native'
 
 export interface VolunteeringFilterRowProps {
   filters: VolunteeringFilters

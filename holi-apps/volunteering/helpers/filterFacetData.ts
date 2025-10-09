@@ -1,5 +1,5 @@
-import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 import type { VolunteeringFilterKey } from '@holi-apps/volunteering/types'
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 export const sortedFilterOptions = {
   commitmentLabels: ['one-time', 'recurring', 'negotiable'],

@@ -1,18 +1,18 @@
-import type { TFunction } from 'i18next'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
-import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
-import { AiEstimatedTime, Global, Globe, MapPin2, Refresh } from '@holi/icons/src/generated'
 import {
   VOLUNTEERING_IMG_SOURCES_MAPPING,
   type VolunteeringDetailsScreenData,
 } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
-import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
-import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import {
   Typesense_DocumentContactType,
   type VolunteeringOpportunityStatusValue,
 } from '@holi/api/graphql/graphql-codegen'
 import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
+import type { DetailsScreenChips, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
+import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { AiEstimatedTime, Global, Globe, MapPin2, Refresh } from '@holi/icons/src/generated'
+import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
+import type { TFunction } from 'i18next'
 
 interface TransformTypesenseDocumentProps {
   t: TFunction

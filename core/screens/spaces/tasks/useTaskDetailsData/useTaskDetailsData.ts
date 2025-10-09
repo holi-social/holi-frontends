@@ -9,6 +9,7 @@ import {
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
 import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
@@ -17,7 +18,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CalendarEventLine, Global, HeartHandshake, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useRateLimit } from '@holi/ui/helper'
 import { useTranslation } from 'react-i18next'
-import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string

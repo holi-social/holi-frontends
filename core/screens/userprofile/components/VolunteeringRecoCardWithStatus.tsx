@@ -1,14 +1,14 @@
-import React from 'react'
-import type { DimensionValue } from 'react-native'
-import { Global, MapPin2Filled } from '@holi/icons/src/generated'
-import { CompactCard } from 'holi-bricks/components/compactCard'
-import { useTranslation } from 'react-i18next'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
 import { getInitials } from '@holi/core/helpers'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 import type { NormalizedCommittedVolunteeringItem } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
-import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
+import { TrackingEvent } from '@holi/core/tracking'
+import { Global, MapPin2Filled } from '@holi/icons/src/generated'
+import { CompactCard } from 'holi-bricks/components/compactCard'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import type { DimensionValue } from 'react-native'
 
 interface VolunteeringRecoCardWithStatusProps {
   engagement: NormalizedCommittedVolunteeringItem
