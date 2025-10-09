@@ -112,22 +112,19 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     options?: UpdateOptions
   ): ((props: Partial<Props>, optionOverrides?: UpdateOptions) => void) => {
     const router = useRouter()
-    const searchParams = useLocalSearchParams()
 
     return useCallback(
       (value: Partial<Props>) => {
-        const newParams = { ...searchParams, ...value }
-
         // Remove undefined/null values, otherwise the params become the strings "undefined" and "null"
-        Object.keys(newParams).forEach((key) => {
-          if (newParams[key] === undefined || newParams[key] === null) {
-            delete newParams[key]
+        Object.keys(value).forEach((key) => {
+          if (value[key] === undefined || value[key] === null) {
+            delete value[key]
           }
         })
 
-        router.setParams(newParams as any)
+        router.setParams(value as any)
       },
-      [router, searchParams]
+      [router]
     )
   }
 
