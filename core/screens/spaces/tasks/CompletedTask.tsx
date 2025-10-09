@@ -1,5 +1,5 @@
 import type React from 'react'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
@@ -7,13 +7,12 @@ import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { Platform, View, Animated, Easing } from 'react-native'
+import { Platform, View } from 'react-native'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { StyleSheet } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
 import { useWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
@@ -25,6 +24,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import GoodDeedsCounterAnimation from '@holi/core/components/GoodDeedsCounterAnimation'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -60,59 +60,12 @@ const CompletedTask = () => {
   const { data: globalRewardsData } = useGlobalRewardsCounterQuery()
   const counter = rewardsData?.rewards_counter.counter ?? 0
   const globalCounter = globalRewardsData?.rewards_globalCounter?.counter ?? 0
-  const previousDeedCount = Math.max(0, counter - 1)
   const labelText = t('goodDeeds.name', { count: counter })
   const checkNewBadges = useEarnedBadgesModal()
-
-  const previousCountValueMoveOut = useRef(new Animated.Value(0)).current
-  const countValueMoveIn = useRef(new Animated.Value(0)).current
-  const countLabelFadeIn = useRef(new Animated.Value(0)).current
-  const contentFadeIn = useRef(new Animated.Value(0)).current
-
-  const LOTTIE_HAND_ANIMATION_DURATION = 2300
 
   useEffect(() => {
     setPathToRedirect(null)
     removeRedirectAfterSocialLogin()
-
-    // Animate content fade-in after Lottie animation completes
-    countValueMoveIn.setValue(0)
-    contentFadeIn.setValue(0)
-    countLabelFadeIn.setValue(0)
-
-    Animated.timing(contentFadeIn, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-      delay: LOTTIE_HAND_ANIMATION_DURATION,
-    }).start(() => {
-      Animated.timing(previousCountValueMoveOut, {
-        toValue: 0,
-        duration: 500,
-        easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true,
-      }).start()
-      Animated.timing(countValueMoveIn, {
-        toValue: 1,
-        duration: 500,
-        easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true,
-      }).start()
-      Animated.timing(countLabelFadeIn, {
-        toValue: 1,
-        duration: 200,
-        easing: Easing.inOut(Easing.quad),
-        useNativeDriver: true,
-      }).start()
-    })
-
-    return () => {
-      contentFadeIn.removeAllListeners()
-      previousCountValueMoveOut.removeAllListeners()
-      countValueMoveIn.removeAllListeners()
-      countLabelFadeIn.removeAllListeners()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleClaimReward = async () => {
@@ -193,65 +146,13 @@ const CompletedTask = () => {
                 />
               </View>
               <View style={styles.counterContainer}>
-                <View style={styles.animationContainer}>
-                  <HoliLottie animType="goodDeedsCounter" loop={false} />
-                </View>
-                <Animated.View style={[styles.animatedCounterContainer, { opacity: contentFadeIn }]}>
-                  <Animated.View
-                    style={{
-                      transform: [
-                        {
-                          translateY: Animated.add(
-                            countValueMoveIn.interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [0, 140],
-                            }),
-                            previousCountValueMoveOut
-                          ),
-                        },
-                      ],
-                    }}
-                  >
-                    <Text size="5xl" headingLevel="1" textAlign="center">
-                      {previousDeedCount}
-                    </Text>
-                  </Animated.View>
-
-                  <Animated.View
-                    style={{
-                      position: 'absolute',
-                      transform: [
-                        {
-                          translateY: Animated.add(
-                            countValueMoveIn.interpolate({
-                              inputRange: [0, 1],
-                              outputRange: [-140, 0],
-                            }),
-                            countValueMoveIn
-                          ),
-                        },
-                      ],
-                    }}
-                  >
-                    <Text size="5xl" headingLevel="1" textAlign="center">
-                      {counter}
-                    </Text>
-                  </Animated.View>
-                </Animated.View>
-
-                <View style={styles.countLabelContainer}>
-                  <Animated.View
-                    style={{
-                      opacity: countValueMoveIn,
-                      width: '100%',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Text size="xxl" textAlign="center">
-                      {labelText}
-                    </Text>
-                  </Animated.View>
-                </View>
+                <GoodDeedsCounterAnimation
+                  deedCount={counter}
+                  labelText={labelText}
+                  testID="completed-task-good-deeds-counter-animation"
+                  counterTestID="completed-task-good-deeds-counter-final"
+                  labelTestID="completed-task-good-deeds-counter-label"
+                />
               </View>
             </View>
           </View>
@@ -275,22 +176,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     cardContainer: { marginTop: Spacing.xs, width: '100%' },
     counterContainer: { alignItems: 'center', width: '100%' },
-    animationContainer: { width: 200, height: 130, marginBottom: Spacing.xs },
-    animatedCounterContainer: {
-      height: 140,
-      width: '100%',
-      overflow: 'hidden',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    countLabelContainer: {
-      top: -8,
-      height: 40,
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-    },
     footer: {
       paddingBottom: Spacing.sm,
       gap: Spacing.xs,
