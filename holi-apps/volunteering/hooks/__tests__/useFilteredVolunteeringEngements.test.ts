@@ -1,3 +1,5 @@
+import { fullFilters } from '@holi-apps/volunteering/__tests__/testData'
+import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
 import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -5,8 +7,6 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import type { SearchResponseHit } from '@holi/core/typesense/types'
 import { renderHook } from '@testing-library/react-native'
-import { buildTopicsAndSkillsEmbedding } from '@holi-apps/volunteering/helpers/buildTopicAndSkillsEmbedding'
-import { fullFilters } from '@holi-apps/volunteering/__tests__/testData'
 
 const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
 jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
@@ -206,7 +206,7 @@ describe('useFilteredVolunteeringEngagements', () => {
     expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
       parameters: {
         filter_by:
-          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&(location_type:=[onsite,hybrid] || (location_type:=[remote] && location:!=[Bundesweit,Germany-wide] && location:!=""))',
         sort_by: `_vector_query(topics_skills_embedding_v2:(${JSON.stringify(topicsSkillsEmbedding)})):asc,location_lat_lng(1,2,precision:5km):asc`,
         per_page: 10,
       },

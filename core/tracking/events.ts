@@ -506,7 +506,7 @@ export namespace TrackingEvent {
     },
 
     filterPillPressed: (
-      filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills'
+      filterCategory: 'remote' | 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills'
     ): TrackingEvent => ({
       name: 'filterPillPressed',
       properties: { filterCategory },
@@ -514,8 +514,8 @@ export namespace TrackingEvent {
     }),
 
     filterSelectionSaved: (
-      filterCategory: 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills',
-      selectedValues?: string | string[]
+      filterCategory: 'remote' | 'location' | 'topics' | 'commitmentDurations' | 'commitmentLabels' | 'skills',
+      selectedValues?: string | string[] | boolean
     ): TrackingEvent => ({
       name: 'filterSelectionSaved',
       properties: { filterCategory, selectedValues },

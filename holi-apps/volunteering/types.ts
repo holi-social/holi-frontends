@@ -31,6 +31,7 @@ export type PartnerProps = {
 
 /** Query parameters to be used in the URL */
 export type VolunteeringFilterParams = {
+  remote?: string
   topic?: string[]
   skill?: string[]
   commitment?: string[]
@@ -39,6 +40,7 @@ export type VolunteeringFilterParams = {
 }
 
 export type VolunteeringFilters = {
+  remote?: boolean
   location?: GeolocationSuggestion
   topics?: string[]
   skills?: string[]
@@ -47,3 +49,4 @@ export type VolunteeringFilters = {
 }
 
 export type VolunteeringFilterKey = keyof VolunteeringFilters
+export type VolunteeringModalFilterKey = Exclude<VolunteeringFilterKey, 'remote'>

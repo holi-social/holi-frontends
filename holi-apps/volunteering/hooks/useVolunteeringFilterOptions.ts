@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { type TermWithLabel, useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
-import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringModalFilterKey } from '@holi-apps/volunteering/types'
 import { useTranslation } from 'react-i18next'
 import type { TypesenseFacetCounts } from '@holi/core/typesense/types'
 import {
@@ -14,7 +14,7 @@ type VolunteeringFilterOption = TermWithLabel & {
 }
 
 export const useVolunteeringFilterOptions = (
-  filterKey: keyof Omit<VolunteeringFilters, 'location'>,
+  filterKey: Exclude<VolunteeringModalFilterKey, 'location'>,
   facetCounts: TypesenseFacetCounts = {}
 ): VolunteeringFilterOption[] => {
   const { t } = useTranslation()

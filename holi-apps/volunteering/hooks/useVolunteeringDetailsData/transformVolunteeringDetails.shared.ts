@@ -6,6 +6,7 @@ export type VolunteeringDetailsScreenData = DetailsScreenData & {
   externalUrl?: string
   commitmentType?: string
   locationType?: string
+  location?: string
   source?: string
   contact?: TypesenseDocument['contact']
 }
