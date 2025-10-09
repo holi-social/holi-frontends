@@ -28,15 +28,23 @@ export const useFeedQuery = () => {
     },
   })
 
-  const { data: dataGoodNews, refetch: refetchGoodNews } = useQuery(goodNewsArticlesQuery, {
+  const {
+    data: dataGoodNews,
+    error: goodNewsError,
+    refetch: refetchGoodNews,
+  } = useQuery(goodNewsArticlesQuery, {
     variables: {
       lastDate: undefined,
     },
-    onError: (error) =>
-      logError(error, 'Failed to load good news articles', {
-        location: 'useFeedQuery.GoodNewsArticlesQuery',
-      }),
   })
+
+  useEffect(() => {
+    if (goodNewsError) {
+      logError(goodNewsError, 'Failed to load good news articles', {
+        location: 'useFeedQuery.GoodNewsArticlesQuery',
+      })
+    }
+  }, [goodNewsError])
 
   const {
     data: dataInsights,
