@@ -1,0 +1,44 @@
+{
+  "workspaces": {
+    "core": {
+      "entry": ["index.ts", "**/*.ts", "**/*.tsx"],
+      "project": ["**/*.ts", "**/*.tsx"],
+      "ignore": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/__tests__/**", "**/__mocks__/**"]
+    },
+    "packages/ui": {
+      "entry": ["index.ts", "**/*.ts", "**/*.tsx"],
+      "project": ["**/*.ts", "**/*.tsx"],
+      "ignore": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/__tests__/**", "**/__mocks__/**"]
+    },
+    "packages/api": {
+      "entry": ["index.ts", "**/*.ts"],
+      "project": ["**/*.ts"],
+      "ignore": ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**", "**/__mocks__/**"]
+    },
+    "packages/chat": {
+      "entry": ["index.ts", "**/*.ts", "**/*.tsx"],
+      "project": ["**/*.ts", "**/*.tsx"],
+      "ignore": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/__tests__/**", "**/__mocks__/**"]
+    },
+    "packages/icons": {
+      "entry": ["index.ts", "**/*.ts", "**/*.tsx"],
+      "project": ["**/*.ts", "**/*.tsx"],
+      "ignore": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx", "**/__tests__/**", "**/__mocks__/**"]
+    }
+  },
+  "ignore": [
+    "apps/mobile/**", 
+    "apps/web/**", 
+    "apps/storybook/**", 
+    "holi-apps/**", 
+    "e2e/**",
+    "**/node_modules/**",
+    "**/coverage/**",
+    "**/.next/**",
+    "**/.expo/**",
+    "**/build/**",
+    "**/dist/**"
+  ],
+  "includeEntryExports": true,
+  "includeEntryFiles": true
+}

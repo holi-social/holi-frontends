@@ -58,7 +58,8 @@
     "schema:watch": "graphql-codegen --watch",
     "schema:generate": "graphql-codegen",
     "i18n:upload": "./scripts/upload_translations.sh",
-    "i18n:download": "localazy download -r $LOCALAZY_API_KEY_READ -q"
+    "i18n:download": "localazy download -r $LOCALAZY_API_KEY_READ -q",
+    "unused:check": "./scripts/cleanup-unused-code.sh --summary"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -88,6 +89,7 @@
     "jest-expo": "^52.0.6",
     "jest-offline": "^1.0.1",
     "jest-when": "^3.6.0",
+    "knip": "^5.38.0",
     "node-gyp": "^10.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"

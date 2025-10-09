@@ -142,6 +142,28 @@ lint_compile_test:
     - !reference [.rule_templates, not_on_git_tags]
     - !reference [.rule_templates, automatically_on_any_other]
 
+unused_code_check:
+  stage: build
+  needs:
+    - job: install_deps
+      optional: true
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-rw]
+  script:
+    - corepack enable
+    # If CI Cache is empty because install_deps did not run, install filling the cache, otherwise install from the immutable cache
+    - '[ ! -d ".yarn/cache" ] && yarn install --immutable || yarn install --immutable --immutable-cache'
+    # Run knip to check for unused code (non-blocking, warnings only)
+    - echo "🔍 Checking for unused code..."
+    - yarn unused:check || echo "⚠️  Found unused code - this is a warning, not a failure"
+  allow_failure: true
+  interruptible: true
+  tags:
+    - 1cpu-4gb
+  rules:
+    - !reference [.rule_templates, not_on_git_tags]
+    - !reference [.rule_templates, automatically_on_any_other]
+
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
   - '/.gitlab-ci-web.yml'
