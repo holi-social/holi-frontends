@@ -1,6 +1,6 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 
-const goodDeedsIntroModalIsVisibleVar = makeVar(false)
+const goodDeedsIntroModalIsVisibleVar = makeVar(true)
 
 export const showGoodDeedsIntroModal = () => goodDeedsIntroModalIsVisibleVar(true)
 export const hideGoodDeedsIntroModal = () => goodDeedsIntroModalIsVisibleVar(false)

@@ -492,15 +492,21 @@ export namespace TrackingEvent {
         ...versionOne,
       }),
 
-      contacted: (engagementId: string): TrackingEvent => ({
+      contacted: (
+        engagementId: string,
+        otherProperties: Record<string, string | number | undefined> = {}
+      ): TrackingEvent => ({
         name: 'selfReportingFlow__contacted',
-        properties: { engagementId },
+        properties: { engagementId, ...otherProperties },
         ...versionOne,
       }),
 
-      doing: (engagementId: string): TrackingEvent => ({
+      doing: (
+        engagementId: string,
+        otherProperties: Record<string, string | number | undefined> = {}
+      ): TrackingEvent => ({
         name: 'selfReportingFlow__doing',
-        properties: { engagementId },
+        properties: { engagementId, ...otherProperties },
         ...versionOne,
       }),
     },

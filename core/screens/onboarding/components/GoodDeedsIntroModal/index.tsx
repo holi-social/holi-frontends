@@ -6,11 +6,8 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
-import { GoodDeedsExplainMobile } from './components/GoodDeedsExplainMobile'
-import { GoodDeedsDoMobile } from './components/GoodDeedsDoMobile'
-import { GoodDeedsExplainDesktop } from './components/GoodDeedsExplainDesktop'
-import { GoodDeedsDoDesktop } from './components/GoodDeedsDoDesktop'
-import { GoodDeedsIntroFooterNavigation } from './components/GoodDeedsIntroFooterNavigation'
+import { GoodDeedsExplain } from './components/GoodDeedsExplain'
+import { GoodDeedsDo } from './components/GoodDeedsDo'
 import { useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
 import { useIsDesktopView } from './helpers/isDesktopView'
 
@@ -22,27 +19,13 @@ export interface GoodDeedsOnboardingStepItem extends HoliStepperItem {
   key: GoodDeedsOnboardingStepKey
 }
 
-export const goodDeedsOnboardingStepsDesktop: GoodDeedsOnboardingStepItem[] = [
+export const goodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
   {
     key: 'GOOD_DEEDS_EXPLANATION',
     backgroundColor: 'white',
   },
   {
     key: 'GOOD_DEEDS_DO',
-  },
-]
-
-export const goodDeedsOnboardingStepsMobile: GoodDeedsOnboardingStepItem[] = [
-  {
-    key: 'GOOD_DEEDS_EXPLANATION',
-    FooterNavigationComponent: GoodDeedsIntroFooterNavigation,
-    footerNavigation: { isBackButtonAvailable: false, nextButtonLabel: 'onboarding.modal.step01.buttonPrimary' },
-    backgroundColor: 'white',
-  },
-  {
-    key: 'GOOD_DEEDS_DO',
-    FooterNavigationComponent: GoodDeedsIntroFooterNavigation,
-    footerNavigation: { isBackButtonAvailable: true, nextButtonLabel: 'onboarding.modal.step02.buttonPrimary' },
     backgroundColor: 'yellowDefault',
   },
 ]
@@ -60,32 +43,16 @@ export const GoodDeedsIntroModal = () => {
     setCurrentStep('GOOD_DEEDS_EXPLANATION')
   }
 
-  const renderStep = isDesktopView
-    ? (key: GoodDeedsOnboardingStepKey) => {
-        switch (key) {
-          case 'GOOD_DEEDS_EXPLANATION':
-            return <GoodDeedsExplainDesktop onNextPress={() => setCurrentStep('GOOD_DEEDS_DO')} />
-          case 'GOOD_DEEDS_DO':
-            return (
-              <GoodDeedsDoDesktop
-                onNextPress={handleClose}
-                onBackPress={() => setCurrentStep('GOOD_DEEDS_EXPLANATION')}
-              />
-            )
-          default:
-            throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
-        }
-      }
-    : (key: GoodDeedsOnboardingStepKey) => {
-        switch (key) {
-          case 'GOOD_DEEDS_EXPLANATION':
-            return <GoodDeedsExplainMobile />
-          case 'GOOD_DEEDS_DO':
-            return <GoodDeedsDoMobile />
-          default:
-            throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
-        }
-      }
+  const renderStep = (key: GoodDeedsOnboardingStepKey) => {
+    switch (key) {
+      case 'GOOD_DEEDS_EXPLANATION':
+        return <GoodDeedsExplain onNextPress={() => setCurrentStep('GOOD_DEEDS_DO')} />
+      case 'GOOD_DEEDS_DO':
+        return <GoodDeedsDo onNextPress={handleClose} onBackPress={() => setCurrentStep('GOOD_DEEDS_EXPLANATION')} />
+      default:
+        throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
+    }
+  }
 
   return (
     <HoliModal
@@ -99,7 +66,7 @@ export const GoodDeedsIntroModal = () => {
       testID="onboarding-good-deeds-modal"
     >
       <HoliStepper
-        data={isDesktopView ? goodDeedsOnboardingStepsDesktop : goodDeedsOnboardingStepsMobile}
+        data={goodDeedsOnboardingSteps}
         activeStepKey={currentStep}
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey)}
