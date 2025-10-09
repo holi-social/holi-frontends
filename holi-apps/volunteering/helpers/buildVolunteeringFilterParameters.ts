@@ -32,9 +32,11 @@ export const buildVolunteeringFilterParameters = (
     if (latitude && longitude) {
       filterBy.push(`location_lat_lng:(${latitude},${longitude},30 km)`)
       sortBy.push(`location_lat_lng(${latitude},${longitude},precision:5km):asc`)
-      // Exclude pure remote items (remote without specific location) from location-based searches
-      // This ensures only items with actual locations or hybrid items are shown
-      filterBy.push('location_type:!=[remote]')
+      // Include onsite, hybrid, and remote items with specific locations (not Germany-wide)
+      // This ensures we show hybrid items that are incorrectly tagged as remote but have specific locations
+      filterBy.push(
+        '(location_type:=[onsite,hybrid] || (location_type:=[remote] && location:!=[Bundesweit,Germany-wide] && location:!=""))'
+      )
     }
   }
 
