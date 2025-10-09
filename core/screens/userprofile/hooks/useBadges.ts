@@ -91,7 +91,10 @@ const mapBadges = (data?: BadgesQuery): Badge[] => {
 }
 
 export const useBadges = () => {
-  const { data, refetch, loading } = useBadgesQuery()
+  const { data, refetch, loading } = useBadgesQuery({
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+  })
 
   const allBadges = mapBadges(data)
 
