@@ -14,11 +14,11 @@ import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation
 import { useIsDesktopView } from '../helpers/isDesktopView'
 import { breakpoints } from 'holi-bricks/foundations'
 
-type GoodDeedsExplainProps = {
+type GoodDeedsBecomeHeroProps = {
   onNextPress: () => void
 }
 
-export const GoodDeedsExplain = ({ onNextPress }: GoodDeedsExplainProps) => {
+export const GoodDeedsBecomeHero = ({ onNextPress }: GoodDeedsBecomeHeroProps) => {
   const { t } = useTranslation()
   const { top: safeAreaTop } = useSafeAreaInsets()
   const isDesktopView = useIsDesktopView()

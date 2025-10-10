@@ -49,18 +49,14 @@ const HashtagBar = ({
   )
 }
 
-export const GoodDeedsBanner = ({
-  counter,
-  hashtag: { position: hashtagPosition = 'bottom', backgroundColor: hashtagBackgroundColor = 'yellowDefault' } = {},
-  variant = 'informative',
-}: GoodDeedsBannerProps) => {
+export const GoodDeedsBanner = ({ counter, hashtag, variant = 'informative' }: GoodDeedsBannerProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { navigate } = useRouting()
 
   return (
     <Stack borderRadius="md" overflow="hidden" testID="good-deeds-banner">
-      {hashtagPosition === 'top' && <HashtagBar position={hashtagPosition} backgroundColor={hashtagBackgroundColor} />}
+      {hashtag && hashtag.position === 'top' && <HashtagBar {...hashtag} />}
 
       <Stack overflow="hidden" height={205} alignSelf="stretch">
         <View style={styles.container}>
@@ -149,9 +145,7 @@ export const GoodDeedsBanner = ({
         </View>
       </Stack>
 
-      {hashtagPosition === 'bottom' && (
-        <HashtagBar position={hashtagPosition} backgroundColor={hashtagBackgroundColor} />
-      )}
+      {hashtag && hashtag.position === 'bottom' && <HashtagBar {...hashtag} />}
     </Stack>
   )
 }

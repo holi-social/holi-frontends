@@ -7,14 +7,14 @@ describe('GoodDeedsBanner', () => {
   it('should render the banner with the correct counter', () => {
     const counter = 1234567
 
-    render(<GoodDeedsBanner counter={counter} />)
+    render(<GoodDeedsBanner counter={counter} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
 
     expect(screen.getByText(counter.toLocaleString('de-DE')))
   })
 
   describe('renders hashtag bar', () => {
     it('with default position "bottom"', () => {
-      render(<GoodDeedsBanner counter={100} />)
+      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
 
       expect(screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')).toBeOnTheScreen()
     })
@@ -32,7 +32,7 @@ describe('GoodDeedsBanner', () => {
     })
 
     it('with default background color "yellowDefault"', () => {
-      render(<GoodDeedsBanner counter={100} />)
+      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
 
       const hashtagBar = screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')
 
@@ -50,7 +50,7 @@ describe('GoodDeedsBanner', () => {
 
   describe('variant', () => {
     it('has default value "informative"', () => {
-      render(<GoodDeedsBanner counter={100} />)
+      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
 
       expect(screen.getByText('oneMioGoodDeeds.banner.globalCounter.label')).toBeOnTheScreen()
       expect(screen.getByText('oneMioGoodDeeds.banner.globalCounter.pill.top')).toBeOnTheScreen()
@@ -58,7 +58,13 @@ describe('GoodDeedsBanner', () => {
     })
 
     it('can be set to "action"', () => {
-      render(<GoodDeedsBanner counter={100} variant="action" />)
+      render(
+        <GoodDeedsBanner
+          counter={100}
+          variant="action"
+          hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }}
+        />
+      )
 
       expect(screen.getByText('feed.banner.globalCounter.label')).toBeOnTheScreen()
       expect(screen.getByText('feed.banner.globalCounter.button')).toBeOnTheScreen()
