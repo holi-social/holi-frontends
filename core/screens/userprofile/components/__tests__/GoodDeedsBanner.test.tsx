@@ -7,14 +7,20 @@ describe('GoodDeedsBanner', () => {
   it('should render the banner with the correct counter', () => {
     const counter = 1234567
 
-    render(<GoodDeedsBanner counter={counter} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
+    render(<GoodDeedsBanner counter={counter} />)
 
     expect(screen.getByText(counter.toLocaleString('de-DE')))
   })
 
+  it('does not render hashtag bar when "hashtag" props is not provided', () => {
+    render(<GoodDeedsBanner counter={100} />)
+
+    expect(screen.queryByTestId('good-deeds-banner__hashtag-bar--bottom')).not.toBeOnTheScreen()
+  })
+
   describe('renders hashtag bar', () => {
     it('with default position "bottom"', () => {
-      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
+      render(<GoodDeedsBanner counter={100} hashtag={{ backgroundColor: 'greenDefault' }} />)
 
       expect(screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')).toBeOnTheScreen()
     })
@@ -32,7 +38,7 @@ describe('GoodDeedsBanner', () => {
     })
 
     it('with default background color "yellowDefault"', () => {
-      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
+      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom' }} />)
 
       const hashtagBar = screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')
 
@@ -50,7 +56,7 @@ describe('GoodDeedsBanner', () => {
 
   describe('variant', () => {
     it('has default value "informative"', () => {
-      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />)
+      render(<GoodDeedsBanner counter={100} />)
 
       expect(screen.getByText('oneMioGoodDeeds.banner.globalCounter.label')).toBeOnTheScreen()
       expect(screen.getByText('oneMioGoodDeeds.banner.globalCounter.pill.top')).toBeOnTheScreen()
@@ -58,13 +64,7 @@ describe('GoodDeedsBanner', () => {
     })
 
     it('can be set to "action"', () => {
-      render(
-        <GoodDeedsBanner
-          counter={100}
-          variant="action"
-          hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }}
-        />
-      )
+      render(<GoodDeedsBanner counter={100} variant="action" />)
 
       expect(screen.getByText('feed.banner.globalCounter.label')).toBeOnTheScreen()
       expect(screen.getByText('feed.banner.globalCounter.button')).toBeOnTheScreen()

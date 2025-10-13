@@ -13,19 +13,12 @@ import type { DecorativeColors } from 'holi-bricks/foundations/colors/themes/typ
 import { Button } from 'holi-bricks/components/button'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
-type GoodDeedsBannerProps = {
-  counter: number
-  hashtag?: {
-    position?: 'top' | 'bottom'
-    backgroundColor?: DecorativeColors
-  }
-  variant?: 'informative' | 'action'
+type HashtagBarProps = {
+  position?: 'top' | 'bottom'
+  backgroundColor?: DecorativeColors
 }
 
-const HashtagBar = ({
-  position = 'bottom',
-  backgroundColor = 'yellowDefault',
-}: GoodDeedsBannerProps['hashtag'] = {}) => {
+const HashtagBar = ({ position = 'bottom', backgroundColor = 'yellowDefault' }: HashtagBarProps = {}) => {
   const { t } = useTranslation()
 
   return (
@@ -49,14 +42,21 @@ const HashtagBar = ({
   )
 }
 
+type GoodDeedsBannerProps = {
+  counter: number
+  hashtag?: HashtagBarProps
+  variant?: 'informative' | 'action'
+}
+
 export const GoodDeedsBanner = ({ counter, hashtag, variant = 'informative' }: GoodDeedsBannerProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { navigate } = useRouting()
+  const { position = 'bottom', backgroundColor = 'yellowDefault' } = hashtag ?? {}
 
   return (
     <Stack borderRadius="md" overflow="hidden" testID="good-deeds-banner">
-      {hashtag && hashtag.position === 'top' && <HashtagBar {...hashtag} />}
+      {hashtag && position === 'top' && <HashtagBar position={position} backgroundColor={backgroundColor} />}
 
       <Stack overflow="hidden" height={205} alignSelf="stretch">
         <View style={styles.container}>
@@ -145,7 +145,7 @@ export const GoodDeedsBanner = ({ counter, hashtag, variant = 'informative' }: G
         </View>
       </Stack>
 
-      {hashtag && hashtag.position === 'bottom' && <HashtagBar {...hashtag} />}
+      {hashtag && position === 'bottom' && <HashtagBar position={position} backgroundColor={backgroundColor} />}
     </Stack>
   )
 }

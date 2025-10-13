@@ -92,7 +92,7 @@ export const GoodDeedsTab = () => {
         <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
         <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs">
-          <GoodDeedsBanner counter={globalCounter} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />
+          <GoodDeedsBanner counter={globalCounter} />
         </Stack>
 
         <GoodDeedsEmptyState />
@@ -105,7 +105,7 @@ export const GoodDeedsTab = () => {
       <Text>{t('profile.tabs.oneMioGoodDeeds.title')}</Text>
 
       <Stack justifyContent="center" backgroundColor="support" borderRadius="md" padding="3xs" gap="md">
-        <GoodDeedsBanner counter={globalCounter} hashtag={{ position: 'bottom', backgroundColor: 'yellowDefault' }} />
+        <GoodDeedsBanner counter={globalCounter} />
 
         {/* blue box */}
         <Stack gap="4xs" padding="xs" backgroundColor="blueLight" borderRadius="md" alignItems="center">
