@@ -14,7 +14,7 @@ import { GoodDeedsCampaignExplanation } from './components/GoodDeedsCampaignExpl
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GoodDeedsOnboardingStepKeys = [
-  'GOOD_DEEDS_BECOM_HERO',
+  'GOOD_DEEDS_BECOME_HERO',
   'GOOD_DEEDS_PROGRESS_EXPLANATION',
   'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
 ] as const
@@ -26,7 +26,7 @@ export interface GoodDeedsOnboardingStepItem extends HoliStepperItem {
 
 export const goodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
   {
-    key: 'GOOD_DEEDS_BECOM_HERO',
+    key: 'GOOD_DEEDS_BECOME_HERO',
     backgroundColor: 'white',
   },
   {
@@ -49,7 +49,7 @@ export const GoodDeedsIntroModal = () => {
 
   const handleClose = () => {
     hide()
-    setCurrentStep('GOOD_DEEDS_BECOM_HERO')
+    setCurrentStep('GOOD_DEEDS_BECOME_HERO')
   }
 
   const handleNextStep = () => {
@@ -72,7 +72,7 @@ export const GoodDeedsIntroModal = () => {
 
   const renderStep = (key: GoodDeedsOnboardingStepKey) => {
     switch (key) {
-      case 'GOOD_DEEDS_BECOM_HERO':
+      case 'GOOD_DEEDS_BECOME_HERO':
         return <GoodDeedsBecomeHero onNextPress={handleNextStep} />
       case 'GOOD_DEEDS_PROGRESS_EXPLANATION':
         return <GoodDeedsProgressExplanation onNextPress={handleNextStep} onBackPress={handleBackStep} />

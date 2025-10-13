@@ -17,6 +17,9 @@ export enum FeatureFlagKey {
   REWARDS_PHASE_2 = 'rewards-phase-2', // boolean
   FAVORITES_SLIDER = 'favorites-slider', // boolean
   BADGES = 'badges', // boolean
-  GOOD_DEEDS_INTRO_1 = 'good-deeds-intro-1', // boolean
+  GOOD_DEEDS_INTRO_PHASE_0 = 'good-deeds-intro-phase-0', // boolean
+  GOOD_DEEDS_INTRO_PHASE_1__SIGN_UP = 'good-deeds-intro_phase_1--sign-up-process', // boolean
+  GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-tracked-first-good-deed', // boolean
+  GOOD_DEEDS_INTRO_PHASE_1__USER_FAVORITED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-favorited-first-good-deed', // boolean
   APPCUES_BANNER = 'appcues-banner', // boolean
 }
