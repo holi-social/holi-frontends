@@ -27,6 +27,8 @@ interface FilterHook {
 const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilterParams>()
 
 export const useVolunteeringFilters = (): FilterHook => {
+  const [remoteParam] = useParam('remote', singleParamConfig)
+  const remote = remoteParam === 'true'
   const [topicParams] = useParam('topic', arrayParamConfig)
   const [skillParams] = useParam('skill', arrayParamConfig)
   const topics = slugsToTopicsV2(topicParams)
@@ -47,6 +49,7 @@ export const useVolunteeringFilters = (): FilterHook => {
   )
 
   const [filters, setFilters] = useState<VolunteeringFilters>({
+    remote: remoteParam ? remote : undefined,
     location: geolocationProps.geolocationSuggestion,
     topics,
     skills,
@@ -55,6 +58,7 @@ export const useVolunteeringFilters = (): FilterHook => {
   })
 
   const isFiltering = !!(
+    filters.remote ||
     filters.location ||
     filters.topics?.length ||
     filters.skills?.length ||
@@ -67,9 +71,10 @@ export const useVolunteeringFilters = (): FilterHook => {
   }
 
   const onFilterChange = useCallback(
-    ({ topics, skills, location, commitmentDurations, commitmentLabels }: VolunteeringFilters = {}) => {
-      setFilters({ topics, skills, location, commitmentDurations, commitmentLabels })
+    ({ remote, topics, skills, location, commitmentDurations, commitmentLabels }: VolunteeringFilters = {}) => {
+      setFilters({ remote, topics, skills, location, commitmentDurations, commitmentLabels })
       updateParams({
+        remote: remote ? 'true' : undefined,
         topic: topics,
         skill: skills,
         geolocationId: location?.id || '',
@@ -82,6 +87,7 @@ export const useVolunteeringFilters = (): FilterHook => {
   const clearFilters = useCallback(() => {
     setFilters({})
     updateParams({
+      remote: '',
       topic: [],
       skill: [],
       geolocationId: '',

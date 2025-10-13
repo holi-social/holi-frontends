@@ -1,4 +1,5 @@
 import { type ApolloError, useQuery } from '@apollo/client'
+import { useEffect } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
@@ -20,14 +21,17 @@ export const useGeolocationDetails: useGeolocationHook = (locationId, onError) =
   const { data, loading, error } = useQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery, {
     variables: { id: locationId },
     skip: !locationId,
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       logError(error, 'Failed to fetch geolocation details', {
         location: 'useGeolocationDetails.fetchPlaceDetails',
         geolocationId: locationId,
       })
       onError?.(error)
-    },
-  })
+    }
+  }, [error, onError, locationId])
 
   return {
     geolocationDetails: data?.geo_placeDetails,

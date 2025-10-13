@@ -1,21 +1,22 @@
+import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
+import { TrackingEvent } from '@holi/core/tracking'
+import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
+import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { ArrowRightS, Global, MapPin2 } from '@holi/icons/src/generated'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Image } from 'holi-bricks/components/image'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Text } from 'holi-bricks/components/text'
+import { Spacing } from 'holi-bricks/foundations'
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { Spacing } from 'holi-bricks/foundations'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowRightS, MapPin2 } from '@holi/icons/src/generated'
-import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
-import { Image } from 'holi-bricks/components/image'
-import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
-import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 type VolunteeringCardProps = {
   engagement: LocalizedTypesenseDocument
@@ -28,6 +29,7 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const link = linkFromLocator(engagement.type, engagement.link_locators)
+  const { isRemote, isHybrid } = getLocationTypeInfo(engagement.location_type, engagement.location)
 
   return (
     <View style={[styles.container, style]} testID="volunteering-card">
@@ -72,9 +74,13 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ engagement, style, 
           </View>
           <Text size="lg">{engagement.title}</Text>
           <View style={styles.locationFooter}>
-            <HoliIcon icon={MapPin2} size={16} colorOverride={theme.colors.gray300} />
+            <HoliIcon icon={isRemote || isHybrid ? Global : MapPin2} size={16} colorOverride={theme.colors.gray300} />
             <Text size="xs" colorOverride={theme.colors.gray300}>
-              {engagement.location}
+              {isHybrid
+                ? t('task.locationType.HYBRID')
+                : isRemote
+                  ? t('task.locationType.REMOTE')
+                  : engagement.location}
             </Text>
           </View>
         </View>

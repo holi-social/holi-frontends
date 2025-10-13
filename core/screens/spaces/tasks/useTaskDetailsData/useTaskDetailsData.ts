@@ -6,9 +6,11 @@ import {
   VisibilityType,
   useTaskByIdQuery,
 } from '@holi/api/graphql/graphql-codegen'
+import { useEffect } from 'react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
 import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
@@ -48,22 +50,26 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   const { t, i18n } = useTranslation()
   const [taskId] = useUUIDParam('taskId')
   const loginState = useLoggedInUser()
-  const { data, loading, refetch } = useTaskByIdQuery({
+  const { data, loading, error, refetch } = useTaskByIdQuery({
     variables: {
       id: taskId as string,
     },
     skip: !taskId,
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       if (isNotFoundError(error) || isForbiddenError(error)) {
-        return replaceRoute('/404')
+        replaceRoute('/404')
+        return
       }
       displayError(error, 'Failed to load task', {
         location: 'TaskDetails.taskByIdQuery',
         spaceIdOrName,
       })
-    },
-  })
+    }
+  }, [error, displayError, replaceRoute, spaceIdOrName])
   const refetchData = useRateLimit(() => refetch({ id: taskId }))
   const isAdmin = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const isOwner = loginState.isLoggedIn && (isAdmin || loginState.user.id === data?.taskById?.creator.id)
@@ -84,12 +90,18 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     }) || []
 
+  const { isRemote, isHybrid } = getLocationTypeInfo(data?.taskById?.locationType, data?.taskById?.location)
+
   const locationType =
-    data?.taskById?.location || ['REMOTE', 'HYBRID'].includes(data?.taskById?.locationType ?? '')
+    data?.taskById?.location || isRemote || isHybrid
       ? {
-          subtitle: data?.taskById?.location ? data?.taskById?.location : undefined,
-          title: t(`task.locationType.${data?.taskById?.locationType ?? 'ONSITE'}`),
-          icon: data?.taskById?.locationType === 'ONSITE' ? MapPinLine : Global,
+          subtitle: data?.taskById?.location && !isRemote ? data?.taskById?.location : undefined,
+          title: isRemote
+            ? t('task.locationType.REMOTE')
+            : isHybrid
+              ? t('task.locationType.HYBRID')
+              : t('task.locationType.ONSITE'),
+          icon: isRemote || isHybrid ? Global : MapPinLine,
         }
       : undefined
 
@@ -170,6 +182,8 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       infoList,
       coverImage,
       isFavorite: data?.taskById?.isFavorite,
+      location: data?.taskById?.location,
+      locationType: data?.taskById?.locationType,
       author: {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.title || data?.taskById?.name || '??',

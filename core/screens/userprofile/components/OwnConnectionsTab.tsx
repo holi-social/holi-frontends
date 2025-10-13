@@ -78,11 +78,15 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const isChatInitialized = useChatInitialized()
   const identity = selectedConnection?.identity
 
-  const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
+  const { data, error, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
     variables: { offset: 0, limit: 100 },
-    onError: (error) =>
-      logError(error, 'Failed to load connections for user', { location: 'ConnectionsTab.myConnectionsQuery' }),
   })
+
+  useEffect(() => {
+    if (error) {
+      logError(error, 'Failed to load connections for user', { location: 'ConnectionsTab.myConnectionsQuery' })
+    }
+  }, [error])
   useOnRefresh(refetch)
 
   const [connections, setConnections] = useState<Connection[]>(data?.myConnections.data ?? [])

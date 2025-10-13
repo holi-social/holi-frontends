@@ -2,9 +2,9 @@ import React from 'react'
 import { render, screen, userEvent } from 'expo-router/testing-library'
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 import { emptyFilters, fullFilters, testLocation } from '@holi-apps/volunteering/__tests__/testData'
-import { TrackingEvent } from '@holi/core/tracking'
-import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
+import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const mockUsePlacesAutocomplete = jest.mocked(usePlacesAutocomplete)
 jest.mock('@holi/core/geolocation/hooks/usePlacesAutocomplete', () => ({
@@ -62,16 +62,18 @@ describe('VolunteeringFilterRow', () => {
     render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     const filters = screen.getAllByRole('switch')
-    expect(filters[0]).toHaveTextContent('location')
-    expect(filters[1]).toHaveTextContent('topics')
-    expect(filters[2]).toHaveTextContent('commitmentDurations')
-    expect(filters[3]).toHaveTextContent('commitmentLabels')
-    expect(filters[4]).toHaveTextContent('skills')
+    expect(filters[0]).toHaveTextContent('remote')
+    expect(filters[1]).toHaveTextContent('location')
+    expect(filters[2]).toHaveTextContent('topics')
+    expect(filters[3]).toHaveTextContent('commitmentDurations')
+    expect(filters[4]).toHaveTextContent('commitmentLabels')
+    expect(filters[5]).toHaveTextContent('skills')
   })
 
   it('should use correct label for unselected filters', () => {
     render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
+    expect(screen.getByText('volunteering.filter.remote.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.location.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.topics.label')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.filter.commitmentDurations.label')).toBeOnTheScreen()
@@ -94,9 +96,10 @@ describe('VolunteeringFilterRow', () => {
     const filters = screen.getAllByRole('switch')
     expect(filters[0]).toHaveTextContent('topic')
     expect(filters[1]).toHaveTextContent('commitment_label')
-    expect(filters[2]).toHaveTextContent('location')
-    expect(filters[3]).toHaveTextContent('commitmentDurations')
-    expect(filters[4]).toHaveTextContent('skills')
+    expect(filters[2]).toHaveTextContent('remote')
+    expect(filters[3]).toHaveTextContent('location')
+    expect(filters[4]).toHaveTextContent('commitmentDurations')
+    expect(filters[5]).toHaveTextContent('skills')
   })
 
   it('should use correct label for selected filters', () => {

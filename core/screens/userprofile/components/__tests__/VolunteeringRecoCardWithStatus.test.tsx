@@ -66,7 +66,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
     renderRouter({
       index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
     })
-    expect(screen.getByText('volunteering.engagement.location_type.remote')).toBeOnTheScreen()
+    expect(screen.getByText('task.locationType.REMOTE')).toBeOnTheScreen()
   })
 
   it('should render onsite location when provided', () => {

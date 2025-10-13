@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
@@ -32,14 +32,18 @@ const ConnectionsTab = ({ userId, emptyText, emptyCallToAction }: ConnectionsTab
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, refetch } = useQuery<connectionsByUserIdResponse>(connectionsByUserIdQuery, {
+  const { data, error, refetch } = useQuery<connectionsByUserIdResponse>(connectionsByUserIdQuery, {
     variables: { userId, offset: 0, limit: 10 },
     skip: !userId,
-    onError: (error) =>
+  })
+
+  useEffect(() => {
+    if (error) {
       logError(error, `Failed to load connections for user ${userId}`, {
         location: 'ConnectionsTab.connectionsByUserIdQuery',
-      }),
-  })
+      })
+    }
+  }, [error, userId])
   useOnRefresh(refetch)
 
   const connections = data?.connectionsByUserId.data ?? []

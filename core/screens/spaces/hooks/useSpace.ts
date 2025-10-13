@@ -1,4 +1,5 @@
 import { useSpaceByIdQuery } from '@holi/api/graphql/graphql-codegen'
+import { useEffect } from 'react'
 
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -12,16 +13,20 @@ export const useSpace = (spaceIdOrName?: string) => {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present for members
     variables: { idOrName: spaceIdOrName ?? '' },
     skip: !spaceIdOrName,
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       if (isNotFoundError(error)) {
-        return replaceRoute('/404')
+        replaceRoute('/404')
+        return
       }
       displayError(error, 'Failed to load space', {
         location: 'useSpace.spaceByIdQuery',
         spaceIdOrName,
       })
-    },
-  })
+    }
+  }, [error, displayError, replaceRoute, spaceIdOrName])
 
   const space = data?.spaceById
 

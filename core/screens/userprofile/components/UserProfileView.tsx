@@ -66,7 +66,19 @@ const UserProfileView = ({ user, showContactFeatures }: UserProfileViewProps) =>
       try {
         await updateAvatar({
           variables: { input },
+          update: (cache, { data }) => {
+            if (data?.updateAuthenticatedUserV2) {
+              // Update the authenticated user in the cache with the new avatar
+              cache.modify({
+                fields: {
+                  authenticatedUserV2: () => data.updateAuthenticatedUserV2,
+                },
+              })
+            }
+          },
           onCompleted: () => {
+            // Clear the local picked avatar so the Avatar component uses the updated user.avatar from cache
+            setPickedAvatar(undefined)
             openToast(t('profile.avatar.edit.success'), HoliToastType.SUCCESS)
           },
           onError: (error) => {
@@ -75,12 +87,16 @@ const UserProfileView = ({ user, showContactFeatures }: UserProfileViewProps) =>
             } else {
               openToast(t('profile.avatar.edit.error'), HoliToastType.ERROR)
             }
+            // Clear the picked avatar on error as well to revert to the current avatar
+            setPickedAvatar(undefined)
           },
         })
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Failed to update avatar:', error)
         openToast(t('profile.avatar.edit.error'), HoliToastType.ERROR)
+        // Clear the picked avatar on error
+        setPickedAvatar(undefined)
       }
     }
   }

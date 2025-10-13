@@ -9,6 +9,12 @@ export interface PosthogProviderProps {
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
+  // Disable PostHog in development
+  const isDevEnv = process.env.NODE_ENV === 'development'
+  if (isDevEnv) {
+    return <PostHogProvider client={undefined}>{children}</PostHogProvider>
+  }
+
   const posthogClient = useMemo(
     () =>
       new PostHog(posthogKey, {

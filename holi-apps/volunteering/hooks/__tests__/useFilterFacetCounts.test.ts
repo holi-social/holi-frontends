@@ -1,12 +1,12 @@
+import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
+import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import {
   type TypesensePaginationState,
   useTypesensePaginationMultiQuery,
 } from '@holi/core/typesense/hooks/useTypesensePaginationMultiQuery'
-import { renderHook } from 'expo-router/testing-library'
-import { emptyFilters, fullFilters } from '@holi-apps/volunteering/__tests__/testData'
-import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
+import { renderHook } from '@testing-library/react-native'
 
 const mockUseTypesensePaginationMultiQuery = jest.mocked(useTypesensePaginationMultiQuery)
 jest.mock('@holi/core/typesense/hooks/useTypesensePaginationMultiQuery', () => ({
@@ -150,28 +150,28 @@ describe('useFilterFacetCounts', () => {
     const expectedParameterList = [
       {
         filter_by:
-          'type:=[volunteering,task]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+          'type:=[volunteering,task]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&(location_type:=[onsite,hybrid] || (location_type:=[remote] && location:!=[Bundesweit,Germany-wide] && location:!=""))',
         facet_by: 'topics_v2',
         per_page: 0,
         max_facet_values: 29,
       },
       {
         filter_by:
-          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&commitment_label:=[recurring]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&(location_type:=[onsite,hybrid] || (location_type:=[remote] && location:!=[Bundesweit,Germany-wide] && location:!=""))',
         facet_by: 'skills_v2',
         per_page: 0,
         max_facet_values: 29,
       },
       {
         filter_by:
-          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)',
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_duration:=[DAYS_1]&&location_lat_lng:(1,2,30 km)&&(location_type:=[onsite,hybrid] || (location_type:=[remote] && location:!=[Bundesweit,Germany-wide] && location:!=""))',
         facet_by: 'commitment_label',
         per_page: 0,
         max_facet_values: 29,
       },
       {
         filter_by:
-          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&location_lat_lng:(1,2,30 km)',
+          'type:=[volunteering,task]&&topics_v2:=[migration-refugees,mobility-transport]&&skills_v2:=[food-service,finances-taxes,fundraising]&&commitment_label:=[recurring]&&location_lat_lng:(1,2,30 km)&&(location_type:=[onsite,hybrid] || (location_type:=[remote] && location:!=[Bundesweit,Germany-wide] && location:!=""))',
         facet_by: 'commitment_duration',
         per_page: 0,
         max_facet_values: 29,

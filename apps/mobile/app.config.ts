@@ -236,6 +236,7 @@ const config: ExpoConfig = {
   //   ],
   // },
   extra: {
+    EXPO_OS: process.env.EXPO_OS || 'unknown',
     novu: {
       applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
       backendUrl: requiredEnvVar('NOVU_BACKEND_URL'),
