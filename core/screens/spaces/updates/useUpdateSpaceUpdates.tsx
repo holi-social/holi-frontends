@@ -64,18 +64,22 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
     skip: !postId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
+  })
+
+  useEffect(() => {
+    if (postQueryError) {
+      if (isNotFoundError(postQueryError)) {
+        replaceRoute('/404')
+        return
       }
       navigateBack()
-      displayError(error, 'Failed to load space post', {
+      displayError(postQueryError, 'Failed to load space post', {
         location: 'useCreateOrUpdateSpacePost.PostById',
         spaceIdOrName,
         postId,
       })
-    },
-  })
+    }
+  }, [postQueryError, displayError, replaceRoute, navigateBack, spaceIdOrName, postId])
   const postToUpdate = postQueryData?.postById
 
   useEffect(() => {

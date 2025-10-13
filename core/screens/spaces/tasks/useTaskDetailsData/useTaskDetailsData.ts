@@ -6,6 +6,7 @@ import {
   VisibilityType,
   useTaskByIdQuery,
 } from '@holi/api/graphql/graphql-codegen'
+import { useEffect } from 'react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -49,22 +50,26 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   const { t, i18n } = useTranslation()
   const [taskId] = useUUIDParam('taskId')
   const loginState = useLoggedInUser()
-  const { data, loading, refetch } = useTaskByIdQuery({
+  const { data, loading, error, refetch } = useTaskByIdQuery({
     variables: {
       id: taskId as string,
     },
     skip: !taskId,
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       if (isNotFoundError(error) || isForbiddenError(error)) {
-        return replaceRoute('/404')
+        replaceRoute('/404')
+        return
       }
       displayError(error, 'Failed to load task', {
         location: 'TaskDetails.taskByIdQuery',
         spaceIdOrName,
       })
-    },
-  })
+    }
+  }, [error, displayError, replaceRoute, spaceIdOrName])
   const refetchData = useRateLimit(() => refetch({ id: taskId }))
   const isAdmin = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
   const isOwner = loginState.isLoggedIn && (isAdmin || loginState.user.id === data?.taskById?.creator.id)

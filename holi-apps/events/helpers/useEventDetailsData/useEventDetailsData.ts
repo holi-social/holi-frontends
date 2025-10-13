@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 import { useGetEventByIdQuery } from '@holi/api/graphql/graphql-codegen'
 import { CalendarEvent, MapPin2, VideoChat } from '@holi/icons/src/generated'
 import type { DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
@@ -31,22 +32,26 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
   const { displayError } = useErrorHandling()
   const { replaceRoute } = useRouting()
   const { track } = useTracking()
-  const { data, loading, refetch } = useGetEventByIdQuery({
+  const { data, loading, error, refetch } = useGetEventByIdQuery({
     variables: {
       id: eventId as string,
     },
     skip: !eventId,
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       if (isNotFoundError(error) || isForbiddenError(error)) {
-        return replaceRoute('/404')
+        replaceRoute('/404')
+        return
       }
       displayError(error, 'Failed to load event', {
         location: 'EventDetails.eventByIdQuery',
         eventId,
       })
-    },
-  })
+    }
+  }, [error, displayError, replaceRoute, eventId])
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t, i18n } = useTranslation()
 

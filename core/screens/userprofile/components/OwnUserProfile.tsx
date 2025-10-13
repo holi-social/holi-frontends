@@ -70,16 +70,22 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
 
-  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
-    variables: { userId: user.id },
-    errorPolicy: 'ignore',
-    skip: !user?.id,
-    onError: (error) => {
-      logError(error, 'Failed to load insights for user', {
+  const { data: dataInsights, error: insightsError } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId: user.id },
+      errorPolicy: 'ignore',
+      skip: !user?.id,
+    }
+  )
+
+  useEffect(() => {
+    if (insightsError) {
+      logError(insightsError, 'Failed to load insights for user', {
         location: 'OwnUserProfile.insightsByUserIdTotalResultsQuery',
       })
-    },
-  })
+    }
+  }, [insightsError])
 
   useEffect(() => {
     if (activeTab === Tab.GOOD_DEEDS) {
