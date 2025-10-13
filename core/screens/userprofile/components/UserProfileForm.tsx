@@ -105,6 +105,16 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     }
     await updateUser({
       variables: { input },
+      update: (cache, { data }) => {
+        if (data?.updateAuthenticatedUserV2) {
+          // Update the authenticated user in the cache with the new data
+          cache.modify({
+            fields: {
+              authenticatedUserV2: () => data.updateAuthenticatedUserV2,
+            },
+          })
+        }
+      },
       onCompleted: (data) => {
         if (onSubmit) {
           onSubmit(data.updateAuthenticatedUserV2)
