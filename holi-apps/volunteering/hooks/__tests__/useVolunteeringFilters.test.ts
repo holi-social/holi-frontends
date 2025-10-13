@@ -32,7 +32,7 @@ describe('useVolunteeringFilters', () => {
     })
 
     act(() => {
-      result.current.submit({ topics: ['elderly-care'], skills: [] })
+      result.current.setFilters({ topics: ['elderly-care'], skills: [] })
     })
 
     expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
@@ -42,7 +42,7 @@ describe('useVolunteeringFilters', () => {
     const { result } = renderHook(() => useVolunteeringFilters())
 
     act(() => {
-      result.current.submit({ topics: ['elderly-care'], location: { id: 'locationId', label: 'Hamburg' } })
+      result.current.setFilters({ topics: ['elderly-care'], location: { id: 'locationId', label: 'Hamburg' } })
     })
 
     expect(mockUseUpdateParams).toHaveBeenCalledWith({ topic: ['elderly-care'], geolocationId: 'locationId' })
@@ -144,7 +144,7 @@ describe('useVolunteeringFilters', () => {
     expect(result.current.isFiltering).toBeFalsy()
 
     act(() => {
-      result.current.submit({ topics: ['topic1'] })
+      result.current.setFilters({ topics: ['topic1'] })
     })
 
     expect(result.current.isFiltering).toBeTruthy()
