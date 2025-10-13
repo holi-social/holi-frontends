@@ -15,6 +15,10 @@ jest.mock('@holi/core/screens/notifications/hooks/useNotificationService', () =>
   useNotificationService: () => mockUseNotificationService(),
 }))
 
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({ isLoggedIn: true }),
+}))
+
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 

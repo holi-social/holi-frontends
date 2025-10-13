@@ -74,9 +74,12 @@ describe('useVolunteeringFilters', () => {
 
     expect(result.current.filters).toEqual({})
     expect(mockUseUpdateParams).toHaveBeenCalledWith({
-      topic: undefined,
-      skill: undefined,
-      geolocationId: undefined,
+      topic: [],
+      skill: [],
+      commitment: [],
+      duration: [],
+      remote: '',
+      geolocationId: '',
     })
   })
   it('should fetch geolocation if location id is given', () => {
