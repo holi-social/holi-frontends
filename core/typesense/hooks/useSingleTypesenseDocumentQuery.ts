@@ -11,13 +11,17 @@ export const useSingleTypesenseDocumentQuery = (
   const {
     loading: isLoading,
     data,
+    error,
     refetch: refresh,
   } = useTypesense_DocumentByIdQuery({
     variables: {
       id,
       documentType,
     },
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       if (onError) {
         onError(error)
       } else {
@@ -25,8 +29,8 @@ export const useSingleTypesenseDocumentQuery = (
           location: 'useSingleTypesenseDocumentQuery.useQuery',
         })
       }
-    },
-  })
+    }
+  }, [error, onError])
 
   const document = useMemo(() => {
     if (

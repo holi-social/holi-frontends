@@ -21,33 +21,6 @@ fragment FullUserAvatar on User {
   role
 }
 
-fragment FullAuthenticatedUser on AuthenticatedUser {
-  id
-  identity
-  avatar
-  avatarBlurhash
-  avatarDefaultColor
-  avatarLabel
-  fullName
-  firstName
-  lastName
-  aboutMe
-  pronouns
-  location
-  role
-  geolocationId
-  engagementLevel
-  interestsV2
-  skillsV2
-  connectionStatusToMyself
-  trackingConsentAnalytics
-  trackingConsentPersonalization
-  trackingConsentAdPartners
-  isEmployee
-  email
-  isOidc
-}
-
 fragment PostFragment on Post {
   __typename
   id
