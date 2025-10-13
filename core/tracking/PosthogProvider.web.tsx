@@ -41,11 +41,6 @@ const withoutUtmParameters = (properties: PosthogProperties) => {
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
-  // Disable PostHog in development
-  if (isDevEnv) {
-    return <PostHogProvider client={undefined}>{children}</PostHogProvider>
-  }
-
   // Create new instances for SSR, re-use global one on the client side
   const client = isSSR ? new PostHog() : posthog
   client.init(posthogKey, {
