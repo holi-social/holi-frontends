@@ -97,6 +97,7 @@ export interface PosthogCrossPlatform {
   distinctId: () => string
   updatePersonProperties: (properties?: Properties) => void
   flush: () => Promise<void>
+  reloadFeatureFlags: () => Promise<void>
 }
 
 export type MetaPixelStandardEvent = 'PageView' | 'ViewContent' | 'Search' | 'CompleteRegistration' | 'SignUp'
