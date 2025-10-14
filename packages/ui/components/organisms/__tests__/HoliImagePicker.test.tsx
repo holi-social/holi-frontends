@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-native'
-import * as ExpoFileSystem from 'expo-file-system'
+import * as ExpoFileSystem from 'expo-file-system/legacy'
 import * as ExpoImageManipulator from 'expo-image-manipulator'
 import * as ExpoImagePicker from 'expo-image-picker'
 import { Image } from 'react-native'
