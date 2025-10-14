@@ -51,12 +51,16 @@ const config: ExpoConfig = {
   version: versions.version,
   orientation: 'portrait',
   icon: './assets/icon.png',
-  jsEngine: 'hermes',
-  newArchEnabled: false,
+  newArchEnabled: true,
   scheme: ['holi', `appcues-${requiredEnvVar('APPCUES_APP_ID')}`],
   updates: {
     url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
     fallbackToCacheTimeout: 3000,
+    assetPatternsToBeBundled: [
+      'assets/**/*',
+      '../../holi-bricks/components/text/fonts/**/*',
+      '../../packages/icons/assets/**/*',
+    ],
   },
   runtimeVersion: {
     // 'fingerprint' allows to always target compatible native runtimes, see https://expo.dev/blog/fingerprint-your-native-runtime
@@ -140,6 +144,7 @@ const config: ExpoConfig = {
     softwareKeyboardLayoutMode: 'pan',
   },
   plugins: [
+    'expo-web-browser',
     'expo-tracking-transparency',
     'expo-localization',
     'expo-secure-store',
@@ -210,13 +215,24 @@ const config: ExpoConfig = {
       },
     ],
     [
-      // Might be removed when upgrading to Expo 53
       'expo-build-properties',
       {
         android: {
           compileSdkVersion: 35,
           targetSdkVersion: 35,
           buildToolsVersion: '35.0.0',
+        },
+        ios: {
+          deploymentTarget: '16.0',
+        },
+      },
+    ],
+    [
+      'react-native-edge-to-edge',
+      {
+        android: {
+          parentTheme: 'Default',
+          enforceNavigationBarContrast: false,
         },
       },
     ],
@@ -268,6 +284,9 @@ const config: ExpoConfig = {
     appcues: {
       accountId: requiredEnvVar('APPCUES_ACCOUNT_ID'),
       appId: requiredEnvVar('APPCUES_APP_ID'),
+    },
+    doctor: {
+      duplicateDependenciesCheck: false,
     },
     eas: {
       projectId: process.env.EXPO_PROJECT_ID,
