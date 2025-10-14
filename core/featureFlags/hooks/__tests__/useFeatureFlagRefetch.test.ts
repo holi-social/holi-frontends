@@ -1,47 +1,68 @@
 import { renderHook } from '@testing-library/react-hooks'
+import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 
 import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch'
-import { useFeatureFlagRefetch as useFeatureFlagRefetchWeb } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch.web'
+import { useLoginState } from '@holi/core/auth/loginState'
 
-const mockReloadFeatureFlagsMobile = jest.fn()
-const mockIdentifyMobile = jest.fn()
-jest.mock('posthog-react-native', () => ({
-  usePostHog: () => ({
-    identify: () => mockIdentifyMobile(),
-    reloadFeatureFlagsAsync: () => mockReloadFeatureFlagsMobile(),
-  }),
+const mockUsePosthogCrossPlatform = jest.mocked(usePosthogCrossPlatform)
+jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
+  usePosthogCrossPlatform: jest.fn(),
 }))
 
-const mockReloadFeatureFlagsWeb = jest.fn()
-const mockIdentifyWeb = jest.fn()
-jest.mock('posthog-js/react', () => ({
-  usePostHog: () => ({
-    identify: () => mockIdentifyWeb(),
-    featureFlags: {
-      reloadFeatureFlags: () => mockReloadFeatureFlagsWeb(),
-    },
-  }),
+const mockUseLoginState = jest.mocked(useLoginState)
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: jest.fn(),
 }))
 
 describe('useFeatureFlagRefetch', () => {
-  describe('mobile', () => {
-    it('should reload feature flags', () => {
-      const { result } = renderHook(() => useFeatureFlagRefetch())
+  const mockIdentify = jest.fn()
+  const mockReloadFeatureFlags = jest.fn()
+  const mockDistinctId = jest.fn()
 
-      result.current()
-
-      expect(mockReloadFeatureFlagsMobile).toHaveBeenCalled()
-      expect(mockIdentifyMobile).toHaveBeenCalled()
+  beforeEach(() => {
+    mockUsePosthogCrossPlatform.mockReturnValue({
+      optedIn: jest.fn(),
+      optIn: jest.fn(),
+      optOut: jest.fn(),
+      reset: jest.fn(),
+      flush: jest.fn(),
+      capture: jest.fn(),
+      distinctId: mockDistinctId,
+      updatePersonProperties: jest.fn(),
+      identify: mockIdentify,
+      reloadFeatureFlags: mockReloadFeatureFlags,
     })
   })
 
-  describe('web', () => {
-    it('should reload feature flags', () => {
-      const { result } = renderHook(() => useFeatureFlagRefetchWeb())
-      result.current()
-
-      expect(mockReloadFeatureFlagsWeb).toHaveBeenCalled()
-      expect(mockIdentifyWeb).toHaveBeenCalled()
+  it('should identify and reload feature flags for logged in user', () => {
+    mockUseLoginState.mockReturnValue({
+      isLoggedIn: true,
+      isLoggedOut: false,
+      isUnknown: false,
+      userId: '123',
     })
+
+    const { result } = renderHook(() => useFeatureFlagRefetch())
+
+    result.current()
+
+    expect(mockIdentify).toHaveBeenCalledWith('123')
+    expect(mockReloadFeatureFlags).toHaveBeenCalled()
+  })
+
+  it('should reload feature flags for logged out user', () => {
+    mockDistinctId.mockReturnValue('posthogId')
+    mockUseLoginState.mockReturnValue({
+      isLoggedIn: false,
+      isLoggedOut: true,
+      isUnknown: false,
+    })
+
+    const { result } = renderHook(() => useFeatureFlagRefetch())
+
+    result.current()
+
+    expect(mockIdentify).toHaveBeenCalledWith('posthogId')
+    expect(mockReloadFeatureFlags).toHaveBeenCalled()
   })
 })

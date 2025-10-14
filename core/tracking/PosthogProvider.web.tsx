@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import posthog, { type BootstrapConfig, PostHog, type Properties as PosthogProperties } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import React, { type PropsWithChildren, useEffect } from 'react'
+import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
@@ -41,31 +41,30 @@ const withoutUtmParameters = (properties: PosthogProperties) => {
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
-  // Disable PostHog in development
-  if (isDevEnv) {
-    return <PostHogProvider client={undefined}>{children}</PostHogProvider>
-  }
+  const client = useMemo(() => {
+    // Create new instances for SSR, re-use global one on the client side
+    const client = isSSR ? new PostHog() : posthog
+    client.init(posthogKey, {
+      api_host: POSTHOG_API_HOST,
+      ui_host: posthogHost,
+      persistence: 'localStorage',
+      disable_compression: isDevEnv,
+      opt_out_capturing_by_default: true,
+      loaded: (posthog) => {
+        // Suppressing logging during SSR as some browser API (localStorage, navigator) is missing and leads to error logs
+        if (debugOutput && !isSSR) {
+          posthog.debug()
+        }
+      },
+      sanitize_properties: (properties) => withoutUtmParameters(withConsentProperties(properties)),
+      bootstrap: {
+        ...featureFlagBootstrapValues,
+        ...bootstrapState,
+      },
+    })
 
-  // Create new instances for SSR, re-use global one on the client side
-  const client = isSSR ? new PostHog() : posthog
-  client.init(posthogKey, {
-    api_host: POSTHOG_API_HOST,
-    ui_host: posthogHost,
-    persistence: 'localStorage',
-    disable_compression: isDevEnv,
-    opt_out_capturing_by_default: true,
-    loaded: (posthog) => {
-      // Suppressing logging during SSR as some browser API (localStorage, navigator) is missing and leads to error logs
-      if (debugOutput && !isSSR) {
-        posthog.debug()
-      }
-    },
-    sanitize_properties: (properties) => withoutUtmParameters(withConsentProperties(properties)),
-    bootstrap: {
-      ...featureFlagBootstrapValues,
-      ...bootstrapState,
-    },
-  })
+    return client
+  }, [bootstrapState])
 
   return (
     <PostHogProvider client={client}>
