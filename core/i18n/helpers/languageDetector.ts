@@ -5,10 +5,7 @@ const languageDetector: LanguageDetectorAsyncModule = {
   type: 'languageDetector',
   async: true,
   detect: (callback) => {
-    // We will get back a string like "en-US". We
-    // return a string like "en" to match our language
-    // files.
-    callback(Localization.locale.split('-')[0])
+    callback(Localization.getLocales()[0].languageCode || 'de')
   },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   init: () => {},

@@ -10,7 +10,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { isProduction } from '@holi/core/helpers/environment'
 
 import { getLogger } from '@holi/core/helpers/logging'
-// import { initI18n } from '@holi/core/i18n'
+import { initI18n } from '@holi/core/i18n'
 import RootProvider from '@holi/core/providers/RootProvider'
 import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { config } from '@holi/mobile/config'
@@ -57,9 +57,7 @@ const App = () => {
 
   const init = async () => {
     try {
-      // await Promise.all([initI18n(), initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
-      //TODO: fix i18n initI18n()
-      await Promise.all([initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
+      await Promise.all([initI18n(), initAuth(), initNotifications(), Appcues.setup(appcuesAccountId, appcuesAppId)])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
