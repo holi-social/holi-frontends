@@ -2095,6 +2095,8 @@
   "volunteering.filter.locationModal.saveButton": "Save location",
   "volunteering.filter.locationModal.title": "Location",
   "volunteering.filter.openModal": "Open modal to adjust {{filter}}",
+  "volunteering.filter.remote.label": "Remote only",
+  "volunteering.filter.remote.toggle": "Toggle {{filter}}",
   "volunteering.filter.remoteSwitch": "Remote only",
   "volunteering.filter.result_one": "{{count}} opportunity found",
   "volunteering.filter.result_other": "{{count}} opportunities found",
