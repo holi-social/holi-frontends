@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, Share } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
-
+import Linking from 'expo-linking'
 import { holiNextJSApiUrl } from '@holi/api/config'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -41,8 +41,7 @@ export const useShareLink = ({ link, message, linkType = LinkType.DEEP }: UseSha
     if (linkType === LinkType.UNIVERSAL && Platform.OS !== 'web') {
       url.current = `${holiNextJSApiUrl}${link}`
     } else if ([LinkType.DEEP, LinkType.UNIVERSAL].includes(linkType) && !process?.env?.JEST_WORKER_ID) {
-      // Dynamic imports in async contexts currently lead to segfaults in jest (https://github.com/nodejs/node/issues/35889 / https://github.com/nodejs/node/issues/43205)
-      import(/* webpackPrefetch: true */ 'expo-linking').then((Linking) => (url.current = Linking.createURL(link)))
+      url.current = Linking.createURL(link)
     } else {
       url.current = link
     }
