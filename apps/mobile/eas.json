@@ -2,6 +2,9 @@
   "build": {
     "base": {
       "node": "20.16.0",
+      "env": {
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+      },
       "ios": {
         "resourceClass": "m-medium"
       },
