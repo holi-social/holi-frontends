@@ -1,4 +1,4 @@
-import type React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -9,15 +9,12 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
-import { Spacing, mono } from 'holi-bricks/foundations'
+import { mono, Spacing } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
-import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useCallback, useEffect } from 'react'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -37,24 +34,30 @@ import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
+import { getRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useTranslation } from 'react-i18next'
+import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
+import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
 export type OnboardingParams = {
   flow?: string
 }
 
-const { useParam } = createParamHooks<OnboardingParams>()
+const { useParam, useUpdateParams } = createParamHooks<OnboardingParams>()
 
 const Onboarding = () => {
+  const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
   const { isLoggedIn } = useLoggedInUser()
   const [flowId] = useParam('flow')
-
+  const { openToast } = useToast()
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-
   const redirect = useRedirect('/act')
+  const updateParams = useUpdateParams()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -78,10 +81,28 @@ const Onboarding = () => {
     if (isLoggedIn && onboardingState === 'finished') {
       finishOnboarding()
     } else if (flowId) {
+      let hasErrors = false
+      getRegistrationFlow(flowId).then((flow) => {
+        const messages = flow?.data?.ui?.nodes
+          .filter((node) => node?.messages && node?.messages.length > 0)
+          .flatMap((node) => node.messages)
+        messages.forEach((message) => {
+          if (message.type === 'error') {
+            hasErrors = true
+            const messageKey = `auth.registration.error.message.${message.id}`
+            const msg = i18n.exists(messageKey) ? t(messageKey) : message.text
+            openToast(msg, HoliToastType.ERROR)
+          }
+        })
+        if (hasErrors) {
+          setCurrentStep('CREATE_ACCOUNT')
+          updateParams({ flow: '' })
+        }
+      })
       // Account creation flow already started => onboarding is finished
       storeOnboardingState('finished')
     }
-  }, [finishOnboarding, flowId, isLoggedIn, onboardingState])
+  }, [finishOnboarding, flowId, isLoggedIn, onboardingState, openToast, t, i18n, setCurrentStep, updateParams])
 
   // No longer needed since we removed location/interests/skills steps
   const clearSelection = () => {
