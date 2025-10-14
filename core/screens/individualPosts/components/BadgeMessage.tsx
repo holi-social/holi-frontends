@@ -14,13 +14,13 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { ScratchMask } from '@holi/core/screens/individualPosts/components/ScratchMask'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   SCRATCHCARD_HEIGHT,
   SCRATCHCARD_WIDTH,
   useScratchEffect,
 } from '@holi/core/screens/individualPosts/components/helpers/useScratchEffect'
-import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import HoliLottie, { type HoliLottieHandle } from '@holi/ui/components/atoms/HoliLottie'
 import { BADGE_HEIGHT, BADGE_WIDTH } from '@holi/core/screens/userprofile/BadgeDetails'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 
@@ -39,10 +39,12 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
   const { styles } = useStyles(stylesheet)
   const [revealed, setRevealed] = useState(false)
   const scratchProps = useScratchEffect()
+  const animationRef = useRef<HoliLottieHandle>(null)
 
   useEffect(() => {
     if (scratchProps.progress >= REVEAL_THRESHOLD) {
       setRevealed(true)
+      animationRef.current?.play()
     }
   }, [scratchProps.progress, setRevealed])
 
@@ -55,6 +57,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
           onPress={() => {
             track(TrackingEvent.Rewards.badgeRevealedButton(badge.localazyKey))
             setRevealed(true)
+            animationRef.current?.play()
           }}
         />
       </Stack>
@@ -102,7 +105,12 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
             </View>
             <View style={styles.badgeImage}>
               <Stack width={BADGE_WIDTH} height={BADGE_HEIGHT}>
-                <HoliLottie animType={badge.animationName} style={{ aspectRatio: BADGE_HEIGHT / BADGE_WIDTH }} />
+                <HoliLottie
+                  animType={badge.animationName}
+                  style={{ aspectRatio: BADGE_HEIGHT / BADGE_WIDTH }}
+                  autoplay={false}
+                  ref={animationRef}
+                />
               </Stack>
             </View>
           </View>
