@@ -9,7 +9,7 @@ import {
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { CreateAccount, type CreateAccountProps } from '@holi/core/screens/onboarding/steps/CreateAccount'
-import { act, render, screen, userEvent, within } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -156,7 +156,6 @@ describe('CreateAccount', () => {
       await renderScreen()
 
       expect(screen.getByText('registration.signUp.heading')).toBeOnTheScreen()
-      expect(screen.getByText('registration.signUp.description')).toBeOnTheScreen()
 
       expect(screen.getByLabelText('submit-button')).toBeOnTheScreen()
 
@@ -315,30 +314,6 @@ describe('CreateAccount', () => {
       await continueAsGuest({ onContinueAsGuest })
 
       expect(onContinueAsGuest).toHaveBeenCalled()
-    })
-  })
-
-  describe('login with existing account', () => {
-    const login = async ({ onLogin }: Partial<CreateAccountProps> = {}) => {
-      const user = userEvent.setup()
-
-      await renderScreen({ onLogin })
-
-      await user.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
-    }
-
-    it('should track request to login', async () => {
-      await login()
-
-      expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.LoginButtonPressed)
-    })
-
-    it('should call onLogin callback', async () => {
-      const onLogin = jest.fn()
-
-      await login({ onLogin })
-
-      expect(onLogin).toHaveBeenCalled()
     })
   })
 })

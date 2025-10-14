@@ -24,10 +24,8 @@ import { ButtonTracked, HoliTextLinkTracked } from '@holi/core/components/Tracka
 import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
@@ -50,7 +48,7 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
   const client = useApolloClient()
   const { track } = useTracking()
   const redirect = useRedirect('/')
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
   const [email, setEmail] = useState<string | undefined>(undefined)
   const [step, setStep] = useState<'oidc' | 'email-password' | 'email-code' | 'code'>('oidc')
   const { styles } = useStyles(stylesheet)
@@ -291,27 +289,6 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
               {t('auth.login.link.forgotPassword')}
             </HoliTextLinkTracked>
           </View>
-        )}
-
-        {/* Sign in only fields */}
-        {!isLoaderShown && step === 'oidc' && (
-          <>
-            <HoliGap size="m" />
-            <Text headingLevel="2" size="xxl" textAlign="center">
-              {t('auth.login.signUp.link.headline')}
-            </Text>
-
-            <View style={[styles.formItemContainer, styles.buttonContainer]}>
-              <RegistrationButton size="lg" trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
-              <ButtonTracked
-                variant="secondary"
-                label={t('auth.loginProtection.continueAsGuest')}
-                onPress={() => navigateBack()}
-                size="lg"
-                trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-              />
-            </View>
-          </>
         )}
       </HoliContainer>
       {isLoaderShown && <HoliLoader testID="loader" />}

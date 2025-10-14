@@ -16,6 +16,10 @@ import { Text } from 'holi-bricks/components/text'
 import { useTranslation } from 'react-i18next'
 import { Image } from 'holi-bricks/components/image'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export type LoginParams = {
   flow?: string
@@ -29,6 +33,7 @@ const Login = () => {
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => createStyles(theme), [theme])
   const { t } = useTranslation()
+  const { navigateBack } = useRouting()
 
   return (
     <View style={styles.wrapper}>
@@ -67,6 +72,22 @@ const Login = () => {
           {t('registration.login.description')}
         </Text>
         <LoginForm flowId={flowId} />
+        <HoliGap size="m" />
+        <Text headingLevel="2" size="xxl" textAlign="center">
+          {t('auth.login.signUp.link.headline')}
+        </Text>
+        <HoliGap size="sm" />
+
+        <HoliContainer gap={Spacing['3xs']}>
+          <RegistrationButton size="lg" trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+          <ButtonTracked
+            variant="secondary"
+            label={t('auth.loginProtection.continueAsGuest')}
+            onPress={() => navigateBack()}
+            size="lg"
+            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+          />
+        </HoliContainer>
       </Screen>
       <View style={styles.footer}>
         <HoliDivider />
