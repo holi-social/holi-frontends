@@ -34,22 +34,18 @@ import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import { testIdContinueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
-import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 
 const logger = getLogger('CreateAccount')
 
 const isWeb = Platform.OS === 'web'
 
 interface RegistrationProps {
-  onRegister: () => void
-  onContinueAsGuest: () => void
+  onRegister?: () => void
   flowId?: string
-  testID?: string
 }
 
-export const RegistrationForm = ({ onRegister, onContinueAsGuest, flowId, testID }: RegistrationProps) => {
+export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
   const { navigate } = useRouting()
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
@@ -139,7 +135,7 @@ export const RegistrationForm = ({ onRegister, onContinueAsGuest, flowId, testID
           session_token: data.session_token,
         } as OrySessionContext)
 
-        onRegister()
+        onRegister?.()
       } catch (err) {
         if (
           (
@@ -178,7 +174,7 @@ export const RegistrationForm = ({ onRegister, onContinueAsGuest, flowId, testID
             })
             if (data) {
               await doLogin(client, data)
-              onRegister()
+              onRegister?.()
             }
           }
         } else {
@@ -289,31 +285,6 @@ export const RegistrationForm = ({ onRegister, onContinueAsGuest, flowId, testID
               })}
             />
           </View>
-
-          <View style={styles.dividerContainer}>
-            <View style={styles.divider}>
-              <HoliDivider />
-            </View>
-            <View style={styles.dividerContainer}>
-              <Text textAlign="center" color="greyDark" testID={testIdContinueAsGuest}>
-                {t('auth.divider.guest')}
-              </Text>
-            </View>
-            <View style={styles.divider}>
-              <HoliDivider />
-            </View>
-          </View>
-          <ButtonTracked
-            label={t('auth.loginProtection.continueAsGuest')}
-            onPress={() => {
-              storeGuestMode(true)
-              onContinueAsGuest()
-            }}
-            size="lg"
-            variant="secondary"
-            testID={`${testID}-btn-continue-as-guest`}
-            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-          />
         </>
       )}
 

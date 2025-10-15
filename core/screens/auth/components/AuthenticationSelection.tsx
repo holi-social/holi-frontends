@@ -8,34 +8,30 @@ import type React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type TAB = 'login' | 'registration'
+export type AuthenticationType = 'login' | 'registration'
 
 type TabItem = HoliTabItem & {
-  key: TAB
+  key: AuthenticationType
   content: () => React.JSX.Element
 }
 
-interface AuthenticationProps {
-  initialTab?: TAB
+interface AuthenticationSelectionProps {
+  initialSelection?: AuthenticationType
   flowId?: string
-  onLogin: () => void
-  onRegister: () => void
-  onContinueAsGuest: () => void
-  testID?: string
+  onLogin?: () => void
+  onRegister?: () => void
 }
 
-export const Authentication = ({
-  initialTab = 'login',
+export const AuthenticationSelection = ({
+  initialSelection = 'login',
   flowId,
   onLogin,
   onRegister,
-  onContinueAsGuest,
-  testID,
-}: AuthenticationProps) => {
+}: AuthenticationSelectionProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
 
-  const [activeTab, setActiveTab] = useState<TAB>(initialTab)
+  const [activeTab, setActiveTab] = useState<AuthenticationType>(initialSelection)
   const tabs: TabItem[] = [
     {
       key: 'login',
@@ -47,21 +43,14 @@ export const Authentication = ({
       key: 'registration',
       tabTitle: t('auth.tabs.register'),
       tabIcons: [UserAdd, UserAddFilled],
-      content: () => (
-        <RegistrationForm
-          flowId={flowId}
-          onRegister={onRegister}
-          onContinueAsGuest={onContinueAsGuest}
-          testID={testID}
-        />
-      ),
+      content: () => <RegistrationForm flowId={flowId} onRegister={onRegister} />,
     },
   ]
 
   return (
     <HoliTabs
       activeTab={activeTab}
-      onChange={(key) => setActiveTab(key as TAB)}
+      onChange={(key) => setActiveTab(key as AuthenticationType)}
       data={tabs}
       keyExtractor={(item) => item.key}
       renderTabContent={({ item }) => item.content()}

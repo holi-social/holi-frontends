@@ -8,7 +8,7 @@ import {
 } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { CreateAccount, type CreateAccountProps } from '@holi/core/screens/onboarding/steps/CreateAccount'
+import { Authentication, type AuthenticationProps } from '@holi/core/screens/auth/Authentication'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
@@ -82,7 +82,7 @@ const RegistrationForm = ({ onSubmit }: { onSubmit: (payload: object, provider?:
 
 jest.mock('@holi/core/auth/components/FormBuilder', () => RegistrationForm)
 
-describe('CreateAccount', () => {
+describe('Authentication', () => {
   const registrationFlow = { id: 'test' }
   const displayError = jest.fn()
   const track = jest.fn()
@@ -110,13 +110,14 @@ describe('CreateAccount', () => {
     jest.useRealTimers()
   })
 
-  const renderScreen = async ({ onRegister, onContinueAsGuest, onLogin }: Partial<CreateAccountProps> = {}) => {
+  const renderScreen = async ({ onRegister, onContinueAsGuest, onLogin }: Partial<AuthenticationProps> = {}) => {
     render(
       <MockedProvider>
-        <CreateAccount
+        <Authentication
           onRegister={onRegister ?? jest.fn()}
           onContinueAsGuest={onContinueAsGuest ?? jest.fn()}
           onLogin={onLogin ?? jest.fn()}
+          initialSelection="registration"
         />
       </MockedProvider>
     )
@@ -126,7 +127,7 @@ describe('CreateAccount', () => {
     })
   }
 
-  const submitForm = async ({ onRegister }: Partial<CreateAccountProps> = {}) => {
+  const submitForm = async ({ onRegister }: Partial<AuthenticationProps> = {}) => {
     const user = userEvent.setup()
 
     await renderScreen({ onRegister })
@@ -288,7 +289,7 @@ describe('CreateAccount', () => {
   })
 
   describe('continuing as guest', () => {
-    const continueAsGuest = async ({ onContinueAsGuest }: Partial<CreateAccountProps> = {}) => {
+    const continueAsGuest = async ({ onContinueAsGuest }: Partial<AuthenticationProps> = {}) => {
       const user = userEvent.setup()
 
       await renderScreen({ onContinueAsGuest })

@@ -17,8 +17,6 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
@@ -27,12 +25,11 @@ import {
   onboardingSteps,
   useOnboardingCurrentStepKey,
 } from './hooks/useOnboardingCurrentStepKey'
-import { CreateAccount } from './steps/CreateAccount'
+import { Authentication } from '@holi/core/screens/auth/Authentication'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
 import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
-import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
 import { getRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -122,8 +119,8 @@ const Onboarding = () => {
 
       case 'CREATE_ACCOUNT':
         return (
-          <CreateAccount
-            flowId={flowId}
+          <Authentication
+            initialSelection="registration"
             onLogin={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
             }}
@@ -136,7 +133,6 @@ const Onboarding = () => {
               metaSdk.trackSignUp()
               setCurrentStep('EMAIL_VERIFICATION')
             }}
-            testID="onboarding-account-creation"
           />
         )
       case 'EMAIL_VERIFICATION':
@@ -203,14 +199,6 @@ const Onboarding = () => {
         paddingBottom={safeAreaBottom ?? Spacing.xxs}
         testID="onboarding-stepper"
       />
-      {currentStep === 'CREATE_ACCOUNT' && (
-        <View style={styles.footer}>
-          <HoliDivider />
-          <HoliContainer>
-            <DocumentsFooter />
-          </HoliContainer>
-        </View>
-      )}
     </HoliKeyboardSafeAreaView>
   )
 }
@@ -228,10 +216,6 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.md,
     paddingBottom: Spacing['4xs'],
     flex: 1,
-  },
-  footer: {
-    paddingBottom: Spacing.sm,
-    gap: Spacing.xs,
   },
 })
 
