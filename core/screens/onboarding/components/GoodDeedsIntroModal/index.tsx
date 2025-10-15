@@ -11,6 +11,7 @@ import { GoodDeedsProgressExplanation } from './components/GoodDeedsProgressExpl
 import { useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
 import { useIsDesktopView } from './helpers/isDesktopView'
 import { GoodDeedsCampaignExplanation } from './components/GoodDeedsCampaignExplanation'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GoodDeedsOnboardingStepKeys = [
@@ -40,6 +41,9 @@ export const goodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
 ]
 
 export const GoodDeedsIntroModal = () => {
+  const pathname = usePathname()
+  const isOnboardingScreen = pathname.includes('onboarding')
+  const isLoginScreen = pathname.includes('login')
   const isDesktopView = useIsDesktopView()
   const { styles } = useStyles(stylesheet)
 
@@ -89,7 +93,7 @@ export const GoodDeedsIntroModal = () => {
       desktop={isDesktopView}
       relativeHeight={1}
       autoHeight={false}
-      shown={visible}
+      shown={visible && !(isOnboardingScreen || isLoginScreen)} // do not show on Onboarding or Login screens
       onDismiss={handleClose}
       style={isDesktopView ? styles.modalDesktop : styles.modalMobile}
       testID="onboarding-good-deeds-modal"
