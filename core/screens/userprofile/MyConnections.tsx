@@ -18,7 +18,6 @@ const MyConnections = () => {
 
   return (
     <Screen
-      preset="fixed"
       headerOptions={{
         title: t('connections.title'),
         headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
