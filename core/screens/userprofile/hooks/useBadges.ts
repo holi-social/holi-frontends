@@ -104,9 +104,12 @@ export const useBadges = () => {
   return {
     badges: allBadges,
     refetchBadges: useCallback(async () => {
+      if (!isLoggedIn) {
+        return []
+      }
       const result = await refetch()
       return mapBadges(result.data)
-    }, [refetch]),
+    }, [refetch, isLoggedIn]),
     loading,
   }
 }

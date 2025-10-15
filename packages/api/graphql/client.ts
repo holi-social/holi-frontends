@@ -92,7 +92,6 @@ const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
 
 export const createCache = () =>
   new InMemoryCache({
-    canonizeResults: false,
     typePolicies: {
       User: {
         fields: {
@@ -238,7 +237,9 @@ const createApolloClient = ({
     cache: createCache(),
     assumeImmutableResults: true,
     // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
-    connectToDevTools: isSSR ? false : undefined,
+    devtools: {
+      enabled: isSSR ? false : undefined,
+    },
     headers,
   })
 }
