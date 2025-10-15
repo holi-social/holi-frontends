@@ -3,7 +3,7 @@ import { ImageBackground, Platform, StatusBar, StyleSheet, View } from 'react-na
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 
-import { useHeaderAnimationProgress } from '@holi/core/helpers'
+import { useHeaderAnimationProgress } from '@holi/core/helpers/useHeaderAnimationProgress'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import type { HeaderBackgroundOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
