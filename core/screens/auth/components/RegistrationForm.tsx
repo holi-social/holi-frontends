@@ -40,7 +40,7 @@ const logger = getLogger('CreateAccount')
 
 const isWeb = Platform.OS === 'web'
 
-interface RegistrationProps {
+export interface RegistrationProps {
   onRegister?: () => void
   flowId?: string
 }

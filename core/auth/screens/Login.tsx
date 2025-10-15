@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 
 import { Authentication, type AuthenticationParams } from '@holi/core/screens/auth/Authentication'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -6,7 +6,7 @@ import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboar
 
 export type LoginParams = AuthenticationParams
 
-const Login = () => {
+export const Login = () => {
   const { navigateBack } = useRouting()
 
   return (
@@ -19,5 +19,3 @@ const Login = () => {
     />
   )
 }
-
-export default memo(Login)

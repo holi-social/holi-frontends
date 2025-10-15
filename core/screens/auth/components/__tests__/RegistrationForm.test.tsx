@@ -8,7 +8,6 @@ import {
 } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { Authentication, type AuthenticationProps } from '@holi/core/screens/auth/Authentication'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
@@ -16,11 +15,11 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ApolloClient } from '@apollo/client'
 import type { UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
+import { RegistrationForm, type RegistrationProps } from '@holi/core/screens/auth/components/RegistrationForm'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -63,15 +62,9 @@ jest.mock('@holi/core/auth/helpers/sdk', () => ({
   newKratosSdk: jest.fn(),
 }))
 
-const mockStoreGuestMode = storeGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
-  clearGuestMode: jest.fn(),
-  storeGuestMode: jest.fn(),
-}))
-
 const formValues = { method: 'password', password: 'p455w0rd' }
 
-const RegistrationForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
+const OryRegistrationForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
   return (
     <>
       <Button onPress={() => onSubmit(formValues, 'Google')} label={'social-submit-button'} />
@@ -80,9 +73,9 @@ const RegistrationForm = ({ onSubmit }: { onSubmit: (payload: object, provider?:
   )
 }
 
-jest.mock('@holi/core/auth/components/FormBuilder', () => RegistrationForm)
+jest.mock('@holi/core/auth/components/FormBuilder', () => OryRegistrationForm)
 
-describe('Authentication', () => {
+describe('RegistrationForm', () => {
   const registrationFlow = { id: 'test' }
   const displayError = jest.fn()
   const track = jest.fn()
@@ -110,15 +103,10 @@ describe('Authentication', () => {
     jest.useRealTimers()
   })
 
-  const renderScreen = async ({ onRegister, onContinueAsGuest, onLogin }: Partial<AuthenticationProps> = {}) => {
+  const renderScreen = async ({ onRegister }: Partial<RegistrationProps> = {}) => {
     render(
       <MockedProvider>
-        <Authentication
-          onRegister={onRegister ?? jest.fn()}
-          onContinueAsGuest={onContinueAsGuest ?? jest.fn()}
-          onLogin={onLogin ?? jest.fn()}
-          initialSelection="registration"
-        />
+        <RegistrationForm onRegister={onRegister ?? jest.fn()} />
       </MockedProvider>
     )
 
@@ -127,7 +115,7 @@ describe('Authentication', () => {
     })
   }
 
-  const submitForm = async ({ onRegister }: Partial<AuthenticationProps> = {}) => {
+  const submitForm = async ({ onRegister }: Partial<RegistrationProps> = {}) => {
     const user = userEvent.setup()
 
     await renderScreen({ onRegister })
@@ -153,14 +141,11 @@ describe('Authentication', () => {
       })
     })
 
-    it('should render text and form after initializing flow', async () => {
+    it('should render form after initializing flow', async () => {
       await renderScreen()
 
-      expect(screen.getByText('registration.signUp.heading')).toBeOnTheScreen()
-
+      expect(screen.getByLabelText('social-submit-button')).toBeOnTheScreen()
       expect(screen.getByLabelText('submit-button')).toBeOnTheScreen()
-
-      expect(screen.getByLabelText('auth.loginProtection.continueAsGuest')).toBeOnTheScreen()
     })
   })
 
@@ -285,36 +270,6 @@ describe('Authentication', () => {
       await submitForm({ onRegister })
 
       expect(onRegister).toHaveBeenCalled()
-    })
-  })
-
-  describe('continuing as guest', () => {
-    const continueAsGuest = async ({ onContinueAsGuest }: Partial<AuthenticationProps> = {}) => {
-      const user = userEvent.setup()
-
-      await renderScreen({ onContinueAsGuest })
-
-      await user.press(screen.getByLabelText('auth.loginProtection.continueAsGuest'))
-    }
-
-    it('should track request to continue as guest', async () => {
-      await continueAsGuest()
-
-      expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.ContinueAsGuestButtonPressed)
-    })
-
-    it('should store guest mode', async () => {
-      await continueAsGuest()
-
-      expect(mockStoreGuestMode).toHaveBeenCalledWith(true)
-    })
-
-    it('should call onContinueAsGuest callback', async () => {
-      const onContinueAsGuest = jest.fn()
-
-      await continueAsGuest({ onContinueAsGuest })
-
-      expect(onContinueAsGuest).toHaveBeenCalled()
     })
   })
 })

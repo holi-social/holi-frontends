@@ -82,7 +82,6 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
             initialSelection={initialSelection}
             onRegister={onRegister}
             onLogin={onLogin}
-            onContinueAsGuest={onContinueAsGuest}
           />
         </View>
       </Screen>
