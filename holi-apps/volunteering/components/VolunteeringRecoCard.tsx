@@ -1,14 +1,15 @@
-import React from 'react'
-import type { DimensionValue } from 'react-native'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
+import { getInitials } from '@holi/core/helpers'
+import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
+import { TrackingEvent } from '@holi/core/tracking'
+import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { Global, MapPin2Filled, Refresh, Time } from '@holi/icons/src/generated'
-import { CompactCard } from 'holi-bricks/components/compactCard'
-import { useTranslation } from 'react-i18next'
 import type { ChipLabelProps } from 'holi-bricks/components/chips/ChipLabel'
-import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { linkFromLocator } from '@holi/core/typesense/helpers/linkFromLocator'
-import { TrackingEvent } from '@holi/core/tracking'
-import { getInitials } from '@holi/core/helpers'
+import { CompactCard } from 'holi-bricks/components/compactCard'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import type { DimensionValue } from 'react-native'
 
 interface VolunteeringRecoCardProps {
   engagement: LocalizedTypesenseDocument
@@ -19,7 +20,7 @@ interface VolunteeringRecoCardProps {
 
 export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEvent }: VolunteeringRecoCardProps) => {
   const { t } = useTranslation()
-  const isRemote = engagement.location_type === 'remote'
+  const { isRemote, isHybrid } = getLocationTypeInfo(engagement.location_type, engagement.location)
   const link = linkFromLocator(engagement.type, engagement.link_locators)
   const linkLabel = engagement?.organizer_name
     ? t('volunteering.engagement.title', {
@@ -88,8 +89,10 @@ export const VolunteeringRecoCard = ({ engagement, index, fixedWidth, trackingEv
               }
             : undefined
         }
-        topLabelIcon={isRemote ? Global : engagement.location ? MapPin2Filled : undefined}
-        topLabel={isRemote ? t('volunteering.engagement.location_type.remote') : engagement.location}
+        topLabelIcon={isRemote || isHybrid ? Global : engagement.location ? MapPin2Filled : undefined}
+        topLabel={
+          isHybrid ? t('task.locationType.HYBRID') : isRemote ? t('task.locationType.REMOTE') : engagement.location
+        }
         fixedWidth={fixedWidth}
         fullHeight={!!fixedWidth}
         imageLabel={t('volunteering.engagement.thumbnail.label')}

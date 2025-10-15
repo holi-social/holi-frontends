@@ -1,8 +1,8 @@
-import { PostHog } from 'posthog-js'
+import type { PostHog } from 'posthog-js'
 import { usePostHog } from 'posthog-js/react'
 import { useMemo } from 'react'
 
-import { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
+import type { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
 
 export class PosthogWeb implements PosthogCrossPlatform {
   constructor(private posthog: PostHog) {
@@ -51,6 +51,10 @@ export class PosthogWeb implements PosthogCrossPlatform {
 
   reset(): void {
     this.posthog.reset()
+  }
+
+  async reloadFeatureFlags(): Promise<void> {
+    this.posthog.featureFlags.reloadFeatureFlags()
   }
 }
 

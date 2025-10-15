@@ -310,14 +310,13 @@ export const submitReauthFlow = async (flow: LoginFlow, password: string, email:
     .catch(handleKratosSdkError('submitReauthFlow'))
 }
 
+export const getRegistrationFlow = (flowId: string) =>
+  newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
+
 // Register
 export const initRegistrationFlow = async (flowId?: string) => {
   if (flowId) {
-    return newKratosSdk()
-      .getRegistrationFlow({
-        id: flowId,
-      })
-      .catch(handleKratosSdkError('getRegistrationFlow'))
+    return getRegistrationFlow(flowId)
   }
   return newKratosSdk()
     .createNativeRegistrationFlow({

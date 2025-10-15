@@ -74,20 +74,25 @@ const UserProfile = () => {
   const {
     loading,
     data,
+    error,
     refetch: refetchUser,
   } = useQuery<UserByIdResponse>(userByIdQuery, {
     variables: { userId },
     fetchPolicy: isSSR ? 'network-only' : 'cache-and-network',
     skip: !userId,
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       if (isNotFoundError(error)) {
-        return replaceRoute('/404')
+        replaceRoute('/404')
+        return
       }
       displayError(error, 'Failed to load user', {
         location: 'UserProfile.fetchUser',
       })
-    },
-  })
+    }
+  }, [error, displayError, replaceRoute])
   useOnRefresh(refetchUser)
 
   const user = data?.userById
@@ -95,16 +100,22 @@ const UserProfile = () => {
 
   const [isBlockingUser, blockUser] = useBlockUser()
 
-  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
-    variables: { userId: user?.id ?? userId },
-    skip: !userId,
-    errorPolicy: 'ignore',
-    onError: (error) => {
-      logError(error, 'Failed to load insights for user', {
+  const { data: dataInsights, error: insightsError } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId: user?.id ?? userId },
+      skip: !userId,
+      errorPolicy: 'ignore',
+    }
+  )
+
+  useEffect(() => {
+    if (insightsError) {
+      logError(insightsError, 'Failed to load insights for user', {
         location: 'UserProfile.insightsByUserIdTotalResultsQuery',
       })
-    },
-  })
+    }
+  }, [insightsError])
 
   const totalInsights = dataInsights?.insightsByUserId?.totalResults ?? 0
   const hasInsights = totalInsights > 0

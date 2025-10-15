@@ -1,4 +1,5 @@
-import React, { memo, useEffect } from 'react'
+import type React from 'react'
+import { memo, useEffect } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
@@ -16,10 +17,14 @@ import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/
 import { Close } from '@holi/icons/src/generated'
 import { useWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { useGetRewardsCounterQuery, useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import GoodDeedsCounterAnimation from '@holi/core/components/GoodDeedsCounterAnimation'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -31,6 +36,7 @@ const CompletedTask = () => {
   const styles = getStyles(theme)
   const { navigate } = useRouting()
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
+  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
 
   const {
     refetch,
@@ -41,8 +47,6 @@ const CompletedTask = () => {
     interactionType,
     id,
   } = useTaskDetailsData()
-  const { data: rewardsCounterData } = useGlobalRewardsCounterQuery()
-  const count = rewardsCounterData?.rewards_globalCounter?.counter ?? 0
 
   const taskProps = {
     taskId: id ?? '',
@@ -52,10 +56,24 @@ const CompletedTask = () => {
     interactionType,
   }
 
+  const { data: rewardsData } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
+  const { data: globalRewardsData } = useGlobalRewardsCounterQuery()
+  const counter = rewardsData?.rewards_counter.counter ?? 0
+  const globalCounter = globalRewardsData?.rewards_globalCounter?.counter ?? 0
+  const labelText = t('goodDeeds.name', { count: counter })
+  const checkNewBadges = useEarnedBadgesModal()
+
   useEffect(() => {
     setPathToRedirect(null)
     removeRedirectAfterSocialLogin()
   }, [])
+
+  const handleClaimReward = async () => {
+    if (badgesEnabled) {
+      await checkNewBadges()
+    }
+    navigate('/')
+  }
 
   return (
     <Screen
@@ -101,7 +119,7 @@ const CompletedTask = () => {
           <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounterModal]}>
             <ButtonTracked
               label={t('goodDeed.rewardsMessage.button')}
-              onPress={() => navigate('/act')}
+              onPress={handleClaimReward}
               trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
                 step: 'completed',
                 authState: 'registered',
@@ -124,23 +142,17 @@ const CompletedTask = () => {
                   imageSrc={data.coverImage?.uri}
                   title={data.title}
                   completedCount={totalCompletions}
-                  totalCount={count}
+                  totalCount={globalCounter}
                 />
               </View>
               <View style={styles.counterContainer}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/illustrations/heartHandshake.svg')}
-                  isSvg
-                  width={126}
-                  height={126}
-                  label={t('navigation.title')}
+                <GoodDeedsCounterAnimation
+                  deedCount={counter}
+                  labelText={labelText}
+                  testID="completed-task-good-deeds-counter-animation"
+                  counterTestID="completed-task-good-deeds-counter-final"
+                  labelTestID="completed-task-good-deeds-counter-label"
                 />
-                <Text size="5xl" headingLevel="1" textAlign="center">
-                  {t('goodDeedsCounter.static.+1')}
-                </Text>
-                <Text size="xxl" textAlign="center">
-                  {t('goodDeedsCounter.label.single')}
-                </Text>
               </View>
             </View>
           </View>

@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { useEffect } from 'react'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import { type AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
@@ -62,12 +63,15 @@ export const useLoggedInUser = (): LoggedInState => {
     variables: 'userId' in loginState ? { userId: loginState.userId } : undefined,
     // The user is pre-loaded during SSR and the result is already present in the cache (if it's missing, the user is not logged in)
     fetchPolicy: isSSR ? 'cache-only' : 'cache-first',
-    onError: (error) => {
+  })
+
+  useEffect(() => {
+    if (error) {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',
       })
-    },
-  })
+    }
+  }, [error, displayError])
 
   if (loginState.isLoggedOut || error || (!user && isSSR)) {
     return loggedOut

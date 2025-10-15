@@ -9,20 +9,20 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import React, { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, useWindowDimensions, View } from 'react-native'
+import { Platform, View, useWindowDimensions } from 'react-native'
 
+import { ChipStatus } from '@holi-apps/volunteering/components/ChipStatus'
+import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import { Image, type MultiPlatformImageSource } from 'holi-bricks/components/image'
-import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
-import { Spacing } from 'holi-bricks/foundations'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
+import { Spacing } from 'holi-bricks/foundations'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
-import { ChipStatus } from '@holi-apps/volunteering/components/ChipStatus'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -73,6 +73,8 @@ export type DetailsScreenData = {
   progressCard?: ReactNode
   isFavorite?: boolean
   status?: VolunteeringOpportunityStatusValue | null
+  location?: string
+  locationType?: string
 }
 
 type DetailsScreenProps = DetailsScreenData
