@@ -54,6 +54,11 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -69,16 +74,19 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "userSelect": "none",
         }
       }
+      nativeID="3"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -141,6 +149,11 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -156,16 +169,19 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
           "userSelect": "none",
         }
       }
+      nativeID="2"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -228,6 +244,11 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -243,16 +264,19 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "userSelect": "none",
         }
       }
+      nativeID="1"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -315,6 +339,11 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -330,16 +359,19 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
           "userSelect": "none",
         }
       }
+      nativeID="0"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 21,
+            "fontWeight": "500",
+            "lineHeight": 29.4,
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test

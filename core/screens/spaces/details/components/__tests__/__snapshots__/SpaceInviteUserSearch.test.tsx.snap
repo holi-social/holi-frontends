@@ -18,6 +18,11 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
       "reduceMotionV": "system",
     }
   }
+  jestAnimatedProps={
+    {
+      "value": {},
+    }
+  }
   jestAnimatedStyle={
     {
       "value": {},
@@ -47,20 +52,28 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
       },
     ]
   }
+  nativeID="0"
   style={
-    {
-      "alignItems": "center",
-      "backgroundColor": "transparent",
-      "bottom": 0,
-      "justifyContent": "center",
-      "left": 0,
-      "marginVertical": 24,
-      "paddingHorizontal": 16,
-      "position": "relative",
-      "right": 0,
-      "top": 0,
-      "zIndex": 9999,
-    }
+    [
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "bottom": 0,
+        "justifyContent": "center",
+        "left": 0,
+        "paddingHorizontal": 16,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      {
+        "marginVertical": 24,
+        "position": "relative",
+      },
+      {
+        "zIndex": 9999,
+      },
+    ]
   }
 >
   <View
@@ -76,6 +89,7 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
       cacheComposition={true}
       colorFilters={[]}
       enableMergePathsAndroidForKitKatAndAbove={false}
+      enableSafeModeAndroid={false}
       loop={true}
       onAnimationFailure={[Function]}
       onAnimationFinish={[Function]}

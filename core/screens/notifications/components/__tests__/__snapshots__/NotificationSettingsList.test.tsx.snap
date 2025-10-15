@@ -2871,6 +2871,11 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
         "reduceMotionV": "system",
       }
     }
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -2897,19 +2902,25 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
         },
       ]
     }
+    nativeID="0"
     style={
-      {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "bottom": 0,
-        "justifyContent": "center",
-        "left": 0,
-        "paddingHorizontal": 16,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-        "zIndex": 9999,
-      }
+      [
+        {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "bottom": 0,
+          "justifyContent": "center",
+          "left": 0,
+          "paddingHorizontal": 16,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        undefined,
+        {
+          "zIndex": 9999,
+        },
+      ]
     }
   >
     <View
@@ -2925,6 +2936,7 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
         cacheComposition={true}
         colorFilters={[]}
         enableMergePathsAndroidForKitKatAndAbove={false}
+        enableSafeModeAndroid={false}
         loop={true}
         onAnimationFailure={[Function]}
         onAnimationFinish={[Function]}
@@ -2972,6 +2984,11 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
   <Text
     accessible={false}
     collapsable={false}
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -2989,18 +3006,21 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
         "userSelect": "auto",
       }
     }
+    nativeID="18"
     selectable={true}
     style={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 16,
-        "fontWeight": "400",
-        "lineHeight": 22.4,
-        "marginVertical": 16,
-        "textAlign": "center",
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+          "marginVertical": 16,
+          "textAlign": "center",
+          "userSelect": "auto",
+        },
+      ]
     }
   >
     profile.settings.notifications.maintenance.header
@@ -3008,6 +3028,11 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
   <Text
     accessible={false}
     collapsable={false}
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -3025,18 +3050,21 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
         "userSelect": "auto",
       }
     }
+    nativeID="19"
     selectable={true}
     style={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 21,
-        "fontWeight": "400",
-        "lineHeight": 29.4,
-        "maxWidth": 768,
-        "textAlign": "center",
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 21,
+          "fontWeight": "400",
+          "lineHeight": 29.4,
+          "maxWidth": 768,
+          "textAlign": "center",
+          "userSelect": "auto",
+        },
+      ]
     }
   >
     profile.settings.notifications.maintenance.message

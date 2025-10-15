@@ -77,6 +77,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -93,17 +98,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="63"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -192,6 +200,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -208,17 +221,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="65"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -309,6 +325,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -325,17 +346,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="64"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -418,6 +442,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -434,17 +463,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="66"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -530,6 +562,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -546,17 +583,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="68"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -644,6 +684,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -660,17 +705,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="67"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -757,6 +805,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -773,17 +826,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="69"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -873,6 +929,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -889,17 +950,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="71"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -991,6 +1055,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1007,17 +1076,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="70"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1103,6 +1175,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1119,17 +1196,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="54"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1218,6 +1298,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1234,17 +1319,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="56"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1335,6 +1423,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1351,17 +1444,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="55"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1444,6 +1540,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1460,17 +1561,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="57"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1556,6 +1660,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1572,17 +1681,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="59"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1670,6 +1782,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1686,17 +1803,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="58"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1783,6 +1903,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1799,17 +1924,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="60"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -1899,6 +2027,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -1915,17 +2048,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="62"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2017,6 +2153,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2033,17 +2174,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="61"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2132,6 +2276,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2148,17 +2297,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="45"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2250,6 +2402,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2266,17 +2423,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="47"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2370,6 +2530,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2386,17 +2551,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="46"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2482,6 +2650,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2498,17 +2671,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="48"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2597,6 +2773,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2613,17 +2794,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="50"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2714,6 +2898,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2730,17 +2919,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="49"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2833,6 +3025,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2849,17 +3046,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="51"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -2955,6 +3155,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -2971,17 +3176,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="53"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3079,6 +3287,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3095,17 +3308,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="52"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3194,6 +3410,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3210,17 +3431,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="36"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3312,6 +3536,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3328,17 +3557,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="38"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3432,6 +3664,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3448,17 +3685,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="37"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3544,6 +3784,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3560,17 +3805,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="39"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3659,6 +3907,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3675,17 +3928,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="41"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3776,6 +4032,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3792,17 +4053,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="40"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -3895,6 +4159,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -3911,17 +4180,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="42"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4017,6 +4289,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4033,17 +4310,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="44"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4141,6 +4421,11 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4157,17 +4442,20 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
           "userSelect": "none",
         }
       }
+      nativeID="43"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4253,6 +4541,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4269,17 +4562,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="27"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4368,6 +4664,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4384,17 +4685,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="29"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4485,6 +4789,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4501,17 +4810,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="28"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4594,6 +4906,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4610,17 +4927,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="30"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4706,6 +5026,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4722,17 +5047,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="32"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4820,6 +5148,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4836,17 +5169,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="31"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -4933,6 +5269,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -4949,17 +5290,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="33"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5049,6 +5393,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5065,17 +5414,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="35"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5167,6 +5519,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5183,17 +5540,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="34"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5279,6 +5639,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5295,17 +5660,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="18"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5394,6 +5762,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5410,17 +5783,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="20"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5511,6 +5887,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5527,17 +5908,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="19"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5620,6 +6004,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5636,17 +6025,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="21"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5732,6 +6124,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5748,17 +6145,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="23"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5846,6 +6246,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5862,17 +6267,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="22"
       selectable={false}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -5959,6 +6367,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -5975,17 +6388,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="24"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6075,6 +6491,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6091,17 +6512,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="26"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6193,6 +6617,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6209,17 +6638,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="25"
       selectable={false}
       style={
-        {
-          "color": "#cc1820",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#cc1820",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6308,6 +6740,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6324,17 +6761,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="9"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6426,6 +6866,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6442,17 +6887,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="11"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6546,6 +6994,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6562,17 +7015,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="10"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6658,6 +7114,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6674,17 +7135,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="12"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6773,6 +7237,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6789,17 +7258,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="14"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -6890,6 +7362,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -6906,17 +7383,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="13"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7009,6 +7489,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7025,17 +7510,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="15"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7131,6 +7619,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7147,17 +7640,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="17"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7255,6 +7751,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7271,17 +7772,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="16"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7370,6 +7874,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7386,17 +7895,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="0"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7488,6 +8000,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7504,17 +8021,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="2"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7608,6 +8128,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7624,17 +8149,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="1"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7720,6 +8248,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7736,17 +8269,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="3"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7835,6 +8371,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7851,17 +8392,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="5"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -7952,6 +8496,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -7968,17 +8517,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="4"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -8071,6 +8623,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -8087,17 +8644,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="6"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontWeight": "500",
-          "lineHeight": 22.4,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "lineHeight": 22.4,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -8193,6 +8753,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -8209,17 +8774,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="8"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test
@@ -8317,6 +8885,11 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -8333,17 +8906,20 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
           "userSelect": "none",
         }
       }
+      nativeID="7"
       selectable={false}
       style={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "textAlign": "center",
-          "userSelect": "none",
-        }
+        [
+          {
+            "color": "#787777",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "textAlign": "center",
+            "userSelect": "none",
+          },
+        ]
       }
     >
       Test

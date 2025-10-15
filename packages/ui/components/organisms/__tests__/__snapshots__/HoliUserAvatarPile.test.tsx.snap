@@ -102,6 +102,11 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessible={false}
       aria-label="Max Mustermann"
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -118,18 +123,21 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "userSelect": "auto",
         }
       }
+      nativeID="0"
       role="img"
       selectable={true}
       style={
-        {
-          "color": "#fff",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 10.8,
-          "fontWeight": "bold",
-          "lineHeight": 12.96,
-          "textTransform": "uppercase",
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#fff",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 10.8,
+            "fontWeight": "bold",
+            "lineHeight": 12.96,
+            "textTransform": "uppercase",
+            "userSelect": "auto",
+          },
+        ]
       }
     >
       M
@@ -223,6 +231,11 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       accessible={false}
       aria-label="Sandra Kasandra"
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -239,18 +252,21 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
           "userSelect": "auto",
         }
       }
+      nativeID="1"
       role="img"
       selectable={true}
       style={
-        {
-          "color": "#000",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 10.8,
-          "fontWeight": "bold",
-          "lineHeight": 12.96,
-          "textTransform": "uppercase",
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#000",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 10.8,
+            "fontWeight": "bold",
+            "lineHeight": 12.96,
+            "textTransform": "uppercase",
+            "userSelect": "auto",
+          },
+        ]
       }
     >
       S

@@ -64,6 +64,11 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -79,16 +84,19 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="0"
           selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 14,
-              "fontWeight": "400",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              },
+            ]
           }
         >
           notifications.releaseinfo.message
@@ -96,6 +104,11 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -112,17 +125,20 @@ exports[`NotificationReleaseInfoItem.tsx matches snapshot 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="1"
           selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "marginTop": 4,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "marginTop": 4,
+                "userSelect": "auto",
+              },
+            ]
           }
         >
           in 79 days

@@ -274,6 +274,11 @@ exports[`SpaceInviteUserButton displays status if the user is already invited 1`
 <Text
   accessible={false}
   collapsable={false}
+  jestAnimatedProps={
+    {
+      "value": {},
+    }
+  }
   jestAnimatedStyle={
     {
       "value": {},
@@ -289,16 +294,19 @@ exports[`SpaceInviteUserButton displays status if the user is already invited 1`
       "userSelect": "auto",
     }
   }
+  nativeID="0"
   selectable={true}
   style={
-    {
-      "color": "#787777",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 14,
-      "fontWeight": "400",
-      "lineHeight": 19.599999999999998,
-      "userSelect": "auto",
-    }
+    [
+      {
+        "color": "#787777",
+        "fontFamily": "InstrumentSans-Regular",
+        "fontSize": 14,
+        "fontWeight": "400",
+        "lineHeight": 19.599999999999998,
+        "userSelect": "auto",
+      },
+    ]
   }
 >
   space.userConnection.MEMBERSHIP_INVITEE

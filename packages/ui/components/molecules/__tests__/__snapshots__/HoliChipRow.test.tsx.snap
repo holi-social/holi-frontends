@@ -25,6 +25,11 @@ exports[`renders correctly renders correctly when there is a title, is editable 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -40,16 +45,19 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           "userSelect": "auto",
         }
       }
+      nativeID="1"
       selectable={true}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 19.599999999999998,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          },
+        ]
       }
     >
       Test
@@ -112,6 +120,11 @@ exports[`renders correctly renders correctly when there is a title, is editable 
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -127,16 +140,19 @@ exports[`renders correctly renders correctly when there is a title, is editable 
               "userSelect": "none",
             }
           }
+          nativeID="2"
           selectable={false}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "none",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "none",
+              },
+            ]
           }
         >
           global.edit
@@ -159,6 +175,11 @@ exports[`renders correctly renders correctly when there is a title, is editable 
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -174,16 +195,19 @@ exports[`renders correctly renders correctly when there is a title, is editable 
           "userSelect": "auto",
         }
       }
+      nativeID="3"
       selectable={true}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 16,
-          "fontWeight": "400",
-          "lineHeight": 22.4,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 16,
+            "fontWeight": "400",
+            "lineHeight": 22.4,
+            "userSelect": "auto",
+          },
+        ]
       }
     >
       Testing
@@ -217,6 +241,11 @@ exports[`renders correctly renders correctly when there is no title, not editabl
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -232,16 +261,19 @@ exports[`renders correctly renders correctly when there is no title, not editabl
           "userSelect": "auto",
         }
       }
+      nativeID="0"
       selectable={true}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 14,
-          "fontWeight": "400",
-          "lineHeight": 19.599999999999998,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Regular",
+            "fontSize": 14,
+            "fontWeight": "400",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          },
+        ]
       }
     />
   </View>

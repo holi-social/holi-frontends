@@ -23,6 +23,11 @@ exports[`FilterPill renders correctly 1`] = `
   <Text
     accessible={false}
     collapsable={false}
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -38,17 +43,20 @@ exports[`FilterPill renders correctly 1`] = `
         "userSelect": "auto",
       }
     }
+    nativeID="0"
     numberOfLines={1}
     selectable={true}
     style={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 16,
-        "fontWeight": "400",
-        "lineHeight": 22.4,
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+          "userSelect": "auto",
+        },
+      ]
     }
   >
     generic filter
@@ -79,6 +87,11 @@ exports[`FilterPill renders correctly 2`] = `
   <Text
     accessible={false}
     collapsable={false}
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -94,17 +107,20 @@ exports[`FilterPill renders correctly 2`] = `
         "userSelect": "auto",
       }
     }
+    nativeID="1"
     numberOfLines={1}
     selectable={true}
     style={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 16,
-        "fontWeight": "400",
-        "lineHeight": 22.4,
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+          "userSelect": "auto",
+        },
+      ]
     }
   >
     location filter
@@ -135,6 +151,11 @@ exports[`FilterPill renders correctly 3`] = `
   <Text
     accessible={false}
     collapsable={false}
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -150,17 +171,20 @@ exports[`FilterPill renders correctly 3`] = `
         "userSelect": "auto",
       }
     }
+    nativeID="2"
     numberOfLines={1}
     selectable={true}
     style={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 16,
-        "fontWeight": "400",
-        "lineHeight": 22.4,
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+          "userSelect": "auto",
+        },
+      ]
     }
   >
     topic filter
@@ -191,6 +215,11 @@ exports[`FilterPill renders correctly 4`] = `
   <Text
     accessible={false}
     collapsable={false}
+    jestAnimatedProps={
+      {
+        "value": {},
+      }
+    }
     jestAnimatedStyle={
       {
         "value": {},
@@ -206,17 +235,20 @@ exports[`FilterPill renders correctly 4`] = `
         "userSelect": "auto",
       }
     }
+    nativeID="3"
     numberOfLines={1}
     selectable={true}
     style={
-      {
-        "color": "#262424",
-        "fontFamily": "InstrumentSans-Regular",
-        "fontSize": 16,
-        "fontWeight": "400",
-        "lineHeight": 22.4,
-        "userSelect": "auto",
-      }
+      [
+        {
+          "color": "#262424",
+          "fontFamily": "InstrumentSans-Regular",
+          "fontSize": 16,
+          "fontWeight": "400",
+          "lineHeight": 22.4,
+          "userSelect": "auto",
+        },
+      ]
     }
   >
     skill filter
