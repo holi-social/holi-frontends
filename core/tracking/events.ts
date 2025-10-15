@@ -464,49 +464,34 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (
-      engagementId: string,
-      otherProperties: Record<string, string | number | string[] | undefined> = {}
-    ): TrackingEvent => ({
+    pressed: (engagementId: string): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
-      properties: { engagementId, ...otherProperties },
+      properties: { engagementId },
       ...versionOne,
     }),
 
-    contacted: (
-      engagementId: string,
-      otherProperties: Record<string, string | number | string[] | undefined> = {}
-    ): TrackingEvent => ({
+    contacted: (engagementId: string): TrackingEvent => ({
       name: 'pressedVolunteeringContactButton',
-      properties: { engagementId, ...otherProperties },
+      properties: { engagementId },
       ...versionOne,
     }),
 
     selfReportingFlow: {
-      wantToDoIt: (
-        engagementId: string,
-        otherProperties: Record<string, string | number | undefined> = {}
-      ): TrackingEvent => ({
+      wantToDoIt: (engagementId: string): TrackingEvent => ({
         name: 'selfReportingFlow__wantToDoIt',
-        properties: { engagementId, ...otherProperties },
+        properties: { engagementId },
         ...versionOne,
       }),
 
-      contacted: (
-        engagementId: string,
-        otherProperties: Record<string, string | number | undefined> = {}
-      ): TrackingEvent => ({
+      contacted: (engagementId: string): TrackingEvent => ({
         name: 'selfReportingFlow__contacted',
-        properties: { engagementId, ...otherProperties },
+        properties: { engagementId },
         ...versionOne,
       }),
 
-      doing: (
-        engagementId: string,
-        otherProperties: Record<string, string | number | undefined> = {}
-      ): TrackingEvent => ({
+      doing: (engagementId: string): TrackingEvent => ({
         name: 'selfReportingFlow__doing',
-        properties: { engagementId, ...otherProperties },
+        properties: { engagementId },
         ...versionOne,
       }),
     },
