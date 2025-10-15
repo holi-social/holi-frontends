@@ -32,7 +32,6 @@ const MySpaces = () => {
 
   return (
     <Screen
-      preset="fixed"
       headerOptions={{
         title: t('spaces.title'),
         headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,

@@ -179,13 +179,12 @@ export const withSSR = async (
   await context.close()
 }
 
-export async function scrollToMakeHeaderVisible(page: Page) {
+export async function scrollDown(page: Page) {
   // Wait for the page to load
   await page.waitForLoadState()
 
   // Scroll down and then scroll up to trigger the modal
-  await page.mouse.wheel(0, 600)
-  await page.mouse.wheel(0, -750)
+  await page.mouse.wheel(0, 1200)
 }
 
 export async function gotoWithRetries(page: Page, url: string, retries = 3, delay = 2000) {

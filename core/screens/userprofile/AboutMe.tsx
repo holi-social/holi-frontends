@@ -84,7 +84,6 @@ const AboutMe = () => {
 
   return (
     <Screen
-      preset="fixed"
       headerOptions={{
         title: t('profile.title'),
         headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
