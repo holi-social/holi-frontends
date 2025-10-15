@@ -464,22 +464,31 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (engagementId: string): TrackingEvent => ({
+    pressed: (
+      engagementId: string,
+      otherProperties: Record<string, string | number | string[] | undefined> = {}
+    ): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
-      properties: { engagementId },
+      properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
 
-    contacted: (engagementId: string): TrackingEvent => ({
+    contacted: (
+      engagementId: string,
+      otherProperties: Record<string, string | number | string[] | undefined> = {}
+    ): TrackingEvent => ({
       name: 'pressedVolunteeringContactButton',
-      properties: { engagementId },
+      properties: { engagementId, ...otherProperties },
       ...versionOne,
     }),
 
     selfReportingFlow: {
-      wantToDoIt: (engagementId: string): TrackingEvent => ({
+      wantToDoIt: (
+        engagementId: string,
+        otherProperties: Record<string, string | number | undefined> = {}
+      ): TrackingEvent => ({
         name: 'selfReportingFlow__wantToDoIt',
-        properties: { engagementId },
+        properties: { engagementId, ...otherProperties },
         ...versionOne,
       }),
 
