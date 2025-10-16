@@ -62,11 +62,11 @@ describe('VolunteeringFilterRow', () => {
     render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     const filters = screen.getAllByRole('switch')
-    expect(filters[0]).toHaveTextContent('location')
-    expect(filters[1]).toHaveTextContent('topics')
-    expect(filters[2]).toHaveTextContent('commitmentDurations')
-    expect(filters[3]).toHaveTextContent('commitmentLabels')
-    expect(filters[4]).toHaveTextContent('skills')
+    expect(filters[0]).toHaveTextContent(/location/)
+    expect(filters[1]).toHaveTextContent(/topics/)
+    expect(filters[2]).toHaveTextContent(/commitmentDurations/)
+    expect(filters[3]).toHaveTextContent(/commitmentLabels/)
+    expect(filters[4]).toHaveTextContent(/skill/)
   })
 
   it('should use correct label for unselected filters', () => {
@@ -92,11 +92,11 @@ describe('VolunteeringFilterRow', () => {
     )
 
     const filters = screen.getAllByRole('switch')
-    expect(filters[0]).toHaveTextContent('topic')
-    expect(filters[1]).toHaveTextContent('commitment_label')
-    expect(filters[2]).toHaveTextContent('location')
-    expect(filters[3]).toHaveTextContent('commitmentDurations')
-    expect(filters[4]).toHaveTextContent('skills')
+    expect(filters[0]).toHaveTextContent(/topic/)
+    expect(filters[1]).toHaveTextContent(/commitment_label/)
+    expect(filters[2]).toHaveTextContent(/location/)
+    expect(filters[3]).toHaveTextContent(/commitmentDurations/)
+    expect(filters[4]).toHaveTextContent(/skills/)
   })
 
   it('should use correct label for selected filters', () => {

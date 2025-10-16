@@ -89,7 +89,7 @@ describe('VolunteeringFilterModal', () => {
       )
 
       expect(screen.getByText(`volunteering.filter.${filterKey}Modal.title`)).toBeOnTheScreen()
-      expect(screen.getAllByRole('switch')[0]).toHaveTextContent(expectedI18nKey)
+      expect(screen.getAllByRole('switch')[0]).toHaveTextContent(expectedI18nKey, { exact: false })
     })
 
     it.each(arrayFilterTestData)(

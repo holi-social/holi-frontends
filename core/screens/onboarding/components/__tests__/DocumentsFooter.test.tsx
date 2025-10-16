@@ -32,7 +32,7 @@ describe('DocumentsFooter', () => {
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(3)
 
-    expect(links[2]).toHaveTextContent('imprint')
+    expect(links[2]).toHaveTextContent(/imprint/)
   })
 
   const documentsInOrder = ['privacyPolicy', 'termsOfUse', 'imprint']

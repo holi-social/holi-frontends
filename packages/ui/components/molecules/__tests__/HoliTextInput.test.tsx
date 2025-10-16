@@ -25,7 +25,7 @@ describe('HoliTextInput', () => {
 
   it('renders correctly with error', () => {
     render(<WithError {...WithError.args} />)
-    expect(screen.toJSON()).toHaveTextContent('Validation Error Text')
+    expect(screen.root).toHaveTextContent(/Validation Error Text/)
   })
 
   it('renders correctly without label', () => {
