@@ -14,7 +14,7 @@ import { mono, Spacing } from 'holi-bricks/foundations'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { pathToRedirect, useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -37,6 +37,8 @@ import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/he
 import { getRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { useTranslation } from 'react-i18next'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
@@ -72,8 +74,15 @@ const Onboarding = () => {
   }
   const finishOnboarding = useCallback(async () => {
     await cleanUp()
+
+    const redirectPaht = pathToRedirect() ?? (await getRedirectAfterSocialLogin())
     redirect(true)
-    showGoodDeedsIntroModal()
+
+    if (!redirectPaht) {
+      showGoodDeedsIntroModal('onboarding')
+    } else if (redirectPaht.includes('/profile/settings/favorites/add?taskId=')) {
+      showGoodDeedsIntroModal('first-favorite-good-deed')
+    }
   }, [redirect, showGoodDeedsIntroModal])
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen

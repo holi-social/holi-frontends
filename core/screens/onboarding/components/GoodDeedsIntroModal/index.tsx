@@ -8,7 +8,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
 import { GoodDeedsBecomeHero } from './components/GoodDeedsBecomeHero'
 import { GoodDeedsProgressExplanation } from './components/GoodDeedsProgressExplanation'
-import { useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
+import { type IntroFlowType, useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
 import { useIsDesktopView } from './helpers/isDesktopView'
 import { GoodDeedsCampaignExplanation } from './components/GoodDeedsCampaignExplanation'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
@@ -49,7 +49,7 @@ export const GoodDeedsIntroModal = () => {
 
   const [currentStep, setCurrentStep] = useState<GoodDeedsOnboardingStepKey>(goodDeedsOnboardingSteps[0].key)
 
-  const { visible, hide } = useGoodDeedsIntroModalState()
+  const { type = 'onboarding', visible, hide } = useGoodDeedsIntroModalState()
 
   const handleClose = () => {
     hide()
@@ -74,10 +74,10 @@ export const GoodDeedsIntroModal = () => {
     }
   }
 
-  const renderStep = (key: GoodDeedsOnboardingStepKey) => {
+  const renderStep = (key: GoodDeedsOnboardingStepKey, type: IntroFlowType) => {
     switch (key) {
       case 'GOOD_DEEDS_BECOME_HERO':
-        return <GoodDeedsBecomeHero onNextPress={handleNextStep} />
+        return <GoodDeedsBecomeHero type={type} onNextPress={handleNextStep} />
       case 'GOOD_DEEDS_PROGRESS_EXPLANATION':
         return <GoodDeedsProgressExplanation onNextPress={handleNextStep} onBackPress={handleBackStep} />
       case 'GOOD_DEEDS_CAMPAIGN_EXPLANATION':
@@ -102,7 +102,7 @@ export const GoodDeedsIntroModal = () => {
         data={goodDeedsOnboardingSteps}
         activeStepKey={currentStep}
         keyExtractor={(item) => item.key}
-        renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey)}
+        renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey, type)}
         onChange={(key, previousKey, buttonPressed) => {
           // finish onboarding if user is on last step and clicks on continue
           if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
