@@ -21,6 +21,7 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
 const mockUseRedirect = useRedirect as jest.Mock
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
+  pathToRedirect: jest.fn(),
 }))
 
 const mockUseTracking = useTracking as jest.Mock
