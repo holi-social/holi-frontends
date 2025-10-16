@@ -184,7 +184,7 @@ describe('ChatHomeContent Component', () => {
     await waitForElementToBeRemoved(() => screen.getByTestId('chat-home-loader'))
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(roomName)
+    expect(displayedRoom).toHaveTextContent(roomName, { exact: false })
   })
 
   it('should render existing room with pending invitation', async () => {
@@ -225,8 +225,8 @@ describe('ChatHomeContent Component', () => {
     })
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name)
-    expect(displayedRoom).toHaveTextContent('chat.invitation.newconversation')
+    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name, { exact: false })
+    expect(displayedRoom).toHaveTextContent(/chat.invitation.newconversation/)
   })
 
   it('should render incoming rooms', async () => {

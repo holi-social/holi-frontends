@@ -325,7 +325,7 @@ describe('NotificationsOverview', () => {
     // wait for user to be loaded
     const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
-    const emptyNotificationsMessage = 'notifications.display.empty.text2'
+    const emptyNotificationsMessage = /notifications.display.empty.text2/
     await waitFor(async () =>
       expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
     )
