@@ -175,8 +175,9 @@ describe('PlacesAutocomplete', () => {
     // Open menu and await fetching
     await act(async () => {
       input.props.onFocus()
-      await waitFor(() => screen.getByTestId('test-item-1'))
     })
+
+    await waitFor(() => screen.getByTestId('test-item-1'))
 
     // Expect options for initial input
     const option = screen.getByTestId('test-item-1')
@@ -195,9 +196,10 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'ha' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
     })
+
+    // Await results
+    await waitFor(() => screen.getByTestId('test-item-1'))
 
     // Expect options for input
     const option1 = screen.getByTestId('test-item-1')
@@ -261,8 +263,12 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'ha' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
+    })
+
+    // Await results
+    await waitFor(() => screen.getByTestId('test-item-1'))
+
+    await act(async () => {
       // Submit input
       input.props.onSubmitEditing()
     })
@@ -310,8 +316,12 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'ha' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
+    })
+
+    // Await results
+    await waitFor(() => screen.getByTestId('test-item-1'))
+
+    await act(async () => {
       // Submit input
       input.props.onSubmitEditing()
     })
@@ -332,8 +342,12 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'Hamburg, Germany' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
+    })
+
+    // Await results
+    await waitFor(() => screen.getByTestId('test-item-1'))
+
+    await act(async () => {
       // Blur input
       input.props.onBlur()
     })
@@ -356,8 +370,12 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'ha' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
+    })
+
+    // Await results
+    await waitFor(() => screen.getByTestId('test-item-1'))
+
+    await act(async () => {
       // Blur input
       input.props.onBlur()
     })
@@ -381,8 +399,12 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'Hamburg, Germany' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
+    })
+
+    // Await results
+    await waitFor(() => screen.getByTestId('test-item-1'))
+
+    await act(async () => {
       // Blur input
       input.props.onBlur()
     })
@@ -403,11 +425,11 @@ describe('PlacesAutocomplete', () => {
     await act(async () => {
       // Start typing
       input.props.onChange({ nativeEvent: { text: 'ha' } })
-      // Await results
-      await waitFor(() => screen.getByTestId('test-item-1'))
-      // Select option
-      fireEvent.press(screen.getByTestId('test-item-2'))
     })
+
+    await waitFor(() => screen.getByTestId('test-item-1'))
+
+    fireEvent.press(screen.getByTestId('test-item-2'))
 
     // Expect second option to be selected
     expect(onChange).toHaveBeenCalledWith(expectedSelectionHannover)
@@ -428,11 +450,14 @@ describe('PlacesAutocomplete', () => {
       await act(async () => {
         // Start typing
         input.props.onChange({ nativeEvent: { text: 'ha' } })
-        // Await results
-        await waitFor(() => screen.getByTestId('test-item-1'))
+      })
+
+      // Await results
+      await waitFor(() => screen.getByTestId('test-item-1'))
+
+      await act(async () => {
         // Submit input
         input.props.onSubmitEditing()
-        // Await details
         jest.runAllTimers()
       })
 
@@ -452,8 +477,12 @@ describe('PlacesAutocomplete', () => {
       await act(async () => {
         // Start typing
         input.props.onChange({ nativeEvent: { text: 'Hamburg, Germany' } })
-        // Await results
-        await waitFor(() => screen.getByTestId('test-item-1'))
+      })
+
+      // Await results
+      await waitFor(() => screen.getByTestId('test-item-1'))
+
+      await act(async () => {
         // Blur input
         input.props.onBlur()
         // Await details
@@ -476,8 +505,12 @@ describe('PlacesAutocomplete', () => {
       await act(async () => {
         // Start typing
         input.props.onChange({ nativeEvent: { text: 'ha' } })
-        // Await results
-        await waitFor(() => screen.getByTestId('test-item-1'))
+      })
+
+      // Await results
+      await waitFor(() => screen.getByTestId('test-item-1'))
+
+      await act(async () => {
         // Select option
         fireEvent.press(screen.getByTestId('test-item-1'))
         // Await details
