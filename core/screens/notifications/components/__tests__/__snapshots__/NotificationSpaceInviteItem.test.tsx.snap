@@ -120,28 +120,32 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             accessible={false}
             selectable={true}
             style={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
-                "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             <Text
               accessible={false}
               selectable={true}
               style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 19.599999999999998,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             />
           </Text>
@@ -149,15 +153,17 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             accessible={false}
             selectable={true}
             style={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "marginTop": 4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             last week
@@ -570,32 +576,36 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             onTextLayout={[Function]}
             selectable={true}
             style={
-              {
-                "alignContent": "flex-start",
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "justifyContent": "center",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "alignContent": "flex-start",
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "justifyContent": "center",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             <Text
               accessible={false}
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "marginBottom": 4,
-                  "marginTop": 16,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 14,
+                    "fontWeight": "400",
+                    "lineHeight": 19.599999999999998,
+                    "marginBottom": 4,
+                    "marginTop": 16,
+                    "userSelect": "auto",
+                  },
+                ]
               }
               testID="notification-content-text"
             >
@@ -606,15 +616,17 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             accessible={false}
             selectable={true}
             style={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "marginTop": 4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             last week
