@@ -433,6 +433,11 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -448,16 +453,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "userSelect": "auto",
                   }
                 }
+                nativeID="1"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 profile.settings.notifications.workflow.GLOBAL
@@ -696,7 +704,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -1130,6 +1137,11 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -1145,16 +1157,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "userSelect": "auto",
                   }
                 }
+                nativeID="2"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 profile.settings.notifications.workflow.POST_COMMENT_MENTION
@@ -1693,6 +1708,11 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -1708,16 +1728,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "userSelect": "auto",
                   }
                 }
+                nativeID="3"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 profile.settings.notifications.workflow.SPACE_MEMBERSHIP_REQUEST
@@ -1956,7 +1979,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -2083,6 +2105,11 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -2098,16 +2125,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "userSelect": "auto",
                   }
                 }
+                nativeID="4"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 profile.settings.notifications.workflow.SPACE_NEW_POST
@@ -2651,6 +2681,11 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -2666,16 +2701,19 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                     "userSelect": "auto",
                   }
                 }
+                nativeID="5"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 profile.settings.notifications.workflow.CHALLENGE_APPROVAL
@@ -3134,6 +3172,11 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               "reduceMotionV": "system",
             }
           }
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -3160,19 +3203,25 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               },
             ]
           }
+          nativeID="6"
           style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "transparent",
-              "bottom": 0,
-              "justifyContent": "center",
-              "left": 0,
-              "paddingHorizontal": 16,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "zIndex": 9999,
-            }
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "transparent",
+                "bottom": 0,
+                "justifyContent": "center",
+                "left": 0,
+                "paddingHorizontal": 16,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              undefined,
+              {
+                "zIndex": 9999,
+              },
+            ]
           }
         >
           <View
@@ -3188,6 +3237,7 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               cacheComposition={true}
               colorFilters={[]}
               enableMergePathsAndroidForKitKatAndAbove={false}
+              enableSafeModeAndroid={false}
               loop={true}
               onAnimationFailure={[Function]}
               onAnimationFinish={[Function]}
@@ -3615,6 +3665,11 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -3630,16 +3685,19 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                     "userSelect": "auto",
                   }
                 }
+                nativeID="7"
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 profile.settings.notifications.workflow.GLOBAL
@@ -3878,7 +3936,6 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}

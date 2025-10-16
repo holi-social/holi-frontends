@@ -246,6 +246,11 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -261,17 +266,20 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 "userSelect": "auto",
               }
             }
+            nativeID="4"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Some Body
@@ -369,7 +377,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 },
               ]
             }
-            tintColor="#262424"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -566,6 +573,11 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -581,17 +593,20 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 "userSelect": "auto",
               }
             }
+            nativeID="5"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Some Body
@@ -689,7 +704,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 },
               ]
             }
-            tintColor="#262424"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -886,6 +900,11 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -901,17 +920,20 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 "userSelect": "auto",
               }
             }
+            nativeID="6"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Some Body
@@ -1009,7 +1031,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                 },
               ]
             }
-            tintColor="#262424"
             vbHeight={24}
             vbWidth={24}
             width={20}

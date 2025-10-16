@@ -41,6 +41,12 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     >
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedProps={
+          {
+            "value": {},
+          }
+        }
         jestAnimatedStyle={
           {
             "value": {},
@@ -49,22 +55,26 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         jestInlineStyle={
           {
             "color": "#262424",
-            "fontFamily": null,
+            "fontFamily": "InstrumentSans-Medium",
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
             "userSelect": "auto",
           }
         }
+        nativeID="5"
+        selectable={true}
         style={
-          {
-            "color": "#262424",
-            "fontFamily": null,
-            "fontSize": 14,
-            "fontWeight": "500",
-            "lineHeight": 19.599999999999998,
-            "userSelect": "auto",
-          }
+          [
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            },
+          ]
         }
       >
         Label
@@ -82,7 +92,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -90,7 +100,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
-        blurOnSubmit={false}
+        blurOnSubmit={true}
         editable={false}
         keyboardType="default"
         maxLength={5000}
@@ -112,7 +122,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -130,7 +140,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         value=""
       />
@@ -154,10 +164,16 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -166,24 +182,28 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="6"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>
@@ -234,6 +254,12 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     >
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedProps={
+          {
+            "value": {},
+          }
+        }
         jestAnimatedStyle={
           {
             "value": {},
@@ -242,22 +268,26 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         jestInlineStyle={
           {
             "color": "#262424",
-            "fontFamily": null,
+            "fontFamily": "InstrumentSans-Medium",
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
             "userSelect": "auto",
           }
         }
+        nativeID="9"
+        selectable={true}
         style={
-          {
-            "color": "#262424",
-            "fontFamily": null,
-            "fontSize": 14,
-            "fontWeight": "500",
-            "lineHeight": 19.599999999999998,
-            "userSelect": "auto",
-          }
+          [
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            },
+          ]
         }
       >
         Label
@@ -275,7 +305,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -305,7 +335,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -323,7 +353,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         value=""
       />
@@ -347,10 +377,16 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -359,24 +395,28 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="10"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>
@@ -427,6 +467,12 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     >
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedProps={
+          {
+            "value": {},
+          }
+        }
         jestAnimatedStyle={
           {
             "value": {},
@@ -435,22 +481,26 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         jestInlineStyle={
           {
             "color": "#262424",
-            "fontFamily": null,
+            "fontFamily": "InstrumentSans-Medium",
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
             "userSelect": "auto",
           }
         }
+        nativeID="7"
+        selectable={true}
         style={
-          {
-            "color": "#262424",
-            "fontFamily": null,
-            "fontSize": 14,
-            "fontWeight": "500",
-            "lineHeight": 19.599999999999998,
-            "userSelect": "auto",
-          }
+          [
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            },
+          ]
         }
       >
         Label
@@ -468,7 +518,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -498,7 +548,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -516,7 +566,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         value=""
       />
@@ -540,10 +590,16 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -552,24 +608,28 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="8"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>
@@ -620,6 +680,12 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     >
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedProps={
+          {
+            "value": {},
+          }
+        }
         jestAnimatedStyle={
           {
             "value": {},
@@ -628,22 +694,26 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         jestInlineStyle={
           {
             "color": "#262424",
-            "fontFamily": null,
+            "fontFamily": "InstrumentSans-Medium",
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
             "userSelect": "auto",
           }
         }
+        nativeID="0"
+        selectable={true}
         style={
-          {
-            "color": "#262424",
-            "fontFamily": null,
-            "fontSize": 14,
-            "fontWeight": "500",
-            "lineHeight": 19.599999999999998,
-            "userSelect": "auto",
-          }
+          [
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            },
+          ]
         }
       >
         Label
@@ -670,7 +740,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -678,7 +748,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
-        blurOnSubmit={false}
+        blurOnSubmit={true}
         editable={true}
         keyboardType="default"
         maxLength={50}
@@ -700,7 +770,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -718,7 +788,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         value=""
       />
@@ -742,10 +812,16 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -754,24 +830,28 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="1"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>
@@ -822,6 +902,12 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     >
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedProps={
+          {
+            "value": {},
+          }
+        }
         jestAnimatedStyle={
           {
             "value": {},
@@ -830,22 +916,26 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         jestInlineStyle={
           {
             "color": "#262424",
-            "fontFamily": null,
+            "fontFamily": "InstrumentSans-Medium",
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
             "userSelect": "auto",
           }
         }
+        nativeID="11"
+        selectable={true}
         style={
-          {
-            "color": "#262424",
-            "fontFamily": null,
-            "fontSize": 14,
-            "fontWeight": "500",
-            "lineHeight": 19.599999999999998,
-            "userSelect": "auto",
-          }
+          [
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            },
+          ]
         }
       >
         Label
@@ -863,7 +953,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -871,7 +961,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
-        blurOnSubmit={false}
+        blurOnSubmit={true}
         editable={true}
         keyboardType="default"
         maxLength={5000}
@@ -893,7 +983,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -911,7 +1001,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         value=""
       />
@@ -950,7 +1040,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
                 },
               ]
             }
-            tintColor="#ebebeb"
             vbHeight={24}
             vbWidth={24}
             width={22}
@@ -1010,10 +1099,16 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -1022,24 +1117,28 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="12"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>
@@ -1090,6 +1189,12 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     >
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedProps={
+          {
+            "value": {},
+          }
+        }
         jestAnimatedStyle={
           {
             "value": {},
@@ -1098,22 +1203,26 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         jestInlineStyle={
           {
             "color": "#262424",
-            "fontFamily": null,
+            "fontFamily": "InstrumentSans-Medium",
             "fontSize": 14,
             "fontWeight": "500",
             "lineHeight": 19.599999999999998,
             "userSelect": "auto",
           }
         }
+        nativeID="13"
+        selectable={true}
         style={
-          {
-            "color": "#262424",
-            "fontFamily": null,
-            "fontSize": 14,
-            "fontWeight": "500",
-            "lineHeight": 19.599999999999998,
-            "userSelect": "auto",
-          }
+          [
+            {
+              "color": "#262424",
+              "fontFamily": "InstrumentSans-Medium",
+              "fontSize": 14,
+              "fontWeight": "500",
+              "lineHeight": 19.599999999999998,
+              "userSelect": "auto",
+            },
+          ]
         }
       >
         Label
@@ -1131,7 +1240,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -1139,7 +1248,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="current-password"
-        blurOnSubmit={false}
+        blurOnSubmit={true}
         editable={true}
         keyboardType="default"
         maxLength={5000}
@@ -1161,7 +1270,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -1179,7 +1288,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         textContentType="password"
         value=""
@@ -1204,10 +1313,16 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -1216,24 +1331,28 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="14"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>
@@ -1281,7 +1400,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           },
         ]
       }
-      testID="holi-text-input-wrapper"
+      testID="holi-text-input"
     >
       <TextInput
         accessible={true}
@@ -1289,7 +1408,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         aria-label="accessibility label"
         autoCapitalize="none"
         autoComplete="off"
-        blurOnSubmit={false}
+        blurOnSubmit={true}
         editable={true}
         keyboardType="default"
         maxLength={5000}
@@ -1311,7 +1430,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -1329,7 +1448,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
             },
           ]
         }
-        testID="holi-text-input"
+        testID="input"
         textAlignVertical="top"
         value=""
       />
@@ -1353,10 +1472,16 @@ exports[`HoliTextInput renders correctly without label 1`] = `
             },
           ]
         }
-        testID=""
+        testID="holi-text-inputfalse-message"
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -1365,24 +1490,28 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           jestInlineStyle={
             {
               "color": "#787777",
-              "fontFamily": null,
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 12,
               "fontWeight": "400",
               "lineHeight": 16.799999999999997,
               "userSelect": "auto",
             }
           }
+          nativeID="4"
+          selectable={true}
           style={
-            {
-              "color": "#787777",
-              "fontFamily": null,
-              "fontSize": 12,
-              "fontWeight": "400",
-              "lineHeight": 16.799999999999997,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#787777",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 12,
+                "fontWeight": "400",
+                "lineHeight": 16.799999999999997,
+                "userSelect": "auto",
+              },
+            ]
           }
-          testID="holi-text-inputfalse-message"
+          testID=""
         >
           Helper Text
         </Text>

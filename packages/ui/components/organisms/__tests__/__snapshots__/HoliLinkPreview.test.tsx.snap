@@ -94,6 +94,11 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -109,17 +114,20 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "userSelect": "auto",
               }
             }
+            nativeID="0"
             numberOfLines={3}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Medium",
-                "fontSize": 14,
-                "fontWeight": "500",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Donate to animals on betterplace.org
@@ -127,6 +135,11 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -143,18 +156,21 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "userSelect": "auto",
               }
             }
+            nativeID="1"
             numberOfLines={2}
             selectable={true}
             style={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 8,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 12,
+                  "fontWeight": "400",
+                  "lineHeight": 16.799999999999997,
+                  "marginTop": 8,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Discover projects that help animals. Whether it's dogs, elephant babies, cheetahs or squirrels – your donation saves animals' lives!
@@ -162,6 +178,11 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -178,17 +199,20 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 "userSelect": "auto",
               }
             }
+            nativeID="2"
             selectable={true}
             style={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Medium",
-                "fontSize": 12,
-                "fontWeight": "500",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 8,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#787777",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 12,
+                  "fontWeight": "500",
+                  "lineHeight": 16.799999999999997,
+                  "marginTop": 8,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             http://betterplace.org
@@ -226,7 +250,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 },
               ]
             }
-            tintColor="#787777"
             vbHeight={24}
             vbWidth={24}
             width={18}

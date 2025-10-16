@@ -83,7 +83,6 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
             },
           ]
         }
-        tintColor="#787777"
         vbHeight={24}
         vbWidth={24}
         width={24}
@@ -125,6 +124,11 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -141,17 +145,20 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
           "userSelect": "auto",
         }
       }
+      nativeID="1"
       selectable={true}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "marginLeft": 8,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 8,
+            "userSelect": "auto",
+          },
+        ]
       }
     >
       google
@@ -244,7 +251,6 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
             },
           ]
         }
-        tintColor="#787777"
         vbHeight={24}
         vbWidth={24}
         width={24}
@@ -313,6 +319,11 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
     <Text
       accessible={false}
       collapsable={false}
+      jestAnimatedProps={
+        {
+          "value": {},
+        }
+      }
       jestAnimatedStyle={
         {
           "value": {},
@@ -329,17 +340,20 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
           "userSelect": "auto",
         }
       }
+      nativeID="0"
       selectable={true}
       style={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "marginLeft": 8,
-          "userSelect": "auto",
-        }
+        [
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "marginLeft": 8,
+            "userSelect": "auto",
+          },
+        ]
       }
     >
       facebook

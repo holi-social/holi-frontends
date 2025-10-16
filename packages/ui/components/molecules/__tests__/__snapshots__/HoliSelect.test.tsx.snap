@@ -46,6 +46,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -61,16 +66,19 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="65"
           selectable={true}
           style={
-            {
-              "color": "#6267e7",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#6267e7",
+                "fontFamily": "InstrumentSans-Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              },
+            ]
           }
           testID="test-label"
         >
@@ -243,7 +251,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -393,6 +400,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -408,17 +420,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="66"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Animal Welfare
@@ -510,6 +525,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -525,17 +545,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="67"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Children & Youth
@@ -587,7 +610,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={20}
@@ -686,6 +708,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -701,17 +728,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="68"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Climate Protection
@@ -763,7 +793,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={20}
@@ -862,6 +891,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -877,17 +911,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="69"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Corona
@@ -979,6 +1016,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -994,17 +1036,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="70"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Culture & History
@@ -1096,6 +1141,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1111,17 +1161,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="71"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Development Cooperation
@@ -1213,6 +1266,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1228,17 +1286,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="72"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Digitalization
@@ -1330,6 +1391,11 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1345,17 +1411,20 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="73"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Disaster Protection
@@ -1432,6 +1501,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -1447,16 +1521,19 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="56"
           selectable={true}
           style={
-            {
-              "color": "#6267e7",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#6267e7",
+                "fontFamily": "InstrumentSans-Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              },
+            ]
           }
           testID="test-label"
         >
@@ -1629,7 +1706,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -1779,6 +1855,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1794,17 +1875,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="57"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Animal Welfare
@@ -1896,6 +1980,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1911,17 +2000,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="58"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Children & Youth
@@ -1973,7 +2065,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={20}
@@ -2072,6 +2163,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -2087,17 +2183,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="59"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Climate Protection
@@ -2189,6 +2288,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -2204,17 +2308,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="60"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Corona
@@ -2306,6 +2413,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -2321,17 +2433,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="61"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Culture & History
@@ -2423,6 +2538,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -2438,17 +2558,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="62"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Development Cooperation
@@ -2540,6 +2663,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -2555,17 +2683,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="63"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Digitalization
@@ -2657,6 +2788,11 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -2672,17 +2808,20 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="64"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Disaster Protection
@@ -2759,6 +2898,11 @@ exports[`MultiSelect renders correctly when closed 1`] = `
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -2774,16 +2918,19 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="46"
           selectable={true}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              },
+            ]
           }
         >
           Label
@@ -2953,7 +3100,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -3046,6 +3192,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         <Text
           accessible={false}
           collapsable={false}
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -3061,16 +3212,19 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="47"
           selectable={true}
           style={
-            {
-              "color": "#6267e7",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#6267e7",
+                "fontFamily": "InstrumentSans-Medium",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
+              },
+            ]
           }
           testID="test-label"
         >
@@ -3242,7 +3396,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -3392,6 +3545,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -3407,17 +3565,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="48"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Animal Welfare
@@ -3509,6 +3670,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -3524,17 +3690,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="49"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Children & Youth
@@ -3626,6 +3795,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -3641,17 +3815,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="50"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Climate Protection
@@ -3743,6 +3920,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -3758,17 +3940,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="51"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Corona
@@ -3860,6 +4045,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -3875,17 +4065,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="52"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Culture & History
@@ -3977,6 +4170,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -3992,17 +4190,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="53"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Development Cooperation
@@ -4094,6 +4295,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -4109,17 +4315,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="54"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Digitalization
@@ -4211,6 +4420,11 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -4226,17 +4440,20 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="55"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Disaster Protection
@@ -4471,7 +4688,6 @@ exports[`SingleSelect correctly filters options 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={16}
@@ -4618,7 +4834,6 @@ exports[`SingleSelect correctly filters options 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -4768,6 +4983,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -4783,17 +5003,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="8"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Animal Welfare
@@ -4883,6 +5106,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -4898,17 +5126,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="9"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Children & Youth
@@ -4998,6 +5229,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -5013,17 +5249,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="10"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Climate Protection
@@ -5113,6 +5352,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -5128,17 +5372,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="11"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Corona
@@ -5228,6 +5475,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -5243,17 +5495,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="12"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Culture & History
@@ -5343,6 +5598,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -5358,17 +5618,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="13"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Development Cooperation
@@ -5458,6 +5721,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -5473,17 +5741,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="14"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Digitalization
@@ -5573,6 +5844,11 @@ exports[`SingleSelect correctly filters options 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -5588,17 +5864,20 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="15"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Disaster Protection
@@ -5823,7 +6102,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -6064,7 +6342,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -6306,7 +6583,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -6456,6 +6732,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -6471,17 +6752,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="0"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Animal Welfare
@@ -6571,6 +6855,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -6586,17 +6875,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="1"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Children & Youth
@@ -6686,6 +6978,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -6701,17 +6998,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="2"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Climate Protection
@@ -6801,6 +7101,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -6816,17 +7121,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="3"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Corona
@@ -6916,6 +7224,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -6931,17 +7244,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="4"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Culture & History
@@ -7031,6 +7347,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -7046,17 +7367,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="5"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Development Cooperation
@@ -7146,6 +7470,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -7161,17 +7490,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="6"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Digitalization
@@ -7261,6 +7593,11 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           <Text
             accessible={false}
             collapsable={false}
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -7276,17 +7613,20 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "userSelect": "none",
               }
             }
+            nativeID="7"
             numberOfLines={2}
             selectable={false}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "none",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "none",
+                },
+              ]
             }
           >
             Disaster Protection

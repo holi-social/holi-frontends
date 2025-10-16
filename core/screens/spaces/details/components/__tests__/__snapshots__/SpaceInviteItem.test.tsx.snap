@@ -129,6 +129,11 @@ exports[`SpaceInviteItem renders correctly 1`] = `
           accessible={false}
           collapsable={false}
           ellipsizeMode="tail"
+          jestAnimatedProps={
+            {
+              "value": {},
+            }
+          }
           jestAnimatedStyle={
             {
               "value": {},
@@ -144,17 +149,20 @@ exports[`SpaceInviteItem renders correctly 1`] = `
               "userSelect": "auto",
             }
           }
+          nativeID="0"
           numberOfLines={1}
           selectable={true}
           style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 16,
-              "fontWeight": "400",
-              "lineHeight": 22.4,
-              "userSelect": "auto",
-            }
+            [
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
+              },
+            ]
           }
         >
           Some Body
@@ -252,7 +260,6 @@ exports[`SpaceInviteItem renders correctly 1`] = `
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={20}

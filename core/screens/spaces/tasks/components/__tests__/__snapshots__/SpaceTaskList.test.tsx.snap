@@ -196,6 +196,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 collapsable={false}
                 ellipsizeMode="tail"
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -211,17 +216,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="0"
                 numberOfLines={2}
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
                 testID="task-title"
               >
@@ -332,7 +340,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       },
                     ]
                   }
-                  tintColor="#787777"
                   vbHeight={24}
                   vbWidth={24}
                   width={12}
@@ -401,6 +408,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -417,17 +429,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="1"
                 selectable={true}
                 style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 Hamburg, Germany
@@ -473,7 +488,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       },
                     ]
                   }
-                  tintColor="#787777"
                   vbHeight={24}
                   vbWidth={24}
                   width={12}
@@ -542,6 +556,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -558,17 +577,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="2"
                 selectable={true}
                 style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 spaces.input.task.regularity.PROJECT_BASED.title
@@ -962,6 +984,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 collapsable={false}
                 ellipsizeMode="tail"
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -977,17 +1004,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="3"
                 numberOfLines={2}
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
                 testID="task-title"
               >
@@ -1098,7 +1128,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       },
                     ]
                   }
-                  tintColor="#787777"
                   vbHeight={24}
                   vbWidth={24}
                   width={12}
@@ -1167,6 +1196,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -1183,17 +1217,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="4"
                 selectable={true}
                 style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 Hamburg, Germany
@@ -1239,7 +1276,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       },
                     ]
                   }
-                  tintColor="#787777"
                   vbHeight={24}
                   vbWidth={24}
                   width={12}
@@ -1308,6 +1344,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -1324,17 +1365,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="5"
                 selectable={true}
                 style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 spaces.input.task.regularity.PROJECT_BASED.title
@@ -1728,6 +1772,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                 accessible={false}
                 collapsable={false}
                 ellipsizeMode="tail"
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -1743,17 +1792,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="6"
                 numberOfLines={2}
                 selectable={true}
                 style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
                 testID="task-title"
               >
@@ -1864,7 +1916,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       },
                     ]
                   }
-                  tintColor="#787777"
                   vbHeight={24}
                   vbWidth={24}
                   width={12}
@@ -1933,6 +1984,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -1949,17 +2005,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="7"
                 selectable={true}
                 style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 Hamburg, Germany
@@ -2005,7 +2064,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       },
                     ]
                   }
-                  tintColor="#787777"
                   vbHeight={24}
                   vbWidth={24}
                   width={12}
@@ -2074,6 +2132,11 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               <Text
                 accessible={false}
                 collapsable={false}
+                jestAnimatedProps={
+                  {
+                    "value": {},
+                  }
+                }
                 jestAnimatedStyle={
                   {
                     "value": {},
@@ -2090,17 +2153,20 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                     "userSelect": "auto",
                   }
                 }
+                nativeID="8"
                 selectable={true}
                 style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
+                  [
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    },
+                  ]
                 }
               >
                 spaces.input.task.regularity.PROJECT_BASED.title

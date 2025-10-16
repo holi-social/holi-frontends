@@ -246,6 +246,11 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -261,17 +266,20 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 "userSelect": "auto",
               }
             }
+            nativeID="4"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Some Body
@@ -392,7 +400,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -558,7 +565,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -721,6 +727,11 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -736,17 +747,20 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 "userSelect": "auto",
               }
             }
+            nativeID="5"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Some Body
@@ -867,7 +881,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -1033,7 +1046,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -1196,6 +1208,11 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1211,17 +1228,20 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                 "userSelect": "auto",
               }
             }
+            nativeID="6"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 22.4,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Some Body
@@ -1342,7 +1362,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -1508,7 +1527,6 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}

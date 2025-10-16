@@ -99,7 +99,6 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={20}
@@ -233,7 +232,6 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={20}

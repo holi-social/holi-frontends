@@ -309,6 +309,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -324,17 +329,20 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "userSelect": "auto",
               }
             }
+            nativeID="2"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             No Connection
@@ -448,7 +456,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -621,6 +628,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -636,17 +648,20 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "userSelect": "auto",
               }
             }
+            nativeID="3"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Connected
@@ -662,6 +677,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -677,16 +697,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="4"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
               user.connectionStatus.CONNECTED
@@ -793,7 +816,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -966,6 +988,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -981,17 +1008,20 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "userSelect": "auto",
               }
             }
+            nativeID="5"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Connected and Space connection
@@ -1007,6 +1037,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -1022,16 +1057,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="6"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
               user.connectionStatus.CONNECTED
@@ -1039,6 +1077,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -1054,16 +1097,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="7"
               selectable={true}
               style={
-                {
-                  "color": "#6267e7",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#6267e7",
+                    "fontFamily": "InstrumentSans-Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
                ∙ 
@@ -1071,6 +1117,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -1086,16 +1137,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="8"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
               space.userConnection.MEMBER
@@ -1244,6 +1298,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1259,17 +1318,20 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "userSelect": "auto",
               }
             }
+            nativeID="9"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Follower
@@ -1285,6 +1347,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -1300,16 +1367,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="10"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
               space.userConnection.FOLLOWER
@@ -1416,7 +1486,6 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -1589,6 +1658,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1604,17 +1678,20 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "userSelect": "auto",
               }
             }
+            nativeID="11"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Member
@@ -1630,6 +1707,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -1645,16 +1727,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="12"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
               space.userConnection.MEMBER
@@ -1803,6 +1888,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedProps={
+              {
+                "value": {},
+              }
+            }
             jestAnimatedStyle={
               {
                 "value": {},
@@ -1818,17 +1908,20 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                 "userSelect": "auto",
               }
             }
+            nativeID="13"
             numberOfLines={1}
             selectable={true}
             style={
-              {
-                "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "lineHeight": 24,
-                "userSelect": "auto",
-              }
+              [
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 16,
+                  "fontWeight": "400",
+                  "lineHeight": 24,
+                  "userSelect": "auto",
+                },
+              ]
             }
           >
             Admin
@@ -1844,6 +1937,11 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             <Text
               accessible={false}
               collapsable={false}
+              jestAnimatedProps={
+                {
+                  "value": {},
+                }
+              }
               jestAnimatedStyle={
                 {
                   "value": {},
@@ -1859,16 +1957,19 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
+              nativeID="14"
               selectable={true}
               style={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 12,
-                  "fontWeight": "400",
-                  "lineHeight": 16.799999999999997,
-                  "userSelect": "auto",
-                }
+                [
+                  {
+                    "color": "#787777",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 12,
+                    "fontWeight": "400",
+                    "lineHeight": 16.799999999999997,
+                    "userSelect": "auto",
+                  },
+                ]
               }
             >
               space.userConnection.ADMINISTRATOR
