@@ -1,5 +1,7 @@
-import { renderHook } from '@testing-library/react-native'
+jest.mock('expo-file-system/legacy')
+
 import * as ExpoFileSystem from 'expo-file-system/legacy'
+import { renderHook } from '@testing-library/react-native'
 import * as ExpoImageManipulator from 'expo-image-manipulator'
 import * as ExpoImagePicker from 'expo-image-picker'
 import { Image } from 'react-native'
@@ -82,6 +84,7 @@ describe('HoliImagePicker', () => {
             jest.fn(),
             jest.fn(),
           ])
+
         jest.spyOn(ExpoFileSystem, 'getInfoAsync').mockResolvedValue({
           exists: true,
           uri: 'dommyUri',
@@ -89,6 +92,7 @@ describe('HoliImagePicker', () => {
           isDirectory: false,
           modificationTime: 100000,
         })
+
         const imageResult: ExpoImagePicker.ImagePickerResult = {
           canceled: false,
           assets: [
@@ -359,7 +363,7 @@ describe('HoliImagePicker', () => {
           jest.spyOn(ExpoFileSystem, 'getInfoAsync').mockResolvedValue({
             exists: true,
             uri: 'dommyUri',
-            size: 1 * 1024 * 1024, // smaller size
+            size: 1 * 1024, // smaller size
             isDirectory: false,
             modificationTime: 100000,
           })
