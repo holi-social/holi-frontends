@@ -17,7 +17,7 @@ describe('ChipSelect', () => {
       </ChipSelect>
     )
 
-    expect(screen.root).toHaveTextContent('42')
+    expect(screen.root).toHaveTextContent(/42/)
   })
 
   it('should raise press event', () => {

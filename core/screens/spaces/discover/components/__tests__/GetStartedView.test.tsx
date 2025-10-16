@@ -81,8 +81,8 @@ describe('GetStartedView', () => {
   it('renders correctly', async () => {
     const { getByTestId } = renderGetStartedView(MOCKS)
 
-    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.welcome')
-    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.description')
+    expect(getByTestId('get-started-view-header')).toHaveTextContent(/spaces.discover.welcome/)
+    expect(getByTestId('get-started-view-header')).toHaveTextContent(/spaces.discover.description/)
   })
 
   it('renders create button correctly', async () => {
