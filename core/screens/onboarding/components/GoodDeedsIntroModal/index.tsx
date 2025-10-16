@@ -81,7 +81,7 @@ export const GoodDeedsIntroModal = () => {
       case 'GOOD_DEEDS_PROGRESS_EXPLANATION':
         return <GoodDeedsProgressExplanation onNextPress={handleNextStep} onBackPress={handleBackStep} />
       case 'GOOD_DEEDS_CAMPAIGN_EXPLANATION':
-        return <GoodDeedsCampaignExplanation onNextPress={handleNextStep} onBackPress={handleBackStep} />
+        return <GoodDeedsCampaignExplanation type={type} onNextPress={handleNextStep} onBackPress={handleBackStep} />
       default:
         throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
     }
