@@ -112,6 +112,13 @@ jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 
+import NativeEventEmitter from 'react-native/Libraries/EventEmitter/NativeEventEmitter'
+const mockRemove = jest.fn()
+
+NativeEventEmitter.prototype.addListener._protoImpl = () => {
+  return { remove: mockRemove }
+}
+
 jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
