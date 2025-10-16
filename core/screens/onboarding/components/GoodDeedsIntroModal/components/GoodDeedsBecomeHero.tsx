@@ -8,30 +8,44 @@ import { Image } from 'holi-bricks/components/image'
 import { Text } from 'holi-bricks/components/text'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
-import type { NavigationButtonsProps } from '@holi/ui/components/organisms/HoliStepperV2/NavigationButtons'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
+// eslint-disable-next-line no-restricted-imports
+import { useIsDesktopView } from '../helpers/isDesktopView'
+import { breakpoints } from 'holi-bricks/foundations'
 
-type GoodDeedsExplainDesktopProps = Pick<NavigationButtonsProps, 'onNextPress'>
+type GoodDeedsBecomeHeroProps = {
+  onNextPress: () => void
+}
 
-export const GoodDeedsExplainDesktop = ({ onNextPress }: GoodDeedsExplainDesktopProps) => {
+export const GoodDeedsBecomeHero = ({ onNextPress }: GoodDeedsBecomeHeroProps) => {
   const { t } = useTranslation()
   const { top: safeAreaTop } = useSafeAreaInsets()
+  const isDesktopView = useIsDesktopView()
 
   const [heroBecomeHeight, setHeroBecomeHeight] = useState(0)
 
   return (
-    <Stack justifyContent="space-between" flex={1} backgroundColor="white" direction="row">
+    <Stack justifyContent="space-between" flex={1} backgroundColor="white" direction={isDesktopView ? 'row' : 'column'}>
       <Stack
         backgroundColor="yellowDefault"
         padding={{ bottom: 'sm' }}
-        borderRadius={{ topRight: 'xxl', bottomRight: 'xxl' }}
-        flex={353}
+        borderRadius={
+          isDesktopView ? { topRight: 'xxl', bottomRight: 'xxl' } : { bottomLeft: 'xxl', bottomRight: 'xxl' }
+        }
+        flex={isDesktopView ? 353 : undefined}
       >
         <View
           style={{ paddingTop: safeAreaTop, flex: 1, alignItems: 'center', justifyContent: 'center' }}
           onLayout={(event) =>
-            setHeroBecomeHeight(Math.min(event.nativeEvent.layout.height, event.nativeEvent.layout.width) * 0.9)
+            setHeroBecomeHeight(
+              Math.min(
+                isDesktopView
+                  ? Math.min(event.nativeEvent.layout.height, event.nativeEvent.layout.width) * 0.9
+                  : event.nativeEvent.layout.width - 24,
+                breakpoints.sm - 24
+              )
+            )
           }
         >
           <Image
@@ -43,7 +57,7 @@ export const GoodDeedsExplainDesktop = ({ onNextPress }: GoodDeedsExplainDesktop
         </View>
       </Stack>
 
-      <Stack flex={447} justifyContent="space-between">
+      <Stack flex={isDesktopView ? 447 : undefined} justifyContent="space-between">
         <Stack gap="3xs" padding={{ top: 'lg', bottom: 'lg', left: 'md', right: 'md' }}>
           <Text size="3xl">
             <Trans
@@ -70,13 +84,11 @@ export const GoodDeedsExplainDesktop = ({ onNextPress }: GoodDeedsExplainDesktop
           </Text>
         </Stack>
 
-        <Stack padding={{ right: 'md' }}>
-          <GoodDeedsIntroFooterNavigation
-            isBackButtonAvailable={false}
-            nextButtonLabel="onboarding.modal.step01.buttonPrimary"
-            onNextPress={onNextPress}
-          />
-        </Stack>
+        <GoodDeedsIntroFooterNavigation
+          isBackButtonAvailable={false}
+          nextButtonLabel="onboarding.modal.step01.buttonPrimary"
+          onNextPress={onNextPress}
+        />
       </Stack>
     </Stack>
   )
