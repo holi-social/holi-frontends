@@ -57,6 +57,7 @@ export const login = async (page: Page, email: string, password: string) => {
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/onboarding')
 
+  await page.getByRole('button', { name: "Let's go" }).click()
   await page.getByRole('button', { name: 'Back' }).click()
 
   await page.getByLabel('Bottom navigation').getByText('Feed').click()
