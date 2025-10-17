@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useState } from 'react'
+import type React from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 
@@ -30,19 +31,22 @@ import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import { Key2, Mail } from '@holi/icons/src/generated'
-import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
+import { getFormNodesByStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHeader'
+import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 
 const logger = getLogger('Auth')
 
 export interface RegistrationProps {
   onRegister?: () => void
   flowId?: string
+  step: AuthenticationStep
+  setStep: React.Dispatch<React.SetStateAction<AuthenticationStep>>
 }
 
-export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
+export const RegistrationForm = ({ onRegister, flowId, step, setStep }: RegistrationProps) => {
   const { navigate } = useRouting()
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
@@ -53,7 +57,6 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const [email, setEmail] = useState<string | undefined>(undefined)
-  const [step, setStep] = useState<'oidc' | 'email-password' | 'email-code' | 'code'>('oidc')
 
   const { track } = useTracking()
 
@@ -68,7 +71,7 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
       }
       return false
     },
-    [step]
+    [step, setStep]
   )
 
   const initializeFlow = useCallback(() => {
@@ -188,7 +191,7 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
     }
   }
 
-  const nodesToShow = getNodesByStep(step)
+  const nodesToShow = getFormNodesByStep(step)
 
   return (
     <View>

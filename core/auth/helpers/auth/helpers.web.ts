@@ -172,6 +172,10 @@ export const submitReauthFlow = (
     .catch(handleKratosSdkError('submitReauthFlow'))
 }
 
+export const submitSocialLogout = async () => {
+  // noop on web
+}
+
 // Logout
 export const submitLogoutFlow = () =>
   newKratosSdk()

@@ -4,7 +4,7 @@ import {
   doLogin,
   getVerificationFlowFromRegistration,
   initRegistrationFlow,
-  retrieveSubmitFlowBody,
+  submitRegistrationFlow,
 } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -13,11 +13,9 @@ import { Button } from 'holi-bricks/components/button'
 import React from 'react'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ApolloClient } from '@apollo/client'
-import type { UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { RegistrationForm, type RegistrationProps } from '@holi/core/screens/auth/components/RegistrationForm'
 
@@ -43,23 +41,18 @@ const mockInitRegistrationFlow = initRegistrationFlow as jest.Mock
 const mockGetVerificationFlowFromRegistration = getVerificationFlowFromRegistration as jest.Mock
 const mockDoBrowserLogin = doBrowserLogin as jest.Mock
 const mockDoLogin = doLogin as jest.Mock
-const mockRetrieveSubmitFlowBody = retrieveSubmitFlowBody as jest.Mock
+const mockSubmitRegistrationFlow = submitRegistrationFlow as jest.Mock
 jest.mock('@holi/core/auth/helpers/auth', () => ({
   initRegistrationFlow: jest.fn(),
   getVerificationFlowFromRegistration: jest.fn(),
   doBrowserLogin: jest.fn(),
   doLogin: jest.fn(),
-  retrieveSubmitFlowBody: jest.fn(),
+  submitRegistrationFlow: jest.fn(),
 }))
 
 const mockSetVerificationFlowData = setVerificationFlowData as unknown as jest.Mock
 jest.mock('@holi/core/auth/helpers/useVerificationFlowData', () => ({
   setVerificationFlowData: jest.fn(),
-}))
-
-const mockNewKratosSdk = newKratosSdk as jest.Mock
-jest.mock('@holi/core/auth/helpers/sdk', () => ({
-  newKratosSdk: jest.fn(),
 }))
 
 const formValues = { method: 'password', password: 'p455w0rd' }
@@ -80,7 +73,6 @@ describe('RegistrationForm', () => {
   const displayError = jest.fn()
   const track = jest.fn()
   const navigate = jest.fn()
-  const updateRegistrationFlow = jest.fn()
   const verificationFlowData = { id: 'test' }
   const registrationResponse = { session: { id: 'test' }, session_token: 'some_token' }
 
@@ -91,12 +83,10 @@ describe('RegistrationForm', () => {
     mockUseErrorHandling.mockReturnValue({ displayError })
     mockUseTracking.mockReturnValue({ track })
     mockUseRouting.mockReturnValue({ navigate })
-    mockNewKratosSdk.mockReturnValue({ updateRegistrationFlow })
-    updateRegistrationFlow.mockResolvedValue({ data: registrationResponse })
     mockGetVerificationFlowFromRegistration.mockReturnValue(verificationFlowData)
     mockSetLoginStateLoggedIn.mockResolvedValue({})
     mockDoBrowserLogin.mockResolvedValue({})
-    mockRetrieveSubmitFlowBody.mockImplementation((payload: UpdateRegistrationFlowBody) => Promise.resolve(payload))
+    mockSubmitRegistrationFlow.mockResolvedValue({ data: registrationResponse })
   })
   afterEach(async () => {
     await act(jest.runOnlyPendingTimers)
@@ -106,7 +96,7 @@ describe('RegistrationForm', () => {
   const renderScreen = async ({ onRegister }: Partial<RegistrationProps> = {}) => {
     render(
       <MockedProvider>
-        <RegistrationForm onRegister={onRegister ?? jest.fn()} />
+        <RegistrationForm onRegister={onRegister ?? jest.fn()} step="oidc" setStep={jest.fn()} />
       </MockedProvider>
     )
 
@@ -153,10 +143,7 @@ describe('RegistrationForm', () => {
     it('should submit the form', async () => {
       await submitForm()
 
-      expect(updateRegistrationFlow).toHaveBeenCalledWith({
-        flow: registrationFlow.id,
-        updateRegistrationFlowBody: formValues,
-      })
+      expect(mockSubmitRegistrationFlow).toHaveBeenCalledWith(registrationFlow, formValues, undefined)
     })
 
     it('should track registration', async () => {
@@ -183,30 +170,19 @@ describe('RegistrationForm', () => {
       expect(mockDoLogin).toHaveBeenCalled()
     })
 
-    it('should handle misconfiguration', async () => {
-      updateRegistrationFlow.mockResolvedValue({ data: {} })
-
-      await submitForm()
-
-      expect(displayError).toHaveBeenCalledWith(expect.any(Error), 'Failed to submit form', {
-        displayMessage: 'auth.registration.error.registration',
-        location: 'RegistrationForm.onSubmit',
-      })
-    })
-
     it('should display error when updating the registration flow fails', async () => {
-      updateRegistrationFlow.mockRejectedValue('test')
+      mockSubmitRegistrationFlow.mockRejectedValue('test')
 
       await submitForm()
 
       expect(displayError).toHaveBeenCalledWith('test', 'Failed to submit form', {
         displayMessage: 'auth.registration.error.registration',
-        location: 'RegistrationForm.onSubmit',
+        location: 'RegistrationForm.handleFormSubmitError',
       })
     })
 
     it('should follow a redirect, when Ory sends a request', async () => {
-      updateRegistrationFlow.mockRejectedValue({
+      mockSubmitRegistrationFlow.mockRejectedValue({
         isAxiosError: true,
         response: {
           status: 422,
@@ -223,7 +199,7 @@ describe('RegistrationForm', () => {
     })
 
     it('should display error when a browser login fails', async () => {
-      updateRegistrationFlow.mockRejectedValue({
+      mockSubmitRegistrationFlow.mockRejectedValue({
         isAxiosError: true,
         response: {
           status: 422,
@@ -245,7 +221,7 @@ describe('RegistrationForm', () => {
     })
 
     it('should not display an error when social login is cancelled', async () => {
-      mockRetrieveSubmitFlowBody.mockRejectedValue(new HoliLoginCancelledError('Test'))
+      mockSubmitRegistrationFlow.mockRejectedValue(new HoliLoginCancelledError('Test'))
 
       await submitForm()
 

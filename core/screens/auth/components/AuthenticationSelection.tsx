@@ -5,8 +5,9 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type React from 'react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 
 export type AuthenticationType = 'login' | 'registration'
 
@@ -31,29 +32,55 @@ export const AuthenticationSelection = ({
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
 
-  const [activeTab, setActiveTab] = useState<AuthenticationType>(initialSelection)
+  const [selectedAuthenticationType, setSelectedAuthenticationType] = useState<AuthenticationType>(initialSelection)
+  const [authenticationStep, setAuthenticationStep] = useState<AuthenticationStep>('oidc')
+
   const tabs: TabItem[] = [
     {
       key: 'login',
       tabTitle: t('auth.tabs.login'),
       tabIcons: [LogoutBox, LogoutBoxFilled],
-      content: () => <LoginForm flowId={initialSelection === 'login' ? flowId : undefined} onLogin={onLogin} />,
+      content: () => (
+        <LoginForm
+          flowId={initialSelection === 'login' ? flowId : undefined}
+          onLogin={onLogin}
+          step={authenticationStep}
+          setStep={setAuthenticationStep}
+        />
+      ),
     },
     {
       key: 'registration',
       tabTitle: t('auth.tabs.register'),
       tabIcons: [UserAdd, UserAddFilled],
       content: () => (
-        <RegistrationForm flowId={initialSelection === 'registration' ? flowId : undefined} onRegister={onRegister} />
+        <RegistrationForm
+          flowId={initialSelection === 'registration' ? flowId : undefined}
+          onRegister={onRegister}
+          step={authenticationStep}
+          setStep={setAuthenticationStep}
+        />
       ),
     },
   ]
 
+  const onTabSwitch = useCallback((key: string) => {
+    setSelectedAuthenticationType(key as AuthenticationType)
+    setAuthenticationStep('oidc')
+    // TODO(SF) clear flow param?
+  }, [])
+
+  if (authenticationStep === 'code') {
+    const selectedTab = tabs.find((tab) => tab.key === selectedAuthenticationType)
+    if (selectedTab) {
+      return selectedTab.content()
+    }
+  }
+
   return (
     <HoliTabs
-      activeTab={activeTab}
-      // TODO(SF) clear flow param on tab switch?
-      onChange={(key) => setActiveTab(key as AuthenticationType)}
+      activeTab={selectedAuthenticationType}
+      onChange={onTabSwitch}
       data={tabs}
       keyExtractor={(item) => item.key}
       renderTabContent={({ item }) => item.content()}

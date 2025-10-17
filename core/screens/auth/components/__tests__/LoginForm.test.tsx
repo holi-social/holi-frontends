@@ -118,7 +118,7 @@ describe('LoginForm', () => {
   const submitForm = async () => {
     const user = userEvent.setup()
 
-    render(<LoginForm />)
+    render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -136,13 +136,13 @@ describe('LoginForm', () => {
     })
 
     it('should not initialize login flow', () => {
-      render(<LoginForm />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).not.toHaveBeenCalled()
     })
 
     it('should navigate to home', () => {
-      render(<LoginForm />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockNavigate).toHaveBeenCalledWith('/')
     })
@@ -150,7 +150,7 @@ describe('LoginForm', () => {
 
   describe('flow initialization', () => {
     it('should initialize login flow', async () => {
-      render(<LoginForm />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).toHaveBeenCalled()
 
@@ -160,7 +160,7 @@ describe('LoginForm', () => {
     it('should display error if initializing login flow fails', async () => {
       mockInitLoginFlow.mockRejectedValue('Test')
 
-      render(<LoginForm />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -171,7 +171,7 @@ describe('LoginForm', () => {
     })
 
     it('should render form after initializing flow', async () => {
-      render(<LoginForm />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -180,7 +180,7 @@ describe('LoginForm', () => {
     })
 
     it('should initialize login flow with id if given', async () => {
-      render(<LoginForm flowId="123" />)
+      render(<LoginForm flowId="123" step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
 
@@ -204,7 +204,7 @@ describe('LoginForm', () => {
     it('should track social login', async () => {
       const user = userEvent.setup()
 
-      render(<LoginForm />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 

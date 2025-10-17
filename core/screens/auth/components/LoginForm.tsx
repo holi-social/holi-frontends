@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
-import React, { useCallback, useEffect, useState } from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 
@@ -26,18 +27,21 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
+import { getFormNodesByStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHeader'
+import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 
 interface LoginFormProps {
   flowId?: string
   onLogin?: () => void
+  step: AuthenticationStep
+  setStep: React.Dispatch<React.SetStateAction<AuthenticationStep>>
 }
 
-export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
+export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) => {
   const [displayedExistingAccountError, setDisplayedExistingAccountError] = useState(false)
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
@@ -50,7 +54,6 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
   const redirect = useRedirect('/')
   const { navigate } = useRouting()
   const [email, setEmail] = useState<string | undefined>(undefined)
-  const [step, setStep] = useState<'oidc' | 'email-password' | 'email-code' | 'code'>('oidc')
   const { styles } = useStyles(stylesheet)
   const pathToRedirect = usePathToRedirect()
 
@@ -65,7 +68,7 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
       }
       return false
     },
-    [step]
+    [step, setStep]
   )
 
   const initializeFlow = useCallback(
@@ -103,7 +106,17 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
       const redirect = getRedirectAfterSocialLogin()
       navigate(redirect || pathToRedirect || '/')
     }
-  }, [isLoggedOut, initializeFlow, flow, navigate, displayError, t, pathToRedirect, displayedExistingAccountError])
+  }, [
+    isLoggedOut,
+    initializeFlow,
+    flow,
+    navigate,
+    displayError,
+    t,
+    pathToRedirect,
+    displayedExistingAccountError,
+    setStep,
+  ])
 
   const performLogin = async (payload: UpdateLoginFlowBody & { identifier?: string }, provider?: string) => {
     if (payload.identifier) {
@@ -183,7 +196,7 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
       hideLoader()
     }
   }
-  const nodesToShow = getNodesByStep(step)
+  const nodesToShow = getFormNodesByStep(step)
 
   return (
     <View style={styles.container}>
