@@ -284,11 +284,7 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
   }
 }
 
-// Logout
-export const submitLogoutFlow = async ({
-  sessionToken,
-  accountType,
-}: { sessionToken?: string; accountType?: AccountType }) => {
+export const submitSocialLogout = async (accountType?: AccountType) => {
   switch (accountType) {
     case AccountType.Google:
       await GoogleSignin.signOut()
@@ -297,9 +293,13 @@ export const submitLogoutFlow = async ({
       // noop: It is not recommended to use AppleAuthentication.signOutAsync
       break
     case AccountType.Facebook:
-      await LoginManager.logOut()
+      LoginManager.logOut()
       break
   }
+}
+
+// Logout
+export const submitLogoutFlow = async ({ sessionToken }: { sessionToken?: string }) => {
   if (sessionToken) {
     return newKratosSdk()
       .performNativeLogout({
