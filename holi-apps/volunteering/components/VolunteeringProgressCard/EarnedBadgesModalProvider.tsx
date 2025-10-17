@@ -17,8 +17,13 @@ export const EarnedBadgesModalProvider = ({ children }: React.PropsWithChildren<
     onDismiss: refetchBadges,
   })
 
+  const refetchAndReturnBadges = async () => {
+    refetchBadges()
+    return badges
+  }
+
   return (
-    <BadgesModalContext.Provider value={refetchBadges}>
+    <BadgesModalContext.Provider value={refetchAndReturnBadges}>
       {children}
 
       {haveNewBadgesToShow && (
