@@ -137,7 +137,7 @@ describe('RegistrationForm', () => {
 
       expect(displayError).toHaveBeenCalledWith('test', 'Failed to initialize registration flow', {
         displayMessage: 'auth.registration.error.initialization',
-        location: 'CreateAccount.initRegistrationFlow',
+        location: 'RegistrationForm.initRegistrationFlow',
       })
     })
 
@@ -190,7 +190,7 @@ describe('RegistrationForm', () => {
 
       expect(displayError).toHaveBeenCalledWith(expect.any(Error), 'Failed to submit form', {
         displayMessage: 'auth.registration.error.registration',
-        location: 'CreateAccount.onSubmit',
+        location: 'RegistrationForm.onSubmit',
       })
     })
 
@@ -201,7 +201,7 @@ describe('RegistrationForm', () => {
 
       expect(displayError).toHaveBeenCalledWith('test', 'Failed to submit form', {
         displayMessage: 'auth.registration.error.registration',
-        location: 'CreateAccount.onSubmit',
+        location: 'RegistrationForm.onSubmit',
       })
     })
 
@@ -240,7 +240,7 @@ describe('RegistrationForm', () => {
       expect(mockDoBrowserLogin).toHaveBeenCalledWith('someUrl', registrationFlow)
       expect(displayError).toHaveBeenCalledWith('test', 'Failed to login user', {
         displayMessage: 'auth.login.error.login',
-        location: 'CreateAccount.doBrowserLogin',
+        location: 'RegistrationForm.doBrowserLogin',
       })
     })
 

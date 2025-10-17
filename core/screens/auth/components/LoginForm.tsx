@@ -88,7 +88,7 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
     ) {
       displayError(new Error('Email already used'), 'Failed to submit form', {
         displayMessage: t('auth.login.message.1010016'),
-        location: 'CreateAccount.onSubmit',
+        location: 'LoginForm.useEffect',
       })
 
       initializeFlow()?.then(() => {
@@ -128,7 +128,7 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
       ) {
         displayError(err, 'Failed to submit form', {
           displayMessage: t('auth.login.message.1010016'),
-          location: 'CreateAccount.onSubmit',
+          location: 'LoginForm.performLogin',
         })
         initializeFlow()?.then(() => {
           setStep('email-code')

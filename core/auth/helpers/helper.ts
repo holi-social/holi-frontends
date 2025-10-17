@@ -52,11 +52,15 @@ const logKratosError = (
 }
 
 export const getBrowserRedirect = (err: unknown) => {
-  if (isAxiosError(err) && err.response?.status === 422) {
-    const responseData = err.response?.data as { error?: { id: string }; redirect_browser_to?: string }
-    if (responseData?.error?.id === 'browser_location_change_required' && responseData?.redirect_browser_to) {
-      return responseData?.redirect_browser_to
+  if (isAxiosError(err))
+    if (err.response?.status === 422) {
+      const responseData = err.response?.data as { error?: { id: string }; redirect_browser_to?: string }
+      if (responseData?.error?.id === 'browser_location_change_required' && responseData?.redirect_browser_to) {
+        return responseData?.redirect_browser_to
+      }
+      // } else if (err.response?.status === 303) {
+      //   const responseData = err.response.data
+      //   console.log({ responseData })
     }
-  }
   return
 }

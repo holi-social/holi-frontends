@@ -10,14 +10,13 @@ import {
   doLogin,
   getVerificationFlowFromRegistration,
   initRegistrationFlow,
-  retrieveSubmitFlowBody,
+  submitRegistrationFlow,
 } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { ButtonTracked } from '@holi/core/components/Trackable'
-import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -36,9 +35,7 @@ import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesBy
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 
-const logger = getLogger('CreateAccount')
-
-const isWeb = Platform.OS === 'web'
+const logger = getLogger('Auth')
 
 export interface RegistrationProps {
   onRegister?: () => void
@@ -86,7 +83,7 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
         .catch((error) =>
           displayError(error, 'Failed to initialize registration flow', {
             displayMessage: t('auth.registration.error.initialization'),
-            location: 'CreateAccount.initRegistrationFlow',
+            location: 'RegistrationForm.initRegistrationFlow',
           })
         )
     )
@@ -110,24 +107,15 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
       Keyboard.dismiss()
 
       try {
-        const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
-        const { data } = await newKratosSdk().updateRegistrationFlow({
-          flow: flow.id,
-          updateRegistrationFlowBody,
-        })
-        // ORY Kratos can be configured in such a way that it requires a login after
-        // registration. You could handle that case by navigating to the Login screen
-        // but for simplicity we'll just print an error here:
-        if (isWeb ? !data.session : !data.session_token) {
-          const err = new HoliOnboardingError(
-            'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
-          )
-          throw err
-        }
-
-        logger.debug('CreateAccount', 'registration was successful')
+        const { data } = await submitRegistrationFlow(flow, payload, provider)
+        logger.debug('RegistrationForm.onSubmit', 'registration was successful')
 
         const verificationFlowData = getVerificationFlowFromRegistration(data)
+        logger.debug(
+          'RegistrationForm.getVerificationFlowFromRegistration',
+          'verification flow data',
+          verificationFlowData
+        )
         setVerificationFlowData(verificationFlowData)
 
         await doLogin(client, {
@@ -135,19 +123,22 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
           session_token: data.session_token,
         } as OrySessionContext)
 
+        logger.debug('RegistrationForm.onSubmit', 'login after registration was successful')
+
         onRegister?.()
       } catch (err) {
+        logger.debug('RegistrationForm.onSubmit', 'Error', err)
         if (
           (
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
-          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+          )?.response?.data?.ui?.messages?.find((message) => message.id && [4000007, 4010003].includes(message.id))
         ) {
           displayError(err, 'Failed to submit form', {
             displayMessage: t('auth.login.message.1010016'),
-            location: 'CreateAccount.onSubmit',
+            location: 'RegistrationForm.onSubmit',
           })
           initializeFlow()?.then(() => {
-            setStep('email-code')
+            setStep((step) => (step === 'email-password' ? 'email-password' : 'email-code'))
           })
           return
         }
@@ -156,18 +147,20 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
           return
         }
         const url = getBrowserRedirect(err)
+        logger.debug('RegistrationForm.onSubmit', 'Browser redirect URL', url)
         if (url) {
           if (Platform.OS === 'web') {
             navigate(url)
           } else {
             const data = await doBrowserLogin(url, flow).catch((error) => {
+              logger.debug('RegistrationForm.doBrowserLogin', 'Error', error)
               handleFormSubmitError(
                 safeSetFlow,
                 initializeFlow,
                 (err) =>
                   displayError(err, 'Failed to login user', {
                     displayMessage: t('auth.login.error.login'),
-                    location: 'CreateAccount.doBrowserLogin',
+                    location: 'RegistrationForm.doBrowserLogin',
                   }),
                 error
               )
@@ -184,7 +177,7 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
             (error) =>
               displayError(error, 'Failed to submit form', {
                 displayMessage: t('auth.registration.error.registration'),
-                location: 'CreateAccount.onSubmit',
+                location: 'RegistrationForm.handleFormSubmitError',
               }),
             err
           )

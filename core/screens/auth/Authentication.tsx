@@ -19,6 +19,9 @@ import { DocumentsFooter } from '@holi/core/screens/onboarding/components/Docume
 import { Screen } from '@holi/core/components/Screen'
 import { Close } from '@holi/icons/src/generated'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
+import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 
 export interface AuthenticationProps {
   initialSelection: AuthenticationType
@@ -37,6 +40,8 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
   const [flowId] = useParam('flow')
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
+  const { track } = useTracking()
+  // TODO(SF) handle being logged in already
 
   return (
     <View style={styles.wrapper}>
@@ -45,6 +50,7 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
         preset="scroll"
         keyboardShouldPersistTaps="always"
         headerOptions={{
+          headerShown: true,
           headerBackVisible: false,
           headerTitleAlign: 'center',
           headerStyle: {
@@ -55,6 +61,7 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
             <HeaderBackButton
               icon={Close}
               onPress={() => {
+                track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
                 storeGuestMode(true)
                 onContinueAsGuest?.()
               }}
@@ -64,33 +71,40 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
             footerShown: false,
           },
         }}
+        StickyBottomComponent={
+          <View style={styles.footer}>
+            <HoliDivider />
+            <HoliContainer>
+              <DocumentsFooter />
+            </HoliContainer>
+          </View>
+        }
       >
-        <View style={styles.container}>
-          <Text headingLevel="1" size="4xl" textAlign="center" margin={{ bottom: 'xs' }}>
-            {t('registration.signUp.heading')}
+        <Text headingLevel="1" size="4xl" textAlign="center" margin={{ bottom: 'xs' }}>
+          {t('registration.signUp.heading')}
 
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
-              width={50}
-              height={40}
-              label={''}
-              isSvg
-            />
-          </Text>
-          <AuthenticationSelection
-            flowId={flowId}
-            initialSelection={initialSelection}
-            onRegister={onRegister}
-            onLogin={onLogin}
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
+            width={50}
+            height={40}
+            label={''}
+            isSvg
           />
-        </View>
+        </Text>
+        <AuthenticationSelection
+          flowId={flowId}
+          initialSelection={initialSelection}
+          onLogin={() => {
+            track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
+            onLogin?.()
+          }}
+          onRegister={() => {
+            track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+            metaSdk.trackSignUp()
+            onRegister?.()
+          }}
+        />
       </Screen>
-      <View style={styles.footer}>
-        <HoliDivider />
-        <HoliContainer>
-          <DocumentsFooter />
-        </HoliContainer>
-      </View>
     </View>
   )
 }
@@ -104,15 +118,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   header: {
     backgroundColor: theme.colors.bg.main,
-  },
-  container: {
-    paddingVertical: Spacing.md,
-  },
-  backButton: {
-    position: 'absolute',
-    top: Spacing.md,
-    left: 0,
-    zIndex: 1000,
   },
   logoContainer: {
     alignItems: 'center',

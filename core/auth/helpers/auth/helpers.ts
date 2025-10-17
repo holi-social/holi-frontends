@@ -2,6 +2,7 @@
 import type {
   LoginFlow,
   RecoveryFlow,
+  RegistrationFlow,
   SettingsFlow,
   UiText,
   UpdateLoginFlowBody,
@@ -25,6 +26,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
+import { HoliOryRegistrationConfigError } from '@holi/core/errors/classes/HoliOnboardingError'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
@@ -224,6 +226,24 @@ export const submitLoginFlow = async (
   return newKratosSdk()
     .updateLoginFlow({ flow: flow.id, xSessionToken: sessionToken, updateLoginFlowBody }, { withCredentials: false })
     .catch(handleKratosSdkError('updateLoginFlow'))
+}
+
+export const submitRegistrationFlow = async (
+  flow: RegistrationFlow,
+  payload: UpdateRegistrationFlowBody,
+  provider?: string
+) => {
+  const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
+  logger.debug('retrieveSubmitFlowBody', 'registration flow body', updateRegistrationFlowBody)
+  const response = await newKratosSdk()
+    .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody }, { withCredentials: false })
+    .catch(handleKratosSdkError('updateRegistrationFlow'))
+
+  if (!response.data.session_token) {
+    throw new HoliOryRegistrationConfigError()
+  }
+
+  return response
 }
 
 /**

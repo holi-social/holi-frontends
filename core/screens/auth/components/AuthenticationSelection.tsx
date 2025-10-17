@@ -37,19 +37,22 @@ export const AuthenticationSelection = ({
       key: 'login',
       tabTitle: t('auth.tabs.login'),
       tabIcons: [LogoutBox, LogoutBoxFilled],
-      content: () => <LoginForm onLogin={onLogin} />,
+      content: () => <LoginForm flowId={initialSelection === 'login' ? flowId : undefined} onLogin={onLogin} />,
     },
     {
       key: 'registration',
       tabTitle: t('auth.tabs.register'),
       tabIcons: [UserAdd, UserAddFilled],
-      content: () => <RegistrationForm flowId={flowId} onRegister={onRegister} />,
+      content: () => (
+        <RegistrationForm flowId={initialSelection === 'registration' ? flowId : undefined} onRegister={onRegister} />
+      ),
     },
   ]
 
   return (
     <HoliTabs
       activeTab={activeTab}
+      // TODO(SF) clear flow param on tab switch?
       onChange={(key) => setActiveTab(key as AuthenticationType)}
       data={tabs}
       keyExtractor={(item) => item.key}
