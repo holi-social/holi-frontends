@@ -15,7 +15,7 @@ import { useIsDesktopView } from '../helpers/isDesktopView'
 // eslint-disable-next-line no-restricted-imports
 import type { IntroFlowType } from '../helpers/useGoodDeedsIntroModalState'
 
-const SVG_ASPECT_RATIO = 186 / 300
+const SVG_ASPECT_RATIO = 338 / 249
 
 type GoodDeedsCampaignExplanationProps = {
   type: IntroFlowType
@@ -81,10 +81,10 @@ export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }:
                   right: 0,
                   bottom: 0,
                 }}
-                onLayout={(event) => setHeroExplanaitonHeight(event.nativeEvent.layout.height * 1.5)}
+                onLayout={(event) => setHeroExplanaitonHeight(event.nativeEvent.layout.height * 1.2)}
               >
                 <Image
-                  source={require('@holi/ui/assets/img/goodDeeds/holi-hero-holding-something.svg')}
+                  source={require('@holi/ui/assets/img/goodDeeds/holi-heroes-holding-something.svg')}
                   height={heroExplanaitonHeight}
                   width={heroExplanaitonHeight * SVG_ASPECT_RATIO}
                   alt={t('navigation.title')}
@@ -123,10 +123,17 @@ export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }:
                 right: 0,
                 bottom: 0,
               }}
-              onLayout={(event) => setHeroExplanaitonHeight(event.nativeEvent.layout.height * 1.2)}
+              onLayout={(event) => {
+                const estimatedWidth = event.nativeEvent.layout.height * SVG_ASPECT_RATIO
+                if (estimatedWidth > event.nativeEvent.layout.width - 24) {
+                  setHeroExplanaitonHeight((event.nativeEvent.layout.width - 24) / SVG_ASPECT_RATIO)
+                } else {
+                  setHeroExplanaitonHeight(event.nativeEvent.layout.height)
+                }
+              }}
             >
               <Image
-                source={require('@holi/ui/assets/img/goodDeeds/holi-hero-holding-something.svg')}
+                source={require('@holi/ui/assets/img/goodDeeds/holi-heroes-holding-something.svg')}
                 height={heroExplanaitonHeight}
                 width={heroExplanaitonHeight * SVG_ASPECT_RATIO}
                 alt={t('navigation.title')}
