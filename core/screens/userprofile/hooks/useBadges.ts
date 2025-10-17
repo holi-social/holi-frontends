@@ -99,10 +99,11 @@ export const useBadges = () => {
     notifyOnNetworkStatusChange: true,
   })
 
-  const refetchBadges = useCallback(async () => {
-    if (!isLoggedIn) return [] as Badge[]
-    const result = await refetch()
-    return mapBadges(result.data)
+  const refetchBadges = useCallback(() => {
+    if (!isLoggedIn) return
+    else {
+      refetch()
+    }
   }, [isLoggedIn, refetch])
 
   if (!isLoggedIn) {
