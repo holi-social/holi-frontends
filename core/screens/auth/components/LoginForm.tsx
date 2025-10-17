@@ -21,7 +21,7 @@ import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations'
 import { ButtonTracked, HoliTextLinkTracked } from '@holi/core/components/Trackable'
-import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
+import { Key2, Mail } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -29,8 +29,8 @@ import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
-import { Image } from 'holi-bricks/components/image'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHeader'
 
 interface LoginFormProps {
   flowId?: string
@@ -189,39 +189,19 @@ export const LoginForm = ({ flowId, onLogin }: LoginFormProps) => {
     <View style={styles.container}>
       <HoliContainer>
         {step === 'code' && (
-          <View style={styles.mailImage}>
-            <Image
-              source={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
-              width={251}
-              height={181}
-              alt={t('profile.loggedOut.image')}
-            />
-            <Text size="3xl" textAlign="center">
-              {t('registration.emailVerification.heading')}
-            </Text>
-            <Text textAlign="center">{t('registration.emailVerification.body')}</Text>
-            <View style={styles.changeEmailContainer}>
-              <Text>{email}</Text>
-              <ButtonTracked
-                icon={Edit2}
-                transparent
-                size="lg"
-                label={t('global.edit')}
-                onPress={() => {
-                  showLoader()
-                  initializeFlow().then(() => {
-                    setStep('email-code')
-                    hideLoader()
-                  })
-                }}
-                trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
-                  step: 'edit',
-                  screen: 'mainLogin',
-                })}
-              />
-            </View>
-          </View>
+          <CodeInputHeader
+            email={email}
+            onChangeEmail={() => {
+              showLoader()
+              initializeFlow().then(() => {
+                setStep('email-code')
+                hideLoader()
+              })
+            }}
+            trackingScreenName="mainLogin"
+          />
         )}
+
         <FormBuilder
           flow={flow}
           onSubmit={performLogin}

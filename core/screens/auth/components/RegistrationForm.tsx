@@ -23,17 +23,17 @@ import { getLogger } from '@holi/core/helpers/logging'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
-import { Edit2, Key2, Mail } from '@holi/icons/src/generated'
+import { Key2, Mail } from '@holi/icons/src/generated'
 import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
+import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHeader'
 
 const logger = getLogger('Auth')
 
@@ -193,39 +193,17 @@ export const RegistrationForm = ({ onRegister, flowId }: RegistrationProps) => {
   return (
     <View>
       {step === 'code' && (
-        <View style={styles.mailImage}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
-            width={251}
-            height={181}
-            label={t('profile.loggedOut.image')}
-            isSvg
-          />
-          <Text size="3xl" textAlign="center">
-            {t('registration.emailVerification.heading')}
-          </Text>
-          <Text textAlign="center">{t('registration.emailVerification.body')}</Text>
-          <View style={styles.changeEmailContainer}>
-            <Text>{email}</Text>
-            <ButtonTracked
-              icon={Edit2}
-              transparent
-              size="lg"
-              label={t('global.edit')}
-              onPress={() => {
-                showLoader()
-                initializeFlow()?.then(() => {
-                  setStep('email-code')
-                  hideLoader()
-                })
-              }}
-              trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
-                step: 'edit',
-                screen: 'mainRegistration',
-              })}
-            />
-          </View>
-        </View>
+        <CodeInputHeader
+          email={email}
+          onChangeEmail={() => {
+            showLoader()
+            initializeFlow()?.then(() => {
+              setStep('email-code')
+              hideLoader()
+            })
+          }}
+          trackingScreenName="mainRegistration"
+        />
       )}
       <FormBuilder
         flow={flow}
@@ -290,18 +268,6 @@ const styles = StyleSheet.create({
   form: {
     marginTop: Spacing.sm,
     width: '100%',
-  },
-  mailImage: {
-    marginTop: Spacing.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: Spacing.xs,
-  },
-  changeEmailContainer: {
-    gap: Spacing['3xs'],
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   dividerContainer: {
     marginTop: Spacing['3xs'],
