@@ -6,19 +6,22 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { Text } from 'holi-bricks/components/text'
+import { breakpoints } from 'holi-bricks/foundations'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
 // eslint-disable-next-line no-restricted-imports
 import { useIsDesktopView } from '../helpers/isDesktopView'
-import { breakpoints } from 'holi-bricks/foundations'
+// eslint-disable-next-line no-restricted-imports
+import type { IntroFlowType } from '../helpers/useGoodDeedsIntroModalState'
 
 type GoodDeedsBecomeHeroProps = {
+  type: IntroFlowType
   onNextPress: () => void
 }
 
-export const GoodDeedsBecomeHero = ({ onNextPress }: GoodDeedsBecomeHeroProps) => {
+export const GoodDeedsBecomeHero = ({ type, onNextPress }: GoodDeedsBecomeHeroProps) => {
   const { t } = useTranslation()
   const { top: safeAreaTop } = useSafeAreaInsets()
   const isDesktopView = useIsDesktopView()
@@ -70,18 +73,23 @@ export const GoodDeedsBecomeHero = ({ onNextPress }: GoodDeedsBecomeHeroProps) =
             />
           </Text>
 
-          <Text>{t('onboarding.modal.step01.text')}</Text>
-
-          <Text>
-            <Trans
-              t={t}
-              i18nKey="onboarding.modal.step01.text02"
-              components={{
-                i: <Text italic />,
-                span: <HoliFigmaSpanPlaceholder />,
-              }}
-            />
-          </Text>
+          {type === 'onboarding' ? (
+            <>
+              <Text>{t('onboarding.modal.step01.text')}</Text>
+              <Text>
+                <Trans
+                  t={t}
+                  i18nKey="onboarding.modal.step01.text02"
+                  components={{
+                    i: <Text italic />,
+                    span: <HoliFigmaSpanPlaceholder />,
+                  }}
+                />
+              </Text>
+            </>
+          ) : (
+            <Text>{t('onboarding.modal.goodDeed.becomeHero.favorited.text')}</Text>
+          )}
         </Stack>
 
         <GoodDeedsIntroFooterNavigation
