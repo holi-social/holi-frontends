@@ -182,6 +182,11 @@ export namespace TrackingEvent {
         properties: { ...props },
         ...versionOne,
       }),
+      imOnIt: (props: TaskProperties) => ({
+        name: 'task_cta_imOnIt_pressed',
+        properties: { ...props },
+        ...versionOne,
+      }),
     },
   }
 
