@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { Text } from 'holi-bricks/components/text'
+import { breakpoints } from 'holi-bricks/foundations'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
 // eslint-disable-next-line no-restricted-imports
 import { useIsDesktopView } from '../helpers/isDesktopView'
-import { breakpoints } from 'holi-bricks/foundations'
 
 const SVG_ASPECT_RATIO = 351 / 393
 
@@ -32,11 +32,7 @@ export const GoodDeedsProgressExplanation = ({ onNextPress, onBackPress }: GoodD
     <Stack padding={{ top: 'lg', bottom: 'lg', left: 'md', right: 'md' }} gap="xs">
       <Text size="3xl">{t('onboarding.modal.goodDeed.progressExplanation.title')}</Text>
 
-      <Stack gap="3xs">
-        <Text bold>{t('onboarding.modal.goodDeed.progressExplanation.text01')}</Text>
-
-        <Text>{t('onboarding.modal.goodDeed.progressExplanation.text02')}</Text>
-      </Stack>
+      <Text>{t('onboarding.modal.goodDeed.progressExplanation.text01')}</Text>
     </Stack>
   )
 

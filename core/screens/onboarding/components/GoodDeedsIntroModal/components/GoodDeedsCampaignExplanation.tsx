@@ -6,21 +6,24 @@ import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { Text } from 'holi-bricks/components/text'
+import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
 // eslint-disable-next-line no-restricted-imports
 import { useIsDesktopView } from '../helpers/isDesktopView'
-import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
-import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+// eslint-disable-next-line no-restricted-imports
+import type { IntroFlowType } from '../helpers/useGoodDeedsIntroModalState'
 
-const SVG_ASPECT_RATIO = 186 / 300
+const SVG_ASPECT_RATIO = 338 / 249
 
 type GoodDeedsCampaignExplanationProps = {
+  type: IntroFlowType
   onNextPress: () => void
   onBackPress: () => void
 }
 
-export const GoodDeedsCampaignExplanation = ({ onNextPress, onBackPress }: GoodDeedsCampaignExplanationProps) => {
+export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }: GoodDeedsCampaignExplanationProps) => {
   const { t } = useTranslation()
   const isDesktopView = useIsDesktopView()
 
@@ -45,7 +48,11 @@ export const GoodDeedsCampaignExplanation = ({ onNextPress, onBackPress }: GoodD
       isBackButtonAvailable
       onBackPress={onBackPress}
       onNextPress={onNextPress}
-      nextButtonLabel="onboarding.modal.goodDeed.campaignExplanation.button"
+      nextButtonLabel={
+        type === 'onboarding'
+          ? 'onboarding.modal.goodDeed.campaignExplanation.button'
+          : 'onboarding.modal.goodDeed.campaignExplanation.nextGoodDeedButton'
+      }
     />
   )
 
@@ -74,10 +81,10 @@ export const GoodDeedsCampaignExplanation = ({ onNextPress, onBackPress }: GoodD
                   right: 0,
                   bottom: 0,
                 }}
-                onLayout={(event) => setHeroExplanaitonHeight(event.nativeEvent.layout.height * 1.5)}
+                onLayout={(event) => setHeroExplanaitonHeight(event.nativeEvent.layout.height * 1.2)}
               >
                 <Image
-                  source={require('@holi/ui/assets/img/goodDeeds/holi-hero-holding-something.svg')}
+                  source={require('@holi/ui/assets/img/goodDeeds/holi-heroes-holding-something.svg')}
                   height={heroExplanaitonHeight}
                   width={heroExplanaitonHeight * SVG_ASPECT_RATIO}
                   alt={t('navigation.title')}
@@ -116,10 +123,17 @@ export const GoodDeedsCampaignExplanation = ({ onNextPress, onBackPress }: GoodD
                 right: 0,
                 bottom: 0,
               }}
-              onLayout={(event) => setHeroExplanaitonHeight(event.nativeEvent.layout.height * 1.2)}
+              onLayout={(event) => {
+                const estimatedWidth = event.nativeEvent.layout.height * SVG_ASPECT_RATIO
+                if (estimatedWidth > event.nativeEvent.layout.width - 24) {
+                  setHeroExplanaitonHeight((event.nativeEvent.layout.width - 24) / SVG_ASPECT_RATIO)
+                } else {
+                  setHeroExplanaitonHeight(event.nativeEvent.layout.height)
+                }
+              }}
             >
               <Image
-                source={require('@holi/ui/assets/img/goodDeeds/holi-hero-holding-something.svg')}
+                source={require('@holi/ui/assets/img/goodDeeds/holi-heroes-holding-something.svg')}
                 height={heroExplanaitonHeight}
                 width={heroExplanaitonHeight * SVG_ASPECT_RATIO}
                 alt={t('navigation.title')}
