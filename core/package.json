@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@apollo/client": "^3.13.8",
+    "@apollo/client": "3.13.8",
     "@novu/client": "0.20.0",
     "@ory/kratos-client": "v1.3.8",
     "@react-native-async-storage/async-storage": "^2.1.2",
