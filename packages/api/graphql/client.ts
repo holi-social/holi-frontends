@@ -92,7 +92,6 @@ const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
 
 export const createCache = () =>
   new InMemoryCache({
-    canonizeResults: false,
     typePolicies: {
       User: {
         fields: {
