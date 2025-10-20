@@ -61,9 +61,12 @@ describe('useFeatureFlag', () => {
       expect(result.current).toEqual([state, payload])
     })
 
-    it('should use bootstrapped values as fallback', () => {
+    it('should use bootstrapped values as fallback when main state is null/unavilable', () => {
       const fallbackState = 'off'
       const fallbackPayload = { bar: 'baz' }
+
+      mockUseFeatureFlagVariantKey.mockReturnValue(null)
+      mockUseFeatureFlagPayload.mockReturnValue(null)
       mockBootstrappedFeatureFlag.mockReturnValue(fallbackState)
       mockBootstrappedFeatureFlagPayload.mockReturnValue(fallbackPayload)
 
