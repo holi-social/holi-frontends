@@ -1,27 +1,21 @@
 import useLink from '@holi/core/navigation/hooks/useLink'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import type { RoutingState } from '@holi/core/navigation/hooks/useRouting/types'
 import { renderHook, waitFor } from 'expo-router/testing-library'
 import { Linking } from 'react-native'
 
-const mockUseRouting = jest.mocked(useRouting)
-jest.mock('@holi/core/navigation/hooks/useRouting', () => jest.fn())
+const mockNavigate = jest.fn()
+const mockNavigateBack = jest.fn()
+const testEvent = {} as React.SyntheticEvent
+
+jest.mock<() => RoutingState>('@holi/core/navigation/hooks/useRouting', () => () => ({
+  navigate: mockNavigate,
+  navigateBack: mockNavigateBack,
+  replaceRoute: jest.fn(),
+  replaceHistory: jest.fn(),
+  setParams: jest.fn(),
+}))
 
 describe('useLink', () => {
-  const testEvent = {} as React.SyntheticEvent
-  const mockNavigate = jest.fn()
-  const mockNavigateBack = jest.fn()
-
-  beforeEach(() => {
-    const routingMocks: ReturnType<typeof useRouting> = {
-      navigate: mockNavigate,
-      navigateBack: mockNavigateBack,
-      replaceRoute: jest.fn(),
-      replaceHistory: jest.fn(),
-      setParams: jest.fn(),
-    }
-    mockUseRouting.mockReturnValue(routingMocks)
-  })
-
   it('should call onPress if given', () => {
     const onPress = jest.fn()
     const { result } = renderHook(() => useLink({ href: '/', onPress }))
