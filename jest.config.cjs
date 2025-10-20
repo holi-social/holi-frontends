@@ -31,7 +31,7 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client)',
   ],
-  resetMocks: true,
+  clearMocks: true,
   coverageReporters: ['text-summary', 'lcov'],
   collectCoverageFrom: [
     'apps/**/*.{js,jsx,ts,tsx}',
