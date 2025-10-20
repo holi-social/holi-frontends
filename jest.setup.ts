@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals'
+
 import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
@@ -61,7 +62,9 @@ jest.mock('@react-navigation/native', () => {
 })
 
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
-  openURL: global.mockOpenURL,
+  default: {
+    openURL: global.mockOpenURL,
+  },
 }))
 
 jest.mock('expo-linking', () => {
