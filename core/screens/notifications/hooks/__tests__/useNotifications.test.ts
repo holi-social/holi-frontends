@@ -165,13 +165,12 @@ describe('useNotifications', () => {
 
     expect(result.current.isFetchingMore).toBeFalsy()
 
-    await act(async () => {
-      const response = result.current.fetchNextPage()
-      await waitFor(() => expect(result.current.isFetchingMore).toBeTruthy())
-      return response
+    act(() => {
+      result.current.fetchNextPage()
     })
+    expect(result.current.isFetchingMore).toBeTruthy()
 
-    expect(result.current.isFetchingMore).toBeFalsy()
+    await waitFor(() => expect(result.current.isFetchingMore).toBeFalsy())
   })
 
   it('should fetch more pages and update message list', async () => {

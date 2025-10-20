@@ -7,7 +7,7 @@ import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook } from '@testing-library/react-native'
 
 const mockUseLoginState = jest.mocked(useLoginState)
 const mockSetLoginStateLoggedOut = jest.mocked(setLoginStateLoggedOut)
@@ -17,6 +17,7 @@ jest.mock('@holi/core/auth/loginState', () => ({
 }))
 
 const mockGetSessionFromStorage = jest.mocked(getSessionFromStorage)
+
 const mockSubmitLogoutFlow = jest.mocked(submitLogoutFlow)
 jest.mock('@holi/core/auth/helpers/auth', () => ({
   getSessionFromStorage: jest.fn(),
@@ -95,6 +96,7 @@ describe('useLogout', () => {
     mockGetSessionFromStorage.mockResolvedValue(mockSession)
     mockSubmitLogoutFlow.mockResolvedValue(undefined)
     mockUseApolloClient.mockReturnValue(mockClient)
+    mockClient.clearStore.mockReset()
   })
 
   afterEach(() => {
@@ -105,6 +107,7 @@ describe('useLogout', () => {
   const renderUseLogout = () =>
     renderHook(() => useLogout(), {
       wrapper: ({ children }) => <MockedProvider mocks={[authenticatedUserRequest]}>{children}</MockedProvider>,
+      concurrentRoot: false,
     })
 
   describe('already logged out', () => {
@@ -223,14 +226,16 @@ describe('useLogout', () => {
     it('should return flag while logging out', async () => {
       const { result } = renderUseLogout()
 
+      let promise: Promise<void>
+      act(() => {
+        promise = result.current.logout()
+      })
+
+      expect(result.current.isLoggingOut).toBeTruthy()
+      expect(isLoggingOutVar()).toBeTruthy()
+
       await act(async () => {
-        const promise = result.current.logout()
-
-        await waitFor(() => expect(isLoggingOutVar()).toBeTruthy())
-        expect(result.current.isLoggingOut).toBeTruthy()
-
         await promise
-        await jest.runOnlyPendingTimersAsync()
       })
 
       expect(result.current.isLoggingOut).toBeFalsy()
