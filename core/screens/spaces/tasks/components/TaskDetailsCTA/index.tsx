@@ -1,28 +1,30 @@
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Text } from 'holi-bricks/components/text'
-import { Button } from 'holi-bricks/components/button'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import React, { useCallback, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
 
-import { CheckboxCircleFilled, HeartHandshake } from '@holi/icons/src/generated'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { Stack } from 'holi-bricks/components/stack'
-import { FavoritableType, InteractionType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { Button } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
-import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import { Stack } from 'holi-bricks/components/stack'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { CheckboxCircleFilled, HeartHandshake } from '@holi/icons/src/generated'
+
+import { FavoritableType, InteractionType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
-import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
+
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
-import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 
 const ANIMATION_DELAY = 500
@@ -50,28 +52,24 @@ export const TaskDetailsCTA = ({
   onModalDismiss,
   startChat,
 }: Props) => {
+  const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { user: loggedInUser } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { bottom } = useSafeAreaInsets()
   const { requireLogin } = useSignupModal()
-  const { styles } = useStyles(stylesheet)
-
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
 
   const { completeTask, loading: completeTaskLoading } = useCompleteTask()
-  const { show: showContact, props: contactModalProps } = useModalState({
-    onDismiss: onModalDismiss,
-  })
+  const { show: showContact, props: contactModalProps } = useModalState({ onDismiss: onModalDismiss })
+
+  // Lottie animation sizing
   const {
     onLayout: onLayoutLottieContainer,
     height: lottieHeight,
     width: lottieWidth,
-  } = useLottieContainerSize({
-    aspectRatio: LOTTIE_ASPECT_RATIO,
-    maxHeight: LOTTIE_MAX_HEIGHT,
-  })
+  } = useLottieContainerSize({ aspectRatio: LOTTIE_ASPECT_RATIO, maxHeight: LOTTIE_MAX_HEIGHT })
 
   const [showSnackbar, setShowSnackbar] = useState(false)
   const [progressStatus, setProgressStatus] = useState<VolunteeringOpportunityStatusValue>(
@@ -79,7 +77,7 @@ export const TaskDetailsCTA = ({
   )
 
   const handleCompleteTask = useCallback(async () => {
-    if (!loggedInUser) return navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')
+    if (!loggedInUser) return navigate(`/spaces/${spaceIdOrName}/tasks/${taskId}/complete`)
 
     try {
       await completeTask(taskId as string)
@@ -92,18 +90,12 @@ export const TaskDetailsCTA = ({
   }, [completeTask, navigate, spaceIdOrName, taskId, loggedInUser, displayError])
 
   return (
-    <Stack
-      padding={{ left: 'md', right: 'md', bottom: 'lg' }}
-      alignItems="center"
-      justifyContent="center"
-      alignSelf="center"
-      width="100%"
-      gap="xxs"
-    >
+    <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xxs">
+      {/* Primary action: Chat or Contact */}
       {interactionType === InteractionType.Chat ? (
         <Button
           label={t('volunteering.engagementDetail.getInTouchDrawer')}
-          onPress={() => requireLogin(() => showContact())}
+          onPress={() => requireLogin(showContact)}
           testID="task-engagement-get-in-touch-btn"
         />
       ) : (
@@ -121,24 +113,22 @@ export const TaskDetailsCTA = ({
         />
       )}
 
+      {/* Save / unsave task */}
       <SaveForLaterButton
-        favoritableId={taskId || ''} // todo
+        favoritableId={taskId || ''}
         favoritableType={FavoritableType.Task}
-        __typename={'Task'}
+        __typename="Task"
         isFavorite={isFavorite}
         onCompleted={refetchFavorite}
-        onError={(error: Error) =>
-          displayError(
-            error,
-            isFavorite ? 'Failed to add the task to favorites' : 'Failed to remove the task from favorites',
-            {
-              location: 'TaskDetailsCTA.saveForLaterTask',
-              favoritableId: taskId,
-            }
-          )
+        onError={(error) =>
+          displayError(error, `Failed to ${isFavorite ? 'remove' : 'add'} favorite`, {
+            location: 'TaskDetailsCTA.saveForLaterTask',
+            favoritableId: taskId,
+          })
         }
       />
 
+      {/* Snackbar feedback */}
       <Snackbar
         label={t('spaces.tasks.contactOrganization.snackbar')}
         icon={CheckboxCircleFilled}
@@ -147,12 +137,13 @@ export const TaskDetailsCTA = ({
         visible={showSnackbar}
       />
 
+      {/* Contact / Chat modal */}
       <HoliModal
         label="modal"
         animationType="slide"
         shown={contactModalProps.shown}
         onDismiss={contactModalProps.onDismiss}
-        autoHeight={true}
+        autoHeight
         testID="task-contact-modal"
         backgroundColor={styles.modal.backgroundColor}
       >
@@ -162,18 +153,12 @@ export const TaskDetailsCTA = ({
               {rewardsPhaseTwoEnabled && (
                 <Stack width="100%" onLayout={onLayoutLottieContainer} alignItems="center">
                   <Stack width={lottieWidth} height={lottieHeight}>
-                    <HoliLottie
-                      animType="rocket"
-                      loop
-                      style={{
-                        aspectRatio: LOTTIE_ASPECT_RATIO,
-                        position: 'relative',
-                      }}
-                    />
+                    <HoliLottie animType="rocket" loop style={{ aspectRatio: LOTTIE_ASPECT_RATIO }} />
                   </Stack>
                 </Stack>
               )}
 
+              {/* Modal content */}
               <Animated.View
                 entering={
                   rewardsPhaseTwoEnabled
@@ -200,7 +185,7 @@ export const TaskDetailsCTA = ({
                       // trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
                       loading={isLoading}
                       disabled={isLoading}
-                      onPress={() => requireLogin(() => startChat())}
+                      onPress={() => requireLogin(startChat)}
                       size="lg"
                       label={t('spaces.tasks.contactOrganization.cta.chat.open')}
                     />
