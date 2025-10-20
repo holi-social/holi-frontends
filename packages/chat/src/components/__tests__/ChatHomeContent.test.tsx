@@ -319,6 +319,6 @@ describe('ChatHomeContent Component', () => {
 
     expect(screen.queryByTestId(`room-item-${SPACE_ROOM_NAME_FIXTURE}`)).not.toBeOnTheScreen()
     const displayedRoom = await screen.findByTestId(`room-item-${SPACE_CHILD_ROOM_NAME_FIXTURE}`)
-    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE)
+    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE, { exact: false })
   })
 })

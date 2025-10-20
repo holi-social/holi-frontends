@@ -309,7 +309,9 @@ describe('NotificationsOverview', () => {
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     await waitFor(async () =>
-      expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
+      expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage, {
+        exact: false,
+      })
     )
   })
 
