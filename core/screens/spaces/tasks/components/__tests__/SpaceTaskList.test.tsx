@@ -64,7 +64,7 @@ describe('SpaceTaskList', () => {
         <SpaceTaskList space={spaceWithoutTasks} isCollaborator={false} />
       </MockedProvider>
     )
-    expect(screen.toJSON()).toHaveTextContent('spaces.spaceDetails.tasks.empty.title.forNonMembers')
-    expect(screen.toJSON()).toHaveTextContent('spaces.spaceDetails.tasks.empty.message.forNonMembers')
+    expect(screen.toJSON()).toHaveTextContent(/spaces.spaceDetails.tasks.empty.title.forNonMembers/)
+    expect(screen.toJSON()).toHaveTextContent(/spaces.spaceDetails.tasks.empty.message.forNonMembers/)
   })
 })
