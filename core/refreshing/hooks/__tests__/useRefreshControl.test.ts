@@ -83,13 +83,13 @@ describe('useRefreshControl', () => {
 
     expect(result.current.refreshControlProps.refreshing).toBe(false)
 
-    await act(async () => {
+    act(() => {
       result.current.refreshControlProps?.onRefresh?.()
-
-      await waitFor(() => expect(result.current.refreshControlProps.refreshing).toBe(true))
-
-      await waitFor(() => expect(result.current.refreshControlProps.refreshing).toBe(false))
     })
+
+    expect(result.current.refreshControlProps.refreshing).toBe(true)
+
+    await waitFor(() => expect(result.current.refreshControlProps.refreshing).toBe(false))
   })
 
   it('should catch and log errors during refresh', async () => {
