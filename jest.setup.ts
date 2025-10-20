@@ -87,13 +87,17 @@ jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
-
 import NativeEventEmitter from 'react-native/Libraries/EventEmitter/NativeEventEmitter'
-const mockRemove = jest.fn()
+import type { Platform } from 'react-native'
 
 NativeEventEmitter.prototype.addListener._protoImpl = () => {
-  return { remove: mockRemove }
+  return { remove: jest.fn() }
 }
+jest.mock('react-native/Libraries/Utilities/Platform', () => {
+  const mockPlatform = jest.requireActual<Platform>('react-native/Libraries/Utilities/Platform')
+  mockPlatform.OS = 'android'
+  return mockPlatform
+})
 
 jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
