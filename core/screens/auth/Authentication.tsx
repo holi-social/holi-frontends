@@ -19,6 +19,7 @@ import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeS
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
+import { Stack } from 'holi-bricks/components/stack'
 
 export interface AuthenticationProps {
   initialSelection: AuthenticationType
@@ -69,29 +70,30 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
             footerShown: false,
           },
         }}
-        StickyBottomComponent={
-          <View style={styles.footer}>
-            <HoliDivider />
-            <HoliContainer>
-              <DocumentsFooter />
-            </HoliContainer>
-          </View>
-        }
+        contentContainerStyle={styles.wrapper}
       >
-        <AuthenticationSelection
-          flowId={flowId}
-          initialSelection={initialSelection}
-          resetFlow={resetFlow}
-          onLogin={() => {
-            track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-            onLogin?.()
-          }}
-          onRegister={() => {
-            track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-            metaSdk.trackSignUp()
-            onRegister?.()
-          }}
-        />
+        <Stack flex={1}>
+          <AuthenticationSelection
+            flowId={flowId}
+            initialSelection={initialSelection}
+            resetFlow={resetFlow}
+            onLogin={() => {
+              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
+              onLogin?.()
+            }}
+            onRegister={() => {
+              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+              metaSdk.trackSignUp()
+              onRegister?.()
+            }}
+          />
+        </Stack>
+        <View style={styles.footer}>
+          <HoliDivider />
+          <HoliContainer>
+            <DocumentsFooter />
+          </HoliContainer>
+        </View>
       </Screen>
     </View>
   )

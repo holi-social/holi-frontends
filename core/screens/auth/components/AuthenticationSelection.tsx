@@ -8,8 +8,7 @@ import type React from 'react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
-import { Image } from 'holi-bricks/components/image/Image'
-import { Text } from 'holi-bricks/components/text'
+import { AuthenticationHeader } from '@holi/core/screens/auth/components/AuthenticationHeader'
 
 export type AuthenticationType = 'login' | 'registration'
 
@@ -82,14 +81,7 @@ export const AuthenticationSelection = ({
 
   return (
     <>
-      {authenticationStep !== 'code' && (
-        <Text headingLevel="1" size="4xl" textAlign="center" margin={{ bottom: 'xs' }}>
-          {t('registration.signUp.heading')}
-
-          <Image source={require('@holi/ui/assets/img/icons/give-five-filled.svg')} width={50} height={40} alt="" />
-        </Text>
-      )}
-
+      <AuthenticationHeader authenticationStep={authenticationStep} />
       <HoliTabs
         activeTab={selectedAuthenticationType}
         onChange={onTabSwitch}

@@ -31,7 +31,7 @@ import { getFormNodesByStep } from '@holi/core/screens/auth/helpers/authenticati
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { getTrackingEventForLoginFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHeader'
+import { ChangeEmailButton } from '@holi/core/screens/auth/components/ChangeEmailButton'
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 
 interface LoginFormProps {
@@ -201,7 +201,7 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
     <View style={styles.container}>
       <HoliContainer>
         {step === 'code' && (
-          <CodeInputHeader
+          <ChangeEmailButton
             email={email}
             onChangeEmail={() => {
               showLoader()

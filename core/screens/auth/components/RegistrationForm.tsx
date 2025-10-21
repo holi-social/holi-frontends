@@ -34,7 +34,7 @@ import { Key2, Mail } from '@holi/icons/src/generated'
 import { getFormNodesByStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
-import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHeader'
+import { ChangeEmailButton } from '@holi/core/screens/auth/components/ChangeEmailButton'
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 
 const logger = getLogger('Auth')
@@ -199,7 +199,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
   return (
     <View>
       {step === 'code' && (
-        <CodeInputHeader
+        <ChangeEmailButton
           email={email}
           onChangeEmail={() => {
             showLoader()
