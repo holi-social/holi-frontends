@@ -33,7 +33,6 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetails = () => {
-  // Fetch task details and contextual data
   const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle, interactionType, taskDuration, taskRegularity } =
     useTaskDetailsData()
 
@@ -47,6 +46,7 @@ const TaskDetails = () => {
     holiSpaceId: spaceId || '',
   }
   const { startChat, isLoading } = useStartChat(chatRoomContent, adminUsers || [])
+  const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
 
   // Task status management
   const [updateVolunteeringOpportunityStatus] = useUpdateVolunteeringOpportunityStatusMutation()
@@ -106,21 +106,21 @@ const TaskDetails = () => {
       }}
       statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
       StickyBottomComponent={
-        <TaskDetailsCTA
-          spaceIdOrName={spaceName}
-          interactionType={interactionType}
-          isFavorite={data?.isFavorite}
-          refetchFavorite={refetch}
-          isLoading={isLoading}
-          onModalDismiss={() => {
-            if (!rewardsPhaseTwoEnabled) return
-            // Update status to "TO_DO" only once when initially the status is null
-            if (taskStatus === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
-          }}
-          startChat={startChat}
-          status={taskStatus?.status}
-          taskProps={taskProps}
-        />
+        displayCta && (
+          <TaskDetailsCTA
+            spaceIdOrName={spaceName}
+            isFavorite={data?.isFavorite}
+            refetchFavorite={refetch}
+            isLoading={isLoading}
+            onModalDismiss={() => {
+              if (!rewardsPhaseTwoEnabled) return
+              // Update status to "TO_DO" only once when initially the status is null
+              if (taskStatus === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
+            }}
+            startChat={startChat}
+            status={taskStatus?.status}
+          />
+        )
       }
     >
       <DetailsScreen

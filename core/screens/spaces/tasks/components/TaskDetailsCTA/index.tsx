@@ -7,15 +7,9 @@ import { Text } from 'holi-bricks/components/text'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import { Stack } from 'holi-bricks/components/stack'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { CheckboxCircleFilled, HeartHandshake } from '@holi/icons/src/generated'
+import { BookmarkLine, CheckboxCircleFilled, HeartHandshake } from '@holi/icons/src/generated'
 
-import {
-  type Duration,
-  FavoritableType,
-  InteractionType,
-  type Regularity,
-  VolunteeringOpportunityStatusValue,
-} from '@holi/api/graphql/graphql-codegen'
+import { FavoritableType, InteractionType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -33,6 +27,8 @@ import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { DoItLater, DoItLaterModal } from '@holi/core/screens/spaces/tasks/DoItLater'
+import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData'
 
 const ANIMATION_DELAY = 500
 const LOTTIE_ASPECT_RATIO = 342 / 130
@@ -40,32 +36,22 @@ const LOTTIE_MAX_HEIGHT = 160
 
 interface Props {
   spaceIdOrName?: string
-  interactionType?: InteractionType
   isFavorite?: boolean
   refetchFavorite?: () => void
   isLoading?: boolean
   onModalDismiss?: () => void
   startChat: () => void
   status?: VolunteeringOpportunityStatusValue
-  taskProps: {
-    taskId: string
-    taskName: string
-    duration?: Duration
-    regularity?: Regularity
-    interactionType?: InteractionType
-  }
 }
 
 export const TaskDetailsCTA = ({
   spaceIdOrName,
-  interactionType,
   isFavorite,
   refetchFavorite,
   isLoading,
   onModalDismiss,
   startChat,
   status,
-  taskProps,
 }: Props) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
@@ -75,9 +61,11 @@ export const TaskDetailsCTA = ({
   const { bottom } = useSafeAreaInsets()
   const { requireLogin } = useSignupModal()
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const { isLoggedIn } = useLoggedInUser()
 
   const { completeTask, loading: completeTaskLoading } = useCompleteTask()
   const { show: showContact, props: contactModalProps } = useModalState({ onDismiss: onModalDismiss })
+  const { show: showDoItLater, props: doItLaterModalProps } = useModalState()
 
   // Lottie animation sizing
   const {
@@ -91,20 +79,28 @@ export const TaskDetailsCTA = ({
     VolunteeringOpportunityStatusValue.WontDo
   )
 
-  const { taskId } = taskProps
+  const { data, id, interactionType, taskDuration, taskRegularity, totalCompletions, isGoodDeed } = useTaskDetailsData()
+
+  const taskProps = {
+    taskId: id ?? '',
+    taskName: data?.title,
+    regularity: taskRegularity,
+    duration: taskDuration,
+    interactionType,
+  }
 
   const handleCompleteTask = useCallback(async () => {
-    if (!loggedInUser) return navigate(`/spaces/${spaceIdOrName}/tasks/${taskId}/complete`)
+    if (!loggedInUser) return navigate(`/spaces/${spaceIdOrName}/tasks/${id}/complete`)
 
     try {
-      await completeTask(taskId as string)
-      navigate(`/spaces/${spaceIdOrName}/tasks/${taskId}/completed`)
+      await completeTask(id as string)
+      navigate(`/spaces/${spaceIdOrName}/tasks/${id}/completed`)
     } catch (error) {
       displayError(error, 'Failed to complete task', {
         location: 'TaskDetailsCTA.handleCompleteTask',
       })
     }
-  }, [completeTask, navigate, spaceIdOrName, taskId, loggedInUser, displayError])
+  }, [completeTask, navigate, spaceIdOrName, id, loggedInUser, displayError])
 
   return (
     <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xxs">
@@ -114,7 +110,7 @@ export const TaskDetailsCTA = ({
           label={t('volunteering.engagementDetail.getInTouchDrawer')}
           onPress={() => requireLogin(showContact)}
           testID="task-engagement-get-in-touch-btn"
-          trackingEvent={TrackingEvent.Task.CTAButton.getInTouch(taskId || '')}
+          trackingEvent={TrackingEvent.Task.CTAButton.getInTouch(id || '')}
         />
       )}
 
@@ -133,20 +129,32 @@ export const TaskDetailsCTA = ({
         />
       )}
 
-      {/* Save / unsave task */}
-      <SaveForLaterButton
-        favoritableId={taskId || ''}
-        favoritableType={FavoritableType.Task}
-        __typename="Task"
-        isFavorite={isFavorite}
-        onCompleted={refetchFavorite}
-        onError={(error) =>
-          displayError(error, `Failed to ${isFavorite ? 'remove' : 'add'} favorite`, {
-            location: 'TaskDetailsCTA.saveForLaterTask',
-            favoritableId: taskId,
-          })
-        }
-      />
+      {isGoodDeed && !isLoggedIn ? (
+        <ButtonTracked
+          variant="secondary"
+          label={t('volunteering.progress.button.favorites.toSave')}
+          onPress={showDoItLater}
+          icon={BookmarkLine}
+          trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
+            step: 'save',
+            ...taskProps,
+          })}
+        />
+      ) : (
+        <SaveForLaterButton
+          favoritableId={id || ''}
+          favoritableType={FavoritableType.Task}
+          __typename="Task"
+          isFavorite={isFavorite}
+          onCompleted={refetchFavorite}
+          onError={(error) =>
+            displayError(error, `Failed to ${isFavorite ? 'remove' : 'add'} favorite`, {
+              location: 'TaskDetailsCTA.saveForLaterTask',
+              favoritableId: id,
+            })
+          }
+        />
+      )}
 
       {/* Snackbar feedback */}
       <Snackbar
@@ -156,6 +164,19 @@ export const TaskDetailsCTA = ({
         onDismiss={() => setShowSnackbar(false)}
         visible={showSnackbar}
       />
+
+      {id && (
+        <DoItLaterModal {...doItLaterModalProps}>
+          <DoItLater
+            id={id}
+            title={taskProps.taskName}
+            imageSrc={data.coverImage?.uri}
+            completedCount={totalCompletions || 0}
+            trackingProps={taskProps}
+            onJoin={doItLaterModalProps.onDismiss}
+          />
+        </DoItLaterModal>
+      )}
 
       {/* Contact / Chat modal */}
       <HoliModal
