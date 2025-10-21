@@ -14,7 +14,7 @@ import { mono, Spacing } from 'holi-bricks/foundations'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { pathToRedirect, useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
@@ -28,6 +28,8 @@ import { Intro } from './steps/Intro'
 import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
@@ -55,8 +57,15 @@ const Onboarding = () => {
   }
   const finishOnboarding = useCallback(async () => {
     await cleanUp()
+
+    const redirectPath = pathToRedirect() ?? (await getRedirectAfterSocialLogin())
     redirect(true)
-    showGoodDeedsIntroModal()
+
+    if (!redirectPath) {
+      showGoodDeedsIntroModal('onboarding')
+    } else if (redirectPath.includes('/profile/settings/favorites/add?taskId=')) {
+      showGoodDeedsIntroModal('first-favorite-good-deed')
+    }
   }, [redirect, showGoodDeedsIntroModal])
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen

@@ -33,7 +33,10 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.REWARDS_PHASE_2]: false,
     [FeatureFlagKey.FAVORITES_SLIDER]: false,
     [FeatureFlagKey.BADGES]: false,
-    [FeatureFlagKey.GOOD_DEEDS_INTRO_1]: false,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_0]: false,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__SIGN_UP]: false,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED]: false,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_FAVORITED_FIRST_GOOD_DEED]: false,
     [FeatureFlagKey.APPCUES_BANNER]: false,
   },
   featureFlagPayloads: {
@@ -55,7 +58,10 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.REWARDS_PHASE_2]: null,
     [FeatureFlagKey.FAVORITES_SLIDER]: null,
     [FeatureFlagKey.BADGES]: null,
-    [FeatureFlagKey.GOOD_DEEDS_INTRO_1]: null,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_0]: null,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__SIGN_UP]: null,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED]: null,
+    [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_FAVORITED_FIRST_GOOD_DEED]: null,
     [FeatureFlagKey.APPCUES_BANNER]: null,
   },
 }

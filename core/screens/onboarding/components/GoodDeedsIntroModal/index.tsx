@@ -6,86 +6,86 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 
-import { GoodDeedsExplainMobile } from './components/GoodDeedsExplainMobile'
-import { GoodDeedsDoMobile } from './components/GoodDeedsDoMobile'
-import { GoodDeedsExplainDesktop } from './components/GoodDeedsExplainDesktop'
-import { GoodDeedsDoDesktop } from './components/GoodDeedsDoDesktop'
-import { GoodDeedsIntroFooterNavigation } from './components/GoodDeedsIntroFooterNavigation'
-import { useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
+import { GoodDeedsBecomeHero } from './components/GoodDeedsBecomeHero'
+import { GoodDeedsProgressExplanation } from './components/GoodDeedsProgressExplanation'
+import { type IntroFlowType, useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
 import { useIsDesktopView } from './helpers/isDesktopView'
+import { GoodDeedsCampaignExplanation } from './components/GoodDeedsCampaignExplanation'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const GoodDeedsOnboardingStepKeys = ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'] as const
+const GoodDeedsOnboardingStepKeys = [
+  'GOOD_DEEDS_BECOME_HERO',
+  'GOOD_DEEDS_PROGRESS_EXPLANATION',
+  'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
+] as const
 export type GoodDeedsOnboardingStepKey = (typeof GoodDeedsOnboardingStepKeys)[number]
 
 export interface GoodDeedsOnboardingStepItem extends HoliStepperItem {
   key: GoodDeedsOnboardingStepKey
 }
 
-export const goodDeedsOnboardingStepsDesktop: GoodDeedsOnboardingStepItem[] = [
+export const goodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
   {
-    key: 'GOOD_DEEDS_EXPLANATION',
+    key: 'GOOD_DEEDS_BECOME_HERO',
     backgroundColor: 'white',
   },
   {
-    key: 'GOOD_DEEDS_DO',
-  },
-]
-
-export const goodDeedsOnboardingStepsMobile: GoodDeedsOnboardingStepItem[] = [
-  {
-    key: 'GOOD_DEEDS_EXPLANATION',
-    FooterNavigationComponent: GoodDeedsIntroFooterNavigation,
-    footerNavigation: { isBackButtonAvailable: false, nextButtonLabel: 'onboarding.modal.step01.buttonPrimary' },
+    key: 'GOOD_DEEDS_PROGRESS_EXPLANATION',
     backgroundColor: 'white',
   },
   {
-    key: 'GOOD_DEEDS_DO',
-    FooterNavigationComponent: GoodDeedsIntroFooterNavigation,
-    footerNavigation: { isBackButtonAvailable: true, nextButtonLabel: 'onboarding.modal.step02.buttonPrimary' },
-    backgroundColor: 'yellowDefault',
+    key: 'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
+    backgroundColor: 'white',
   },
 ]
 
 export const GoodDeedsIntroModal = () => {
+  const pathname = usePathname()
+  const isOnboardingScreen = pathname.includes('onboarding')
+  const isLoginScreen = pathname.includes('login')
   const isDesktopView = useIsDesktopView()
   const { styles } = useStyles(stylesheet)
 
-  const [currentStep, setCurrentStep] = useState<GoodDeedsOnboardingStepKey>('GOOD_DEEDS_EXPLANATION')
+  const [currentStep, setCurrentStep] = useState<GoodDeedsOnboardingStepKey>(goodDeedsOnboardingSteps[0].key)
 
-  const { visible, hide } = useGoodDeedsIntroModalState()
+  const { type = 'onboarding', visible, hide } = useGoodDeedsIntroModalState()
 
   const handleClose = () => {
     hide()
-    setCurrentStep('GOOD_DEEDS_EXPLANATION')
+    setCurrentStep('GOOD_DEEDS_BECOME_HERO')
   }
 
-  const renderStep = isDesktopView
-    ? (key: GoodDeedsOnboardingStepKey) => {
-        switch (key) {
-          case 'GOOD_DEEDS_EXPLANATION':
-            return <GoodDeedsExplainDesktop onNextPress={() => setCurrentStep('GOOD_DEEDS_DO')} />
-          case 'GOOD_DEEDS_DO':
-            return (
-              <GoodDeedsDoDesktop
-                onNextPress={handleClose}
-                onBackPress={() => setCurrentStep('GOOD_DEEDS_EXPLANATION')}
-              />
-            )
-          default:
-            throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
-        }
-      }
-    : (key: GoodDeedsOnboardingStepKey) => {
-        switch (key) {
-          case 'GOOD_DEEDS_EXPLANATION':
-            return <GoodDeedsExplainMobile />
-          case 'GOOD_DEEDS_DO':
-            return <GoodDeedsDoMobile />
-          default:
-            throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
-        }
-      }
+  const handleNextStep = () => {
+    const currentStepIndex = goodDeedsOnboardingSteps.findIndex((step) => step.key === currentStep)
+    const nextStepIndex = currentStepIndex + 1
+    if (nextStepIndex < goodDeedsOnboardingSteps.length) {
+      setCurrentStep(goodDeedsOnboardingSteps[nextStepIndex].key)
+    } else {
+      handleClose()
+    }
+  }
+
+  const handleBackStep = () => {
+    const currentStepIndex = goodDeedsOnboardingSteps.findIndex((step) => step.key === currentStep)
+    const previousStepIndex = currentStepIndex - 1
+    if (previousStepIndex >= 0) {
+      setCurrentStep(goodDeedsOnboardingSteps[previousStepIndex].key)
+    }
+  }
+
+  const renderStep = (key: GoodDeedsOnboardingStepKey, type: IntroFlowType) => {
+    switch (key) {
+      case 'GOOD_DEEDS_BECOME_HERO':
+        return <GoodDeedsBecomeHero type={type} onNextPress={handleNextStep} />
+      case 'GOOD_DEEDS_PROGRESS_EXPLANATION':
+        return <GoodDeedsProgressExplanation onNextPress={handleNextStep} onBackPress={handleBackStep} />
+      case 'GOOD_DEEDS_CAMPAIGN_EXPLANATION':
+        return <GoodDeedsCampaignExplanation type={type} onNextPress={handleNextStep} onBackPress={handleBackStep} />
+      default:
+        throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
+    }
+  }
 
   return (
     <HoliModal
@@ -93,16 +93,16 @@ export const GoodDeedsIntroModal = () => {
       desktop={isDesktopView}
       relativeHeight={1}
       autoHeight={false}
-      shown={visible}
+      shown={visible && !(isOnboardingScreen || isLoginScreen)} // do not show on Onboarding or Login screens
       onDismiss={handleClose}
       style={isDesktopView ? styles.modalDesktop : styles.modalMobile}
       testID="onboarding-good-deeds-modal"
     >
       <HoliStepper
-        data={isDesktopView ? goodDeedsOnboardingStepsDesktop : goodDeedsOnboardingStepsMobile}
+        data={goodDeedsOnboardingSteps}
         activeStepKey={currentStep}
         keyExtractor={(item) => item.key}
-        renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey)}
+        renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey, type)}
         onChange={(key, previousKey, buttonPressed) => {
           // finish onboarding if user is on last step and clicks on continue
           if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
