@@ -114,6 +114,7 @@ const TaskDetails = () => {
             if (taskStatus === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
           }}
           startChat={startChat}
+          status={taskStatus?.status}
         />
       }
     >

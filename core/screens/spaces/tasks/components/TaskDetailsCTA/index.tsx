@@ -40,6 +40,7 @@ interface Props {
   isLoading?: boolean
   onModalDismiss?: () => void
   startChat: () => void
+  status?: VolunteeringOpportunityStatusValue
 }
 
 export const TaskDetailsCTA = ({
@@ -51,6 +52,7 @@ export const TaskDetailsCTA = ({
   isLoading,
   onModalDismiss,
   startChat,
+  status,
 }: Props) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
@@ -92,13 +94,15 @@ export const TaskDetailsCTA = ({
   return (
     <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xxs">
       {/* Primary action: Chat or Contact */}
-      {interactionType === InteractionType.Chat ? (
+      {interactionType === InteractionType.Chat && status === undefined && (
         <Button
           label={t('volunteering.engagementDetail.getInTouchDrawer')}
           onPress={() => requireLogin(showContact)}
           testID="task-engagement-get-in-touch-btn"
         />
-      ) : (
+      )}
+
+      {(interactionType === InteractionType.Link || interactionType === InteractionType.Ready) && (
         <Button
           testID="contact-organization-drawer"
           onPress={handleCompleteTask}
@@ -185,7 +189,10 @@ export const TaskDetailsCTA = ({
                       // trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
                       loading={isLoading}
                       disabled={isLoading}
-                      onPress={() => requireLogin(startChat)}
+                      onPress={() => {
+                        requireLogin(startChat)
+                        contactModalProps.onDismiss?.()
+                      }}
                       size="lg"
                       label={t('spaces.tasks.contactOrganization.cta.chat.open')}
                     />

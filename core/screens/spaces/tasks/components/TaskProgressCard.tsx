@@ -29,6 +29,8 @@ interface ProgressCardProps {
   startChat: (supressNavigation?: boolean) => Promise<string | undefined>
 }
 
+const hasShownConnectedModalMap: Record<string, boolean> = {}
+
 export const TaskProgressCard = ({
   onStatusChange,
   status = VolunteeringOpportunityStatusValue.ToDo,
@@ -51,17 +53,19 @@ export const TaskProgressCard = ({
   useEffect(() => {
     const initRoomId = async () => {
       const initialRoomId = await startChat(true)
-      // console.log('roomId in TaskProgressCard after startChat', initialRoomId)
       setRoomId(initialRoomId || '')
     }
     initRoomId()
 
     if (!roomId || !messages) return
-    if (messages.length > 0) {
-      // console.log('messages in room:', messages)
+
+    const textMessages = messages?.filter((msg) => msg.type === 'message') || []
+
+    if (textMessages.length > 0 && !hasShownConnectedModalMap[roomId]) {
+      hasShownConnectedModalMap[roomId] = true
       showConnectedStatusModal()
     }
-  })
+  }, [roomId, messages, showConnectedStatusModal, startChat])
 
   const { show: showFinishedModal, props: finishedModalProps } = useModalState({
     onDismiss: async () => {
