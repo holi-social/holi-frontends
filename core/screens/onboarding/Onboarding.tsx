@@ -63,27 +63,6 @@ const Onboarding = () => {
   useEffect(() => {
     if (isLoggedIn && onboardingState === 'finished') {
       finishOnboarding()
-      // } else if (flowId) {
-      // let hasErrors = false
-      // getRegistrationFlow(flowId).then((flow) => {
-      //   const messages = flow?.data?.ui?.nodes
-      //     .filter((node) => node?.messages && node?.messages.length > 0)
-      //     .flatMap((node) => node.messages)
-      //   messages.forEach((message) => {
-      //     if (message.type === 'error') {
-      //       hasErrors = true
-      //       const messageKey = `auth.registration.error.message.${message.id}`
-      //       const msg = i18n.exists(messageKey) ? t(messageKey) : message.text
-      //       openToast(msg, HoliToastType.ERROR)
-      //     }
-      //   })
-      //   if (hasErrors) {
-      //     setCurrentStep('CREATE_ACCOUNT')
-      //     updateParams({ flow: '' })
-      //   }
-      // })
-      // Account creation flow already started => onboarding is finished
-      storeOnboardingState('finished')
     }
   }, [finishOnboarding, isLoggedIn, onboardingState])
 
@@ -141,7 +120,9 @@ const Onboarding = () => {
     }
   }
 
-  if (!currentStep) return <HoliLoader testID="loader" />
+  if (!currentStep || (isLoggedIn && !['finished', 'accountSetup'].includes(onboardingState ?? ''))) {
+    return <HoliLoader testID="loader" />
+  }
 
   return (
     <HoliKeyboardSafeAreaView style={styles.wrapper}>

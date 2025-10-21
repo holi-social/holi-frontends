@@ -23,7 +23,6 @@ import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCanc
 import { Spacing } from 'holi-bricks/foundations'
 import { ButtonTracked, HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { Key2, Mail } from '@holi/icons/src/generated'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -198,100 +197,95 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
   const nodesToShow = getFormNodesByStep(step)
 
   return (
-    <View style={styles.container}>
-      <HoliContainer>
-        {step === 'code' && (
-          <ChangeEmailButton
-            email={email}
-            onChangeEmail={() => {
-              showLoader()
-              initializeFlow().then(() => {
-                setStep('email-code')
-                hideLoader()
-              })
-            }}
-            trackingScreenName="mainLogin"
-          />
-        )}
-
-        <FormBuilder
-          flow={flow}
-          onSubmit={performLogin}
-          style={styles.form}
-          nodesToShow={nodesToShow}
-          handleMessage={handleMessage}
-          isSignin
+    <View>
+      {step === 'code' && (
+        <ChangeEmailButton
+          email={email}
+          onChangeEmail={() => {
+            showLoader()
+            initializeFlow().then(() => {
+              setStep('email-code')
+              hideLoader()
+            })
+          }}
+          trackingScreenName="mainLogin"
         />
+      )}
 
-        {!isLoaderShown && step === 'oidc' && (
-          <>
+      <FormBuilder
+        flow={flow}
+        onSubmit={performLogin}
+        style={styles.form}
+        nodesToShow={nodesToShow}
+        handleMessage={handleMessage}
+        isSignin
+      />
+
+      {!isLoaderShown && step === 'oidc' && (
+        <>
+          <View style={styles.dividerContainer}>
+            <View style={styles.divider}>
+              <HoliDivider />
+            </View>
             <View style={styles.dividerContainer}>
-              <View style={styles.divider}>
-                <HoliDivider />
-              </View>
-              <View style={styles.dividerContainer}>
-                <Text textAlign="center" color="greyDark">
-                  {t('auth.divider.email')}
-                </Text>
-              </View>
-              <View style={styles.divider}>
-                <HoliDivider />
-              </View>
+              <Text textAlign="center" color="greyDark">
+                {t('auth.divider.email')}
+              </Text>
             </View>
-
-            <View style={styles.buttonContainer}>
-              <ButtonTracked
-                label={t('auth.CTA.OTP')}
-                variant="secondary"
-                size="lg"
-                onPress={() => setStep('email-code')}
-                icon={Mail}
-                testID="ory-submit-email-button"
-                trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
-                  method: 'otp',
-                  screen: 'mainLogin',
-                })}
-              />
-
-              <ButtonTracked
-                label={t('auth.CTA.emailPassword')}
-                testID="btn-to-email-password-form"
-                variant="secondary"
-                size="lg"
-                onPress={() => setStep('email-password')}
-                icon={Key2}
-                trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
-                  method: 'email',
-                  screen: 'mainLogin',
-                })}
-              />
+            <View style={styles.divider}>
+              <HoliDivider />
             </View>
-          </>
-        )}
-
-        {step === 'email-password' && (
-          <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
-            <HoliTextLinkTracked
-              label={t('auth.login.link.forgotPassword')}
-              href="/forgotPassword"
-              size="sm"
-              textAlign="center"
-              trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
-            >
-              {t('auth.login.link.forgotPassword')}
-            </HoliTextLinkTracked>
           </View>
-        )}
-      </HoliContainer>
+
+          <View style={styles.buttonContainer}>
+            <ButtonTracked
+              label={t('auth.CTA.OTP')}
+              variant="secondary"
+              size="lg"
+              onPress={() => setStep('email-code')}
+              icon={Mail}
+              testID="ory-submit-email-button"
+              trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
+                method: 'otp',
+                screen: 'mainLogin',
+              })}
+            />
+
+            <ButtonTracked
+              label={t('auth.CTA.emailPassword')}
+              testID="btn-to-email-password-form"
+              variant="secondary"
+              size="lg"
+              onPress={() => setStep('email-password')}
+              icon={Key2}
+              trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
+                method: 'email',
+                screen: 'mainLogin',
+              })}
+            />
+          </View>
+        </>
+      )}
+
+      {step === 'email-password' && (
+        <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
+          <HoliTextLinkTracked
+            label={t('auth.login.link.forgotPassword')}
+            href="/forgotPassword"
+            size="sm"
+            textAlign="center"
+            trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
+          >
+            {t('auth.login.link.forgotPassword')}
+          </HoliTextLinkTracked>
+        </View>
+      )}
       {isLoaderShown && <HoliLoader testID="loader" />}
     </View>
   )
 }
 
 const stylesheet = createStyleSheet({
-  container: {
-    flex: 1,
-  },
   form: {
     marginTop: Spacing.sm,
     width: '100%',

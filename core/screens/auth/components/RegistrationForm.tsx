@@ -144,7 +144,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
             location: 'RegistrationForm.onSubmit',
           })
           initializeFlow()?.then(() => {
-            setStep((step) => (step === 'email-password' ? 'email-password' : 'oidc'))
+            setStep('oidc')
           })
           return
         }

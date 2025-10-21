@@ -140,6 +140,8 @@
   "auth.login.input.message.4000006": "Das Passwort stimmt nicht überein",
   "auth.login.input.message.4000007": "Bitte verwende eine andere E-Mail-Addresse",
   "auth.login.input.message.4000010": "Deine E-Mail-Adresse ist nicht verifiziert",
+  "auth.login.input.message.4000032": "Benutze mindestens 8 Zeichen, gern auch mehr!",
+  "auth.login.input.message.4000034": "Das Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes",
   "auth.login.input.message.8000001": "Bitte verwende eine andere E-Mail-Addresse",
   "auth.login.input.placeholder-Email": "Deine E-Mail Adresse…",
   "auth.login.input.placeholder-Password": "Dein Passwort…",

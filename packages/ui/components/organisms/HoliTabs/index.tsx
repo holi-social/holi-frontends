@@ -53,7 +53,7 @@ const HoliTabs = <D extends HoliTabItem>({
       <View
         style={{
           backgroundColor: tabBarBackgroundColor ?? theme.colors.background10,
-          visibility: hideTabs ? 'hidden' : undefined,
+          display: hideTabs ? 'none' : 'flex',
         }}
       >
         <BottomLineSeperator />

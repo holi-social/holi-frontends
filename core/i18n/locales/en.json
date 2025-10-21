@@ -140,6 +140,8 @@
   "auth.login.input.message.4000006": "The password does not match",
   "auth.login.input.message.4000007": "Please use another email address",
   "auth.login.input.message.4000010": "Your current email address is not verified",
+  "auth.login.input.message.4000032": "Use at least 8 characters, feel free to use more!",
+  "auth.login.input.message.4000034": "The password has been found in data breaches. Please choose a different one",
   "auth.login.input.message.8000001": "Please use another email address",
   "auth.login.input.placeholder-Email": "Your email…",
   "auth.login.input.placeholder-Password": "Your password…",

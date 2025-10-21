@@ -20,6 +20,8 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { Stack } from 'holi-bricks/components/stack'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 export interface AuthenticationProps {
   initialSelection: AuthenticationType
@@ -40,7 +42,15 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
   const resetFlow = useCallback(() => updateParams({ flow: undefined }), [updateParams])
-  // TODO(SF) handle being logged in already
+  const { isLoggedIn } = useLoggedInUser()
+
+  if (isLoggedIn) {
+    return (
+      <View style={styles.wrapper}>
+        <HoliLoader testID="loader" />
+      </View>
+    )
+  }
 
   return (
     <View style={styles.wrapper}>
