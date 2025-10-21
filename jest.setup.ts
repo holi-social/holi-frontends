@@ -15,12 +15,6 @@ import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
 loadDevMessages()
 loadErrorMessages()
 
-// Added to fix the following error: https://github.com/facebook/react-native/issues/42904#issuecomment-2306382117
-// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
-const { Switch } = require('react-native')
-// Added to fix the following error: https://stackoverflow.com/questions/70506663/invariant-violation-new-nativeeventemitter-requires-a-non-null-argument
-jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
-
 jest.mock('@react-native-clipboard/clipboard', () => mockClipboard)
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
