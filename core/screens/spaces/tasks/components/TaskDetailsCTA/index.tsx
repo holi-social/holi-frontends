@@ -180,7 +180,7 @@ export const TaskDetailsCTA = ({
 
       {/* Contact / Chat modal */}
       <HoliModal
-        label="modal"
+        label={t('volunteerProgress.initiate.modal')}
         animationType="slide"
         shown={contactModalProps.shown}
         onDismiss={contactModalProps.onDismiss}

@@ -174,10 +174,6 @@ export namespace TrackingEvent {
         name: 'task_cta_reopenChat_pressed',
         ...versionOne,
       }),
-      letsMoveOn: () => ({
-        name: 'task_cta_letsMoveOn_pressed',
-        ...versionOne,
-      }),
       imOnIt: () => ({
         name: 'task_cta_imOnIt_pressed',
         ...versionOne,

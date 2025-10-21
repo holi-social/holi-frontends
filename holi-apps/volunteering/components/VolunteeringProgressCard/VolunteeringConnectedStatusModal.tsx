@@ -12,8 +12,7 @@ import { Text } from 'holi-bricks/components/text'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
-import { ButtonTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
+import { Button } from 'holi-bricks/components/button'
 
 const ANIMATION_DELAY = 3300
 const LOTTIE_ASPECT_RATIO = 342 / 130
@@ -68,10 +67,9 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
               </Stack>
 
               <Stack padding={{ top: 'xxs', bottom: 'xxs' }}>
-                <ButtonTracked
+                <Button
                   label={t('volunteering.progress.button.contactSuccess')}
                   onPress={props.onDismiss}
-                  trackingEvent={TrackingEvent.Task.CTAButton.letsMoveOn()}
                   aria-label={t('volunteering.progress.button.contactSuccess.buttonLabel')}
                 />
               </Stack>
