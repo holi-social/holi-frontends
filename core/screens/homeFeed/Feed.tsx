@@ -268,7 +268,6 @@ const HomeFeed = () => {
               disableVirtualization={true}
               trackOnce={true}
               withFlashList={false}
-              estimatedItemSize={260}
               ref={ref}
               onLastViewedIndexChange={updateLastViewedIndex}
             />
