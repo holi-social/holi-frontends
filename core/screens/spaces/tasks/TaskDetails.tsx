@@ -28,6 +28,10 @@ import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 
 const isIos = Platform.OS === 'ios'
 
+export type TaskDetailsParams = {
+  taskId: string
+}
+
 const TaskDetails = () => {
   // Fetch task details and contextual data
   const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle, interactionType, taskDuration, taskRegularity } =
