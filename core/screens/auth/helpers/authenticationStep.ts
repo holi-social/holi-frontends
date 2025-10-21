@@ -12,5 +12,7 @@ export const getFormNodesByStep = (step: AuthenticationStep): NodeType[] => {
       return ['email', 'code']
     case 'code':
       return ['code']
+    default:
+      return []
   }
 }

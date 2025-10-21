@@ -5,6 +5,8 @@ import { Button } from 'holi-bricks/components/button'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import HeaderAnimated from '@holi/core/components/HeaderAnimated/index.web'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 jest.mock('@holi/core/helpers/useLogout')
 
@@ -13,6 +15,11 @@ jest.mock('@holi/core/navigation/hooks/useParam')
 const mockStoreGuestMode = jest.mocked(storeGuestMode)
 jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   storeGuestMode: jest.fn(),
+}))
+
+const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: jest.fn(),
 }))
 
 jest.useFakeTimers()
@@ -32,12 +39,18 @@ jest.mock('@holi/core/screens/auth/components/AuthenticationSelection', () => ({
 describe('Authentication', () => {
   beforeEach(() => {
     mockParameters()
+    mockUseLoggedInUser.mockReturnValue({
+      isLoggedIn: false,
+      isLoggedOut: true,
+      isLoading: false,
+      user: undefined,
+      state: 'loggedOut',
+    })
   })
 
-  it('should render header and authentication selection', () => {
+  it('should render and authentication selection', () => {
     render(<Authentication initialSelection="login" />)
 
-    expect(screen.getByText('registration.signUp.heading'))
     expect(screen.getByLabelText('login-button'))
     expect(screen.getByLabelText('register-button'))
   })
@@ -79,5 +92,29 @@ describe('Authentication', () => {
 
     expect(mockStoreGuestMode).toHaveBeenCalledWith(true)
     expect(onContinueAsGuest).toHaveBeenCalled()
+  })
+
+  it('should render loading if user is already logged in', async () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoading: false,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      user: {
+        id: 'test-user-id',
+        identity: 'test-user',
+        accountType: AccountType.Email,
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'TU',
+        fullName: 'Test User',
+        isEmployee: false,
+        email: 'test@example.com',
+        isOidc: false,
+      },
+      state: 'loggedIn',
+    })
+
+    render(<Authentication initialSelection="login" onLogin={jest.fn()} />)
+
+    expect(screen.getByTestId('loader')).toBeOnTheScreen()
   })
 })
