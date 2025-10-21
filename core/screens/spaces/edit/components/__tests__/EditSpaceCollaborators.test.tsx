@@ -138,14 +138,11 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators />
       </MockedProvider>
     )
-
     await act(async () => {
-      await waitFor(() => screen.findAllByTestId('spaces-collaborators-item'))
+      await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
     })
 
-    await act(async () => {
-      await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
-    })
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
 
     await act(async () => {
       await waitFor(() => screen.findAllByTestId('space-pending-request-item'))
