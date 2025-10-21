@@ -4,6 +4,7 @@ import { Screen } from '@holi/core/components/Screen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import { TaskDetailsCTA } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA'
+import { TaskDetailsCTA as TaskDetailsCTALegacy } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA/indexLegacy'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { TaskProgressCard } from '@holi/core/screens/spaces/tasks/components/TaskProgressCard'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
@@ -25,6 +26,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
+import { Stack } from 'holi-bricks/components/stack'
 
 const isIos = Platform.OS === 'ios'
 
@@ -33,12 +35,24 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetails = () => {
-  const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle, interactionType, taskDuration, taskRegularity } =
-    useTaskDetailsData()
+  const {
+    data,
+    isOwner,
+    spaceName,
+    id,
+    refetch,
+    spaceId,
+    spaceTitle,
+    interactionSignupLink,
+    interactionType,
+    taskDuration,
+    taskRegularity,
+  } = useTaskDetailsData()
 
   const loginState = useLoginState()
   const { adminUsers } = useSpaceAdminUsers(spaceName)
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const [taskSelfReportingFlow] = useFeatureFlag(FeatureFlagKey.TASK_SELF_REPORTING_FLOW)
   const chatRoomContent = {
     taskName: data?.title,
     taskId: id || '',
@@ -106,7 +120,7 @@ const TaskDetails = () => {
       }}
       statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
       StickyBottomComponent={
-        displayCta && (
+        taskSelfReportingFlow ? (
           <TaskDetailsCTA
             spaceIdOrName={spaceName}
             isFavorite={data?.isFavorite}
@@ -120,7 +134,21 @@ const TaskDetails = () => {
             startChat={startChat}
             status={taskStatus?.status}
           />
-        )
+        ) : displayCta ? (
+          <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }}>
+            <TaskDetailsCTALegacy
+              spaceIdOrName={spaceName}
+              taskName={data?.title}
+              taskId={id}
+              spaceTitle={spaceTitle}
+              spaceId={spaceId}
+              interactionType={interactionType}
+              interactionSignupLink={interactionSignupLink}
+              taskDuration={taskDuration}
+              taskRegularity={taskRegularity}
+            />
+          </Stack>
+        ) : null
       }
     >
       <DetailsScreen

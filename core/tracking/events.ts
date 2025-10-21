@@ -194,6 +194,11 @@ export namespace TrackingEvent {
         properties: { ...props },
         ...versionOne,
       }),
+      signedUp: (props: TaskProperties) => ({
+        name: 'task_cta_signUp_pressed',
+        properties: { ...props },
+        ...versionOne,
+      }),
     },
   }
 
