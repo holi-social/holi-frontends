@@ -144,7 +144,7 @@ describe('EditSpaceCollaborators', () => {
     })
 
     await act(async () => {
-      await waitFor(() => screen.findAllByTestId('spaces-collaborators-item'))
+      await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
     })
 
     fireEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
