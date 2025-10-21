@@ -1,10 +1,7 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useCallback } from 'react'
 import { View } from 'react-native'
 
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
-import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import {
@@ -12,7 +9,7 @@ import {
   type AuthenticationType,
 } from '@holi/core/screens/auth/components/AuthenticationSelection'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
@@ -34,13 +31,14 @@ export type AuthenticationParams = {
   flow?: string
 }
 
-const { useParam } = createParamHooks<AuthenticationParams>()
+const { useParam, useUpdateParams } = createParamHooks<AuthenticationParams>()
 
 export const Authentication = ({ initialSelection, onRegister, onLogin, onContinueAsGuest }: AuthenticationProps) => {
   const [flowId] = useParam('flow')
-  const { t } = useTranslation()
+  const updateParams = useUpdateParams(webReplaceQueryConfig)
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
+  const resetFlow = useCallback(() => updateParams({ flow: undefined }), [updateParams])
   // TODO(SF) handle being logged in already
 
   return (
@@ -80,20 +78,10 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
           </View>
         }
       >
-        <Text headingLevel="1" size="4xl" textAlign="center" margin={{ bottom: 'xs' }}>
-          {t('registration.signUp.heading')}
-
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
-            width={50}
-            height={40}
-            label={''}
-            isSvg
-          />
-        </Text>
         <AuthenticationSelection
           flowId={flowId}
           initialSelection={initialSelection}
+          resetFlow={resetFlow}
           onLogin={() => {
             track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
             onLogin?.()

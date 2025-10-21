@@ -35,13 +35,13 @@ import { CodeInputHeader } from '@holi/core/screens/auth/components/CodeInputHea
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 
 interface LoginFormProps {
-  flowId?: string
+  startedFlowId?: string
   onLogin?: () => void
   step: AuthenticationStep
   setStep: React.Dispatch<React.SetStateAction<AuthenticationStep>>
 }
 
-export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) => {
+export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormProps) => {
   const [displayedExistingAccountError, setDisplayedExistingAccountError] = useState(false)
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
@@ -72,7 +72,7 @@ export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) =>
   )
 
   const initializeFlow = useCallback(
-    () =>
+    (flowId?: string) =>
       initLoginFlow(flowId)
         .then(safeSetFlow)
         .catch((error) =>
@@ -81,7 +81,7 @@ export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) =>
             location: 'Login.initializeFlow',
           })
         ),
-    [t, safeSetFlow, displayError, flowId]
+    [t, safeSetFlow, displayError]
   )
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) =>
       flow?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016) &&
       !displayedExistingAccountError
     ) {
-      displayError(new Error('Email already used'), 'Failed to submit form', {
+      displayError(new Error('Email already used'), 'Failed to submit login form', {
         displayMessage: t('auth.login.message.1010016'),
         location: 'LoginForm.useEffect',
       })
@@ -98,10 +98,8 @@ export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) =>
         setStep('oidc')
       })
       setDisplayedExistingAccountError(true)
-    }
-
-    if (isLoggedOut && !flow) {
-      initializeFlow()
+    } else if (isLoggedOut && !flow) {
+      initializeFlow(startedFlowId)
     } else if (!isLoggedOut) {
       const redirect = getRedirectAfterSocialLogin()
       navigate(redirect || pathToRedirect || '/')
@@ -110,6 +108,7 @@ export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) =>
     isLoggedOut,
     initializeFlow,
     flow,
+    startedFlowId,
     navigate,
     displayError,
     t,
@@ -139,12 +138,12 @@ export const LoginForm = ({ flowId, onLogin, step, setStep }: LoginFormProps) =>
           err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
         )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007 || message.id === 1010016)
       ) {
-        displayError(err, 'Failed to submit form', {
+        displayError(err, 'Failed to submit login form as e-mail is already used', {
           displayMessage: t('auth.login.message.1010016'),
           location: 'LoginForm.performLogin',
         })
         initializeFlow()?.then(() => {
-          setStep('email-code')
+          setStep('oidc')
         })
         return
       }

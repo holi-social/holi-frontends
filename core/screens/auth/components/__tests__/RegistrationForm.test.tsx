@@ -93,10 +93,15 @@ describe('RegistrationForm', () => {
     jest.useRealTimers()
   })
 
-  const renderScreen = async ({ onRegister }: Partial<RegistrationProps> = {}) => {
+  const renderScreen = async ({ onRegister, startedFlowId }: Partial<RegistrationProps> = {}) => {
     render(
       <MockedProvider>
-        <RegistrationForm onRegister={onRegister ?? jest.fn()} step="oidc" setStep={jest.fn()} />
+        <RegistrationForm
+          startedFlowId={startedFlowId}
+          onRegister={onRegister ?? jest.fn()}
+          step="oidc"
+          setStep={jest.fn()}
+        />
       </MockedProvider>
     )
 
@@ -118,6 +123,12 @@ describe('RegistrationForm', () => {
       await renderScreen()
 
       expect(mockInitRegistrationFlow).toHaveBeenCalled()
+    })
+
+    it('should initialize login flow with id if given', async () => {
+      await renderScreen({ startedFlowId: '123' })
+
+      expect(mockInitRegistrationFlow).toHaveBeenCalledWith('123')
     })
 
     it('should display error if initializing registration flow fails', async () => {

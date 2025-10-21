@@ -41,12 +41,12 @@ const logger = getLogger('Auth')
 
 export interface RegistrationProps {
   onRegister?: () => void
-  flowId?: string
+  startedFlowId?: string
   step: AuthenticationStep
   setStep: React.Dispatch<React.SetStateAction<AuthenticationStep>>
 }
 
-export const RegistrationForm = ({ onRegister, flowId, step, setStep }: RegistrationProps) => {
+export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: RegistrationProps) => {
   const { navigate } = useRouting()
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
@@ -74,28 +74,31 @@ export const RegistrationForm = ({ onRegister, flowId, step, setStep }: Registra
     [step, setStep]
   )
 
-  const initializeFlow = useCallback(() => {
-    if (!isLoggedOut) return
+  const initializeFlow = useCallback(
+    (flowId?: string) => {
+      if (!isLoggedOut) return
 
-    return (
-      initRegistrationFlow(flowId)
-        // The flow was initialized successfully, let's set the form data:
-        .then(({ data: flow }) => {
-          safeSetFlow(flow)
-        })
-        .catch((error) =>
-          displayError(error, 'Failed to initialize registration flow', {
-            displayMessage: t('auth.registration.error.initialization'),
-            location: 'RegistrationForm.initRegistrationFlow',
+      return (
+        initRegistrationFlow(flowId)
+          // The flow was initialized successfully, let's set the form data:
+          .then(({ data: flow }) => {
+            safeSetFlow(flow)
           })
-        )
-    )
-  }, [isLoggedOut, flowId, safeSetFlow, displayError, t])
+          .catch((error) =>
+            displayError(error, 'Failed to initialize registration flow', {
+              displayMessage: t('auth.registration.error.initialization'),
+              location: 'RegistrationForm.initRegistrationFlow',
+            })
+          )
+      )
+    },
+    [isLoggedOut, safeSetFlow, displayError, t]
+  )
 
-  // When the component is mounted, we initialize a new use login flow:
+  // When the component is mounted, we initialize a new use registration flow:
   useIsomorphicLayoutEffect(() => {
-    initializeFlow()
-  }, [initializeFlow])
+    initializeFlow(startedFlowId)
+  }, [initializeFlow, startedFlowId])
 
   const onSubmit = async (
     payload: UpdateRegistrationFlowBody & { identifier?: string; 'traits.email'?: string },
@@ -136,12 +139,12 @@ export const RegistrationForm = ({ onRegister, flowId, step, setStep }: Registra
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
           )?.response?.data?.ui?.messages?.find((message) => message.id && [4000007, 4010003].includes(message.id))
         ) {
-          displayError(err, 'Failed to submit form', {
+          displayError(err, 'Failed to submit registration form as e-mail is already used', {
             displayMessage: t('auth.login.message.1010016'),
             location: 'RegistrationForm.onSubmit',
           })
           initializeFlow()?.then(() => {
-            setStep((step) => (step === 'email-password' ? 'email-password' : 'email-code'))
+            setStep((step) => (step === 'email-password' ? 'email-password' : 'oidc'))
           })
           return
         }

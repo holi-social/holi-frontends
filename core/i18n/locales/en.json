@@ -133,7 +133,7 @@
   "auth.login.input.message.4000001-1": "The password check did not work. Please try again.",
   "auth.login.input.message.4000002-0": "Please enter your email address",
   "auth.login.input.message.4000002-1": "Please choose a password (at least 8 characters)",
-  "auth.login.input.message.4000002-2": "Please enter your email address",
+  "auth.login.input.message.4000002-2": "Please enter a code",
   "auth.login.input.message.4000005-0": "Use at least 8 characters, feel free to use more!",
   "auth.login.input.message.4000005-1": "The password has been found in data breaches. Please choose a different one",
   "auth.login.input.message.4000005-2": "The password is too similar to your email address. Please choose a different one",

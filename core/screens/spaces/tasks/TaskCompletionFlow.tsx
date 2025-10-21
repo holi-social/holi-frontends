@@ -166,7 +166,7 @@ const TaskCompletionFlow = () => {
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
           )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
         ) {
-          displayError(err, 'Failed to submit form', {
+          displayError(err, 'Failed to submit registration form as e-mail is already used', {
             displayMessage: t('auth.login.message.1010016'),
             location: 'TaskCompletionFlow.onSubmit',
           })

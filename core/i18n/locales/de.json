@@ -133,7 +133,7 @@
   "auth.login.input.message.4000001-1": "Der Login hat nicht funktioniert. Bitte versuche es erneut.",
   "auth.login.input.message.4000002-0": "Bitte gib deine E-Mail-Adresse ein",
   "auth.login.input.message.4000002-1": "Bitte wähle ein Passwort (mindestens 8 Zeichen)",
-  "auth.login.input.message.4000002-2": "Bitte gib deine E-Mail-Adresse ein",
+  "auth.login.input.message.4000002-2": "Bitte gib einen Code ein",
   "auth.login.input.message.4000005-0": "Benutze mindestens 8 Zeichen, gern auch mehr!",
   "auth.login.input.message.4000005-1": "Das Passwort wurde in einem Datenleck gefunden. Bitte wähle ein anderes",
   "auth.login.input.message.4000005-2": "Das Passwort ist deiner E-Mail-Adresse zu ähnlich. Bitte wähle ein anderes",

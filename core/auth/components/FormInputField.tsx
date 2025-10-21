@@ -67,7 +67,8 @@ export const getValidationErrorText = (
     // `identifier` or `traits.email` is used for email field
     const emailNames = ['identifier', 'traits.email', 'email']
     const passwordNames = ['password']
-    const possibleNames = [emailNames, passwordNames]
+    const codeNames = ['code']
+    const possibleNames = [emailNames, passwordNames, codeNames]
     const modifier = possibleNames.findIndex((namesArr) => namesArr.includes(name))
     const messageKeyModifier = `${messageKey}-${modifier}`
 

@@ -180,7 +180,7 @@ describe('LoginForm', () => {
     })
 
     it('should initialize login flow with id if given', async () => {
-      render(<LoginForm flowId="123" step="oidc" setStep={jest.fn()} />)
+      render(<LoginForm startedFlowId="123" step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
 
