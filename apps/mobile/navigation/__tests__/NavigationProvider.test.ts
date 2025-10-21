@@ -211,6 +211,8 @@ describe('rootLinkingConfig', () => {
       expect(initialUrl).toEqual('https://app.holi.social/some/link')
       expect(mockGetInitialURL).toHaveBeenCalledTimes(1)
       expect(mockSetPathname).toHaveBeenCalledWith('/some/link')
+
+      mockGetInitialURL?.mockReset()
     })
 
     describe('Android', () => {
