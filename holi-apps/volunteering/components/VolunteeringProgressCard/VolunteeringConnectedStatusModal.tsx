@@ -9,10 +9,11 @@ import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
-import { Button } from 'holi-bricks/components/button'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const ANIMATION_DELAY = 3300
 const LOTTIE_ASPECT_RATIO = 342 / 130
@@ -65,7 +66,11 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
               </Stack>
 
               <Stack padding={{ top: 'xxs', bottom: 'xxs' }}>
-                <Button label={t('volunteering.progress.button.contactSuccess')} onPress={props.onDismiss} />
+                <ButtonTracked
+                  label={t('volunteering.progress.button.contactSuccess')}
+                  onPress={props.onDismiss}
+                  trackingEvent={TrackingEvent.Task.CTAButton.letsMoveOn()}
+                />
               </Stack>
             </Animated.View>
           </Stack>

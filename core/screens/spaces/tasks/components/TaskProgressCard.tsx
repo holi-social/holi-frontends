@@ -15,18 +15,25 @@ import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/
 import { VolunteeringConnectedStatusModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringConnectedStatusModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringFinishedModal'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { type Duration, type Regularity, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
 import { useRoomById } from '@holi/chat/src/store'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 
 interface ProgressCardProps {
   onStatusChange: (status: VolunteeringOpportunityStatusValue) => void
   status?: VolunteeringOpportunityStatusValue
   startChat: (supressNavigation?: boolean) => Promise<string | undefined>
+  taskProps: {
+    taskId: string
+    taskName: string
+    duration?: Duration
+    regularity?: Regularity
+  }
 }
 
 const hasShownConnectedModalMap: Record<string, boolean> = {}
@@ -35,6 +42,7 @@ export const TaskProgressCard = ({
   onStatusChange,
   status = VolunteeringOpportunityStatusValue.ToDo,
   startChat,
+  taskProps,
 }: ProgressCardProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
@@ -105,19 +113,13 @@ export const TaskProgressCard = ({
                 <Text>{t('volunteer.progress.progressCard.connect.text')}</Text>
               </Stack>
 
-              <Button
-                label="Open chat" // todo: t('volunteering.progress.button.act')
+              <ButtonTracked
+                label={t('chatTask.progress.button.openChat')}
                 icon={Chat3}
                 onPress={() => {
                   startChat()
                 }}
-                // trackingEvent={TrackingEvent.Task.CTAButton.imOnIt({
-                //   taskId: id ?? '',
-                //   taskName: data?.title,
-                //   regularity: taskRegularity,
-                //   duration: taskDuration,
-                //   interactionType,
-                // })}
+                trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
               />
             </Stack>
           )}
@@ -131,22 +133,22 @@ export const TaskProgressCard = ({
                 </Stack>
 
                 <Stack gap="3xs">
-                  <Button
-                    label={'Open Chat'} // t('volunteering.progress.button.act')
+                  <ButtonTracked
+                    label={t('chatTask.progress.button.openChat')}
                     variant="secondary"
                     icon={Chat3}
                     onPress={() => {
                       startChat()
                     }}
-                    // trackingEvent={TrackingEvent.Volunteering.selfReportingFlow.doing(engagementId)}
+                    trackingEvent={TrackingEvent.Task.CTAButton.reopenChat()}
                   />
-                  <Button
+                  <ButtonTracked
                     label={t('volunteering.progress.button.act')}
                     icon={Check}
                     onPress={() => {
                       showFinishedModal()
                     }}
-                    // trackingEvent={TrackingEvent.Volunteering.selfReportingFlow.doing(engagementId)}
+                    trackingEvent={TrackingEvent.Task.CTAButton.imOnIt()}
                   />
                 </Stack>
               </Stack>

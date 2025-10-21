@@ -160,14 +160,26 @@ export namespace TrackingEvent {
     },
 
     CTAButton: {
+      getInTouch: (taskId: string) => ({
+        name: 'task_cta_getInTouch_pressed',
+        properties: { taskId },
+        ...versionOne,
+      }),
       startedConversation: (props: TaskProperties) => ({
         name: 'task_cta_startConversation_pressed',
         properties: { ...props },
         ...versionOne,
       }),
-      signedUp: (props: TaskProperties) => ({
-        name: 'task_cta_signUp_pressed',
-        properties: { ...props },
+      reopenChat: () => ({
+        name: 'task_cta_reopenChat_pressed',
+        ...versionOne,
+      }),
+      letsMoveOn: () => ({
+        name: 'task_cta_letsMoveOn_pressed',
+        ...versionOne,
+      }),
+      imOnIt: () => ({
+        name: 'task_cta_imOnIt_pressed',
         ...versionOne,
       }),
       illDoIt: (
@@ -179,11 +191,6 @@ export namespace TrackingEvent {
       }),
       saveForLater: (props: TaskProperties & { step: 'save' | 'register' }) => ({
         name: 'task_cta_saveForLater_pressed',
-        properties: { ...props },
-        ...versionOne,
-      }),
-      imOnIt: (props: TaskProperties) => ({
-        name: 'task_cta_imOnIt_pressed',
         properties: { ...props },
         ...versionOne,
       }),

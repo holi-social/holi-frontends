@@ -78,6 +78,7 @@ const TaskDetails = () => {
     duration: taskDuration,
     interactionType,
   }
+
   useTrackOnce(id ? TrackingEvent.Task.detailPage.visited(taskProps) : undefined)
 
   return (
@@ -103,7 +104,6 @@ const TaskDetails = () => {
       StickyBottomComponent={
         <TaskDetailsCTA
           spaceIdOrName={spaceName}
-          taskId={id}
           interactionType={interactionType}
           isFavorite={data?.isFavorite}
           refetchFavorite={refetch}
@@ -115,6 +115,7 @@ const TaskDetails = () => {
           }}
           startChat={startChat}
           status={taskStatus?.status}
+          taskProps={taskProps}
         />
       }
     >
@@ -135,6 +136,7 @@ const TaskDetails = () => {
                 status={taskStatus.status}
                 onStatusChange={onVolunteeringStatusChange}
                 startChat={startChat}
+                taskProps={taskProps}
               />
             </HoliTransition.FadeDown>
           ) : null

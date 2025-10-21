@@ -3,14 +3,19 @@ import { ScrollView } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import Animated, { FadeInUp, runOnJS } from 'react-native-reanimated'
 
-import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { Snackbar } from 'holi-bricks/components/snackbar/Snackbar'
 import { Stack } from 'holi-bricks/components/stack'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { CheckboxCircleFilled, HeartHandshake } from '@holi/icons/src/generated'
 
-import { FavoritableType, InteractionType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import {
+  type Duration,
+  FavoritableType,
+  InteractionType,
+  type Regularity,
+  VolunteeringOpportunityStatusValue,
+} from '@holi/api/graphql/graphql-codegen'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
@@ -26,6 +31,8 @@ import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const ANIMATION_DELAY = 500
 const LOTTIE_ASPECT_RATIO = 342 / 130
@@ -33,7 +40,6 @@ const LOTTIE_MAX_HEIGHT = 160
 
 interface Props {
   spaceIdOrName?: string
-  taskId?: string
   interactionType?: InteractionType
   isFavorite?: boolean
   refetchFavorite?: () => void
@@ -41,11 +47,17 @@ interface Props {
   onModalDismiss?: () => void
   startChat: () => void
   status?: VolunteeringOpportunityStatusValue
+  taskProps: {
+    taskId: string
+    taskName: string
+    duration?: Duration
+    regularity?: Regularity
+    interactionType?: InteractionType
+  }
 }
 
 export const TaskDetailsCTA = ({
   spaceIdOrName,
-  taskId,
   interactionType,
   isFavorite,
   refetchFavorite,
@@ -53,6 +65,7 @@ export const TaskDetailsCTA = ({
   onModalDismiss,
   startChat,
   status,
+  taskProps,
 }: Props) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
@@ -78,6 +91,8 @@ export const TaskDetailsCTA = ({
     VolunteeringOpportunityStatusValue.WontDo
   )
 
+  const { taskId } = taskProps
+
   const handleCompleteTask = useCallback(async () => {
     if (!loggedInUser) return navigate(`/spaces/${spaceIdOrName}/tasks/${taskId}/complete`)
 
@@ -95,25 +110,26 @@ export const TaskDetailsCTA = ({
     <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xxs">
       {/* Primary action: Chat or Contact */}
       {interactionType === InteractionType.Chat && status === undefined && (
-        <Button
+        <ButtonTracked
           label={t('volunteering.engagementDetail.getInTouchDrawer')}
           onPress={() => requireLogin(showContact)}
           testID="task-engagement-get-in-touch-btn"
+          trackingEvent={TrackingEvent.Task.CTAButton.getInTouch(taskId || '')}
         />
       )}
 
       {(interactionType === InteractionType.Link || interactionType === InteractionType.Ready) && (
-        <Button
+        <ButtonTracked
           testID="contact-organization-drawer"
           onPress={handleCompleteTask}
           icon={HeartHandshake}
           loading={completeTaskLoading}
           label={t('spaces.tasks.contactOrganization.cta.ready')}
-          // trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
-          //   ...taskProps,
-          //   step: 'started',
-          //   authState: loggedInUser ? 'registered' : 'unregistered',
-          // })}
+          trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+            ...taskProps,
+            step: 'started',
+            authState: loggedInUser ? 'registered' : 'unregistered',
+          })}
         />
       )}
 
@@ -185,8 +201,8 @@ export const TaskDetailsCTA = ({
                   </Stack>
 
                   <Stack gap="4xs" margin={{ bottom: 'lg' }}>
-                    <Button
-                      // trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
+                    <ButtonTracked
+                      trackingEvent={TrackingEvent.Task.CTAButton.startedConversation(taskProps)}
                       loading={isLoading}
                       disabled={isLoading}
                       onPress={() => {
