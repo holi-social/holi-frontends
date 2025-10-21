@@ -26,7 +26,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "@sentry/react-native": "~7.2.0",
-    "@shopify/flash-list": "2.0.2",
+    "@shopify/flash-list": "2.0.3",
     "@types/lodash.isequal": "^4.5.8",
     "apollo-link-timeout": "^4.0.0",
     "expo": "54.0.13",

@@ -28,13 +28,12 @@ export type TrackableFlatListParams = {
   // a flag that defines whether an item should be tracked only once or every time it's viewed
   trackOnce?: boolean
 
-  ref?: React.Ref<FlatList<TrackableFlatListItem> | FlashList<TrackableFlatListItem>>
+  ref?: React.Ref<FlatList<TrackableFlatListItem> | typeof FlashList<TrackableFlatListItem>>
 }
 
 export type TrackableFlatListProps = FlatListProps<TrackableFlatListItem> &
   TrackableFlatListParams & {
     withFlashList?: boolean
-    estimatedItemSize?: number
     onLastViewedIndexChange?: (index: number) => void
   }
 
