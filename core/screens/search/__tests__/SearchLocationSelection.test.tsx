@@ -75,14 +75,10 @@ describe('SearchLocationSelection', () => {
 
   const selectLocation = async (user: UserEventInstance) => {
     const inputField = screen.getByLabelText('search.location.label')
-    await user.paste(inputField, 'Hamburg, Germany')
+    await user.type(inputField, 'Hamburg, Germany', { skipBlur: true })
 
-    await act(async () => {
-      // Await fetching places
-      await jest.runAllTimersAsync()
-      // Re-focus input field to display options and submit
-      await user.paste(inputField, 'Hamburg, Germany')
-    })
+    const option = await screen.findByText('Hamburg, Germany')
+    await user.press(option)
   }
 
   it('displays label of current location', () => {
@@ -109,18 +105,15 @@ describe('SearchLocationSelection', () => {
 
     await user.press(screen.getByText('search.location.germanyWide'))
     const inputField = screen.getByLabelText('search.location.label')
-    await user.type(inputField, 'Hamburg, Germany')
-    await act(async () => {
-      // Await fetching places
-      await jest.runAllTimersAsync()
-      // Re-focus input field to display options
-      const interaction = user.paste(inputField, 'Hamburg, Germany')
 
-      expect(screen.getByText('Hamburg, Germany')).toBeTruthy()
-      expect(screen.getByText('Hannover, Germany')).toBeTruthy()
+    await user.type(inputField, 'Hamburg, Germany', { skipBlur: true })
 
-      await interaction
+    act(() => {
+      jest.runAllTimers()
     })
+
+    expect(screen.getByText('Hamburg, Germany')).toBeTruthy()
+    expect(screen.getByText('Hannover, Germany')).toBeTruthy()
   })
 
   it('calls callback with current selected location on save', async () => {

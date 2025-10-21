@@ -1,11 +1,19 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
-import { ClientEvent, EventType, IEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
+import {
+  ClientEvent,
+  EventType,
+  type IEvent,
+  type MatrixClient,
+  type MatrixEvent,
+  type Room,
+  RoomEvent,
+} from 'matrix-js-sdk'
 import React from 'react'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
+import { type ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import {
   _roomAtomsRecordAtomSubscriber,
   _spaceRoomsSubscriber,
@@ -106,13 +114,11 @@ describe('Chat Store - space rooms', () => {
     mxClient.getRooms.mockReturnValue([roomMock, childRoomMock, child2RoomMock])
     mxClient.roomState.mockResolvedValue([])
 
-    const { result, waitForNextUpdate } = renderHook(() => useStoreSpaceRoomAtomsTest(), { wrapper })
+    const { result } = renderHook(() => useStoreSpaceRoomAtomsTest(), { wrapper })
 
     const roomListener = getListenerForMatrixEvent(mxClient, ClientEvent.Room, 'roomEventHandler') as (
       room: Room
     ) => void
-
-    waitForNextUpdate()
 
     act(() => roomListener(roomMock))
     act(() => roomListener(childRoomMock))
