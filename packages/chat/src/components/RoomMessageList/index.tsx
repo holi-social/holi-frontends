@@ -32,10 +32,10 @@ const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[]
     groupedMessages[formattedDate] = groupedMessages[formattedDate] ?? [
       { title: getSectionDisplayDate(locale, timestamp) },
     ]
-    groupedMessages[formattedDate].unshift(message)
+    groupedMessages[formattedDate].push(message)
   }
 
-  return Object.values(groupedMessages).reverse().flat()
+  return Object.values(groupedMessages).flat()
 }
 
 const RoomMessageList = ({
@@ -74,15 +74,15 @@ const RoomMessageList = ({
         )
       }}
       data={groupedMessages}
-      // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
-      // use ListFooterComponent to add padding bottom for HeaderAnimated
-      inverted={true}
+      maintainVisibleContentPosition={{
+        autoscrollToBottomThreshold: 0.2,
+        startRenderingFromBottom: true,
+      }}
       onScroll={onScroll}
-      estimatedItemSize={52}
       removeClippedSubviews
       keyboardDismissMode="interactive"
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
+      ListHeaderComponent={() => <View style={styles.listHeaderSpacer}>{starter}</View>}
+      ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
     />
   )
 }
@@ -90,10 +90,10 @@ const RoomMessageList = ({
 export default RoomMessageList
 
 const stylesheet = createStyleSheet(() => ({
-  listFooterSpacer: {
+  listHeaderSpacer: {
     paddingHorizontal: Spacing['xs'],
   },
-  listHeaderSpacer: {
+  listFooterSpacer: {
     height: 20,
   },
 }))
