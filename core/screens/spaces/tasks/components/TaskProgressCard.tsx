@@ -149,6 +149,7 @@ export const TaskProgressCard = ({
                       showFinishedModal()
                     }}
                     trackingEvent={TrackingEvent.Task.CTAButton.imOnIt()}
+                    aria-label={t('volunteering.progress.button.act.buttonLabel')}
                   />
                 </Stack>
               </Stack>

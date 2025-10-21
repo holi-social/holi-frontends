@@ -196,7 +196,9 @@ export const TaskDetailsCTA = ({
                       </Stack>
                     )}
 
-                    <Text size="3xl">{t('volunteer.progress.initiate.modal.title')}</Text>
+                    <Text size="3xl" headingLevel="1">
+                      {t('volunteer.progress.initiate.modal.title')}
+                    </Text>
                     <Text>{t('volunteer.progress.initiate.modal.text')}</Text>
                   </Stack>
 

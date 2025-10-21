@@ -60,7 +60,9 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
                   <VolunteeringProgressStepper status={volunteeringProgressStatus} />
                 </Stack>
 
-                <Text size="3xl">{t('volunteer.progress.contactConfirmed.modal.title')}</Text>
+                <Text size="3xl" headingLevel="1">
+                  {t('volunteer.progress.contactConfirmed.modal.title')}
+                </Text>
 
                 <Text>{t('volunteer.progress.contactConfirmed.modal.text')}</Text>
               </Stack>
@@ -70,6 +72,7 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
                   label={t('volunteering.progress.button.contactSuccess')}
                   onPress={props.onDismiss}
                   trackingEvent={TrackingEvent.Task.CTAButton.letsMoveOn()}
+                  aria-label={t('volunteering.progress.button.contactSuccess.buttonLabel')}
                 />
               </Stack>
             </Animated.View>
