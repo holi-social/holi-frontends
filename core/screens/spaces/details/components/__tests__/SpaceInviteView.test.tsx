@@ -124,7 +124,7 @@ describe('SpaceInviteView', () => {
 
     expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.invite.success', HoliToastType.SUCCESS)
     // Expect input to be cleared
-    expect(screen.getByTestId('space-invite-user-input').children[0]).toHaveProp('value', '')
+    expect(screen.getByLabelText('spaces.invite.search.input')).toHaveDisplayValue('')
   })
 
   it('displays error when invite fails', async () => {
