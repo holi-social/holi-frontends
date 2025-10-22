@@ -138,7 +138,7 @@ export type E2ETestSpaceResponse = {
 }
 
 export const createSpace = async (context: BrowserContext) => {
-  const file = new File([readFileSync('tests/helpers/testimage.png')], 'testimage.png')
+  const file = new File([new Uint8Array(readFileSync('tests/helpers/testimage.png'))], 'testimage.png')
 
   const formData = new FormData()
   formData.append(

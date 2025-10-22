@@ -1,14 +1,15 @@
 import { useMutation } from '@apollo/client'
-import React, { useMemo, useState } from 'react'
+import type React from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
-  UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserV2Response,
+  type UpdateAuthenticatedUserInput,
+  type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -16,7 +17,7 @@ import { Smiley } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 enum EngagementLevel {
   INTERESTED = 'INTERESTED',
@@ -31,11 +32,7 @@ type UserEngagementLevelFormProps = {
   buttonsRelativeHeight?: number
 }
 
-const UserEngagementLevelForm: React.VoidFunctionComponent<UserEngagementLevelFormProps> = ({
-  onSubmit,
-  user,
-  buttonsRelativeHeight = 0.35,
-}) => {
+const UserEngagementLevelForm = ({ onSubmit, user, buttonsRelativeHeight = 0.35 }: UserEngagementLevelFormProps) => {
   const [updateUser, { loading, error }] = useMutation<UpdateAuthenticatedUserV2Response>(
     updateAuthenticatedUserV2Mutation,
     {

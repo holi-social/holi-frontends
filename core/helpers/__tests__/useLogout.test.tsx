@@ -81,8 +81,9 @@ describe('useLogout', () => {
     session_token: 'some_token',
     session: { id: '123' },
   }
+  const mockClearStore = jest.fn()
   const mockClient = {
-    clearStore: jest.fn(),
+    clearStore: mockClearStore,
   } as unknown as ApolloClient<object>
 
   beforeEach(() => {
@@ -96,7 +97,7 @@ describe('useLogout', () => {
     mockGetSessionFromStorage.mockResolvedValue(mockSession)
     mockSubmitLogoutFlow.mockResolvedValue(undefined)
     mockUseApolloClient.mockReturnValue(mockClient)
-    mockClient.clearStore.mockReset()
+    mockClearStore.mockReset()
   })
 
   afterEach(() => {

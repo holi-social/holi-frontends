@@ -6,7 +6,7 @@ import type { FlexAlignType, ViewStyle } from 'react-native'
 import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 
 export interface BoxLayoutProps {
-  display?: FlexStyle['display']
+  display?: ViewStyle['display']
   flexDirection?: FlexStyle['flexDirection']
   alignItems?: FlexAlignType
   alignSelf?: 'auto' | FlexAlignType

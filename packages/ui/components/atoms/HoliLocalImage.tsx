@@ -1,9 +1,14 @@
-import { ImageSource } from 'expo-image'
 import React from 'react'
-import { AccessibilityProps, Image, ImageRequireSource, ImageSourcePropType, ImageURISource } from 'react-native'
+import {
+  type AccessibilityProps,
+  Image,
+  type ImageRequireSource,
+  type ImageSourcePropType,
+  type ImageURISource,
+} from 'react-native'
 import { WithLocalSvg } from 'react-native-svg/css'
 
-import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 // Usage:
 // import PngLogo from '@holi/ui/assets/img/logo/logo.svg'
@@ -28,9 +33,9 @@ const HoliLocalImage = ({
     'aria-label': label,
   }
 
-  let consolidatedImageSource: ImageSource | ImageRequireSource | undefined = undefined
+  let consolidatedImageSource: ImageURISource | ImageRequireSource | undefined = undefined
   if (isImageURISource(imageSource)) {
-    consolidatedImageSource = imageSource as ImageSource
+    consolidatedImageSource = imageSource as ImageURISource
   } else {
     if (isImageRequireSource(imageSource)) {
       consolidatedImageSource = imageSource as ImageRequireSource
