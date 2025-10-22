@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
