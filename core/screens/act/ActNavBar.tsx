@@ -3,7 +3,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { TouchableOpacity, View, type ViewStyle } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import {
   BookmarkFill,
   CalendarEventFilled,
@@ -52,7 +52,7 @@ export const ActNavBar = () => {
   }
 
   return (
-    <View style={{ overflowX: 'auto' } as ViewStyle}>
+    <View>
       <Stack
         direction="row"
         justifyContent="space-between"
