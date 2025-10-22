@@ -1,4 +1,4 @@
-import type { ApolloClientOptions, HttpOptions, NormalizedCacheObject } from '@apollo/client'
+import type { HttpOptions, NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
@@ -16,6 +16,8 @@ import {
 } from './cachePolicies'
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
+
+type Headers = HttpOptions['headers']
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
@@ -199,7 +201,7 @@ export const createCache = () =>
   })
 
 const API_URL = 'http://localhost:3000/api/graphql'
-const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
+const createSsrHttpLink = (requestHeaders?: Headers) => {
   // Filter content negotiation headers except accept-language
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { accept, 'accept-encoding': acceptEncoding, ...headers } = requestHeaders || {}
@@ -211,9 +213,10 @@ const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
 // `authorizationHeaderLink` is therefore only needed on Mobile (i.e. when defined)
-const createClientSideLink = (locale?: string) =>
+const createClientSideLink = (locale?: string, headers?: Headers) =>
   from(
     [
+      headers ? new HttpLink({ headers }) : undefined,
       createLocaleHeaderLink(locale),
       authorizationHeaderLink,
       timeoutLink,
@@ -226,10 +229,10 @@ const createApolloClient = ({
   ssrMode,
   headers,
   locale,
-}: Pick<ApolloClientOptions<NormalizedCacheObject>, 'ssrMode' | 'headers'> & { locale?: string }) => {
+}: { locale?: string; headers?: Headers; ssrMode?: boolean }) => {
   const clientLink = isSSR
     ? from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
-    : createClientSideLink(locale)
+    : createClientSideLink(locale, headers)
 
   return new ApolloClient({
     ssrMode,
@@ -240,7 +243,6 @@ const createApolloClient = ({
     devtools: {
       enabled: isSSR ? false : undefined,
     },
-    headers,
   })
 }
 
@@ -252,7 +254,7 @@ type WebClientInitState = Record<string, unknown> | null
 
 export interface WebApolloClientOptions {
   initState?: WebClientInitState
-  headers?: ApolloClientOptions<NormalizedCacheObject>['headers']
+  headers?: Record<string, string>
   locale?: string
 }
 
