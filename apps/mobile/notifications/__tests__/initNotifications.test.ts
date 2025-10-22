@@ -9,12 +9,16 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
-import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
+import type { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import { setCurrentRouteInfo, resetCurrentRouteInfo } from '@holi/core/navigation/hooks/useCurrentRoute'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
+
+jest.mock('expo-task-manager', () => {
+  return { defineTask: jest.fn() }
+})
 
 // prevent matrix-sdk-internal logging noise
 console.debug = jest.fn()
@@ -101,6 +105,8 @@ describe('initNotifications', () => {
     expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
     expect(mockGetStorage).toHaveBeenCalledTimes(0)
     expect(mockWriteStorage).toHaveBeenCalledTimes(0)
+
+    mockIsDevice.mockReset()
   })
 
   it('should not request permission if already granted', async () => {
