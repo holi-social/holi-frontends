@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 export const useRepresentative = (spaceIdOrName?: string) => {
   const { displayError } = useErrorHandling()
 
-  const { loading, error, data, called, refetch } = useRepresentativeBySpaceIdQuery({
+  const { loading, error, data, refetch } = useRepresentativeBySpaceIdQuery({
     fetchPolicy: 'no-cache',
     variables: { idOrName: spaceIdOrName ?? '' },
     skip: !spaceIdOrName,
@@ -26,7 +26,6 @@ export const useRepresentative = (spaceIdOrName?: string) => {
     loading,
     error,
     representative,
-    called,
     refetch,
   }
 }

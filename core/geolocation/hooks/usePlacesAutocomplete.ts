@@ -38,8 +38,9 @@ export const usePlacesAutocomplete = ({
   const { t } = useTranslation()
 
   const [value, setValue] = useState(selected?.label || '')
+  const [called, setCalled] = useState(false)
 
-  const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
+  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
     variables: {
       limit: PLACE_SUGGESTION_MAX_COUNT,
       level,
@@ -62,6 +63,7 @@ export const usePlacesAutocomplete = ({
 
   const getSuggestions = useCallback(
     (value: string) => {
+      setCalled(true)
       setValue(value)
       const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.value === value)
       if (selectedSuggestion) {

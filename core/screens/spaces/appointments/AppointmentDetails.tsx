@@ -69,7 +69,7 @@ const AppointmentDetails = () => {
     error: errorAppointment,
     data: appointmentData,
     refetch: refetchAppointment,
-    called: calledAppointment,
+    loading,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug },
     skip: !idOrSlug,
@@ -80,7 +80,7 @@ const AppointmentDetails = () => {
     location: 'AppointmentDetails.appointmentByIdOrSlugQuery',
     idOrSlug,
   })
-  useRefreshOnNavigation({ initialized: calledAppointment })
+  useRefreshOnNavigation({ initialized: !!appointmentData || !!errorAppointment || loading })
 
   const appointment = appointmentData?.appointment
 

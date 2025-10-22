@@ -67,7 +67,7 @@ const EditSpaceCollaborators = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const { data, loading, error, called } = useSpaceMembershipByIdQuery({
+  const { data, loading, error } = useSpaceMembershipByIdQuery({
     variables: { idOrName: spaceIdOrName },
     skip: !spaceIdOrName,
   })
@@ -131,7 +131,7 @@ const EditSpaceCollaborators = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  useRefreshOnNavigation({ initialized: called })
+  useRefreshOnNavigation({ initialized: !!data || !!error || loading })
 
   const { top: safeAreaTop } = useSafeAreaInsets()
   const tabContentContainerStyle: StyleProp<ViewStyle> = {
