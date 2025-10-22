@@ -232,6 +232,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -249,18 +254,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="0"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Dima Rosmait
@@ -276,6 +284,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -292,17 +305,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="1"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -456,6 +472,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -473,18 +494,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="2"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Max Mustermann
@@ -500,6 +524,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -516,17 +545,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="3"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -667,6 +699,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -684,18 +721,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="4"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Thomas Mueller
@@ -711,6 +751,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -727,17 +772,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="5"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -891,6 +939,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -908,18 +961,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="6"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Sandra Kasandra
@@ -935,6 +991,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -951,17 +1012,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="7"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -1102,6 +1166,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -1119,18 +1188,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="8"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Peter Pan
@@ -1146,6 +1218,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -1162,17 +1239,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="9"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -1326,6 +1406,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -1343,18 +1428,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="10"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Donald Duck
@@ -1370,6 +1458,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -1386,17 +1479,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="11"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -1539,6 +1635,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     <Text
                       accessible={false}
                       collapsable={false}
+                      jestAnimatedProps={
+                        {
+                          "value": {},
+                        }
+                      }
                       jestAnimatedStyle={
                         {
                           "value": {},
@@ -1556,18 +1657,21 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           "userSelect": "auto",
                         }
                       }
+                      nativeID="12"
                       selectable={true}
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 16,
+                            "fontWeight": "500",
+                            "lineHeight": 22.4,
+                            "marginVertical": 8,
+                            "textAlign": "center",
+                            "userSelect": "auto",
+                          },
+                        ]
                       }
                     >
                       Lionel Messi
@@ -1583,6 +1687,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       <Text
                         accessible={false}
                         collapsable={false}
+                        jestAnimatedProps={
+                          {
+                            "value": {},
+                          }
+                        }
                         jestAnimatedStyle={
                           {
                             "value": {},
@@ -1599,17 +1708,20 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                             "userSelect": "auto",
                           }
                         }
+                        nativeID="13"
                         selectable={true}
                         style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
+                          [
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 16,
+                              "fontWeight": "400",
+                              "lineHeight": 22.4,
+                              "textAlign": "center",
+                              "userSelect": "auto",
+                            },
+                          ]
                         }
                       />
                     </View>
