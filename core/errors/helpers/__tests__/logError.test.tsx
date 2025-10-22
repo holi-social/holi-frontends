@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { jest } from '@jest/globals'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
