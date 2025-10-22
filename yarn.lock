@@ -5244,7 +5244,7 @@ __metadata:
     "@storybook/nextjs": "npm:^7.6.10"
     "@storybook/react": "npm:^7.6.10"
     "@storybook/testing-library": "npm:^0.2.2"
-    "@types/react": "npm:~18.3.12"
+    "@types/react": "npm:19.1.17"
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-native-web: "npm:^0.19.12"
     eslint: "npm:^8.33.0"
@@ -11571,13 +11571,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.13
-  resolution: "@types/prop-types@npm:15.7.13"
-  checksum: 10c0/1b20fc67281902c6743379960247bc161f3f0406ffc0df8e7058745a85ea1538612109db0406290512947f9632fe9e10e7337bf0ce6338a91d6c948df16a7c61
-  languageName: node
-  linkType: hard
-
 "@types/qs@npm:*, @types/qs@npm:^6.9.5":
   version: 6.9.16
   resolution: "@types/qs@npm:6.9.16"
@@ -11635,22 +11628,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:~19.1.10":
+"@types/react@npm:*, @types/react@npm:19.1.17, @types/react@npm:~19.1.10":
   version: 19.1.17
   resolution: "@types/react@npm:19.1.17"
   dependencies:
     csstype: "npm:^3.0.2"
   checksum: 10c0/8a8369ea00fc961f0884be4d1da4a039b2b6445de9c8b690ed0ebe15acfb0b1f27005278fef1fe39a1722a30f4415778b790d0089e2b30019371c61355ea316f
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:~18.3.12":
-  version: 18.3.24
-  resolution: "@types/react@npm:18.3.24"
-  dependencies:
-    "@types/prop-types": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/9e188fa8e50f172cf647fc48fea2e04d88602afff47190b697de281a8ac88df9ee059864757a2a438ff599eaf9276d9a9e0e60585e88f7d57f01a2e4877d37ec
   languageName: node
   linkType: hard
 

@@ -38,7 +38,7 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
   maxSuggestionOptions,
   debounceDelay,
   findUsersByName,
-}): JSX.Element | null => {
+}) => {
   const [editor] = useLexicalComposerContext()
   const [results, setResults] = useState<Array<User>>([])
   const setSafeResult = useSafeDispatch(setResults)
