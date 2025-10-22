@@ -81,7 +81,7 @@ const stylesheet = createStyleSheet((theme) => ({
     outlineWidth: 0,
     ...Platform.select({
       web: {
-        outlineStyle: 'none',
+        outlineStyle: undefined,
       },
     }),
   },

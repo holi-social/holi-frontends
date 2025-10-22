@@ -186,7 +186,7 @@ const stylesheet = createStyleSheet((theme) => ({
       borderWidth: 1,
       outlineColor: theme.colors.border.main,
       outlineWidth: 1,
-      outlineStyle: hovered ? 'solid' : 'none',
+      outlineStyle: hovered ? 'solid' : undefined,
       boxShadow: focused ? theme.colors.focus : 'none',
       paddingHorizontal: Spacing['3xs'],
       minHeight: Spacing.lg,
