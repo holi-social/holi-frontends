@@ -51,7 +51,7 @@ function ScreenWithScrolling(props: ScreenProps) {
     onRefresh,
   } = props as ScrollScreenProps
   const { styles } = useStyles(stylesheet)
-  const ref = useRef<ScrollView>(null)
+  const ref = useRef(null as unknown as ScrollView)
   const { scrollEnabled, onContentSizeChange, onLayout } = useAutoPreset(props as AutoScreenProps)
 
   useOnRefresh(onRefresh)

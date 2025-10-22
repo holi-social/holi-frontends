@@ -51,7 +51,7 @@ const WebViewHandler: React.FC<WebViewHandlerProps> = ({
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
-  const webViewRef = useRef<WebView>(null)
+  const webViewRef = useRef(null as unknown as WebView)
   const setScreenOptions = useSetScreenOptions()
 
   useEffect(() => {
