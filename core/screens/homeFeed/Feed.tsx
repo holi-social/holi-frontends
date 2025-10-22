@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppState, RefreshControl, StyleSheet, View } from 'react-native'
+import { StyleSheet, View, RefreshControl, AppState, type ScrollView } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
 
@@ -68,7 +68,7 @@ const HomeFeed = () => {
 
   const { track } = useTracking()
   const navigation = useNavigation()
-  const ref = useRef(null)
+  const ref = useRef<ScrollView>(null as unknown as ScrollView)
 
   useEffect(() => {
     if (!isFocused || !showGoodDeeds) return
