@@ -24,7 +24,7 @@ import {
 } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
 import { useApolloClient } from '@apollo/client'
-import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 
 type ActHomeParams = {
   section: string
