@@ -183,7 +183,8 @@ describe('initNotifications', () => {
       }
       const emptyCallResult = await handleNotificationCallback(locallyTriggeredNotification)
       expect(emptyCallResult).toEqual({
-        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
       })
@@ -203,7 +204,8 @@ describe('initNotifications', () => {
           handleNotificationForRemoteInvitationTriggerAndroidMock
         )
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -220,7 +222,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerAndroidMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -248,7 +251,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerAndroidMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -268,7 +272,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerAndroidMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -287,7 +292,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerIosMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -315,7 +321,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerIosMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -333,7 +340,8 @@ describe('initNotifications', () => {
 
       const emptyCallResult = await handleNotificationCallback(handleNotificationForLocalTriggerMock)
       expect(emptyCallResult).toEqual({
-        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
       })
