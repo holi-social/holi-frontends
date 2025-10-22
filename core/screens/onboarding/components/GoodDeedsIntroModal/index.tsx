@@ -5,16 +5,20 @@ import { HoliStepper, type HoliStepperItem } from '@holi/ui/components/organisms
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 
 import { GoodDeedsBecomeHero } from './components/GoodDeedsBecomeHero'
 import { GoodDeedsProgressExplanation } from './components/GoodDeedsProgressExplanation'
 import { type IntroFlowType, useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
 import { useIsDesktopView } from './helpers/isDesktopView'
 import { GoodDeedsCampaignExplanation } from './components/GoodDeedsCampaignExplanation'
-import { usePathname } from '@holi/core/navigation/hooks/usePathname'
+import { GoodDeedsImpactStarter } from './components/GoodDeedsImpactStarter'
+import { GoodDeedsYouAreHero } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal/components/GoodDeedsYouAreHero'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GoodDeedsOnboardingStepKeys = [
+  'GOOD_DEEDS_IMPACT_STARTER',
+  'GOOD_DEEDS_YOU_ARE_HERO',
   'GOOD_DEEDS_BECOME_HERO',
   'GOOD_DEEDS_PROGRESS_EXPLANATION',
   'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
@@ -40,6 +44,25 @@ export const goodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
   },
 ]
 
+export const firstTrackedGoodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
+  {
+    key: 'GOOD_DEEDS_IMPACT_STARTER',
+    backgroundColor: 'yellowDefault',
+  },
+  {
+    key: 'GOOD_DEEDS_YOU_ARE_HERO',
+    backgroundColor: 'white',
+  },
+  {
+    key: 'GOOD_DEEDS_PROGRESS_EXPLANATION',
+    backgroundColor: 'white',
+  },
+  {
+    key: 'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
+    backgroundColor: 'white',
+  },
+]
+
 export const GoodDeedsIntroModal = () => {
   const pathname = usePathname()
   const isOnboardingScreen = pathname.includes('onboarding')
@@ -47,35 +70,41 @@ export const GoodDeedsIntroModal = () => {
   const isDesktopView = useIsDesktopView()
   const { styles } = useStyles(stylesheet)
 
-  const [currentStep, setCurrentStep] = useState<GoodDeedsOnboardingStepKey>(goodDeedsOnboardingSteps[0].key)
+  const { type, visible, hide } = useGoodDeedsIntroModalState()
 
-  const { type = 'onboarding', visible, hide } = useGoodDeedsIntroModalState()
+  const steps = type === 'first-tracked-good-deed' ? firstTrackedGoodDeedsOnboardingSteps : goodDeedsOnboardingSteps
+  const firstStep = steps[0].key
+  const [currentStep, setCurrentStep] = useState<GoodDeedsOnboardingStepKey>(firstStep)
 
   const handleClose = () => {
     hide()
-    setCurrentStep('GOOD_DEEDS_BECOME_HERO')
+    setCurrentStep(firstStep)
   }
 
   const handleNextStep = () => {
-    const currentStepIndex = goodDeedsOnboardingSteps.findIndex((step) => step.key === currentStep)
+    const currentStepIndex = steps.findIndex((step) => step.key === currentStep)
     const nextStepIndex = currentStepIndex + 1
-    if (nextStepIndex < goodDeedsOnboardingSteps.length) {
-      setCurrentStep(goodDeedsOnboardingSteps[nextStepIndex].key)
+    if (nextStepIndex < steps.length) {
+      setCurrentStep(steps[nextStepIndex].key)
     } else {
       handleClose()
     }
   }
 
   const handleBackStep = () => {
-    const currentStepIndex = goodDeedsOnboardingSteps.findIndex((step) => step.key === currentStep)
+    const currentStepIndex = steps.findIndex((step) => step.key === currentStep)
     const previousStepIndex = currentStepIndex - 1
     if (previousStepIndex >= 0) {
-      setCurrentStep(goodDeedsOnboardingSteps[previousStepIndex].key)
+      setCurrentStep(steps[previousStepIndex].key)
     }
   }
 
   const renderStep = (key: GoodDeedsOnboardingStepKey, type: IntroFlowType) => {
     switch (key) {
+      case 'GOOD_DEEDS_IMPACT_STARTER':
+        return <GoodDeedsImpactStarter onNextPress={handleNextStep} />
+      case 'GOOD_DEEDS_YOU_ARE_HERO':
+        return <GoodDeedsYouAreHero onNextPress={handleNextStep} />
       case 'GOOD_DEEDS_BECOME_HERO':
         return <GoodDeedsBecomeHero type={type} onNextPress={handleNextStep} />
       case 'GOOD_DEEDS_PROGRESS_EXPLANATION':
@@ -99,7 +128,7 @@ export const GoodDeedsIntroModal = () => {
       testID="onboarding-good-deeds-modal"
     >
       <HoliStepper
-        data={goodDeedsOnboardingSteps}
+        data={steps}
         activeStepKey={currentStep}
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey, type)}

@@ -1,16 +1,16 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import { useLoginState } from '@holi/core/auth/loginState'
-import { useCompleteTask } from '@holi/core/screens/spaces/tasks/useCompleteTask'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal'
-import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { View, StyleSheet } from 'react-native'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useTranslation } from 'react-i18next'
 import { Spacing } from 'holi-bricks/foundations'
 import { getLogger } from '@holi/core/helpers/logging'
+import { useCompleteReadyToGoTaskMutation } from '@holi/api/graphql/graphql-codegen'
 
 const logger = getLogger('CompleteTaskCallback')
 
@@ -21,46 +21,35 @@ export type CompleteTaskCallbackParams = {
 const CompleteTaskCallback = () => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
-  const { isLoggedOut } = useLoginState()
-  const { showLoader, hideLoader } = useLoader()
+  const { isLoggedIn } = useLoginState()
   const { navigate } = useRouting()
-  const { data, id, spaceId } = useTaskDetailsData()
-  const { completeTask } = useCompleteTask()
+  const { id, spaceId } = useTaskDetailsData()
+  const [completeTask] = useCompleteReadyToGoTaskMutation()
   const { t } = useTranslation()
-  const [completed, setCompleted] = useState(false)
-
-  useEffect(() => {
-    if (isLoggedOut) {
-      // go back to the complete task screen with the authentication flow
-      navigate(`/spaces/${spaceId}/tasks/${id}/complete`)
-    }
-  }, [isLoggedOut, spaceId, id, navigate])
 
   const handleCompleteTask = useCallback(async () => {
     if (!id) return
 
     try {
-      showLoader()
-      await completeTask(id)
+      await completeTask({ variables: { id } })
       storeWelcomeGoodDeedsCounterModal(true)
-      navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
     } catch (error) {
       logger.debug('CompleteTaskCallback', 'Failed to complete task', { error })
+    } finally {
       // Navigate anyway to the completed task screen to avoid the user being stuck on the callback screen
       // This is a "forced" success scenario only done because an error in this flow is worse than not registering the task completion
       navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
-    } finally {
-      hideLoader()
     }
-  }, [id, spaceId, completeTask, navigate, showLoader, hideLoader])
+  }, [id, spaceId, completeTask, navigate])
 
   useEffect(() => {
-    // Only run when user is logged in and we have the task ID
-    if (!isLoggedOut && id && data && !completed) {
+    if (!isLoggedIn) {
+      // go back to the complete task screen with the authentication flow
+      navigate(`/spaces/${spaceId}/tasks/${id}/complete`)
+    } else if (id) {
       handleCompleteTask()
-      setCompleted(true)
     }
-  }, [isLoggedOut, id, data, handleCompleteTask, completed])
+  }, [isLoggedIn, spaceId, id, navigate, handleCompleteTask])
 
   return (
     <Screen

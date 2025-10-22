@@ -61,7 +61,10 @@ export const TaskDetailsCTA = ({
   const { navigate } = useRouting()
 
   const handleCompleteTask = useCallback(async () => {
-    if (!loggedInUser) return navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')
+    if (!loggedInUser) {
+      navigate('/spaces/' + spaceIdOrName + '/tasks/' + taskId + '/complete')
+      return
+    }
 
     try {
       await completeTask(taskId as string)

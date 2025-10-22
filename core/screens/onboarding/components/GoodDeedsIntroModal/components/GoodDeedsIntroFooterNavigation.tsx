@@ -5,22 +5,30 @@ import { useTranslation } from 'react-i18next'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { View } from 'react-native'
 import { ArrowRight, ArrowLeft } from '@holi/icons/src/generated'
-import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import { Button, ButtonIcon, type ButtonVariant } from 'holi-bricks/components/button'
 import type { NavigationButtonsProps } from '@holi/ui/components/organisms/HoliStepperV2/NavigationButtons'
+import type { DecorativeColors } from 'holi-bricks/foundations/colors/themes/types'
 
-type Props = Pick<NavigationButtonsProps, 'onNextPress' | 'onBackPress' | 'isBackButtonAvailable' | 'nextButtonLabel'>
-
+type Props = Pick<
+  NavigationButtonsProps,
+  'onNextPress' | 'onBackPress' | 'isBackButtonAvailable' | 'nextButtonLabel'
+> & {
+  nextButtonVariant?: ButtonVariant
+  backgroundColor?: DecorativeColors
+}
 export const GoodDeedsIntroFooterNavigation = ({
   onNextPress,
   onBackPress,
   isBackButtonAvailable = true,
   nextButtonLabel = '',
+  nextButtonVariant = 'primary',
+  backgroundColor = 'white',
 }: Props) => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
 
   return (
-    <Stack backgroundColor="white" padding="xs" borderRadius={{ topLeft: 'xxl', topRight: 'xxl' }} flex={0}>
+    <Stack backgroundColor={backgroundColor} padding="xs" borderRadius={{ topLeft: 'xxl', topRight: 'xxl' }} flex={0}>
       <View style={{ paddingBottom: safeAreaBottom }}>
         <Stack direction="row" justifyContent="space-between">
           <Stack>
@@ -30,7 +38,13 @@ export const GoodDeedsIntroFooterNavigation = ({
           </Stack>
 
           <Stack>
-            <Button label={t(nextButtonLabel) ?? nextButtonLabel} size="lg" icon={ArrowRight} onPress={onNextPress} />
+            <Button
+              label={t(nextButtonLabel) ?? nextButtonLabel}
+              variant={nextButtonVariant}
+              size="lg"
+              icon={ArrowRight}
+              onPress={onNextPress}
+            />
           </Stack>
         </Stack>
       </View>
