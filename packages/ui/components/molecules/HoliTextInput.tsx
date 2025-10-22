@@ -1,13 +1,13 @@
-import React, { type ReactChild, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { type ReactElement, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  type FocusEvent,
+  type BlurEvent,
   type KeyboardTypeOptions,
   type LayoutChangeEvent,
-  type NativeSyntheticEvent,
   Platform,
   type StyleProp,
   StyleSheet,
   TextInput,
-  type TextInputFocusEventData,
   type TextInputIOSProps,
   type TextInputProps,
   type TextStyle,
@@ -39,7 +39,7 @@ export interface HoliTextInputProps {
   type?: 'text' | 'email' | 'number' | 'password' // Force limited input types
   inline?: boolean
   trailingIcon?: HoliIconType
-  trailingComponent?: ReactChild
+  trailingComponent?: ReactElement
   style?: StyleProp<ViewStyle>
   fontStyle?: StyleProp<TextStyle>
   inputStyle?: StyleProp<ViewStyle>
@@ -48,8 +48,8 @@ export interface HoliTextInputProps {
   /** TextInputProps to extend input e.g with'returnKeytype' or 'autofocus' */
   inputProps?: TextInputProps
   testID?: string
-  onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void
-  onBlur?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void
+  onFocus?: (event: FocusEvent) => void
+  onBlur?: (event: BlurEvent) => void
   onLayout?: (event: LayoutChangeEvent) => void
   role?: AccessibilityRoleWeb
   ariaExpanded?: boolean
@@ -128,14 +128,14 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     }
 
     const handleFocus = useCallback(
-      (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      (event: FocusEvent) => {
         setInputState('focused')
         onFocus?.(event)
       },
       [onFocus]
     )
     const handleBlur = useCallback(
-      (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+      (event: BlurEvent) => {
         setInputState('inactive')
         onBlur?.(event)
       },
