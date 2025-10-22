@@ -172,6 +172,7 @@ describe('initNotifications', () => {
           // @ts-ignore locally triggered this can be null, so the type is wrong
           trigger: null,
           content: {
+            categoryIdentifier: null,
             title: 'some test title',
             data: {},
             body: 'some test body',
