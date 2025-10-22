@@ -4,7 +4,6 @@ import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'reac
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
@@ -36,6 +35,7 @@ import {
   SpaceMembersBySpaceIdDocument,
   SpaceInvitesBySpaceIdDocument,
 } from '@holi/api/graphql/graphql-codegen'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -57,7 +57,6 @@ const EditSpaceCollaborators = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const [spaceIdOrName = ''] = useParam('spaceIdOrName')
-  const { replaceRoute } = useRouting()
   const [selectedTab] = useParam('tab')
   const [selectedUserId] = useUUIDParam('userId')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
@@ -71,19 +70,15 @@ const EditSpaceCollaborators = () => {
   const { data, loading, error, called } = useSpaceMembershipByIdQuery({
     variables: { idOrName: spaceIdOrName },
     skip: !spaceIdOrName,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', {
-        location: 'EditSpaceCollaborators.spaceMembershipByIdQuery',
-        spaceIdOrName,
-      })
-    },
   })
   const { data: membersData } = useSpaceMembersBySpaceIdQuery({
     skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
+  })
+
+  useApolloNotFoundErrorHandling(error, 'Failed to load space', {
+    location: 'EditSpaceCollaborators.spaceMembershipByIdQuery',
+    spaceIdOrName,
   })
 
   useIsomorphicLayoutEffect(() => {

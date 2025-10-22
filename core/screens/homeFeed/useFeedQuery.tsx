@@ -18,7 +18,6 @@ const POST_FREQUENCY = 2
 export const useFeedQuery = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
-  const [insightsCreators, setInsightsCreators] = useState<User[]>([])
 
   const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
@@ -52,13 +51,14 @@ export const useFeedQuery = () => {
     refetch: refetchInsights,
   } = useQuery(feedInsightsQuery, {
     variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
-    onCompleted: (data) => {
-      const creators = data.feedInsights.data
-        .map((insight: Insight) => insight.creator)
-        .filter((creator: User) => !!creator)
-      setInsightsCreators(creators)
-    },
   })
+
+  const insightsCreators = useMemo(() => {
+    const creators = data?.feedInsights?.data
+      .map((insight: Insight) => insight.creator)
+      .filter((creator: User) => !!creator)
+    return creators ?? []
+  }, [data])
 
   useEffect(() => {
     if (!loading && !loadingInsights) {

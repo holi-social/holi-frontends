@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -20,6 +19,7 @@ import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 import GoodNewsTeaserComponent from './GoodNewsTeaserComponent'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 const logger = getLogger('GoodNews')
 
@@ -51,12 +51,11 @@ const GoodNewsCarousel = ({ onActiveDateChange }: GoodNewsCarouselProps) => {
     variables: {
       lastDate: undefined,
     },
-    onError: (error) =>
-      logError(error, 'Failed to load good news articles', {
-        location: 'GoodNewsCarousel.GoodNewsArticlesQuery',
-      }),
   })
   useOnRefresh(refetch)
+  useApolloErrorLogging(error, 'Failed to load good news articles', {
+    location: 'GoodNewsCarousel.GoodNewsArticlesQuery',
+  })
 
   const { articles = [], previousDateTeaser } = data?.appGoodNews_articles || {}
 

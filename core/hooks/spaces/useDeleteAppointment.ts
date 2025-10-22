@@ -3,7 +3,7 @@ import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { DeleteAppointmentResponse, deleteAppointmentMutation } from '@holi/core/screens/appointments/mutations'
+import { type DeleteAppointmentResponse, deleteAppointmentMutation } from '@holi/core/screens/appointments/mutations'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseDeleteAppointment = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]

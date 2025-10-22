@@ -25,6 +25,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { breakpoints } from 'holi-bricks/foundations'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export type PollComponentProps = {
   poll: Poll
@@ -50,22 +51,18 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
     return choices.reduce((acc, choice) => acc + choice.votes, 0)
   })
 
-  const { data: userHasVoted, loading: loadingVote } = useQuery(userHasVotedByPollId, {
+  const {
+    data: userHasVoted,
+    loading: loadingVote,
+    error: loadVoteError,
+    refetch,
+  } = useQuery(userHasVotedByPollId, {
     variables: { id: poll.id },
     skip: !user,
-    onError: (error) =>
-      logError(error, 'Failed to load user votes', {
-        location: 'PollComponent.userHasVotedByPollId',
-      }),
   })
 
-  const { refetch } = useQuery(userHasVotedByPollId, {
-    variables: { id: poll.id },
-    skip: !user,
-    onError: (error) =>
-      logError(error, 'Failed to refetch user votes', {
-        location: 'PollComponent.refetch',
-      }),
+  useApolloErrorLogging(loadVoteError, 'Failed to load user votes', {
+    location: 'PollComponent.userHasVotedByPollId',
   })
 
   useEffect(() => {

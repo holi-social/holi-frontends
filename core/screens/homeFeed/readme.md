@@ -48,15 +48,15 @@ const NEW_CONTENT_FREQUENCY = 12 // every X items, one new content
 
 export const useFeedQuery = () => {
   // Add your query
-  const { data: dataNewContent, refetch: refetchNewContent } = useQuery(newContentQuery, {
+  const { data: dataNewContent, refetch: refetchNewContent, error: newContentError } = useQuery(newContentQuery, {
     variables: {
       limit: PAGE_SIZE_EXTERNAL_DATA,
       offset: 0,
     },
-    onError: (error) =>
-      logError(error, 'Failed to load new content', {
-        location: 'useFeedQuery.newContentQuery',
-      }),
+  })
+  useOnRefresh(refetchNewContent)
+  useApolloErrorLogging(newContentError, 'Failed to load new content', {
+    location: 'useFeedQuery.newContentQuery',
   })
 ```
 

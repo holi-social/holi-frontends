@@ -11,6 +11,7 @@ import { useDebounce } from '@holi/ui/helper'
 import type { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useTranslation } from 'react-i18next'
 import type { GeolocationLevel, GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
@@ -43,11 +44,6 @@ export const usePlacesAutocomplete = ({
       limit: PLACE_SUGGESTION_MAX_COUNT,
       level,
     },
-    onError: (error) =>
-      logError(error, 'Failed to fetch places suggestions', {
-        location: 'PlacesAutocomplete.fetchSuggestions',
-        query: geoPlacesQuery,
-      }),
   })
   const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)
   const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
@@ -167,6 +163,11 @@ export const usePlacesAutocomplete = ({
   useEffect(() => {
     setValue(selected?.label || '')
   }, [selected?.label])
+
+  useApolloErrorLogging(error, 'Failed to fetch places suggestions', {
+    location: 'PlacesAutocomplete.fetchSuggestions',
+    query: geoPlacesQuery,
+  })
 
   const noResultsText = useMemo(() => {
     return !loading && called && data && !placeSuggestions.length && value

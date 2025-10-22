@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -96,22 +96,23 @@ const CreateOrEditTask = () => {
   } = useTaskByIdQuery({
     variables: { id: taskIdParam ?? '' },
     skip: !taskIdParam,
-    onCompleted: ({ taskById }) => {
-      if (taskById) {
-        setTaskInput((prevTaskInput) => ({
-          ...prevTaskInput,
-          ...taskById,
-          geolocation: taskById.geolocation
-            ? {
-                latitude: taskById.geolocation.latitude,
-                longitude: taskById.geolocation.longitude,
-              }
-            : undefined,
-          thumbnail: taskById.thumbnail || undefined,
-        }))
-      }
-    },
   })
+
+  useEffect(() => {
+    if (taskToEdit) {
+      setTaskInput((prevTaskInput) => ({
+        ...prevTaskInput,
+        ...taskToEdit,
+        geolocation: taskToEdit.geolocation
+          ? {
+              latitude: taskToEdit.geolocation.latitude,
+              longitude: taskToEdit.geolocation.longitude,
+            }
+          : undefined,
+        thumbnail: taskToEdit.thumbnail || undefined,
+      }))
+    }
+  }, [taskToEdit])
 
   // Mutations
   const mutationOptions = {

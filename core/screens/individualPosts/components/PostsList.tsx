@@ -24,15 +24,13 @@ const PostsList = ({ postsQuery, paginationOptions, emptyMessage, showVisibility
   const styles = getStyles()
 
   const queryOptions: PaginationQueryHookOptions = {
-    ...{
-      fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-      onError: (error: ApolloError) => {
-        displayError(error, 'Failed to query posts', {
-          location: 'PostsList',
-        })
-      },
-    },
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     ...paginationOptions,
+    onError: (error: ApolloError) => {
+      displayError(error, 'Failed to query posts', {
+        location: 'PostsList',
+      })
+    },
   }
 
   return (

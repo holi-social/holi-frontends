@@ -3,7 +3,6 @@ import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { insightsByUserIdQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
@@ -12,6 +11,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export interface InsightsTabProps {
   userId: string
@@ -23,14 +23,14 @@ const InsightsTab = ({ userId }: InsightsTabProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { data, refetch } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, {
+  const { data, refetch, error } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, {
     variables: { userId },
-    onError: (error) =>
-      logError(error, 'Failed to load insights for user', { location: 'InsightsTab.insightsByUserIdQuery' }),
   })
   const insights = data?.insightsByUserId
   const hasInsights = !!insights?.totalResults
   useOnRefresh(refetch)
+
+  useApolloErrorLogging(error, 'Failed to load insights for user', { location: 'InsightsTab.insightsByUserIdQuery' })
 
   if (!hasInsights) return null
 

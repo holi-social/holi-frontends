@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -18,6 +17,7 @@ import { type DiscussionResponse, discussionById } from '@holi/core/screens/insi
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type DiscussionCommentPageParams = {
   discussionId: string
@@ -39,37 +39,29 @@ const DiscussionCommentPage = () => {
 
   const {
     data: { discussionById: discussion } = {},
+    error: loadDiscussionError,
   } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     notifyOnNetworkStatusChange: true,
     skip: !discussionId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load discussion', {
-        location: 'DiscussionCommentPage.discussionById',
-        variables: { discussionId },
-      })
-    },
+  })
+  useApolloNotFoundErrorHandling(loadDiscussionError, 'Failed to load discussion', {
+    location: 'DiscussionCommentPage.discussionById',
+    variables: { discussionId },
   })
 
   const {
     data: { commentById: comment } = {},
     loading: loadingComment,
+    error: loadCommentError,
   } = useQuery<CommentResponse>(commentById, {
     variables: { commentId },
     notifyOnNetworkStatusChange: true,
     skip: !commentId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load comment', {
-        location: 'DiscussionCommentPage.commentById',
-        variables: { commentId },
-      })
-    },
+  })
+  useApolloNotFoundErrorHandling(loadCommentError, 'Failed to load comment', {
+    location: 'DiscussionCommentPage.commentById',
+    variables: { commentId },
   })
 
   useLayoutEffect(

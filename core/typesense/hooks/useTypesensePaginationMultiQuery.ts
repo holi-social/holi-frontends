@@ -86,6 +86,12 @@ export const useTypesensePaginationMultiQuery = ({
     skip,
   })
 
+  useEffect(() => {
+    if (error) {
+      onError?.(error)
+    }
+  }, [error, onError])
+
   // Full result in one state to control rerenderings
   const states = useMemo(() => {
     const resultList: (Typesense_SearchResponseSuccess | Typesense_SearchResponseError)[] =

@@ -7,10 +7,8 @@ import { type LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native
 import type Animated from 'react-native-reanimated'
 
 import HoliHead from '@holi/core/components/HoliHead'
-import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
@@ -31,6 +29,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type PostDetailPageParams = {
   postId: string
@@ -50,7 +49,6 @@ const PostDetailPage = () => {
   const [postId] = useUUIDParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useUUIDParam('commentId')
-  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { navigateWithAuth } = useAuthRequiredNavigation()
 
@@ -67,41 +65,30 @@ const PostDetailPage = () => {
 
   const {
     loading,
-    error,
+    error: loadPostError,
     data,
     refetch: refetchPost,
   } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
     skip: !postId,
-    onError: (error) => {
-      // if the post is not found, forbidden or the id is not a valid UUID, redirect to 404
-      if (
-        isNotFoundError(error) ||
-        isForbiddenError(error) ||
-        error.message.includes('badly formed hexadecimal UUID string')
-      ) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
-    },
   })
 
   const {
     data: { commentable } = {},
     refetch: refetchComments,
+    error: loadCommentsError,
   } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId: postId, commentableType: CommentableType.POST },
     skip: !postId,
     fetchPolicy: 'cache-and-network',
-    onError: (error) => {
-      logError(error, 'Failed to load comments', {
-        location: 'Comments',
-        variables: { commentableId: postId, commentableType: CommentableType.POST },
-      })
-    },
   })
   useOnRefresh(refetchPost)
   useOnRefresh(refetchComments)
+  useApolloNotFoundErrorHandling(loadPostError, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
+  useApolloNotFoundErrorHandling(loadCommentsError, 'Failed to load comments', {
+    location: 'Comments',
+    variables: { commentableId: postId, commentableType: CommentableType.POST },
+  })
 
   const post = data?.postById
   const title = post?.title
@@ -144,7 +131,7 @@ const PostDetailPage = () => {
   }
 
   // Error and loading states are handled the same way and just hide the component
-  if (error || !post) {
+  if (loadPostError || !post) {
     return <></>
   }
 

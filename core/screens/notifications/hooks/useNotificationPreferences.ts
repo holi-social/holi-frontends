@@ -5,8 +5,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
 import {
-  NotificationsPreferencesResponse,
-  NotificationsWorkflowPreferences,
+  type NotificationsPreferencesResponse,
+  type NotificationsWorkflowPreferences,
   notificationsPreferencesQuery,
 } from '@holi/core/screens/notifications/queries'
 
