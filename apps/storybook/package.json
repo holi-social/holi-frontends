@@ -36,7 +36,7 @@
     "@storybook/nextjs": "^7.6.10",
     "@storybook/react": "^7.6.10",
     "@storybook/testing-library": "^0.2.2",
-    "@types/react": "~18.3.12",
+    "@types/react": "19.1.17",
     "babel-loader": "^8.2.3",
     "babel-plugin-react-native-web": "^0.19.12",
     "eslint": "^8.33.0",
