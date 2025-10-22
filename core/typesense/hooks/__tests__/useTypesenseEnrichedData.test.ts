@@ -8,6 +8,7 @@ import {
   type UseTypesenseEnrichedDataConfig,
 } from '@holi/core/typesense/hooks/useTypesenseEnrichedData'
 import type { QueryResult } from '@apollo/client'
+import { act } from '@testing-library/react-native'
 
 jest.mock('@holi/api/graphql/graphql-codegen')
 jest.mock('@holi/core/screens/search/hooks/useUserLanguage')
@@ -347,7 +348,12 @@ describe('useTypesenseEnrichedData', () => {
         typesenseFilter: 'type:=[test]',
       })
     )
-    const firstFetch = result.current.fetchMore()
+
+    let firstFetch = new Promise<void>(() => {})
+    act(() => {
+      firstFetch = result.current.fetchMore()
+    })
+
     await result.current.fetchMore()
     expect(mockFetchMore).toHaveBeenCalledTimes(1)
     await firstFetch
@@ -370,10 +376,17 @@ describe('useTypesenseEnrichedData', () => {
       })
     )
     expect(result.current.isFetchingMore).toBe(false)
-    const fetchPromise = result.current.fetchMore()
+
+    let fetchPromise = new Promise<void>(() => {})
+    act(() => {
+      fetchPromise = result.current.fetchMore()
+    })
     expect(result.current.isFetchingMore).toBe(true)
     resolveFetch()
-    await fetchPromise
+    await act(async () => {
+      await fetchPromise
+    })
+
     expect(result.current.isFetchingMore).toBe(false)
   })
 })
