@@ -219,17 +219,20 @@ describe('useTypesensePaginationMultiQuery', () => {
       ),
     ]
     const { result } = renderQueryHook({ mocks })
-
-    // Await initial fetch
-    await act(jest.runOnlyPendingTimersAsync)
+    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
 
     expect(result.current.isFetchingMore).toBeFalsy()
 
+    let promise: Promise<void>
+
+    act(() => {
+      promise = result.current.fetchNextPages()
+    })
+    jest.runAllTimers()
+
+    expect(result.current.isFetchingMore).toBeTruthy()
+
     await act(async () => {
-      const promise = result.current.fetchNextPages()
-
-      await waitFor(() => expect(result.current.isFetchingMore).toBeTruthy())
-
       await promise
     })
 
