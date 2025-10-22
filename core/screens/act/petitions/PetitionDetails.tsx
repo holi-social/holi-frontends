@@ -29,8 +29,8 @@ export const PetitionDetails = () => {
   const { navigate } = useRouting()
   const petition = petitions.find((petition) => petition.id === petitionId) as Petition
   const infoList: DetailsScreenInfoList[] = [
-    { title: `${t('act.petitions.createdBy')} ${petition.startedBy}`, icon: UserLine },
-    { title: `${t('act.petitions.towards')} ${petition.targetOrganisation}`, icon: Focus2Line },
+    { title: `${t('act.petitions.createdBy', { initiatorNames: petition.startedBy })}`, icon: UserLine },
+    { title: `${t('act.petitions.towards', { targetNames: petition.targetOrganisation })}`, icon: Focus2Line },
     {
       title: `${petition.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')}`,
       icon: CalendarEventLine,
