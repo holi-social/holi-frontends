@@ -6,7 +6,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import type { Petition } from '@holi/core/screens/act/petitions/PetitionCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
-import { CalendarEventLine, ExternalLink, Focus2Line, UserLine } from '@holi/icons/src/generated'
+import { CalendarEventLine, Focus2Line, GoodDeeds, UserLine } from '@holi/icons/src/generated'
 import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Stack } from 'holi-bricks/components/stack'
@@ -19,6 +19,11 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 export type PetitionDetailsParams = {
   petitionId: string
+}
+
+export enum PetitionStatusValue {
+  ToSign = 'TO_SIGN',
+  Completed = 'COMPLETED',
 }
 
 const { useParam } = createParamHooks<PetitionDetailsParams>()
@@ -36,6 +41,20 @@ export const PetitionDetails = () => {
       icon: CalendarEventLine,
     },
   ]
+
+  // todo: backend data
+  // const { isLoading, document, refetchStatus } = usePetitionsDetailsData(petitionId)
+  // const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
+  // const onPetitionStatusChange = async (status: PetitionStatusValue) => {
+  // updatePetitionStatus({
+  //   variables: {
+  //     PetitionId: petitionId,
+  //     newStatus: status,
+  //   },
+  // })
+
+  // await refetchStatus()
+  // }
 
   useTrackOnce(TrackingEvent.PetitionDetails.viewed(petitionId as string))
 
@@ -72,9 +91,10 @@ export const PetitionDetails = () => {
           {petition.externalLink && (
             <Stack width={'100%'} maxWidth="xs">
               <ButtonTracked
-                icon={ExternalLink}
+                icon={GoodDeeds}
                 label={t('act.petitions.cta')}
                 onPress={() => {
+                  // onPetitionStatusChange(PetitionStatusValue.ToSign) // todo
                   Linking.openURL(petition.externalLink as string)
                 }}
                 trackingEvent={TrackingEvent.PetitionDetails.findMore}

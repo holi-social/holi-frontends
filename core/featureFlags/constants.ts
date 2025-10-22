@@ -22,4 +22,5 @@ export enum FeatureFlagKey {
   GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-tracked-first-good-deed', // boolean
   GOOD_DEEDS_INTRO_PHASE_1__USER_FAVORITED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-favorited-first-good-deed', // boolean
   APPCUES_BANNER = 'appcues-banner', // boolean
+  // INNIT_PETITIONS = 'innit-petitions', // boolean
 }

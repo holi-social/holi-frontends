@@ -1,14 +1,16 @@
 import React from 'react'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { CalendarEventLine } from '@holi/icons/src/generated'
+import { PencilFilled } from '@holi/icons/src/generated'
 import { CompactCard } from 'holi-bricks/components/compactCard'
 import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking'
+import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
+import type { PetitionStatusValue } from '@holi/core/screens/act/petitions/PetitionDetails'
 
 export type Petition = {
   id: string
   title: string
-  category: string
+  category: string // e.g. "health"
   daysLeft: number
   percentage: number
   imageUrl: string
@@ -16,15 +18,20 @@ export type Petition = {
   targetOrganisation: string
   description: string
   externalLink?: string
+  signatures?: number // number of signatures yet
+  status: PetitionStatusValue // TO_SIGN | COMPLETED
 }
 
 export interface PetitionProps {
   petition: Petition
   maxCardWidth?: number
+  showCommitmentStatus?: boolean
 }
 
-const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
+const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus = false }: PetitionProps) => {
   const { t } = useTranslation()
+  const { getPetitionStatus } = usePetitionStatuses()
+  const statusChip = getPetitionStatus(petition.status)
 
   return (
     <HoliLinkTracked
@@ -35,21 +42,26 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
     >
       <CompactCard
         title={petition.title}
-        topLabel={
-          petition.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')
-        }
         subtitle={t(`act.petitions.category.${petition.category}`)}
-        topLabelIcon={CalendarEventLine}
         imageSrc={petition.imageUrl}
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.petitions.thumbnail.label')}
         fullHeight
       >
-        <CompactCard.FooterProgressBar
-          progressBarPercentage={petition.percentage}
-          progressBarLeft={t('act.petitions.percent', { percentage: petition.percentage })}
-        />
+        {petition.signatures && !showCommitmentStatus && (
+          <CompactCard.FooterChips
+            chips={[
+              {
+                iconLeading: PencilFilled,
+                children: t('act.petitions.signatureCount', {
+                  signatureCount: petition.signatures.toLocaleString('de-DE'),
+                }),
+              },
+            ]}
+          />
+        )}
+        {showCommitmentStatus && statusChip?.chip && <CompactCard.FooterChips chips={[statusChip.chip]} />}
       </CompactCard>
     </HoliLinkTracked>
   )
