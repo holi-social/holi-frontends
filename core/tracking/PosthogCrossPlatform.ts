@@ -1,7 +1,7 @@
-import { PostHog, usePostHog } from 'posthog-react-native'
+import { type PostHog, usePostHog } from 'posthog-react-native'
 import { useMemo } from 'react'
 
-import { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
+import type { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
 
 export class PosthogReactNative implements PosthogCrossPlatform {
   constructor(private posthog: PostHog) {
@@ -22,7 +22,7 @@ export class PosthogReactNative implements PosthogCrossPlatform {
   }
 
   updatePersonProperties(properties?: Properties | undefined): void {
-    this.posthog.capture('$set', { $set: properties })
+    this.posthog.capture('$set', properties ?? { $set: properties })
   }
 
   async flush(): Promise<void> {

@@ -27,6 +27,6 @@ describe('SearchFacetsTabs', () => {
     render(<SearchFacetsTabs currentFacet="space" onFacetChange={jest.fn()} />)
 
     const tab = screen.getByLabelText('search.facets.space')
-    expect(tab).toHaveAccessibilityState({ selected: true })
+    expect(tab).toBeSelected()
   })
 })
