@@ -140,7 +140,7 @@ describe('useSearchResults', () => {
     }
     const emptyQueryParameters = createSearchParameters(emptyFilter)
 
-    renderHook((props) => useSearchResults(props), { initialProps: emptyFilter })
+    renderHook(() => useSearchResults(emptyFilter))
 
     expect(mockUseTypesensePaginationQuery).toHaveBeenCalledWith({
       parameters: emptyQueryParameters,

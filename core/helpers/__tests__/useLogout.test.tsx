@@ -86,6 +86,7 @@ describe('useLogout', () => {
     session_token: 'some_token',
     session: { id: '123' },
   }
+  const mockClearStore = jest.fn()
   const mockClient = {
     clearStore: jest.fn(),
   } as unknown as ApolloClient
