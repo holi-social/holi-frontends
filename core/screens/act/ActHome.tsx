@@ -51,17 +51,6 @@ const ActHome = () => {
     }
   }, [welcomeGoodDeedsCounterModal, showWelcomeModal])
 
-  // useEffect(() => {
-  //   if (!badgesEnabled) return
-  //   ;(async () => {
-  //     await client.refetchQueries({ include: [BadgesDocument] })
-
-  //     if (badgesEnabled) {
-  //       await checkNewBadges()
-  //     }
-  //   })()
-  // }, [client, badgesEnabled, checkNewBadges])
-
   return (
     <>
       <Screen
