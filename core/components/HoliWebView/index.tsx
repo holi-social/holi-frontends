@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
+import { BackHandler, Linking, type NativeEventSubscription, Platform, StyleSheet, View } from 'react-native'
 import { WebView, type WebViewNavigation } from 'react-native-webview'
 import type { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
@@ -80,13 +80,14 @@ const HoliWebView: React.FC<HoliWebViewProps> = ({
 
   useEffect(() => {
     const webView = webViewRef?.current
+    let eventListener: NativeEventSubscription | undefined
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
+      eventListener = BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
     }
 
     return () => {
-      if (Platform.OS === 'android') {
-        BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress)
+      if (Platform.OS === 'android' && eventListener) {
+        eventListener.remove()
       }
       navigation.addListener('beforeRemove', () => {
         return webView?.injectJavaScript('window.dispatchEvent( new Event("unload") );')
