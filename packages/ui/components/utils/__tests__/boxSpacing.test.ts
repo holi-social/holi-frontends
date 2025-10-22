@@ -1,5 +1,3 @@
-import { expect, it } from '@jest/globals'
-
 import { BoundingBoxSpace, BoxSpace, TupleBoxSpace, createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 
 it('should return null if the input is not a BoxSpace', () => {
