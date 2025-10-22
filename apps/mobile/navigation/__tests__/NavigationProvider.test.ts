@@ -72,6 +72,7 @@ const notificationResponseForRemoteTriggerAndroidMock: NotificationResponse = {
         type: 'push',
       },
       content: {
+        categoryIdentifier: null,
         title: 'holi Chat',
         // badge: null,
         // autoDismiss: true,

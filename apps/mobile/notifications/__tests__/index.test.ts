@@ -1,5 +1,5 @@
-import { NotificationResponse } from 'expo-notifications'
-import { NotificationTrigger } from 'expo-notifications/build/Notifications.types'
+import type { NotificationResponse } from 'expo-notifications'
+import type { NotificationTrigger } from 'expo-notifications/build/Notifications.types'
 
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { screenUrlFromNotificationResponse } from '@holi/mobile/notifications'
@@ -49,6 +49,7 @@ const createAndroidLegacyNotificationResponse = (data: { [key: string]: string }
       },
       identifier: '',
       content: {
+        categoryIdentifier: null,
         title: null,
         subtitle: null,
         body: null,
@@ -84,6 +85,7 @@ const createAndroidNotificationResponse = (
         type: triggerType, // at runtime, it can actually contain null (scheduled notifications), not allowed according to expo-notification types
       } as unknown as NotificationTrigger,
       content: {
+        categoryIdentifier: null,
         data: data, // typically, JSON as serialized string
         title: 'notification title',
         subtitle: 'notification subtitle', // actually undefined at runtime
@@ -107,6 +109,7 @@ const createLegacyIOSNotificationResponse = (data: { [key: string]: unknown }): 
       },
       identifier: '',
       content: {
+        categoryIdentifier: null,
         title: null,
         subtitle: null,
         body: null,
