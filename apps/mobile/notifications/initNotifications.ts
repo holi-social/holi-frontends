@@ -87,14 +87,16 @@ const handleNotification = async (notification: Notification): Promise<Notificat
     }
     // Push Notifications are never shown directly
     return {
-      shouldShowAlert: false,
+      shouldShowBanner: false,
+      shouldShowList: false,
       shouldPlaySound: false,
       shouldSetBadge: false,
     }
   }
   // Scheduled notifications are always shown
   return {
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true, // Android: only with `shouldPlaySound: true`, the notification pops over the screen
     shouldSetBadge: false,
   }
