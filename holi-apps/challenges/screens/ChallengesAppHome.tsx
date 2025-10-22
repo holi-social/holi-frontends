@@ -34,7 +34,7 @@ const ChallengesAppHome = () => {
 
   const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
-  const webViewRef = useRef<WebView>(null)
+  const webViewRef = useRef<WebView>(null as unknown as WebView)
 
   const requestPermissions = async () => {
     const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()

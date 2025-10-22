@@ -34,7 +34,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
   const { openToast } = useToast()
 
   const [code, setCode] = useState('')
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef(null as unknown as ScrollView)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
