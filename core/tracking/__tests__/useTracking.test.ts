@@ -1,5 +1,3 @@
-import { jest } from '@jest/globals'
-
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
