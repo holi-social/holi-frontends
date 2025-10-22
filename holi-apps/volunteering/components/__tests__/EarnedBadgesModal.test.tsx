@@ -36,6 +36,7 @@ describe('EarnedBadgesModal', () => {
         visible
         badge={{
           id: 'badge-id-1',
+          slug: 'badge-slug-1',
           currentStep: undefined,
           totalSteps: undefined,
           unlockedAt: new Date('2024-01-01T00:00:00.000Z'),

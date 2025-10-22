@@ -9,12 +9,11 @@ import {
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 const renderWithApolloAndProvider = (component: React.ReactElement, mocks: MockedResponse[] = []) =>
   render(
     <MockedProvider mocks={[...mocks]} addTypename={false}>
-      <EarnedBadgesModalProvider>{component}</EarnedBadgesModalProvider>
+      {component}
     </MockedProvider>
   )
 

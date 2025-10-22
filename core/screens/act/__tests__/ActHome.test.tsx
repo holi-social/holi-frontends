@@ -41,7 +41,7 @@ jest.mock('@apollo/client', () => {
   }
 })
 
-jest.mock('@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider', () => ({
+jest.mock('@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal', () => ({
   useEarnedBadgesModal: () => jest.fn().mockResolvedValue(undefined),
 }))
 
