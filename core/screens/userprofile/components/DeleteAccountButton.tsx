@@ -22,7 +22,7 @@ export type DeleteAccountButtonProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps> = ({ style }) => {
+const DeleteAccountButton = ({ style }: DeleteAccountButtonProps) => {
   const { t } = useTranslation()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { logout, isLoggingOut } = useLogout()

@@ -42,7 +42,7 @@ export const Preview = ({ ...args }) => (
 
 Preview.argTypes = {
   firstText: { description: 'Upper text', type: 'string', control: { type: 'text' } },
-  media: { description: 'Optional media component', type: 'JSX.Element', control: { type: 'object' } },
+  media: { description: 'Optional media component', type: 'React.ReactElement', control: { type: 'object' } },
   secondText: { description: 'Main text', type: 'string', control: { type: 'text' } },
 }
 

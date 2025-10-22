@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, userEvent } from '@testing-library/react-native'
-import React, { type PropsWithChildren, useState } from 'react'
+import type React from 'react'
+import { type PropsWithChildren, useState } from 'react'
 import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -14,7 +15,7 @@ const TestTabContent = ({ index, isActive, children }: PropsWithChildren<RenderF
 
 interface Tab extends HoliTabItem {
   key: string
-  content: (options: RenderFuncOptions<HoliTabItem>) => JSX.Element
+  content: (options: RenderFuncOptions<HoliTabItem>) => React.ReactNode
 }
 
 const tabs: Tab[] = [
