@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from 'expo-router/testing-library'
 import { useTypesense_MultiSearchQuery } from '@holi/api/graphql/graphql-codegen'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
@@ -244,7 +244,7 @@ describe('useTypesenseEnrichedData', () => {
       loading: true,
       error: undefined,
     } as any)
-    rerender()
+    rerender({})
     expect(result.current.items).toEqual(initialItems)
     expect(result.current.items).toHaveLength(2)
   })
@@ -351,7 +351,12 @@ describe('useTypesenseEnrichedData', () => {
         typesenseFilter: 'type:=[test]',
       })
     )
-    const firstFetch = result.current.fetchMore()
+
+    let firstFetch = new Promise<void>(() => {})
+    act(() => {
+      firstFetch = result.current.fetchMore()
+    })
+
     await result.current.fetchMore()
     expect(mockFetchMore).toHaveBeenCalledTimes(1)
     await firstFetch
@@ -374,10 +379,17 @@ describe('useTypesenseEnrichedData', () => {
       })
     )
     expect(result.current.isFetchingMore).toBe(false)
-    const fetchPromise = result.current.fetchMore()
+
+    let fetchPromise = new Promise<void>(() => {})
+    act(() => {
+      fetchPromise = result.current.fetchMore()
+    })
     expect(result.current.isFetchingMore).toBe(true)
     resolveFetch()
-    await fetchPromise
+    await act(async () => {
+      await fetchPromise
+    })
+
     expect(result.current.isFetchingMore).toBe(false)
   })
 })
