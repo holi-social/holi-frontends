@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { View } from 'react-native'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 
 // eslint-disable-next-line no-restricted-imports
-import { HoliSwitchTransitionProps } from '../types'
+import type { HoliSwitchTransitionProps } from '../types'
 
 export const BaseSwitchTransitionWEB = ({
   animKey,
@@ -11,10 +11,14 @@ export const BaseSwitchTransitionWEB = ({
   classNames,
   style,
 }: HoliSwitchTransitionProps & { classNames: string }) => {
+  const nodeRef = useRef(null)
+
   return (
     <SwitchTransition>
-      <CSSTransition key={animKey} timeout={300} classNames={classNames} unmountOnExit>
-        <View style={style}>{children}</View>
+      <CSSTransition nodeRef={nodeRef} key={animKey} timeout={300} classNames={classNames} unmountOnExit>
+        <View style={style} ref={nodeRef}>
+          {children}
+        </View>
       </CSSTransition>
     </SwitchTransition>
   )
