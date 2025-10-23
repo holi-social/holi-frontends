@@ -1,4 +1,3 @@
-import { type ApolloError } from '@apollo/client/v4-migration'
 import { useQuery } from '@apollo/client/react'
 import { useEffect } from 'react'
 
@@ -6,16 +5,17 @@ import { logError } from '@holi/core/errors/helpers'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { type GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import type { PlaceDetails } from '@holi/core/geolocation/typings'
+import type { ErrorLike } from '@apollo/client'
 
 interface GeolocationDetails {
   geolocationDetails?: PlaceDetails
-  geolocationError?: ApolloError
+  geolocationError?: ErrorLike
   loadingGeolocation: boolean
 }
 
 type useGeolocationHook<T extends GeolocationDetails = GeolocationDetails> = (
   locationId?: string,
-  onError?: (error: ApolloError) => void
+  onError?: (error: ErrorLike) => void
 ) => T
 
 export const useGeolocationDetails: useGeolocationHook = (locationId, onError) => {

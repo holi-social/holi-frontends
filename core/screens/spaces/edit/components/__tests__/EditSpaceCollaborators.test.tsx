@@ -1,5 +1,3 @@
-import { ApolloError } from '@apollo/client/v4-migration'
-import type { GraphQLErrors } from '@apollo/client/v4-migration'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { act, render, screen, userEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
@@ -18,6 +16,8 @@ import {
   SpaceMembersBySpaceIdDocument,
   SpaceMembershipRequestsBySpaceIdDocument,
 } from '@holi/api/graphql/graphql-codegen'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { GraphQLError } from 'graphql'
 
 const spaceForAdmin = {
   ...space,
@@ -211,8 +211,8 @@ describe('EditSpaceCollaborators', () => {
           userId,
         },
       },
-      error: new ApolloError({
-        graphQLErrors: [{ extensions: { code: 'NOT_FOUND' } }] as unknown as GraphQLErrors,
+      error: new CombinedGraphQLErrors({
+        errors: [new GraphQLError('Not found', { extensions: { code: 'NOT_FOUND' } })],
       }),
     }
     const mocks = [...createMocksForSpace(spaceWithMembershipRequestsAndInvites), userByIdRequestNotFound]

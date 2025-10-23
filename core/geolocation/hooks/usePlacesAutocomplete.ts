@@ -40,13 +40,18 @@ export const usePlacesAutocomplete = ({
   const [value, setValue] = useState(selected?.label || '')
   const [called, setCalled] = useState(false)
 
-  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
-    variables: {
-      limit: PLACE_SUGGESTION_MAX_COUNT,
-      level,
-    },
-  })
-  const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)
+  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {})
+  const fetchSuggestionsCallback = useCallback(
+    () =>
+      fetchSuggestions({
+        variables: {
+          limit: PLACE_SUGGESTION_MAX_COUNT,
+          level,
+        },
+      }),
+    [fetchSuggestions, level]
+  )
+  const debouncedFetchSuggestions = useDebounce(fetchSuggestionsCallback, PLACE_SUGGESTION_DEBOUNCE)
   const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
 
   const placeSuggestions: PlacesAutocompleteOption[] = (data?.geo_placesAutocomplete || [])

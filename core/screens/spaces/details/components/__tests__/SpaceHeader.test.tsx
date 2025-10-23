@@ -9,7 +9,7 @@ import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeade
 xdescribe('SpaceHeader', () => {
   it('renders correctly', () => {
     const { getByText, getByTestId } = render(
-      <MockedProvider addTypename={false}>
+      <MockedProvider>
         <SpaceHeader space={space} />
       </MockedProvider>
     )

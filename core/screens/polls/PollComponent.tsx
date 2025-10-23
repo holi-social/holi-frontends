@@ -9,8 +9,8 @@ import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDim
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
-import { voteOnPollMutation } from '@holi/core/screens/polls/mutations'
-import { userHasVotedByPollId } from '@holi/core/screens/polls/queries'
+import { voteOnPollMutation, type VoteOnPollResponse } from '@holi/core/screens/polls/mutations'
+import { userHasVotedByPollId, type UserHasVotedByPollIdResponse } from '@holi/core/screens/polls/queries'
 import type { Choice, Poll } from '@holi/core/screens/polls/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import userTeam from '@holi/icons/src/generated/UserTeam'
@@ -56,7 +56,7 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
     loading: loadingVote,
     error: loadVoteError,
     refetch,
-  } = useQuery(userHasVotedByPollId, {
+  } = useQuery<UserHasVotedByPollIdResponse>(userHasVotedByPollId, {
     variables: { id: poll.id },
     skip: !user,
   })
@@ -71,7 +71,7 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
     }
   }, [loadingUser, loadingVote])
 
-  const [voteOnPoll] = useMutation(voteOnPollMutation, {
+  const [voteOnPoll] = useMutation<VoteOnPollResponse>(voteOnPollMutation, {
     onError: (error) =>
       logError(error, 'Failed to vote on poll', {
         location: 'PollComponent.voteOnPoll',

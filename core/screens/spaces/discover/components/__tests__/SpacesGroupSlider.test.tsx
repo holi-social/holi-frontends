@@ -86,7 +86,7 @@ describe('SpacesGroupSlider', () => {
   describe('with topic', () => {
     const renderTopic = (mocks: MockLink.MockedResponse[]) =>
       render(
-        <MockedProvider mocks={mocks} addTypename={false}>
+        <MockedProvider mocks={mocks}>
           <SpacesGroupSlider topic={'topic1'} pageSize={5} />
         </MockedProvider>
       )
@@ -145,7 +145,7 @@ describe('SpacesGroupSlider', () => {
   describe('with skill', () => {
     const renderSkill = (mocks: ReadonlyArray<MockLink.MockedResponse>) =>
       render(
-        <MockedProvider mocks={mocks} addTypename={false}>
+        <MockedProvider mocks={mocks}>
           <SpacesGroupSlider skill={'skill1'} pageSize={5} />
         </MockedProvider>
       )

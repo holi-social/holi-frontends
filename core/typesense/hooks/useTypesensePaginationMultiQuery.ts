@@ -1,9 +1,7 @@
-import { useQuery } from '@apollo/client/react'
+import type { ErrorLike } from '@apollo/client'
 import {
-  Typesense_MultiSearchDocument,
-  type Typesense_SearchResponseSuccess,
-  type Typesense_SearchResponseError,
   type Typesense_SearchResponseFacetCounts,
+  useTypesense_MultiSearchQuery,
 } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
 import type { SearchParams, SearchResponseHit, TypesenseFacetCounts } from '@holi/core/typesense/types'
@@ -19,7 +17,7 @@ export interface UseTypesensePaginationMultiQueryOptions {
 }
 
 export interface TypesensePaginationState {
-  hits: SearchResponseHit[]
+  hits: Omit<SearchResponseHit, 'highlight'>[]
   totalNrOfPages: number
   totalResults: number
   canFetchMore: boolean
@@ -77,7 +75,7 @@ export const useTypesensePaginationMultiQuery = ({
     refetch: refetchResults,
     fetchMore,
     error,
-  } = useQuery(Typesense_MultiSearchDocument, {
+  } = useTypesense_MultiSearchQuery({
     variables: {
       input: {
         searches,
@@ -94,8 +92,7 @@ export const useTypesensePaginationMultiQuery = ({
 
   // Full result in one state to control rerenderings
   const states = useMemo(() => {
-    const resultList: (Typesense_SearchResponseSuccess | Typesense_SearchResponseError)[] =
-      data?.typesense_multiSearch?.results
+    const resultList = data?.typesense_multiSearch?.results ?? []
     if (!resultList?.length) {
       return parameterList.map((parameters) => ({
         ...emptyState,
@@ -145,7 +142,7 @@ export const useTypesensePaginationMultiQuery = ({
         },
       },
     })
-      .catch((error) =>
+      .catch((error: ErrorLike) =>
         logError(error, 'Failed to fetch more', {
           location: 'useTypesensePaginationMultiQuery.fetchNextPages',
         })

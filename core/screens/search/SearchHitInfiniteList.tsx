@@ -91,7 +91,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
         }
       }}
       onEndReachedThreshold={0.5}
-      renderItem={({ item, index }: { item: SearchResponseHit; index: number }) => {
+      renderItem={({ item, index }: { item: Omit<SearchResponseHit, 'highlight'>; index: number }) => {
         const hit = item.document
         return (
           <ErrorBoundary>

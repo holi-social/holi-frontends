@@ -1,5 +1,4 @@
-import { type DocumentNode, type TypedDocumentNode } from '@apollo/client'
-import { type ApolloError } from '@apollo/client/v4-migration'
+import type { ErrorLike, DocumentNode, TypedDocumentNode } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 import at from 'lodash.at'
 import { useCallback, useEffect, useState } from 'react'
@@ -14,7 +13,7 @@ type PagedResponse<T, QueryName extends string> = {
 export interface PaginationQueryHookOptions extends useQuery.Options {
   pageSize: number
   queryPath: string
-  onError?: (error: ApolloError) => void
+  onError?: (error: ErrorLike) => void
 }
 
 function usePaginationQuery<TData>(

@@ -134,7 +134,7 @@ describe('ChatHomeContent Component', () => {
 
     useLoginStateMock.mockReturnValue(loggedOut)
     render(
-      <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
+      <MockedProvider mocks={[]} cache={createCache()}>
         <ChatHomeContent />
       </MockedProvider>
     )
@@ -167,7 +167,6 @@ describe('ChatHomeContent Component', () => {
           getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
           getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
-        addTypename={true}
         defaultOptions={defaultOptions}
         cache={createCache()}
       >
@@ -211,7 +210,6 @@ describe('ChatHomeContent Component', () => {
           getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
           getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
-        addTypename={false}
         defaultOptions={defaultOptions}
       >
         <ChatProvider store={store}>
@@ -276,7 +274,6 @@ describe('ChatHomeContent Component', () => {
           getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
           getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
         ]}
-        addTypename={true}
         defaultOptions={defaultOptions}
         cache={createCache()}
       >

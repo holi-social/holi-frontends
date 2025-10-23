@@ -73,7 +73,7 @@ describe('NotificationSpaceInviteItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceInviteItem notification={notification} />
         </MockedProvider>
       )
@@ -84,7 +84,7 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after declining an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
@@ -100,7 +100,7 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after accepting an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
@@ -145,7 +145,7 @@ describe('NotificationSpaceInviteItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceInviteItem notification={notification} />
         </MockedProvider>
       )
@@ -156,7 +156,7 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after declining an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
@@ -172,7 +172,7 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after accepting an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>

@@ -1,4 +1,4 @@
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
@@ -78,7 +78,7 @@ const renderComponent = ({
 } = {}) =>
   render(
     <ToastProvider>
-      <MockedProvider mocks={mocks || [inviteMutationSuccessMock]} addTypename={false}>
+      <MockedProvider mocks={mocks || [inviteMutationSuccessMock]}>
         <SpaceInviteUserButton
           user={{ ...user, connectionStatusToSpace: connectionStatusToSpace || [] }}
           spaceId={spaceId}

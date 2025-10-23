@@ -74,7 +74,7 @@ describe('NotificationSpaceConnectionItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceConnectionItem notification={notification} />
         </MockedProvider>
       )
@@ -84,7 +84,7 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after declining a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
@@ -100,7 +100,7 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after accepting a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
@@ -146,7 +146,7 @@ describe('NotificationSpaceConnectionItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceConnectionItem notification={notification} />
         </MockedProvider>
       )
@@ -157,7 +157,7 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after declining a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
@@ -173,7 +173,7 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after accepting a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>

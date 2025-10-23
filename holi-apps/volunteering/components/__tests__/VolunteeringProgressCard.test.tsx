@@ -7,14 +7,14 @@ import {
   volunteeringDetailsScreenDataMock as document,
 } from './helpers/mocks'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 const renderWithApolloAndProvider = (component: React.ReactElement, mocks: MockLink.MockedResponse[] = []) =>
   render(
-    <MockedProvider mocks={[...mocks]} addTypename={false}>
+    <MockedProvider mocks={[...mocks]}>
       <EarnedBadgesModalProvider>{component}</EarnedBadgesModalProvider>
     </MockedProvider>
   )

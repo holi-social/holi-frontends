@@ -5,7 +5,7 @@ import type { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { UpdatePostReactionMutation } from '@holi/core/screens/posts/queries'
+import { UpdatePostReactionMutation, type UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
 import { type Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -26,7 +26,7 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
 
-  const [updatePostReaction] = useMutation(UpdatePostReactionMutation, {
+  const [updatePostReaction] = useMutation<UpdatePostReactionResponse>(UpdatePostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) =>
       displayError(error, 'Failed to update post reaction', {

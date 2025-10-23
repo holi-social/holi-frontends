@@ -9,6 +9,7 @@ import {
   type NotificationsWorkflowPreferences,
   notificationsPreferencesQuery,
 } from '@holi/core/screens/notifications/queries'
+import { useApolloErrorDisplay } from '@holi/core/hooks/useApolloErrorDisplay'
 
 export enum Channel {
   PUSH = 'push',
@@ -82,18 +83,18 @@ export const useNotificationPreferences = () => {
   const { displayError } = useErrorHandling()
   const [updatingPreferences, setUpdatingPreferences] = useState(false)
   const { chatEnabled, chatPushEnabled, updateChatPushPreference, loadingChatPushPreference } = useChatPushPreference()
-  const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
+  const { data, loading, error } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
     fetchPolicy: 'network-only',
-    onError: (error) =>
-      displayError(error, 'Failed to load notification preferences', {
-        location: 'useNotificationPreferences.notificationsPreferencesQuery',
-      }),
   })
   const [updatePreferences] = useMutation<NotificationsPreferencesResponse>(updateNotificationsPreferences, {
     onError: (error) =>
       displayError(error, 'Failed to update notification preferences', {
         location: 'useNotificationPreferences.updateNotificationsPreferences',
       }),
+  })
+
+  useApolloErrorDisplay(error, 'Failed to load notification preferences', {
+    location: 'useNotificationPreferences.notificationsPreferencesQuery',
   })
 
   const updatePreference = useCallback(

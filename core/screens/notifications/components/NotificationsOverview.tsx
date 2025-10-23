@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client/react'
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
@@ -45,13 +45,17 @@ const NotificationsOverview = () => {
     refetch,
   } = useNotifications()
 
-  const [getNotifications, { data, error: notificationsQueryError, loading }] = useLazyQuery<NotificationsResponse>(
-    notificationsQuery,
-    {
-      variables: { offset: 0, limit: 100 },
+  const [getNotificationsQuery, { data, error: notificationsQueryError, loading }] =
+    useLazyQuery<NotificationsResponse>(notificationsQuery, {
       fetchPolicy: 'network-only',
       pollInterval: notificationPollingInterval,
-    }
+    })
+  const getNotifications = useCallback(
+    () =>
+      getNotificationsQuery({
+        variables: { offset: 0, limit: 100 },
+      }),
+    [getNotificationsQuery]
   )
 
   const [reportLastSeenNotification] = useMutation<lastSeenNotificationResponse>(LastSeenNotificationMutation, {

@@ -1,5 +1,4 @@
-import { gql } from '@apollo/client'
-import { ApolloError } from '@apollo/client/v4-migration'
+import { CombinedGraphQLErrors, gql } from '@apollo/client'
 import { GraphQLError } from 'graphql'
 
 import type { WebApolloClientOptions } from '@holi/api/graphql/client'
@@ -189,8 +188,8 @@ describe('createServerSideProps', () => {
     it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
       mockQueryFunction.mockResolvedValueOnce({ data: {} }) // Let user query succeed
       mockQueryFunction.mockRejectedValueOnce(
-        new ApolloError({
-          graphQLErrors: [
+        new CombinedGraphQLErrors({
+          errors: [
             new GraphQLError('Not found', {
               extensions: {
                 code: 'NOT_FOUND',

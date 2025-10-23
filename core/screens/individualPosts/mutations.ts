@@ -85,5 +85,5 @@ export const UpdateFeedPostReactionMutation = gql`
 `
 
 export interface UpdateFeedPostReactionResponse {
-  feedPost: FeedPost
+  updateFeedPostReaction: FeedPost
 }

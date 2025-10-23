@@ -1,10 +1,15 @@
-import { ApolloLink } from '@apollo/client'
+import type { ApolloLink } from '@apollo/client'
 
 import { useMutation } from '@apollo/client/react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { AddReactionToCommentMutation, RemoveReactionFromCommentMutation } from '@holi/core/screens/comments/mutations'
-import { ReactionType } from '@holi/core/screens/comments/types'
+import {
+  AddReactionToCommentMutation,
+  type AddReactionToCommentResponse,
+  RemoveReactionFromCommentMutation,
+  type RemoveReactionFromCommentResponse,
+} from '@holi/core/screens/comments/mutations'
+import type { ReactionType } from '@holi/core/screens/comments/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
@@ -23,36 +28,42 @@ const useReactOnComment = (id: string, reactionType: ReactionType): UseReactOnCo
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
-  const [addReaction, { loading: loadingAddReaction }] = useMutation(AddReactionToCommentMutation, {
-    variables: {
-      input: {
-        commentId: id,
-        reactionType,
+  const [addReaction, { loading: loadingAddReaction }] = useMutation<AddReactionToCommentResponse>(
+    AddReactionToCommentMutation,
+    {
+      variables: {
+        input: {
+          commentId: id,
+          reactionType,
+        },
       },
-    },
-    onCompleted: () => {
-      track(TrackingEvent.Engaging.reacted('Comment', id))
-    },
-    onError: (error) =>
-      displayError(error, 'Failed to add comment reaction', {
-        location: 'CommentReactions.addReaction',
-        commentId: id,
-      }),
-  })
+      onCompleted: () => {
+        track(TrackingEvent.Engaging.reacted('Comment', id))
+      },
+      onError: (error) =>
+        displayError(error, 'Failed to add comment reaction', {
+          location: 'CommentReactions.addReaction',
+          commentId: id,
+        }),
+    }
+  )
 
-  const [removeReaction, { loading: loadingRemoveReaction }] = useMutation(RemoveReactionFromCommentMutation, {
-    variables: {
-      input: {
-        commentId: id,
-        reactionType,
+  const [removeReaction, { loading: loadingRemoveReaction }] = useMutation<RemoveReactionFromCommentResponse>(
+    RemoveReactionFromCommentMutation,
+    {
+      variables: {
+        input: {
+          commentId: id,
+          reactionType,
+        },
       },
-    },
-    onError: (error) =>
-      displayError(error, 'Failed to remove comment reaction', {
-        location: 'CommentReactions.removeReaction',
-        commentId: id,
-      }),
-  })
+      onError: (error) =>
+        displayError(error, 'Failed to remove comment reaction', {
+          location: 'CommentReactions.removeReaction',
+          commentId: id,
+        }),
+    }
+  )
 
   return [addReaction, removeReaction, loadingAddReaction, loadingRemoveReaction]
 }

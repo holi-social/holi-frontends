@@ -42,9 +42,10 @@ Sentry.init({
     // Examples of this problem:
     // https://holistic-foundation.sentry.io/issues/4238280229/?project=6396737&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
     // https://holistic-foundation.sentry.io/issues/4188987374/?project=6377191&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
+    // TODO(SF) fix this
     try {
       if (exception instanceof ApolloError) {
-        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]
+        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception)]
       } else if (exception instanceof HoliError) {
         event.fingerprint = ['{{ default }}', 'holi-client-error']
       } else if (exception instanceof CodedError) {

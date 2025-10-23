@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
+import type { ImageKitAuthParams } from '@holi/api/graphql/graphql-codegen'
 import type { ImagePickerAsset } from 'expo-image-picker'
 import { Platform } from 'react-native'
 
@@ -21,12 +22,19 @@ const getImageKitAuthParams = gql`
   }
 `
 
+type ImageKitAuthParamsResponse = {
+  getImagekitAuthParams: ImageKitAuthParams
+}
+
 export const useImageKit = () => {
-  const [getAuthParams] = useMutation(getImageKitAuthParams)
+  const [getAuthParams] = useMutation<ImageKitAuthParamsResponse>(getImageKitAuthParams)
 
   const uploadImage = async (file: ImagePickerAsset, fileName: string): Promise<string> => {
     try {
       const { data } = await getAuthParams()
+      if (!data) {
+        throw Error('Failed to get image kit auth params')
+      }
       const authParams = data.getImagekitAuthParams
       const formData = new FormData()
 

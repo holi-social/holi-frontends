@@ -1,5 +1,4 @@
-import { type ApolloLink } from '@apollo/client'
-import { type ApolloError } from '@apollo/client/v4-migration'
+import type { ErrorLike, ApolloLink } from '@apollo/client'
 import { useLazyQuery, useQuery } from '@apollo/client/react'
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -25,7 +24,7 @@ import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicke
 export interface UseCreateOrUpdateSpacePost {
   // Status
   loading: boolean
-  error?: ApolloError
+  error?: ErrorLike
   isUpdate: boolean
   // meta
   space?: Pick<Space, 'id' | 'name' | 'connectionStatusToMyself'>

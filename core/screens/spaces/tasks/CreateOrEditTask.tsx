@@ -28,9 +28,9 @@ import type { TaskFormInput } from './components/TaskInputForm/types'
 import { CreateOrEditTaskSchema, createOrEditTaskSchemaRefinedInteractionSignupLink } from './taskSchema'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { z } from 'zod'
-import { ApolloError } from '@apollo/client/v4-migration'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { logError } from '@holi/core/errors/helpers'
+import type { ErrorLike } from '@apollo/client'
 
 export type CreateTaskParams = {
   spaceIdOrName: string
@@ -117,7 +117,7 @@ const CreateOrEditTask = () => {
   // Mutations
   const mutationOptions = {
     onCompleted: () => navigateBack(),
-    onError: (error: ApolloError) => {
+    onError: (error: ErrorLike) => {
       if (isMaliciousUrlError(error)) {
         openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
       } else {

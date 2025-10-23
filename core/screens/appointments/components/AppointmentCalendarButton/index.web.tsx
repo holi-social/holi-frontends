@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client/react'
-import React, { memo } from 'react'
+import type React from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,10 +8,10 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
-  GenerateAppointmentIcsFileResponse,
+  type GenerateAppointmentIcsFileResponse,
   generateAppointmentIcsFileMutation,
 } from '@holi/core/screens/appointments/mutations'
-import { Appointment } from '@holi/core/screens/appointments/types'
+import type { Appointment } from '@holi/core/screens/appointments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarCheck } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -55,7 +56,7 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
         document.body.removeChild(link)
         window.URL.revokeObjectURL(url)
       } else {
-        logError(response.errors, 'Could not generate appointment .ics file', {
+        logError(response.error, 'Could not generate appointment .ics file', {
           location: 'AppointmentDetails.handleGenerateIcsFile',
         })
       }

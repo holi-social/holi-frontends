@@ -13,7 +13,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
-import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
+import { updateSpaceMutation, type UpdateSpaceResponse } from '@holi/core/screens/spaces/edit/mutations'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -78,7 +78,7 @@ const SpaceOnboardingSteps = () => {
     })
   }, [setScreenOptions, t])
 
-  const [updateSpace] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
       track(TrackingEvent.Spaces.Onboarding.updated(space?.id ?? spaceIdOrName ?? ''))

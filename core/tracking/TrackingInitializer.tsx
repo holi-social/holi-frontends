@@ -127,8 +127,12 @@ class Tracking {
     const response = await this.apollo.query<AuthenticatedUserV2Response>({
       query: authenticatedUserV2Query,
     })
+    if (!response.data?.authenticatedUserV2) {
+      logger.debug('TrackingInitializer.fetchAuthenticatedUser', 'failed to fetch authenticated user')
+      throw new Error('Failed to fetch authenticated user')
+    }
     logger.debug('TrackingInitializer.fetchAuthenticatedUser', 'fetched authenticated user')
-    return response.data.authenticatedUserV2
+    return response.data?.authenticatedUserV2
   }
 
   public async updateConsentOnLocalStorage(consentState: ConsentState): Promise<void> {

@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing/react'
 import { act, render } from '@testing-library/react-native'
 import React from 'react'
 
-import { LoginState, useLoginState } from '@holi/core/auth/loginState'
+import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import { getDeviceToken } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 import { initDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
@@ -63,7 +63,7 @@ describe('DeviceRegistration', () => {
     useLoginStateMock.mockImplementation(loggedOut)
 
     const { toJSON } = render(
-      <MockedProvider mocks={[]} addTypename={false}>
+      <MockedProvider mocks={[]}>
         <DeviceRegistration />
       </MockedProvider>
     )
@@ -76,7 +76,7 @@ describe('DeviceRegistration', () => {
     useLoginStateMock.mockImplementation(loggedIn)
 
     const { toJSON } = render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
+      <MockedProvider mocks={MOCKS}>
         <DeviceRegistration />
       </MockedProvider>
     )

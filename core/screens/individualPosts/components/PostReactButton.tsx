@@ -4,13 +4,16 @@ import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { UpdateFeedPostReactionMutation } from '@holi/core/screens/individualPosts/mutations'
+import {
+  UpdateFeedPostReactionMutation,
+  type UpdateFeedPostReactionResponse,
+} from '@holi/core/screens/individualPosts/mutations'
 import {
   type FeedPost,
   ReactionAction,
   ReactionType as FeedPostReactionType,
 } from '@holi/core/screens/individualPosts/types'
-import { UpdatePostReactionMutation } from '@holi/core/screens/posts/queries'
+import { UpdatePostReactionMutation, type UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
 import {
   type Post,
   ReactionAction as PostReactionAction,
@@ -41,7 +44,7 @@ const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => 
   const activeLabel = t('insights.reactions.post.unlike')
   const label = currentUserHasReacted ? activeLabel : notActiveLabel
 
-  const [updateFeedPostReaction] = useMutation(UpdateFeedPostReactionMutation, {
+  const [updateFeedPostReaction] = useMutation<UpdateFeedPostReactionResponse>(UpdateFeedPostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) =>
       displayError(error, 'Failed to update feed post reaction', {
@@ -50,7 +53,7 @@ const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => 
       }),
     optimisticResponse: {
       updateFeedPostReaction: {
-        ...post,
+        ...(post as FeedPost),
         reactions: {
           ...post.reactions,
           HEART: currentUserHasReacted ? post.reactions.HEART - 1 : post.reactions.HEART + 1,
@@ -63,7 +66,7 @@ const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => 
     },
   })
 
-  const [updatePostReaction] = useMutation(UpdatePostReactionMutation, {
+  const [updatePostReaction] = useMutation<UpdatePostReactionResponse>(UpdatePostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) =>
       displayError(error, 'Failed to update post reaction', {
@@ -72,7 +75,7 @@ const PostReactButton: React.FC<PostReactButtonProps> = ({ post, onChange }) => 
       }),
     optimisticResponse: {
       updatePostReaction: {
-        ...post,
+        ...(post as Post),
         reactions: {
           ...post.reactions,
           HEART: currentUserHasReacted ? post.reactions.HEART - 1 : post.reactions.HEART + 1,

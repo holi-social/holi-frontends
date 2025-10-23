@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client/v4-migration'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -13,6 +12,7 @@ import createParamHooks, {
 
 import type { VolunteeringFilterParams, VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { slugsToSkillsV2, slugsToTopicsV2 } from '@holi/core/domain/shared/types'
+import type { ErrorLike } from '@apollo/client'
 
 interface FilterHook {
   filters: VolunteeringFilters
@@ -20,7 +20,7 @@ interface FilterHook {
   clearFilters: () => void
   isFiltering: boolean
   geolocationSelection?: GeolocationSuggestion
-  geolocationError?: ApolloError
+  geolocationError?: ErrorLike
   loadingGeolocation: boolean
 }
 

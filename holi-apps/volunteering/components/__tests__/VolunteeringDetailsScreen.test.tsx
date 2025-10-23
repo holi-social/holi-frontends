@@ -122,7 +122,6 @@ describe('VolunteeringDetailsScreen', () => {
               id: 'reco1',
               type: TypesenseDocumentType.Volunteering,
             },
-            highlight: {},
             text_match: 0,
           },
         ],
@@ -150,7 +149,7 @@ describe('VolunteeringDetailsScreen', () => {
 
   const renderComponent = () => {
     render(
-      <MockedProvider mocks={[favoriteRequest]} addTypename={false}>
+      <MockedProvider mocks={[favoriteRequest]}>
         <VolunteeringDetailsScreen engagementId={engagementId} />
       </MockedProvider>
     )

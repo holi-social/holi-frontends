@@ -1,6 +1,4 @@
-import { ServerError } from '@apollo/client'
-
-import { ApolloError } from '@apollo/client/v4-migration'
+import { CombinedGraphQLErrors, ServerError, type ErrorLike } from '@apollo/client'
 
 export type graphQLErrorCode = 'NOT_FOUND' | 'BAD_USER_INPUT' | 'FORBIDDEN' | 'MALICIOUS_URL'
 
@@ -11,11 +9,18 @@ export type FieldError = {
 
 export type FieldErrors = { [key: string]: FieldError[] }
 
-export const isErrorOfType = (error: Pick<ApolloError, 'graphQLErrors'>, errorCodes: graphQLErrorCode[]) =>
-  error.graphQLErrors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code as graphQLErrorCode))
+export const isGraphQLErrorOfType = (
+  error: ErrorLike,
+  errorCodes: graphQLErrorCode[]
+): error is CombinedGraphQLErrors =>
+  error instanceof CombinedGraphQLErrors &&
+  error.errors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code as graphQLErrorCode))
 
-export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): FieldErrors | undefined => {
-  const errors = error.graphQLErrors.length && error.graphQLErrors[0].extensions?.errors
+export const extractFieldErrors = (error: ErrorLike): FieldErrors | undefined => {
+  if (!(error instanceof CombinedGraphQLErrors)) {
+    return undefined
+  }
+  const errors = error.errors.length && error.errors[0].extensions?.errors
   try {
     return errors ? JSON.parse(errors as string) : undefined
   } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
@@ -23,17 +28,17 @@ export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): F
   }
 }
 
-export const isNotFoundError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['NOT_FOUND'])
+export const isNotFoundError = (error: ErrorLike) => isGraphQLErrorOfType(error, ['NOT_FOUND'])
 
-export const isForbiddenError = (error: Pick<ApolloError, 'graphQLErrors'>) => isErrorOfType(error, ['FORBIDDEN'])
+export const isForbiddenError = (error: ErrorLike) => isGraphQLErrorOfType(error, ['FORBIDDEN'])
 
-export const isMaliciousUrlError = (error: Pick<ApolloError, 'graphQLErrors'>) =>
-  isErrorOfType(error, ['MALICIOUS_URL'])
+export const isMaliciousUrlError = (error: ErrorLike) => isGraphQLErrorOfType(error, ['MALICIOUS_URL'])
 
 export const isServerError = (error: unknown): error is ServerError => {
-  return typeof error === 'object' && error !== null && 'statusCode' in error
+  return error instanceof ServerError
 }
 
+// TODO(SF) check for cause instead?
 export const isUnauthorizedError = (error: unknown): boolean => {
   return (
     (isServerError(error) && error.statusCode === 401) ||

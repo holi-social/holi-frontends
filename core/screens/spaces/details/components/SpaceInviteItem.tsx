@@ -23,6 +23,7 @@ import {
   SpaceMembersBySpaceIdDocument,
   useUpdateSpaceUserConnectionMutation,
 } from '@holi/api/graphql/graphql-codegen'
+import { CombinedGraphQLErrors } from '@apollo/client'
 
 const PAGE_SIZE = 10
 
@@ -68,9 +69,10 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invitedUser }) => 
       }
 
       if (
-        error.graphQLErrors.length > 0 &&
+        error instanceof CombinedGraphQLErrors &&
+        error.errors.length > 0 &&
         // @ts-ignore
-        error.graphQLErrors[0].extensions?.errors?.includes('No invite to withdraw.')
+        error.errors[0].extensions?.errors?.includes('No invite to withdraw.')
       ) {
         displayError(error, 'Failed to remove space invite - No invite to withdraw.', {
           displayMessage: t('spaces.invite.update.not-invited'),

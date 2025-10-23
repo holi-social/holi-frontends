@@ -2,7 +2,7 @@ import type { ApolloClient } from '@apollo/client'
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
-import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query, type AuthenticatedUserV2Response } from '@holi/core/domain/shared/queries'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
 import { createTranslationPageProps } from '@holi/web/helpers/createTranslationPageProps'
@@ -77,7 +77,7 @@ export const createServerSideProps = async (
   const client = initializeWebApolloClient({ headers: req.headers as Record<string, string>, locale })
 
   // Pre-fetch authenticated user if logged in
-  const authenticatedUserPromise = client.query({ query: authenticatedUserV2Query })
+  const authenticatedUserPromise = client.query<AuthenticatedUserV2Response>({ query: authenticatedUserV2Query })
 
   const results = await Promise.allSettled(queries.filter((query) => !query.skip).map((query) => client.query(query)))
 

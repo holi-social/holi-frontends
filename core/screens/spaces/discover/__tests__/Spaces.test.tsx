@@ -1,4 +1,4 @@
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { act, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
@@ -106,7 +106,7 @@ describe('Spaces screen', () => {
 
   const renderSpaces = (mocks: MockLink.MockedResponse[]) =>
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks}>
         <ToastProvider>
           <Spaces />
         </ToastProvider>

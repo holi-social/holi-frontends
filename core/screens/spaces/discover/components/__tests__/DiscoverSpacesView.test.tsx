@@ -42,7 +42,7 @@ const defaultTopicsMock = {
 
 const renderDiscoverSpaces = (userTopics: string[] = [], userSkills: string[] = [], userGeolocationId?: string) => {
   return render(
-    <MockedProvider mocks={[defaultTopicsMock]} addTypename={false}>
+    <MockedProvider mocks={[defaultTopicsMock]}>
       <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
     </MockedProvider>
   )

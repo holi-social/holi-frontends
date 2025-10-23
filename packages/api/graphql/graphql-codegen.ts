@@ -5156,6 +5156,7 @@ export type Typesense_MultiSearchQuery = {
               __typename?: 'Typesense_SearchResponseFacetCountsItemCounts'
               count: number
               value: string
+              highlighted: string
             }>
           }>
         }
@@ -8618,6 +8619,7 @@ export const Typesense_MultiSearchDocument = gql`
           counts {
             count
             value
+            highlighted
           }
           field_name
         }

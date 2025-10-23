@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { type DeleteAppointmentResponse, deleteAppointmentMutation } from '@holi/core/screens/appointments/mutations'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useCallback } from 'react'
 
 export type UseDeleteAppointment = [
   boolean,
@@ -31,7 +32,6 @@ const useDeleteAppointment = ({
   const [deleteAppointment, { loading: isLoadingDeleteAppointment }] = useMutation<DeleteAppointmentResponse>(
     deleteAppointmentMutation,
     {
-      variables: { appointmentId: id },
       onCompleted: () => {
         openToast(successMsg, HoliToastType.SUCCESS)
         handleDelete?.()
@@ -47,7 +47,15 @@ const useDeleteAppointment = ({
     }
   )
 
-  return [isLoadingDeleteAppointment, deleteAppointment]
+  const deleteAppointmentCallback = useCallback(
+    () =>
+      deleteAppointment({
+        variables: { appointmentId: id },
+      }),
+    [deleteAppointment, id]
+  )
+
+  return [isLoadingDeleteAppointment, deleteAppointmentCallback]
 }
 
 export default useDeleteAppointment

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 import { CommentFragment } from '@holi/core/screens/comments/queries'
-import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
+import type { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 
 export type CreateCommentInput = {
   commentableId: string
@@ -30,6 +30,10 @@ export type CommentReactionInput = {
   reactionType: ReactionType
 }
 
+export interface AddReactionToCommentResponse {
+  addReactionToComment: Comment
+}
+
 export const AddReactionToCommentMutation = gql`
   ${CommentFragment}
 
@@ -39,6 +43,10 @@ export const AddReactionToCommentMutation = gql`
     }
   }
 `
+
+export interface RemoveReactionFromCommentResponse {
+  removeReactionFromComment: Comment
+}
 
 export const RemoveReactionFromCommentMutation = gql`
   ${CommentFragment}

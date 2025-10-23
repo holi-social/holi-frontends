@@ -1,4 +1,4 @@
-import { ApolloError } from '@apollo/client/v4-migration'
+import type { ErrorLike } from '@apollo/client'
 import {
   useCommittedVolunteeringOpportunitiesQuery,
   type VolunteeringOpportunityStatusValue,
@@ -32,7 +32,7 @@ interface VolunteeringPaginationState {
   isInitialLoad: boolean
   isFetchingMore: boolean
   refetch(): Promise<void>
-  error?: ApolloError
+  error?: ErrorLike
 }
 
 export const useCommittedVolunteering = (

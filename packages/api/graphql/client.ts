@@ -1,7 +1,6 @@
-import type { HttpOptions } from '@apollo/client'
 import { ApolloClient, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
+import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -17,7 +16,7 @@ import {
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
 
-type Headers = HttpOptions['headers']
+type Headers = HttpLink.Options['headers']
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
@@ -85,7 +84,7 @@ function customIsExtractableFile(value: unknown): value is ReactNativeFile | Fil
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
 // @ts-ignore type incompatibility would need to be fixed in apollo-upload-client library
-const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
+const uploadCapableTerminatingLink: ApolloLink = new UploadHttpLink({
   uri: holiApiUrl,
   credentials: 'include',
   fetch: customFetch,
@@ -263,6 +262,7 @@ export const initializeWebApolloClient = ({ initState, headers, locale }: WebApo
   const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers, locale })
 
   if (initState) {
+    // @ts-ignore TODO(SF)
     const { __META, ...existingCache } = client.extract()
     client.cache.restore({
       __META,

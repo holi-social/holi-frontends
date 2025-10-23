@@ -10,7 +10,7 @@ import FilteredSpacesHeading, {
 
 const renderHeading = (props: FilteredSpacesHeadingProps) =>
   render(
-    <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
+    <MockedProvider mocks={[locationDetailsMock]}>
       <FilteredSpacesHeading {...props} />
     </MockedProvider>
   )

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { ApolloError } from '@apollo/client/v4-migration'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import type { ErrorContext } from '@holi/core/errors/helpers/logError.shared'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import type { ErrorLike } from '@apollo/client'
 
 export const useApolloNotFoundErrorHandling = (
-  error: ApolloError | undefined,
+  error: ErrorLike | undefined,
   logMessage: string,
   context: ErrorContext
 ) => {

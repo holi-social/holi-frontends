@@ -1,17 +1,13 @@
 import type React from 'react'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { badgesMockWithUnseen, refetchMock } from './helpers/mocks'
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { EarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModal'
 import { BadgeState } from '@holi/core/screens/userprofile/hooks/useBadges'
 
 const renderWithApollo = (component: React.ReactElement, mocks: MockLink.MockedResponse[] = []) =>
-  render(
-    <MockedProvider mocks={[...mocks]} addTypename={false}>
-      {component}
-    </MockedProvider>
-  )
+  render(<MockedProvider mocks={[...mocks]}>{component}</MockedProvider>)
 
 jest.mock('@holi/core/components/Screen', () => {
   return {

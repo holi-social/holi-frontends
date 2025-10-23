@@ -7,7 +7,7 @@ import { Search } from '@holi/core/screens/search/Search'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { ApolloError } from '@apollo/client/v4-migration'
+import type { CombinedGraphQLErrors } from '@apollo/client'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -94,7 +94,7 @@ describe('Search', () => {
     mockUseErrorHandling.mockReturnValue({
       displayError: mockDisplayError,
     })
-    const error = { message: 'Test error' } as ApolloError
+    const error = { message: 'Test error' } as CombinedGraphQLErrors
 
     render(<Search />)
 

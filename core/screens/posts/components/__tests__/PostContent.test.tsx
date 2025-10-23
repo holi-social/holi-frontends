@@ -47,7 +47,7 @@ const authenticatedUserMock = {
 describe('PostContent', () => {
   it('renders public post correctly', () => {
     const { getByText, getByTestId, getAllByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+      <MockedProvider mocks={[authenticatedUserMock]}>
         <PostContent hasVisibilityIcon post={post} />
       </MockedProvider>
     )
@@ -67,7 +67,7 @@ describe('PostContent', () => {
     const newPost = { ...post, isPublic: false }
 
     const { getByText, getByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+      <MockedProvider mocks={[authenticatedUserMock]}>
         <PostContent hasVisibilityIcon post={newPost} />
       </MockedProvider>
     )

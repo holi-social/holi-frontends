@@ -33,7 +33,7 @@ describe('HoliRichTextInput', () => {
     const placeholderText = 'a test placeholder ...'
     const maxNoOfCharacters = 100
     const { queryByPlaceholderText } = render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
+      <MockedProvider mocks={MOCKS}>
         <HoliRichTextInput
           placeholder={placeholderText}
           autofocus

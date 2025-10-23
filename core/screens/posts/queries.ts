@@ -145,5 +145,5 @@ export const UpdatePostReactionMutation = gql`
 `
 
 export interface UpdatePostReactionResponse {
-  post: Post
+  updatePostReaction: Post
 }

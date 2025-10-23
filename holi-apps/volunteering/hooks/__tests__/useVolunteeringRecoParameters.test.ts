@@ -104,6 +104,7 @@ describe('useVolunteeringRecoParameters', () => {
 
   it('passes on the geolocation error handler', () => {
     const onGeolocationError = jest.fn()
+    // TODO(SF) create correct error
     const error = {
       name: '',
       message: 'Test error',

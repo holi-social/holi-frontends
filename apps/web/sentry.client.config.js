@@ -13,7 +13,7 @@ Sentry.init({
   // Note: if you want to override the automatic release value, do not set a
   // `release` value here - use the environment variable `SENTRY_RELEASE`, so
   // that it will also get attached to your source maps
-  beforeSend: function (event, hint) {
+  beforeSend: (event, hint) => {
     const exception = hint.originalException
 
     // The right-hand side operators of instanceof must be objects, otherwise an exception is thrown.
@@ -21,6 +21,7 @@ Sentry.init({
     // Examples of this problem:
     // https://holistic-foundation.sentry.io/issues/4238280229/?project=6396737&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
     // https://holistic-foundation.sentry.io/issues/4188987374/?project=6377191&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
+    // TODO(SF) fix this
     try {
       if (exception instanceof ApolloError) {
         event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]

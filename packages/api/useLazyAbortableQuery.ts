@@ -1,7 +1,7 @@
-import { DocumentNode, OperationVariables, TypedDocumentNode } from '@apollo/client'
-import { useApolloClient, useQuery } from '@apollo/client/react'
+import type { DocumentNode, OperationVariables, TypedDocumentNode } from '@apollo/client'
+import { useApolloClient, type useQuery } from '@apollo/client/react'
 import { useCallback, useRef, useState } from 'react'
-import { Subscription } from 'zen-observable-ts'
+import type { Subscription } from 'rxjs'
 
 type ReturnValue<TData, TVariables extends OperationVariables> = [
   (options: useQuery.Options<TData, TVariables>) => void,
@@ -39,7 +39,7 @@ export function useLazyAbortableQuery<TData = any, TVariables extends OperationV
 
       subscriptionRef.current = watchedQuery.subscribe({
         next(result) {
-          if (!result.partial) {
+          if (result.dataState === 'complete') {
             setData(result.data)
             setError(null)
             setLoading(false)

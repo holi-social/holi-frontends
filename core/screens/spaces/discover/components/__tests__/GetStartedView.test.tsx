@@ -1,4 +1,4 @@
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { cleanup, fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
@@ -65,7 +65,7 @@ const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, getStartedViewUserSpec
 
 const renderGetStartedView = (mocks: MockLink.MockedResponse[]) =>
   render(
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <MockedProvider mocks={mocks}>
       <ToastProvider>
         <GetStartedView />
       </ToastProvider>

@@ -1,5 +1,4 @@
-import type { DocumentNode } from '@apollo/client'
-import { ApolloError } from '@apollo/client/v4-migration'
+import type { DocumentNode, ErrorLike } from '@apollo/client'
 import type React from 'react'
 import { type PropsWithChildren, createContext, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,7 +14,7 @@ export interface PaginationContextType<T> {
   totalResults: number
   data: Readonly<T[]>
   loading: boolean | undefined
-  error?: ApolloError | undefined
+  error?: ErrorLike | undefined
 }
 
 export interface PaginationProps {

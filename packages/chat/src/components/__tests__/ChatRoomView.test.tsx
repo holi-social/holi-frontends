@@ -147,7 +147,6 @@ describe('ChatRoomView', () => {
           getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
           getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
-        addTypename={true}
         defaultOptions={defaultOptions}
         cache={createCache()}
       >
@@ -206,7 +205,6 @@ describe('ChatRoomView', () => {
           getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
           getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
         ]}
-        addTypename={true}
         defaultOptions={defaultOptions}
         cache={createCache()}
       >
@@ -295,7 +293,6 @@ describe('ChatRoomView', () => {
           getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
           getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
         ]}
-        addTypename={true}
         defaultOptions={defaultOptions}
         cache={createCache()}
       >

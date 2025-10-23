@@ -41,7 +41,7 @@ describe('OwnProfile', () => {
     })
 
     render(
-      <MockedProvider mocks={[insightsCountRequest]} addTypename={false}>
+      <MockedProvider mocks={[insightsCountRequest]}>
         <OwnProfile />
       </MockedProvider>
     )
@@ -59,7 +59,7 @@ describe('OwnProfile', () => {
     })
 
     render(
-      <MockedProvider addTypename={false}>
+      <MockedProvider>
         <OwnProfile />
       </MockedProvider>
     )

@@ -58,7 +58,7 @@ describe('CommentView', () => {
 
   it('renders correctly', () => {
     render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+      <MockedProvider mocks={[authenticatedUserMock]}>
         <CommentView commentableId={post.id} commentableType={CommentableType.POST} comment={comment} />
       </MockedProvider>
     )

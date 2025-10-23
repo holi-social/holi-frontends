@@ -78,11 +78,7 @@ const authenticatedUserMock = {
 }
 
 const renderWithApollo = (component: React.ReactElement) => {
-  return render(
-    <MockedProvider mocks={[authenticatedUserMock]} addTypename={false}>
-      {component}
-    </MockedProvider>
-  )
+  return render(<MockedProvider mocks={[authenticatedUserMock]}>{component}</MockedProvider>)
 }
 
 describe('VolunteeringContact', () => {

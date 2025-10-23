@@ -66,7 +66,7 @@ describe('LoginProtection', () => {
     useLoginStateMock.mockImplementation(loggedIn)
 
     render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]}>
         <LoginProtection>
           <Text>Protected Content</Text>
         </LoginProtection>
@@ -83,7 +83,7 @@ describe('LoginProtection', () => {
     useLoginStateMock.mockImplementation(loggedOut)
 
     const { queryByText } = render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]}>
         <LoginProtection>Protected Content</LoginProtection>
       </MockedProvider>
     )
@@ -99,7 +99,7 @@ describe('LoginProtection', () => {
       useLoginStateMock.mockImplementation(loggedOut)
 
       render(
-        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <MockedProvider mocks={[authenticatedUserRequest]}>
           <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )
@@ -113,7 +113,7 @@ describe('LoginProtection', () => {
       useLoginStateMock.mockImplementation(loggedOut)
 
       render(
-        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <MockedProvider mocks={[authenticatedUserRequest]}>
           <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       )

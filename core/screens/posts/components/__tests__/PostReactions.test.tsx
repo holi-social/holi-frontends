@@ -47,7 +47,7 @@ const authenticatedUserMock = {
 describe('PostReactions', () => {
   it('renders correctly', () => {
     const { getByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+      <MockedProvider mocks={[authenticatedUserMock]}>
         <PostReactions post={post} />
       </MockedProvider>
     )
