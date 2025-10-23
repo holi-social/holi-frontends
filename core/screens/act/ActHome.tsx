@@ -25,9 +25,6 @@ import {
   useWelcomeGoodDeedsCounterModal,
 } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
-import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
-import { useApolloClient } from '@apollo/client'
-import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 
 type ActHomeParams = {
   section: string
@@ -43,9 +40,6 @@ const ActHome = () => {
   const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
   const showAppcuesBanner = useFeatureFlagToggle(FeatureFlagKey.APPCUES_BANNER)
-  const client = useApolloClient()
-  const checkNewBadges = useEarnedBadgesModal()
-  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
   const sections = orderedSections(selectedContentType)
 
   const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
@@ -56,17 +50,6 @@ const ActHome = () => {
       storeWelcomeGoodDeedsCounterModal(false)
     }
   }, [welcomeGoodDeedsCounterModal, showWelcomeModal])
-
-  useEffect(() => {
-    if (!badgesEnabled) return
-    ;(async () => {
-      await client.refetchQueries({ include: [BadgesDocument] })
-
-      if (badgesEnabled) {
-        await checkNewBadges()
-      }
-    })()
-  }, [client, badgesEnabled, checkNewBadges])
 
   return (
     <>

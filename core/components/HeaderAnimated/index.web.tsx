@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { useHeaderAnimationProgress } from '@holi/core/helpers'
+import { useHeaderAnimationProgress } from '@holi/core/helpers/useHeaderAnimationProgress'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'

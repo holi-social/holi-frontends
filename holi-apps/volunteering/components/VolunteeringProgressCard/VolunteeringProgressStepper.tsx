@@ -34,7 +34,18 @@ export const VolunteeringProgressStepper = ({
   ]
 
   return (
-    <Stack direction="row" alignSelf="center" width="100%">
+    <Stack
+      direction="row"
+      alignSelf="center"
+      width="100%"
+      aria-label={
+        status === VolunteeringOpportunityStatusValue.Contacted
+          ? t('volunteer.progress.progressBar.connectActive.ariaLabel')
+          : status === VolunteeringOpportunityStatusValue.Doing
+            ? t('volunteer.progress.progressBar.actActive.ariaLabel')
+            : undefined
+      }
+    >
       <ProgressStepper
         steps={volunteeringProgressSteps}
         activeStepKey={

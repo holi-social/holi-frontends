@@ -209,7 +209,8 @@ const FormBuilder = <
               node={node}
               onSubmitPress={(overrides, provider) => {
                 // Only submit resend if specifically requested, as it's otherwise hard to detect (and display errors for) missing inputs
-                if (overrides && !('resend' in overrides)) {
+                // Guard against overrides being a string (e.g. password from field Enter key press)
+                if (overrides && typeof overrides === 'object' && !('resend' in overrides)) {
                   delete submitType.resend
                 }
                 return onSubmit({ ...values, ...submitType, ...overrides }, provider)

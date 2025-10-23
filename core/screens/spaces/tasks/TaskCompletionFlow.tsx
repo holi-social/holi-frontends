@@ -20,7 +20,7 @@ import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-c
 import { useSafeDispatch } from '@holi/core/helpers/useSafeDispatch'
 import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
+import { HoliOryRegistrationConfigError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { doBrowserLogin, retrieveSubmitFlowBody } from '@holi/core/auth/helpers/auth/helpers'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
@@ -147,10 +147,7 @@ const TaskCompletionFlow = () => {
       // registration. You could handle that case by navigating to the Login screen
       // but for simplicity we'll just print an error here:
       if (Platform.OS === 'web' ? !data.session : !data.session_token) {
-        const err = new HoliOnboardingError(
-          'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
-        )
-        throw err
+        throw new HoliOryRegistrationConfigError()
       }
 
       logger.debug('TaskCompletionFlow', 'registration was successful')
@@ -170,7 +167,7 @@ const TaskCompletionFlow = () => {
           err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
         )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
       ) {
-        displayError(err, 'Failed to submit form', {
+        displayError(err, 'Failed to submit registration form as e-mail is already used', {
           displayMessage: t('auth.login.message.1010016'),
           location: 'TaskCompletionFlow.onSubmit',
         })

@@ -24,6 +24,7 @@ const HoliTabs = <D extends HoliTabItem>({
   tabBarBackgroundColor,
   testID = 'holi-tabs',
   marginHorizontal: propMarginHorizontal,
+  hideTabs = false,
 }: HoliTabsProps<D>) => {
   const { theme } = useTheme()
 
@@ -49,7 +50,12 @@ const HoliTabs = <D extends HoliTabItem>({
       style={{ minWidth: '100%' }}
       testID={testID}
     >
-      <View style={{ backgroundColor: tabBarBackgroundColor ?? theme.colors.background10 }}>
+      <View
+        style={{
+          backgroundColor: tabBarBackgroundColor ?? theme.colors.background10,
+          display: hideTabs ? 'none' : 'flex',
+        }}
+      >
         <BottomLineSeperator />
         <TabButtonList
           {...{
