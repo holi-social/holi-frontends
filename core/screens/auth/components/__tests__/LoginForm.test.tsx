@@ -2,9 +2,7 @@ import React from 'react'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
-import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
-import Login from '@holi/core/auth/screens/Login'
 import { Button } from 'holi-bricks/components/button'
 import { TrackingEvent } from '@holi/core/tracking'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
@@ -15,8 +13,7 @@ import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import type { SuccessfulNativeLogin } from '@ory/kratos-client'
 import type { AxiosResponse } from 'axios'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
-
-jest.mock('@holi/core/navigation/hooks/useParam')
+import { LoginForm } from '@holi/core/screens/auth/components/LoginForm'
 
 const mockUseLoginState = jest.mocked(useLoginState)
 jest.mock('@holi/core/auth/loginState', () => ({
@@ -67,7 +64,7 @@ jest.mock('@holi/core/auth/helpers/auth', () => ({
 }))
 
 const formValues = { method: 'password', identifier: 'test@example.com', password: 'p455w0rd' }
-const LoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
+const OryLoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
   return (
     <>
       <Button onPress={() => onSubmit(formValues, 'Google')} label={'social-submit-button'} />
@@ -75,11 +72,11 @@ const LoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string
     </>
   )
 }
-jest.mock('@holi/core/auth/components/FormBuilder', () => LoginForm)
+jest.mock('@holi/core/auth/components/FormBuilder', () => OryLoginForm)
 
 jest.useFakeTimers()
 
-describe('Login', () => {
+describe('LoginForm', () => {
   const mockClient: ApolloClient<object> = {} as ApolloClient<object>
   const displayError = jest.fn()
   const redirect = jest.fn()
@@ -116,13 +113,12 @@ describe('Login', () => {
     mockDoBrowserLogin.mockResolvedValue(mockSession)
     mockUseRedirect.mockReturnValue(redirect)
     mockUseApolloClient.mockReturnValue(mockClient)
-    mockParameters()
   })
 
   const submitForm = async () => {
     const user = userEvent.setup()
 
-    render(<Login />)
+    render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -140,13 +136,13 @@ describe('Login', () => {
     })
 
     it('should not initialize login flow', () => {
-      render(<Login />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).not.toHaveBeenCalled()
     })
 
     it('should navigate to home', () => {
-      render(<Login />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockNavigate).toHaveBeenCalledWith('/')
     })
@@ -154,7 +150,7 @@ describe('Login', () => {
 
   describe('flow initialization', () => {
     it('should initialize login flow', async () => {
-      render(<Login />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).toHaveBeenCalled()
 
@@ -164,7 +160,7 @@ describe('Login', () => {
     it('should display error if initializing login flow fails', async () => {
       mockInitLoginFlow.mockRejectedValue('Test')
 
-      render(<Login />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -174,19 +170,17 @@ describe('Login', () => {
       })
     })
 
-    it('should render text and form after initializing flow', async () => {
-      render(<Login />)
+    it('should render form after initializing flow', async () => {
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
+      expect(screen.getByLabelText('social-submit-button'))
       expect(screen.getByLabelText('submit-button'))
-      expect(screen.getByText('auth.login.signUp.link.headline'))
     })
 
     it('should initialize login flow with id if given', async () => {
-      mockParameters({ flow: '123' })
-
-      render(<Login />)
+      render(<LoginForm startedFlowId="123" step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
 
@@ -210,7 +204,7 @@ describe('Login', () => {
     it('should track social login', async () => {
       const user = userEvent.setup()
 
-      render(<Login />)
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -321,28 +315,6 @@ describe('Login', () => {
       expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
       expect(mockUseRedirect).toHaveBeenCalledWith('/')
       expect(redirect).toHaveBeenCalledWith(true)
-    })
-  })
-
-  describe('registration', () => {
-    it('should navigate to registration screen', async () => {
-      const user = userEvent.setup()
-
-      render(<Login />)
-
-      await user.press(screen.getByLabelText('auth.loginProtection.registration'))
-
-      expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
-    })
-
-    it('should track click on registration', async () => {
-      const user = userEvent.setup()
-
-      render(<Login />)
-
-      await user.press(screen.getByLabelText('auth.loginProtection.registration'))
-
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.RegisterButtonPressed)
     })
   })
 })

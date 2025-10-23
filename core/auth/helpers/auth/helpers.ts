@@ -2,6 +2,7 @@
 import type {
   LoginFlow,
   RecoveryFlow,
+  RegistrationFlow,
   SettingsFlow,
   UiText,
   UpdateLoginFlowBody,
@@ -25,6 +26,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
+import { HoliOryRegistrationConfigError } from '@holi/core/errors/classes/HoliOnboardingError'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
@@ -226,6 +228,24 @@ export const submitLoginFlow = async (
     .catch(handleKratosSdkError('updateLoginFlow'))
 }
 
+export const submitRegistrationFlow = async (
+  flow: RegistrationFlow,
+  payload: UpdateRegistrationFlowBody,
+  provider?: string
+) => {
+  const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
+  logger.debug('retrieveSubmitFlowBody', 'registration flow body', updateRegistrationFlowBody)
+  const response = await newKratosSdk()
+    .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody }, { withCredentials: false })
+    .catch(handleKratosSdkError('updateRegistrationFlow'))
+
+  if (!response.data.session_token) {
+    throw new HoliOryRegistrationConfigError()
+  }
+
+  return response
+}
+
 /**
  *
  * @param url The URL is returned by Ory after submitting the login flow as a 422 error and can be parsed from the error with the {@link getBrowserRedirect()} function
@@ -264,11 +284,7 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
   }
 }
 
-// Logout
-export const submitLogoutFlow = async ({
-  sessionToken,
-  accountType,
-}: { sessionToken?: string; accountType?: AccountType }) => {
+export const submitSocialLogout = async (accountType?: AccountType) => {
   switch (accountType) {
     case AccountType.Google:
       await GoogleSignin.signOut()
@@ -277,9 +293,13 @@ export const submitLogoutFlow = async ({
       // noop: It is not recommended to use AppleAuthentication.signOutAsync
       break
     case AccountType.Facebook:
-      await LoginManager.logOut()
+      LoginManager.logOut()
       break
   }
+}
+
+// Logout
+export const submitLogoutFlow = async ({ sessionToken }: { sessionToken?: string }) => {
   if (sessionToken) {
     return newKratosSdk()
       .performNativeLogout({
