@@ -1,4 +1,4 @@
-import type { QueryOptions } from '@apollo/client'
+import type { ApolloClient } from '@apollo/client'
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
@@ -17,7 +17,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import { isAllowedBot, isBlockedBot } from '@holi/web/helpers/bots'
 
-interface SkippableQueryOptions extends QueryOptions {
+interface SkippableQueryOptions extends ApolloClient.QueryOptions {
   skip?: boolean
 }
 

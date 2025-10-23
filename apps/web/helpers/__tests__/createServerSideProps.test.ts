@@ -1,4 +1,5 @@
-import { ApolloError, gql } from '@apollo/client'
+import { gql } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 import { GraphQLError } from 'graphql'
 
 import type { WebApolloClientOptions } from '@holi/api/graphql/client'

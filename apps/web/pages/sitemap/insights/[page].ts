@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 import type { GetServerSidePropsContext } from 'next'
 import pino from 'pino'
 

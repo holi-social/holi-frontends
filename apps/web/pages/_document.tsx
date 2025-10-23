@@ -1,6 +1,6 @@
-import { getApolloContext } from '@apollo/client'
+import { getApolloContext } from '@apollo/client/react'
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { RenderPromises } from '@apollo/client/react/ssr'
+import { RenderPromises } from '@apollo/client/v4-migration'
 
 import type { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { type DocumentContext, type DocumentProps, Head, Html, Main, NextScript } from 'next/document'
@@ -17,7 +17,7 @@ import { createApolloPageProps, createApolloWebClient } from '@holi/web/helpers/
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 interface ApolloDocumentProps {
-  apolloClient: ApolloClient<NormalizedCacheObject>
+  apolloClient: ApolloClient
 }
 
 initializeBricks({ isProduction })
@@ -39,7 +39,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
     const originalRenderPage = context.renderPage
-    let apolloClient: ApolloClient<NormalizedCacheObject> | undefined
+    let apolloClient: ApolloClient | undefined
 
     // for usage of renderPromises see https://github.com/apollographql/apollo-client/blob/main/src/react/ssr/getDataFromTree.ts
     const renderPromises = new RenderPromises()
