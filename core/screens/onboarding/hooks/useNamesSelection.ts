@@ -6,7 +6,7 @@ import type { FieldError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import type { ApolloError } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 
 export interface NamesSelectionData {
   firstName?: string

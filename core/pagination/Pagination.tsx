@@ -1,4 +1,5 @@
-import type { ApolloError, DocumentNode } from '@apollo/client'
+import type { DocumentNode } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 import type React from 'react'
 import { type PropsWithChildren, createContext, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

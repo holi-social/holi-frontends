@@ -24,7 +24,7 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 interface UserProfileViewProps {

@@ -31,7 +31,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'

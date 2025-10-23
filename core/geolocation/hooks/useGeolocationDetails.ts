@@ -1,4 +1,5 @@
-import { type ApolloError, useQuery } from '@apollo/client'
+import { type ApolloError } from '@apollo/client/v4-migration'
+import { useQuery } from '@apollo/client/react'
 import { useEffect } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'

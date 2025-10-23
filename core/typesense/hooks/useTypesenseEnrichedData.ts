@@ -3,11 +3,11 @@ import { useTypesense_MultiSearchQuery } from '@holi/api/graphql/graphql-codegen
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import type { QueryResult } from '@apollo/client'
+import type { useQuery } from '@apollo/client/react'
 
 export interface UseTypesenseEnrichedDataConfig<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TQueryResult extends QueryResult<any, any>,
+  TQueryResult extends useQuery.Result<any, any>,
   TGraphQLItem,
   TNormalizedItem,
 > {
@@ -34,7 +34,7 @@ export interface UseTypesenseEnrichedDataResult<TGraphQLItem, TNormalizedItem> {
 
 export function useTypesenseEnrichedData<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TQueryResult extends QueryResult<any, any>,
+  TQueryResult extends useQuery.Result<any, any>,
   TGraphQLItem,
   TNormalizedItem = undefined,
 >({

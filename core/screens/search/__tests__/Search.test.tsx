@@ -7,7 +7,7 @@ import { Search } from '@holi/core/screens/search/Search'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import type { ApolloError } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 

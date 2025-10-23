@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { type MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
 import type React from 'react'
@@ -37,7 +38,7 @@ const TestComponent: React.FC = () => {
   )
 }
 
-const renderPagination = (mocks: MockedResponse[]) =>
+const renderPagination = (mocks: MockLink.MockedResponse[]) =>
   render(
     <MockedProvider mocks={mocks} cache={createCache()}>
       <ToastProvider>

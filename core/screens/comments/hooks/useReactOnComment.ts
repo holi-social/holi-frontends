@@ -1,4 +1,6 @@
-import { FetchResult, useMutation } from '@apollo/client'
+import { ApolloLink } from '@apollo/client'
+
+import { useMutation } from '@apollo/client/react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { AddReactionToCommentMutation, RemoveReactionFromCommentMutation } from '@holi/core/screens/comments/mutations'
@@ -13,7 +15,7 @@ type ReactionFunction = (options?: {
       reactionType: ReactionType
     }
   }
-}) => Promise<FetchResult>
+}) => Promise<ApolloLink.Result>
 
 type UseReactOnComment = [ReactionFunction, ReactionFunction, boolean, boolean]
 

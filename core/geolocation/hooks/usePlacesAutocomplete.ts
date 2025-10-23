@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client/react'
 import { logError } from '@holi/core/errors/helpers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {

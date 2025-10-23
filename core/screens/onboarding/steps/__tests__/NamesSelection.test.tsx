@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
 import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'

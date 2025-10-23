@@ -1,5 +1,6 @@
 import React from 'react'
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { type MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import {
   Typesense_DocumentByIdDocument,
   type Typesense_SearchResponse,
@@ -78,7 +79,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
   }: Partial<Parameters<typeof useSingleTypesenseDocumentQuery>[2]> & {
     id?: string
     response?: Typesense_SearchResponse
-    mocks?: MockedResponse[]
+    mocks?: MockLink.MockedResponse[]
   } = {}) => {
     const mockedResponses = mocks ?? [createDocumentResultMock(response ?? testResponse)]
     return renderHook(() => useSingleTypesenseDocumentQuery(id, documentType, { onError, onNotFound }), {

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 export const voteOnPollMutation = gql`
   mutation VoteOnPoll($pollId: UUID!, $choiceIds: [UUID!]!) {

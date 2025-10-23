@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -121,7 +121,6 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
           </View>
         </HoliButton>
       )}
-
       {!userHasVoted?.userHasVotedByPollId && !!choices ? (
         // if not voted yet
         <PollSelection
@@ -143,7 +142,6 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
           )
         })
       )}
-
       <View style={styles.bottomBar}>
         <Stack justifyContent="space-between" direction={screenWidth > breakpoints.sm ? 'row' : 'column'}>
           <HoliBox padding={[0, 0, 0, 0]} layout={styles.headlineContainer}>

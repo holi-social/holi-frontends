@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'

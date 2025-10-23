@@ -1,5 +1,5 @@
-import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
-import { useMutation } from '@apollo/client'
+import type { ApolloLink } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -8,7 +8,7 @@ import { ContentType, ContentType3K, ReportContentMutation } from '@holi/core/qu
 import { ReportReason } from '@holi/core/screens/report/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-export type UseReportContent = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
+export type UseReportContent = [boolean, (options?: useMutation.MutationFunctionOptions) => Promise<ApolloLink.Result>]
 
 export interface UseReportContentProps {
   id: string

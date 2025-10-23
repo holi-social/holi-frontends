@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { ApolloError } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import type { ErrorContext } from '@holi/core/errors/helpers/logError.shared'
 import useRouting from '@holi/core/navigation/hooks/useRouting'

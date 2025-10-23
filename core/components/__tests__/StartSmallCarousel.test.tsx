@@ -5,7 +5,7 @@ import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/hel
 import { useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import StartSmallCarousel from '@holi/core/components/StartSmallCarousel'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { HOLI_MEMBER1_FIXTURE } from '@holi/chat/src/test-utils'
 
 const mockUseMicroactions = jest.mocked(useMicroactions)

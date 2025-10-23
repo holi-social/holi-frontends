@@ -1,5 +1,5 @@
 import type { DocumentNode, OperationVariables } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
 import type React from 'react'

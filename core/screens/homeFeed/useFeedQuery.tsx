@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'

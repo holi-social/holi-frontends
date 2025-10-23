@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { type MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
@@ -117,7 +118,7 @@ export const locationDetailsErrorMock = {
 
 describe('FilteredSpaces', () => {
   const renderFilteredSpaces = (
-    mocks: MockedResponse[],
+    mocks: MockLink.MockedResponse[],
     params?: Partial<{ location: string; topic: string[]; skill: string[] }>
   ) =>
     render(

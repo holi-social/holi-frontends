@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { type MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
@@ -71,7 +72,7 @@ const renderComponent = ({
   connectionStatusToSpace,
   onInviteHandled,
 }: {
-  mocks?: MockedResponse[]
+  mocks?: MockLink.MockedResponse[]
   connectionStatusToSpace?: SpaceUserConnectionType[]
   onInviteHandled?: () => void
 } = {}) =>

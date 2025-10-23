@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { type MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
@@ -82,7 +83,7 @@ const renderComponent = ({
   mocks = [userSearchSuccessMock],
   searchValue = 'foobar',
 }: {
-  mocks?: MockedResponse[]
+  mocks?: MockLink.MockedResponse[]
   searchValue?: string
 } = {}) =>
   render(

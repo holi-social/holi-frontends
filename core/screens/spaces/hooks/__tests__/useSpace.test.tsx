@@ -1,6 +1,6 @@
-import { ApolloError } from '@apollo/client'
-import type { GraphQLErrors } from '@apollo/client/errors'
-import { MockedProvider } from '@apollo/client/testing'
+import { ApolloError } from '@apollo/client/v4-migration'
+import type { GraphQLErrors } from '@apollo/client/v4-migration'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import React from 'react'
 

@@ -1,4 +1,4 @@
-import type { ApolloError } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 import type { ErrorContext } from '@holi/core/errors/helpers/logError.shared'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useEffect } from 'react'

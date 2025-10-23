@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client/react'
 import React, { useEffect, useMemo } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { string } from 'zod'

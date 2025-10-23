@@ -1,6 +1,8 @@
 import { type FavoritableType, useFavoriteV2Mutation, useUnfavoriteV2Mutation } from '@holi/api/graphql/graphql-codegen'
 import { useCallback } from 'react'
-import type { ApolloCache, ApolloError } from '@apollo/client'
+import type { ApolloCache } from '@apollo/client'
+
+import { ApolloError } from '@apollo/client/v4-migration'
 
 export interface FavoritingMutationOptions {
   __typename: string

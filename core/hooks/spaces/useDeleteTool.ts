@@ -1,5 +1,5 @@
-import { useMutation } from '@apollo/client'
-import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
+import type { ApolloLink } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -10,7 +10,7 @@ import {
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
-export type UseDeleteTool = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
+export type UseDeleteTool = [boolean, (options?: useMutation.MutationFunctionOptions) => Promise<ApolloLink.Result>]
 
 interface UseDeleteToolProps {
   id: string

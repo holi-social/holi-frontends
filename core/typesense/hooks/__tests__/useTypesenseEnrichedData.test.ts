@@ -7,7 +7,7 @@ import {
   useTypesenseEnrichedData,
   type UseTypesenseEnrichedDataConfig,
 } from '@holi/core/typesense/hooks/useTypesenseEnrichedData'
-import type { QueryResult } from '@apollo/client'
+import type { useQuery } from '@apollo/client/react'
 
 jest.mock('@holi/api/graphql/graphql-codegen')
 jest.mock('@holi/core/screens/search/hooks/useUserLanguage')
@@ -42,7 +42,7 @@ const mockTypesenseDocuments = [
   { id: 'test_ext-2', title: 'Test Item 2', description: 'Description 2' },
 ]
 
-const createMockGraphQLQuery = (overrides: any = {}): QueryResult<TestQueryData> =>
+const createMockGraphQLQuery = (overrides: any = {}): useQuery.Result<TestQueryData> =>
   ({
     data: { testItems: { data: mockGraphQLItems, totalResults: 10 } },
     loading: false,
@@ -53,10 +53,10 @@ const createMockGraphQLQuery = (overrides: any = {}): QueryResult<TestQueryData>
   }) as any
 
 const useTypesenseEnrichedDataWithTypes = (
-  config: Omit<UseTypesenseEnrichedDataConfig<QueryResult<TestQueryData>, TestGraphQLItem, any>, 'graphqlQuery'> & {
-    graphqlQuery: QueryResult<TestQueryData>
+  config: Omit<UseTypesenseEnrichedDataConfig<useQuery.Result<TestQueryData>, TestGraphQLItem, any>, 'graphqlQuery'> & {
+    graphqlQuery: useQuery.Result<TestQueryData>
   }
-) => useTypesenseEnrichedData<QueryResult<TestQueryData>, TestGraphQLItem>(config)
+) => useTypesenseEnrichedData<useQuery.Result<TestQueryData>, TestGraphQLItem>(config)
 
 describe('useTypesenseEnrichedData', () => {
   beforeEach(() => {

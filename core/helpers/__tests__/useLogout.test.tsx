@@ -1,4 +1,5 @@
-import { type ApolloClient, useApolloClient } from '@apollo/client'
+import { type ApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { getSessionFromStorage, submitLogoutFlow, submitSocialLogout } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
@@ -76,7 +77,7 @@ describe('useLogout', () => {
   }
   const mockClient = {
     clearStore: jest.fn(),
-  } as unknown as ApolloClient<object>
+  } as unknown as ApolloClient
 
   beforeEach(() => {
     jest.useFakeTimers()

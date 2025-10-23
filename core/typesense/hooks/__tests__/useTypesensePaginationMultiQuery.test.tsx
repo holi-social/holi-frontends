@@ -1,5 +1,6 @@
 import React from 'react'
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { type MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import {
   Typesense_MultiSearchDocument,
   type Typesense_SearchResponse,
@@ -101,7 +102,7 @@ describe('useTypesensePaginationMultiQuery', () => {
     mocks,
   }: Partial<UseTypesensePaginationMultiQueryOptions> & {
     responses?: Typesense_SearchResponse[]
-    mocks?: MockedResponse[]
+    mocks?: MockLink.MockedResponse[]
   } = {}) => {
     const mockedResponses = mocks ?? [createSearchResultsMock(responses ?? [testResponse, testResponse], parameterList)]
     return renderHook(() => useTypesensePaginationMultiQuery({ parameterList, onError, skip }), {

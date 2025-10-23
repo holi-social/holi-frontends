@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import type { MockedResponse } from '@apollo/client/testing/core'
+import { MockedProvider } from '@apollo/client/testing/react'
+import type { MockLink } from '@apollo/client/testing'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import expect from 'expect'
 import React from 'react'
@@ -27,7 +27,7 @@ const discoverSpacesErrorMock = ({
 }: {
   topicsV2?: string[]
   skillsV2?: string[]
-}): MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => ({
+}): MockLink.MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => ({
   request: {
     query: DiscoverSpacesDocument,
     variables: {
@@ -46,7 +46,7 @@ const discoverSpacesDataMock = ({
 }: {
   topicsV2?: string[]
   skillsV2?: string[]
-}): MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => {
+}): MockLink.MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => {
   const spaces: Space[] = createSpaceList(5)
   const discoverSpaces: DiscoverSpaces[] = [
     ...(topicsV2?.map((topicV2) => ({
@@ -84,7 +84,7 @@ const discoverSpacesDataMock = ({
 
 describe('SpacesGroupSlider', () => {
   describe('with topic', () => {
-    const renderTopic = (mocks: MockedResponse[]) =>
+    const renderTopic = (mocks: MockLink.MockedResponse[]) =>
       render(
         <MockedProvider mocks={mocks} addTypename={false}>
           <SpacesGroupSlider topic={'topic1'} pageSize={5} />
@@ -143,7 +143,7 @@ describe('SpacesGroupSlider', () => {
   })
 
   describe('with skill', () => {
-    const renderSkill = (mocks: ReadonlyArray<MockedResponse>) =>
+    const renderSkill = (mocks: ReadonlyArray<MockLink.MockedResponse>) =>
       render(
         <MockedProvider mocks={mocks} addTypename={false}>
           <SpacesGroupSlider skill={'skill1'} pageSize={5} />

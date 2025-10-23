@@ -3,7 +3,7 @@ import React from 'react'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
 import { render, userEvent, screen } from '@testing-library/react-native'
 import type { User } from '@holi/core/domain/shared/types'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import {
   updateAuthenticatedUserV2Mutation,
   type UpdateAuthenticatedUserInput,

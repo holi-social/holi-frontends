@@ -5,7 +5,7 @@ import {
   makeCommittedVolunteeringItems,
   mockCommittedVolunteeringHookResult,
 } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { FavoritesDocument } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseCommittedVolunteering = jest.fn()

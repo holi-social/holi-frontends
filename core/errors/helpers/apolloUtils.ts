@@ -1,4 +1,6 @@
-import { ApolloError, ServerError } from '@apollo/client'
+import { ServerError } from '@apollo/client'
+
+import { ApolloError } from '@apollo/client/v4-migration'
 
 export type graphQLErrorCode = 'NOT_FOUND' | 'BAD_USER_INPUT' | 'FORBIDDEN' | 'MALICIOUS_URL'
 

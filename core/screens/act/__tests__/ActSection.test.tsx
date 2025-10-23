@@ -1,6 +1,6 @@
 import { mockFeatureFlags } from '@holi/core/helpers/__mocks__/mockFeatureFlags'
 
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 

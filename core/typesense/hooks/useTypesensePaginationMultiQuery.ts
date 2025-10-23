@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import {
   Typesense_MultiSearchDocument,
   type Typesense_SearchResponseSuccess,

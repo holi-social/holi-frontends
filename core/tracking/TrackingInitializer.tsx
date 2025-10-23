@@ -1,4 +1,5 @@
-import { type ApolloClient, makeVar, type ReactiveVar, useApolloClient, useReactiveVar } from '@apollo/client'
+import { type ApolloClient, makeVar, type ReactiveVar } from '@apollo/client'
+import { useApolloClient, useReactiveVar } from '@apollo/client/react'
 import React, { memo, useEffect, useMemo } from 'react'
 
 import {
@@ -36,7 +37,7 @@ class Tracking {
   constructor(
     private posthog: PosthogCrossPlatform,
     private facebook: FacebookSdkCrossPlatform,
-    private apollo: ApolloClient<object>
+    private apollo: ApolloClient
   ) {}
 
   public async initWithLoggedInUser(user: AuthenticatedUser): Promise<void> {
@@ -270,7 +271,7 @@ const TrackingInitializerInner = ({
   onUserLoggedOutCompleted,
 }: TrackingInitializerInnerProps) => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
-  const apollo: ApolloClient<object> = useApolloClient()
+  const apollo: ApolloClient = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, metaSdk, apollo), [posthog, apollo])
   const state = useReactiveVar(initializerStateVar)
   const { track } = useTracking()

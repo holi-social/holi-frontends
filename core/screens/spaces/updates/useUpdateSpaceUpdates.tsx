@@ -1,4 +1,6 @@
-import { type ApolloError, type FetchResult, useLazyQuery, useQuery } from '@apollo/client'
+import { type ApolloLink } from '@apollo/client'
+import { type ApolloError } from '@apollo/client/v4-migration'
+import { useLazyQuery, useQuery } from '@apollo/client/react'
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -38,7 +40,7 @@ export interface UseCreateOrUpdateSpacePost {
   setImage: Dispatch<SetStateAction<HoliImageInfo | undefined | null>>
   setVisibility: Dispatch<SetStateAction<VisibilityType>>
   // interface
-  saveSpacePost: () => Promise<FetchResult>
+  saveSpacePost: () => Promise<ApolloLink.Result>
 }
 
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {

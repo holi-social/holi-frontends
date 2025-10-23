@@ -1,4 +1,6 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+
+import { useReactiveVar } from '@apollo/client/react'
 
 export type IntroFlowType = 'onboarding' | 'first-favorite-good-deed' | 'first-tracked-good-deed' | undefined
 

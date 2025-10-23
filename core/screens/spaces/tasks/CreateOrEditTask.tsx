@@ -28,7 +28,7 @@ import type { TaskFormInput } from './components/TaskInputForm/types'
 import { CreateOrEditTaskSchema, createOrEditTaskSchemaRefinedInteractionSignupLink } from './taskSchema'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { z } from 'zod'
-import type { ApolloError } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { logError } from '@holi/core/errors/helpers'
 

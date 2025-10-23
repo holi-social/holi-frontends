@@ -10,7 +10,7 @@ import { createChatClient, createMatrixClientMock } from '@holi/chat/src/test-ut
 import { initChatRoomFixture } from '@holi/chat/src/test-utils/matrix-fixtures'
 import { useBlockUser } from '@holi/core/hooks/useBlockUser'
 import { BlockUserMutation } from '@holi/core/queries'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import type { User } from '@holi/core/domain/shared/types'
 import { waitFor } from '@testing-library/react-native'
 import { toMatrixIdentity } from '@holi/chat/src/store'

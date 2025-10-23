@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import { useCallback, useMemo, useState } from 'react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { CommentFragment } from '@holi/core/screens/comments/queries'
 import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'

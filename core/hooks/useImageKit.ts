@@ -1,4 +1,5 @@
-import { gql, useMutation } from '@apollo/client'
+import { gql } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import type { ImagePickerAsset } from 'expo-image-picker'
 import { Platform } from 'react-native'
 

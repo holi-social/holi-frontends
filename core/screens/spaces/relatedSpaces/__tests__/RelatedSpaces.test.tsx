@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 

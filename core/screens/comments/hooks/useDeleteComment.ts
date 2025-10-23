@@ -1,5 +1,6 @@
-import type { ApolloError, FetchResult, MutationFunctionOptions } from '@apollo/client'
-import { useMutation } from '@apollo/client'
+import type { ApolloLink } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
+import { useMutation } from '@apollo/client/react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -10,7 +11,7 @@ import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-export type UseDeleteComment = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
+export type UseDeleteComment = [boolean, (options?: useMutation.MutationFunctionOptions) => Promise<ApolloLink.Result>]
 
 const useDeleteComment = (
   id: string,

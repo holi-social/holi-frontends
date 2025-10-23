@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'

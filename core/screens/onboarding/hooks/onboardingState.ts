@@ -1,4 +1,5 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+import { useReactiveVar } from '@apollo/client/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'

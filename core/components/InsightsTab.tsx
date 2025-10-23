@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'

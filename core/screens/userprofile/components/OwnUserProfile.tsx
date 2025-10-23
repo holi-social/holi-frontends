@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import { ChipAction, ChipLabel } from 'holi-bricks/components/chips'
 import { useEffect, type PropsWithChildren } from 'react'
