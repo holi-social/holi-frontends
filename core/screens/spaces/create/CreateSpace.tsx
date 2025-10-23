@@ -33,7 +33,6 @@ import {
   useMySpacesQuery,
   useValidateSpaceMutation,
 } from '@holi/api/graphql/graphql-codegen'
-
 const CreateSpace = () => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()

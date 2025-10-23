@@ -23,7 +23,6 @@ const GoodNewsAppHome = () => {
         },
         headerTitle: () => <GoodNewsHeader formattedDate={activeDate} />,
         headerLeft: () => <HeaderBackButton tintColor={theme.colors.fill.white} fallbackRoute="/" />,
-        headerTintColor: theme.colors.fill.white,
         headerBackVisible: false,
         headerTitleAlign: 'center',
         headerTransparent: true,
@@ -32,7 +31,7 @@ const GoodNewsAppHome = () => {
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, animated: true, barStyle: 'light-content' }}
+      statusBarProps={{ translucent: true, animated: true, style: 'light' }}
     >
       <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews.maintenance.feature">
         <GoodNewsCarousel onActiveDateChange={setActiveDate} />

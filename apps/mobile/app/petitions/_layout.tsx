@@ -7,7 +7,6 @@ export default function Layout() {
   return (
     <Stack
       screenOptions={{
-        headerTintColor: '#000',
         headerShadowVisible: false,
         headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
         headerTitle: '',

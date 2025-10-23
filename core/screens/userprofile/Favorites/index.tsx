@@ -2,7 +2,6 @@ import React, {} from 'react'
 import { useTranslation } from 'react-i18next'
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { Screen } from '@holi/core/components/Screen'
 import { FavoritableType, useUnfavoriteV2Mutation } from '@holi/api/graphql/graphql-codegen'
 import { CompactCard } from 'holi-bricks/components/compactCard'
@@ -88,7 +87,11 @@ const Favorites = () => {
           preset="fixed"
           headerOptions={{
             title: t('profile.settings.favorites.title'),
-            headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+            headerTitle: ({ children }) => (
+              <Text headingLevel="1" size="lg">
+                {children}
+              </Text>
+            ),
           }}
         >
           <SectionList

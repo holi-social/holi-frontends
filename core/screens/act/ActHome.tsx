@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 
@@ -60,11 +60,11 @@ const ActHome = () => {
           title,
           headerBackVisible: true,
           headerTitle: '',
-          headerLeft: ({ tintColor }) => (
+          headerLeft: () => (
             <Stack direction="row" gap="xxs" alignItems="center">
-              <HeaderTitle size="large" tintColor={tintColor}>
+              <Text headingLevel="1" size="lg">
                 {title}
-              </HeaderTitle>
+              </Text>
               {showGoodDeedChip && <GoodDeedsChip />}
             </Stack>
           ),

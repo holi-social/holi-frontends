@@ -9,7 +9,7 @@ import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
@@ -111,10 +111,10 @@ const OwnProfile = () => {
       title,
       headerBackVisible: true,
       headerTitle: () => null,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {title}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: () => (
         <HoliHorizontalRow>

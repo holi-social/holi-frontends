@@ -7,7 +7,7 @@ import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -17,7 +17,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 import * as Appcues from '@appcues/react-native'
-
 const ChatHome = () => {
   Appcues.screen('Chat')
   const { t } = useTranslation()
@@ -40,10 +39,10 @@ const ChatHome = () => {
       title,
       headerBackVisible: false,
       headerTitle: '',
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {title}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: () => <NotificationAndSearchHeader />,
     })

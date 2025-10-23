@@ -12,7 +12,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
@@ -99,10 +99,10 @@ const Spaces = () => {
       /* hide title on ios with empty title string */
       headerTitle: '',
       headerBackVisible: false,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {t('spaces.organize')}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: (props) => (
         <HoliHorizontalRow>

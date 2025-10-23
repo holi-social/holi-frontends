@@ -1,6 +1,7 @@
 import React, { type PropsWithChildren } from 'react'
-import { ImageBackground, Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
+import Constants from 'expo-constants'
 import tinycolor from 'tinycolor2'
 
 import { useHeaderAnimationProgress } from '@holi/core/helpers/useHeaderAnimationProgress'
@@ -96,7 +97,7 @@ export default AnimatedWrapper
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
     ...Platform.select({
       web: {
         height: dimensions.topBarHeight,

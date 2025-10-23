@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -13,7 +12,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -111,7 +110,6 @@ const PostDetailsPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTintColor: theme.colors.black300,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerLeft: ({ tintColor }) => (
@@ -119,7 +117,12 @@ const PostDetailsPage = () => {
           <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />
         </HoliTransition.FadeLeft>
       ),
-      headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
+      headerTitle: () =>
+        !loading && (
+          <Text headingLevel="1" size="lg">
+            {headerTitle}
+          </Text>
+        ),
       headerRight: () => {
         return (
           post && (
@@ -203,7 +206,6 @@ const PostDetailsPage = () => {
         ogDescription={post?.description}
         ogImage={post?.imageUrl}
       />
-      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
       <FormLayout
         backgroundColor={theme.colors.background10}

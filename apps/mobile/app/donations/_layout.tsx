@@ -6,7 +6,6 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerShown: true,
-        headerTintColor: '#000',
         headerShadowVisible: false,
         headerTitle: '',
         headerTitleAlign: 'center',

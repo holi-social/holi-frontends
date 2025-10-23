@@ -6,7 +6,7 @@ import { type DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDi
 import { logError } from '@holi/core/errors/helpers/logError'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
@@ -50,7 +50,11 @@ const InsightsList = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{'Insights'}</HeaderTitle>,
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {'Insights'}
+        </Text>
+      ),
     })
   }, [navigate, setScreenOptions, t])
 
