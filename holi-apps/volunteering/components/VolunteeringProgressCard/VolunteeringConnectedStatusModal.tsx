@@ -9,10 +9,10 @@ import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { VolunteeringProgressStepper } from '@holi-apps/volunteering/components/VolunteeringProgressCard/VolunteeringProgressStepper'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
-import { Button } from 'holi-bricks/components/button'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useLottieContainerSize } from '@holi-apps/volunteering/hooks/useLottieContainerSize'
+import { Button } from 'holi-bricks/components/button'
 
 const ANIMATION_DELAY = 3300
 const LOTTIE_ASPECT_RATIO = 342 / 130
@@ -59,13 +59,19 @@ export const VolunteeringConnectedStatusModal = (props: HoliModalProps) => {
                   <VolunteeringProgressStepper status={volunteeringProgressStatus} />
                 </Stack>
 
-                <Text size="3xl">{t('volunteer.progress.contactConfirmed.modal.title')}</Text>
+                <Text size="3xl" headingLevel="1">
+                  {t('volunteer.progress.contactConfirmed.modal.title')}
+                </Text>
 
                 <Text>{t('volunteer.progress.contactConfirmed.modal.text')}</Text>
               </Stack>
 
               <Stack padding={{ top: 'xxs', bottom: 'xxs' }}>
-                <Button label={t('volunteering.progress.button.contactSuccess')} onPress={props.onDismiss} />
+                <Button
+                  label={t('volunteering.progress.button.contactSuccess')}
+                  onPress={props.onDismiss}
+                  aria-label={t('volunteering.progress.button.contactSuccess.buttonLabel')}
+                />
               </Stack>
             </Animated.View>
           </Stack>
