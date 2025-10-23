@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -103,7 +103,13 @@ const GoodNewsCarousel = ({ onActiveDateChange }: GoodNewsCarouselProps) => {
   }
 
   const carouselItems: CarouselItem[] = articles
-    .map((article) => ({ type: 'article', article: article }) as CarouselItem)
+    .map(
+      (article) =>
+        ({
+          type: 'article',
+          article: article,
+        }) as CarouselItem
+    )
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
 
   return (

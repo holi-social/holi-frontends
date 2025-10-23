@@ -10,7 +10,7 @@ import { render, userEvent, screen, act } from '@testing-library/react-native'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { TrackingEvent } from '@holi/core/tracking'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useLoginState } from '@holi/core/auth/loginState'
 

@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-native'
-import type { ApolloError } from '@apollo/client'
+import { ApolloError } from '@apollo/client/v4-migration'
 
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 

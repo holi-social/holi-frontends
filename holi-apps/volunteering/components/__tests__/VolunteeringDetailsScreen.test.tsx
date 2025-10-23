@@ -1,5 +1,5 @@
 import type React from 'react'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
