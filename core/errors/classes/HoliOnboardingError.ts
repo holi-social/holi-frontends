@@ -15,7 +15,7 @@ export class HoliOnboardingError extends HoliError {
 export class HoliOryRegistrationConfigError extends HoliOnboardingError {
   constructor() {
     super(
-      'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
+      'It looks like ORY Kratos is not configured to issue a session automatically after registration. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
     )
   }
 }
