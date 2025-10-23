@@ -13,7 +13,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
-import { useWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
+import {
+  storeWelcomeGoodDeedsCounterModal,
+  useWelcomeGoodDeedsCounterModal,
+} from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useGetRewardsCounterQuery, useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
@@ -81,8 +84,9 @@ const CompletedTask = () => {
   }
 
   const showGoodDeedsIntroOnActPage = () => {
-    navigate('/act')
     showGoodDeedsIntroModal('first-tracked-good-deed')
+    storeWelcomeGoodDeedsCounterModal(false)
+    navigate('/act')
   }
 
   return (
