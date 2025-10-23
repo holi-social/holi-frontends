@@ -68,7 +68,7 @@ const RecommendationDetailPage = () => {
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insightId}/recommendations/${recommendationId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.recommendations.share.message', {

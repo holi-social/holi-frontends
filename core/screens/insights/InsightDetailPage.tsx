@@ -50,7 +50,7 @@ import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { Stack } from 'holi-bricks/components/stack'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import { FavoritingButton } from '@holi/core/components/FavoritingButton'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -92,7 +92,7 @@ const InsightDetailPage = () => {
   })
   const setScreenOptions = useSetScreenOptions()
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insight?.id}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.insight.share.message', {
