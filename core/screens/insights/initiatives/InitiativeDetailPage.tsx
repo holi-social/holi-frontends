@@ -5,7 +5,7 @@ import { type DimensionValue, Linking, Platform, StyleSheet, View, type ViewStyl
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -71,7 +71,7 @@ const InitiativeDetailPage = () => {
 
   const initiative = insightById?.initiative
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insightId}/initiatives/${initiativeId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.initiatives.share.message', {

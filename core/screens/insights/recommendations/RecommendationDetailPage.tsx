@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -75,7 +75,7 @@ const RecommendationDetailPage = () => {
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insightId}/recommendations/${recommendationId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.recommendations.share.message', {

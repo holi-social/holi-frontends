@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
 import { ButtonIcon } from 'holi-bricks/components/button'
 
@@ -13,7 +13,7 @@ type SpaceShareIconProps = {
 
 const SpaceShareIcon: React.FC<SpaceShareIconProps> = ({ spaceIdOrName, title }: SpaceShareIconProps) => {
   const { t } = useTranslation()
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/spaces/${spaceIdOrName}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('spaces.share.message.title')}\n${t('spaces.share.message.text', {

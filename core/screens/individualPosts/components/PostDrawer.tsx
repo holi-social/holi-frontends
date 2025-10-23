@@ -6,7 +6,7 @@ import type { StyleProp, ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -64,7 +64,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
     navigate(`/feed-posts/${post.id}/edit`)
   }
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/feed-posts/${post.slug}`,
     linkType: LinkType.UNIVERSAL,
     message: post.title,
