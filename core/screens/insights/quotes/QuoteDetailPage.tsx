@@ -66,7 +66,7 @@ const QuoteDetailPage = () => {
 
   useOnRefresh(refetch)
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insight?.id}/quotes/${quoteId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.quotes.share.message', {
