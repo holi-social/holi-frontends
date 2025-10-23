@@ -1,6 +1,6 @@
 import '@holi/core/components/Screen/mock'
-import type { DefaultOptions } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
+import type { ApolloClient } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { createStore } from 'jotai'
 import { EventType, type IEvent, type IRoomEvent, type MatrixClient } from 'matrix-js-sdk'
@@ -59,7 +59,7 @@ const loggedIn = (userId: string): LoginStateLoggedIn => ({
   userId: userId,
 })
 
-const defaultOptions: DefaultOptions = {
+const defaultOptions: ApolloClient.DefaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
 }

@@ -1,9 +1,10 @@
-import { DocumentNode, OperationVariables, QueryHookOptions, TypedDocumentNode, useApolloClient } from '@apollo/client'
+import { DocumentNode, OperationVariables, TypedDocumentNode } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client/react'
 import { useCallback, useRef, useState } from 'react'
 import { Subscription } from 'zen-observable-ts'
 
 type ReturnValue<TData, TVariables extends OperationVariables> = [
-  (options: QueryHookOptions<TData, TVariables>) => void,
+  (options: useQuery.Options<TData, TVariables>) => void,
   { data: TData | undefined; error: Error | null; loading: boolean; abort: () => void },
 ]
 
@@ -25,7 +26,7 @@ export function useLazyAbortableQuery<TData = any, TVariables extends OperationV
   const apolloClient = useApolloClient()
 
   const fetchQuery = useCallback(
-    (options: QueryHookOptions<TData, TVariables>) => {
+    (options: useQuery.Options<TData, TVariables>) => {
       // abort previous query
       abort()
 

@@ -1,5 +1,5 @@
-import type { HttpOptions, NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import type { HttpOptions } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
@@ -22,7 +22,7 @@ type Headers = HttpOptions['headers']
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
-const timeoutLink: ApolloLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
 
 const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
   if (uri === '/api/graphql') {
@@ -214,7 +214,7 @@ const createSsrHttpLink = (requestHeaders?: Headers) => {
 // For mobile it is also necessary to explicitly set the Accept-Language header.
 // `authorizationHeaderLink` is therefore only needed on Mobile (i.e. when defined)
 const createClientSideLink = (locale?: string, headers?: Headers) =>
-  from(
+  ApolloLink.from(
     [
       headers ? new HttpLink({ headers }) : undefined,
       createLocaleHeaderLink(locale),
@@ -231,7 +231,7 @@ const createApolloClient = ({
   locale,
 }: { locale?: string; headers?: Headers; ssrMode?: boolean }) => {
   const clientLink = isSSR
-    ? from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
+    ? ApolloLink.from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
     : createClientSideLink(locale, headers)
 
   return new ApolloClient({
@@ -239,6 +239,7 @@ const createApolloClient = ({
     link: clientLink,
     cache: createCache(),
     assumeImmutableResults: true,
+
     // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
     devtools: {
       enabled: isSSR ? false : undefined,
@@ -248,7 +249,7 @@ const createApolloClient = ({
 
 // Web
 /** This `let` variable can only be mutated by the initializeWebClientApolloClient function. */
-let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
+let apolloWebClient: ApolloClient | null = null
 
 type WebClientInitState = Record<string, unknown> | null
 

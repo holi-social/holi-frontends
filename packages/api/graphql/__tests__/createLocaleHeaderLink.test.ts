@@ -1,10 +1,10 @@
-import type { DefaultContext, GraphQLRequest } from '@apollo/client'
+import type { DefaultContext, ApolloLink } from '@apollo/client'
 
 import createLocaleHeaderLink from '@holi/api/graphql/createLocaleHeaderLink'
 
 const mockSetContext = jest.fn()
 jest.mock('@apollo/client/link/context', () => ({
-  setContext: (operation: GraphQLRequest, prevContext: DefaultContext) => mockSetContext(operation, prevContext),
+  setContext: (operation: ApolloLink.Request, prevContext: DefaultContext) => mockSetContext(operation, prevContext),
 }))
 
 describe('createLocaleHeaderLink', () => {

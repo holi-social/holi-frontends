@@ -1,5 +1,5 @@
-import type { DefaultOptions } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
+import type { ApolloClient } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { createStore } from 'jotai'
 import {
@@ -69,7 +69,7 @@ const loggedOut: LoginState = {
 }
 
 const useLoginStateMock = jest.mocked(useLoginState)
-const defaultOptions: DefaultOptions = {
+const defaultOptions: ApolloClient.DefaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
 }

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 
 import { MatrixId } from '@holi/chat/src/client/types'
 import { toHoliIdentity } from '@holi/chat/src/store/utils'
