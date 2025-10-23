@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'path'
-import { CodegenConfig } from '@graphql-codegen/cli'
+import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const schema = process.env.UNIFIED_API_SCHEMA_ENDPOINT
 const filePath = 'packages/api/graphql/graphql-codegen.ts'
@@ -11,7 +11,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true,
   generates: {
     [`${filePath}`]: {
-      plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+      plugins: ['typescript', 'typescript-operations', 'graphql-codegen-typescript-react-apollo-4'],
       config: {
         maybeValue: 'T',
         scalars: { UUID: 'string' },
@@ -19,13 +19,14 @@ const config: CodegenConfig = {
         withMutationFn: true,
         withRefetchFn: false,
         avoidOptionals: false,
-        reactApolloVersion: 3,
+        reactApolloVersion: 4,
       },
     },
   },
   hooks: {
     afterAllFileWrite: [addHeaderContent, 'yarn format'],
   },
+  noSilentErrors: true,
 }
 
 export default config

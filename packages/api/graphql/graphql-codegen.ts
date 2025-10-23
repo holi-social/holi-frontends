@@ -6,7 +6,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from '@apollo/client'
-import * as Apollo from '@apollo/client'
+import * as ApolloReactHooks from '@apollo/client/react'
 export type Maybe<T> = T
 export type InputMaybe<T> = T
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -5781,7 +5781,10 @@ export const FavoriteDocument = gql`
   }
 }
     `
-export type FavoriteMutationFn = Apollo.MutationFunction<FavoriteMutation, FavoriteMutationVariables>
+export type FavoriteMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  FavoriteMutation,
+  FavoriteMutationVariables
+>
 
 /**
  * __useFavoriteMutation__
@@ -5802,14 +5805,14 @@ export type FavoriteMutationFn = Apollo.MutationFunction<FavoriteMutation, Favor
  * });
  */
 export function useFavoriteMutation(
-  baseOptions?: Apollo.MutationHookOptions<FavoriteMutation, FavoriteMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<FavoriteMutation, FavoriteMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<FavoriteMutation, FavoriteMutationVariables>(FavoriteDocument, options)
+  return ApolloReactHooks.useMutation<FavoriteMutation, FavoriteMutationVariables>(FavoriteDocument, options)
 }
 export type FavoriteMutationHookResult = ReturnType<typeof useFavoriteMutation>
-export type FavoriteMutationResult = Apollo.MutationResult<FavoriteMutation>
-export type FavoriteMutationOptions = Apollo.BaseMutationOptions<FavoriteMutation, FavoriteMutationVariables>
+export type FavoriteMutationResult = ApolloReactHooks.useMutation.Result<FavoriteMutation>
+export type FavoriteMutationOptions = ApolloReactHooks.useMutation.Options<FavoriteMutation, FavoriteMutationVariables>
 export const UnfavoriteDocument = gql`
     mutation Unfavorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
   unfavorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
@@ -5817,7 +5820,10 @@ export const UnfavoriteDocument = gql`
   }
 }
     `
-export type UnfavoriteMutationFn = Apollo.MutationFunction<UnfavoriteMutation, UnfavoriteMutationVariables>
+export type UnfavoriteMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  UnfavoriteMutation,
+  UnfavoriteMutationVariables
+>
 
 /**
  * __useUnfavoriteMutation__
@@ -5838,14 +5844,17 @@ export type UnfavoriteMutationFn = Apollo.MutationFunction<UnfavoriteMutation, U
  * });
  */
 export function useUnfavoriteMutation(
-  baseOptions?: Apollo.MutationHookOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<UnfavoriteMutation, UnfavoriteMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<UnfavoriteMutation, UnfavoriteMutationVariables>(UnfavoriteDocument, options)
+  return ApolloReactHooks.useMutation<UnfavoriteMutation, UnfavoriteMutationVariables>(UnfavoriteDocument, options)
 }
 export type UnfavoriteMutationHookResult = ReturnType<typeof useUnfavoriteMutation>
-export type UnfavoriteMutationResult = Apollo.MutationResult<UnfavoriteMutation>
-export type UnfavoriteMutationOptions = Apollo.BaseMutationOptions<UnfavoriteMutation, UnfavoriteMutationVariables>
+export type UnfavoriteMutationResult = ApolloReactHooks.useMutation.Result<UnfavoriteMutation>
+export type UnfavoriteMutationOptions = ApolloReactHooks.useMutation.Options<
+  UnfavoriteMutation,
+  UnfavoriteMutationVariables
+>
 export const FavoriteV2Document = gql`
     mutation FavoriteV2($favoritableId: String!, $favoritableType: FavoritableType!) {
   favoriteV2(favoritableId: $favoritableId, favoritableType: $favoritableType) {
@@ -5853,7 +5862,10 @@ export const FavoriteV2Document = gql`
   }
 }
     `
-export type FavoriteV2MutationFn = Apollo.MutationFunction<FavoriteV2Mutation, FavoriteV2MutationVariables>
+export type FavoriteV2MutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  FavoriteV2Mutation,
+  FavoriteV2MutationVariables
+>
 
 /**
  * __useFavoriteV2Mutation__
@@ -5874,14 +5886,17 @@ export type FavoriteV2MutationFn = Apollo.MutationFunction<FavoriteV2Mutation, F
  * });
  */
 export function useFavoriteV2Mutation(
-  baseOptions?: Apollo.MutationHookOptions<FavoriteV2Mutation, FavoriteV2MutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<FavoriteV2Mutation, FavoriteV2MutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<FavoriteV2Mutation, FavoriteV2MutationVariables>(FavoriteV2Document, options)
+  return ApolloReactHooks.useMutation<FavoriteV2Mutation, FavoriteV2MutationVariables>(FavoriteV2Document, options)
 }
 export type FavoriteV2MutationHookResult = ReturnType<typeof useFavoriteV2Mutation>
-export type FavoriteV2MutationResult = Apollo.MutationResult<FavoriteV2Mutation>
-export type FavoriteV2MutationOptions = Apollo.BaseMutationOptions<FavoriteV2Mutation, FavoriteV2MutationVariables>
+export type FavoriteV2MutationResult = ApolloReactHooks.useMutation.Result<FavoriteV2Mutation>
+export type FavoriteV2MutationOptions = ApolloReactHooks.useMutation.Options<
+  FavoriteV2Mutation,
+  FavoriteV2MutationVariables
+>
 export const UnfavoriteV2Document = gql`
     mutation UnfavoriteV2($favoritableId: String!, $favoritableType: FavoritableType!) {
   unfavoriteV2(favoritableId: $favoritableId, favoritableType: $favoritableType) {
@@ -5889,7 +5904,10 @@ export const UnfavoriteV2Document = gql`
   }
 }
     `
-export type UnfavoriteV2MutationFn = Apollo.MutationFunction<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>
+export type UnfavoriteV2MutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  UnfavoriteV2Mutation,
+  UnfavoriteV2MutationVariables
+>
 
 /**
  * __useUnfavoriteV2Mutation__
@@ -5910,14 +5928,17 @@ export type UnfavoriteV2MutationFn = Apollo.MutationFunction<UnfavoriteV2Mutatio
  * });
  */
 export function useUnfavoriteV2Mutation(
-  baseOptions?: Apollo.MutationHookOptions<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>(UnfavoriteV2Document, options)
+  return ApolloReactHooks.useMutation<UnfavoriteV2Mutation, UnfavoriteV2MutationVariables>(
+    UnfavoriteV2Document,
+    options
+  )
 }
 export type UnfavoriteV2MutationHookResult = ReturnType<typeof useUnfavoriteV2Mutation>
-export type UnfavoriteV2MutationResult = Apollo.MutationResult<UnfavoriteV2Mutation>
-export type UnfavoriteV2MutationOptions = Apollo.BaseMutationOptions<
+export type UnfavoriteV2MutationResult = ApolloReactHooks.useMutation.Result<UnfavoriteV2Mutation>
+export type UnfavoriteV2MutationOptions = ApolloReactHooks.useMutation.Options<
   UnfavoriteV2Mutation,
   UnfavoriteV2MutationVariables
 >
@@ -5951,40 +5972,43 @@ export const FavoriteExternalVolunteeringOpportunityDocument = gql`
  * });
  */
 export function useFavoriteExternalVolunteeringOpportunityQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     FavoriteExternalVolunteeringOpportunityQuery,
     FavoriteExternalVolunteeringOpportunityQueryVariables
   > &
     ({ variables: FavoriteExternalVolunteeringOpportunityQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<
+  return ApolloReactHooks.useQuery<
     FavoriteExternalVolunteeringOpportunityQuery,
     FavoriteExternalVolunteeringOpportunityQueryVariables
   >(FavoriteExternalVolunteeringOpportunityDocument, options)
 }
 export function useFavoriteExternalVolunteeringOpportunityLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     FavoriteExternalVolunteeringOpportunityQuery,
     FavoriteExternalVolunteeringOpportunityQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<
+  return ApolloReactHooks.useLazyQuery<
     FavoriteExternalVolunteeringOpportunityQuery,
     FavoriteExternalVolunteeringOpportunityQueryVariables
   >(FavoriteExternalVolunteeringOpportunityDocument, options)
 }
 export function useFavoriteExternalVolunteeringOpportunitySuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        FavoriteExternalVolunteeringOpportunityQuery,
-        FavoriteExternalVolunteeringOpportunityQueryVariables
-      >
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<FavoriteExternalVolunteeringOpportunityQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<FavoriteExternalVolunteeringOpportunityQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
     FavoriteExternalVolunteeringOpportunityQuery,
     FavoriteExternalVolunteeringOpportunityQueryVariables
   >(FavoriteExternalVolunteeringOpportunityDocument, options)
@@ -5998,7 +6022,7 @@ export type FavoriteExternalVolunteeringOpportunityLazyQueryHookResult = ReturnT
 export type FavoriteExternalVolunteeringOpportunitySuspenseQueryHookResult = ReturnType<
   typeof useFavoriteExternalVolunteeringOpportunitySuspenseQuery
 >
-export type FavoriteExternalVolunteeringOpportunityQueryResult = Apollo.QueryResult<
+export type FavoriteExternalVolunteeringOpportunityQueryResult = ApolloReactHooks.useQuery.Result<
   FavoriteExternalVolunteeringOpportunityQuery,
   FavoriteExternalVolunteeringOpportunityQueryVariables
 >
@@ -6037,31 +6061,40 @@ ${FavoriteExternalVolunteeringOpportunityFragmentDoc}`
  * });
  */
 export function useFavoriteByFavoritableIdQuery(
-  baseOptions: Apollo.QueryHookOptions<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables> &
     ({ variables: FavoriteByFavoritableIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
+  return ApolloReactHooks.useQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
     FavoriteByFavoritableIdDocument,
     options
   )
 }
 export function useFavoriteByFavoritableIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
+    FavoriteByFavoritableIdQuery,
+    FavoriteByFavoritableIdQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
     FavoriteByFavoritableIdDocument,
     options
   )
 }
 export function useFavoriteByFavoritableIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<FavoriteByFavoritableIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<FavoriteByFavoritableIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<FavoriteByFavoritableIdQuery, FavoriteByFavoritableIdQueryVariables>(
     FavoriteByFavoritableIdDocument,
     options
   )
@@ -6069,7 +6102,7 @@ export function useFavoriteByFavoritableIdSuspenseQuery(
 export type FavoriteByFavoritableIdQueryHookResult = ReturnType<typeof useFavoriteByFavoritableIdQuery>
 export type FavoriteByFavoritableIdLazyQueryHookResult = ReturnType<typeof useFavoriteByFavoritableIdLazyQuery>
 export type FavoriteByFavoritableIdSuspenseQueryHookResult = ReturnType<typeof useFavoriteByFavoritableIdSuspenseQuery>
-export type FavoriteByFavoritableIdQueryResult = Apollo.QueryResult<
+export type FavoriteByFavoritableIdQueryResult = ApolloReactHooks.useQuery.Result<
   FavoriteByFavoritableIdQuery,
   FavoriteByFavoritableIdQueryVariables
 >
@@ -6110,26 +6143,31 @@ ${FavoriteExternalVolunteeringOpportunityFragmentDoc}`
  *   },
  * });
  */
-export function useFavoritesQuery(baseOptions?: Apollo.QueryHookOptions<FavoritesQuery, FavoritesQueryVariables>) {
+export function useFavoritesQuery(
+  baseOptions?: ApolloReactHooks.useQuery.Options<FavoritesQuery, FavoritesQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+  return ApolloReactHooks.useQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
 }
 export function useFavoritesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<FavoritesQuery, FavoritesQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+  return ApolloReactHooks.useLazyQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
 }
 export function useFavoritesSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<FavoritesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<FavoritesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options)
 }
 export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>
 export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>
 export type FavoritesSuspenseQueryHookResult = ReturnType<typeof useFavoritesSuspenseQuery>
-export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>
+export type FavoritesQueryResult = ApolloReactHooks.useQuery.Result<FavoritesQuery, FavoritesQueryVariables>
 export const GetRewardsCounterDocument = gql`
     query GetRewardsCounter {
   rewards_counter {
@@ -6154,27 +6192,34 @@ export const GetRewardsCounterDocument = gql`
  * });
  */
 export function useGetRewardsCounterQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+  baseOptions?: ApolloReactHooks.useQuery.Options<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(GetRewardsCounterDocument, options)
+  return ApolloReactHooks.useQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
+    GetRewardsCounterDocument,
+    options
+  )
 }
 export function useGetRewardsCounterLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
     GetRewardsCounterDocument,
     options
   )
 }
 export function useGetRewardsCounterSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<GetRewardsCounterQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<GetRewardsCounterQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>(
     GetRewardsCounterDocument,
     options
   )
@@ -6182,7 +6227,10 @@ export function useGetRewardsCounterSuspenseQuery(
 export type GetRewardsCounterQueryHookResult = ReturnType<typeof useGetRewardsCounterQuery>
 export type GetRewardsCounterLazyQueryHookResult = ReturnType<typeof useGetRewardsCounterLazyQuery>
 export type GetRewardsCounterSuspenseQueryHookResult = ReturnType<typeof useGetRewardsCounterSuspenseQuery>
-export type GetRewardsCounterQueryResult = Apollo.QueryResult<GetRewardsCounterQuery, GetRewardsCounterQueryVariables>
+export type GetRewardsCounterQueryResult = ApolloReactHooks.useQuery.Result<
+  GetRewardsCounterQuery,
+  GetRewardsCounterQueryVariables
+>
 export const ValidateSpaceDocument = gql`
     mutation ValidateSpace($input: ValidateSpaceInput!) {
   validateSpace(input: $input) {
@@ -6190,7 +6238,10 @@ export const ValidateSpaceDocument = gql`
   }
 }
     `
-export type ValidateSpaceMutationFn = Apollo.MutationFunction<ValidateSpaceMutation, ValidateSpaceMutationVariables>
+export type ValidateSpaceMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  ValidateSpaceMutation,
+  ValidateSpaceMutationVariables
+>
 
 /**
  * __useValidateSpaceMutation__
@@ -6210,14 +6261,17 @@ export type ValidateSpaceMutationFn = Apollo.MutationFunction<ValidateSpaceMutat
  * });
  */
 export function useValidateSpaceMutation(
-  baseOptions?: Apollo.MutationHookOptions<ValidateSpaceMutation, ValidateSpaceMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<ValidateSpaceMutation, ValidateSpaceMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<ValidateSpaceMutation, ValidateSpaceMutationVariables>(ValidateSpaceDocument, options)
+  return ApolloReactHooks.useMutation<ValidateSpaceMutation, ValidateSpaceMutationVariables>(
+    ValidateSpaceDocument,
+    options
+  )
 }
 export type ValidateSpaceMutationHookResult = ReturnType<typeof useValidateSpaceMutation>
-export type ValidateSpaceMutationResult = Apollo.MutationResult<ValidateSpaceMutation>
-export type ValidateSpaceMutationOptions = Apollo.BaseMutationOptions<
+export type ValidateSpaceMutationResult = ApolloReactHooks.useMutation.Result<ValidateSpaceMutation>
+export type ValidateSpaceMutationOptions = ApolloReactHooks.useMutation.Options<
   ValidateSpaceMutation,
   ValidateSpaceMutationVariables
 >
@@ -6228,7 +6282,10 @@ export const CreateSpaceDocument = gql`
   }
 }
     ${FullSpaceFragmentDoc}`
-export type CreateSpaceMutationFn = Apollo.MutationFunction<CreateSpaceMutation, CreateSpaceMutationVariables>
+export type CreateSpaceMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  CreateSpaceMutation,
+  CreateSpaceMutationVariables
+>
 
 /**
  * __useCreateSpaceMutation__
@@ -6248,14 +6305,17 @@ export type CreateSpaceMutationFn = Apollo.MutationFunction<CreateSpaceMutation,
  * });
  */
 export function useCreateSpaceMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateSpaceMutation, CreateSpaceMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<CreateSpaceMutation, CreateSpaceMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<CreateSpaceMutation, CreateSpaceMutationVariables>(CreateSpaceDocument, options)
+  return ApolloReactHooks.useMutation<CreateSpaceMutation, CreateSpaceMutationVariables>(CreateSpaceDocument, options)
 }
 export type CreateSpaceMutationHookResult = ReturnType<typeof useCreateSpaceMutation>
-export type CreateSpaceMutationResult = Apollo.MutationResult<CreateSpaceMutation>
-export type CreateSpaceMutationOptions = Apollo.BaseMutationOptions<CreateSpaceMutation, CreateSpaceMutationVariables>
+export type CreateSpaceMutationResult = ApolloReactHooks.useMutation.Result<CreateSpaceMutation>
+export type CreateSpaceMutationOptions = ApolloReactHooks.useMutation.Options<
+  CreateSpaceMutation,
+  CreateSpaceMutationVariables
+>
 export const AddExternalLinkDocument = gql`
     mutation AddExternalLink($input: AddExternalLinkInput!) {
   addExternalLink(input: $input) {
@@ -6266,7 +6326,7 @@ export const AddExternalLinkDocument = gql`
   }
 }
     `
-export type AddExternalLinkMutationFn = Apollo.MutationFunction<
+export type AddExternalLinkMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   AddExternalLinkMutation,
   AddExternalLinkMutationVariables
 >
@@ -6289,14 +6349,17 @@ export type AddExternalLinkMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useAddExternalLinkMutation(
-  baseOptions?: Apollo.MutationHookOptions<AddExternalLinkMutation, AddExternalLinkMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<AddExternalLinkMutation, AddExternalLinkMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<AddExternalLinkMutation, AddExternalLinkMutationVariables>(AddExternalLinkDocument, options)
+  return ApolloReactHooks.useMutation<AddExternalLinkMutation, AddExternalLinkMutationVariables>(
+    AddExternalLinkDocument,
+    options
+  )
 }
 export type AddExternalLinkMutationHookResult = ReturnType<typeof useAddExternalLinkMutation>
-export type AddExternalLinkMutationResult = Apollo.MutationResult<AddExternalLinkMutation>
-export type AddExternalLinkMutationOptions = Apollo.BaseMutationOptions<
+export type AddExternalLinkMutationResult = ApolloReactHooks.useMutation.Result<AddExternalLinkMutation>
+export type AddExternalLinkMutationOptions = ApolloReactHooks.useMutation.Options<
   AddExternalLinkMutation,
   AddExternalLinkMutationVariables
 >
@@ -6307,7 +6370,10 @@ export const DeleteSpaceDocument = gql`
   }
 }
     `
-export type DeleteSpaceMutationFn = Apollo.MutationFunction<DeleteSpaceMutation, DeleteSpaceMutationVariables>
+export type DeleteSpaceMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  DeleteSpaceMutation,
+  DeleteSpaceMutationVariables
+>
 
 /**
  * __useDeleteSpaceMutation__
@@ -6327,14 +6393,17 @@ export type DeleteSpaceMutationFn = Apollo.MutationFunction<DeleteSpaceMutation,
  * });
  */
 export function useDeleteSpaceMutation(
-  baseOptions?: Apollo.MutationHookOptions<DeleteSpaceMutation, DeleteSpaceMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<DeleteSpaceMutation, DeleteSpaceMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<DeleteSpaceMutation, DeleteSpaceMutationVariables>(DeleteSpaceDocument, options)
+  return ApolloReactHooks.useMutation<DeleteSpaceMutation, DeleteSpaceMutationVariables>(DeleteSpaceDocument, options)
 }
 export type DeleteSpaceMutationHookResult = ReturnType<typeof useDeleteSpaceMutation>
-export type DeleteSpaceMutationResult = Apollo.MutationResult<DeleteSpaceMutation>
-export type DeleteSpaceMutationOptions = Apollo.BaseMutationOptions<DeleteSpaceMutation, DeleteSpaceMutationVariables>
+export type DeleteSpaceMutationResult = ApolloReactHooks.useMutation.Result<DeleteSpaceMutation>
+export type DeleteSpaceMutationOptions = ApolloReactHooks.useMutation.Options<
+  DeleteSpaceMutation,
+  DeleteSpaceMutationVariables
+>
 export const UpdateSpaceUserConnectionDocument = gql`
     mutation UpdateSpaceUserConnection($connectAction: UpdateConnectionAction!, $connectionType: SpaceUserConnectionType!, $spaceId: UUID!, $userId: UUID, $message: String) {
   updateSpaceUserConnection(
@@ -6349,7 +6418,7 @@ export const UpdateSpaceUserConnectionDocument = gql`
   }
 }
     `
-export type UpdateSpaceUserConnectionMutationFn = Apollo.MutationFunction<
+export type UpdateSpaceUserConnectionMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   UpdateSpaceUserConnectionMutation,
   UpdateSpaceUserConnectionMutationVariables
 >
@@ -6376,20 +6445,21 @@ export type UpdateSpaceUserConnectionMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useUpdateSpaceUserConnectionMutation(
-  baseOptions?: Apollo.MutationHookOptions<
+  baseOptions?: ApolloReactHooks.useMutation.Options<
     UpdateSpaceUserConnectionMutation,
     UpdateSpaceUserConnectionMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<UpdateSpaceUserConnectionMutation, UpdateSpaceUserConnectionMutationVariables>(
+  return ApolloReactHooks.useMutation<UpdateSpaceUserConnectionMutation, UpdateSpaceUserConnectionMutationVariables>(
     UpdateSpaceUserConnectionDocument,
     options
   )
 }
 export type UpdateSpaceUserConnectionMutationHookResult = ReturnType<typeof useUpdateSpaceUserConnectionMutation>
-export type UpdateSpaceUserConnectionMutationResult = Apollo.MutationResult<UpdateSpaceUserConnectionMutation>
-export type UpdateSpaceUserConnectionMutationOptions = Apollo.BaseMutationOptions<
+export type UpdateSpaceUserConnectionMutationResult =
+  ApolloReactHooks.useMutation.Result<UpdateSpaceUserConnectionMutation>
+export type UpdateSpaceUserConnectionMutationOptions = ApolloReactHooks.useMutation.Options<
   UpdateSpaceUserConnectionMutation,
   UpdateSpaceUserConnectionMutationVariables
 >
@@ -6400,7 +6470,7 @@ export const InviteToSpaceByEmailDocument = gql`
   }
 }
     `
-export type InviteToSpaceByEmailMutationFn = Apollo.MutationFunction<
+export type InviteToSpaceByEmailMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   InviteToSpaceByEmailMutation,
   InviteToSpaceByEmailMutationVariables
 >
@@ -6424,17 +6494,20 @@ export type InviteToSpaceByEmailMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useInviteToSpaceByEmailMutation(
-  baseOptions?: Apollo.MutationHookOptions<InviteToSpaceByEmailMutation, InviteToSpaceByEmailMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<
+    InviteToSpaceByEmailMutation,
+    InviteToSpaceByEmailMutationVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<InviteToSpaceByEmailMutation, InviteToSpaceByEmailMutationVariables>(
+  return ApolloReactHooks.useMutation<InviteToSpaceByEmailMutation, InviteToSpaceByEmailMutationVariables>(
     InviteToSpaceByEmailDocument,
     options
   )
 }
 export type InviteToSpaceByEmailMutationHookResult = ReturnType<typeof useInviteToSpaceByEmailMutation>
-export type InviteToSpaceByEmailMutationResult = Apollo.MutationResult<InviteToSpaceByEmailMutation>
-export type InviteToSpaceByEmailMutationOptions = Apollo.BaseMutationOptions<
+export type InviteToSpaceByEmailMutationResult = ApolloReactHooks.useMutation.Result<InviteToSpaceByEmailMutation>
+export type InviteToSpaceByEmailMutationOptions = ApolloReactHooks.useMutation.Options<
   InviteToSpaceByEmailMutation,
   InviteToSpaceByEmailMutationVariables
 >
@@ -6452,7 +6525,7 @@ export const CreateSpacePostDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`
-export type CreateSpacePostMutationFn = Apollo.MutationFunction<
+export type CreateSpacePostMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   CreateSpacePostMutation,
   CreateSpacePostMutationVariables
 >
@@ -6475,14 +6548,17 @@ export type CreateSpacePostMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useCreateSpacePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateSpacePostMutation, CreateSpacePostMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<CreateSpacePostMutation, CreateSpacePostMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<CreateSpacePostMutation, CreateSpacePostMutationVariables>(CreateSpacePostDocument, options)
+  return ApolloReactHooks.useMutation<CreateSpacePostMutation, CreateSpacePostMutationVariables>(
+    CreateSpacePostDocument,
+    options
+  )
 }
 export type CreateSpacePostMutationHookResult = ReturnType<typeof useCreateSpacePostMutation>
-export type CreateSpacePostMutationResult = Apollo.MutationResult<CreateSpacePostMutation>
-export type CreateSpacePostMutationOptions = Apollo.BaseMutationOptions<
+export type CreateSpacePostMutationResult = ApolloReactHooks.useMutation.Result<CreateSpacePostMutation>
+export type CreateSpacePostMutationOptions = ApolloReactHooks.useMutation.Options<
   CreateSpacePostMutation,
   CreateSpacePostMutationVariables
 >
@@ -6493,7 +6569,7 @@ export const UpdateSpacePostDocument = gql`
   }
 }
     ${PostFragmentFragmentDoc}`
-export type UpdateSpacePostMutationFn = Apollo.MutationFunction<
+export type UpdateSpacePostMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   UpdateSpacePostMutation,
   UpdateSpacePostMutationVariables
 >
@@ -6516,14 +6592,17 @@ export type UpdateSpacePostMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useUpdateSpacePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<UpdateSpacePostMutation, UpdateSpacePostMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<UpdateSpacePostMutation, UpdateSpacePostMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<UpdateSpacePostMutation, UpdateSpacePostMutationVariables>(UpdateSpacePostDocument, options)
+  return ApolloReactHooks.useMutation<UpdateSpacePostMutation, UpdateSpacePostMutationVariables>(
+    UpdateSpacePostDocument,
+    options
+  )
 }
 export type UpdateSpacePostMutationHookResult = ReturnType<typeof useUpdateSpacePostMutation>
-export type UpdateSpacePostMutationResult = Apollo.MutationResult<UpdateSpacePostMutation>
-export type UpdateSpacePostMutationOptions = Apollo.BaseMutationOptions<
+export type UpdateSpacePostMutationResult = ApolloReactHooks.useMutation.Result<UpdateSpacePostMutation>
+export type UpdateSpacePostMutationOptions = ApolloReactHooks.useMutation.Options<
   UpdateSpacePostMutation,
   UpdateSpacePostMutationVariables
 >
@@ -6534,7 +6613,7 @@ export const DeleteSpacePostDocument = gql`
   }
 }
     `
-export type DeleteSpacePostMutationFn = Apollo.MutationFunction<
+export type DeleteSpacePostMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   DeleteSpacePostMutation,
   DeleteSpacePostMutationVariables
 >
@@ -6557,14 +6636,17 @@ export type DeleteSpacePostMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useDeleteSpacePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<DeleteSpacePostMutation, DeleteSpacePostMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<DeleteSpacePostMutation, DeleteSpacePostMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<DeleteSpacePostMutation, DeleteSpacePostMutationVariables>(DeleteSpacePostDocument, options)
+  return ApolloReactHooks.useMutation<DeleteSpacePostMutation, DeleteSpacePostMutationVariables>(
+    DeleteSpacePostDocument,
+    options
+  )
 }
 export type DeleteSpacePostMutationHookResult = ReturnType<typeof useDeleteSpacePostMutation>
-export type DeleteSpacePostMutationResult = Apollo.MutationResult<DeleteSpacePostMutation>
-export type DeleteSpacePostMutationOptions = Apollo.BaseMutationOptions<
+export type DeleteSpacePostMutationResult = ApolloReactHooks.useMutation.Result<DeleteSpacePostMutation>
+export type DeleteSpacePostMutationOptions = ApolloReactHooks.useMutation.Options<
   DeleteSpacePostMutation,
   DeleteSpacePostMutationVariables
 >
@@ -6583,7 +6665,7 @@ export const CompleteReadyToGoTaskDocument = gql`
 }
     ${FullTaskFragmentDoc}
 ${UserAvatarFragmentDoc}`
-export type CompleteReadyToGoTaskMutationFn = Apollo.MutationFunction<
+export type CompleteReadyToGoTaskMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   CompleteReadyToGoTaskMutation,
   CompleteReadyToGoTaskMutationVariables
 >
@@ -6606,17 +6688,20 @@ export type CompleteReadyToGoTaskMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useCompleteReadyToGoTaskMutation(
-  baseOptions?: Apollo.MutationHookOptions<CompleteReadyToGoTaskMutation, CompleteReadyToGoTaskMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<
+    CompleteReadyToGoTaskMutation,
+    CompleteReadyToGoTaskMutationVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<CompleteReadyToGoTaskMutation, CompleteReadyToGoTaskMutationVariables>(
+  return ApolloReactHooks.useMutation<CompleteReadyToGoTaskMutation, CompleteReadyToGoTaskMutationVariables>(
     CompleteReadyToGoTaskDocument,
     options
   )
 }
 export type CompleteReadyToGoTaskMutationHookResult = ReturnType<typeof useCompleteReadyToGoTaskMutation>
-export type CompleteReadyToGoTaskMutationResult = Apollo.MutationResult<CompleteReadyToGoTaskMutation>
-export type CompleteReadyToGoTaskMutationOptions = Apollo.BaseMutationOptions<
+export type CompleteReadyToGoTaskMutationResult = ApolloReactHooks.useMutation.Result<CompleteReadyToGoTaskMutation>
+export type CompleteReadyToGoTaskMutationOptions = ApolloReactHooks.useMutation.Options<
   CompleteReadyToGoTaskMutation,
   CompleteReadyToGoTaskMutationVariables
 >
@@ -6645,28 +6730,31 @@ export const SpaceByIdDocument = gql`
  * });
  */
 export function useSpaceByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<SpaceByIdQuery, SpaceByIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<SpaceByIdQuery, SpaceByIdQueryVariables> &
     ({ variables: SpaceByIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
+  return ApolloReactHooks.useQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
 }
 export function useSpaceByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpaceByIdQuery, SpaceByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpaceByIdQuery, SpaceByIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
+  return ApolloReactHooks.useLazyQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
 }
 export function useSpaceByIdSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SpaceByIdQuery, SpaceByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<SpaceByIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<SpaceByIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpaceByIdQuery, SpaceByIdQueryVariables>(SpaceByIdDocument, options)
 }
 export type SpaceByIdQueryHookResult = ReturnType<typeof useSpaceByIdQuery>
 export type SpaceByIdLazyQueryHookResult = ReturnType<typeof useSpaceByIdLazyQuery>
 export type SpaceByIdSuspenseQueryHookResult = ReturnType<typeof useSpaceByIdSuspenseQuery>
-export type SpaceByIdQueryResult = Apollo.QueryResult<SpaceByIdQuery, SpaceByIdQueryVariables>
+export type SpaceByIdQueryResult = ApolloReactHooks.useQuery.Result<SpaceByIdQuery, SpaceByIdQueryVariables>
 export const SpaceConnectionStatusToMyselfByIdDocument = gql`
     query SpaceConnectionStatusToMyselfById($idOrName: String!) {
   spaceById(idOrName: $idOrName) {
@@ -6694,40 +6782,43 @@ export const SpaceConnectionStatusToMyselfByIdDocument = gql`
  * });
  */
 export function useSpaceConnectionStatusToMyselfByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     SpaceConnectionStatusToMyselfByIdQuery,
     SpaceConnectionStatusToMyselfByIdQueryVariables
   > &
     ({ variables: SpaceConnectionStatusToMyselfByIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceConnectionStatusToMyselfByIdQuery, SpaceConnectionStatusToMyselfByIdQueryVariables>(
-    SpaceConnectionStatusToMyselfByIdDocument,
-    options
-  )
+  return ApolloReactHooks.useQuery<
+    SpaceConnectionStatusToMyselfByIdQuery,
+    SpaceConnectionStatusToMyselfByIdQueryVariables
+  >(SpaceConnectionStatusToMyselfByIdDocument, options)
 }
 export function useSpaceConnectionStatusToMyselfByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     SpaceConnectionStatusToMyselfByIdQuery,
     SpaceConnectionStatusToMyselfByIdQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceConnectionStatusToMyselfByIdQuery, SpaceConnectionStatusToMyselfByIdQueryVariables>(
-    SpaceConnectionStatusToMyselfByIdDocument,
-    options
-  )
+  return ApolloReactHooks.useLazyQuery<
+    SpaceConnectionStatusToMyselfByIdQuery,
+    SpaceConnectionStatusToMyselfByIdQueryVariables
+  >(SpaceConnectionStatusToMyselfByIdDocument, options)
 }
 export function useSpaceConnectionStatusToMyselfByIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        SpaceConnectionStatusToMyselfByIdQuery,
-        SpaceConnectionStatusToMyselfByIdQueryVariables
-      >
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceConnectionStatusToMyselfByIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceConnectionStatusToMyselfByIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
     SpaceConnectionStatusToMyselfByIdQuery,
     SpaceConnectionStatusToMyselfByIdQueryVariables
   >(SpaceConnectionStatusToMyselfByIdDocument, options)
@@ -6741,7 +6832,7 @@ export type SpaceConnectionStatusToMyselfByIdLazyQueryHookResult = ReturnType<
 export type SpaceConnectionStatusToMyselfByIdSuspenseQueryHookResult = ReturnType<
   typeof useSpaceConnectionStatusToMyselfByIdSuspenseQuery
 >
-export type SpaceConnectionStatusToMyselfByIdQueryResult = Apollo.QueryResult<
+export type SpaceConnectionStatusToMyselfByIdQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceConnectionStatusToMyselfByIdQuery,
   SpaceConnectionStatusToMyselfByIdQueryVariables
 >
@@ -6783,31 +6874,37 @@ export const SpaceRealatedSpacesDocument = gql`
  * });
  */
 export function useSpaceRealatedSpacesQuery(
-  baseOptions: Apollo.QueryHookOptions<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables> &
     ({ variables: SpaceRealatedSpacesQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
+  return ApolloReactHooks.useQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
     SpaceRealatedSpacesDocument,
     options
   )
 }
 export function useSpaceRealatedSpacesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
     SpaceRealatedSpacesDocument,
     options
   )
 }
 export function useSpaceRealatedSpacesSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceRealatedSpacesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceRealatedSpacesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpaceRealatedSpacesQuery, SpaceRealatedSpacesQueryVariables>(
     SpaceRealatedSpacesDocument,
     options
   )
@@ -6815,7 +6912,7 @@ export function useSpaceRealatedSpacesSuspenseQuery(
 export type SpaceRealatedSpacesQueryHookResult = ReturnType<typeof useSpaceRealatedSpacesQuery>
 export type SpaceRealatedSpacesLazyQueryHookResult = ReturnType<typeof useSpaceRealatedSpacesLazyQuery>
 export type SpaceRealatedSpacesSuspenseQueryHookResult = ReturnType<typeof useSpaceRealatedSpacesSuspenseQuery>
-export type SpaceRealatedSpacesQueryResult = Apollo.QueryResult<
+export type SpaceRealatedSpacesQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceRealatedSpacesQuery,
   SpaceRealatedSpacesQueryVariables
 >
@@ -6849,31 +6946,37 @@ export const SpaceMembershipByIdDocument = gql`
  * });
  */
 export function useSpaceMembershipByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables> &
     ({ variables: SpaceMembershipByIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
+  return ApolloReactHooks.useQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
     SpaceMembershipByIdDocument,
     options
   )
 }
 export function useSpaceMembershipByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
     SpaceMembershipByIdDocument,
     options
   )
 }
 export function useSpaceMembershipByIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceMembershipByIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceMembershipByIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpaceMembershipByIdQuery, SpaceMembershipByIdQueryVariables>(
     SpaceMembershipByIdDocument,
     options
   )
@@ -6881,7 +6984,7 @@ export function useSpaceMembershipByIdSuspenseQuery(
 export type SpaceMembershipByIdQueryHookResult = ReturnType<typeof useSpaceMembershipByIdQuery>
 export type SpaceMembershipByIdLazyQueryHookResult = ReturnType<typeof useSpaceMembershipByIdLazyQuery>
 export type SpaceMembershipByIdSuspenseQueryHookResult = ReturnType<typeof useSpaceMembershipByIdSuspenseQuery>
-export type SpaceMembershipByIdQueryResult = Apollo.QueryResult<
+export type SpaceMembershipByIdQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceMembershipByIdQuery,
   SpaceMembershipByIdQueryVariables
 >
@@ -6916,31 +7019,40 @@ export const RepresentativeBySpaceIdDocument = gql`
  * });
  */
 export function useRepresentativeBySpaceIdQuery(
-  baseOptions: Apollo.QueryHookOptions<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables> &
     ({ variables: RepresentativeBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
     RepresentativeBySpaceIdDocument,
     options
   )
 }
 export function useRepresentativeBySpaceIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
+    RepresentativeBySpaceIdQuery,
+    RepresentativeBySpaceIdQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
     RepresentativeBySpaceIdDocument,
     options
   )
 }
 export function useRepresentativeBySpaceIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<RepresentativeBySpaceIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<RepresentativeBySpaceIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<RepresentativeBySpaceIdQuery, RepresentativeBySpaceIdQueryVariables>(
     RepresentativeBySpaceIdDocument,
     options
   )
@@ -6948,7 +7060,7 @@ export function useRepresentativeBySpaceIdSuspenseQuery(
 export type RepresentativeBySpaceIdQueryHookResult = ReturnType<typeof useRepresentativeBySpaceIdQuery>
 export type RepresentativeBySpaceIdLazyQueryHookResult = ReturnType<typeof useRepresentativeBySpaceIdLazyQuery>
 export type RepresentativeBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useRepresentativeBySpaceIdSuspenseQuery>
-export type RepresentativeBySpaceIdQueryResult = Apollo.QueryResult<
+export type RepresentativeBySpaceIdQueryResult = ApolloReactHooks.useQuery.Result<
   RepresentativeBySpaceIdQuery,
   RepresentativeBySpaceIdQueryVariables
 >
@@ -6987,37 +7099,46 @@ export const SpaceMembershiByIdAllMembersDocument = gql`
  * });
  */
 export function useSpaceMembershiByIdAllMembersQuery(
-  baseOptions: Apollo.QueryHookOptions<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<
+    SpaceMembershiByIdAllMembersQuery,
+    SpaceMembershiByIdAllMembersQueryVariables
+  > &
     ({ variables: SpaceMembershiByIdAllMembersQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
+  return ApolloReactHooks.useQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
     SpaceMembershiByIdAllMembersDocument,
     options
   )
 }
 export function useSpaceMembershiByIdAllMembersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     SpaceMembershiByIdAllMembersQuery,
     SpaceMembershiByIdAllMembersQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
     SpaceMembershiByIdAllMembersDocument,
     options
   )
 }
 export function useSpaceMembershiByIdAllMembersSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceMembershiByIdAllMembersQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceMembershiByIdAllMembersQuery, SpaceMembershiByIdAllMembersQueryVariables>(
-    SpaceMembershiByIdAllMembersDocument,
-    options
-  )
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceMembershiByIdAllMembersQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
+    SpaceMembershiByIdAllMembersQuery,
+    SpaceMembershiByIdAllMembersQueryVariables
+  >(SpaceMembershiByIdAllMembersDocument, options)
 }
 export type SpaceMembershiByIdAllMembersQueryHookResult = ReturnType<typeof useSpaceMembershiByIdAllMembersQuery>
 export type SpaceMembershiByIdAllMembersLazyQueryHookResult = ReturnType<
@@ -7026,7 +7147,7 @@ export type SpaceMembershiByIdAllMembersLazyQueryHookResult = ReturnType<
 export type SpaceMembershiByIdAllMembersSuspenseQueryHookResult = ReturnType<
   typeof useSpaceMembershiByIdAllMembersSuspenseQuery
 >
-export type SpaceMembershiByIdAllMembersQueryResult = Apollo.QueryResult<
+export type SpaceMembershiByIdAllMembersQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceMembershiByIdAllMembersQuery,
   SpaceMembershiByIdAllMembersQueryVariables
 >
@@ -7055,27 +7176,42 @@ export const SpacesByMemberDocument = gql`
  * });
  */
 export function useSpacesByMemberQuery(
-  baseOptions?: Apollo.QueryHookOptions<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+  baseOptions?: ApolloReactHooks.useQuery.Options<SpacesByMemberQuery, SpacesByMemberQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
+  return ApolloReactHooks.useQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
 }
 export function useSpacesByMemberLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpacesByMemberQuery, SpacesByMemberQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
+  return ApolloReactHooks.useLazyQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(
+    SpacesByMemberDocument,
+    options
+  )
 }
 export function useSpacesByMemberSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<SpacesByMemberQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(SpacesByMemberDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpacesByMemberQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpacesByMemberQuery, SpacesByMemberQueryVariables>(
+    SpacesByMemberDocument,
+    options
+  )
 }
 export type SpacesByMemberQueryHookResult = ReturnType<typeof useSpacesByMemberQuery>
 export type SpacesByMemberLazyQueryHookResult = ReturnType<typeof useSpacesByMemberLazyQuery>
 export type SpacesByMemberSuspenseQueryHookResult = ReturnType<typeof useSpacesByMemberSuspenseQuery>
-export type SpacesByMemberQueryResult = Apollo.QueryResult<SpacesByMemberQuery, SpacesByMemberQueryVariables>
+export type SpacesByMemberQueryResult = ApolloReactHooks.useQuery.Result<
+  SpacesByMemberQuery,
+  SpacesByMemberQueryVariables
+>
 export const SpaceMembersBySpaceIdDocument = gql`
     query SpaceMembersBySpaceId($idOrName: String!, $offset: Int! = 0, $limit: Int! = 20) {
   spaceById(idOrName: $idOrName) {
@@ -7106,31 +7242,37 @@ export const SpaceMembersBySpaceIdDocument = gql`
  * });
  */
 export function useSpaceMembersBySpaceIdQuery(
-  baseOptions: Apollo.QueryHookOptions<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables> &
     ({ variables: SpaceMembersBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
     SpaceMembersBySpaceIdDocument,
     options
   )
 }
 export function useSpaceMembersBySpaceIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
     SpaceMembersBySpaceIdDocument,
     options
   )
 }
 export function useSpaceMembersBySpaceIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceMembersBySpaceIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceMembersBySpaceIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpaceMembersBySpaceIdQuery, SpaceMembersBySpaceIdQueryVariables>(
     SpaceMembersBySpaceIdDocument,
     options
   )
@@ -7138,7 +7280,7 @@ export function useSpaceMembersBySpaceIdSuspenseQuery(
 export type SpaceMembersBySpaceIdQueryHookResult = ReturnType<typeof useSpaceMembersBySpaceIdQuery>
 export type SpaceMembersBySpaceIdLazyQueryHookResult = ReturnType<typeof useSpaceMembersBySpaceIdLazyQuery>
 export type SpaceMembersBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useSpaceMembersBySpaceIdSuspenseQuery>
-export type SpaceMembersBySpaceIdQueryResult = Apollo.QueryResult<
+export type SpaceMembersBySpaceIdQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceMembersBySpaceIdQuery,
   SpaceMembersBySpaceIdQueryVariables
 >
@@ -7172,43 +7314,46 @@ export const SpaceMembershipRequestsBySpaceIdDocument = gql`
  * });
  */
 export function useSpaceMembershipRequestsBySpaceIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     SpaceMembershipRequestsBySpaceIdQuery,
     SpaceMembershipRequestsBySpaceIdQueryVariables
   > &
     ({ variables: SpaceMembershipRequestsBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceMembershipRequestsBySpaceIdQuery, SpaceMembershipRequestsBySpaceIdQueryVariables>(
-    SpaceMembershipRequestsBySpaceIdDocument,
-    options
-  )
+  return ApolloReactHooks.useQuery<
+    SpaceMembershipRequestsBySpaceIdQuery,
+    SpaceMembershipRequestsBySpaceIdQueryVariables
+  >(SpaceMembershipRequestsBySpaceIdDocument, options)
 }
 export function useSpaceMembershipRequestsBySpaceIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     SpaceMembershipRequestsBySpaceIdQuery,
     SpaceMembershipRequestsBySpaceIdQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceMembershipRequestsBySpaceIdQuery, SpaceMembershipRequestsBySpaceIdQueryVariables>(
-    SpaceMembershipRequestsBySpaceIdDocument,
-    options
-  )
+  return ApolloReactHooks.useLazyQuery<
+    SpaceMembershipRequestsBySpaceIdQuery,
+    SpaceMembershipRequestsBySpaceIdQueryVariables
+  >(SpaceMembershipRequestsBySpaceIdDocument, options)
 }
 export function useSpaceMembershipRequestsBySpaceIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        SpaceMembershipRequestsBySpaceIdQuery,
-        SpaceMembershipRequestsBySpaceIdQueryVariables
-      >
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceMembershipRequestsBySpaceIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceMembershipRequestsBySpaceIdQuery, SpaceMembershipRequestsBySpaceIdQueryVariables>(
-    SpaceMembershipRequestsBySpaceIdDocument,
-    options
-  )
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceMembershipRequestsBySpaceIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
+    SpaceMembershipRequestsBySpaceIdQuery,
+    SpaceMembershipRequestsBySpaceIdQueryVariables
+  >(SpaceMembershipRequestsBySpaceIdDocument, options)
 }
 export type SpaceMembershipRequestsBySpaceIdQueryHookResult = ReturnType<
   typeof useSpaceMembershipRequestsBySpaceIdQuery
@@ -7219,7 +7364,7 @@ export type SpaceMembershipRequestsBySpaceIdLazyQueryHookResult = ReturnType<
 export type SpaceMembershipRequestsBySpaceIdSuspenseQueryHookResult = ReturnType<
   typeof useSpaceMembershipRequestsBySpaceIdSuspenseQuery
 >
-export type SpaceMembershipRequestsBySpaceIdQueryResult = Apollo.QueryResult<
+export type SpaceMembershipRequestsBySpaceIdQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceMembershipRequestsBySpaceIdQuery,
   SpaceMembershipRequestsBySpaceIdQueryVariables
 >
@@ -7253,31 +7398,37 @@ export const SpaceInvitesBySpaceIdDocument = gql`
  * });
  */
 export function useSpaceInvitesBySpaceIdQuery(
-  baseOptions: Apollo.QueryHookOptions<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables> &
     ({ variables: SpaceInvitesBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
     SpaceInvitesBySpaceIdDocument,
     options
   )
 }
 export function useSpaceInvitesBySpaceIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
     SpaceInvitesBySpaceIdDocument,
     options
   )
 }
 export function useSpaceInvitesBySpaceIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpaceInvitesBySpaceIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpaceInvitesBySpaceIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpaceInvitesBySpaceIdQuery, SpaceInvitesBySpaceIdQueryVariables>(
     SpaceInvitesBySpaceIdDocument,
     options
   )
@@ -7285,7 +7436,7 @@ export function useSpaceInvitesBySpaceIdSuspenseQuery(
 export type SpaceInvitesBySpaceIdQueryHookResult = ReturnType<typeof useSpaceInvitesBySpaceIdQuery>
 export type SpaceInvitesBySpaceIdLazyQueryHookResult = ReturnType<typeof useSpaceInvitesBySpaceIdLazyQuery>
 export type SpaceInvitesBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useSpaceInvitesBySpaceIdSuspenseQuery>
-export type SpaceInvitesBySpaceIdQueryResult = Apollo.QueryResult<
+export type SpaceInvitesBySpaceIdQueryResult = ApolloReactHooks.useQuery.Result<
   SpaceInvitesBySpaceIdQuery,
   SpaceInvitesBySpaceIdQueryVariables
 >
@@ -7322,40 +7473,46 @@ export const UsersByNameWithSpaceConnectionDocument = gql`
  * });
  */
 export function useUsersByNameWithSpaceConnectionQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     UsersByNameWithSpaceConnectionQuery,
     UsersByNameWithSpaceConnectionQueryVariables
   > &
     ({ variables: UsersByNameWithSpaceConnectionQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
+  return ApolloReactHooks.useQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
     UsersByNameWithSpaceConnectionDocument,
     options
   )
 }
 export function useUsersByNameWithSpaceConnectionLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     UsersByNameWithSpaceConnectionQuery,
     UsersByNameWithSpaceConnectionQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
-    UsersByNameWithSpaceConnectionDocument,
-    options
-  )
+  return ApolloReactHooks.useLazyQuery<
+    UsersByNameWithSpaceConnectionQuery,
+    UsersByNameWithSpaceConnectionQueryVariables
+  >(UsersByNameWithSpaceConnectionDocument, options)
 }
 export function useUsersByNameWithSpaceConnectionSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<UsersByNameWithSpaceConnectionQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<UsersByNameWithSpaceConnectionQuery, UsersByNameWithSpaceConnectionQueryVariables>(
-    UsersByNameWithSpaceConnectionDocument,
-    options
-  )
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<UsersByNameWithSpaceConnectionQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
+    UsersByNameWithSpaceConnectionQuery,
+    UsersByNameWithSpaceConnectionQueryVariables
+  >(UsersByNameWithSpaceConnectionDocument, options)
 }
 export type UsersByNameWithSpaceConnectionQueryHookResult = ReturnType<typeof useUsersByNameWithSpaceConnectionQuery>
 export type UsersByNameWithSpaceConnectionLazyQueryHookResult = ReturnType<
@@ -7364,7 +7521,7 @@ export type UsersByNameWithSpaceConnectionLazyQueryHookResult = ReturnType<
 export type UsersByNameWithSpaceConnectionSuspenseQueryHookResult = ReturnType<
   typeof useUsersByNameWithSpaceConnectionSuspenseQuery
 >
-export type UsersByNameWithSpaceConnectionQueryResult = Apollo.QueryResult<
+export type UsersByNameWithSpaceConnectionQueryResult = ApolloReactHooks.useQuery.Result<
   UsersByNameWithSpaceConnectionQuery,
   UsersByNameWithSpaceConnectionQueryVariables
 >
@@ -7400,40 +7557,43 @@ export const ConnectedUsersWithSpaceConnectionDocument = gql`
  * });
  */
 export function useConnectedUsersWithSpaceConnectionQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     ConnectedUsersWithSpaceConnectionQuery,
     ConnectedUsersWithSpaceConnectionQueryVariables
   > &
     ({ variables: ConnectedUsersWithSpaceConnectionQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<ConnectedUsersWithSpaceConnectionQuery, ConnectedUsersWithSpaceConnectionQueryVariables>(
-    ConnectedUsersWithSpaceConnectionDocument,
-    options
-  )
+  return ApolloReactHooks.useQuery<
+    ConnectedUsersWithSpaceConnectionQuery,
+    ConnectedUsersWithSpaceConnectionQueryVariables
+  >(ConnectedUsersWithSpaceConnectionDocument, options)
 }
 export function useConnectedUsersWithSpaceConnectionLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     ConnectedUsersWithSpaceConnectionQuery,
     ConnectedUsersWithSpaceConnectionQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<ConnectedUsersWithSpaceConnectionQuery, ConnectedUsersWithSpaceConnectionQueryVariables>(
-    ConnectedUsersWithSpaceConnectionDocument,
-    options
-  )
+  return ApolloReactHooks.useLazyQuery<
+    ConnectedUsersWithSpaceConnectionQuery,
+    ConnectedUsersWithSpaceConnectionQueryVariables
+  >(ConnectedUsersWithSpaceConnectionDocument, options)
 }
 export function useConnectedUsersWithSpaceConnectionSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        ConnectedUsersWithSpaceConnectionQuery,
-        ConnectedUsersWithSpaceConnectionQueryVariables
-      >
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<ConnectedUsersWithSpaceConnectionQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<ConnectedUsersWithSpaceConnectionQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
     ConnectedUsersWithSpaceConnectionQuery,
     ConnectedUsersWithSpaceConnectionQueryVariables
   >(ConnectedUsersWithSpaceConnectionDocument, options)
@@ -7447,7 +7607,7 @@ export type ConnectedUsersWithSpaceConnectionLazyQueryHookResult = ReturnType<
 export type ConnectedUsersWithSpaceConnectionSuspenseQueryHookResult = ReturnType<
   typeof useConnectedUsersWithSpaceConnectionSuspenseQuery
 >
-export type ConnectedUsersWithSpaceConnectionQueryResult = Apollo.QueryResult<
+export type ConnectedUsersWithSpaceConnectionQueryResult = ApolloReactHooks.useQuery.Result<
   ConnectedUsersWithSpaceConnectionQuery,
   ConnectedUsersWithSpaceConnectionQueryVariables
 >
@@ -7487,31 +7647,37 @@ export const SpacePostsBySpaceIdDocument = gql`
  * });
  */
 export function useSpacePostsBySpaceIdQuery(
-  baseOptions: Apollo.QueryHookOptions<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables> &
     ({ variables: SpacePostsBySpaceIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
     SpacePostsBySpaceIdDocument,
     options
   )
 }
 export function useSpacePostsBySpaceIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
     SpacePostsBySpaceIdDocument,
     options
   )
 }
 export function useSpacePostsBySpaceIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<SpacePostsBySpaceIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SpacePostsBySpaceIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpacePostsBySpaceIdQuery, SpacePostsBySpaceIdQueryVariables>(
     SpacePostsBySpaceIdDocument,
     options
   )
@@ -7519,7 +7685,7 @@ export function useSpacePostsBySpaceIdSuspenseQuery(
 export type SpacePostsBySpaceIdQueryHookResult = ReturnType<typeof useSpacePostsBySpaceIdQuery>
 export type SpacePostsBySpaceIdLazyQueryHookResult = ReturnType<typeof useSpacePostsBySpaceIdLazyQuery>
 export type SpacePostsBySpaceIdSuspenseQueryHookResult = ReturnType<typeof useSpacePostsBySpaceIdSuspenseQuery>
-export type SpacePostsBySpaceIdQueryResult = Apollo.QueryResult<
+export type SpacePostsBySpaceIdQueryResult = ApolloReactHooks.useQuery.Result<
   SpacePostsBySpaceIdQuery,
   SpacePostsBySpaceIdQueryVariables
 >
@@ -7566,27 +7732,42 @@ export const DiscoverSpacesDocument = gql`
  * });
  */
 export function useDiscoverSpacesQuery(
-  baseOptions?: Apollo.QueryHookOptions<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+  baseOptions?: ApolloReactHooks.useQuery.Options<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
+  return ApolloReactHooks.useQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
 }
 export function useDiscoverSpacesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
+  return ApolloReactHooks.useLazyQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(
+    DiscoverSpacesDocument,
+    options
+  )
 }
 export function useDiscoverSpacesSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<DiscoverSpacesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(DiscoverSpacesDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<DiscoverSpacesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>(
+    DiscoverSpacesDocument,
+    options
+  )
 }
 export type DiscoverSpacesQueryHookResult = ReturnType<typeof useDiscoverSpacesQuery>
 export type DiscoverSpacesLazyQueryHookResult = ReturnType<typeof useDiscoverSpacesLazyQuery>
 export type DiscoverSpacesSuspenseQueryHookResult = ReturnType<typeof useDiscoverSpacesSuspenseQuery>
-export type DiscoverSpacesQueryResult = Apollo.QueryResult<DiscoverSpacesQuery, DiscoverSpacesQueryVariables>
+export type DiscoverSpacesQueryResult = ApolloReactHooks.useQuery.Result<
+  DiscoverSpacesQuery,
+  DiscoverSpacesQueryVariables
+>
 export const MySpacesDocument = gql`
     query MySpaces {
   mySpaces {
@@ -7617,24 +7798,31 @@ export const MySpacesDocument = gql`
  *   },
  * });
  */
-export function useMySpacesQuery(baseOptions?: Apollo.QueryHookOptions<MySpacesQuery, MySpacesQueryVariables>) {
+export function useMySpacesQuery(
+  baseOptions?: ApolloReactHooks.useQuery.Options<MySpacesQuery, MySpacesQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
+  return ApolloReactHooks.useQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
 }
-export function useMySpacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MySpacesQuery, MySpacesQueryVariables>) {
+export function useMySpacesLazyQuery(
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<MySpacesQuery, MySpacesQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
+  return ApolloReactHooks.useLazyQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
 }
 export function useMySpacesSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MySpacesQuery, MySpacesQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<MySpacesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<MySpacesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<MySpacesQuery, MySpacesQueryVariables>(MySpacesDocument, options)
 }
 export type MySpacesQueryHookResult = ReturnType<typeof useMySpacesQuery>
 export type MySpacesLazyQueryHookResult = ReturnType<typeof useMySpacesLazyQuery>
 export type MySpacesSuspenseQueryHookResult = ReturnType<typeof useMySpacesSuspenseQuery>
-export type MySpacesQueryResult = Apollo.QueryResult<MySpacesQuery, MySpacesQueryVariables>
+export type MySpacesQueryResult = ApolloReactHooks.useQuery.Result<MySpacesQuery, MySpacesQueryVariables>
 export const SpacesDocument = gql`
     query Spaces($topicsV2: [String!], $geolocation: GeoJSON, $skillsV2: [String!], $offset: Int! = 0, $limit: Int! = 12) {
   spaces(
@@ -7672,24 +7860,29 @@ export const SpacesDocument = gql`
  *   },
  * });
  */
-export function useSpacesQuery(baseOptions?: Apollo.QueryHookOptions<SpacesQuery, SpacesQueryVariables>) {
+export function useSpacesQuery(baseOptions?: ApolloReactHooks.useQuery.Options<SpacesQuery, SpacesQueryVariables>) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
+  return ApolloReactHooks.useQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
 }
-export function useSpacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SpacesQuery, SpacesQueryVariables>) {
+export function useSpacesLazyQuery(
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SpacesQuery, SpacesQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
+  return ApolloReactHooks.useLazyQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
 }
 export function useSpacesSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SpacesQuery, SpacesQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<SpacesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<SpacesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SpacesQuery, SpacesQueryVariables>(SpacesDocument, options)
 }
 export type SpacesQueryHookResult = ReturnType<typeof useSpacesQuery>
 export type SpacesLazyQueryHookResult = ReturnType<typeof useSpacesLazyQuery>
 export type SpacesSuspenseQueryHookResult = ReturnType<typeof useSpacesSuspenseQuery>
-export type SpacesQueryResult = Apollo.QueryResult<SpacesQuery, SpacesQueryVariables>
+export type SpacesQueryResult = ApolloReactHooks.useQuery.Result<SpacesQuery, SpacesQueryVariables>
 export const DiscoverSpacesDefaultTopicsDocument = gql`
     query DiscoverSpacesDefaultTopics {
   discoverSpacesDefaultTopicsV2
@@ -7712,30 +7905,42 @@ export const DiscoverSpacesDefaultTopicsDocument = gql`
  * });
  */
 export function useDiscoverSpacesDefaultTopicsQuery(
-  baseOptions?: Apollo.QueryHookOptions<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>
+  baseOptions?: ApolloReactHooks.useQuery.Options<
+    DiscoverSpacesDefaultTopicsQuery,
+    DiscoverSpacesDefaultTopicsQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
+  return ApolloReactHooks.useQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
     DiscoverSpacesDefaultTopicsDocument,
     options
   )
 }
 export function useDiscoverSpacesDefaultTopicsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
+    DiscoverSpacesDefaultTopicsQuery,
+    DiscoverSpacesDefaultTopicsQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
     DiscoverSpacesDefaultTopicsDocument,
     options
   )
 }
 export function useDiscoverSpacesDefaultTopicsSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<DiscoverSpacesDefaultTopicsQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<DiscoverSpacesDefaultTopicsQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<DiscoverSpacesDefaultTopicsQuery, DiscoverSpacesDefaultTopicsQueryVariables>(
     DiscoverSpacesDefaultTopicsDocument,
     options
   )
@@ -7745,7 +7950,7 @@ export type DiscoverSpacesDefaultTopicsLazyQueryHookResult = ReturnType<typeof u
 export type DiscoverSpacesDefaultTopicsSuspenseQueryHookResult = ReturnType<
   typeof useDiscoverSpacesDefaultTopicsSuspenseQuery
 >
-export type DiscoverSpacesDefaultTopicsQueryResult = Apollo.QueryResult<
+export type DiscoverSpacesDefaultTopicsQueryResult = ApolloReactHooks.useQuery.Result<
   DiscoverSpacesDefaultTopicsQuery,
   DiscoverSpacesDefaultTopicsQueryVariables
 >
@@ -7815,26 +8020,31 @@ export const TaskByIdDocument = gql`
  * });
  */
 export function useTaskByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<TaskByIdQuery, TaskByIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<TaskByIdQuery, TaskByIdQueryVariables> &
     ({ variables: TaskByIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
+  return ApolloReactHooks.useQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
 }
-export function useTaskByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TaskByIdQuery, TaskByIdQueryVariables>) {
+export function useTaskByIdLazyQuery(
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<TaskByIdQuery, TaskByIdQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
+  return ApolloReactHooks.useLazyQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
 }
 export function useTaskByIdSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<TaskByIdQuery, TaskByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<TaskByIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<TaskByIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
 }
 export type TaskByIdQueryHookResult = ReturnType<typeof useTaskByIdQuery>
 export type TaskByIdLazyQueryHookResult = ReturnType<typeof useTaskByIdLazyQuery>
 export type TaskByIdSuspenseQueryHookResult = ReturnType<typeof useTaskByIdSuspenseQuery>
-export type TaskByIdQueryResult = Apollo.QueryResult<TaskByIdQuery, TaskByIdQueryVariables>
+export type TaskByIdQueryResult = ApolloReactHooks.useQuery.Result<TaskByIdQuery, TaskByIdQueryVariables>
 export const CreateTaskDocument = gql`
     mutation CreateTask($input: CreateTaskInput!) {
   createTask(input: $input) {
@@ -7856,7 +8066,10 @@ export const CreateTaskDocument = gql`
   }
 }
     `
-export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, CreateTaskMutationVariables>
+export type CreateTaskMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  CreateTaskMutation,
+  CreateTaskMutationVariables
+>
 
 /**
  * __useCreateTaskMutation__
@@ -7876,14 +8089,17 @@ export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, C
  * });
  */
 export function useCreateTaskMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateTaskMutation, CreateTaskMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<CreateTaskMutation, CreateTaskMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CreateTaskDocument, options)
+  return ApolloReactHooks.useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CreateTaskDocument, options)
 }
 export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>
-export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>
-export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>
+export type CreateTaskMutationResult = ApolloReactHooks.useMutation.Result<CreateTaskMutation>
+export type CreateTaskMutationOptions = ApolloReactHooks.useMutation.Options<
+  CreateTaskMutation,
+  CreateTaskMutationVariables
+>
 export const UpdateTaskDocument = gql`
     mutation UpdateTask($input: UpdateTaskInput!) {
   updateTask(input: $input) {
@@ -7907,7 +8123,10 @@ export const UpdateTaskDocument = gql`
   }
 }
     `
-export type UpdateTaskMutationFn = Apollo.MutationFunction<UpdateTaskMutation, UpdateTaskMutationVariables>
+export type UpdateTaskMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  UpdateTaskMutation,
+  UpdateTaskMutationVariables
+>
 
 /**
  * __useUpdateTaskMutation__
@@ -7927,14 +8146,17 @@ export type UpdateTaskMutationFn = Apollo.MutationFunction<UpdateTaskMutation, U
  * });
  */
 export function useUpdateTaskMutation(
-  baseOptions?: Apollo.MutationHookOptions<UpdateTaskMutation, UpdateTaskMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<UpdateTaskMutation, UpdateTaskMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<UpdateTaskMutation, UpdateTaskMutationVariables>(UpdateTaskDocument, options)
+  return ApolloReactHooks.useMutation<UpdateTaskMutation, UpdateTaskMutationVariables>(UpdateTaskDocument, options)
 }
 export type UpdateTaskMutationHookResult = ReturnType<typeof useUpdateTaskMutation>
-export type UpdateTaskMutationResult = Apollo.MutationResult<UpdateTaskMutation>
-export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<UpdateTaskMutation, UpdateTaskMutationVariables>
+export type UpdateTaskMutationResult = ApolloReactHooks.useMutation.Result<UpdateTaskMutation>
+export type UpdateTaskMutationOptions = ApolloReactHooks.useMutation.Options<
+  UpdateTaskMutation,
+  UpdateTaskMutationVariables
+>
 export const DeleteTaskDocument = gql`
     mutation DeleteTask($id: UUID!) {
   deleteTask(id: $id) {
@@ -7942,7 +8164,10 @@ export const DeleteTaskDocument = gql`
   }
 }
     `
-export type DeleteTaskMutationFn = Apollo.MutationFunction<DeleteTaskMutation, DeleteTaskMutationVariables>
+export type DeleteTaskMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  DeleteTaskMutation,
+  DeleteTaskMutationVariables
+>
 
 /**
  * __useDeleteTaskMutation__
@@ -7962,14 +8187,17 @@ export type DeleteTaskMutationFn = Apollo.MutationFunction<DeleteTaskMutation, D
  * });
  */
 export function useDeleteTaskMutation(
-  baseOptions?: Apollo.MutationHookOptions<DeleteTaskMutation, DeleteTaskMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<DeleteTaskMutation, DeleteTaskMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument, options)
+  return ApolloReactHooks.useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument, options)
 }
 export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>
-export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>
-export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>
+export type DeleteTaskMutationResult = ApolloReactHooks.useMutation.Result<DeleteTaskMutation>
+export type DeleteTaskMutationOptions = ApolloReactHooks.useMutation.Options<
+  DeleteTaskMutation,
+  DeleteTaskMutationVariables
+>
 export const CommittedVolunteeringOpportunitiesDocument = gql`
     query CommittedVolunteeringOpportunities($offset: Int!, $limit: Int!) {
   committedVolunteeringOpportunities(offset: $offset, limit: $limit) {
@@ -8000,40 +8228,43 @@ export const CommittedVolunteeringOpportunitiesDocument = gql`
  * });
  */
 export function useCommittedVolunteeringOpportunitiesQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     CommittedVolunteeringOpportunitiesQuery,
     CommittedVolunteeringOpportunitiesQueryVariables
   > &
     ({ variables: CommittedVolunteeringOpportunitiesQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<CommittedVolunteeringOpportunitiesQuery, CommittedVolunteeringOpportunitiesQueryVariables>(
-    CommittedVolunteeringOpportunitiesDocument,
-    options
-  )
+  return ApolloReactHooks.useQuery<
+    CommittedVolunteeringOpportunitiesQuery,
+    CommittedVolunteeringOpportunitiesQueryVariables
+  >(CommittedVolunteeringOpportunitiesDocument, options)
 }
 export function useCommittedVolunteeringOpportunitiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     CommittedVolunteeringOpportunitiesQuery,
     CommittedVolunteeringOpportunitiesQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<CommittedVolunteeringOpportunitiesQuery, CommittedVolunteeringOpportunitiesQueryVariables>(
-    CommittedVolunteeringOpportunitiesDocument,
-    options
-  )
+  return ApolloReactHooks.useLazyQuery<
+    CommittedVolunteeringOpportunitiesQuery,
+    CommittedVolunteeringOpportunitiesQueryVariables
+  >(CommittedVolunteeringOpportunitiesDocument, options)
 }
 export function useCommittedVolunteeringOpportunitiesSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        CommittedVolunteeringOpportunitiesQuery,
-        CommittedVolunteeringOpportunitiesQueryVariables
-      >
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<CommittedVolunteeringOpportunitiesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<CommittedVolunteeringOpportunitiesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
     CommittedVolunteeringOpportunitiesQuery,
     CommittedVolunteeringOpportunitiesQueryVariables
   >(CommittedVolunteeringOpportunitiesDocument, options)
@@ -8047,7 +8278,7 @@ export type CommittedVolunteeringOpportunitiesLazyQueryHookResult = ReturnType<
 export type CommittedVolunteeringOpportunitiesSuspenseQueryHookResult = ReturnType<
   typeof useCommittedVolunteeringOpportunitiesSuspenseQuery
 >
-export type CommittedVolunteeringOpportunitiesQueryResult = Apollo.QueryResult<
+export type CommittedVolunteeringOpportunitiesQueryResult = ApolloReactHooks.useQuery.Result<
   CommittedVolunteeringOpportunitiesQuery,
   CommittedVolunteeringOpportunitiesQueryVariables
 >
@@ -8075,30 +8306,36 @@ export const GlobalRewardsCounterDocument = gql`
  * });
  */
 export function useGlobalRewardsCounterQuery(
-  baseOptions?: Apollo.QueryHookOptions<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
+  baseOptions?: ApolloReactHooks.useQuery.Options<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
+  return ApolloReactHooks.useQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
     GlobalRewardsCounterDocument,
     options
   )
 }
 export function useGlobalRewardsCounterLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
     GlobalRewardsCounterDocument,
     options
   )
 }
 export function useGlobalRewardsCounterSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<GlobalRewardsCounterQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<GlobalRewardsCounterQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<GlobalRewardsCounterQuery, GlobalRewardsCounterQueryVariables>(
     GlobalRewardsCounterDocument,
     options
   )
@@ -8106,7 +8343,7 @@ export function useGlobalRewardsCounterSuspenseQuery(
 export type GlobalRewardsCounterQueryHookResult = ReturnType<typeof useGlobalRewardsCounterQuery>
 export type GlobalRewardsCounterLazyQueryHookResult = ReturnType<typeof useGlobalRewardsCounterLazyQuery>
 export type GlobalRewardsCounterSuspenseQueryHookResult = ReturnType<typeof useGlobalRewardsCounterSuspenseQuery>
-export type GlobalRewardsCounterQueryResult = Apollo.QueryResult<
+export type GlobalRewardsCounterQueryResult = ApolloReactHooks.useQuery.Result<
   GlobalRewardsCounterQuery,
   GlobalRewardsCounterQueryVariables
 >
@@ -8141,31 +8378,37 @@ export const RewardsTransactionsDocument = gql`
  * });
  */
 export function useRewardsTransactionsQuery(
-  baseOptions: Apollo.QueryHookOptions<RewardsTransactionsQuery, RewardsTransactionsQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<RewardsTransactionsQuery, RewardsTransactionsQueryVariables> &
     ({ variables: RewardsTransactionsQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
+  return ApolloReactHooks.useQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
     RewardsTransactionsDocument,
     options
   )
 }
 export function useRewardsTransactionsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
     RewardsTransactionsDocument,
     options
   )
 }
 export function useRewardsTransactionsSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<RewardsTransactionsQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<RewardsTransactionsQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<RewardsTransactionsQuery, RewardsTransactionsQueryVariables>(
     RewardsTransactionsDocument,
     options
   )
@@ -8173,7 +8416,7 @@ export function useRewardsTransactionsSuspenseQuery(
 export type RewardsTransactionsQueryHookResult = ReturnType<typeof useRewardsTransactionsQuery>
 export type RewardsTransactionsLazyQueryHookResult = ReturnType<typeof useRewardsTransactionsLazyQuery>
 export type RewardsTransactionsSuspenseQueryHookResult = ReturnType<typeof useRewardsTransactionsSuspenseQuery>
-export type RewardsTransactionsQueryResult = Apollo.QueryResult<
+export type RewardsTransactionsQueryResult = ApolloReactHooks.useQuery.Result<
   RewardsTransactionsQuery,
   RewardsTransactionsQueryVariables
 >
@@ -8211,24 +8454,29 @@ export const BadgesDocument = gql`
  *   },
  * });
  */
-export function useBadgesQuery(baseOptions?: Apollo.QueryHookOptions<BadgesQuery, BadgesQueryVariables>) {
+export function useBadgesQuery(baseOptions?: ApolloReactHooks.useQuery.Options<BadgesQuery, BadgesQueryVariables>) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+  return ApolloReactHooks.useQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
 }
-export function useBadgesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BadgesQuery, BadgesQueryVariables>) {
+export function useBadgesLazyQuery(
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<BadgesQuery, BadgesQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+  return ApolloReactHooks.useLazyQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
 }
 export function useBadgesSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BadgesQuery, BadgesQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<BadgesQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<BadgesQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<BadgesQuery, BadgesQueryVariables>(BadgesDocument, options)
 }
 export type BadgesQueryHookResult = ReturnType<typeof useBadgesQuery>
 export type BadgesLazyQueryHookResult = ReturnType<typeof useBadgesLazyQuery>
 export type BadgesSuspenseQueryHookResult = ReturnType<typeof useBadgesSuspenseQuery>
-export type BadgesQueryResult = Apollo.QueryResult<BadgesQuery, BadgesQueryVariables>
+export type BadgesQueryResult = ApolloReactHooks.useQuery.Result<BadgesQuery, BadgesQueryVariables>
 export const MarkBadgeAsSeenDocument = gql`
     mutation markBadgeAsSeen($unlockId: ID!) {
   rewards_markBadgeUnlockAsSeen(unlockId: $unlockId) {
@@ -8239,7 +8487,7 @@ export const MarkBadgeAsSeenDocument = gql`
   }
 }
     `
-export type MarkBadgeAsSeenMutationFn = Apollo.MutationFunction<
+export type MarkBadgeAsSeenMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   MarkBadgeAsSeenMutation,
   MarkBadgeAsSeenMutationVariables
 >
@@ -8262,14 +8510,17 @@ export type MarkBadgeAsSeenMutationFn = Apollo.MutationFunction<
  * });
  */
 export function useMarkBadgeAsSeenMutation(
-  baseOptions?: Apollo.MutationHookOptions<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>
+  baseOptions?: ApolloReactHooks.useMutation.Options<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>(MarkBadgeAsSeenDocument, options)
+  return ApolloReactHooks.useMutation<MarkBadgeAsSeenMutation, MarkBadgeAsSeenMutationVariables>(
+    MarkBadgeAsSeenDocument,
+    options
+  )
 }
 export type MarkBadgeAsSeenMutationHookResult = ReturnType<typeof useMarkBadgeAsSeenMutation>
-export type MarkBadgeAsSeenMutationResult = Apollo.MutationResult<MarkBadgeAsSeenMutation>
-export type MarkBadgeAsSeenMutationOptions = Apollo.BaseMutationOptions<
+export type MarkBadgeAsSeenMutationResult = ApolloReactHooks.useMutation.Result<MarkBadgeAsSeenMutation>
+export type MarkBadgeAsSeenMutationOptions = ApolloReactHooks.useMutation.Options<
   MarkBadgeAsSeenMutation,
   MarkBadgeAsSeenMutationVariables
 >
@@ -8309,31 +8560,37 @@ export const Typesense_DocumentByIdDocument = gql`
  * });
  */
 export function useTypesense_DocumentByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables> &
     ({ variables: Typesense_DocumentByIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
+  return ApolloReactHooks.useQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
     Typesense_DocumentByIdDocument,
     options
   )
 }
 export function useTypesense_DocumentByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
     Typesense_DocumentByIdDocument,
     options
   )
 }
 export function useTypesense_DocumentByIdSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<Typesense_DocumentByIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<Typesense_DocumentByIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<Typesense_DocumentByIdQuery, Typesense_DocumentByIdQueryVariables>(
     Typesense_DocumentByIdDocument,
     options
   )
@@ -8341,7 +8598,7 @@ export function useTypesense_DocumentByIdSuspenseQuery(
 export type Typesense_DocumentByIdQueryHookResult = ReturnType<typeof useTypesense_DocumentByIdQuery>
 export type Typesense_DocumentByIdLazyQueryHookResult = ReturnType<typeof useTypesense_DocumentByIdLazyQuery>
 export type Typesense_DocumentByIdSuspenseQueryHookResult = ReturnType<typeof useTypesense_DocumentByIdSuspenseQuery>
-export type Typesense_DocumentByIdQueryResult = Apollo.QueryResult<
+export type Typesense_DocumentByIdQueryResult = ApolloReactHooks.useQuery.Result<
   Typesense_DocumentByIdQuery,
   Typesense_DocumentByIdQueryVariables
 >
@@ -8391,31 +8648,37 @@ export const Typesense_MultiSearchDocument = gql`
  * });
  */
 export function useTypesense_MultiSearchQuery(
-  baseOptions: Apollo.QueryHookOptions<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables> &
     ({ variables: Typesense_MultiSearchQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
+  return ApolloReactHooks.useQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
     Typesense_MultiSearchDocument,
     options
   )
 }
 export function useTypesense_MultiSearchLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
     Typesense_MultiSearchDocument,
     options
   )
 }
 export function useTypesense_MultiSearchSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<Typesense_MultiSearchQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<Typesense_MultiSearchQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<Typesense_MultiSearchQuery, Typesense_MultiSearchQueryVariables>(
     Typesense_MultiSearchDocument,
     options
   )
@@ -8423,7 +8686,7 @@ export function useTypesense_MultiSearchSuspenseQuery(
 export type Typesense_MultiSearchQueryHookResult = ReturnType<typeof useTypesense_MultiSearchQuery>
 export type Typesense_MultiSearchLazyQueryHookResult = ReturnType<typeof useTypesense_MultiSearchLazyQuery>
 export type Typesense_MultiSearchSuspenseQueryHookResult = ReturnType<typeof useTypesense_MultiSearchSuspenseQuery>
-export type Typesense_MultiSearchQueryResult = Apollo.QueryResult<
+export type Typesense_MultiSearchQueryResult = ApolloReactHooks.useQuery.Result<
   Typesense_MultiSearchQuery,
   Typesense_MultiSearchQueryVariables
 >
@@ -8454,28 +8717,31 @@ export const GetEventByIdDocument = gql`
  * });
  */
 export function useGetEventByIdQuery(
-  baseOptions: Apollo.QueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables> &
+  baseOptions: ApolloReactHooks.useQuery.Options<GetEventByIdQuery, GetEventByIdQueryVariables> &
     ({ variables: GetEventByIdQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+  return ApolloReactHooks.useQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
 }
 export function useGetEventByIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<GetEventByIdQuery, GetEventByIdQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+  return ApolloReactHooks.useLazyQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
 }
 export function useGetEventByIdSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<GetEventByIdQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<GetEventByIdQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
 }
 export type GetEventByIdQueryHookResult = ReturnType<typeof useGetEventByIdQuery>
 export type GetEventByIdLazyQueryHookResult = ReturnType<typeof useGetEventByIdLazyQuery>
 export type GetEventByIdSuspenseQueryHookResult = ReturnType<typeof useGetEventByIdSuspenseQuery>
-export type GetEventByIdQueryResult = Apollo.QueryResult<GetEventByIdQuery, GetEventByIdQueryVariables>
+export type GetEventByIdQueryResult = ApolloReactHooks.useQuery.Result<GetEventByIdQuery, GetEventByIdQueryVariables>
 export const AllEventsDocument = gql`
     query allEvents($offset: Int = 0, $limit: Int = 5, $localOnly: Boolean) {
   appEvents_events(offset: $offset, limit: $limit, localOnly: $localOnly) {
@@ -8505,26 +8771,31 @@ export const AllEventsDocument = gql`
  *   },
  * });
  */
-export function useAllEventsQuery(baseOptions?: Apollo.QueryHookOptions<AllEventsQuery, AllEventsQueryVariables>) {
+export function useAllEventsQuery(
+  baseOptions?: ApolloReactHooks.useQuery.Options<AllEventsQuery, AllEventsQueryVariables>
+) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+  return ApolloReactHooks.useQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
 }
 export function useAllEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<AllEventsQuery, AllEventsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+  return ApolloReactHooks.useLazyQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
 }
 export function useAllEventsSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<AllEventsQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<AllEventsQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
 }
 export type AllEventsQueryHookResult = ReturnType<typeof useAllEventsQuery>
 export type AllEventsLazyQueryHookResult = ReturnType<typeof useAllEventsLazyQuery>
 export type AllEventsSuspenseQueryHookResult = ReturnType<typeof useAllEventsSuspenseQuery>
-export type AllEventsQueryResult = Apollo.QueryResult<AllEventsQuery, AllEventsQueryVariables>
+export type AllEventsQueryResult = ApolloReactHooks.useQuery.Result<AllEventsQuery, AllEventsQueryVariables>
 export const NearbyEventsDocument = gql`
     query nearbyEvents($limit: Int = 5, $geolocationId: ID) {
   appEvents_nearbyEvents(limit: $limit, geolocationId: $geolocationId) {
@@ -8553,27 +8824,30 @@ export const NearbyEventsDocument = gql`
  * });
  */
 export function useNearbyEventsQuery(
-  baseOptions?: Apollo.QueryHookOptions<NearbyEventsQuery, NearbyEventsQueryVariables>
+  baseOptions?: ApolloReactHooks.useQuery.Options<NearbyEventsQuery, NearbyEventsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
+  return ApolloReactHooks.useQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
 }
 export function useNearbyEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<NearbyEventsQuery, NearbyEventsQueryVariables>
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<NearbyEventsQuery, NearbyEventsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
+  return ApolloReactHooks.useLazyQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
 }
 export function useNearbyEventsSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<NearbyEventsQuery, NearbyEventsQueryVariables>
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<NearbyEventsQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({ ...defaultOptions, ...baseOptions } as ApolloReactHooks.useSuspenseQuery.Options<NearbyEventsQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
 }
 export type NearbyEventsQueryHookResult = ReturnType<typeof useNearbyEventsQuery>
 export type NearbyEventsLazyQueryHookResult = ReturnType<typeof useNearbyEventsLazyQuery>
 export type NearbyEventsSuspenseQueryHookResult = ReturnType<typeof useNearbyEventsSuspenseQuery>
-export type NearbyEventsQueryResult = Apollo.QueryResult<NearbyEventsQuery, NearbyEventsQueryVariables>
+export type NearbyEventsQueryResult = ApolloReactHooks.useQuery.Result<NearbyEventsQuery, NearbyEventsQueryVariables>
 export const UpdateVolunteeringOpportunityStatusDocument = gql`
     mutation UpdateVolunteeringOpportunityStatus($volunteeringOpportunityId: String!, $newStatus: VolunteeringOpportunityStatusValue!) {
   updateVolunteeringOpportunityStatus(
@@ -8585,7 +8859,7 @@ export const UpdateVolunteeringOpportunityStatusDocument = gql`
   }
 }
     `
-export type UpdateVolunteeringOpportunityStatusMutationFn = Apollo.MutationFunction<
+export type UpdateVolunteeringOpportunityStatusMutationFn = ApolloReactHooks.useMutation.MutationFunction<
   UpdateVolunteeringOpportunityStatusMutation,
   UpdateVolunteeringOpportunityStatusMutationVariables
 >
@@ -8609,13 +8883,13 @@ export type UpdateVolunteeringOpportunityStatusMutationFn = Apollo.MutationFunct
  * });
  */
 export function useUpdateVolunteeringOpportunityStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
+  baseOptions?: ApolloReactHooks.useMutation.Options<
     UpdateVolunteeringOpportunityStatusMutation,
     UpdateVolunteeringOpportunityStatusMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<
+  return ApolloReactHooks.useMutation<
     UpdateVolunteeringOpportunityStatusMutation,
     UpdateVolunteeringOpportunityStatusMutationVariables
   >(UpdateVolunteeringOpportunityStatusDocument, options)
@@ -8624,8 +8898,8 @@ export type UpdateVolunteeringOpportunityStatusMutationHookResult = ReturnType<
   typeof useUpdateVolunteeringOpportunityStatusMutation
 >
 export type UpdateVolunteeringOpportunityStatusMutationResult =
-  Apollo.MutationResult<UpdateVolunteeringOpportunityStatusMutation>
-export type UpdateVolunteeringOpportunityStatusMutationOptions = Apollo.BaseMutationOptions<
+  ApolloReactHooks.useMutation.Result<UpdateVolunteeringOpportunityStatusMutation>
+export type UpdateVolunteeringOpportunityStatusMutationOptions = ApolloReactHooks.useMutation.Options<
   UpdateVolunteeringOpportunityStatusMutation,
   UpdateVolunteeringOpportunityStatusMutationVariables
 >
@@ -8657,40 +8931,46 @@ export const VolunteeringOpportunityStatusDocument = gql`
  * });
  */
 export function useVolunteeringOpportunityStatusQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions: ApolloReactHooks.useQuery.Options<
     VolunteeringOpportunityStatusQuery,
     VolunteeringOpportunityStatusQueryVariables
   > &
     ({ variables: VolunteeringOpportunityStatusQueryVariables; skip?: boolean } | { skip: boolean })
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
+  return ApolloReactHooks.useQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
     VolunteeringOpportunityStatusDocument,
     options
   )
 }
 export function useVolunteeringOpportunityStatusLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<
     VolunteeringOpportunityStatusQuery,
     VolunteeringOpportunityStatusQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
     VolunteeringOpportunityStatusDocument,
     options
   )
 }
 export function useVolunteeringOpportunityStatusSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.useSuspenseQuery.Options<VolunteeringOpportunityStatusQueryVariables>
 ) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<VolunteeringOpportunityStatusQuery, VolunteeringOpportunityStatusQueryVariables>(
-    VolunteeringOpportunityStatusDocument,
-    options
-  )
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<VolunteeringOpportunityStatusQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<
+    VolunteeringOpportunityStatusQuery,
+    VolunteeringOpportunityStatusQueryVariables
+  >(VolunteeringOpportunityStatusDocument, options)
 }
 export type VolunteeringOpportunityStatusQueryHookResult = ReturnType<typeof useVolunteeringOpportunityStatusQuery>
 export type VolunteeringOpportunityStatusLazyQueryHookResult = ReturnType<
@@ -8699,7 +8979,7 @@ export type VolunteeringOpportunityStatusLazyQueryHookResult = ReturnType<
 export type VolunteeringOpportunityStatusSuspenseQueryHookResult = ReturnType<
   typeof useVolunteeringOpportunityStatusSuspenseQuery
 >
-export type VolunteeringOpportunityStatusQueryResult = Apollo.QueryResult<
+export type VolunteeringOpportunityStatusQueryResult = ApolloReactHooks.useQuery.Result<
   VolunteeringOpportunityStatusQuery,
   VolunteeringOpportunityStatusQueryVariables
 >
