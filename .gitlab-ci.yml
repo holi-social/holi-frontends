@@ -1,7 +1,7 @@
 variables:
   YARN_CACHE_FOLDER: '$CI_PROJECT_DIR/.yarn/cache'
   YARN_ENABLE_GLOBAL_CACHE: 'false'
-  GIT_DEPTH: 50
+  GIT_DEPTH: 75
 
 .yarn-cache-rw:
   key:
