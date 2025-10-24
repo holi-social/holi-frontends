@@ -37,25 +37,24 @@ export const GoodDeedsImpactStarter = ({ onNextPress }: GoodDeedsImpactStarterPr
   const { displayError } = useErrorHandling()
   const [markBadgeAsSeen] = useMarkBadgeAsSeenMutation()
 
-  const markImpactStarterBadgeAsSeen = useCallback(async () => {
+  const handleNextPress = useCallback(async () => {
     try {
       if (impactStarterBadge?.id) {
         await markBadgeAsSeen({ variables: { unlockId: impactStarterBadge.id } })
       }
     } catch (err) {
       displayError(err, 'Failed to update badge status', { location: 'goodDeedsIntro.markImpactStarterBadgeAsSeen' })
+    } finally {
+      onNextPress()
     }
-  }, [impactStarterBadge?.id, displayError, markBadgeAsSeen])
+  }, [impactStarterBadge?.id, markBadgeAsSeen, displayError, onNextPress])
 
   useEffect(() => {
     // if the badge is not achieved, go to the next Good Deeds intro step
     if (!loading && !impactStarterBadge?.id) {
       onNextPress()
-    } else {
-      // if the badge is achieved, mark it as seen
-      markImpactStarterBadgeAsSeen()
     }
-  }, [loading, impactStarterBadge?.id, onNextPress, markImpactStarterBadgeAsSeen])
+  }, [loading, impactStarterBadge?.id, onNextPress])
 
   if (loading || !impactStarterBadge?.id) {
     return <HoliLoader />
@@ -104,7 +103,7 @@ export const GoodDeedsImpactStarter = ({ onNextPress }: GoodDeedsImpactStarterPr
           </Stack>
 
           <GoodDeedsIntroFooterNavigation
-            onNextPress={onNextPress}
+            onNextPress={handleNextPress}
             nextButtonLabel="onboarding.modal.goodDeed.isHero.button"
             nextButtonVariant="secondary"
             isBackButtonAvailable={false}
@@ -158,7 +157,7 @@ export const GoodDeedsImpactStarter = ({ onNextPress }: GoodDeedsImpactStarterPr
             variant={'secondary'}
             size="lg"
             icon={ArrowRight}
-            onPress={onNextPress}
+            onPress={handleNextPress}
           />
         </Stack>
       </View>
