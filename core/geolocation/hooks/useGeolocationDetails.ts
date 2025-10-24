@@ -36,7 +36,7 @@ export const useGeolocationDetails: useGeolocationHook = (locationId, onError) =
 
   return {
     geolocationDetails: data?.geo_placeDetails,
-    loadingGeolocation: loading || (!!locationId && !(data?.geo_placeDetails || error)),
+    loadingGeolocation: loading && !!locationId && !(data?.geo_placeDetails || error),
     geolocationError: error,
   }
 }
