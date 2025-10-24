@@ -32,6 +32,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { showGoodDeedsIntroModal } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
 import { useUnseenImpactStarterBadge } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal/helpers/useUnseenImpactStarterBadge'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -43,8 +44,11 @@ const CompletedTask = () => {
   const { styles } = useStyles(stylesheet)
   const { navigate } = useRouting()
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
-  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
   const { impactStarterBadge, loading: loadingUnseenImpactStarterBadge } = useUnseenImpactStarterBadge()
+  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
+  const [userTrackedFirstGoodDeedEnabled] = useFeatureFlag(
+    FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED
+  )
 
   const {
     refetch,
@@ -110,48 +114,73 @@ const CompletedTask = () => {
       noContainerPaddingWeb
       StickyBottomComponent={
         welcomeGoodDeedsCounterModal ? (
-          <HoliContainer noPaddingOnSmallViewports>
-            <Stack
-              backgroundColor="yellowDefault"
-              borderRadius={{ topLeft: 'lg', topRight: 'lg' }}
-              padding={{ top: 'md', bottom: 'md', left: 'xs', right: 'xs' }}
-              alignItems="center"
-            >
-              <Stack maxWidth="sm" gap="xxs" alignItems="center">
-                <Text size="xxl" textAlign="center">
-                  {t('tasks.register.success.brandSubtitle')}
-                </Text>
+          userTrackedFirstGoodDeedEnabled ? (
+            <HoliContainer noPaddingOnSmallViewports>
+              <Stack
+                backgroundColor="yellowDefault"
+                borderRadius={{ topLeft: 'lg', topRight: 'lg' }}
+                padding={{ top: 'md', bottom: 'md', left: 'xs', right: 'xs' }}
+                alignItems="center"
+              >
+                <Stack maxWidth="sm" gap="xxs" alignItems="center">
+                  <Text size="xxl" textAlign="center">
+                    {t('tasks.register.success.brandSubtitle')}
+                  </Text>
 
-                <Stack direction="row" backgroundColor="yellowLight" gap="3xs" padding="xs" borderRadius="xxs">
-                  <Image
-                    source={require('@holi/ui/assets/img/badges/badge-impact-starter.svg')}
-                    width={56}
-                    height={64}
-                    alt={t('badge.name.volunteering.starter')}
-                  />
+                  <Stack direction="row" backgroundColor="yellowLight" gap="3xs" padding="xs" borderRadius="xxs">
+                    <Image
+                      source={require('@holi/ui/assets/img/badges/badge-impact-starter.svg')}
+                      width={56}
+                      height={64}
+                      alt={t('badge.name.volunteering.starter')}
+                    />
 
-                  <Stack flexShrink={1} gap="3xs">
-                    <Text bold>{t('badge.name.volunteering.starter')}</Text>
+                    <Stack flexShrink={1} gap="3xs">
+                      <Text bold>{t('badge.name.volunteering.starter')}</Text>
 
-                    <Text>{t('tasks.register.success.badgeDescription')}</Text>
+                      <Text>{t('tasks.register.success.badgeDescription')}</Text>
+                    </Stack>
                   </Stack>
-                </Stack>
 
-                <View style={styles.claimButtonContainer}>
-                  <ButtonTracked
-                    loading={loadingUnseenImpactStarterBadge}
-                    label={t('goodDeed.rewardsMessage.button')}
-                    onPress={impactStarterBadge ? showGoodDeedsIntroOnActPage : handleClaimReward}
-                    trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
-                      step: 'completed',
-                      authState: 'unregistered',
-                      ...taskProps,
-                    })}
-                  />
-                </View>
+                  <View style={styles.claimButtonContainer}>
+                    <ButtonTracked
+                      loading={loadingUnseenImpactStarterBadge}
+                      label={t('goodDeed.rewardsMessage.button')}
+                      onPress={impactStarterBadge ? showGoodDeedsIntroOnActPage : handleClaimReward}
+                      trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+                        step: 'completed',
+                        authState: 'unregistered',
+                        ...taskProps,
+                      })}
+                    />
+                  </View>
+                </Stack>
               </Stack>
-            </Stack>
-          </HoliContainer>
+            </HoliContainer>
+          ) : (
+            <HoliContainer noPaddingOnSmallViewports>
+              <View style={styles.footer}>
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
+                  isSvg
+                  width={126}
+                  height={33}
+                  label={t('navigation.title')}
+                />
+                <Text size="sm">{t('tasks.register.success.brandSubtitle')}</Text>
+                <ButtonTracked
+                  label={t('tasks.register.success.newUser.cta')}
+                  inline
+                  onPress={() => navigate('/act')}
+                  trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+                    step: 'completed',
+                    authState: 'unregistered',
+                    ...taskProps,
+                  })}
+                />
+              </View>
+            </HoliContainer>
+          )
         ) : (
           <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounterModal]}>
             <ButtonTracked
