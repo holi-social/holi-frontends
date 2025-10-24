@@ -4,7 +4,7 @@ export const DEBUG_LOG_BY_DEFAULT = true
 // configure for which components debug logging is enabled
 export const DEBUG_LOG_COMPONENTS = {
   AppInit: false,
-  Auth: true,
+  Auth: false,
   Chat: false,
   GoodNews: false,
   NavigationProvider: false,
