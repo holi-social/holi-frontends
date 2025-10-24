@@ -1,5 +1,4 @@
 import { ApolloClient, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
-import ApolloLinkTimeout from 'apollo-link-timeout'
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
@@ -15,13 +14,18 @@ import {
 } from './cachePolicies'
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
+import { SetContextLink } from '@apollo/client/link/context'
 
 type Headers = HttpLink.Options['headers']
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
-const timeoutLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const timeoutLink = new SetContextLink((previousContext) => ({
+  fetchOptions: {
+    signal: previousContext.fetchOptions?.signal || AbortSignal.timeout(TIMEOUT_IN_MS),
+  },
+}))
 
 const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
   if (uri === '/api/graphql') {

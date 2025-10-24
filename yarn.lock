@@ -5345,7 +5345,6 @@ __metadata:
     "@types/apollo-upload-client": "npm:^19.0.0"
     "@types/extract-files": "npm:^13.0.1"
     "@types/ramda": "npm:^0.29.1"
-    apollo-link-timeout: "npm:^4.0.0"
     apollo-upload-client: "npm:^19.0.0"
     cross-fetch: "npm:^3.1.5"
     eslint: "npm:^8.33.0"
@@ -5521,7 +5520,6 @@ __metadata:
     "@types/lodash.shuffle": "npm:^4.2.9"
     "@types/react": "npm:~18.3.12"
     "@types/react-native-get-random-values": "npm:^1"
-    apollo-link-timeout: "npm:^4.0.0"
     eslint: "npm:^8.33.0"
     expo: "npm:^52.0.46"
     expo-apple-authentication: "npm:~7.1.3"
@@ -13406,15 +13404,6 @@ __metadata:
     normalize-path: "npm:^3.0.0"
     picomatch: "npm:^2.0.4"
   checksum: 10c0/57b06ae984bc32a0d22592c87384cd88fe4511b1dd7581497831c56d41939c8a001b28e7b853e1450f2bf61992dfcaa8ae2d0d161a0a90c4fb631ef07098fbac
-  languageName: node
-  linkType: hard
-
-"apollo-link-timeout@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "apollo-link-timeout@npm:4.0.0"
-  peerDependencies:
-    "@apollo/client": ^3.0.0
-  checksum: 10c0/d108dd24c24ccbc3de18dc0dccb5190a4c45b3d0fc1415328ee8de56e7d73961b770375cc020774468c22c6900fdc0bf9966c13c7d8e2f47c86bd5a0c540b4fe
   languageName: node
   linkType: hard
 
