@@ -1,4 +1,4 @@
-import { ApolloError } from '@apollo/client/v4-migration'
+import { CombinedGraphQLErrors, CombinedProtocolErrors, ServerError, ServerParseError } from '@apollo/client'
 import * as Sentry from '@sentry/react-native'
 import { registerRootComponent } from 'expo'
 import 'fast-text-encoding'
@@ -42,10 +42,14 @@ Sentry.init({
     // Examples of this problem:
     // https://holistic-foundation.sentry.io/issues/4238280229/?project=6396737&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
     // https://holistic-foundation.sentry.io/issues/4188987374/?project=6377191&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
-    // TODO(SF) fix this
     try {
-      if (exception instanceof ApolloError) {
-        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception)]
+      if (
+        CombinedGraphQLErrors.is(exception) ||
+        CombinedProtocolErrors.is(exception) ||
+        ServerParseError.is(exception) ||
+        ServerError.is(exception)
+      ) {
+        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.message)]
       } else if (exception instanceof HoliError) {
         event.fingerprint = ['{{ default }}', 'holi-client-error']
       } else if (exception instanceof CodedError) {

@@ -12,7 +12,7 @@ interface ToastErrorInfo extends ErrorContext {
   testID?: string
 }
 
-const isApolloError = (error: unknown): error is CombinedGraphQLErrors => error instanceof CombinedGraphQLErrors
+const isApolloError = (error: unknown): error is CombinedGraphQLErrors => CombinedGraphQLErrors.is(error)
 
 const extractTestID = (error: unknown): string | undefined => {
   if (isApolloError(error)) {

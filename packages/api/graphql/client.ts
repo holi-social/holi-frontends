@@ -242,10 +242,14 @@ const createApolloClient = ({
     link: clientLink,
     cache: createCache(),
     assumeImmutableResults: true,
-
     // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
     devtools: {
       enabled: isSSR ? false : undefined,
+    },
+    defaultOptions: {
+      mutate: {
+        errorPolicy: 'all',
+      },
     },
   })
 }
@@ -266,12 +270,8 @@ export const initializeWebApolloClient = ({ initState, headers, locale }: WebApo
   const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers, locale })
 
   if (initState) {
-    // @ts-ignore TODO(SF)
-    const { __META, ...existingCache } = client.extract()
-    client.cache.restore({
-      __META,
-      ...mergeDeepLeft(existingCache, initState),
-    })
+    const existingCache = client.extract() as Record<string, unknown>
+    client.cache.restore(mergeDeepLeft(existingCache, initState))
   }
 
   if (isSSR) {

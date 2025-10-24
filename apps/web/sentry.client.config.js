@@ -1,7 +1,7 @@
 // This file configures the initialization of Sentry on the browser.
 // The config you add here will be used whenever a page is visited.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
-import { ApolloError } from '@apollo/client'
+import { CombinedGraphQLErrors, CombinedProtocolErrors, ServerError, ServerParseError } from '@apollo/client'
 import * as Sentry from '@sentry/nextjs'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -21,10 +21,9 @@ Sentry.init({
     // Examples of this problem:
     // https://holistic-foundation.sentry.io/issues/4238280229/?project=6396737&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
     // https://holistic-foundation.sentry.io/issues/4188987374/?project=6377191&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
-    // TODO(SF) fix this
     try {
-      if (exception instanceof ApolloError) {
-        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]
+      if (CombinedGraphQLErrors.is(exception) || CombinedProtocolErrors.is(exception) || ServerParseError.is(exception) || ServerError.is(exception)) {
+        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.message)]
       } else if (exception instanceof HoliError) {
         event.fingerprint = ['{{ default }}', 'holi-client-error']
       }

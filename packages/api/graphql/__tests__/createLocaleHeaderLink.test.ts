@@ -1,22 +1,17 @@
-import type { DefaultContext } from '@apollo/client'
+import { SetContextLink } from '@apollo/client/link/context'
 
 import createLocaleHeaderLink from '@holi/api/graphql/createLocaleHeaderLink'
 
-const mockSetContext = jest.fn()
-jest.mock('@apollo/client/link/context', () => ({
-  // TODO(SF) constructor
-  SetContextLink: (prevContext: DefaultContext) => mockSetContext(prevContext),
-}))
+const mockSetContextLink = jest.mocked(SetContextLink)
+jest.mock('@apollo/client/link/context')
 
 describe('createLocaleHeaderLink', () => {
   const headers = { foo: 'bar' }
   it('should add header for given locale', () => {
-    mockSetContext.mockReturnValue(jest.fn())
-
     createLocaleHeaderLink('de')
 
-    expect(mockSetContext).toHaveBeenCalled()
-    const result = mockSetContext.mock.calls[0][0]({}, { headers })
+    expect(mockSetContextLink).toHaveBeenCalled()
+    const result = mockSetContextLink.mock.calls[0][0]({ headers }, {} as SetContextLink.SetContextOperation)
     expect(result).toEqual({
       headers: {
         ...headers,
@@ -26,12 +21,10 @@ describe('createLocaleHeaderLink', () => {
   })
 
   it('should add header for global locale if none given', () => {
-    mockSetContext.mockReturnValue(jest.fn())
-
     createLocaleHeaderLink()
 
-    expect(mockSetContext).toHaveBeenCalled()
-    const result = mockSetContext.mock.calls[0][0]({}, { headers })
+    expect(mockSetContextLink).toHaveBeenCalled()
+    const result = mockSetContextLink.mock.calls[0][0]({ headers }, {} as SetContextLink.SetContextOperation)
     expect(result).toEqual({
       headers: {
         ...headers,

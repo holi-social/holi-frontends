@@ -13,11 +13,11 @@ export const isGraphQLErrorOfType = (
   error: ErrorLike,
   errorCodes: graphQLErrorCode[]
 ): error is CombinedGraphQLErrors =>
-  error instanceof CombinedGraphQLErrors &&
+  CombinedGraphQLErrors.is(error) &&
   error.errors?.some((graphQLError) => errorCodes.includes(graphQLError.extensions?.code as graphQLErrorCode))
 
 export const extractFieldErrors = (error: ErrorLike): FieldErrors | undefined => {
-  if (!(error instanceof CombinedGraphQLErrors)) {
+  if (!CombinedGraphQLErrors.is(error)) {
     return undefined
   }
   const errors = error.errors.length && error.errors[0].extensions?.errors
@@ -35,10 +35,9 @@ export const isForbiddenError = (error: ErrorLike) => isGraphQLErrorOfType(error
 export const isMaliciousUrlError = (error: ErrorLike) => isGraphQLErrorOfType(error, ['MALICIOUS_URL'])
 
 export const isServerError = (error: unknown): error is ServerError => {
-  return error instanceof ServerError
+  return ServerError.is(error)
 }
 
-// TODO(SF) check for cause instead?
 export const isUnauthorizedError = (error: unknown): boolean => {
   return (
     (isServerError(error) && error.statusCode === 401) ||

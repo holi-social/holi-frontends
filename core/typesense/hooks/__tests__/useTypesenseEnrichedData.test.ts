@@ -8,6 +8,8 @@ import {
   type UseTypesenseEnrichedDataConfig,
 } from '@holi/core/typesense/hooks/useTypesenseEnrichedData'
 import type { useQuery } from '@apollo/client/react'
+import type { DeepPartial } from '@apollo/client/utilities'
+import type { DataValue } from '@apollo/client'
 
 jest.mock('@holi/api/graphql/graphql-codegen')
 jest.mock('@holi/core/screens/search/hooks/useUserLanguage')
@@ -58,6 +60,10 @@ const useTypesenseEnrichedDataWithTypes = (
   }
 ) => useTypesenseEnrichedData<useQuery.Result<TestQueryData>, TestGraphQLItem>(config)
 
+const dataExtractor = (data?: useQuery.Result<TestQueryData>['data']): TestQueryData['testItems'] =>
+  // @ts-ignore unsure how to resolve this
+  data?.testItems ? data?.testItems : { data: [], totalResults: 0 }
+
 describe('useTypesenseEnrichedData', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -83,7 +89,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedDataWithTypes({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
         itemNormalizer: (graphqlItem, typesenseDoc) => ({
@@ -109,7 +115,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
         skipMissingTypesenseData: false,
@@ -137,7 +143,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
         skipMissingTypesenseData: true,
@@ -157,7 +163,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ loading: true }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -175,7 +181,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -187,7 +193,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -202,7 +208,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ fetchMore: mockFetchMore }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
         limit: 5,
@@ -221,7 +227,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result, rerender } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
         itemNormalizer: (graphqlItem, typesenseDoc) => ({
@@ -250,7 +256,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ error: apolloError }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -262,7 +268,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ data: null }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: () => '0',
         typesenseFilter: 'type:=[test]',
       })
@@ -291,7 +297,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery(),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
         itemNormalizer: (graphqlItem, typesenseDoc) => ({
@@ -310,7 +316,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ refetch: mockRefetch }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -327,7 +333,7 @@ describe('useTypesenseEnrichedData', () => {
           data: { testItems: { data: mockGraphQLItems, totalResults: 2 } },
           fetchMore: mockFetchMore,
         }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -342,7 +348,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ fetchMore: mockFetchMore }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
@@ -364,7 +370,7 @@ describe('useTypesenseEnrichedData', () => {
     const { result } = renderHook(() =>
       useTypesenseEnrichedData({
         graphqlQuery: createMockGraphQLQuery({ fetchMore: mockFetchMore }),
-        dataExtractor: (data) => data?.testItems || { data: [], totalResults: 0 },
+        dataExtractor,
         typesenseIdExtractor: (item) => `test_${item.externalId}`,
         typesenseFilter: 'type:=[test]',
       })
