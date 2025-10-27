@@ -5345,7 +5345,7 @@ __metadata:
     "@types/apollo-upload-client": "npm:^19.0.0"
     "@types/extract-files": "npm:^13.0.1"
     "@types/ramda": "npm:^0.29.1"
-    apollo-upload-client: "npm:^19.0.0"
+    apollo-upload-client: "patch:apollo-upload-client@npm%3A19.0.0#~/.yarn/patches/apollo-upload-client-npm-19.0.0-a6efcac3a0.patch"
     cross-fetch: "npm:^3.1.5"
     eslint: "npm:^8.33.0"
     eslint-plugin-react: "npm:^7.32.2"
@@ -13407,7 +13407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"apollo-upload-client@npm:^19.0.0":
+"apollo-upload-client@npm:19.0.0":
   version: 19.0.0
   resolution: "apollo-upload-client@npm:19.0.0"
   dependencies:
@@ -13417,6 +13417,19 @@ __metadata:
     graphql: 14 - 16
     rxjs: ^7.3.0
   checksum: 10c0/2a31bab3bcadae186f79d375387b8845a133d6577e96c9f91dc2f2bc099acf658707863761c8627adb10166c5b80ecbd97106f0616f7c30b3e11d72cc25b2592
+  languageName: node
+  linkType: hard
+
+"apollo-upload-client@patch:apollo-upload-client@npm%3A19.0.0#~/.yarn/patches/apollo-upload-client-npm-19.0.0-a6efcac3a0.patch":
+  version: 19.0.0
+  resolution: "apollo-upload-client@patch:apollo-upload-client@npm%3A19.0.0#~/.yarn/patches/apollo-upload-client-npm-19.0.0-a6efcac3a0.patch::version=19.0.0&hash=7542ea"
+  dependencies:
+    extract-files: "npm:^13.0.0"
+  peerDependencies:
+    "@apollo/client": ^4.0.0
+    graphql: 14 - 16
+    rxjs: ^7.3.0
+  checksum: 10c0/ba13b98f56225ac83c2118746169f130917a6e65e61e42ade3e2ad42aaa4abdf31b321aa58bf2097fdc7c2fae01ee6df6cde880aa7da2305f69e8dacb98d63d7
   languageName: node
   linkType: hard
 

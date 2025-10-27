@@ -12,7 +12,7 @@
     "@graphql-codegen/cli": "^6.0.1",
     "@graphql-codegen/typescript": "^5.0.2",
     "@graphql-codegen/typescript-operations": "^5.0.2",
-    "apollo-upload-client": "^19.0.0",
+    "apollo-upload-client": "patch:apollo-upload-client@npm%3A19.0.0#~/.yarn/patches/apollo-upload-client-npm-19.0.0-a6efcac3a0.patch",
     "cross-fetch": "^3.1.5",
     "extract-files": "^13.0.0",
     "ramda": "^0.29.1",

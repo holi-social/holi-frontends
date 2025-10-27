@@ -1,5 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs'
+import isExtractableFile from 'apollo-upload-client/isExtractableFile.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -81,8 +82,8 @@ export class ReactNativeFile {
   }
 }
 
-function customIsExtractableFile(value: unknown): value is ReactNativeFile | File {
-  return value instanceof ReactNativeFile || value instanceof File
+function customIsExtractableFile(value: unknown): value is ReactNativeFile | File | Blob {
+  return value instanceof ReactNativeFile || isExtractableFile(value)
 }
 
 // must be last in chain, because it handles the actual call to the server
