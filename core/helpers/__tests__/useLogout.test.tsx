@@ -1,4 +1,4 @@
-import { type ApolloClient } from '@apollo/client'
+import type { ApolloClient } from '@apollo/client'
 import { useApolloClient } from '@apollo/client/react'
 import { getSessionFromStorage, submitLogoutFlow, submitSocialLogout } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
@@ -30,8 +30,8 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
-jest.mock('@apollo/client', () => {
-  const actual = jest.requireActual('@apollo/client')
+jest.mock('@apollo/client/react', () => {
+  const actual = jest.requireActual('@apollo/client/react')
   return {
     ...actual,
     useApolloClient: jest.fn(),

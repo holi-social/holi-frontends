@@ -5,11 +5,12 @@ import React from 'react'
 import { logError } from '@holi/core/errors/helpers'
 import {
   Channel,
-  NotificationWorkflow,
+  type NotificationWorkflow,
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
 import { notificationsPreferencesQuery } from '@holi/core/screens/notifications/queries'
+import { CombinedProtocolErrors } from '@apollo/client'
 
 const mockUseChatPushPreference = jest.fn()
 
@@ -99,7 +100,7 @@ const preferencesRequestFailure = {
   request: {
     query: notificationsPreferencesQuery,
   },
-  error: new Error('Test error'),
+  error: new CombinedProtocolErrors([]),
 }
 const preferencesMixedRequest = {
   request: {
@@ -173,7 +174,7 @@ const updatePreferenceRequestFailure = {
       },
     },
   },
-  error: new Error('Test error'),
+  error: new CombinedProtocolErrors([]),
 }
 
 const assertPreferencesIgnoringTypenames = (
@@ -300,7 +301,12 @@ describe('useNotificationPreferences', () => {
   it('should log error when updating preferences fails', async () => {
     const { result } = renderHook(() => useNotificationPreferences(), {
       wrapper: ({ children }) => (
-        <MockedProvider mocks={[preferencesRequestSuccess, updatePreferenceRequestFailure]}>{children}</MockedProvider>
+        <MockedProvider
+          mocks={[preferencesRequestSuccess, updatePreferenceRequestFailure]}
+          defaultOptions={{ mutate: { errorPolicy: 'all' } }}
+        >
+          {children}
+        </MockedProvider>
       ),
     })
     await waitFor(() => {

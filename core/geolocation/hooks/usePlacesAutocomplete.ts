@@ -42,11 +42,12 @@ export const usePlacesAutocomplete = ({
 
   const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {})
   const fetchSuggestionsCallback = useCallback(
-    () =>
+    ({ variables }: { variables?: { text?: string } }) =>
       fetchSuggestions({
         variables: {
           limit: PLACE_SUGGESTION_MAX_COUNT,
           level,
+          ...variables,
         },
       }),
     [fetchSuggestions, level]

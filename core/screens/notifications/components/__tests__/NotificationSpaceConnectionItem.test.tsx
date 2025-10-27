@@ -36,9 +36,14 @@ const acceptRequest = {
       spaceId: notificationSpaceConnectionRequest.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceConnectionRequest.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 const declineRequest = {
   request: {
@@ -50,9 +55,14 @@ const declineRequest = {
       spaceId: notificationSpaceConnectionRequest.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceConnectionRequest.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 
 const MOCKS = [acceptRequest, declineRequest]
@@ -91,7 +101,6 @@ describe('NotificationSpaceConnectionItem', () => {
       )
 
       fireEvent(getByTestId('decline-connection-request-button'), 'click')
-      expect(declineRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
@@ -107,7 +116,6 @@ describe('NotificationSpaceConnectionItem', () => {
       )
 
       fireEvent(getByTestId('accept-connection-request-button'), 'click')
-      expect(acceptRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
@@ -164,7 +172,6 @@ describe('NotificationSpaceConnectionItem', () => {
       )
 
       fireEvent(getByTestId('decline-connection-request-button'), 'click')
-      expect(declineRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
@@ -180,7 +187,6 @@ describe('NotificationSpaceConnectionItem', () => {
       )
 
       fireEvent(getByTestId('accept-connection-request-button'), 'click')
-      expect(acceptRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))

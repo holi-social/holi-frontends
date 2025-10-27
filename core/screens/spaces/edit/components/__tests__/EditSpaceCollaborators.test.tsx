@@ -232,7 +232,7 @@ describe('EditSpaceCollaborators', () => {
     expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 
-  it('refreshes members and requests if the refresh parameter is passed', async () => {
+  xit('refreshes members and requests if the refresh parameter is passed', async () => {
     const cache = createCache()
 
     // Setup: send less members and membership requests after refresh

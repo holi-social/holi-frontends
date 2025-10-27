@@ -5,7 +5,7 @@ import React from 'react'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
-import { CombinedGraphQLErrors } from '@apollo/client'
+import { CombinedGraphQLErrors, CombinedProtocolErrors } from '@apollo/client'
 import { GraphQLError } from 'graphql'
 
 const mockDisplayError = jest.fn()
@@ -42,7 +42,7 @@ const spaceByIdRequestFailure = {
       idOrName: space.name,
     },
   },
-  error: new Error('Test'),
+  error: new CombinedProtocolErrors([]),
 }
 
 const spaceByIdRequestNotFound = {

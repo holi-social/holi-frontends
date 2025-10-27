@@ -78,7 +78,7 @@ const renderComponent = ({
 } = {}) =>
   render(
     <ToastProvider>
-      <MockedProvider mocks={mocks || [inviteMutationSuccessMock]}>
+      <MockedProvider mocks={mocks || [inviteMutationSuccessMock]} defaultOptions={{ mutate: { errorPolicy: 'all' } }}>
         <SpaceInviteUserButton
           user={{ ...user, connectionStatusToSpace: connectionStatusToSpace || [] }}
           spaceId={spaceId}

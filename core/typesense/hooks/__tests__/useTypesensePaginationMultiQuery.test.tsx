@@ -1,5 +1,5 @@
 import React from 'react'
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import {
   Typesense_MultiSearchDocument,
@@ -15,6 +15,7 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { createCache } from '@holi/api/graphql/client'
 import type { SearchParams } from '@holi/core/typesense/types'
 import { createHits, testState } from '@holi/core/typesense/hooks/__tests__/testData'
+import { CombinedProtocolErrors } from '@apollo/client'
 
 const testParameterList: SearchParams[] = [
   {
@@ -80,7 +81,7 @@ const mockSearchError = [
         },
       },
     },
-    error: new Error('Test error'),
+    error: new CombinedProtocolErrors([]),
   },
 ]
 
@@ -148,7 +149,7 @@ describe('useTypesensePaginationMultiQuery', () => {
 
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(onError).toHaveBeenCalledWith(new Error('Test error'))
+    expect(onError).toHaveBeenCalledWith(new CombinedProtocolErrors([]))
     expect(result.current.isLoading).toBeFalsy()
   })
 
@@ -256,10 +257,9 @@ describe('useTypesensePaginationMultiQuery', () => {
     // Fetch second page
     await act(async () => {
       result.current.fetchNextPages()
-      await jest.runOnlyPendingTimersAsync()
     })
 
-    expect(result.current.states[0].hits).toHaveLength(20)
+    await waitFor(() => expect(result.current.states[0].hits).toHaveLength(20))
     expect(result.current.states[0].hits).toEqual(allHits)
   })
 
@@ -286,18 +286,16 @@ describe('useTypesensePaginationMultiQuery', () => {
     // Fetch second page
     await act(async () => {
       result.current.fetchNextPages()
-      await jest.runOnlyPendingTimersAsync()
     })
 
-    expect(result.current.states[0].hits).toHaveLength(20)
+    await waitFor(() => expect(result.current.states[0].hits).toHaveLength(20))
 
     // Refetch: List should start with page 1 again
     await act(async () => {
       result.current.refetch()
-      await jest.runOnlyPendingTimersAsync()
     })
 
-    expect(result.current.states[0].hits).toHaveLength(10)
+    await waitFor(() => expect(result.current.states[0].hits).toHaveLength(10))
     expect(result.current.states[0].hits).toEqual(allHits.slice(0, 10))
   })
 

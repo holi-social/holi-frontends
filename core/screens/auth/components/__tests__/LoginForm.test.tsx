@@ -33,8 +33,8 @@ jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
-jest.mock('@apollo/client', () => {
-  const actual = jest.requireActual('@apollo/client')
+jest.mock('@apollo/client/react', () => {
+  const actual = jest.requireActual('@apollo/client/react')
   return {
     ...actual,
     useApolloClient: jest.fn(),

@@ -5,6 +5,7 @@ import { isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/
 import { type ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { CombinedGraphQLErrors } from '@apollo/client'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 interface ToastErrorInfo extends ErrorContext {
   timeout?: number
@@ -23,6 +24,8 @@ const extractTestID = (error: unknown): string | undefined => {
         return testID
       }
     }
+  } else if (error instanceof HoliError) {
+    return error.testID
   }
   return undefined
 }

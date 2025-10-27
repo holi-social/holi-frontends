@@ -1,5 +1,5 @@
 import React from 'react'
-import { type MockLink } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import {
   Typesense_DocumentByIdDocument,
@@ -12,6 +12,7 @@ import { act, renderHook } from '@testing-library/react-native'
 import { createCache } from '@holi/api/graphql/client'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 import { createDocument } from '@holi/core/typesense/hooks/__tests__/testData'
+import { CombinedProtocolErrors } from '@apollo/client'
 
 const testId = '123'
 const documentType = TypesenseDocumentType.Volunteering
@@ -56,7 +57,7 @@ const mockDocumentError = [
         documentType,
       },
     },
-    error: new Error('Test error'),
+    error: new CombinedProtocolErrors([]),
   },
 ]
 
@@ -178,7 +179,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
 
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(onError).toHaveBeenCalledWith(new Error('Test error'))
+    expect(onError).toHaveBeenCalledWith(new CombinedProtocolErrors([]))
     expect(result.current.document).toBeUndefined()
   })
 

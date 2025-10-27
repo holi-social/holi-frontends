@@ -1,3 +1,4 @@
+import { CombinedGraphQLErrors } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
@@ -7,6 +8,7 @@ import { NamesSelection } from '@holi/core/screens/onboarding/steps/NamesSelecti
 
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { render, screen, userEvent } from '@testing-library/react-native'
+import { GraphQLError } from 'graphql'
 import React from 'react'
 
 const mockUseLoggedInUser = useLoggedInUser as jest.Mock
@@ -67,7 +69,7 @@ describe('NamesSelection', () => {
         },
       },
     },
-    error: Error('Test'),
+    error: new CombinedGraphQLErrors({ errors: [new GraphQLError('Test')] }),
   }
 
   beforeEach(() => {
@@ -204,7 +206,7 @@ describe('NamesSelection', () => {
     mockUseNamesSelection.mockReturnValue({ names: loggedInUser, nameStepIsValid: true, handleBackendError })
 
     render(
-      <MockedProvider mocks={[failingUpdateMock]}>
+      <MockedProvider mocks={[failingUpdateMock]} defaultOptions={{ mutate: { errorPolicy: 'all' } }}>
         <NamesSelection onFinish={onFinish} />
       </MockedProvider>
     )

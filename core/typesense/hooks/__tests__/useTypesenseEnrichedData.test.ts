@@ -8,8 +8,6 @@ import {
   type UseTypesenseEnrichedDataConfig,
 } from '@holi/core/typesense/hooks/useTypesenseEnrichedData'
 import type { useQuery } from '@apollo/client/react'
-import type { DeepPartial } from '@apollo/client/utilities'
-import type { DataValue } from '@apollo/client'
 
 jest.mock('@holi/api/graphql/graphql-codegen')
 jest.mock('@holi/core/screens/search/hooks/useUserLanguage')

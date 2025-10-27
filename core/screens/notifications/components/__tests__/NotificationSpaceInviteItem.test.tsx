@@ -36,9 +36,14 @@ const acceptInvite = {
       spaceId: notificationSpaceInvite.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceInvite.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 const declineInvite = {
   request: {
@@ -49,9 +54,14 @@ const declineInvite = {
       spaceId: notificationSpaceInvite.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceInvite.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 
 const MOCKS = [acceptInvite, declineInvite]
@@ -91,7 +101,6 @@ describe('NotificationSpaceInviteItem', () => {
       )
 
       fireEvent(getByTestId('decline-invite-button'), 'click')
-      expect(declineInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
@@ -107,7 +116,6 @@ describe('NotificationSpaceInviteItem', () => {
       )
 
       fireEvent(getByTestId('accept-invite-button'), 'click')
-      expect(acceptInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
@@ -163,7 +171,6 @@ describe('NotificationSpaceInviteItem', () => {
       )
 
       fireEvent(getByTestId('decline-invite-button'), 'click')
-      expect(declineInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
@@ -179,7 +186,6 @@ describe('NotificationSpaceInviteItem', () => {
       )
 
       fireEvent(getByTestId('accept-invite-button'), 'click')
-      expect(acceptInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
