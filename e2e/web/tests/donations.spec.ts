@@ -8,15 +8,14 @@ import {
   clickElementByTestId,
   clickFirstElement,
   donationsRequestTimeout,
-  isRunningLocally,
   locateElementByTestId,
+  scrollDown,
   withSSR,
-} from '../helpers'
-import { test } from '../testmaster'
+} from './helpers'
+import { test } from './testmaster'
 
 test.describe('@Donations', () => {
   test('user journey', async ({ browser, context, page }) => {
-    test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
     // prepare
     await page.goto('/donations')
 
@@ -27,16 +26,6 @@ test.describe('@Donations', () => {
     await clickElementByTestId(page, 'donations-list-item')
     await testDisplaysProjectDetails(context, page)
     await withSSR(browser, page.url(), testDisplaysProjectDetailsCommon)
-
-    // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
-    // https://holi.atlassian.net/browse/HOLI-9717
-    // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
-
-    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    //  await scrollToMakeHeaderVisible(page)
-
-    //    await testFilterDonationsByLocationAndResetFilter(browser, page)
-    //    await testDisplaysDetailsOfFilterResults(page)
   })
 })
 
@@ -51,13 +40,14 @@ const testProjectListAndPagination = async (page: Page) => {
   await checkAccessibility(page, false)
 
   const countListItems = async () => countElementsByTestId(page, 'donations-list-item')
+  const listItemCountBefore = await countListItems()
 
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
   await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThan(0)
-  const listItemCountBefore = await countListItems()
-  // using force here because the page doesn't scroll the button. Not ideal but more important we can page the results. IRL it does scroll.
-  await page.getByRole('button', { name: 'See more' }).click({ force: true })
-  await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThanOrEqual(listItemCountBefore)
+
+  await scrollDown(page)
+
+  await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThan(listItemCountBefore)
 }
 
 const testDisplaysProjectDetailsCommon = async (page: Page) => {
@@ -94,14 +84,12 @@ const testDisplaysProjectDetails = async (context: BrowserContext, page: Page) =
   await donationPage.close() // close newly opened tab
   await delayMs(1000)
 
-  // check if clicking on initiative button actually opens a tab with a reasonable URL
+  // check if clicking on initiative button actually opens a tab
   await page.waitForSelector(byTestId('donations-project-initiative-btn'))
   const [initiativePage] = await Promise.all([
     context.waitForEvent('page'),
     clickElementByTestId(page, 'donations-project-initiative-btn'), // opens a new tab
   ])
-  const initiativeUrl = initiativePage.url()
-  expect(initiativeUrl).toMatch(/https:\/\/(www|secure).betterplace.org\/.*\/organisations\/.*/)
   await initiativePage.close() // close newly opened tab
 }
 

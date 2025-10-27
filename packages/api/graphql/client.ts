@@ -238,8 +238,9 @@ const createApolloClient = ({
     assumeImmutableResults: true,
     // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
     devtools: {
-      enabled: !isSSR,
+      enabled: isSSR ? false : undefined,
     },
+    headers,
   })
 }
 

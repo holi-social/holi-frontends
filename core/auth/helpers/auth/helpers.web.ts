@@ -5,6 +5,7 @@ import type {
   RegistrationFlow,
   SettingsFlow,
   SuccessfulNativeLogin,
+  SuccessfulNativeRegistration,
   UiText,
   UpdateLoginFlowBody,
   UpdateRegistrationFlowBody,
@@ -17,6 +18,7 @@ import { extractValue, handleKratosSdkError, handleKratosSdkErrorIgnoringCodes }
 import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { holiNextJSApiUrl } from '@holi/api/config'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import { HoliOryRegistrationConfigError } from '@holi/core/errors/classes/HoliOnboardingError'
 
 const userSessionName = 'user_session'
 
@@ -89,11 +91,12 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
     }
   }
   const redirect = getRedirectAfterSocialLogin()
+  const returnTo = redirect ? { returnTo: `${holiNextJSApiUrl}${redirect || ''}` } : {}
 
   return newKratosSdk()
     .createBrowserLoginFlow({
       refresh: true,
-      returnTo: `${holiNextJSApiUrl}${redirect || ''}`,
+      ...returnTo,
     })
     .then(({ data }) => {
       return {
@@ -126,6 +129,23 @@ export const submitLoginFlow = (
     .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: payload }, { withCredentials: true })
     .catch(handleKratosSdkError('updateLoginFlow'))
 
+export const submitRegistrationFlow = async (
+  flow: RegistrationFlow,
+  payload: UpdateRegistrationFlowBody,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  provider?: string
+): Promise<AxiosPromise<SuccessfulNativeRegistration>> => {
+  const response = await newKratosSdk()
+    .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: payload }, { withCredentials: true })
+    .catch(handleKratosSdkError('updateRegistrationFlow'))
+
+  if (!response.data.session) {
+    throw new HoliOryRegistrationConfigError()
+  }
+
+  return response
+}
+
 // This method is only called on mobile and is only here to satisfy the compiler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const doBrowserLogin = async (url: string) => {}
@@ -152,6 +172,10 @@ export const submitReauthFlow = (
     .catch(handleKratosSdkError('submitReauthFlow'))
 }
 
+export const submitSocialLogout = async () => {
+  // noop on web
+}
+
 // Logout
 export const submitLogoutFlow = () =>
   newKratosSdk()
@@ -165,14 +189,18 @@ export const submitLogoutFlow = () =>
     })
     .catch(handleKratosSdkErrorIgnoringCodes('updateLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
 
+export const getRegistrationFlow = (flowId: string) =>
+  newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
+
 // Registration
 export const initRegistrationFlow = (flowId?: string): AxiosPromise<RegistrationFlow> => {
   if (flowId) {
-    return newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
+    return getRegistrationFlow(flowId)
   }
   const redirect = getRedirectAfterSocialLogin()
+  const returnTo = redirect ? { returnTo: `${holiNextJSApiUrl}${redirect || ''}` } : {}
   return newKratosSdk()
-    .createBrowserRegistrationFlow({ returnTo: `${holiNextJSApiUrl}${redirect || ''}` })
+    .createBrowserRegistrationFlow(returnTo)
     .catch(handleKratosSdkError('createBrowserRegistrationFlow'))
 }
 

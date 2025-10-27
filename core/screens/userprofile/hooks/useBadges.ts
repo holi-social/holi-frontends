@@ -1,7 +1,7 @@
 import { type BadgesQuery, useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { animations } from '@holi/ui/lottie-animations'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 
 export type Badge = {
   localazyKey: string
@@ -99,18 +99,26 @@ export const useBadges = () => {
     notifyOnNetworkStatusChange: true,
   })
 
-  useEffect(() => {
-    if (isLoggedIn) refetch()
+  const refetchBadges = useCallback(() => {
+    if (!isLoggedIn) return
+    else {
+      refetch()
+    }
   }, [isLoggedIn, refetch])
+
+  if (!isLoggedIn) {
+    return {
+      badges: [] as Badge[],
+      refetchBadges,
+      loading: false,
+    }
+  }
 
   const allBadges = mapBadges(data)
 
   return {
     badges: allBadges,
-    refetchBadges: useCallback(async () => {
-      const result = await refetch()
-      return mapBadges(result.data)
-    }, [refetch]),
+    refetchBadges,
     loading,
   }
 }

@@ -2,7 +2,7 @@ import { makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
+import { getSessionFromStorage, submitLogoutFlow, submitSocialLogout } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -61,9 +61,10 @@ export const useLogout = () => {
       isLoggingOutVar(true)
 
       try {
+        await submitSocialLogout(user?.accountType)
         if (!skipLogoutFlow) {
           const session = await getSessionFromStorage()
-          await submitLogoutFlow({ sessionToken: session?.session_token, accountType: user?.accountType })
+          await submitLogoutFlow({ sessionToken: session?.session_token })
         }
         clearOnboardingState()
         await setLoginStateLoggedOut()

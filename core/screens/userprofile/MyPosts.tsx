@@ -18,7 +18,6 @@ const MyPosts = () => {
 
   return (
     <Screen
-      preset="fixed"
       headerOptions={{
         title: t('posts.title'),
         headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,

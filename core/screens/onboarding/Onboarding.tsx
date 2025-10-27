@@ -1,4 +1,4 @@
-import type React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -9,40 +9,31 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
-import { Spacing, mono } from 'holi-bricks/foundations'
+import { mono, Spacing } from 'holi-bricks/foundations'
 
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
-import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useCallback, useEffect } from 'react'
-import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { pathToRedirect, useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
-  type OnboardingStepItem,
   type OnboardingStepKey,
   onboardingSteps,
   useOnboardingCurrentStepKey,
 } from './hooks/useOnboardingCurrentStepKey'
-import { CreateAccount } from './steps/CreateAccount'
+import { Authentication, type AuthenticationParams } from '@holi/core/screens/auth/Authentication'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
 import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
-import { DocumentsFooter } from './components/DocumentsFooter'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
-export type OnboardingParams = {
-  flow?: string
-}
+import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
+import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 
-const { useParam } = createParamHooks<OnboardingParams>()
+export type OnboardingParams = AuthenticationParams
 
 const Onboarding = () => {
   const setScreenOptions = useSetScreenOptions()
@@ -50,10 +41,7 @@ const Onboarding = () => {
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
   const { isLoggedIn } = useLoggedInUser()
-  const [flowId] = useParam('flow')
-
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-
   const redirect = useRedirect('/act')
 
   useIsomorphicLayoutEffect(() => {
@@ -69,24 +57,23 @@ const Onboarding = () => {
   }
   const finishOnboarding = useCallback(async () => {
     await cleanUp()
+
+    const redirectPath = pathToRedirect() ?? (await getRedirectAfterSocialLogin())
     redirect(true)
-    showGoodDeedsIntroModal()
+
+    if (!redirectPath) {
+      showGoodDeedsIntroModal('onboarding')
+    } else if (redirectPath.includes('/profile/settings/favorites/add?taskId=')) {
+      showGoodDeedsIntroModal('first-favorite-good-deed')
+    }
   }, [redirect, showGoodDeedsIntroModal])
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen
   useEffect(() => {
     if (isLoggedIn && onboardingState === 'finished') {
       finishOnboarding()
-    } else if (flowId) {
-      // Account creation flow already started => onboarding is finished
-      storeOnboardingState('finished')
     }
-  }, [finishOnboarding, flowId, isLoggedIn, onboardingState])
-
-  // No longer needed since we removed location/interests/skills steps
-  const clearSelection = () => {
-    // No-op for remaining steps
-  }
+  }, [finishOnboarding, isLoggedIn, onboardingState])
 
   const renderStep = (key: OnboardingStepKey) => {
     switch (key) {
@@ -101,21 +88,14 @@ const Onboarding = () => {
 
       case 'CREATE_ACCOUNT':
         return (
-          <CreateAccount
-            flowId={flowId}
-            onLogin={() => {
-              track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-            }}
+          <Authentication
+            initialSelection="registration"
             onContinueAsGuest={() => {
-              track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
               finishOnboarding()
             }}
             onRegister={() => {
-              track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-              metaSdk.trackSignUp()
               setCurrentStep('EMAIL_VERIFICATION')
             }}
-            testID="onboarding-account-creation"
           />
         )
       case 'EMAIL_VERIFICATION':
@@ -149,17 +129,14 @@ const Onboarding = () => {
     }
   }
 
-  if (!currentStep) return <HoliLoader testID="loader" />
-
-  // No longer needed since we removed the steps with dynamic button labels
-  const modifyStepWithNextButtonLabel = (step: OnboardingStepItem): OnboardingStepItem => {
-    return step
+  if (!currentStep || (isLoggedIn && !['finished', 'accountSetup'].includes(onboardingState ?? ''))) {
+    return <HoliLoader testID="loader" />
   }
 
   return (
     <HoliKeyboardSafeAreaView style={styles.wrapper}>
       <HoliStepper
-        data={onboardingSteps.map(modifyStepWithNextButtonLabel)}
+        data={onboardingSteps}
         activeStepKey={currentStep}
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
@@ -173,7 +150,6 @@ const Onboarding = () => {
 
           if (buttonPressed === 'skip') {
             track(OnboardingStepCompleted(key as OnboardingStepKey, ['skip'], 'skip'))
-            clearSelection()
           }
 
           setCurrentStep(key as OnboardingStepKey)
@@ -182,14 +158,6 @@ const Onboarding = () => {
         paddingBottom={safeAreaBottom ?? Spacing.xxs}
         testID="onboarding-stepper"
       />
-      {currentStep === 'CREATE_ACCOUNT' && (
-        <View style={styles.footer}>
-          <HoliDivider />
-          <HoliContainer>
-            <DocumentsFooter />
-          </HoliContainer>
-        </View>
-      )}
     </HoliKeyboardSafeAreaView>
   )
 }
@@ -207,10 +175,6 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.md,
     paddingBottom: Spacing['4xs'],
     flex: 1,
-  },
-  footer: {
-    paddingBottom: Spacing.sm,
-    gap: Spacing.xs,
   },
 })
 

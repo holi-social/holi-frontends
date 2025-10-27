@@ -3,9 +3,7 @@ import { Pressable } from 'react-native'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
-import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
-import { act, renderRouter, screen, userEvent, waitFor } from 'expo-router/testing-library'
-import Login from '@holi/core/auth/screens/Login'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'react-native'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -18,8 +16,7 @@ import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import type { SuccessfulNativeLogin } from '@ory/kratos-client'
 import type { AxiosResponse } from 'axios'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
-
-jest.mock('@holi/core/navigation/hooks/useParam')
+import { LoginForm } from '@holi/core/screens/auth/components/LoginForm'
 
 const mockUseLoginState = jest.mocked(useLoginState)
 jest.mock('@holi/core/auth/loginState', () => ({
@@ -70,7 +67,7 @@ jest.mock('@holi/core/auth/helpers/auth', () => ({
 }))
 
 const formValues = { method: 'password', identifier: 'test@example.com', password: 'p455w0rd' }
-const LoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
+const OryLoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
   return (
     <>
       <Button onPress={() => onSubmit(formValues, 'Google')} label={'social-submit-button'} />
@@ -78,11 +75,11 @@ const LoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string
     </>
   )
 }
-jest.mock('@holi/core/auth/components/FormBuilder', () => LoginForm)
+jest.mock('@holi/core/auth/components/FormBuilder', () => OryLoginForm)
 
 jest.useFakeTimers()
 
-describe('Login', () => {
+describe('LoginForm', () => {
   const mockClient: ApolloClient<object> = {} as ApolloClient<object>
   const displayError = jest.fn()
   const redirect = jest.fn()
@@ -119,7 +116,6 @@ describe('Login', () => {
     mockDoBrowserLogin.mockResolvedValue(mockSession)
     mockUseRedirect.mockReturnValue(redirect)
     mockUseApolloClient.mockReturnValue(mockClient)
-    mockParameters()
   })
 
   const submitForm = async () => {
@@ -134,6 +130,7 @@ describe('Login', () => {
       },
       { initialUrl: '/login' }
     )
+    render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -150,39 +147,14 @@ describe('Login', () => {
       })
     })
 
-    it('should not initialize login flow', async () => {
-      const user = userEvent.setup()
-
-      const context = renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => (
-            <Link href="/login" asChild>
-              <Pressable>
-                <Text>Go to login</Text>
-              </Pressable>
-            </Link>
-          ),
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/onboarding' }
-      )
-
-      // we do this because otherwise the tests fails as
-      // inside <Login>, if someone is logged in we try to navigate
-      // in the useEffect, but in the env seems to not work as the screen didn't finish rendering
-      await user.press(screen.getByText('Go to login'))
-
-      await waitFor(() => {
-        expect(context).toHavePathname('/')
-      })
+    it('should not initialize login flow', () => {
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       expect(mockInitLoginFlow).not.toHaveBeenCalled()
     })
 
-    it('should navigate to home', async () => {
-      const user = userEvent.setup()
+    it('should navigate to home', () => {
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       const context = renderRouter(
         {
@@ -210,15 +182,9 @@ describe('Login', () => {
 
   describe('flow initialization', () => {
     it('should initialize login flow', async () => {
-      renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
+
+      expect(mockInitLoginFlow).toHaveBeenCalled()
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -228,15 +194,7 @@ describe('Login', () => {
     it('should display error if initializing login flow fails', async () => {
       mockInitLoginFlow.mockRejectedValue('Test')
 
-      renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -246,35 +204,19 @@ describe('Login', () => {
       })
     })
 
-    it('should render text and form after initializing flow', async () => {
-      renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
+    it('should render form after initializing flow', async () => {
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
+      expect(screen.getByLabelText('social-submit-button'))
       expect(screen.getByLabelText('submit-button'))
-      expect(screen.getByText('auth.login.signUp.link.headline'))
     })
 
     it('should initialize login flow with id if given', async () => {
-      mockParameters({ flow: '123' })
+      render(<LoginForm startedFlowId="123" step="oidc" setStep={jest.fn()} />)
 
-      renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
+      expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -298,15 +240,7 @@ describe('Login', () => {
     it('should track social login', async () => {
       const user = userEvent.setup()
 
-      renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
+      render(<LoginForm step="oidc" setStep={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -417,48 +351,6 @@ describe('Login', () => {
       expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
       expect(mockUseRedirect).toHaveBeenCalledWith('/')
       expect(redirect).toHaveBeenCalledWith(true)
-    })
-  })
-
-  describe('registration', () => {
-    it('should navigate to registration screen', async () => {
-      const user = userEvent.setup()
-
-      const context = renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      await user.press(screen.getByLabelText('auth.loginProtection.registration'))
-
-      expect(context).toHavePathname('/onboarding')
-    })
-
-    it('should track click on registration', async () => {
-      const user = userEvent.setup()
-
-      renderRouter(
-        {
-          '/login': () => <Login />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => <Text>onboarding</Text>,
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/login' }
-      )
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      await user.press(screen.getByLabelText('auth.loginProtection.registration'))
-
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.RegisterButtonPressed)
     })
   })
 })

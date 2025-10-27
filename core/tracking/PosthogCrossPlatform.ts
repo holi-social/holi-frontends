@@ -45,6 +45,10 @@ export class PosthogReactNative implements PosthogCrossPlatform {
   reset(): void {
     this.posthog.reset()
   }
+
+  async reloadFeatureFlags(): Promise<void> {
+    await this.posthog.reloadFeatureFlagsAsync()
+  }
 }
 
 export const usePosthogCrossPlatform = (): PosthogCrossPlatform => {

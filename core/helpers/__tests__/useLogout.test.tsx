@@ -1,26 +1,26 @@
-import React from 'react'
 import { type ApolloClient, useApolloClient } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
-import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers/auth'
-import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
-import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { getSessionFromStorage, submitLogoutFlow, submitSocialLogout } from '@holi/core/auth/helpers/auth'
+import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 import { act, renderHook, waitFor } from 'expo-router/testing-library'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
-const mockUseLoginState = jest.mocked(useLoginState)
 const mockSetLoginStateLoggedOut = jest.mocked(setLoginStateLoggedOut)
 jest.mock('@holi/core/auth/loginState', () => ({
-  useLoginState: jest.fn(),
   setLoginStateLoggedOut: jest.fn(),
 }))
 
 const mockGetSessionFromStorage = jest.mocked(getSessionFromStorage)
 const mockSubmitLogoutFlow = jest.mocked(submitLogoutFlow)
+const mockSubmitSocialLogout = jest.mocked(submitSocialLogout)
 jest.mock('@holi/core/auth/helpers/auth', () => ({
   getSessionFromStorage: jest.fn(),
   submitLogoutFlow: jest.fn(),
+  submitSocialLogout: jest.fn(),
 }))
 
 const mockClearOnboardingState = jest.mocked(clearOnboardingState)
@@ -97,15 +97,16 @@ describe('useLogout', () => {
   beforeEach(() => {
     jest.useFakeTimers()
     mockNavigate.mockClear()
-    mockUseLoginState.mockReturnValue({
-      isLoggedIn: true,
-      isLoggedOut: false,
-      isUnknown: false,
-      userId: '123',
-    })
     mockGetSessionFromStorage.mockResolvedValue(mockSession)
     mockSubmitLogoutFlow.mockResolvedValue(undefined)
     mockUseApolloClient.mockReturnValue(mockClient)
+    mockUseLoggedInUser.mockReturnValue({
+      isLoading: false,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      user,
+      state: 'loggedIn',
+    })
   })
 
   afterEach(() => {
@@ -113,21 +114,18 @@ describe('useLogout', () => {
     jest.useRealTimers()
   })
 
-  const renderUseLogout = () =>
-    renderHook(() => useLogout(), {
-      wrapper: ({ children }) => <MockedProvider mocks={[authenticatedUserRequest]}>{children}</MockedProvider>,
-    })
-
   describe('already logged out', () => {
     beforeEach(() => {
-      mockUseLoginState.mockReturnValue({
+      mockUseLoggedInUser.mockReturnValue({
         isLoggedIn: false,
         isLoggedOut: true,
-        isUnknown: false,
+        isLoading: false,
+        state: 'loggedOut',
+        user: undefined,
       })
     })
     it('should redirect', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout()
       await jest.runOnlyPendingTimersAsync()
@@ -136,7 +134,7 @@ describe('useLogout', () => {
     })
 
     it('should not redirect if redirect should be skipped', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout({ skipRedirect: true })
       await jest.runOnlyPendingTimersAsync()
@@ -145,7 +143,7 @@ describe('useLogout', () => {
     })
 
     it('should redirect to given path', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout({ redirectPath: '/act' })
       await jest.runOnlyPendingTimersAsync()
@@ -166,7 +164,7 @@ describe('useLogout', () => {
     })
 
     it('should not perform logout', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout()
       await jest.runOnlyPendingTimersAsync()
@@ -179,7 +177,7 @@ describe('useLogout', () => {
     })
 
     it('should redirect', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout()
       await jest.runOnlyPendingTimersAsync()
@@ -188,7 +186,7 @@ describe('useLogout', () => {
     })
 
     it('should not redirect if redirect should be skipped', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout({ skipRedirect: true })
       await jest.runOnlyPendingTimersAsync()
@@ -197,7 +195,7 @@ describe('useLogout', () => {
     })
 
     it('should redirect to given path', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await result.current.logout({ redirectPath: '/act' })
       await jest.runOnlyPendingTimersAsync()
@@ -208,7 +206,7 @@ describe('useLogout', () => {
 
   describe('successful logout', () => {
     it('should submit logout flow with session', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         await result.current.logout()
@@ -217,10 +215,11 @@ describe('useLogout', () => {
 
       expect(mockGetSessionFromStorage).toHaveBeenCalled()
       expect(mockSubmitLogoutFlow).toHaveBeenCalledWith({ sessionToken: 'some_token' })
+      expect(mockSubmitSocialLogout).toHaveBeenCalledWith(AccountType.Email)
     })
 
     it('should not submit logout flow if it should be skipped', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         await result.current.logout({ skipLogoutFlow: true })
@@ -229,10 +228,11 @@ describe('useLogout', () => {
 
       expect(mockGetSessionFromStorage).not.toHaveBeenCalled()
       expect(mockSubmitLogoutFlow).not.toHaveBeenCalled()
+      expect(mockSubmitSocialLogout).toHaveBeenCalledWith(AccountType.Email)
     })
 
     it('should return flag while logging out', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         const promise = result.current.logout()
@@ -249,7 +249,7 @@ describe('useLogout', () => {
     })
 
     it('should clear onboarding state, logging state and store', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         await result.current.logout()
@@ -262,7 +262,7 @@ describe('useLogout', () => {
     })
 
     it('should show success toast', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         await result.current.logout()
@@ -275,7 +275,7 @@ describe('useLogout', () => {
     })
 
     it('should show success toast with custom message', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         await result.current.logout({ message: 'custom message' })
@@ -286,7 +286,7 @@ describe('useLogout', () => {
     })
 
     it('should not show success toast if it should be skipped', async () => {
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await act(async () => {
         await result.current.logout({ skipToast: true })
@@ -302,7 +302,7 @@ describe('useLogout', () => {
     it('should handle error when retrieving the session from storage', async () => {
       mockGetSessionFromStorage.mockRejectedValue(testError)
 
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await expect(() => act(result.current.logout)).rejects.toThrow(testError)
 
@@ -316,7 +316,7 @@ describe('useLogout', () => {
     it('should handle error when submitting the logout flow', async () => {
       mockSubmitLogoutFlow.mockRejectedValue(testError)
 
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await expect(() => act(result.current.logout)).rejects.toThrow(testError)
 
@@ -331,7 +331,7 @@ describe('useLogout', () => {
       mockSubmitLogoutFlow.mockRejectedValue(testError)
       mockSetLoginStateLoggedOut.mockRejectedValue('Test')
 
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await expect(() => act(result.current.logout)).rejects.toThrow(testError)
 
@@ -344,7 +344,7 @@ describe('useLogout', () => {
     it('should redirect to given path after error', async () => {
       mockSubmitLogoutFlow.mockRejectedValue(testError)
 
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await expect(() => act(() => result.current.logout({ redirectPath: '/act' }))).rejects.toThrow(testError)
 
@@ -356,7 +356,7 @@ describe('useLogout', () => {
     it('should not redirect after error if it should be skipped', async () => {
       mockSubmitLogoutFlow.mockRejectedValue(testError)
 
-      const { result } = renderUseLogout()
+      const { result } = renderHook(useLogout)
 
       await expect(() => act(() => result.current.logout({ skipRedirect: true }))).rejects.toThrow(testError)
 

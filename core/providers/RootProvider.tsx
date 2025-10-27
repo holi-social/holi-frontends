@@ -50,7 +50,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
                 <SessionExpiryProtection>
                   <RefreshContextProvider>
                     <FeatureFlagsFetcher />
-                    <FeatureFlagGuard flag={FeatureFlagKey.GOOD_DEEDS_INTRO_1}>
+                    <FeatureFlagGuard flag={FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__SIGN_UP}>
                       <GoodDeedsIntroModal />
                     </FeatureFlagGuard>
                     {isMobile ? <DeviceRegistration /> : null}

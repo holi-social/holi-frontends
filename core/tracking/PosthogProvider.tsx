@@ -9,28 +9,22 @@ export interface PosthogProviderProps {
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
-  const isDevEnv = process.env.NODE_ENV === 'development'
-
-  const posthogClient = useMemo(
+  const posthog = useMemo(
     () =>
       new PostHog(posthogKey, {
         host: posthogHost,
         defaultOptIn: false,
-        disabled: isDevEnv,
         captureAppLifecycleEvents: true,
         bootstrap: {
           ...featureFlagBootstrapValues,
           ...bootstrapState,
         },
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [bootstrapState]
   )
 
-  if (!posthogClient) return <>{children}</>
-
   return (
-    <PostHogProvider client={posthogClient} autocapture={false}>
+    <PostHogProvider client={posthog} autocapture={false}>
       {children}
     </PostHogProvider>
   )

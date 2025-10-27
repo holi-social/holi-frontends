@@ -43,6 +43,7 @@ const posthogCrossPlatformMock = {
   distinctId: jest.fn(),
   updatePersonProperties: jest.fn(),
   flush: jest.fn(), // to return a promise, beforeEach further mocks the return value (as mocks are reset globally before each test)
+  reloadFeatureFlags: jest.fn(),
 } as PosthogCrossPlatform
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 
