@@ -4,7 +4,7 @@ import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
-import { act, renderHook, waitFor } from 'expo-router/testing-library'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -37,6 +37,11 @@ jest.mock('@apollo/client', () => {
   }
 })
 
+const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: jest.fn(),
+}))
+
 const mockNavigate = jest.fn()
 jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
   __esModule: true,
@@ -47,42 +52,31 @@ jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
   }),
 }))
 
-const authenticatedUserRequest = {
-  request: {
-    query: authenticatedUserV2Query,
-    variables: { userId: '123' },
-  },
-  result: {
-    data: {
-      authenticatedUserV2: {
-        id: 'test-user-id',
-        identity: '',
-        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
-        avatarBlurhash: '',
-        avatarDefaultColor: '#7571EC',
-        avatarLabel: 'EV',
-        fullName: 'EE. Visited',
-        firstName: 'EE.',
-        lastName: 'Visited',
-        aboutMe: '',
-        pronouns: '',
-        location: '',
-        role: '',
-        geolocationId: '',
-        engagementLevel: '',
-        interestsV2: [],
-        skillsV2: [],
-        connectionStatusToMyself: '',
-        trackingConsentAnalytics: false,
-        trackingConsentPersonalization: false,
-        trackingConsentAdPartners: false,
-        isEmployee: false,
-        email: '',
-        isOidc: false,
-        __typename: 'AuthenticatedUser',
-      },
-    },
-  },
+const user: AuthenticatedUser = {
+  id: 'test-user-id',
+  identity: '',
+  avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+  avatarBlurhash: '',
+  avatarDefaultColor: '#7571EC',
+  avatarLabel: 'EV',
+  fullName: 'EE. Visited',
+  firstName: 'EE.',
+  lastName: 'Visited',
+  aboutMe: '',
+  pronouns: '',
+  location: '',
+  geolocationId: '',
+  engagementLevel: '',
+  interestsV2: [],
+  skillsV2: [],
+  trackingConsentAnalytics: false,
+  trackingConsentPersonalization: false,
+  trackingConsentAdPartners: false,
+  isEmployee: false,
+  email: '',
+  isOidc: false,
+  accountType: AccountType.Email,
+  connectionStatusToSpace: [],
 }
 
 describe('useLogout', () => {
@@ -96,7 +90,6 @@ describe('useLogout', () => {
 
   beforeEach(() => {
     jest.useFakeTimers()
-    mockNavigate.mockClear()
     mockGetSessionFromStorage.mockResolvedValue(mockSession)
     mockSubmitLogoutFlow.mockResolvedValue(undefined)
     mockUseApolloClient.mockReturnValue(mockClient)

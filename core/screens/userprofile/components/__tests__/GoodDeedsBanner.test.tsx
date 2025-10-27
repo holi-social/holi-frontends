@@ -15,14 +15,18 @@ describe('GoodDeedsBanner', () => {
   })
 
   it('does not render hashtag bar when "hashtag" props is not provided', () => {
-    render(<GoodDeedsBanner counter={100} />)
+    renderRouter({
+      index: () => <GoodDeedsBanner counter={100} />,
+    })
 
     expect(screen.queryByTestId('good-deeds-banner__hashtag-bar--bottom')).not.toBeOnTheScreen()
   })
 
   describe('renders hashtag bar', () => {
     it('with default position "bottom"', () => {
-      render(<GoodDeedsBanner counter={100} hashtag={{ backgroundColor: 'greenDefault' }} />)
+      renderRouter({
+        index: () => <GoodDeedsBanner counter={100} hashtag={{ backgroundColor: 'greenDefault' }} />,
+      })
 
       expect(screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')).toBeOnTheScreen()
     })
@@ -44,7 +48,9 @@ describe('GoodDeedsBanner', () => {
     })
 
     it('with default background color "yellowDefault"', () => {
-      render(<GoodDeedsBanner counter={100} hashtag={{ position: 'bottom' }} />)
+      renderRouter({
+        index: () => <GoodDeedsBanner counter={100} hashtag={{ position: 'bottom' }} />,
+      })
 
       const hashtagBar = screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')
 
