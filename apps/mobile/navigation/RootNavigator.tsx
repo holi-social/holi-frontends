@@ -1,4 +1,4 @@
-import type { LoginParams } from '@holi/core/auth/screens/Login'
+import type { LoginParams } from '@holi/core/screens/auth/Login'
 import type { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import type { OnboardingParams } from '@holi/core/screens/onboarding/Onboarding'

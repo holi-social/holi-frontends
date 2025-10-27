@@ -1,3 +1,1 @@
-import Login from '@holi/core/auth/screens/Login'
-
-export default Login
+export { Login as default } from '@holi/core/screens/auth/Login'
