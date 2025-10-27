@@ -1,9 +1,10 @@
 import React from 'react'
 import AnonymousProfileView from '@holi/core/screens/userprofile/components/AnonymousProfileView'
-import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent, waitFor } from 'expo-router/testing-library'
 import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { Text } from 'react-native'
 
 const mockIsProduction = jest.fn()
 jest.mock('@holi/core/helpers/environment', () => ({
@@ -42,26 +43,27 @@ describe('AnonymousProfileView', () => {
   it('should not display button to reset onboarding state in production', () => {
     mockIsProduction.mockReturnValue(true)
 
-    render(<AnonymousProfileView />)
+    renderRouter({ index: () => <AnonymousProfileView /> })
 
     expect(screen.queryByText('profile.settings.resetOnboardingState.title')).not.toBeOnTheScreen()
   })
 
   it('should display button to reset onboarding state in development', () => {
-    render(<AnonymousProfileView />)
+    renderRouter({ index: () => <AnonymousProfileView /> })
 
     expect(screen.getByText('profile.settings.resetOnboardingState.title')).toBeOnTheScreen()
   })
 
   it('should fully reset onboarding state and redirect to home when button to reset onboarding state is pressed', async () => {
-    const user = userEvent.setup()
+    const context = renderRouter({
+      index: () => <AnonymousProfileView />,
+      onboarding: () => <Text>Onboarding</Text>,
+    })
 
-    render(<AnonymousProfileView />)
-
-    user.press(screen.getByText('profile.settings.resetOnboardingState.title'))
+    fireEvent.press(screen.getByText('profile.settings.resetOnboardingState.title'))
 
     await waitFor(() => expect(mockClearOnboardingState).toHaveBeenCalled())
     expect(mockClearGuestMode).toHaveBeenCalled()
-    expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
+    expect(context).toHavePathname('/onboarding')
   })
 })

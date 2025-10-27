@@ -1,7 +1,7 @@
 import { sortedFilterOptions } from '@holi-apps/volunteering/helpers/filterFacetData'
 import { useVolunteeringFilterOptions } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
 import { useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 
 const mockUseSortedTerms = jest.mocked(useSortedTerms)
 jest.mock('@holi/core/domain/shared/useSortedTerms', () => ({

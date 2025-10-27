@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
 
 import { ImprintFooter } from '@holi/core/screens/onboarding/components/ImprintFooter'
 
@@ -8,7 +8,9 @@ describe('ImprintFooter', () => {
     const showDocModal = jest.fn()
     const user = userEvent.setup()
 
-    render(<ImprintFooter legalDocPath="" showDocModal={showDocModal} />)
+    renderRouter({
+      index: () => <ImprintFooter legalDocPath="" showDocModal={showDocModal} />,
+    })
 
     await user.press(screen.getByRole('link'))
 

@@ -95,7 +95,6 @@ const InitiativeDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
-      headerShown: true,
       headerLeft: ({ tintColor }) => (
         <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
       ),

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -26,7 +26,7 @@ interface FilterHook {
 
 const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilterParams>()
 
-const useDiscoveryV1Filters = (): FilterHook => {
+export const useVolunteeringFilters = (): FilterHook => {
   const [remoteParam] = useParam('remote', singleParamConfig)
   const remote = remoteParam === 'true'
   const [topicParams] = useParam('topic', arrayParamConfig)
@@ -56,6 +56,7 @@ const useDiscoveryV1Filters = (): FilterHook => {
     commitmentDurations,
     commitmentLabels,
   })
+
   const isFiltering = !!(
     filters.remote ||
     filters.location ||
@@ -65,6 +66,10 @@ const useDiscoveryV1Filters = (): FilterHook => {
     filters.commitmentLabels?.length
   )
 
+  if (!geolocationProps.loadingGeolocation && geolocationProps.geolocationSuggestion?.id !== filters.location?.id) {
+    setFilters({ ...filters, location: geolocationProps.geolocationSuggestion })
+  }
+
   const onFilterChange = useCallback(
     ({ remote, topics, skills, location, commitmentDurations, commitmentLabels }: VolunteeringFilters = {}) => {
       setFilters({ remote, topics, skills, location, commitmentDurations, commitmentLabels })
@@ -72,7 +77,7 @@ const useDiscoveryV1Filters = (): FilterHook => {
         remote: remote ? 'true' : undefined,
         topic: topics,
         skill: skills,
-        geolocationId: location?.id,
+        geolocationId: location?.id || '',
         duration: commitmentDurations,
         commitment: commitmentLabels,
       })
@@ -82,29 +87,14 @@ const useDiscoveryV1Filters = (): FilterHook => {
   const clearFilters = useCallback(() => {
     setFilters({})
     updateParams({
-      remote: undefined,
-      topic: undefined,
-      skill: undefined,
-      geolocationId: undefined,
-      duration: undefined,
-      commitment: undefined,
+      remote: '',
+      topic: [],
+      skill: [],
+      geolocationId: '',
+      duration: [],
+      commitment: [],
     })
   }, [updateParams])
 
   return { filters, setFilters: onFilterChange, clearFilters, isFiltering, ...geolocationProps }
-}
-
-export const useVolunteeringFilters = () => {
-  const { setFilters, ...filterProps } = useDiscoveryV1Filters()
-
-  useEffect(() => {
-    if (filterProps.loadingGeolocation) {
-      return
-    }
-    if (filterProps.geolocationSelection?.id !== filterProps.geolocationSelection?.id) {
-      setFilters({ ...filterProps.filters, location: filterProps.geolocationSelection })
-    }
-  }, [filterProps, setFilters])
-
-  return { ...filterProps, submit: setFilters }
 }

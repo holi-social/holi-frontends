@@ -1,6 +1,6 @@
 import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, render, screen, waitFor } from '@testing-library/react-native'
+import { act, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -105,13 +105,15 @@ describe('Spaces screen', () => {
   })
 
   const renderSpaces = (mocks: MockLink.MockedResponse[]) =>
-    render(
-      <MockedProvider mocks={mocks}>
-        <ToastProvider>
-          <Spaces />
-        </ToastProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <ToastProvider>
+            <Spaces />
+          </ToastProvider>
+        </MockedProvider>
+      ),
+    })
 
   it('displays error toast if loading own spaces failed', async () => {
     renderSpaces([authenticatedUserMock, mySpacesErrorMock, locationDetailsMock])

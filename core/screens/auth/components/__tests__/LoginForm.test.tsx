@@ -1,10 +1,14 @@
 import React from 'react'
+import { Pressable } from 'react-native'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent, waitFor } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { Button } from 'holi-bricks/components/button'
+import { Text } from 'react-native'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Link } from 'expo-router'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
@@ -119,7 +123,15 @@ describe('LoginForm', () => {
   const submitForm = async () => {
     const user = userEvent.setup()
 
-    render(<LoginForm step="oidc" setStep={jest.fn()} />)
+    renderRouter(
+      {
+        '/login': () => <LoginForm step="oidc" setStep={jest.fn()} />,
+        '/': () => <Text>home</Text>,
+        '/onboarding': () => <Text>onboarding</Text>,
+        '/forgotPassword': () => <Text>forgotPassword</Text>,
+      },
+      { initialUrl: '/login' }
+    )
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -137,31 +149,57 @@ describe('LoginForm', () => {
     })
 
     it('should not initialize login flow', () => {
-      render(<LoginForm step="oidc" setStep={jest.fn()} />)
+      renderRouter({
+        '/login': () => <LoginForm step="oidc" setStep={jest.fn()} />,
+      })
 
       expect(mockInitLoginFlow).not.toHaveBeenCalled()
     })
 
-    it('should navigate to home', () => {
-      render(<LoginForm step="oidc" setStep={jest.fn()} />)
+    it('should navigate to home', async () => {
+      const user = userEvent.setup()
 
-      expect(mockNavigate).toHaveBeenCalledWith('/')
+      const context = renderRouter(
+        {
+          '/login': () => <LoginForm step="oidc" setStep={jest.fn()} />,
+          '/': () => <Text>home</Text>,
+          '/onboarding': () => (
+            <Link href="/login" asChild>
+              <Pressable>
+                <Text>Go to login</Text>
+              </Pressable>
+            </Link>
+          ),
+          '/forgotPassword': () => <Text>forgotPassword</Text>,
+        },
+        { initialUrl: '/onboarding' }
+      )
+
+      await user.press(screen.getByText('Go to login'))
+
+      await waitFor(() => {
+        expect(context).toHavePathname('/')
+      })
     })
   })
 
   describe('flow initialization', () => {
     it('should initialize login flow', async () => {
-      render(<LoginForm step="oidc" setStep={jest.fn()} />)
-
-      expect(mockInitLoginFlow).toHaveBeenCalled()
+      renderRouter({
+        index: () => <LoginForm step="oidc" setStep={jest.fn()} />,
+      })
 
       await act(() => jest.runOnlyPendingTimersAsync())
+
+      expect(mockInitLoginFlow).toHaveBeenCalled()
     })
 
     it('should display error if initializing login flow fails', async () => {
       mockInitLoginFlow.mockRejectedValue('Test')
 
-      render(<LoginForm step="oidc" setStep={jest.fn()} />)
+      renderRouter({
+        index: () => <LoginForm step="oidc" setStep={jest.fn()} />,
+      })
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -172,7 +210,9 @@ describe('LoginForm', () => {
     })
 
     it('should render form after initializing flow', async () => {
-      render(<LoginForm step="oidc" setStep={jest.fn()} />)
+      renderRouter({
+        index: () => <LoginForm step="oidc" setStep={jest.fn()} />,
+      })
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -181,11 +221,15 @@ describe('LoginForm', () => {
     })
 
     it('should initialize login flow with id if given', async () => {
-      render(<LoginForm startedFlowId="123" step="oidc" setStep={jest.fn()} />)
+      renderRouter({
+        index: () => <LoginForm startedFlowId="123" step="oidc" setStep={jest.fn()} />,
+      })
 
       expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
 
       await act(() => jest.runOnlyPendingTimersAsync())
+
+      expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
     })
   })
 

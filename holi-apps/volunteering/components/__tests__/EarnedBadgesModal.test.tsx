@@ -9,6 +9,16 @@ import { BadgeState } from '@holi/core/screens/userprofile/hooks/useBadges'
 const renderWithApollo = (component: React.ReactElement, mocks: MockLink.MockedResponse[] = []) =>
   render(<MockedProvider mocks={[...mocks]}>{component}</MockedProvider>)
 
+const mockNavigate = jest.fn()
+jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
+  __esModule: true,
+  default: () => ({
+    navigate: mockNavigate,
+    pathname: '/',
+    currentParams: {},
+  }),
+}))
+
 jest.mock('@holi/core/components/Screen', () => {
   return {
     Screen: ({

@@ -1,3 +1,5 @@
+import type { Themes } from 'holi-bricks/main'
+
 interface RuntimeType {
   setTheme: (theme: AvailableThemes) => void
   themeName: string
@@ -30,8 +32,8 @@ export const createBricksManager = <T extends RuntimeType>(styleRuntime: T) => {
    *
    * @returns {string} The current active theme name.
    */
-  const getActiveThemeName = (): string => {
-    return styleRuntime.themeName
+  const getActiveThemeName = () => {
+    return styleRuntime.themeName as keyof Themes
   }
 
   return {

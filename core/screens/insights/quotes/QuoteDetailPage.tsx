@@ -80,7 +80,6 @@ const QuoteDetailPage = () => {
     if (showWebView) return
 
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,

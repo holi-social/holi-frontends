@@ -36,7 +36,6 @@ const ChatHome = () => {
   useEffect(() => {
     setScreenOptions({
       title,
-      headerBackTitleVisible: false,
       headerBackVisible: false,
       headerTitle: '',
       headerLeft: ({ tintColor }) => (

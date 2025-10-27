@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, render, screen, waitFor } from '@testing-library/react-native'
+import { act, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
@@ -23,11 +23,13 @@ describe('SpaceInvolvement', () => {
   })
 
   it('renders correctly for the public', () => {
-    render(
-      <MockedProvider>
-        <SpaceInvolvement space={space} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <SpaceInvolvement space={space} />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.toJSON()).toMatchSnapshot()
   })
@@ -38,11 +40,13 @@ describe('SpaceInvolvement', () => {
       connectionStatusToMyself: [SpaceUserConnectionType.Member],
     }
 
-    render(
-      <MockedProvider>
-        <SpaceInvolvement space={spaceForMember} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <SpaceInvolvement space={spaceForMember} />
+        </MockedProvider>
+      ),
+    })
 
     await waitFor(() => screen.findByTestId('btn-right-space-tasks-card'))
   })

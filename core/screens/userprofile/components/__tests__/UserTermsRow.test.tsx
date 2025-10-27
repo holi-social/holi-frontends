@@ -1,6 +1,6 @@
 import React from 'react'
 import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent } from 'expo-router/testing-library'
 import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
 

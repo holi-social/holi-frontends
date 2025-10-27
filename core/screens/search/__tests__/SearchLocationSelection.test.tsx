@@ -3,7 +3,7 @@ import {
   SearchLocationSelection,
   type SearchLocationSelectionProps,
 } from '@holi/core/screens/search/SearchLocationSelection'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from 'expo-router/testing-library'
 import { geoPlacesQuery, type GeoPlacesResponse } from '@holi/core/geolocation/queries'
 import { type MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'

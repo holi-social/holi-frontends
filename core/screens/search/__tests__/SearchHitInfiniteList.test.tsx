@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, fireEvent, render, screen, userEvent } from '@testing-library/react-native'
+import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfiniteList'
 import type { TrackingEvent } from '@holi/core/tracking'
@@ -71,7 +71,9 @@ describe('SearchHitInfiniteList', () => {
   })
 
   it('tracks searchResultsRendered event', async () => {
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -93,7 +95,9 @@ describe('SearchHitInfiniteList', () => {
   })
 
   it('should render search results', () => {
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     expect(screen.getAllByTestId(/search-hit/)).toHaveLength(3)
   })
@@ -108,7 +112,9 @@ describe('SearchHitInfiniteList', () => {
       refetch: jest.fn(),
     })
 
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
@@ -122,7 +128,9 @@ describe('SearchHitInfiniteList', () => {
       refetch: jest.fn(),
     })
 
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} loadingParameters />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} loadingParameters />,
+    })
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
@@ -136,7 +144,9 @@ describe('SearchHitInfiniteList', () => {
       refetch: jest.fn(),
     })
 
-    render(<SearchHitInfiniteList filter={emptyFilter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={emptyFilter} onQuerySelect={jest.fn()} />,
+    })
 
     expect(screen.getByTestId('search-examples')).toBeOnTheScreen()
   })
@@ -148,14 +158,18 @@ describe('SearchHitInfiniteList', () => {
       fetchNextPage: jest.fn(),
       refetch: jest.fn(),
     })
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     expect(screen.getByText('search.noResults.headline')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 
   it('should render loader in footer if more pages can be loaded', () => {
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     expect(screen.getByTestId('nextPageLoader')).toBeOnTheScreen()
   })
@@ -173,8 +187,9 @@ describe('SearchHitInfiniteList', () => {
   })
 
   it('tracks searchResultPressed event', async () => {
-    const user = userEvent.setup()
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -182,7 +197,7 @@ describe('SearchHitInfiniteList', () => {
     mockTrack.mockReset() // we're not interested in the searchResultsRendered event
 
     // press second item
-    await user.press(screen.getAllByLabelText(profileHit.user_full_name!)[0]) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    fireEvent.press(screen.getAllByLabelText(profileHit.user_full_name!)[0]) // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     expect(mockTrack).toHaveBeenCalledWith({
       name: 'searchResultPressed',
@@ -228,7 +243,9 @@ describe('SearchHitInfiniteList', () => {
       refetch: jest.fn(),
     })
 
-    const { rerender } = render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -240,7 +257,10 @@ describe('SearchHitInfiniteList', () => {
     // Check if `fetchNextPage` was called to fetch additional data
     expect(fetchNextPage).toHaveBeenCalled()
 
-    rerender(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    // Re-render with updated search results
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -272,7 +292,9 @@ describe('SearchHitInfiniteList', () => {
       refetch,
     })
 
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />,
+    })
 
     // Trigger pull-to-refresh
     const flatList = screen.getByTestId('search-results-list')

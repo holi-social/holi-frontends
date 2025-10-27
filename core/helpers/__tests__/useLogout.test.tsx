@@ -43,6 +43,16 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: jest.fn(),
 }))
 
+const mockNavigate = jest.fn()
+jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
+  __esModule: true,
+  default: () => ({
+    navigate: mockNavigate,
+    pathname: '/',
+    currentParams: {},
+  }),
+}))
+
 const user: AuthenticatedUser = {
   id: 'test-user-id',
   identity: '',

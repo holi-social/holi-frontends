@@ -1,7 +1,7 @@
 import '@holi/core/components/Screen/mock'
 import type { ApolloClient } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, renderRouter, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import { createStore } from 'jotai'
 import { EventType, type IEvent, type IRoomEvent, type MatrixClient } from 'matrix-js-sdk'
 import React from 'react'
@@ -141,20 +141,22 @@ describe('ChatRoomView', () => {
     mxClient.roomState.mockResolvedValue([])
     mxClient.getUserId.mockReturnValue(MEMBER1_FIXTURE.id)
 
-    render(
-      <MockedProvider
-        mocks={[
-          getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
-        ]}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
-        <ChatProvider store={store}>
-          <ChatRoomView />
-        </ChatProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider
+          mocks={[
+            getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
+            getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
+          ]}
+          defaultOptions={defaultOptions}
+          cache={createCache()}
+        >
+          <ChatProvider store={store}>
+            <ChatRoomView />
+          </ChatProvider>
+        </MockedProvider>
+      ),
+    })
 
     // During the loading phase we show the `<HoliLoader />`
     expect(await screen.findByTestId('chat-room-loader')).toBeOnTheScreen()
@@ -199,20 +201,22 @@ describe('ChatRoomView', () => {
     const msgRequest = Promise.resolve({ chunk: [msg] })
     mxClient.createMessagesRequest.mockReturnValue(msgRequest)
 
-    render(
-      <MockedProvider
-        mocks={[
-          getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
-        ]}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
-        <ChatProvider store={store}>
-          <ChatRoomView />
-        </ChatProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider
+          mocks={[
+            getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
+            getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
+          ]}
+          defaultOptions={defaultOptions}
+          cache={createCache()}
+        >
+          <ChatProvider store={store}>
+            <ChatRoomView />
+          </ChatProvider>
+        </MockedProvider>
+      ),
+    })
 
     await act(async () => {
       await waitForElementToBeRemoved(() => screen.getByTestId('chat-room-loader'))
@@ -287,20 +291,22 @@ describe('ChatRoomView', () => {
     const msgRequest = Promise.resolve({ chunk: [msg] })
     mxClient.createMessagesRequest.mockReturnValue(msgRequest)
 
-    render(
-      <MockedProvider
-        mocks={[
-          getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
-          getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
-        ]}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
-        <ChatProvider store={store}>
-          <ChatRoomView />
-        </ChatProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider
+          mocks={[
+            getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
+            getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
+          ]}
+          defaultOptions={defaultOptions}
+          cache={createCache()}
+        >
+          <ChatProvider store={store}>
+            <ChatRoomView />
+          </ChatProvider>
+        </MockedProvider>
+      ),
+    })
 
     await act(async () => {
       await waitForElementToBeRemoved(() => screen.getByTestId('chat-room-loader'))

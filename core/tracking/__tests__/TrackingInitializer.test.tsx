@@ -3,7 +3,7 @@ import { MockedProvider } from '@apollo/client/testing/react'
 import { faker } from '@faker-js/faker'
 import { jest } from '@jest/globals'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, render, waitFor } from '@testing-library/react-native'
+import { act, render, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'

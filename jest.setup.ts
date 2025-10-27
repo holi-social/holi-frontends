@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 // @ts-ignore
 import mockClipboard from '@react-native-clipboard/clipboard/jest/clipboard-mock.js'
+import 'react-native-gesture-handler/jestSetup'
 
 import i18n from '@holi/core/i18n'
 import type { TrackingEventHandler, TrackingHook } from '@holi/core/tracking/types'
@@ -14,6 +15,7 @@ import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
 loadDevMessages()
 loadErrorMessages()
 
+import 'react-native-gesture-handler/jestSetup'
 // Added to fix the following error: https://github.com/facebook/react-native/issues/42904#issuecomment-2306382117
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
 const { Switch } = require('react-native')
@@ -22,6 +24,50 @@ jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 
 jest.mock('@react-native-clipboard/clipboard', () => mockClipboard)
 
+jest.mock('react-native-reanimated', () => {
+  const Reanimated = require('react-native-reanimated/mock')
+  const React = require('react')
+
+  const makeBuilder = () => {
+    const builder: any = new Proxy(() => builder, {
+      get: (target, prop) => {
+        if (prop === 'createInstance') {
+          return () => builder
+        }
+
+        return () => builder
+      },
+      apply: () => builder,
+    })
+    return builder
+  }
+
+  const animation = makeBuilder()
+
+  return {
+    ...Reanimated,
+    FadeIn: animation,
+    FadeOut: animation,
+    FadeInRight: animation,
+    FadeOutRight: animation,
+    FadeInUp: animation,
+    FadeOutUp: animation,
+    FadeInDown: animation,
+    FadeOutDown: animation,
+    FadeInLeft: animation,
+    FadeOutLeft: animation,
+    SlideInRight: animation,
+    SlideOutRight: animation,
+    SlideInLeft: animation,
+    SlideOutLeft: animation,
+    SlideInUp: animation,
+    SlideOutUp: animation,
+    SlideInDown: animation,
+    SlideOutDown: animation,
+    LayoutAnimationConfig: ({ children }: { children: React.ReactNode }) => children,
+  }
+})
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('react-native-reanimated').setUpTests()
 
@@ -29,7 +75,6 @@ require('@shopify/flash-list/jestSetup')
 
 initializeBricks()
 
-global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
 
 global.mockSetOptions = jest.fn()
@@ -38,27 +83,6 @@ global.mockOpenToast = jest.fn()
 global.mockTrack = jest.fn()
 
 global.TextEncoder = jest.fn<() => TextEncoder>()
-
-jest.mock('@react-navigation/native', () => {
-  const actualNav = jest.requireActual('@react-navigation/native') as object
-  return {
-    ...actualNav,
-    useIsFocused: () => true,
-    useNavigation: () => ({
-      navigate: jest.fn(),
-      dispatch: jest.fn(),
-      getState: jest.fn(() => ({
-        routes: [{}],
-        index: 0,
-      })),
-      setOptions: global.mockSetOptions,
-      canGoBack: jest.fn(),
-    }),
-    useLinkTo: () => global.mockNavigate,
-    useFocusEffect: (callback: () => unknown) => callback?.(),
-    useScrollToTop: jest.fn(),
-  }
-})
 
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
   openURL: global.mockOpenURL,

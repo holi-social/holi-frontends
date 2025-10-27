@@ -8,7 +8,7 @@ import {
   type Typesense_SearchResponseHit,
 } from '@holi/api/graphql/graphql-codegen'
 import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
-import { act, renderHook } from '@testing-library/react-native'
+import { act, renderHook } from 'expo-router/testing-library'
 import { createCache } from '@holi/api/graphql/client'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 import { createDocument } from '@holi/core/typesense/hooks/__tests__/testData'
