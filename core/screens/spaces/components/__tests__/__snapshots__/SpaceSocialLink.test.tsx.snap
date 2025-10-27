@@ -124,23 +124,6 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
     </View>
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "marginLeft": 8,
-          "userSelect": "auto",
-        }
-      }
       selectable={true}
       style={
         {
@@ -312,23 +295,6 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
     </View>
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 14,
-          "fontWeight": "500",
-          "lineHeight": 19.599999999999998,
-          "marginLeft": 8,
-          "userSelect": "auto",
-        }
-      }
       selectable={true}
       style={
         {

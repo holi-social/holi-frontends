@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent, render } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import type Link from 'next/link'
@@ -21,18 +21,22 @@ jest.mock('next/link', () => LinkMock)
 
 describe('HoliLink', () => {
   it('renders child component', () => {
-    render(
-      <HoliLink label="test" href="/">
-        <Text>inner</Text>
-      </HoliLink>
-    )
+    renderRouter({
+      index: () => (
+        <HoliLink label="test" href="/">
+          <Text>inner</Text>
+        </HoliLink>
+      ),
+    })
 
     expect(screen.getByText('inner')).toBeDefined()
   })
 
   it('calls onPress handler', () => {
     const onPress = jest.fn()
-    render(<HoliLink label="test" href="/" onPress={onPress} />)
+    renderRouter({
+      index: () => <HoliLink label="test" href="/" onPress={onPress} />,
+    })
 
     fireEvent.press(screen.getByTestId('link'))
 
@@ -40,11 +44,14 @@ describe('HoliLink', () => {
   })
 
   it('should navigate on press if no onPress is given', () => {
-    render(<HoliLink label="test" href="/spaces" />)
+    const context = renderRouter({
+      index: () => <HoliLink label="test" href="/spaces" />,
+      spaces: () => <Text>Spaces page</Text>,
+    })
 
     fireEvent.press(screen.getByTestId('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//spaces')
+    expect(context).toHavePathname('/spaces')
   })
 
   describe('web', () => {

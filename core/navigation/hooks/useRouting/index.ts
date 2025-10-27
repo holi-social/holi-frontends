@@ -1,42 +1,87 @@
-import { useCallback } from 'react'
-
-import { useLinkTo, useNavigation } from '@react-navigation/native'
-
+import { useCallback, useRef, useEffect } from 'react'
+import { useRouter, usePathname, useGlobalSearchParams } from 'expo-router'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
-import type { RoutingState } from '@holi/core/navigation/hooks/useRouting/types'
+import type { RoutingState } from './types'
+
+const PATH_CLEANUP_TIMER_DELAY = 400
 
 const useRouting = (): RoutingState => {
-  const linkTo = useLinkTo()
-  const { canGoBack, goBack, setParams: setNavParams } = useNavigation()
-  const setParams = setNavParams as unknown as (params: Record<string, unknown>) => void
+  const router = useRouter()
+  const pathname = usePathname()
+  const currentParams = useGlobalSearchParams()
+  const navigationInProgressRef = useRef<string | null>(null)
+  const navigationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (navigationTimeoutRef.current) {
+        clearTimeout(navigationTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const navigate = useCallback(
     (path: string) => {
+      if (navigationInProgressRef.current === path) {
+        return
+      }
+
+      navigationInProgressRef.current = path
+
+      if (navigationTimeoutRef.current) {
+        clearTimeout(navigationTimeoutRef.current)
+      }
+      navigationTimeoutRef.current = setTimeout(() => {
+        navigationInProgressRef.current = null
+      }, PATH_CLEANUP_TIMER_DELAY)
+
       setPathname(path)
-      return linkTo(path)
+      router.push(path)
     },
-    [linkTo]
+    [router]
   )
 
   const navigateBack = useCallback(
     (pathName = '/') => {
-      if (canGoBack()) {
-        goBack()
-        setPathname(pathName)
-      } else {
-        navigate(pathName)
+      if (navigationInProgressRef.current !== null) {
+        return
       }
+
+      navigationInProgressRef.current = 'BACK'
+
+      if (navigationTimeoutRef.current) {
+        clearTimeout(navigationTimeoutRef.current)
+      }
+      navigationTimeoutRef.current = setTimeout(() => {
+        navigationInProgressRef.current = null
+      }, PATH_CLEANUP_TIMER_DELAY)
+
+      try {
+        router.back()
+      } catch {
+        router.push(pathName)
+      }
+      setPathname(pathName)
     },
-    [canGoBack, goBack, navigate]
+    [router]
   )
 
   const replaceRoute = useCallback(
-    async (routeName: string) => {
-      navigateBack()
-      navigate(routeName) // Will do nothing if equal to previous route
+    async (path: string) => {
+      setPathname(path)
+      router.replace(path)
       return true
     },
-    [navigate, navigateBack]
+    [router]
+  )
+
+  const setParams = useCallback(
+    (params: Record<string, unknown>) => {
+      const mergedParams = { ...currentParams, ...params }
+      const search = new URLSearchParams(mergedParams as Record<string, string>).toString()
+      router.replace(`${pathname}?${search}`)
+    },
+    [router, pathname, currentParams]
   )
 
   return {

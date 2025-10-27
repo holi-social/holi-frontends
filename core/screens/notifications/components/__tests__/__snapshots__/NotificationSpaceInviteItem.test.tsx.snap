@@ -27,6 +27,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
       accessible={true}
       collapsable={false}
       focusable={true}
+      href="/spaces/foo"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -37,11 +38,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      style={
-        [
-          false,
-        ]
-      }
+      style={{}}
       testID="link"
     >
       <View
@@ -85,9 +82,6 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             testID="space-avatar"
           >
             <Image
-              accessibilityLabel="Foo"
-              accessibilityRole="image"
-              accessible={false}
               alt="Foo"
               aria-label="Foo"
               contentFit="cover"
@@ -98,9 +92,12 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -121,22 +118,6 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
-                "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
@@ -151,22 +132,6 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -182,23 +147,6 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           </Text>
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 4,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
@@ -526,6 +474,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
       accessible={true}
       collapsable={false}
       focusable={true}
+      href="/spaces/foo"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -536,11 +485,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      style={
-        [
-          false,
-        ]
-      }
+      style={{}}
       testID="link"
     >
       <View
@@ -584,9 +529,6 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             testID="space-avatar"
           >
             <Image
-              accessibilityLabel="Foo"
-              accessibilityRole="image"
-              accessible={false}
               alt="Foo"
               aria-label="Foo"
               contentFit="cover"
@@ -597,9 +539,12 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 [
                   {
                     "height": 40,
+                    "maxWidth": "100%",
                     "width": 40,
                   },
-                  {},
+                  {
+                    "aspectRatio": undefined,
+                  },
                   {
                     "flexShrink": undefined,
                   },
@@ -620,25 +565,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
         >
           <Text
             accessible={false}
-            collapsable={false}
             ellipsizeMode="tail"
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "alignContent": "flex-start",
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 16,
-                "fontWeight": "400",
-                "justifyContent": "center",
-                "lineHeight": 22.4,
-                "userSelect": "auto",
-              }
-            }
             numberOfLines={3}
             onTextLayout={[Function]}
             selectable={true}
@@ -657,24 +584,6 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#787777",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "marginBottom": 4,
-                  "marginTop": 16,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -695,23 +604,6 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           </Text>
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 4,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {

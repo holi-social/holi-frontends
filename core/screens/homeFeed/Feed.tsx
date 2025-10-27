@@ -198,7 +198,6 @@ const HomeFeed = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: false,
       headerTitle: () => null,

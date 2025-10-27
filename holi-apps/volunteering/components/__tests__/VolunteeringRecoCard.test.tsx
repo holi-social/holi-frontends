@@ -1,14 +1,15 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { makeTaskDocument, makeVolunteeringDocument } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Text } from 'react-native'
 
 describe('VolunteeringRecoCard', () => {
   it('should render title and labels for volunteering engagement', () => {
     const reco = makeVolunteeringDocument({ commitment_label: 'recurring' })
 
-    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+    renderRouter({ index: () => <VolunteeringRecoCard engagement={reco} index={0} /> })
 
     expect(screen.getByText(reco.title)).toBeOnTheScreen()
     expect(screen.getByText('volunteering.engagement.commitment_label.recurring')).toBeOnTheScreen()
@@ -20,7 +21,7 @@ describe('VolunteeringRecoCard', () => {
       commitment_duration: 'MINUTES_30to60',
     })
 
-    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+    renderRouter({ index: () => <VolunteeringRecoCard engagement={reco} index={0} /> })
 
     expect(screen.getByText(reco.title)).toBeOnTheScreen()
     expect(screen.getByText('volunteering.engagement.commitment_label.one-time')).toBeOnTheScreen()
@@ -30,7 +31,7 @@ describe('VolunteeringRecoCard', () => {
   it('should render engagement organizer if given', () => {
     const reco = makeVolunteeringDocument({ organizer: true })
 
-    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+    renderRouter({ index: () => <VolunteeringRecoCard engagement={reco} index={0} /> })
 
     expect(screen.getByText('volunteering.engagement.organization')).toBeOnTheScreen()
   })
@@ -38,7 +39,7 @@ describe('VolunteeringRecoCard', () => {
   it('should render organizer initials if given organizer without avatar', () => {
     const reco = { ...makeVolunteeringDocument({ organizer: false }), organizer_name: 'Foo Bar' }
 
-    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+    renderRouter({ index: () => <VolunteeringRecoCard engagement={reco} index={0} /> })
 
     expect(screen.getByText('FB')).toBeOnTheScreen()
   })
@@ -46,7 +47,7 @@ describe('VolunteeringRecoCard', () => {
   it('should render location for onsite engagement', () => {
     const reco = makeVolunteeringDocument({ location: true })
 
-    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+    renderRouter({ index: () => <VolunteeringRecoCard engagement={reco} index={0} /> })
 
     expect(screen.getByText(reco.location!)).toBeOnTheScreen()
   })
@@ -54,42 +55,48 @@ describe('VolunteeringRecoCard', () => {
   it('should render label for remote engagement', () => {
     const reco = makeTaskDocument({ location: false })
 
-    render(<VolunteeringRecoCard engagement={reco} index={0} />)
+    renderRouter({ index: () => <VolunteeringRecoCard engagement={reco} index={0} /> })
 
     expect(screen.getByText('task.locationType.REMOTE')).toBeOnTheScreen()
   })
 
-  it('should navigate on press to volunteering recommendation', async () => {
-    const user = userEvent.setup()
+  it('should navigate on press to volunteering recommendation', () => {
     const reco = makeVolunteeringDocument()
 
-    render(<VolunteeringRecoCard engagement={reco} index={13} />)
+    const context = renderRouter({
+      index: () => <VolunteeringRecoCard engagement={reco} index={13} />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
+    fireEvent.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${reco.link_locators?.volunteering}`)
+    expect(context).toHavePathname(`/volunteering/${reco.link_locators?.volunteering}`)
   })
 
-  it('should navigate on press to task recommendation', async () => {
-    const user = userEvent.setup()
+  it('should navigate on press to task recommendation', () => {
     const reco = makeTaskDocument()
 
-    render(<VolunteeringRecoCard engagement={reco} index={13} />)
+    const context = renderRouter({
+      index: () => <VolunteeringRecoCard engagement={reco} index={13} />,
+      'spaces/[spaceId]/tasks/[taskId]': () => <Text>Task Detail</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
+    fireEvent.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//spaces/${reco.link_locators?.space}/tasks/${reco.link_locators?.task}`)
+    expect(context).toHavePathname(`/spaces/${reco.link_locators?.space}/tasks/${reco.link_locators?.task}`)
   })
 
-  it('tracks press on volunteering recommendation', async () => {
-    const user = userEvent.setup()
+  it('tracks press on volunteering recommendation', () => {
     const reco = makeVolunteeringDocument({
       commitment_label: 'negotiable',
     })
 
-    render(<VolunteeringRecoCard engagement={reco} index={13} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCard engagement={reco} index={13} />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
+    fireEvent.press(screen.getByRole('link'))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('volunteering_opportunity', reco.id, 13, {
@@ -101,13 +108,15 @@ describe('VolunteeringRecoCard', () => {
     )
   })
 
-  it('tracks press on task recommendation', async () => {
-    const user = userEvent.setup()
+  it('tracks press on task recommendation', () => {
     const reco = makeTaskDocument({ commitment_label: 'one-time' })
 
-    render(<VolunteeringRecoCard engagement={reco} index={13} />)
+    renderRouter({
+      index: () => <VolunteeringRecoCard engagement={reco} index={13} />,
+      'spaces/[spaceId]/tasks/[taskId]': () => <Text>Task Detail</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
+    fireEvent.press(screen.getByRole('link'))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('space_task', reco.id, 13, {

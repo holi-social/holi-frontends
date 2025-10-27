@@ -162,7 +162,6 @@ const CurationPrinciplesPage: React.FC = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerStyle: {
         backgroundColor: theme.colors.background20,

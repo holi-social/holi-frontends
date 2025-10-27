@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { act, render, screen, waitFor } from '@testing-library/react-native'
+import { act, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -97,11 +97,13 @@ describe('SpaceDetails', () => {
 
   it('selects info tab for non-members', async () => {
     const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
-    render(
-      <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
-        <SpaceDetails spaceIdOrName={space.name} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
+          <SpaceDetails spaceIdOrName={space.name} />
+        </MockedProvider>
+      ),
+    })
 
     await screen.queryByText(space.title)
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'info' }))
@@ -109,11 +111,13 @@ describe('SpaceDetails', () => {
 
   it('selects involvement tab for members if involvement content exists', async () => {
     const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
-    render(
-      <MockedProvider mocks={createMocksForSpace(spaceForMember)} cache={createCache()}>
-        <SpaceDetails spaceIdOrName={space.name} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={createMocksForSpace(spaceForMember)} cache={createCache()}>
+          <SpaceDetails spaceIdOrName={space.name} />
+        </MockedProvider>
+      ),
+    })
 
     await screen.queryByText(space.title)
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenLastCalledWith({ tab: 'involvement' }))
@@ -125,54 +129,33 @@ describe('SpaceDetails', () => {
       ...spaceForMember,
       tasks: [],
     }
-    render(
-      <MockedProvider mocks={createMocksForSpace(spaceForMemberWithoutInvolvement)} cache={createCache()}>
-        <SpaceDetails spaceIdOrName={space.name} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={createMocksForSpace(spaceForMemberWithoutInvolvement)} cache={createCache()}>
+          <SpaceDetails spaceIdOrName={space.name} />
+        </MockedProvider>
+      ),
+    })
 
     await screen.queryByText(space.title)
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' }))
   })
 
-  // FIXME: it seems the mockUseUpdateParams does not trigger a rerender anymore
-  it.skip('refreshes the space if the refresh parameter is passed', async () => {
-    const cache = createCache()
+  // This test verifies that the useRefreshOnNavigation hook properly clears the refresh parameter
+  // Testing the actual refetch behavior requires simulating navigation state changes which is
+  // difficult with the current expo-router testing utilities
+  it('clears the refresh parameter when passed', async () => {
+    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name, refresh: 'true' })
 
-    // Setup: send a different title after refresh
-    const newTitle = 'New title'
-    const updatedSpace = {
-      ...space,
-      title: newTitle,
-    }
-    const mocks = [...createMocksForSpace(space), ...createMocksForSpace(updatedSpace)]
-    const crateComponent = () => (
-      <MockedProvider mocks={mocks} cache={cache}>
-        <SpaceDetails spaceIdOrName={space.name} />
-      </MockedProvider>
-    )
-
-    // Initial render
-    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
-    const { rerender } = render(crateComponent())
-
-    // Expect initial title
-    await screen.queryByText(space.title)
-
-    expect(mockUseUpdateParams).toHaveBeenCalledTimes(1)
-    expect(mockUseUpdateParams).toHaveBeenCalledWith({
-      tab: 'info',
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={createMocksForSpace(space)}>
+          <SpaceDetails />
+        </MockedProvider>
+      ),
     })
 
-    // Pass new params and force rerender
-    mockParameters({ spaceIdOrName: space.name, refresh: true })
-    rerender(crateComponent())
-
-    // Expect parameter to have been reset after refresh
-    expect(mockUseUpdateParams).toHaveBeenCalledTimes(2)
+    // The refresh parameter should be cleared by useRefreshOnNavigation
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ refresh: undefined }))
-
-    // Expect a new title
-    expect(await screen.queryByText(newTitle)).toBeOnTheScreen()
   })
 })

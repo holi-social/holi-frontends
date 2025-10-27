@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { TrackingEvent } from '@holi/core/tracking'
 import { makeTaskDocument, makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { VolunteeringEngagementList } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
@@ -17,13 +17,13 @@ describe('VolunteeringEngagementList', () => {
   })
 
   it('should render skeleton while loading', () => {
-    render(<VolunteeringEngagementList isLoading={true} engagements={[]} />)
+    renderRouter({ index: () => <VolunteeringEngagementList isLoading={true} engagements={[]} /> })
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should render engagements', () => {
-    render(<VolunteeringEngagementList engagements={engagements} />)
+    renderRouter({ index: () => <VolunteeringEngagementList engagements={engagements} /> })
 
     // Additional link in header to open partner modal
     expect(screen.getAllByRole('link')).toHaveLength(10 + 1)
@@ -33,42 +33,50 @@ describe('VolunteeringEngagementList', () => {
   })
 
   it('should render header for engagement recos', () => {
-    render(<VolunteeringEngagementList engagements={engagements} />)
+    renderRouter({ index: () => <VolunteeringEngagementList engagements={engagements} /> })
 
     expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
   })
 
   it('should render result count for filtered engagements', () => {
-    render(<VolunteeringEngagementList engagements={engagements} isFiltering={true} totalResults={123} />)
+    renderRouter({
+      index: () => <VolunteeringEngagementList engagements={engagements} isFiltering={true} totalResults={123} />,
+    })
 
     expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
   })
 
   it('should render footer if given', () => {
     const footerComponent = <Text>Test text</Text>
-    render(<VolunteeringEngagementList engagements={engagements} footerComponent={footerComponent} />)
+    renderRouter({
+      index: () => <VolunteeringEngagementList engagements={engagements} footerComponent={footerComponent} />,
+    })
 
     expect(screen.getByText('Test text')).toBeOnTheScreen()
   })
 
-  it('should link to detail pages', async () => {
-    const user = userEvent.setup()
+  it('should link to detail pages', () => {
     const engagement = engagements[0]
 
-    render(<VolunteeringEngagementList engagements={engagements} />)
+    const context = renderRouter({
+      index: () => <VolunteeringEngagementList engagements={engagements} />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByText(engagement.title))
+    fireEvent.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+    expect(context).toHavePathname(`/volunteering/${engagement.link_locators?.volunteering}`)
   })
 
-  it('should track pressing volunteering cards', async () => {
-    const user = userEvent.setup()
+  it('should track pressing volunteering cards', () => {
     const engagement = engagements[3]
 
-    render(<VolunteeringEngagementList engagements={engagements} />)
+    renderRouter({
+      index: () => <VolunteeringEngagementList engagements={engagements} />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByText(engagement.title))
+    fireEvent.press(screen.getByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 3, {
@@ -80,14 +88,16 @@ describe('VolunteeringEngagementList', () => {
     )
   })
 
-  it('should track pressing task cards', async () => {
-    const user = userEvent.setup()
+  it('should track pressing task cards', () => {
     const task = makeTaskDocument({ commitment_label: 'one-time' })
     const engagementsWithTask = [...engagements, task]
 
-    render(<VolunteeringEngagementList engagements={engagementsWithTask} />)
+    renderRouter({
+      index: () => <VolunteeringEngagementList engagements={engagementsWithTask} />,
+      'spaces/[spaceId]/tasks/[taskId]': () => <Text>Task Detail</Text>,
+    })
 
-    await user.press(screen.getByText(task.title))
+    fireEvent.press(screen.getByText(task.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('space_task', task.id, engagements.length, {
@@ -99,47 +109,47 @@ describe('VolunteeringEngagementList', () => {
   })
 
   it('should display message if loading filters failed', () => {
-    render(<VolunteeringEngagementList engagements={engagements} loadingFailed={true} />)
+    renderRouter({ index: () => <VolunteeringEngagementList engagements={engagements} loadingFailed={true} /> })
 
     expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
-  it('should allow to reset filters if loading results failed', async () => {
+  it('should allow to reset filters if loading results failed', () => {
     const clearFilters = jest.fn()
-    const user = userEvent.setup()
 
-    render(<VolunteeringEngagementList engagements={engagements} loadingFailed={true} clearFilters={clearFilters} />)
+    renderRouter({
+      index: () => (
+        <VolunteeringEngagementList engagements={engagements} loadingFailed={true} clearFilters={clearFilters} />
+      ),
+    })
 
-    await user.press(screen.getByLabelText('search.filter.reset_other'))
+    fireEvent.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })
 
   it('should display message if no results were found', () => {
-    render(<VolunteeringEngagementList engagements={[]} />)
+    renderRouter({ index: () => <VolunteeringEngagementList engagements={[]} /> })
 
     expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
-  it('should allow to reset filters if no results were found', async () => {
+  it('should allow to reset filters if no results were found', () => {
     const clearFilters = jest.fn()
-    const user = userEvent.setup()
 
-    render(<VolunteeringEngagementList engagements={[]} clearFilters={clearFilters} />)
+    renderRouter({ index: () => <VolunteeringEngagementList engagements={[]} clearFilters={clearFilters} /> })
 
-    await user.press(screen.getByLabelText('search.filter.reset_other'))
+    fireEvent.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })
 
-  it('should track press on filter reset button', async () => {
-    const user = userEvent.setup()
+  it('should track press on filter reset button', () => {
+    renderRouter({ index: () => <VolunteeringEngagementList engagements={[]} clearFilters={jest.fn()} /> })
 
-    render(<VolunteeringEngagementList engagements={[]} clearFilters={jest.fn()} />)
-
-    await user.press(screen.getByLabelText('search.filter.reset_other'))
+    fireEvent.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Volunteering.clearFiltersPressed)
   })

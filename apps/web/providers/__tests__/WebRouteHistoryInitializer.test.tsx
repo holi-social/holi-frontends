@@ -1,7 +1,7 @@
 import React from 'react'
 import { useWebHistory } from '@holi/core/navigation/hooks/useWebHistory'
 import { WebRouteHistoryInitializer } from '@holi/web/providers/WebRouteHistoryInitializer'
-import { render } from '@testing-library/react-native'
+import { render } from 'expo-router/testing-library'
 import { useRouter } from 'next/router'
 
 const mockUseWebHistory = useWebHistory as jest.Mock

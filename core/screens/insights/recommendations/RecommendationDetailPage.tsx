@@ -88,7 +88,6 @@ const RecommendationDetailPage = () => {
     if (showWebView) return
 
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => (

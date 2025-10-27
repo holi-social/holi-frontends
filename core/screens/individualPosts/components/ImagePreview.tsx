@@ -8,6 +8,7 @@ import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicke
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Spacing } from 'holi-bricks/foundations'
+import { Image } from 'holi-bricks/components/image'
 
 type ImagePreviewProps = {
   style?: ViewStyle
@@ -46,22 +47,28 @@ const ImagePreview = ({ style, image, currentImage, imageUrl, blurhash, aspectRa
             />
           )}
           {!imageError && !image && currentImage && (
-            <HoliImage
-              label={t('global.imagePreview.image')}
-              source={{ uri: currentImage }}
+            <Image
+              alt={t('global.imagePreview.image')}
+              source={currentImage}
+              width={640}
+              height={360}
+              aspectRatio={aspectRatio}
               resizeMode="cover"
-              style={styles.image}
+              stretch
               blurhash={blurhash}
               onError={() => setImageError(true)}
               onLoadEnd={() => setIsLoading(false)}
             />
           )}
           {!imageError && !image && !currentImage && imageUrl && (
-            <HoliImage
-              label={t('global.imagePreview.image')}
-              source={{ uri: imageUrl }}
+            <Image
+              alt={t('global.imagePreview.image')}
+              source={imageUrl}
+              width={640}
+              height={360}
+              aspectRatio={aspectRatio}
               resizeMode="cover"
-              style={styles.image}
+              stretch
               blurhash={blurhash}
               onError={() => setImageError(true)}
               onLoadEnd={() => setIsLoading(false)}
