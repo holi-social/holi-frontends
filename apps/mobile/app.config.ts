@@ -74,6 +74,7 @@ const config: ExpoConfig = {
       usesNonExemptEncryption: false,
     },
     infoPlist: {
+      UIViewControllerBasedStatusBarAppearance: true,
       CFBundleAllowMixedLocalizations: true,
       LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       UIBackgroundModes: [
@@ -144,6 +145,7 @@ const config: ExpoConfig = {
     'expo-localization',
     'expo-secure-store',
     'expo-apple-authentication',
+    'expo-router',
     [
       '@sentry/react-native/expo',
       {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from 'expo-router/testing-library'
 import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { testLocation } from '@holi-apps/volunteering/__tests__/testData'

@@ -1,5 +1,6 @@
-import React, { createContext, useCallback, useContext, useState } from 'react'
-import { ScrollView, StyleProp, ViewStyle } from 'react-native'
+import type React from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
+import { ScrollView, type StyleProp, type ViewStyle } from 'react-native'
 
 export type GateElement = JSX.Element | null | undefined
 
@@ -15,12 +16,9 @@ export const usePortals = () => useContext(PortalContext)
 export const PortalProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [gates, setGates] = useState<Record<string, GateElement>>({})
 
-  const teleport = useCallback(
-    (gateName: string, element: GateElement) => {
-      setGates({ ...gates, [gateName]: element })
-    },
-    [gates]
-  )
+  const teleport = useCallback((gateName: string, element: GateElement) => {
+    setGates((prevGates) => ({ ...prevGates, [gateName]: element }))
+  }, [])
 
   return <PortalContext.Provider value={{ gates: gates, teleport: teleport }}>{children}</PortalContext.Provider>
 }

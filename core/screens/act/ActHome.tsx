@@ -58,7 +58,6 @@ const ActHome = () => {
         scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
         headerOptions={{
           title,
-          headerBackTitleVisible: true,
           headerBackVisible: true,
           headerTitle: '',
           headerLeft: ({ tintColor }) => (

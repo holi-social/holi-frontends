@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { View, StatusBar, Platform, type ScrollView, type LayoutChangeEvent } from 'react-native'
 import { useStyles } from 'holi-bricks/styles'
-import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
 import { useScrollToTop } from '@react-navigation/native'
 import { useAutoPreset } from '@holi/core/components/Screen/useAutoPreset'
@@ -156,8 +155,8 @@ export const Screen = (props: ScreenProps) => {
     ...otherProps
   } = props
   const { styles, theme } = useStyles(stylesheet)
-  const { getActiveThemeName } = useBricks()
-  const themeName = getActiveThemeName()
+  // const { getActiveThemeName } = useBricks()
+  // const themeName = getActiveThemeName()
   const { stickyBottomLayout, stickyBottomOffset, stickyTopLayout, stickyTopOffset } = useScreenComponentInternal({
     headerOptions,
   })
@@ -168,6 +167,7 @@ export const Screen = (props: ScreenProps) => {
     ? keyboardVerticalOffset
     : DEFAULT_VERTICAL_OFFSET + (Platform.OS === 'ios' ? stickyBottomOffset || 0 : 0)
 
+  //barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'}
   return (
     <SafeAreaView
       edges={safeAreaEdges}
@@ -180,7 +180,7 @@ export const Screen = (props: ScreenProps) => {
         { backgroundColor: theme.colors.bg[backgroundColor] },
       ]}
     >
-      <StatusBar barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'} {...statusBarProps} />
+      <StatusBar barStyle={'dark-content'} {...statusBarProps} />
 
       <KeyboardAvoidingView
         {...keyboardAvoidingViewProps}

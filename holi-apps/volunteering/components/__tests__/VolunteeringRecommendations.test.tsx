@@ -1,9 +1,10 @@
 import React from 'react'
 import { VolunteeringRecommendations } from '@holi-apps/volunteering/components/VolunteeringRecommendations'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { TrackingEvent } from '@holi/core/tracking'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { Text } from 'react-native'
 
 const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({
@@ -34,13 +35,13 @@ describe('VolunteeringRecommendations', () => {
       isLoading: true,
     })
 
-    render(<VolunteeringRecommendations />)
+    renderRouter({ index: () => <VolunteeringRecommendations /> })
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should render search results', () => {
-    render(<VolunteeringRecommendations />)
+    renderRouter({ index: () => <VolunteeringRecommendations /> })
 
     // Header
     expect(screen.getByText('volunteering.discoveryV1.headline')).toBeOnTheScreen()
@@ -60,7 +61,7 @@ describe('VolunteeringRecommendations', () => {
       fetchNextPage,
     })
 
-    render(<VolunteeringRecommendations />)
+    renderRouter({ index: () => <VolunteeringRecommendations /> })
 
     expect(screen.getByTestId('volunteering-loader')).toBeOnTheScreen()
     expect(fetchNextPage).toHaveBeenCalled()
@@ -74,30 +75,34 @@ describe('VolunteeringRecommendations', () => {
       fetchNextPage,
     })
 
-    render(<VolunteeringRecommendations />)
+    renderRouter({ index: () => <VolunteeringRecommendations /> })
 
     expect(screen.queryByTestId('volunteering-loader')).not.toBeOnTheScreen()
     expect(fetchNextPage).not.toHaveBeenCalled()
   })
 
-  it('should link to detail pages', async () => {
-    const user = userEvent.setup()
+  it('should link to detail pages', () => {
     const engagement = results.engagements[0]
 
-    render(<VolunteeringRecommendations />)
+    const context = renderRouter({
+      index: () => <VolunteeringRecommendations />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByText(engagement.title))
+    fireEvent.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+    expect(context).toHavePathname(`/volunteering/${engagement.link_locators?.volunteering}`)
   })
 
-  it('should track pressing cards', async () => {
-    const user = userEvent.setup()
+  it('should track pressing cards', () => {
     const engagement = results.engagements[0]
 
-    render(<VolunteeringRecommendations />)
+    renderRouter({
+      index: () => <VolunteeringRecommendations />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByText(engagement.title))
+    fireEvent.press(screen.getByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0, {
@@ -110,7 +115,7 @@ describe('VolunteeringRecommendations', () => {
   })
 
   it('should display errors', () => {
-    render(<VolunteeringRecommendations />)
+    renderRouter({ index: () => <VolunteeringRecommendations /> })
 
     expect(mockUseVolunteeringRecos).toHaveBeenCalledWith({
       displayErrors: true,

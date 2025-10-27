@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React, { type PropsWithChildren } from 'react'
 
 import DiscoverSpacesView, {
@@ -41,11 +41,13 @@ const defaultTopicsMock = {
 }
 
 const renderDiscoverSpaces = (userTopics: string[] = [], userSkills: string[] = [], userGeolocationId?: string) => {
-  return render(
-    <MockedProvider mocks={[defaultTopicsMock]} addTypename={false}>
-      <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
-    </MockedProvider>
-  )
+  return renderRouter({
+    index: () => (
+      <MockedProvider mocks={[defaultTopicsMock]} addTypename={false}>
+        <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
+      </MockedProvider>
+    ),
+  })
 }
 
 describe('DiscoverSpacesView', () => {

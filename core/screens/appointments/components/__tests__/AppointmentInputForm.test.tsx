@@ -1,4 +1,4 @@
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from 'expo-router/testing-library'
 import React from 'react'
 
 import AppointmentInputForm, {

@@ -1,11 +1,9 @@
 import * as Notifications from 'expo-notifications'
 import type { NotificationContentInput } from 'expo-notifications'
 
-import type { Route } from '@react-navigation/native'
-
 import { getLogger } from '@holi/core/helpers/logging'
-import { RouteName } from '@holi/mobile/navigation/routeName'
 import type { NotificationData } from '@holi/mobile/notifications'
+import type { CurrentRouteInfo } from '@holi/core/navigation/hooks/useCurrentRoute'
 
 const logger = getLogger('Notifications')
 
@@ -166,18 +164,21 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
   }
 }
 
-const isInChatHome = (currentRoute: Route<string> | undefined): boolean => currentRoute?.name === RouteName.ChatHome
+const isInChatHome = (pathname: string): boolean => {
+  return pathname === '/chat' || pathname.startsWith('/(tabs)/chat')
+}
 
-const isInSameChatRoom = (pushRoomId: string | undefined, currentRoute: Route<string> | undefined): boolean => {
-  const name = currentRoute?.name
-  const params = currentRoute?.params
-  return name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
+const isInSameChatRoom = (pushRoomId: string | undefined, routeInfo: CurrentRouteInfo): boolean => {
+  const { pathname, params } = routeInfo
+  // Check if we're on the chat room route (e.g., /chat/rooms/[roomId])
+  const isChatRoomRoute = pathname.startsWith('/chat/rooms/') || pathname.includes('/chat/rooms/')
+  return isChatRoomRoute && params.roomId === pushRoomId
 }
 
 export const isChatNotification = (data: NotificationData | undefined) => !data?.notificationType
 
 export const maybeScheduleChatNotification = async (
-  currentRoute: Route<string> | undefined,
+  routeInfo: CurrentRouteInfo,
   data: NotificationData | undefined
 ): Promise<void> => {
   const sygnalEvent = tryParseSygnalEvent(data)
@@ -186,8 +187,8 @@ export const maybeScheduleChatNotification = async (
   if (sygnalEvent) {
     const content = generateNotificationContent(sygnalEvent)
     if (content) {
-      const inChatHome = isInChatHome(currentRoute)
-      const inSameChatRoom = isInSameChatRoom(sygnalEvent.room_id, currentRoute)
+      const inChatHome = isInChatHome(routeInfo.pathname)
+      const inSameChatRoom = isInSameChatRoom(sygnalEvent.room_id, routeInfo)
 
       if (!inChatHome && !inSameChatRoom) {
         logger.debug('maybeScheduleChatNotification', 'scheduling chat notification', JSON.stringify(content))
@@ -204,7 +205,7 @@ export const maybeScheduleChatNotification = async (
         logger.debug('maybeScheduleChatNotification', 'not scheduling chat notification', {
           inChatHome,
           inSameChatRoom,
-          currentRoute,
+          routeInfo,
         })
       }
     } else {

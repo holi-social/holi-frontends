@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from 'expo-router/testing-library'
 
 import { useUnseenNotificationsCount } from '@holi/core/screens/notifications/hooks/useUnseenNotificationsCount'
 
@@ -13,6 +13,10 @@ jest.mock('@holi/core/screens/notifications/config', () => ({
 
 jest.mock('@holi/core/screens/notifications/hooks/useNotificationService', () => ({
   useNotificationService: () => mockUseNotificationService(),
+}))
+
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({ isLoggedIn: true }),
 }))
 
 const mockConsoleWarn = jest.fn()

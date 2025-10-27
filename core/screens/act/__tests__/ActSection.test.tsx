@@ -1,7 +1,7 @@
 import { mockFeatureFlags } from '@holi/core/helpers/__mocks__/mockFeatureFlags'
 
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import type { User } from '@holi/core/domain/shared/types'
@@ -227,14 +227,18 @@ describe('ActHome Section', () => {
   })
 
   it('shows DONATIONS', async () => {
-    render(<ActSection type={ActSectionType.DONATIONS} />)
+    renderRouter({
+      index: () => <ActSection type={ActSectionType.DONATIONS} />,
+    })
     expect(await screen.findByTestId('donations-reco-slider-heading-button'))
     const donationsRecos = await screen.findAllByTestId('donations-list-item')
     expect(donationsRecos.length).toBe(5)
   })
 
   it('shows VOLUNTEERING', async () => {
-    render(<ActSection type={ActSectionType.VOLUNTEERING} />)
+    renderRouter({
+      index: () => <ActSection type={ActSectionType.VOLUNTEERING} />,
+    })
     expect(await screen.findByTestId('volunteering-reco-slider-heading-button'))
     const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-card')
     expect(volunteeringRecos.length).toBe(5)
@@ -244,11 +248,13 @@ describe('ActHome Section', () => {
     mockPosthog.mockReturnValue({
       distinctId: () => '1234',
     })
-    render(
-      <MockedProvider mocks={[]}>
-        <ActSection type={ActSectionType.CHALLENGES} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]}>
+          <ActSection type={ActSectionType.CHALLENGES} />
+        </MockedProvider>
+      ),
+    })
     expect(await screen.findByTestId('challenges-reco-slider-heading-button'))
     expect(await screen.findAllByTestId('challenges-reco-slider-load-more-button'))
   })

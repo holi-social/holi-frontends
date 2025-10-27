@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'

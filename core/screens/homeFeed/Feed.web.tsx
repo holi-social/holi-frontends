@@ -138,7 +138,6 @@ const HomeFeed = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTitle: () => null,
       headerTintColor: colors.black300,

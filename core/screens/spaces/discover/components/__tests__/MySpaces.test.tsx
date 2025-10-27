@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { render, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'

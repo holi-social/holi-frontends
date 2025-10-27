@@ -1,7 +1,7 @@
 import { type BadgesQuery, useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { animations } from '@holi/ui/lottie-animations'
 import { useCallback } from 'react'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 export type Badge = {
   slug: string

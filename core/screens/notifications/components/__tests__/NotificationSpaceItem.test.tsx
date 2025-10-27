@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render } from 'expo-router/testing-library'
 import React from 'react'
 
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'

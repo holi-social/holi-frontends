@@ -1,4 +1,10 @@
 export enum RouteName {
+  TabFeed = 'index',
+  TabAct = 'act',
+  TabChat = 'chat',
+  TabSpaces = 'spaces',
+  TabProfile = 'profile',
+
   // Feed Stack
   HomeFeed = 'HomeFeed',
   InsightDetailPage = 'InsightDetailPage',
@@ -31,9 +37,6 @@ export enum RouteName {
   CreateTask = 'CreateTask',
   EditTask = 'EditTask',
   TaskDetails = 'TaskDetails',
-  TaskCompletionFlow = 'TaskCompletionFlow',
-  CompletedTask = 'CompletedTask',
-  CompleteTaskCallback = 'CompleteTaskCallback',
   CreateTaskDE = 'CreateTaskDE',
   EditTaskDE = 'EditTaskDE',
   TaskDetailsDE = 'TaskDetailsDE',
@@ -58,6 +61,7 @@ export enum RouteName {
   // Act Stack
   ActHome = 'ActHome',
   ActStack = 'ActStack',
+  Act = 'Act',
 
   // Chat Stack
   ChatHome = 'ChatHome',
@@ -79,7 +83,6 @@ export enum RouteName {
   AboutHoliApp = 'AboutHoliApp',
   Document = 'Document',
   Favorites = 'Favorites',
-  FavoritesAdd = 'FavoritesAdd',
   AboutMe = 'AboutMe',
   MyPosts = 'MyPosts',
   MySpaces = 'MySpaces',
