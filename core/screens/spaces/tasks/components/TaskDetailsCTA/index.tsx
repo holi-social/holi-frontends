@@ -141,19 +141,21 @@ export const TaskDetailsCTA = ({
           })}
         />
       ) : (
-        <SaveForLaterButton
-          favoritableId={id || ''}
-          favoritableType={FavoritableType.Task}
-          __typename="Task"
-          isFavorite={isFavorite}
-          onCompleted={refetchFavorite}
-          onError={(error) =>
-            displayError(error, `Failed to ${isFavorite ? 'remove' : 'add'} favorite`, {
-              location: 'TaskDetailsCTA.saveForLaterTask',
-              favoritableId: id,
-            })
-          }
-        />
+        status === undefined && (
+          <SaveForLaterButton
+            favoritableId={id || ''}
+            favoritableType={FavoritableType.Task}
+            __typename="Task"
+            isFavorite={isFavorite}
+            onCompleted={refetchFavorite}
+            onError={(error) =>
+              displayError(error, `Failed to ${isFavorite ? 'remove' : 'add'} favorite`, {
+                location: 'TaskDetailsCTA.saveForLaterTask',
+                favoritableId: id,
+              })
+            }
+          />
+        )
       )}
 
       {/* Snackbar feedback */}
