@@ -99,7 +99,7 @@ describe('RegistrationForm', () => {
         <RegistrationForm
           startedFlowId={startedFlowId}
           onRegister={onRegister ?? jest.fn()}
-          step="oidc"
+          step="start"
           setStep={jest.fn()}
         />
       </MockedProvider>

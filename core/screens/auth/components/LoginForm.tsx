@@ -60,7 +60,7 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
     (messageId: number) => {
       // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
       if (messageId === 1010014) {
-        if (step === 'email-code') {
+        if (step === 'start') {
           setStep('code')
         }
         return true
@@ -94,7 +94,7 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
       })
 
       initializeFlow()?.then(() => {
-        setStep('oidc')
+        setStep('start')
       })
       setDisplayedExistingAccountError(true)
     } else if (isLoggedOut && !flow) {
@@ -142,7 +142,7 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
           location: 'LoginForm.performLogin',
         })
         initializeFlow()?.then(() => {
-          setStep('oidc')
+          setStep('start')
         })
         return
       }
@@ -204,7 +204,7 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
           onChangeEmail={() => {
             showLoader()
             initializeFlow().then(() => {
-              setStep('email-code')
+              setStep('start')
               hideLoader()
             })
           }}
@@ -221,7 +221,7 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
         isSignin
       />
 
-      {!isLoaderShown && step === 'oidc' && (
+      {!isLoaderShown && step === 'start' && (
         <>
           <View style={styles.dividerContainer}>
             <View style={styles.divider}>
@@ -237,12 +237,13 @@ export const LoginForm = ({ startedFlowId, onLogin, step, setStep }: LoginFormPr
             </View>
           </View>
 
+          {/* TODO(SF) replace this */}
           <View style={styles.buttonContainer}>
             <ButtonTracked
               label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
-              onPress={() => setStep('email-code')}
+              onPress={() => setStep('start')}
               icon={Mail}
               testID="ory-submit-email-button"
               trackingEvent={TrackingEvent.Auth.HoliLoginPressed({

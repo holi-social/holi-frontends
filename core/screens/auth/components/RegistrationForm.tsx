@@ -64,7 +64,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
     (messageId: number) => {
       // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
       if (messageId === 1040005) {
-        if (step === 'email-code') {
+        if (step === 'start') {
           setStep('code')
         }
         return true
@@ -144,7 +144,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
             location: 'RegistrationForm.onSubmit',
           })
           initializeFlow()?.then(() => {
-            setStep('oidc')
+            setStep('start')
           })
           return
         }
@@ -204,7 +204,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
           onChangeEmail={() => {
             showLoader()
             initializeFlow()?.then(() => {
-              setStep('email-code')
+              setStep('start')
               hideLoader()
             })
           }}
@@ -219,7 +219,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
         handleMessage={handleMessage}
       />
 
-      {!isLoaderShown && step === 'oidc' && (
+      {!isLoaderShown && step === 'start' && (
         <>
           <View style={styles.dividerContainer}>
             <View style={styles.divider}>
@@ -235,12 +235,13 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
             </View>
           </View>
 
+          {/* TODO(SF) replace this */}
           <View style={styles.buttonContainer}>
             <ButtonTracked
               label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
-              onPress={() => setStep('email-code')}
+              onPress={() => setStep('start')}
               icon={Mail}
               testID={'ory-submit-email-button'}
               trackingEvent={TrackingEvent.Auth.HoliRegisterPressed({

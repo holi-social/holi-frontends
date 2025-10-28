@@ -11,7 +11,7 @@ describe('AuthenticationHeader', () => {
   })
 
   it('should render correct header for other steps', () => {
-    render(<AuthenticationHeader authenticationStep="oidc" />)
+    render(<AuthenticationHeader authenticationStep="start" />)
 
     expect(screen.getByText('registration.signUp.heading')).toBeOnTheScreen()
   })

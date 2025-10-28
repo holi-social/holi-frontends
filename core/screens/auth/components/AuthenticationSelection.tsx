@@ -37,7 +37,7 @@ export const AuthenticationSelection = ({
   const { styles } = useStyles(stylesheet)
 
   const [selectedAuthenticationType, setSelectedAuthenticationType] = useState<AuthenticationType>(initialSelection)
-  const [authenticationStep, setAuthenticationStep] = useState<AuthenticationStep>('oidc')
+  const [authenticationStep, setAuthenticationStep] = useState<AuthenticationStep>('start')
 
   const tabs: TabItem[] = [
     {
@@ -74,7 +74,7 @@ export const AuthenticationSelection = ({
         return
       }
       setSelectedAuthenticationType(key as AuthenticationType)
-      setAuthenticationStep('oidc')
+      setAuthenticationStep('start')
       resetFlow()
     },
     [resetFlow, selectedAuthenticationType]
