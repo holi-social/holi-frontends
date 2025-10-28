@@ -109,7 +109,7 @@ export const login = async ({
   }
 }
 
-export const doLogin = async (client: ApolloClient<object>, data: OrySessionContext) => {
+export const doLogin = async (client: ApolloClient, data: OrySessionContext) => {
   await client.clearStore()
   await setLoginStateLoggedIn(data)
   await clearGuestMode()

@@ -1,43 +1,29 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { useSpaceByIdQuery } from '@holi/api/graphql/graphql-codegen'
 
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 import { appointmentByIdOrSlugQuery, type appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 
 export const useSpaceByIdOrName = (spaceIdOrName?: string) => {
-  const { replaceRoute } = useRouting()
-
-  return useSpaceByIdQuery({
+  const queryResult = useSpaceByIdQuery({
     variables: { idOrName: spaceIdOrName ?? '' },
     skip: !spaceIdOrName,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-
-      logError(error, 'Failed to load space', {
-        location: 'CreateAppointment.spaceByIdWithAllMembersQuery',
-        spaceIdOrName,
-      })
-    },
   })
+  useApolloNotFoundErrorHandling(queryResult.error, 'Failed to load space', {
+    location: 'CreateAppointment.spaceByIdWithAllMembersQuery',
+    spaceIdOrName,
+  })
+  return queryResult
 }
 
 export const useAppointmentById = (appointmentId?: string) => {
-  const { replaceRoute } = useRouting()
-
-  return useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
+  const queryResult = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug: appointmentId },
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load appointment', {
-        location: 'EditAppointment.appointmentByIdOrSlugQuery',
-        idOrSlug: appointmentId,
-      })
-    },
     skip: !appointmentId,
   })
+  useApolloNotFoundErrorHandling(queryResult.error, 'Failed to load appointment', {
+    location: 'EditAppointment.appointmentByIdOrSlugQuery',
+    idOrSlug: appointmentId,
+  })
+  return queryResult
 }

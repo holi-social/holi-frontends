@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -48,7 +48,7 @@ describe('PostContent', () => {
   it('renders public post correctly', () => {
     const { getByText, getByTestId, getAllByTestId } = renderRouter({
       index: () => (
-        <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+        <MockedProvider mocks={[authenticatedUserMock]}>
           <PostContent hasVisibilityIcon post={post} />
         </MockedProvider>
       ),
@@ -70,7 +70,7 @@ describe('PostContent', () => {
 
     const { getByText, getByTestId } = renderRouter({
       index: () => (
-        <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+        <MockedProvider mocks={[authenticatedUserMock]}>
           <PostContent hasVisibilityIcon post={newPost} />
         </MockedProvider>
       ),

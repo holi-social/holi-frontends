@@ -1,5 +1,5 @@
-import type { DefaultOptions } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
+import type { ApolloClient } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import { createStore } from 'jotai'
 import {
@@ -69,7 +69,7 @@ const loggedOut: LoginState = {
 }
 
 const useLoginStateMock = jest.mocked(useLoginState)
-const defaultOptions: DefaultOptions = {
+const defaultOptions: ApolloClient.DefaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
 }
@@ -135,7 +135,7 @@ describe('ChatHomeContent Component', () => {
     useLoginStateMock.mockReturnValue(loggedOut)
     renderRouter({
       index: () => (
-        <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
+        <MockedProvider mocks={[]} cache={createCache()}>
           <ChatHomeContent />
         </MockedProvider>
       ),
@@ -170,7 +170,6 @@ describe('ChatHomeContent Component', () => {
             getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
             getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
           ]}
-          addTypename={true}
           defaultOptions={defaultOptions}
           cache={createCache()}
         >
@@ -216,7 +215,6 @@ describe('ChatHomeContent Component', () => {
             getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
             getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
           ]}
-          addTypename={false}
           defaultOptions={defaultOptions}
         >
           <ChatProvider store={store}>
@@ -283,7 +281,6 @@ describe('ChatHomeContent Component', () => {
             getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
             getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
           ]}
-          addTypename={true}
           defaultOptions={defaultOptions}
           cache={createCache()}
         >

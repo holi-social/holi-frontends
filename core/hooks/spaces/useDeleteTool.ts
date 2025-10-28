@@ -1,5 +1,5 @@
-import { useMutation } from '@apollo/client'
-import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
+import type { ApolloLink } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -9,8 +9,9 @@ import {
 } from '@holi/core/screens/spaces/linkHub/mutations'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
+import { useCallback } from 'react'
 
-export type UseDeleteTool = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
+export type UseDeleteTool = [boolean, (options?: useMutation.MutationFunctionOptions) => Promise<ApolloLink.Result>]
 
 interface UseDeleteToolProps {
   id: string
@@ -25,7 +26,6 @@ const useDeleteTool = ({ id, spaceIdOrName, successMsg, handleDelete }: UseDelet
   const { displayError } = useErrorHandling()
 
   const [deleteTool, { loading }] = useMutation<DeleteCollaborationToolResponse>(deleteCollaborationToolMutation, {
-    variables: { id },
     onCompleted: () => {
       openToast(successMsg, HoliToastType.SUCCESS)
       handleDelete?.()
@@ -40,7 +40,9 @@ const useDeleteTool = ({ id, spaceIdOrName, successMsg, handleDelete }: UseDelet
     refetchQueries: [{ query: SpaceByIdDocument, variables: { idOrName: spaceIdOrName } }],
   })
 
-  return [loading, deleteTool]
+  const deleteToolCallback = useCallback(() => deleteTool({ variables: { id } }), [deleteTool, id])
+
+  return [loading, deleteToolCallback]
 }
 
 export default useDeleteTool

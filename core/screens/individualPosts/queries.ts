@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
 import { Category, FeedPost } from '@holi/core/screens/individualPosts/types'

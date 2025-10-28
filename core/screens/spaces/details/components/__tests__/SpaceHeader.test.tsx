@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { render } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -9,7 +9,7 @@ import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeade
 xdescribe('SpaceHeader', () => {
   it('renders correctly', () => {
     const { getByText, getByTestId } = render(
-      <MockedProvider addTypename={false}>
+      <MockedProvider>
         <SpaceHeader space={space} />
       </MockedProvider>
     )

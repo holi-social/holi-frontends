@@ -13,7 +13,7 @@ import {
   updateAuthenticatedUserV2Mutation,
   type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 

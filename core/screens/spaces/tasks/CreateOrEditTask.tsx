@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -28,9 +28,9 @@ import type { TaskFormInput } from './components/TaskInputForm/types'
 import { CreateOrEditTaskSchema, createOrEditTaskSchemaRefinedInteractionSignupLink } from './taskSchema'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { z } from 'zod'
-import type { ApolloError } from '@apollo/client'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { logError } from '@holi/core/errors/helpers'
+import type { ErrorLike } from '@apollo/client'
 
 export type CreateTaskParams = {
   spaceIdOrName: string
@@ -96,27 +96,28 @@ const CreateOrEditTask = () => {
   } = useTaskByIdQuery({
     variables: { id: taskIdParam ?? '' },
     skip: !taskIdParam,
-    onCompleted: ({ taskById }) => {
-      if (taskById) {
-        setTaskInput((prevTaskInput) => ({
-          ...prevTaskInput,
-          ...taskById,
-          geolocation: taskById.geolocation
-            ? {
-                latitude: taskById.geolocation.latitude,
-                longitude: taskById.geolocation.longitude,
-              }
-            : undefined,
-          thumbnail: taskById.thumbnail || undefined,
-        }))
-      }
-    },
   })
+
+  useEffect(() => {
+    if (taskToEdit) {
+      setTaskInput((prevTaskInput) => ({
+        ...prevTaskInput,
+        ...taskToEdit,
+        geolocation: taskToEdit.geolocation
+          ? {
+              latitude: taskToEdit.geolocation.latitude,
+              longitude: taskToEdit.geolocation.longitude,
+            }
+          : undefined,
+        thumbnail: taskToEdit.thumbnail || undefined,
+      }))
+    }
+  }, [taskToEdit])
 
   // Mutations
   const mutationOptions = {
     onCompleted: () => navigateBack(),
-    onError: (error: ApolloError) => {
+    onError: (error: ErrorLike) => {
       if (isMaliciousUrlError(error)) {
         openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
       } else {

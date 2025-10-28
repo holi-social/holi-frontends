@@ -1,5 +1,6 @@
 import React from 'react'
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import {
   Typesense_DocumentByIdDocument,
   type Typesense_SearchResponse,
@@ -11,6 +12,7 @@ import { act, renderHook } from 'expo-router/testing-library'
 import { createCache } from '@holi/api/graphql/client'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
 import { createDocument } from '@holi/core/typesense/hooks/__tests__/testData'
+import { CombinedProtocolErrors } from '@apollo/client'
 
 const testId = '123'
 const documentType = TypesenseDocumentType.Volunteering
@@ -55,7 +57,7 @@ const mockDocumentError = [
         documentType,
       },
     },
-    error: new Error('Test error'),
+    error: new CombinedProtocolErrors([]),
   },
 ]
 
@@ -78,7 +80,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
   }: Partial<Parameters<typeof useSingleTypesenseDocumentQuery>[2]> & {
     id?: string
     response?: Typesense_SearchResponse
-    mocks?: MockedResponse[]
+    mocks?: MockLink.MockedResponse[]
   } = {}) => {
     const mockedResponses = mocks ?? [createDocumentResultMock(response ?? testResponse)]
     return renderHook(() => useSingleTypesenseDocumentQuery(id, documentType, { onError, onNotFound }), {
@@ -177,7 +179,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
 
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(onError).toHaveBeenCalledWith(new Error('Test error'))
+    expect(onError).toHaveBeenCalledWith(new CombinedProtocolErrors([]))
     expect(result.current.document).toBeUndefined()
   })
 

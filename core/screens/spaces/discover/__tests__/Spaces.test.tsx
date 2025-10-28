@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -103,10 +104,10 @@ describe('Spaces screen', () => {
     jest.useRealTimers()
   })
 
-  const renderSpaces = (mocks: MockedResponse[]) =>
+  const renderSpaces = (mocks: MockLink.MockedResponse[]) =>
     renderRouter({
       index: () => (
-        <MockedProvider mocks={mocks} addTypename={false}>
+        <MockedProvider mocks={mocks}>
           <ToastProvider>
             <Spaces />
           </ToastProvider>

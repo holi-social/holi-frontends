@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -59,7 +59,7 @@ describe('CommentView', () => {
   it('renders correctly', () => {
     renderRouter({
       index: () => (
-        <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+        <MockedProvider mocks={[authenticatedUserMock]}>
           <CommentView commentableId={post.id} commentableType={CommentableType.POST} comment={comment} />
         </MockedProvider>
       ),

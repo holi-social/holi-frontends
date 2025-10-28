@@ -17,7 +17,7 @@ module.exports = {
     // Force module uuid to resolve with the CJS entry point, because Jest does not support package.json.exports. See https://github.com/uuidjs/uuid/issues/451
     '^uuid$': 'uuid',
     '\\.(lottie)$': '<rootDir>/__mocks__/lottieMock.js',
-    '^apollo-upload-client/createUploadLink\\.mjs$': '<rootDir>/__mocks__/apollo-upload-client/createUploadLink.js',
+    '^apollo-upload-client/UploadHttpLink\\.mjs$': '<rootDir>/__mocks__/apollo-upload-client/UploadHttpLink.js',
     '^expo-image-manipulator$': '<rootDir>/__mocks__/expo-image-manipulator/index.js',
   },
   setupFiles: [

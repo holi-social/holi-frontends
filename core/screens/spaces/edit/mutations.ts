@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 import { z } from 'zod'
 
 import type { Space, ExternalLinkType } from '@holi/api/graphql/graphql-codegen'

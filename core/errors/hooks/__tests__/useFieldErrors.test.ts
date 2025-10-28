@@ -4,6 +4,7 @@ import type { GraphQLError } from 'graphql'
 import type { FieldErrors } from '@holi/core/errors/helpers'
 import { useFieldErrors } from '@holi/core/errors/hooks/useFieldErrors'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
+import { CombinedGraphQLErrors, ServerError } from '@apollo/client'
 
 const mockI18nExists = jest.fn(() => true)
 jest.mock('react-i18next', () => ({
@@ -68,10 +69,11 @@ describe('useFieldErrors', () => {
 
   it('returns translated field errors', () => {
     const { result } = renderHook(() => useFieldErrors())
-    const translatedErrors = result.current.handleGraphQLError({
-      graphQLErrors: [graphQlError],
-      message: 'Bad user input',
-    })
+    const translatedErrors = result.current.handleGraphQLError(
+      new CombinedGraphQLErrors({
+        errors: [graphQlError],
+      })
+    )
 
     expect(translatedErrors.title).toEqual(['global.validation.title.blank', 'global.validation.title.min_length'])
     expect(translatedErrors.description).toEqual(['global.validation.description.max_length'])
@@ -80,10 +82,11 @@ describe('useFieldErrors', () => {
   it('displays toasts for all unhandled field errors', () => {
     mockI18nExists.mockReturnValue(false)
     const { result } = renderHook(() => useFieldErrors())
-    result.current.handleGraphQLError({
-      graphQLErrors: [graphQlError],
-      message: 'Bad user input',
-    })
+    result.current.handleGraphQLError(
+      new CombinedGraphQLErrors({
+        errors: [graphQlError],
+      })
+    )
 
     expect(global.mockOpenToast).toHaveBeenCalledTimes(2)
     expect(global.mockOpenToast).toHaveBeenCalledWith(
@@ -96,20 +99,23 @@ describe('useFieldErrors', () => {
   it('does not display toasts if all field errors are handled', () => {
     mockI18nExists.mockReturnValue(false)
     const { result } = renderHook(() => useFieldErrors({ handledFieldErrors: ['title', 'description'] }))
-    result.current.handleGraphQLError({
-      graphQLErrors: [graphQlError],
-      message: 'Bad user input',
-    })
+    result.current.handleGraphQLError(
+      new CombinedGraphQLErrors({
+        errors: [graphQlError],
+      })
+    )
 
     expect(global.mockOpenToast).not.toHaveBeenCalled()
   })
 
   it('displays toast for generic error if no field errors could be extracted', () => {
     const { result } = renderHook(() => useFieldErrors())
-    const fieldErrors = result.current.handleGraphQLError({
-      graphQLErrors: [],
-      message: 'Internal server error',
-    })
+    const fieldErrors = result.current.handleGraphQLError(
+      new ServerError('test error', {
+        response: new Response(),
+        bodyText: '',
+      })
+    )
 
     expect(fieldErrors).toEqual({})
     expect(global.mockOpenToast).toHaveBeenCalledTimes(1)

@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -25,6 +24,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type DiscussionDetailPageParams = {
   discussionId: string
@@ -50,21 +50,17 @@ const DiscussionDetailPage = () => {
   const {
     data: { discussionById: discussion } = {},
     refetch,
+    error,
   } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     skip: !discussionId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load discussion', {
-        location: 'DiscussionDetailPage.discussionById',
-        variables: { discussionId },
-      })
-    },
   })
 
   useOnRefresh(refetch)
+  useApolloNotFoundErrorHandling(error, 'Failed to load discussion', {
+    location: 'DiscussionDetailPage.discussionById',
+    variables: { discussionId },
+  })
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({

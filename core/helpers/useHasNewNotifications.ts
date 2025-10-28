@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'

@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { cleanup, renderRouter, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -16,7 +16,7 @@ jest.mock('@holi/core/navigation/hooks/useScreenOptions', () => ({
 const renderHeading = (props: FilteredSpacesHeadingProps) =>
   renderRouter({
     index: () => (
-      <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
+      <MockedProvider mocks={[locationDetailsMock]}>
         <FilteredSpacesHeading {...props} />
       </MockedProvider>
     ),

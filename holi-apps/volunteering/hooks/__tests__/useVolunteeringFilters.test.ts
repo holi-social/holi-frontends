@@ -1,10 +1,11 @@
 import { act, renderHook } from 'expo-router/testing-library'
-import type { ApolloError } from '@apollo/client'
 
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { GraphQLError } from 'graphql'
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
@@ -131,7 +132,7 @@ describe('useVolunteeringFilters', () => {
     expect(result.current.loadingGeolocation).toBeTruthy()
   })
   it('should expose geolocation error', () => {
-    const testError = new Error('Test') as ApolloError
+    const testError = new CombinedGraphQLErrors({ errors: [new GraphQLError('Test')] })
     mockParameters({ geolocationId: 'locationId' })
     mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
       loadingGeolocation: false,

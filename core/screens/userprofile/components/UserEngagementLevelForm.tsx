@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
