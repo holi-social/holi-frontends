@@ -12,6 +12,7 @@ import {
   Typesense_DocumentContactType,
   type VolunteeringOpportunityStatusValue,
 } from '@holi/api/graphql/graphql-codegen'
+import { logError } from '@holi/core/errors/helpers'
 
 interface TransformTypesenseDocumentProps {
   t: TFunction
@@ -19,6 +20,22 @@ interface TransformTypesenseDocumentProps {
   document: TypesenseDocument
   onOpenLink: (url?: string) => void
   status: VolunteeringOpportunityStatusValue | null
+}
+
+const parseUrl = (url?: string): URL | undefined => {
+  if (!url) {
+    return undefined
+  }
+  try {
+    const protocolPrefix = url.startsWith('http') ? '' : 'https://'
+    return new URL(protocolPrefix + url)
+  } catch (e) {
+    logError(e, 'Invalid URL', {
+      location: 'transformTypesenseDocument.parseUrl',
+      url,
+    })
+    return undefined
+  }
 }
 
 export const transformTypesenseDocument = ({
@@ -79,9 +96,14 @@ export const transformTypesenseDocument = ({
   const websiteUrl =
     engagement.contact?.find((contact) => contact.type === Typesense_DocumentContactType.Website)?.value ??
     document.external_url
-  const websiteDomain = websiteUrl ? new URL(websiteUrl).hostname : undefined
-  const externalWebsite = websiteUrl
-    ? { icon: Globe, title: websiteDomain, onPress: () => onOpenLink(websiteUrl), showExternalIcon: true }
+  const externalUrl = parseUrl(websiteUrl)
+  const externalWebsite = externalUrl
+    ? {
+        icon: Globe,
+        title: externalUrl?.hostname,
+        onPress: () => onOpenLink(externalUrl.toString()),
+        showExternalIcon: true,
+      }
     : undefined
 
   const coverImage = document.image_url
@@ -90,6 +112,7 @@ export const transformTypesenseDocument = ({
       }
     : undefined
 
+  const organizerUrl = parseUrl(document.organizer_url)
   const author = {
     topTitle: `${t('postedVia', { source: document.source })}`,
     title: document.organizer_name || document.source || '',
@@ -97,8 +120,8 @@ export const transformTypesenseDocument = ({
       source: document.organizer_image_url,
       label: document.organizer_name || '??',
     },
-    isExternalLink: !!document.organizer_url,
-    onPress: document.organizer_url ? () => onOpenLink(document.organizer_url) : undefined,
+    isExternalLink: !!organizerUrl,
+    onPress: organizerUrl ? () => onOpenLink(organizerUrl.toString()) : undefined,
   }
 
   const infoList = [locationInfo, commitmentRegularity, commitmentDuration, externalWebsite].filter(
