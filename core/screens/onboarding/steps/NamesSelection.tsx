@@ -10,7 +10,7 @@ import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   updateAuthenticatedUserV2Mutation,
   type UpdateAuthenticatedUserV2Response,

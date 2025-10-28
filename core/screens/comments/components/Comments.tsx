@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import React, { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { User } from '@holi/core/domain/shared/types'
-import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
@@ -20,6 +19,7 @@ import type { Post } from '@holi/core/screens/posts/types'
 import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import PostReactButton from '@holi/core/screens/individualPosts/components/PostReactButton'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 interface CommentsProps {
   commentableId: string
@@ -53,17 +53,16 @@ const Comments = ({
   const {
     data: { commentable } = {},
     refetch,
+    error,
   } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType, parentCommentId },
     fetchPolicy: 'cache-and-network',
-    onError: (error) => {
-      logError(error, 'Failed to load comments', {
-        location: 'Comments',
-        variables: { commentableId, commentableType },
-      })
-    },
   })
   useOnRefresh(refetch)
+  useApolloErrorLogging(error, 'Failed to load comments', {
+    location: 'Comments',
+    variables: { commentableId, commentableType },
+  })
 
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []

@@ -1,10 +1,11 @@
-import { DocumentNode, OperationVariables, QueryHookOptions, TypedDocumentNode, useApolloClient } from '@apollo/client'
+import type { DocumentNode, OperationVariables, TypedDocumentNode } from '@apollo/client'
+import { useApolloClient, type useQuery } from '@apollo/client/react'
 import { useEffect, useState } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useAbortableQuery<TData = any, TVariables extends OperationVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
-  options: QueryHookOptions<TData, TVariables>,
+  options: useQuery.Options<TData, TVariables>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dependencies?: any
 ) {
@@ -24,7 +25,7 @@ export function useAbortableQuery<TData = any, TVariables extends OperationVaria
 
     const sub = watchedQuery.subscribe({
       next(x) {
-        if (!x.partial) {
+        if (x.dataState === 'complete') {
           setData(x.data)
           setError(null)
           setLoading(false)

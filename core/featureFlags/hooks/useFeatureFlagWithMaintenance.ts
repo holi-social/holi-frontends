@@ -1,4 +1,4 @@
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import type { FeatureFlagValue } from '@holi/core/featureFlags/types'
 
@@ -13,7 +13,7 @@ export type UseFeatureFlagWithMaintenance = (flag: FeatureFlagKey) => FeatureFla
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace FeatureFlagWithMaintenance {
-  export const fromValue = (value: FeatureFlagValue): FeatureFlagWithMaintenance => {
+  export const fromValue = (value: FeatureFlagValue, flag: FeatureFlagKey): FeatureFlagWithMaintenance => {
     switch (value) {
       case 'on':
         return On
@@ -25,7 +25,7 @@ export namespace FeatureFlagWithMaintenance {
         return Unknown
       default:
         // eslint-disable-next-line no-console
-        console.warn(`Received unknown value "${value}" in FeatureFlagWithMaintenance.fromValue`)
+        console.warn(`Received unknown value "${value}" in FeatureFlagWithMaintenance.fromValue for flag ${flag}`)
         return Unknown
     }
   }
@@ -35,5 +35,5 @@ export const useFeatureFlagWithMaintenance: UseFeatureFlagWithMaintenance = (
   flag: FeatureFlagKey
 ): FeatureFlagWithMaintenance => {
   const value = useFeatureFlag(flag)
-  return FeatureFlagWithMaintenance.fromValue((value && value[0]) || undefined)
+  return FeatureFlagWithMaintenance.fromValue((value && value[0]) || undefined, flag)
 }

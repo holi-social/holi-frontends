@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
 import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'

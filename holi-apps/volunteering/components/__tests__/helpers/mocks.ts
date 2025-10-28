@@ -1,6 +1,6 @@
 import { BadgesDocument, Typesense_DocumentContactType } from '@holi/api/graphql/graphql-codegen'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
-import type { MockedResponse } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
 
 export const volunteeringDetailsScreenDataMock: VolunteeringDetailsScreenData = {
   title: 'Some title',
@@ -19,7 +19,7 @@ export const volunteeringDetailsScreenDataMock: VolunteeringDetailsScreenData = 
   status: null,
 }
 
-export const badgesMockWithUnseen: MockedResponse = {
+export const badgesMockWithUnseen: MockLink.MockedResponse = {
   request: {
     query: BadgesDocument,
   },
@@ -56,7 +56,7 @@ export const badgesMockWithUnseen: MockedResponse = {
   },
 }
 
-export const badgesMockWithoutUnseen: MockedResponse = {
+export const badgesMockWithoutUnseen: MockLink.MockedResponse = {
   request: {
     query: BadgesDocument,
   },
@@ -80,7 +80,7 @@ export const badgesMockWithoutUnseen: MockedResponse = {
   },
 }
 
-export const refetchMock: MockedResponse = {
+export const refetchMock: MockLink.MockedResponse = {
   request: { query: BadgesDocument },
   result: {
     data: {

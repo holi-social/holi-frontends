@@ -14,7 +14,7 @@ import { EmailContent } from './components/EmailContent'
 import { useEmailSubscriptionAnimation } from './hooks/useEmailSubscriptionAnimation'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { unsubscribeFromNewsletterMutation } from '@holi/core/screens/mail/mutations'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
 export type UnsubscribeParams = {

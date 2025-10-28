@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
@@ -145,5 +145,5 @@ export const UpdatePostReactionMutation = gql`
 `
 
 export interface UpdatePostReactionResponse {
-  post: Post
+  updatePostReaction: Post
 }

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'
@@ -16,6 +16,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Button } from 'holi-bricks/components/button'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
 const BUILD_NUMBER =
@@ -28,8 +29,6 @@ const UpdateAppModal = () => {
   const mixins = useStyleMixins()
   const { error, data, refetch } = useQuery<CheckAppVersionResponse>(checkAppVersionQuery, {
     variables: { version: Constants.expoConfig?.version, buildNumber: BUILD_NUMBER },
-    onError: (error) =>
-      logError(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' }),
   })
   const [modalShown, setModalShown] = useState(false)
   const [modalDismissedOnce, setModalDismissedOnce] = useState(false)
@@ -83,13 +82,15 @@ const UpdateAppModal = () => {
   const isMandatory = updateStatus === NeedUpdateType.MANDATORY
   const isRecommended = updateStatus === NeedUpdateType.RECOMMENDED
 
+  useApolloErrorLogging(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' })
+
   useEffect(() => {
     if ((isMandatory || isRecommended) && !modalDismissedOnce) {
       setModalShown(true)
       return
     }
     setModalShown(false)
-  }, [data, error, modalShown, isMandatory, isRecommended, modalDismissedOnce])
+  }, [data, modalShown, isMandatory, isRecommended, modalDismissedOnce])
 
   return (
     <HoliModal

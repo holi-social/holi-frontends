@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 import { anonCountQuery } from '@holi/core/domain/shared/queries'
 import { useCallback } from 'react'

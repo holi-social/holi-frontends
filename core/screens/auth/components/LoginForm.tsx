@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'

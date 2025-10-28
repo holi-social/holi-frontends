@@ -1,10 +1,11 @@
-import { useLazyQuery } from '@apollo/client'
-import React, { useState } from 'react'
+import { useLazyQuery } from '@apollo/client/react'
+import type React from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { TranslateQueryRespone, translateQuery } from '@holi/core/queries'
-import { TrackingEvent } from '@holi/core/tracking'
+import { type TranslateQueryRespone, translateQuery } from '@holi/core/queries'
+import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Translate } from '@holi/icons/src/generated'
@@ -36,12 +37,7 @@ const HoliTranslate: React.FC<HoliTranslateProps> = ({
   const { track } = useTracking()
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
-  const [translate] = useLazyQuery<TranslateQueryRespone>(translateQuery, {
-    onError: () => {
-      setLoading(false)
-      openToast(t('global.technicalError'), HoliToastType.ERROR)
-    },
-  })
+  const [translate] = useLazyQuery<TranslateQueryRespone>(translateQuery)
 
   const [isTranslated, setIsTranslated] = useState(false)
   const [originalPrimaryText, setOriginalPrimaryText] = useState(primaryText.text)
@@ -55,14 +51,20 @@ const HoliTranslate: React.FC<HoliTranslateProps> = ({
         secondaryText.setText(originalSecondaryText)
       }
     } else {
-      const { data: primaryTranslation } = await translate({
+      const { data: primaryTranslation, error: primaryError } = await translate({
         variables: { text: primaryText.text, targetLanguage: i18n.language },
       })
+      if (primaryError) {
+        openToast(t('global.technicalError'), HoliToastType.ERROR)
+      }
 
       if (secondaryText) {
-        const { data: secondaryTranslation } = await translate({
+        const { data: secondaryTranslation, error: secondaryError } = await translate({
           variables: { text: secondaryText.text, targetLanguage: i18n.language },
         })
+        if (secondaryError && !primaryError) {
+          openToast(t('global.technicalError'), HoliToastType.ERROR)
+        }
 
         setOriginalSecondaryText(secondaryText.text)
         secondaryText.setText(secondaryTranslation?.translatedText ?? secondaryText.text)

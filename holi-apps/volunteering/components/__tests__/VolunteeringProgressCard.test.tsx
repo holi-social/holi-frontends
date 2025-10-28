@@ -7,12 +7,13 @@ import {
   volunteeringDetailsScreenDataMock as document,
 } from './helpers/mocks'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
-const renderWithApolloAndProvider = (component: React.ReactElement, mocks: MockedResponse[] = []) => (
-  <MockedProvider mocks={[...mocks]} addTypename={false}>
+const renderWithApolloAndProvider = (component: React.ReactElement, mocks: MockLink.MockedResponse[] = []) => (
+  <MockedProvider mocks={[...mocks]}>
     <EarnedBadgesModalProvider>{component}</EarnedBadgesModalProvider>
   </MockedProvider>
 )
@@ -109,7 +110,7 @@ describe('VolunteeringProgressCard', () => {
     it('changes status to DOING when "act" button is pressed and modal is dismissed', async () => {
       const user = userEvent.setup()
       const onStatusChange = jest.fn()
-      const refetchMock: MockedResponse = {
+      const refetchMock: MockLink.MockedResponse = {
         request: { query: badgesMockWithUnseen.request.query },
         result: badgesMockWithUnseen.result,
       }

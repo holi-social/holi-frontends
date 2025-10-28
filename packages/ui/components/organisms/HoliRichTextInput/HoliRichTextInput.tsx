@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client/react'
 import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   NativeSyntheticEvent,

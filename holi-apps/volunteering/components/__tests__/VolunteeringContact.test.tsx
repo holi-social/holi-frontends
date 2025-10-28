@@ -10,7 +10,7 @@ import { render, userEvent, screen, act } from 'expo-router/testing-library'
 import type { VolunteeringDetailsScreenData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { TrackingEvent } from '@holi/core/tracking'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useLoginState } from '@holi/core/auth/loginState'
 
@@ -78,11 +78,7 @@ const authenticatedUserMock = {
 }
 
 const renderWithApollo = (component: React.ReactElement) => {
-  return render(
-    <MockedProvider mocks={[authenticatedUserMock]} addTypename={false}>
-      {component}
-    </MockedProvider>
-  )
+  return render(<MockedProvider mocks={[authenticatedUserMock]}>{component}</MockedProvider>)
 }
 
 describe('VolunteeringContact', () => {

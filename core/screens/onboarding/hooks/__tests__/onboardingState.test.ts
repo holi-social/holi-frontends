@@ -9,7 +9,7 @@ import {
   useOnboardingRedirect,
   useOnboardingState,
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 
 const mockNavigate = jest.fn()

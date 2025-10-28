@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
 import { InsightFragment } from '@holi/core/screens/insights/queries'

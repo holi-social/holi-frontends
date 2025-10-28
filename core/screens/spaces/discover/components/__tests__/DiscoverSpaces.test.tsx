@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { cleanup, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -60,10 +61,10 @@ const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, discoverSpacesUserSpec
 // note: this test has been slimmed down since the component was refactored
 //       feel free to add more tests again (see history)
 
-const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
+const renderDiscoverSpaces = (mocks: MockLink.MockedResponse[]) =>
   renderRouter({
     index: () => (
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks}>
         <ToastProvider>
           <DiscoverSpaces />
         </ToastProvider>

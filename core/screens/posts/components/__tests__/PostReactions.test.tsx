@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { render } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -47,7 +47,7 @@ const authenticatedUserMock = {
 describe('PostReactions', () => {
   it('renders correctly', () => {
     const { getByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+      <MockedProvider mocks={[authenticatedUserMock]}>
         <PostReactions post={post} />
       </MockedProvider>
     )

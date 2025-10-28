@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, render, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -285,7 +285,7 @@ describe('NotificationsOverview', () => {
 
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
+        <MockedProvider mocks={MOCKS_EMPTY}>
           <Notifications />
         </MockedProvider>
       ),
@@ -298,7 +298,7 @@ describe('NotificationsOverview', () => {
   it('shows empty message, when no notification present', async () => {
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
+        <MockedProvider mocks={MOCKS_EMPTY}>
           <Notifications />
         </MockedProvider>
       ),
@@ -316,7 +316,7 @@ describe('NotificationsOverview', () => {
   it('shows empty message, when notification is unsupported', async () => {
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_UNSUPPORTED_NOTIFICATION} addTypename={false}>
+        <MockedProvider mocks={MOCKS_UNSUPPORTED_NOTIFICATION}>
           <Notifications />
         </MockedProvider>
       ),
@@ -334,7 +334,7 @@ describe('NotificationsOverview', () => {
   it('does not show an empty message when notifications present', async () => {
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS}>
           <Notifications />
         </MockedProvider>
       ),
@@ -357,7 +357,7 @@ describe('NotificationsOverview', () => {
 
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS}>
           <Notifications />
         </MockedProvider>
       ),
@@ -379,7 +379,7 @@ describe('NotificationsOverview', () => {
     jest.useFakeTimers().setSystemTime(new Date('2023-04-11'))
 
     render(
-      <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+      <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS}>
         <Notifications />
       </MockedProvider>
     )
@@ -400,7 +400,7 @@ describe('NotificationsOverview', () => {
 
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS}>
           <Notifications />
         </MockedProvider>
       ),
@@ -421,7 +421,7 @@ describe('NotificationsOverview', () => {
 
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS} addTypename={false}>
+        <MockedProvider mocks={MOCKS_WITH_NOTIFICATIONS}>
           <Notifications />
         </MockedProvider>
       ),
@@ -442,7 +442,7 @@ describe('NotificationsOverview', () => {
 
     renderRouter({
       index: () => (
-        <MockedProvider mocks={MOCKS_EMPTY} addTypename={false}>
+        <MockedProvider mocks={MOCKS_EMPTY}>
           <Notifications />
         </MockedProvider>
       ),

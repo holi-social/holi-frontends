@@ -1,13 +1,11 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
@@ -30,6 +28,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import { Text } from 'holi-bricks/components/text'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type InitiativeDetailPageParams = {
   insightId: string
@@ -41,7 +40,6 @@ const { useUUIDParam } = createParamHooks<InitiativeDetailPageParams>()
 const InitiativeDetailPage = () => {
   const [insightId] = useUUIDParam('insightId')
   const [initiativeId] = useUUIDParam('initiativeId')
-  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
@@ -52,22 +50,19 @@ const InitiativeDetailPage = () => {
     data: { insightById } = {},
     refetch,
     loading,
+    error,
   } = useQuery<InsightWithInitiativeResponse>(insightWithInitiative, {
     variables: { insightId, initiativeId },
     notifyOnNetworkStatusChange: true,
     skip: !insightId || !initiativeId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load initiative', {
-        location: 'InitiativeDetailPage.insightWithInitiative',
-        initiativeId,
-      })
-    },
   })
 
   useOnRefresh(refetch)
+
+  useApolloNotFoundErrorHandling(error, 'Failed to load initiative', {
+    location: 'InitiativeDetailPage.insightWithInitiative',
+    initiativeId,
+  })
 
   const initiative = insightById?.initiative
 
