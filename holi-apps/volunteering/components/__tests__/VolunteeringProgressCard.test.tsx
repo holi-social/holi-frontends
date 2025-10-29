@@ -10,12 +10,9 @@ import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-co
 import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 const renderWithApolloAndProvider = (component: React.ReactElement, mocks: MockLink.MockedResponse[] = []) => (
-  <MockedProvider mocks={[...mocks]}>
-    <EarnedBadgesModalProvider>{component}</EarnedBadgesModalProvider>
-  </MockedProvider>
+  <MockedProvider mocks={[...mocks]}>{component}</MockedProvider>
 )
 
 jest.useFakeTimers()
