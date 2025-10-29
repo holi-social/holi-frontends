@@ -68,7 +68,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
     )
 
   return (
-    <Screen StickyBottomComponent={<StickyBottomComponent />} backgroundColor="support">
+    <Screen preset="fixed" StickyBottomComponent={<StickyBottomComponent />} backgroundColor="support">
       <Stack alignItems="center" justifyContent="center" gap="lg" padding="xl">
         {!revealed ? (
           <Stack alignItems="center" justifyContent="center">
