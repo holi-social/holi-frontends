@@ -1,5 +1,5 @@
 import type React from 'react'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import '@holi/core/components/Screen/mock'
 import { VolunteeringDetailsScreen } from '@holi-apps/volunteering/components/VolunteeringDetailsScreen'
 import { TypesenseDocumentType, type TypesenseDocument } from '@holi/core/typesense/types'
@@ -122,7 +122,6 @@ describe('VolunteeringDetailsScreen', () => {
               id: 'reco1',
               type: TypesenseDocumentType.Volunteering,
             },
-            highlight: {},
             text_match: 0,
           },
         ],
@@ -151,7 +150,7 @@ describe('VolunteeringDetailsScreen', () => {
   const renderComponent = () => {
     renderRouter({
       index: () => (
-        <MockedProvider mocks={[favoriteRequest]} addTypename={false}>
+        <MockedProvider mocks={[favoriteRequest]}>
           <VolunteeringDetailsScreen engagementId={engagementId} />
         </MockedProvider>
       ),

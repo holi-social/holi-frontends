@@ -1,4 +1,5 @@
-import { type ApolloClient, ApolloProvider } from '@apollo/client'
+import { type ApolloClient } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { type PropsWithChildren } from 'react'
 import { Platform } from 'react-native'
@@ -31,7 +32,7 @@ const initialWindowMetricsForWeb = {
 }
 
 interface RootProviderProps {
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient
   posthogBootstrapState?: PosthogProviderProps['bootstrapState']
 }
 

@@ -7,7 +7,6 @@ import {
   launchImageLibraryAsync,
   useMediaLibraryPermissions,
 } from 'expo-image-picker'
-import { MediaTypeOptions } from 'expo-image-picker'
 import { useCallback } from 'react'
 import { Image } from 'react-native'
 
@@ -138,7 +137,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
         let imagePickerResult
         try {
           imagePickerResult = await launchImageLibraryAsync({
-            mediaTypes: MediaTypeOptions.Images,
+            mediaTypes: 'images',
             allowsEditing: !allowsMultipleSelection,
             quality: 0.2,
             base64: false, // Set to false to reduce memory usage

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +6,6 @@ import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -48,6 +47,7 @@ import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequir
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 import { breakpoints } from 'holi-bricks/foundations'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -62,7 +62,7 @@ const PostDetailsPage = () => {
   const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
-  const { replaceRoute, navigate, navigateBack } = useRouting()
+  const { navigate, navigateBack } = useRouting()
   const loginState = useLoggedInUser()
   const { requireLogin } = useSignupModal()
   const smStyle = useBreakpointMatcher([[breakpoints.sm, true]])
@@ -75,22 +75,18 @@ const PostDetailsPage = () => {
     data: { post } = {},
     refetch,
     loading,
+    error: loadPostError,
   } = useQuery<PostQueryResponse>(postQuery, {
     variables: { idOrSlug },
     skip: !idOrSlug,
-    onError: (error) => {
-      // if the post is not found, or the id is not a valid UUID, redirect to 404
-      if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load feed post', {
-        location: 'PostDetailsPage.postQuery',
-        variables: { idOrSlug },
-      })
-    },
   })
 
   useOnRefresh(refetch)
+
+  useApolloNotFoundErrorHandling(loadPostError, 'Failed to load feed post', {
+    location: 'PostDetailsPage.postQuery',
+    variables: { idOrSlug },
+  })
 
   const [, shareLink] = useShareLink({
     link: `/feed-posts/${post?.slug}`,

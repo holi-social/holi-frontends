@@ -1,5 +1,5 @@
 import React from 'react'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 

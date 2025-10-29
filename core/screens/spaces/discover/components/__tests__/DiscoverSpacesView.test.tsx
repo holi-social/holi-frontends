@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React, { type PropsWithChildren } from 'react'
 
@@ -43,7 +43,7 @@ const defaultTopicsMock = {
 const renderDiscoverSpaces = (userTopics: string[] = [], userSkills: string[] = [], userGeolocationId?: string) => {
   return renderRouter({
     index: () => (
-      <MockedProvider mocks={[defaultTopicsMock]} addTypename={false}>
+      <MockedProvider mocks={[defaultTopicsMock]}>
         <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
       </MockedProvider>
     ),

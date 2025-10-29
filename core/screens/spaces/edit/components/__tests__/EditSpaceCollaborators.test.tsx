@@ -1,6 +1,4 @@
-import { ApolloError } from '@apollo/client'
-import type { GraphQLErrors } from '@apollo/client/errors'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, fireEvent, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -18,6 +16,8 @@ import {
   SpaceMembersBySpaceIdDocument,
   SpaceMembershipRequestsBySpaceIdDocument,
 } from '@holi/api/graphql/graphql-codegen'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { GraphQLError } from 'graphql'
 
 const spaceForAdmin = {
   ...space,
@@ -215,8 +215,8 @@ describe('EditSpaceCollaborators', () => {
           userId,
         },
       },
-      error: new ApolloError({
-        graphQLErrors: [{ extensions: { code: 'NOT_FOUND' } }] as unknown as GraphQLErrors,
+      error: new CombinedGraphQLErrors({
+        errors: [new GraphQLError('Not found', { extensions: { code: 'NOT_FOUND' } })],
       }),
     }
     const mocks = [...createMocksForSpace(spaceWithMembershipRequestsAndInvites), userByIdRequestNotFound]
@@ -239,7 +239,7 @@ describe('EditSpaceCollaborators', () => {
   })
 
   // This test verifies that the refresh parameter triggers the useRefreshOnNavigation mechanism
-  // The actual refetch behavior is handled by refrecsh context and tested at the integration level
+  // The actual refetch behavior is handled by refresh context and tested at the integration level
   it('clears the refresh parameter when passed', async () => {
     const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name, refresh: 'true' })
 

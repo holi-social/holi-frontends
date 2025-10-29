@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -9,7 +9,7 @@ import SpaceLinkInput from '@holi/core/screens/spaces/components/SpaceInputs/Spa
 import CreateSpaceLinks from '@holi/core/screens/spaces/create/components/CreateSpaceLink'
 import EditSpaceLink from '@holi/core/screens/spaces/edit/components/EditSpaceLink'
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
-import { deleteSpaceLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
+import { deleteSpaceLinkMutation, type DeleteSpaceLinkResponse } from '@holi/core/screens/spaces/edit/mutations'
 import { Add } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -33,7 +33,7 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const [deleteLink] = useMutation(deleteSpaceLinkMutation, {
+  const [deleteLink] = useMutation<DeleteSpaceLinkResponse>(deleteSpaceLinkMutation, {
     onCompleted: () => {
       openToast(t('spaces.input.publicLinks.delete.success'), HoliToastType.SUCCESS)
     },

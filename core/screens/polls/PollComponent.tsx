@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -9,8 +9,8 @@ import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDim
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
-import { voteOnPollMutation } from '@holi/core/screens/polls/mutations'
-import { userHasVotedByPollId } from '@holi/core/screens/polls/queries'
+import { voteOnPollMutation, type VoteOnPollResponse } from '@holi/core/screens/polls/mutations'
+import { userHasVotedByPollId, type UserHasVotedByPollIdResponse } from '@holi/core/screens/polls/queries'
 import type { Choice, Poll } from '@holi/core/screens/polls/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import userTeam from '@holi/icons/src/generated/UserTeam'
@@ -25,6 +25,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { breakpoints } from 'holi-bricks/foundations'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export type PollComponentProps = {
   poll: Poll
@@ -50,22 +51,18 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
     return choices.reduce((acc, choice) => acc + choice.votes, 0)
   })
 
-  const { data: userHasVoted, loading: loadingVote } = useQuery(userHasVotedByPollId, {
+  const {
+    data: userHasVoted,
+    loading: loadingVote,
+    error: loadVoteError,
+    refetch,
+  } = useQuery<UserHasVotedByPollIdResponse>(userHasVotedByPollId, {
     variables: { id: poll.id },
     skip: !user,
-    onError: (error) =>
-      logError(error, 'Failed to load user votes', {
-        location: 'PollComponent.userHasVotedByPollId',
-      }),
   })
 
-  const { refetch } = useQuery(userHasVotedByPollId, {
-    variables: { id: poll.id },
-    skip: !user,
-    onError: (error) =>
-      logError(error, 'Failed to refetch user votes', {
-        location: 'PollComponent.refetch',
-      }),
+  useApolloErrorLogging(loadVoteError, 'Failed to load user votes', {
+    location: 'PollComponent.userHasVotedByPollId',
   })
 
   useEffect(() => {
@@ -74,7 +71,7 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
     }
   }, [loadingUser, loadingVote])
 
-  const [voteOnPoll] = useMutation(voteOnPollMutation, {
+  const [voteOnPoll] = useMutation<VoteOnPollResponse>(voteOnPollMutation, {
     onError: (error) =>
       logError(error, 'Failed to vote on poll', {
         location: 'PollComponent.voteOnPoll',
@@ -124,7 +121,6 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
           </View>
         </HoliButton>
       )}
-
       {!userHasVoted?.userHasVotedByPollId && !!choices ? (
         // if not voted yet
         <PollSelection
@@ -146,7 +142,6 @@ const PollComponent = ({ poll, type = 'regular', onPress, bordered = true, hideT
           )
         })
       )}
-
       <View style={styles.bottomBar}>
         <Stack justifyContent="space-between" direction={screenWidth > breakpoints.sm ? 'row' : 'column'}>
           <HoliBox padding={[0, 0, 0, 0]} layout={styles.headlineContainer}>

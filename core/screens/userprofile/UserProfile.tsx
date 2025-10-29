@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { memo, useEffect, useMemo, useState } from 'react'

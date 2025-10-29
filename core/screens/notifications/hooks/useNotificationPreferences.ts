@@ -1,14 +1,15 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import { useCallback, useMemo, useState } from 'react'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
 import { updateNotificationsPreferences } from '@holi/core/screens/notifications/mutations'
 import {
-  NotificationsPreferencesResponse,
-  NotificationsWorkflowPreferences,
+  type NotificationsPreferencesResponse,
+  type NotificationsWorkflowPreferences,
   notificationsPreferencesQuery,
 } from '@holi/core/screens/notifications/queries'
+import { useApolloErrorDisplay } from '@holi/core/hooks/useApolloErrorDisplay'
 
 export enum Channel {
   PUSH = 'push',
@@ -82,18 +83,18 @@ export const useNotificationPreferences = () => {
   const { displayError } = useErrorHandling()
   const [updatingPreferences, setUpdatingPreferences] = useState(false)
   const { chatEnabled, chatPushEnabled, updateChatPushPreference, loadingChatPushPreference } = useChatPushPreference()
-  const { data, loading } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
+  const { data, loading, error } = useQuery<NotificationsPreferencesResponse>(notificationsPreferencesQuery, {
     fetchPolicy: 'network-only',
-    onError: (error) =>
-      displayError(error, 'Failed to load notification preferences', {
-        location: 'useNotificationPreferences.notificationsPreferencesQuery',
-      }),
   })
   const [updatePreferences] = useMutation<NotificationsPreferencesResponse>(updateNotificationsPreferences, {
     onError: (error) =>
       displayError(error, 'Failed to update notification preferences', {
         location: 'useNotificationPreferences.updateNotificationsPreferences',
       }),
+  })
+
+  useApolloErrorDisplay(error, 'Failed to load notification preferences', {
+    location: 'useNotificationPreferences.notificationsPreferencesQuery',
   })
 
   const updatePreference = useCallback(

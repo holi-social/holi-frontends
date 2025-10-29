@@ -1,4 +1,5 @@
-import { type DocumentNode, useApolloClient } from '@apollo/client'
+import { type DocumentNode } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +9,6 @@ import type Animated from 'react-native-reanimated'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
@@ -30,6 +30,7 @@ import { breakpoints, Spacing } from 'holi-bricks/foundations'
 import { MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
 import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
 import * as Appcues from '@appcues/react-native'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export enum Tab {
   MINE = 'mine',
@@ -49,7 +50,6 @@ const Spaces = () => {
   const { isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<Animated.ScrollView>(null)
   const setScreenOptions = useSetScreenOptions()
-  const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -65,10 +65,14 @@ const Spaces = () => {
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
-  const { loading, data: mySpacesData } = useMySpacesQuery({
+  const {
+    loading,
+    data: mySpacesData,
+    error,
+  } = useMySpacesQuery({
     skip: !isLoggedIn,
-    onError: (error) => displayError(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
   })
+  useApolloErrorLogging(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' })
   const mySpaces = mySpacesData?.mySpaces || []
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length

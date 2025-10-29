@@ -8,6 +8,7 @@ import {
   type SpaceUserConnectionType,
   type UpdateConnectionAction,
 } from '@holi/api/graphql/graphql-codegen'
+import { useCallback } from 'react'
 
 const useUpdateSpaceUserConnection = (
   spaceId: string,
@@ -20,7 +21,6 @@ const useUpdateSpaceUserConnection = (
   const { openToast } = useToast()
 
   const [leaveSpace, { loading: isLoadingLeaveSpace }] = useUpdateSpaceUserConnectionMutation({
-    variables: { spaceId, connectionType, connectAction },
     onCompleted: () => {
       openToast(t('spaces.leave.success', { space: spaceName }), HoliToastType.SUCCESS)
     },
@@ -35,7 +35,12 @@ const useUpdateSpaceUserConnection = (
     refetchQueries: [{ query: MySpacesDocument }],
   })
 
-  return [isLoadingLeaveSpace, leaveSpace] as const
+  const leaveSpaceCallback = useCallback(
+    () => leaveSpace({ variables: { spaceId, connectionType, connectAction } }),
+    [leaveSpace, spaceId, connectionType, connectAction]
+  )
+
+  return [isLoadingLeaveSpace, leaveSpaceCallback] as const
 }
 
 export default useUpdateSpaceUserConnection

@@ -1,11 +1,12 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 import type { GetServerSidePropsContext } from 'next'
 import pino from 'pino'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
-import type { Insight } from '@holi/api/graphql/graphql-codegen'
 import { generateSitemapUrlSet, getUrlPrefix } from '@holi/web/helpers/sitemap'
 import { PAGE_SIZE } from '@holi/web/pages/sitemap/insights.xml'
+import type { LastInsightsResponse } from '@holi/core/screens/insights/queries'
+import type { Insight } from '@holi/core/screens/insights/types'
 
 const logger = pino()
 
@@ -39,10 +40,10 @@ const createEntriesForInsight = (insight: Insight) => {
   return [
     insightUrl,
     insight.posts.map((post) => `${insightUrl}/posts/${post.id}`),
-    insight.recommendations.map((recommendation) => `${insightUrl}/recommendations/${recommendation.id}`),
+    insight.recommendations?.map((recommendation) => `${insightUrl}/recommendations/${recommendation.id}`) ?? [],
     insight.quotes.map((quote) => `${insightUrl}/quotes/${quote.id}`),
-    insight.initiatives.map((initiative) => `${insightUrl}/initiatives/${initiative.id}`),
-    insight.discussions.map((discussion) => `${insightUrl}/discussions/${discussion.id}`),
+    insight.initiatives?.map((initiative) => `${insightUrl}/initiatives/${initiative.id}`) ?? [],
+    insight.discussions?.map((discussion) => `${insightUrl}/discussions/${discussion.id}`) ?? [],
   ].flat()
 }
 
@@ -65,14 +66,17 @@ export const getServerSideProps = async ({ req, res, query, locale }: GetServerS
   const prefix = getUrlPrefix(req, locale)
   const client = initializeWebApolloClient({ locale })
   const insights = await client
-    .query({ query: insightsWithRelatedIdsQuery, variables: { offset: asNum(page) * PAGE_SIZE, limit: PAGE_SIZE } })
-    .then((result) => result.data.lastInsights.data)
+    .query<LastInsightsResponse>({
+      query: insightsWithRelatedIdsQuery,
+      variables: { offset: asNum(page) * PAGE_SIZE, limit: PAGE_SIZE },
+    })
+    .then((result) => result.data?.lastInsights.data ?? [])
     .catch((error) => {
       logger.error({
         message: 'Error retrieving insights',
         error,
       })
-      return 0
+      return [] as Insight[]
     })
 
   const sitemap = generateSitemapUrlSet(

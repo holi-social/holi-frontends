@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, renderRouter, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
@@ -73,7 +73,7 @@ describe('LoginProtection', () => {
     useLoginStateMock.mockImplementation(loggedIn)
 
     render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]}>
         <LoginProtection>
           <Text>Protected Content</Text>
         </LoginProtection>
@@ -91,7 +91,7 @@ describe('LoginProtection', () => {
 
     const { queryByText } = renderRouter({
       index: () => (
-        <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+        <MockedProvider mocks={[authenticatedUserRequest]}>
           <LoginProtection>Protected Content</LoginProtection>
         </MockedProvider>
       ),
@@ -109,7 +109,7 @@ describe('LoginProtection', () => {
 
       const context = renderRouter({
         index: () => (
-          <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <MockedProvider mocks={[authenticatedUserRequest]}>
             <LoginProtection>Protected Content</LoginProtection>
           </MockedProvider>
         ),
@@ -126,7 +126,7 @@ describe('LoginProtection', () => {
 
       const context = renderRouter({
         index: () => (
-          <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+          <MockedProvider mocks={[authenticatedUserRequest]}>
             <LoginProtection>Protected Content</LoginProtection>
           </MockedProvider>
         ),

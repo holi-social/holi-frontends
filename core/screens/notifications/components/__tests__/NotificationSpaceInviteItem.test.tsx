@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, fireEvent, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -36,9 +36,14 @@ const acceptInvite = {
       spaceId: notificationSpaceInvite.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceInvite.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 const declineInvite = {
   request: {
@@ -49,9 +54,14 @@ const declineInvite = {
       spaceId: notificationSpaceInvite.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceInvite.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 
 const MOCKS = [acceptInvite, declineInvite]
@@ -73,7 +83,7 @@ describe('NotificationSpaceInviteItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceInviteItem notification={notification} />
         </MockedProvider>
       )
@@ -84,14 +94,13 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after declining an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('decline-invite-button'), 'click')
-      expect(declineInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
@@ -100,14 +109,13 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after accepting an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('accept-invite-button'), 'click')
-      expect(acceptInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
@@ -145,7 +153,7 @@ describe('NotificationSpaceInviteItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceInviteItem notification={notification} />
         </MockedProvider>
       )
@@ -156,14 +164,13 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after declining an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('decline-invite-button'), 'click')
-      expect(declineInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))
@@ -172,14 +179,13 @@ describe('NotificationSpaceInviteItem', () => {
     it('renders loader after accepting an invite', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceInviteItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('accept-invite-button'), 'click')
-      expect(acceptInvite.newData).toHaveBeenCalled()
       expect(getByTestId('invite-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('invite-loader-indicator'))

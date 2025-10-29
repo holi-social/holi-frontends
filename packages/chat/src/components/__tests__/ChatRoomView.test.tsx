@@ -1,6 +1,6 @@
 import '@holi/core/components/Screen/mock'
-import type { DefaultOptions } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
+import type { ApolloClient } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, renderRouter, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import { createStore } from 'jotai'
 import { EventType, type IEvent, type IRoomEvent, type MatrixClient } from 'matrix-js-sdk'
@@ -59,7 +59,7 @@ const loggedIn = (userId: string): LoginStateLoggedIn => ({
   userId: userId,
 })
 
-const defaultOptions: DefaultOptions = {
+const defaultOptions: ApolloClient.DefaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
 }
@@ -148,7 +148,6 @@ describe('ChatRoomView', () => {
             getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
             getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
           ]}
-          addTypename={true}
           defaultOptions={defaultOptions}
           cache={createCache()}
         >
@@ -209,7 +208,6 @@ describe('ChatRoomView', () => {
             getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
             getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
           ]}
-          addTypename={true}
           defaultOptions={defaultOptions}
           cache={createCache()}
         >
@@ -300,7 +298,6 @@ describe('ChatRoomView', () => {
             getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
             getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
           ]}
-          addTypename={true}
           defaultOptions={defaultOptions}
           cache={createCache()}
         >

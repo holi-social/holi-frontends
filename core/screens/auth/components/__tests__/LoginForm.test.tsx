@@ -12,7 +12,8 @@ import { Link } from 'expo-router'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { type ApolloClient, useApolloClient } from '@apollo/client'
+import type { ApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import type { SuccessfulNativeLogin } from '@ory/kratos-client'
 import type { AxiosResponse } from 'axios'
@@ -36,8 +37,8 @@ jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
-jest.mock('@apollo/client', () => {
-  const actual = jest.requireActual('@apollo/client')
+jest.mock('@apollo/client/react', () => {
+  const actual = jest.requireActual('@apollo/client/react')
   return {
     ...actual,
     useApolloClient: jest.fn(),
@@ -81,7 +82,7 @@ jest.mock('@holi/core/auth/components/FormBuilder', () => OryLoginForm)
 jest.useFakeTimers()
 
 describe('LoginForm', () => {
-  const mockClient: ApolloClient<object> = {} as ApolloClient<object>
+  const mockClient: ApolloClient = {} as ApolloClient
   const displayError = jest.fn()
   const redirect = jest.fn()
   const mockFlow = {

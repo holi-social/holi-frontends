@@ -3,6 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks'
 import type { GraphQLError } from 'graphql'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type NamesSelectionData, useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
+import { CombinedGraphQLErrors } from '@apollo/client'
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -27,12 +28,11 @@ const createBackendError = (error: unknown) => {
     toJSON: jest.fn(),
     [Symbol.toStringTag]: '',
     name: '',
-    message: '',
-  }
-  return {
-    graphQLErrors: [graphQlError],
     message: 'Bad user input',
   }
+  return new CombinedGraphQLErrors({
+    errors: [graphQlError],
+  })
 }
 
 describe('useNamesSelection', () => {

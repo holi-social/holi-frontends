@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import { ChipLabel } from 'holi-bricks/components/chips'
@@ -9,7 +9,6 @@ import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle 
 
 import { FavoritableType, type Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { getLocale, getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
@@ -60,6 +59,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { breakpoints } from 'holi-bricks/foundations'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -72,7 +72,7 @@ const InsightDetailPage = () => {
   const { t, i18n } = useTranslation()
   const { displayError } = useErrorHandling()
   const mixins = useStyleMixins()
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate } = useRouting()
   const [curatorModalShown, setCuratorModalShown] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
@@ -86,20 +86,11 @@ const InsightDetailPage = () => {
     data: { insightById: insight } = {},
     loading,
     refetch,
+    error,
   } = useQuery<InsightByIdResponse>(insightById, {
     variables: { id: insightId },
     skip: !insightId,
     notifyOnNetworkStatusChange: true,
-    onError: (error) => {
-      // if the insight is not found, or the id is not a valid UUID, redirect to 404
-      if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load insight', {
-        location: 'InsightDetailPage.insightById',
-        insightId,
-      })
-    },
   })
   const setScreenOptions = useSetScreenOptions()
 
@@ -113,6 +104,11 @@ const InsightDetailPage = () => {
   })
 
   useOnRefresh(refetch)
+
+  useApolloNotFoundErrorHandling(error, 'Failed to load insight', {
+    location: 'InsightDetailPage.insightById',
+    insightId,
+  })
 
   useEffect(() => {
     if (insight?.title && insightId && !hasTrackedScreenView.current) {

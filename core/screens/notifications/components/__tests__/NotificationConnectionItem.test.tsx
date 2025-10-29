@@ -1,11 +1,11 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { act, fireEvent, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import { notificationConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
 import { updateConnectionWithUserMutation } from '@holi/core/screens/userprofile/queries'
-import { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
+import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () =>
@@ -65,7 +65,7 @@ describe('NotificationConnectionItem.tsx', () => {
     jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
     render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
+      <MockedProvider mocks={MOCKS}>
         <NotificationConnectionItem notification={notificationConnectionRequest} />
       </MockedProvider>
     )
@@ -75,7 +75,7 @@ describe('NotificationConnectionItem.tsx', () => {
 
   it('renders loader after ignoring a connection request', async () => {
     const { getByTestId } = render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
+      <MockedProvider mocks={MOCKS}>
         <NotificationConnectionItem notification={notificationConnectionRequest} />
       </MockedProvider>
     )
@@ -89,7 +89,7 @@ describe('NotificationConnectionItem.tsx', () => {
 
   it('renders loader after accepting a connection request', async () => {
     const { getByTestId } = render(
-      <MockedProvider mocks={MOCKS} addTypename={false}>
+      <MockedProvider mocks={MOCKS}>
         <NotificationConnectionItem notification={notificationConnectionRequest} />
       </MockedProvider>
     )

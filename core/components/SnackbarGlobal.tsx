@@ -1,6 +1,8 @@
 import type React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+
+import { useReactiveVar } from '@apollo/client/react'
 
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'

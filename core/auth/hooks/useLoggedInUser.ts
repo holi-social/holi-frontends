@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { useEffect } from 'react'
 
 import { useLoginState } from '@holi/core/auth/loginState'

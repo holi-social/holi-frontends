@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import type { MockedResponse } from '@apollo/client/testing/core'
+import { MockedProvider } from '@apollo/client/testing/react'
+import type { MockLink } from '@apollo/client/testing'
 import { fireEvent, renderRouter, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 import { Text } from 'react-native'
@@ -27,7 +27,7 @@ const discoverSpacesErrorMock = ({
 }: {
   topicsV2?: string[]
   skillsV2?: string[]
-}): MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => ({
+}): MockLink.MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => ({
   request: {
     query: DiscoverSpacesDocument,
     variables: {
@@ -46,7 +46,7 @@ const discoverSpacesDataMock = ({
 }: {
   topicsV2?: string[]
   skillsV2?: string[]
-}): MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => {
+}): MockLink.MockedResponse<DiscoverSpacesQuery, DiscoverSpacesQueryVariables> => {
   const spaces: Space[] = createSpaceList(5)
   const discoverSpaces: DiscoverSpaces[] = [
     ...(topicsV2?.map((topicV2) => ({
@@ -84,10 +84,10 @@ const discoverSpacesDataMock = ({
 
 describe('SpacesGroupSlider', () => {
   describe('with topic', () => {
-    const renderTopic = (mocks: MockedResponse[]) =>
+    const renderTopic = (mocks: MockLink.MockedResponse[]) =>
       renderRouter({
         index: () => (
-          <MockedProvider mocks={mocks} addTypename={false}>
+          <MockedProvider mocks={mocks}>
             <SpacesGroupSlider topic={'topic1'} pageSize={5} />
           </MockedProvider>
         ),
@@ -146,10 +146,10 @@ describe('SpacesGroupSlider', () => {
   })
 
   describe('with skill', () => {
-    const renderSkill = (mocks: ReadonlyArray<MockedResponse>) =>
+    const renderSkill = (mocks: ReadonlyArray<MockLink.MockedResponse>) =>
       renderRouter({
         index: () => (
-          <MockedProvider mocks={mocks} addTypename={false}>
+          <MockedProvider mocks={mocks}>
             <SpacesGroupSlider skill={'skill1'} pageSize={5} />
           </MockedProvider>
         ),

@@ -1,12 +1,12 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { feedQuery } from '@holi/core/screens/homeFeed/queries'
-import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import { feedQuery, type FeedResponse } from '@holi/core/screens/homeFeed/queries'
+import { goodNewsArticlesQuery, type GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
 import { logError } from '@holi/core/errors/helpers'
 import type { CombinedFeedItem, FeedItem } from '@holi/core/screens/homeFeed/types'
-import { feedInsightsQuery } from '@holi/core/screens/insights/queries'
-import type { Insight } from '@holi/core/screens/insights/types'
+import { feedInsightsQuery, type FeedInsightsResponse } from '@holi/core/screens/insights/queries'
+import type { InsightPreview } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -18,9 +18,8 @@ const POST_FREQUENCY = 2
 export const useFeedQuery = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
-  const [insightsCreators, setInsightsCreators] = useState<User[]>([])
 
-  const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
+  const { loading, fetchMore, refetch, data } = useQuery<FeedResponse>(feedQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     variables: {
       limit: PAGE_SIZE_FEED,
@@ -32,7 +31,7 @@ export const useFeedQuery = () => {
     data: dataGoodNews,
     error: goodNewsError,
     refetch: refetchGoodNews,
-  } = useQuery(goodNewsArticlesQuery, {
+  } = useQuery<GoodNewsArticlesQueryResponse>(goodNewsArticlesQuery, {
     variables: {
       lastDate: undefined,
     },
@@ -50,15 +49,16 @@ export const useFeedQuery = () => {
     data: dataInsights,
     loading: loadingInsights,
     refetch: refetchInsights,
-  } = useQuery(feedInsightsQuery, {
+  } = useQuery<FeedInsightsResponse>(feedInsightsQuery, {
     variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
-    onCompleted: (data) => {
-      const creators = data.feedInsights.data
-        .map((insight: Insight) => insight.creator)
-        .filter((creator: User) => !!creator)
-      setInsightsCreators(creators)
-    },
   })
+
+  const insightsCreators = useMemo(() => {
+    const creators = dataInsights?.feedInsights?.data
+      .map((insight: InsightPreview) => insight.creator)
+      .filter((creator?: User) => !!creator)
+    return creators ?? []
+  }, [dataInsights?.feedInsights?.data])
 
   useEffect(() => {
     if (!loading && !loadingInsights) {
@@ -155,7 +155,7 @@ export const useFeedQuery = () => {
     }
   }, [isLoadingMore, fetchMore, data?.feed?.data?.length])
 
-  const canLoadMore = !loading && data?.feed?.data?.length < (data?.feed?.totalResults || 0)
+  const canLoadMore = !loading && (data?.feed?.data?.length ?? 0) < (data?.feed?.totalResults || 0)
 
   useOnRefresh(refetch)
   useOnRefresh(refetchGoodNews)

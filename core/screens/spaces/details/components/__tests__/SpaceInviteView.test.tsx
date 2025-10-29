@@ -1,4 +1,5 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
@@ -82,11 +83,11 @@ export const inviteMutationSuccessMock = {
   },
 }
 
-const renderComponent = (mocks: MockedResponse[] = [userSearchSuccessMock]) =>
+const renderComponent = (mocks: MockLink.MockedResponse[] = [userSearchSuccessMock]) =>
   renderRouter({
     index: () => (
       <ToastProvider>
-        <MockedProvider mocks={mocks}>
+        <MockedProvider mocks={mocks} defaultOptions={{ mutate: { errorPolicy: 'all' } }}>
           <SpaceInviteView spaceId={spaceId} idOrName={''} />
         </MockedProvider>
       </ToastProvider>

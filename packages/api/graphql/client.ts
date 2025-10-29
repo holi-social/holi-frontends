@@ -1,7 +1,6 @@
-import type { ApolloClientOptions, HttpOptions, NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import ApolloLinkTimeout from 'apollo-link-timeout'
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
+import { ApolloClient, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client'
+import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs'
+import isExtractableFile from 'apollo-upload-client/isExtractableFile.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -16,11 +15,18 @@ import {
 } from './cachePolicies'
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
+import { SetContextLink } from '@apollo/client/link/context'
+
+type Headers = HttpLink.Options['headers']
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
 
-const timeoutLink: ApolloLink = new ApolloLinkTimeout(TIMEOUT_IN_MS)
+const timeoutLink = new SetContextLink((previousContext) => ({
+  fetchOptions: {
+    signal: previousContext.fetchOptions?.signal || AbortSignal.timeout(TIMEOUT_IN_MS),
+  },
+}))
 
 const setOperationNameParam = (uri: string, operationName: string): RequestInfo | URL => {
   if (uri === '/api/graphql') {
@@ -76,14 +82,14 @@ export class ReactNativeFile {
   }
 }
 
-function customIsExtractableFile(value: unknown): value is ReactNativeFile | File {
-  return value instanceof ReactNativeFile || value instanceof File
+function customIsExtractableFile(value: unknown): value is ReactNativeFile | File | Blob {
+  return value instanceof ReactNativeFile || isExtractableFile(value)
 }
 
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
-// @ts-ignore type incompatibility would need to be fixed in apollo-upload-client library
-const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
+// @ts-ignore type incompatibility would need to be fixed in apollo-upload-client library. Currently there also is an issue with an import inside the library, which we temporarily fixed using a patch.
+const uploadCapableTerminatingLink: ApolloLink = new UploadHttpLink({
   uri: holiApiUrl,
   credentials: 'include',
   fetch: customFetch,
@@ -199,7 +205,7 @@ export const createCache = () =>
   })
 
 const API_URL = 'http://localhost:3000/api/graphql'
-const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
+const createSsrHttpLink = (requestHeaders?: Headers) => {
   // Filter content negotiation headers except accept-language
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { accept, 'accept-encoding': acceptEncoding, ...headers } = requestHeaders || {}
@@ -211,9 +217,10 @@ const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
 // `authorizationHeaderLink` is therefore only needed on Mobile (i.e. when defined)
-const createClientSideLink = (locale?: string) =>
-  from(
+const createClientSideLink = (locale?: string, headers?: Headers) =>
+  ApolloLink.from(
     [
+      headers ? new HttpLink({ headers }) : undefined,
       createLocaleHeaderLink(locale),
       authorizationHeaderLink,
       timeoutLink,
@@ -226,10 +233,10 @@ const createApolloClient = ({
   ssrMode,
   headers,
   locale,
-}: Pick<ApolloClientOptions<NormalizedCacheObject>, 'ssrMode' | 'headers'> & { locale?: string }) => {
+}: { locale?: string; headers?: Headers; ssrMode?: boolean }) => {
   const clientLink = isSSR
-    ? from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
-    : createClientSideLink(locale)
+    ? ApolloLink.from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
+    : createClientSideLink(locale, headers)
 
   return new ApolloClient({
     ssrMode,
@@ -240,19 +247,23 @@ const createApolloClient = ({
     devtools: {
       enabled: isSSR ? false : undefined,
     },
-    headers,
+    defaultOptions: {
+      mutate: {
+        errorPolicy: 'all',
+      },
+    },
   })
 }
 
 // Web
 /** This `let` variable can only be mutated by the initializeWebClientApolloClient function. */
-let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
+let apolloWebClient: ApolloClient | null = null
 
 type WebClientInitState = Record<string, unknown> | null
 
 export interface WebApolloClientOptions {
   initState?: WebClientInitState
-  headers?: ApolloClientOptions<NormalizedCacheObject>['headers']
+  headers?: Record<string, string>
   locale?: string
 }
 
@@ -260,11 +271,8 @@ export const initializeWebApolloClient = ({ initState, headers, locale }: WebApo
   const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers, locale })
 
   if (initState) {
-    const { __META, ...existingCache } = client.extract()
-    client.cache.restore({
-      __META,
-      ...mergeDeepLeft(existingCache, initState),
-    })
+    const existingCache = client.extract() as Record<string, unknown>
+    client.cache.restore(mergeDeepLeft(existingCache, initState))
   }
 
   if (isSSR) {

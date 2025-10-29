@@ -1,4 +1,5 @@
-import { type ApolloError, type FetchResult, useLazyQuery, useQuery } from '@apollo/client'
+import type { ErrorLike, ApolloLink } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client/react'
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -23,7 +24,7 @@ import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicke
 export interface UseCreateOrUpdateSpacePost {
   // Status
   loading: boolean
-  error?: ApolloError
+  error?: ErrorLike
   isUpdate: boolean
   // meta
   space?: Pick<Space, 'id' | 'name' | 'connectionStatusToMyself'>
@@ -38,7 +39,7 @@ export interface UseCreateOrUpdateSpacePost {
   setImage: Dispatch<SetStateAction<HoliImageInfo | undefined | null>>
   setVisibility: Dispatch<SetStateAction<VisibilityType>>
   // interface
-  saveSpacePost: () => Promise<FetchResult>
+  saveSpacePost: () => Promise<ApolloLink.Result>
 }
 
 export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: string): UseCreateOrUpdateSpacePost => {

@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 import { Text } from 'react-native'
