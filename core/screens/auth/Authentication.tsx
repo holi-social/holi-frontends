@@ -19,7 +19,6 @@ import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeS
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
-import { Stack } from 'holi-bricks/components/stack'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
@@ -46,73 +45,64 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
 
   if (isLoggedIn) {
     return (
-      <View style={styles.wrapper}>
+      <View>
         <HoliLoader testID="loader" />
       </View>
     )
   }
 
   return (
-    <View style={styles.wrapper}>
-      <Screen
-        style={styles.wrapper}
-        preset="scroll"
-        keyboardShouldPersistTaps="always"
-        headerOptions={{
-          headerShown: true,
-          headerBackVisible: false,
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: styles.header.backgroundColor,
-          },
-          headerTitle: () => <HoliLogo color={styles.logo.color} />,
-          headerLeft: () => (
-            <HeaderBackButton
-              icon={Close}
-              onPress={() => {
-                track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
-                storeGuestMode(true)
-                onContinueAsGuest?.()
-              }}
-            />
-          ),
-          navigationCustomOptions: {
-            footerShown: false,
-          },
-        }}
-        contentContainerStyle={styles.wrapper}
-      >
-        <Stack flex={1}>
-          <AuthenticationSelection
-            flowId={flowId}
-            initialSelection={initialSelection}
-            resetFlow={resetFlow}
-            onLogin={() => {
-              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-              onLogin?.()
-            }}
-            onRegister={() => {
-              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-              metaSdk.trackSignUp()
-              onRegister?.()
+    <Screen
+      preset="scroll"
+      keyboardShouldPersistTaps="always"
+      headerOptions={{
+        headerShown: true,
+        headerBackVisible: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: styles.header.backgroundColor,
+        },
+        headerTitle: () => <HoliLogo color={styles.logo.color} />,
+        headerLeft: () => (
+          <HeaderBackButton
+            icon={Close}
+            onPress={() => {
+              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
+              storeGuestMode(true)
+              onContinueAsGuest?.()
             }}
           />
-        </Stack>
-        <View style={styles.footer}>
-          <HoliDivider />
-          <HoliContainer>
-            <DocumentsFooter />
-          </HoliContainer>
-        </View>
-      </Screen>
-    </View>
+        ),
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      }}
+    >
+      <AuthenticationSelection
+        flowId={flowId}
+        initialSelection={initialSelection}
+        resetFlow={resetFlow}
+        onLogin={() => {
+          track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
+          onLogin?.()
+        }}
+        onRegister={() => {
+          track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+          metaSdk.trackSignUp()
+          onRegister?.()
+        }}
+      />
+      <View style={styles.footer}>
+        <HoliDivider />
+        <HoliContainer>
+          <DocumentsFooter />
+        </HoliContainer>
+      </View>
+    </Screen>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  wrapper: {
-    flex: 1,
-  },
   logo: {
     color: theme.colors.fill.black,
   },
@@ -125,7 +115,7 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: Spacing.md,
   },
   footer: {
-    paddingBottom: Spacing.sm,
+    paddingY: Spacing.sm,
     gap: Spacing.xs,
     backgroundColor: theme.colors.bg.main,
   },
