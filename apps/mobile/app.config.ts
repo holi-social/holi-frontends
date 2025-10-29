@@ -227,6 +227,7 @@ const config: ExpoConfig = {
           compileSdkVersion: 35,
           targetSdkVersion: 35,
           buildToolsVersion: '35.0.0',
+          enableMinifyInReleaseBuilds: true,
         },
         ios: {
           deploymentTarget: '16.0',
