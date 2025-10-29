@@ -80,6 +80,11 @@ const config: ExpoConfig = {
       UIBackgroundModes: [
         'remote-notification', // enables the app to receive push notifications while app is in background
       ],
+      // allow iOS ad-conversions postbacks through SkAdNetwork to these ad platforms:
+      SKAdNetworkItems: [
+        { SKAdNetworkIdentifier: 'v9wttpbfk9.skadnetwork' }, // Facebook
+        { SKAdNetworkIdentifier: 'n38lu8286q.skadnetwork' }, // Instagram
+      ],
     },
     usesAppleSignIn: true,
     privacyManifests: {
