@@ -41,17 +41,16 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     >
       <Text
         accessible={false}
+        selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            },
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
         }
       >
         Label
@@ -145,17 +144,16 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
@@ -208,17 +206,16 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     >
       <Text
         accessible={false}
+        selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            },
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
         }
       >
         Label
@@ -312,17 +309,16 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
@@ -375,17 +371,16 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     >
       <Text
         accessible={false}
+        selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            },
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
         }
       >
         Label
@@ -479,17 +474,16 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
@@ -542,17 +536,16 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     >
       <Text
         accessible={false}
+        selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            },
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
         }
       >
         Label
@@ -655,17 +648,16 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
@@ -718,17 +710,16 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     >
       <Text
         accessible={false}
+        selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            },
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
         }
       >
         Label
@@ -896,17 +887,16 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
@@ -959,17 +949,16 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     >
       <Text
         accessible={false}
+        selectable={true}
         style={
-          [
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            },
-          ]
+          {
+            "color": "#262424",
+            "fontFamily": "InstrumentSans-Medium",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "lineHeight": 19.599999999999998,
+            "userSelect": "auto",
+          }
         }
       >
         Label
@@ -1064,17 +1053,16 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
@@ -1200,17 +1188,16 @@ exports[`HoliTextInput renders correctly without label 1`] = `
       >
         <Text
           accessible={false}
+          selectable={true}
           style={
-            [
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "userSelect": "auto",
-              },
-            ]
+            {
+              "color": "#787777",
+              "fontFamily": "InstrumentSans-Regular",
+              "fontSize": 12,
+              "fontWeight": "400",
+              "lineHeight": 16.799999999999997,
+              "userSelect": "auto",
+            }
           }
           testID=""
         >
