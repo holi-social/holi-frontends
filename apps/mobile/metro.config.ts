@@ -19,7 +19,6 @@ const config = {
   ...defaultConfig,
   projectRoot,
   watchFolders: [workspaceRoot, ...(defaultConfig.watchFolders || [])],
-  unstable_enablePackageExports: false,
   transformer: {
     ...defaultConfig?.transformer,
     unstable_allowRequireContext: true,

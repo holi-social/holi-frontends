@@ -81,7 +81,7 @@ global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
 global.mockTrack = jest.fn()
 
-global.TextEncoder = jest.fn<() => TextEncoder>()
+global.TextEncoder = jest.fn() as typeof TextEncoder
 
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
   default: {
