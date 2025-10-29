@@ -434,16 +434,14 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    },
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 profile.settings.notifications.workflow.GLOBAL
@@ -1116,16 +1114,14 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    },
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 profile.settings.notifications.workflow.POST_COMMENT_MENTION
@@ -1665,16 +1661,14 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    },
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 profile.settings.notifications.workflow.SPACE_MEMBERSHIP_REQUEST
@@ -2040,16 +2034,14 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    },
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 profile.settings.notifications.workflow.SPACE_NEW_POST
@@ -2594,16 +2586,14 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                 accessible={false}
                 selectable={true}
                 style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
-                      "fontWeight": "400",
-                      "lineHeight": 22.4,
-                      "userSelect": "auto",
-                    },
-                  ]
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
                 }
               >
                 profile.settings.notifications.workflow.CHALLENGE_APPROVAL
