@@ -19,7 +19,7 @@
   "license": "ISC",
   "packageManager": "yarn@4.7.0",
   "devDependencies": {
-    "@apollo/client": "^3.13.8",
+    "@apollo/client": "^4.0.7",
     "@playwright/test": "1.49.1",
     "axe-playwright": "2.0.3",
     "dotenv": "^16.3.1",

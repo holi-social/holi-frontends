@@ -1,12 +1,12 @@
-import { ApolloError } from '@apollo/client'
-import type { GraphQLErrors } from '@apollo/client/errors'
-import { MockedProvider } from '@apollo/client/testing'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { act, renderHook, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceByIdDocument } from '@holi/api/graphql/graphql-codegen'
+import { CombinedGraphQLErrors, CombinedProtocolErrors } from '@apollo/client'
+import { GraphQLError } from 'graphql'
 
 const mockDisplayError = jest.fn()
 const mockReplaceRoute = jest.fn()
@@ -42,7 +42,7 @@ const spaceByIdRequestFailure = {
       idOrName: space.name,
     },
   },
-  error: new Error('Test'),
+  error: new CombinedProtocolErrors([]),
 }
 
 const spaceByIdRequestNotFound = {
@@ -52,8 +52,8 @@ const spaceByIdRequestNotFound = {
       idOrName: space.name,
     },
   },
-  error: new ApolloError({
-    graphQLErrors: [{ extensions: { code: 'NOT_FOUND' } }] as unknown as GraphQLErrors,
+  error: new CombinedGraphQLErrors({
+    errors: [new GraphQLError('Not found', { extensions: { code: 'NOT_FOUND' } })],
   }),
 }
 

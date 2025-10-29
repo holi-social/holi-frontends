@@ -7,7 +7,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationsOverview from '@holi/core/screens/notifications/components/NotificationsOverview'
-import { ArrowDownS, Close } from '@holi/icons/src/generated'
+import { Close } from '@holi/icons/src/generated'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Notifications = () => {
@@ -15,23 +15,21 @@ const Notifications = () => {
   const title = t('notifications.title')
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   useIsomorphicLayoutEffect(
     () =>
       setScreenOptions({
         title,
-        headerStyle: { backgroundColor: colors.background30 },
         headerTitleAlign: 'center',
-        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
-        headerRight: ({ tintColor }) =>
-          Platform.OS === 'web' ? <HeaderBackButton icon={Close} tintColor={tintColor} /> : undefined,
+        headerShadowVisible: false,
+        headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton />),
+        headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : undefined),
         navigationCustomOptions: {
           footerShown: false,
         },
       }),
-    [setScreenOptions, title, colors.background30]
+    [setScreenOptions, title]
   )
 
   return (

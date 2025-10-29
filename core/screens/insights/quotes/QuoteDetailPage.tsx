@@ -1,19 +1,16 @@
-import { useQuery } from '@apollo/client'
-import React, { memo, useMemo, useState, useEffect } from 'react'
+import { useQuery } from '@apollo/client/react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ImageStyle, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import WebViewHandler from '@holi/core/screens/insights/components/WebViewHandler'
-import { type InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
+import { insightWithQuoteById, type InsightWithQuoteByIdResponse } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
@@ -32,6 +29,7 @@ import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { Stack } from 'holi-bricks/components/stack'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type QuoteDetailPageParams = {
   insightId: string
@@ -44,7 +42,6 @@ const QuoteDetailPage = () => {
   const [insightId] = useUUIDParam('insightId')
   const [quoteId] = useUUIDParam('quoteId')
 
-  const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
@@ -57,17 +54,13 @@ const QuoteDetailPage = () => {
     data: { insightById: insight } = {},
     loading,
     refetch,
+    error,
   } = useQuery<InsightWithQuoteByIdResponse>(insightWithQuoteById, {
     variables: { insightId, quoteId },
     skip: !insightId || !quoteId,
     notifyOnNetworkStatusChange: true,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load quote', { location: 'QuoteDetailPage.quoteById', quoteId })
-    },
   })
+  useApolloNotFoundErrorHandling(error, 'Failed to load quote', { location: 'QuoteDetailPage.quoteById', quoteId })
 
   const quote = insight?.quote
 
@@ -86,10 +79,13 @@ const QuoteDetailPage = () => {
     if (showWebView) return
 
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.quotes.title')}
+        </Text>
+      ),
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer

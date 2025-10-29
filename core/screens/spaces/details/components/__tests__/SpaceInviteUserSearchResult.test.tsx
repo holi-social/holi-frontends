@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import type { User } from '@holi/core/domain/shared/types'
@@ -46,49 +46,55 @@ const users: User[] = [
 
 describe('SpaceInviteUserSearchResult', () => {
   it('displays loading while loading', () => {
-    const { toJSON } = render(
-      <PaginationContext.Provider
-        value={{
-          loading: true,
-          data: [],
-          totalResults: 0,
-        }}
-      >
-        <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
-      </PaginationContext.Provider>
-    )
-    expect(toJSON()).toMatchSnapshot()
-  })
-
-  it('displays text if no results where found', () => {
-    const { toJSON } = render(
-      <PaginationContext.Provider
-        value={{
-          loading: false,
-          data: [],
-          totalResults: 0,
-        }}
-      >
-        <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
-      </PaginationContext.Provider>
-    )
-    expect(toJSON()).toMatchSnapshot()
-  })
-
-  it('displays user with space and user connections', () => {
-    const { toJSON } = render(
-      <MockedProvider>
+    renderRouter({
+      index: () => (
         <PaginationContext.Provider
           value={{
-            loading: false,
-            data: users,
-            totalResults: users.length,
+            loading: true,
+            data: [],
+            totalResults: 0,
           }}
         >
           <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
         </PaginationContext.Provider>
-      </MockedProvider>
-    )
-    expect(toJSON()).toMatchSnapshot()
+      ),
+    })
+    expect(screen.getByTestId('loader')).toBeOnTheScreen()
+  })
+
+  it('displays text if no results where found', () => {
+    renderRouter({
+      index: () => (
+        <PaginationContext.Provider
+          value={{
+            loading: false,
+            data: [],
+            totalResults: 0,
+          }}
+        >
+          <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
+        </PaginationContext.Provider>
+      ),
+    })
+    expect(screen.getByText('spaces.invite.user.notFound')).toBeOnTheScreen()
+  })
+
+  it('displays user with space and user connections', () => {
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider
+            value={{
+              loading: false,
+              data: users,
+              totalResults: users.length,
+            }}
+          >
+            <SpaceInviteUserSearchResult spaceId={spaceId} onInviteHandled={onInviteHandled} />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
+    expect(screen.getAllByTestId('user-list-item')).toHaveLength(users.length)
   })
 })

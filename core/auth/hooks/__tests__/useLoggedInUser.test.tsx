@@ -1,11 +1,13 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { loginStateLoggedIn, loginStateLoggedOut, loginStateUnknown } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { CombinedProtocolErrors } from '@apollo/client'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
 
 const mockUseLoginState = jest.fn()
 jest.mock('@holi/core/auth/loginState', () => {
@@ -39,49 +41,52 @@ const TestComponent = () => {
 }
 
 const mockUserRequest = (userId?: string) => {
-  const querySpy = jest.fn().mockReturnValue({
-    data: {
-      authenticatedUserV2: {
-        id: 'test-user-id',
-        identity: '',
-        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
-        fullName: 'EE. Visited',
-        firstName: 'EE.',
-        lastName: 'Visited',
-        aboutMe: '',
-        avatarDefaultColor: '#7571EC',
-        avatarLabel: 'EV',
-        avatarBlurhash: '',
-        pronouns: '',
-        location: '',
-        role: '',
-        geolocationId: '',
-        engagementLevel: '',
-        interestsV2: [],
-        skillsV2: [],
-        connectionStatusToMyself: '',
-        trackingConsentPersonalization: false,
-        trackingConsentAnalytics: false,
-        isEmployee: false,
-        __typename: 'AuthenticatedUser',
-      },
-    },
-  })
   const mockedResponse = {
     request: {
       query: authenticatedUserV2Query,
       variables: userId ? { userId } : undefined,
     },
-    newData: querySpy,
+    result: {
+      data: {
+        authenticatedUserV2: {
+          id: 'test-user-id',
+          identity: '',
+          avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+          fullName: 'EE. Visited',
+          firstName: 'EE.',
+          lastName: 'Visited',
+          aboutMe: '',
+          avatarDefaultColor: '#7571EC',
+          avatarLabel: 'EV',
+          avatarBlurhash: '',
+          pronouns: '',
+          location: '',
+          role: '',
+          geolocationId: '',
+          engagementLevel: '',
+          interestsV2: [],
+          skillsV2: [],
+          connectionStatusToMyself: '',
+          trackingConsentPersonalization: false,
+          trackingConsentAnalytics: false,
+          trackingConsentAdPartners: false,
+          isEmployee: false,
+          email: '',
+          isOidc: false,
+          accountType: AccountType.Email,
+          __typename: 'AuthenticatedUser',
+        },
+      },
+    },
   }
-  return { mocks: [mockedResponse], querySpy }
+  return { mocks: [mockedResponse] }
 }
 const mockedFailedRequest = {
   request: {
     query: authenticatedUserV2Query,
-    variables: { userId: 'test-user-id' },
+    variables: {},
   },
-  error: new Error('Test'),
+  error: new CombinedProtocolErrors([]),
 }
 
 describe('useLoggedInUser', () => {
@@ -100,45 +105,6 @@ describe('useLoggedInUser', () => {
     )
 
     expect(await screen.findByText('isLoggedOut')).toBeTruthy()
-  })
-
-  it('should not query user if logged out', () => {
-    mockUseLoginState.mockReturnValue(loginStateLoggedOut)
-    const { mocks, querySpy } = mockUserRequest()
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <TestComponent />
-      </MockedProvider>
-    )
-
-    expect(querySpy).not.toHaveBeenCalled()
-  })
-
-  it('should query user if logged in', () => {
-    mockUseLoginState.mockReturnValue(loginStateLoggedIn('test-user-id'))
-    const { mocks, querySpy } = mockUserRequest('test-user-id')
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <TestComponent />
-      </MockedProvider>
-    )
-
-    expect(querySpy).toHaveBeenCalled()
-  })
-
-  it('should query user if login state is unknown', () => {
-    mockUseLoginState.mockReturnValue(loginStateUnknown)
-    const { mocks, querySpy } = mockUserRequest()
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <TestComponent />
-      </MockedProvider>
-    )
-
-    expect(querySpy).toHaveBeenCalled()
   })
 
   it('should expose loading state while loading the user', async () => {

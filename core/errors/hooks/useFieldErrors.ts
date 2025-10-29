@@ -1,9 +1,9 @@
-import type { ApolloError } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { type FieldErrors, extractFieldErrors } from '@holi/core/errors/helpers/apolloUtils'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import type { ErrorLike } from '@apollo/client'
 
 export type TranslatedFieldErrors = { [key: string]: string[] | undefined }
 
@@ -46,7 +46,7 @@ export const useFieldErrors = ({
   )
 
   const handleGraphQLError = useCallback(
-    (error: Pick<ApolloError, 'graphQLErrors' | 'message'>) => {
+    (error: ErrorLike) => {
       const fieldErrors = extractFieldErrors(error)
       if (fieldErrors) {
         const translatedErrors = translateFieldErrors(fieldErrors)

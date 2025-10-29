@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import ActHome from '@holi/core/screens/act/ActHome.web'
@@ -41,7 +41,7 @@ jest.mock('@apollo/client', () => {
   }
 })
 
-jest.mock('@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider', () => ({
+jest.mock('@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal', () => ({
   useEarnedBadgesModal: () => jest.fn().mockResolvedValue(undefined),
 }))
 
@@ -89,7 +89,9 @@ describe('ActHome Section', () => {
     mockParameters({ section })
 
     mockActSection.mockReturnValue(<></>)
-    render(<ActHome />)
+    renderRouter({
+      index: () => <ActHome />,
+    })
     const calls = mockActSection.mock.calls
     expect(mockActSection).toHaveBeenCalledTimes(order.length)
     calls.forEach((call, i) => {

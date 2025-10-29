@@ -1,4 +1,6 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+
+import { useReactiveVar } from '@apollo/client/react'
 
 export type IntroFlowType = 'onboarding' | 'first-favorite-good-deed' | 'first-tracked-good-deed' | undefined
 
@@ -7,12 +9,12 @@ const goodDeedsIntroModalIsVisibleVar = makeVar(false)
 const goodDeedsIntroModalTypeVar = makeVar<IntroFlowType>(undefined)
 
 export const showGoodDeedsIntroModal = (type: IntroFlowType) => {
-  goodDeedsIntroModalIsVisibleVar(true)
   goodDeedsIntroModalTypeVar(type)
+  goodDeedsIntroModalIsVisibleVar(true)
 }
 export const hideGoodDeedsIntroModal = () => {
-  goodDeedsIntroModalIsVisibleVar(false)
   goodDeedsIntroModalTypeVar(undefined)
+  goodDeedsIntroModalIsVisibleVar(false)
 }
 
 export const useGoodDeedsIntroModalState = () => {

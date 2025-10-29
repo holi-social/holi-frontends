@@ -62,9 +62,7 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
 >
     
   <Text
-    aria-label="http://www.google.de"
-    onPress={[Function]}
-    role="link"
+    role="none"
     selectable={false}
     style={
       [
@@ -88,7 +86,14 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
       ]
     }
   >
-    http://www.google.de
+    <Text
+      aria-label="http://www.google.de"
+      href="http://www.google.de"
+      onPress={[Function]}
+      role="link"
+    >
+      http://www.google.de
+    </Text>
   </Text>
    
 </Text>

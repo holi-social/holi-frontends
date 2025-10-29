@@ -5,7 +5,7 @@ import {
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from 'expo-router/testing-library'
 
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({

@@ -1,71 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SpacePendingRequestItem renders correctly 1`] = `
-<View
-  style={
+<RNCSafeAreaView
+  edges={
     {
-      "alignItems": "center",
-      "flexDirection": "row",
-      "paddingVertical": 12,
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
     }
   }
-  testID="space-pending-request-item"
+  style={
+    {
+      "flex": 1,
+    }
+  }
 >
   <View
-    accessibilityLabel="Some Body"
-    accessibilityRole="button"
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
     style={
-      [
-        [
-          {
-            "width": "auto",
-          },
-        ],
-        {
-          "flex": 1,
-        },
-      ]
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "paddingVertical": 12,
+      }
     }
+    testID="space-pending-request-item"
   >
     <View
+      accessibilityLabel="Some Body"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         [
+          [
+            {
+              "width": "auto",
+            },
+          ],
           {
-            "pointerEvents": "none",
-          },
-          false,
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
+            "flex": 1,
           },
         ]
       }
@@ -74,232 +75,387 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
         style={
           [
             {
-              "alignItems": "center",
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 40,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 40,
+              "pointerEvents": "none",
             },
+            false,
             {
-              "flexShrink": undefined,
+              "alignItems": "center",
+              "flexDirection": "row",
             },
           ]
         }
       >
-        <Image
-          accessibilityLabel="Some Body"
-          accessibilityRole="image"
-          accessible={false}
-          alt="Some Body"
-          aria-label="Some Body"
-          contentFit="cover"
-          onError={[Function]}
-          placeholder=""
-          role="img"
-          source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
+        <View
           style={
             [
               {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
                 "height": 40,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
                 "width": 40,
               },
-              {},
               {
                 "flexShrink": undefined,
               },
             ]
           }
-        />
-      </View>
-      <View
-        style={
-          {
-            "flex": 1,
-            "marginLeft": 16,
-          }
-        }
-      >
-        <Text
-          accessible={false}
-          collapsable={false}
-          ellipsizeMode="tail"
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 16,
-              "fontWeight": "400",
-              "lineHeight": 22.4,
-              "userSelect": "auto",
-            }
-          }
-          numberOfLines={1}
-          selectable={true}
-          style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 16,
-              "fontWeight": "400",
-              "lineHeight": 22.4,
-              "userSelect": "auto",
-            }
-          }
         >
-          Some Body
-        </Text>
-      </View>
-    </View>
-  </View>
-  <View
-    style={
-      [
-        {
-          "paddingLeft": 48,
-        },
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-        },
-        {
-          "marginHorizontal": -4,
-        },
-      ]
-    }
-  >
-    <View
-      style={
-        {
-          "marginHorizontal": 4,
-        }
-      }
-    >
-      <View
-        accessibilityLabel="notifications.connection.ignore"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        aria-pressed={false}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 32,
-              "padding": 8,
-              "width": 32,
-            },
-            {
-              "flexShrink": undefined,
-            },
-          ]
-        }
-        testID="ignore-connection-request-button"
-      >
+          <Image
+            alt="Some Body"
+            aria-label="Some Body"
+            contentFit="cover"
+            onError={[Function]}
+            placeholder=""
+            role="img"
+            source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
+            style={
+              [
+                {
+                  "height": 40,
+                  "maxWidth": "100%",
+                  "width": 40,
+                },
+                {
+                  "aspectRatio": undefined,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          />
+        </View>
         <View
           style={
             {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
+              "flex": 1,
+              "marginLeft": 16,
             }
           }
         >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={16}
-              bbWidth={16}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={16}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 16,
-                    "width": 16,
-                  },
-                ]
+          <Text
+            accessible={false}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
               }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={16}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <RNSVGGroup
-                fill={null}
-                propList={
+            }
+          >
+            Some Body
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "paddingLeft": 48,
+          },
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          },
+          {
+            "marginHorizontal": -4,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.ignore"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
+              },
+              {
+                "flexShrink": undefined,
+              },
+            ]
+          }
+          testID="ignore-connection-request-button"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={16}
+                bbWidth={16}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={16}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
                   [
-                    "fill",
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 16,
+                      "width": 16,
+                    },
                   ]
                 }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={16}
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
-                  clipPath="close_svg__a"
-                  fill={
-                    {
-                      "payload": 4278190080,
-                      "type": 0,
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGGroup
+                    clipPath="close_svg__a"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
                     }
+                  >
+                    <RNSVGPath
+                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                      fill={
+                        {
+                          "type": 2,
+                        }
+                      }
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                  <RNSVGDefs>
+                    <RNSVGClipPath
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                      name="close_svg__a"
+                    >
+                      <RNSVGPath
+                        d="M0 0h24v24H0z"
+                        fill={
+                          {
+                            "payload": 4294967295,
+                            "type": 0,
+                          }
+                        }
+                        propList={
+                          [
+                            "fill",
+                          ]
+                        }
+                      />
+                    </RNSVGClipPath>
+                  </RNSVGDefs>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.accept"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
+              },
+              {
+                "flexShrink": undefined,
+              },
+            ]
+          }
+          testID="accept-connection-request-button"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={16}
+                bbWidth={16}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={16}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 16,
+                      "width": 16,
+                    },
+                  ]
+                }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={16}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
                   }
                 >
                   <RNSVGPath
-                    d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -312,238 +468,83 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
                     }
                   />
                 </RNSVGGroup>
-                <RNSVGDefs>
-                  <RNSVGClipPath
-                    fill={
-                      {
-                        "payload": 4278190080,
-                        "type": 0,
-                      }
-                    }
-                    name="close_svg__a"
-                  >
-                    <RNSVGPath
-                      d="M0 0h24v24H0z"
-                      fill={
-                        {
-                          "payload": 4294967295,
-                          "type": 0,
-                        }
-                      }
-                      propList={
-                        [
-                          "fill",
-                        ]
-                      }
-                    />
-                  </RNSVGClipPath>
-                </RNSVGDefs>
-              </RNSVGGroup>
-            </RNSVGSvgView>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
-      style={
-        {
-          "marginHorizontal": 4,
-        }
-      }
-    >
-      <View
-        accessibilityLabel="notifications.connection.accept"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        aria-pressed={false}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            {
-              "backgroundColor": "#fdfd80",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 32,
-              "padding": 8,
-              "width": 32,
-            },
-            {
-              "flexShrink": undefined,
-            },
-          ]
-        }
-        testID="accept-connection-request-button"
-      >
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
-            }
-          }
-        >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={16}
-              bbWidth={16}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={16}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 16,
-                    "width": 16,
-                  },
-                ]
-              }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={16}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <RNSVGGroup
-                fill={null}
-                propList={
-                  [
-                    "fill",
-                  ]
-                }
-              >
-                <RNSVGPath
-                  d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
-                  fill={
-                    {
-                      "type": 2,
-                    }
-                  }
-                  propList={
-                    [
-                      "fill",
-                    ]
-                  }
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
+              </RNSVGSvgView>
+            </View>
           </View>
         </View>
       </View>
     </View>
   </View>
-</View>
+</RNCSafeAreaView>
 `;
 
 exports[`SpacePendingRequestItem renders correctly when the modal is initially open 1`] = `
-<View
-  style={
+<RNCSafeAreaView
+  edges={
     {
-      "alignItems": "center",
-      "flexDirection": "row",
-      "paddingVertical": 12,
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
     }
   }
-  testID="space-pending-request-item"
+  style={
+    {
+      "flex": 1,
+    }
+  }
 >
   <View
-    accessibilityLabel="Some Body"
-    accessibilityRole="button"
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
     style={
-      [
-        [
-          {
-            "width": "auto",
-          },
-        ],
-        {
-          "flex": 1,
-        },
-      ]
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "paddingVertical": 12,
+      }
     }
+    testID="space-pending-request-item"
   >
     <View
+      accessibilityLabel="Some Body"
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         [
+          [
+            {
+              "width": "auto",
+            },
+          ],
           {
-            "pointerEvents": "none",
-          },
-          false,
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
+            "flex": 1,
           },
         ]
       }
@@ -552,232 +553,387 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
         style={
           [
             {
-              "alignItems": "center",
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderWidth": 1,
-              "display": "flex",
-              "height": 40,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": 40,
+              "pointerEvents": "none",
             },
+            false,
             {
-              "flexShrink": undefined,
+              "alignItems": "center",
+              "flexDirection": "row",
             },
           ]
         }
       >
-        <Image
-          accessibilityLabel="Some Body"
-          accessibilityRole="image"
-          accessible={false}
-          alt="Some Body"
-          aria-label="Some Body"
-          contentFit="cover"
-          onError={[Function]}
-          placeholder=""
-          role="img"
-          source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
+        <View
           style={
             [
               {
+                "alignItems": "center",
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderWidth": 1,
+                "display": "flex",
                 "height": 40,
+                "justifyContent": "center",
+                "overflow": "hidden",
+                "position": "relative",
                 "width": 40,
               },
-              {},
               {
                 "flexShrink": undefined,
               },
             ]
           }
-        />
-      </View>
-      <View
-        style={
-          {
-            "flex": 1,
-            "marginLeft": 16,
-          }
-        }
-      >
-        <Text
-          accessible={false}
-          collapsable={false}
-          ellipsizeMode="tail"
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          jestInlineStyle={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 16,
-              "fontWeight": "400",
-              "lineHeight": 22.4,
-              "userSelect": "auto",
-            }
-          }
-          numberOfLines={1}
-          selectable={true}
-          style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 16,
-              "fontWeight": "400",
-              "lineHeight": 22.4,
-              "userSelect": "auto",
-            }
-          }
         >
-          Some Body
-        </Text>
-      </View>
-    </View>
-  </View>
-  <View
-    style={
-      [
-        {
-          "paddingLeft": 48,
-        },
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-        },
-        {
-          "marginHorizontal": -4,
-        },
-      ]
-    }
-  >
-    <View
-      style={
-        {
-          "marginHorizontal": 4,
-        }
-      }
-    >
-      <View
-        accessibilityLabel="notifications.connection.ignore"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        aria-pressed={false}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            {
-              "backgroundColor": "#ffffff",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 32,
-              "padding": 8,
-              "width": 32,
-            },
-            {
-              "flexShrink": undefined,
-            },
-          ]
-        }
-        testID="ignore-connection-request-button"
-      >
+          <Image
+            alt="Some Body"
+            aria-label="Some Body"
+            contentFit="cover"
+            onError={[Function]}
+            placeholder=""
+            role="img"
+            source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
+            style={
+              [
+                {
+                  "height": 40,
+                  "maxWidth": "100%",
+                  "width": 40,
+                },
+                {
+                  "aspectRatio": undefined,
+                },
+                {
+                  "flexShrink": undefined,
+                },
+              ]
+            }
+          />
+        </View>
         <View
           style={
             {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
+              "flex": 1,
+              "marginLeft": 16,
             }
           }
         >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={16}
-              bbWidth={16}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={16}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 16,
-                    "width": 16,
-                  },
-                ]
+          <Text
+            accessible={false}
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 16,
+                "fontWeight": "400",
+                "lineHeight": 22.4,
+                "userSelect": "auto",
               }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={16}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <RNSVGGroup
-                fill={null}
-                propList={
+            }
+          >
+            Some Body
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "paddingLeft": 48,
+          },
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          },
+          {
+            "marginHorizontal": -4,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.ignore"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
+              },
+              {
+                "flexShrink": undefined,
+              },
+            ]
+          }
+          testID="ignore-connection-request-button"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={16}
+                bbWidth={16}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={16}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
                   [
-                    "fill",
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 16,
+                      "width": 16,
+                    },
                   ]
                 }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={16}
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
-                  clipPath="close_svg__a"
-                  fill={
-                    {
-                      "payload": 4278190080,
-                      "type": 0,
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
+                  }
+                >
+                  <RNSVGGroup
+                    clipPath="close_svg__a"
+                    fill={
+                      {
+                        "payload": 4278190080,
+                        "type": 0,
+                      }
                     }
+                  >
+                    <RNSVGPath
+                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                      fill={
+                        {
+                          "type": 2,
+                        }
+                      }
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    />
+                  </RNSVGGroup>
+                  <RNSVGDefs>
+                    <RNSVGClipPath
+                      fill={
+                        {
+                          "payload": 4278190080,
+                          "type": 0,
+                        }
+                      }
+                      name="close_svg__a"
+                    >
+                      <RNSVGPath
+                        d="M0 0h24v24H0z"
+                        fill={
+                          {
+                            "payload": 4294967295,
+                            "type": 0,
+                          }
+                        }
+                        propList={
+                          [
+                            "fill",
+                          ]
+                        }
+                      />
+                    </RNSVGClipPath>
+                  </RNSVGDefs>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "marginHorizontal": 4,
+          }
+        }
+      >
+        <View
+          accessibilityLabel="notifications.connection.accept"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          aria-pressed={false}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
+              },
+              {
+                "flexShrink": undefined,
+              },
+            ]
+          }
+          testID="accept-connection-request-button"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View>
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={16}
+                bbWidth={16}
+                color="#262424"
+                fill="none"
+                focusable={false}
+                height={16}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  [
+                    {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    {
+                      "flex": 0,
+                      "height": 16,
+                      "width": 16,
+                    },
+                  ]
+                }
+                tintColor="#262424"
+                vbHeight={24}
+                vbWidth={24}
+                width={16}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <RNSVGGroup
+                  fill={null}
+                  propList={
+                    [
+                      "fill",
+                    ]
                   }
                 >
                   <RNSVGPath
-                    d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -790,258 +946,73 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     }
                   />
                 </RNSVGGroup>
-                <RNSVGDefs>
-                  <RNSVGClipPath
-                    fill={
-                      {
-                        "payload": 4278190080,
-                        "type": 0,
-                      }
-                    }
-                    name="close_svg__a"
-                  >
-                    <RNSVGPath
-                      d="M0 0h24v24H0z"
-                      fill={
-                        {
-                          "payload": 4294967295,
-                          "type": 0,
-                        }
-                      }
-                      propList={
-                        [
-                          "fill",
-                        ]
-                      }
-                    />
-                  </RNSVGClipPath>
-                </RNSVGDefs>
-              </RNSVGGroup>
-            </RNSVGSvgView>
+              </RNSVGSvgView>
+            </View>
           </View>
         </View>
       </View>
     </View>
-    <View
-      style={
-        {
-          "marginHorizontal": 4,
-        }
-      }
+    <Modal
+      accessibilityLabel="spaces.collaborators.permissions.label"
+      accessibilityViewIsModal={true}
+      animationType="none"
+      hardwareAccelerated={false}
+      onRequestClose={[Function]}
+      testID="space-collaborators-permissions-modal"
+      transparent={true}
+      visible={true}
     >
       <View
-        accessibilityLabel="notifications.connection.accept"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": false,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        aria-pressed={false}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        accessible={false}
         style={
           [
             {
-              "backgroundColor": "#fdfd80",
-              "borderColor": "#262424",
-              "borderRadius": 1000,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "boxShadow": "0 0 0 0px #262424",
-              "display": "flex",
-              "height": 32,
-              "padding": 8,
-              "width": 32,
+              "flex": 1,
+              "justifyContent": "flex-end",
             },
-            {
-              "flexShrink": undefined,
-            },
+            false,
           ]
         }
-        testID="accept-connection-request-button"
       >
         <View
-          style={
+          accessibilityLabel="modal.backdrop"
+          accessibilityRole="button"
+          accessibilityState={
             {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "gap": 4,
-              "justifyContent": "center",
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
             }
           }
-        >
-          <View>
-            <RNSVGSvgView
-              align="xMidYMid"
-              bbHeight={16}
-              bbWidth={16}
-              color="#262424"
-              fill="none"
-              focusable={false}
-              height={16}
-              meetOrSlice={0}
-              minX={0}
-              minY={0}
-              style={
-                [
-                  {
-                    "backgroundColor": "transparent",
-                    "borderWidth": 0,
-                  },
-                  {
-                    "flex": 0,
-                    "height": 16,
-                    "width": 16,
-                  },
-                ]
-              }
-              tintColor="#262424"
-              vbHeight={24}
-              vbWidth={24}
-              width={16}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <RNSVGGroup
-                fill={null}
-                propList={
-                  [
-                    "fill",
-                  ]
-                }
-              >
-                <RNSVGPath
-                  d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
-                  fill={
-                    {
-                      "type": 2,
-                    }
-                  }
-                  propList={
-                    [
-                      "fill",
-                    ]
-                  }
-                />
-              </RNSVGGroup>
-            </RNSVGSvgView>
-          </View>
-        </View>
-      </View>
-    </View>
-  </View>
-  <Modal
-    accessibilityLabel="spaces.collaborators.permissions.label"
-    accessibilityViewIsModal={true}
-    animationType="none"
-    hardwareAccelerated={false}
-    onRequestClose={[Function]}
-    testID="space-collaborators-permissions-modal"
-    transparent={true}
-    visible={true}
-  >
-    <View
-      accessible={false}
-      style={
-        [
-          {
-            "flex": 1,
-            "justifyContent": "flex-end",
-          },
-          false,
-        ]
-      }
-    >
-      <View
-        accessibilityLabel="modal.backdrop"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            [
-              {
-                "width": "100%",
-              },
-            ],
+          accessibilityValue={
             {
-              "backgroundColor": "#262424",
-              "bottom": 0,
-              "left": 0,
-              "opacity": 0.4,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "zIndex": 0,
-            },
-          ]
-        }
-        testID="space-collaborators-permissions-modal-backdrop"
-      >
-        <View
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             [
-              {
-                "pointerEvents": "none",
-              },
-              false,
-              undefined,
-            ]
-          }
-        >
-          <View
-            onAccessibilityEscape={[Function]}
-            style={
+              [
+                {
+                  "width": "100%",
+                },
+              ],
               {
                 "backgroundColor": "#262424",
                 "bottom": 0,
@@ -1051,577 +1022,396 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                 "right": 0,
                 "top": 0,
                 "zIndex": 0,
-              }
-            }
-          />
-        </View>
-      </View>
-      <View
-        collapsable={false}
-        onLayout={[Function]}
-        style={
-          {
-            "backgroundColor": "#fff",
-            "borderTopLeftRadius": 24,
-            "borderTopRightRadius": 24,
-            "bottom": "0%",
-            "maxHeight": "90%",
-            "overflow": "hidden",
-            "padding": 24,
-            "shadowColor": "#262424",
-            "shadowOffset": {
-              "height": 0,
-              "width": 0,
-            },
-            "transform": [
-              {
-                "translateY": 0,
               },
-            ],
-          }
-        }
-        testID="space-collaborators-permissions-modal-animatedview"
-      >
-        <View
-          style={
-            [
-              {
-                "alignSelf": "center",
-                "justifyContent": "flex-end",
-                "paddingBottom": 18,
-                "width": "100%",
-              },
-              undefined,
             ]
           }
+          testID="space-collaborators-permissions-modal-backdrop"
         >
           <View
-            collapsable={false}
-            handlerTag={1}
-            handlerType="PanGestureHandler"
-            onGestureHandlerEvent={[Function]}
-            onGestureHandlerStateChange={[Function]}
             style={
-              {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "height": 40,
-              }
+              [
+                {
+                  "pointerEvents": "none",
+                },
+                false,
+                undefined,
+              ]
             }
           >
             <View
-              accessibilityLabel="modal.backdrop"
-              accessibilityRole="button"
-              accessibilityState={
-                {
-                  "busy": undefined,
-                  "checked": undefined,
-                  "disabled": false,
-                  "expanded": undefined,
-                  "selected": undefined,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
-              accessible={true}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              onAccessibilityEscape={[Function]}
               style={
-                [
-                  [
-                    {
-                      "width": "100%",
-                    },
-                  ],
-                  {
-                    "padding": 15,
-                  },
-                ]
+                {
+                  "backgroundColor": "#262424",
+                  "bottom": 0,
+                  "left": 0,
+                  "opacity": 0.4,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "zIndex": 0,
+                }
               }
-              testID="btn-to-close-space-collaborators-permissions-modal"
+            />
+          </View>
+        </View>
+        <View
+          collapsable={false}
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#fff",
+              "borderTopLeftRadius": 24,
+              "borderTopRightRadius": 24,
+              "bottom": "0%",
+              "maxHeight": "90%",
+              "overflow": "hidden",
+              "padding": 24,
+              "shadowColor": "#262424",
+              "shadowOffset": {
+                "height": 0,
+                "width": 0,
+              },
+              "transform": [
+                {
+                  "translateY": 0,
+                },
+              ],
+            }
+          }
+          testID="space-collaborators-permissions-modal-animatedview"
+        >
+          <View
+            style={
+              [
+                {
+                  "alignSelf": "center",
+                  "justifyContent": "flex-end",
+                  "paddingBottom": 18,
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              handlerTag={1}
+              handlerType="PanGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "height": 40,
+                }
+              }
             >
+              <View
+                accessibilityLabel="modal.backdrop"
+                accessibilityRole="button"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": false,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  [
+                    [
+                      {
+                        "width": "100%",
+                      },
+                    ],
+                    {
+                      "padding": 15,
+                    },
+                  ]
+                }
+                testID="btn-to-close-space-collaborators-permissions-modal"
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "pointerEvents": "none",
+                      },
+                      false,
+                      undefined,
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      {
+                        "backgroundColor": "#262424",
+                        "borderRadius": 4,
+                        "height": 4,
+                        "opacity": 0.3,
+                        "width": 40,
+                      }
+                    }
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <RCTScrollView>
+            <View>
               <View
                 style={
                   [
                     {
-                      "pointerEvents": "none",
+                      "paddingHorizontal": 10,
                     },
-                    false,
-                    undefined,
+                    {
+                      "alignSelf": "center",
+                      "maxWidth": 840,
+                      "paddingHorizontal": 32,
+                      "width": "100%",
+                    },
                   ]
                 }
               >
                 <View
                   style={
                     {
-                      "backgroundColor": "#262424",
-                      "borderRadius": 4,
-                      "height": 4,
-                      "opacity": 0.3,
-                      "width": 40,
+                      "flexDirection": "column",
+                      "gap": 16,
                     }
                   }
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-        <RCTScrollView>
-          <View>
-            <View
-              style={
-                [
-                  {
-                    "paddingHorizontal": 10,
-                  },
-                  {
-                    "alignSelf": "center",
-                    "maxWidth": 840,
-                    "paddingHorizontal": 32,
-                    "width": "100%",
-                  },
-                ]
-              }
-            >
-              <View
-                style={
-                  {
-                    "flexDirection": "column",
-                    "gap": 16,
-                  }
-                }
-              >
-                <View
-                  style={
-                    [
-                      {
-                        "alignItems": "center",
-                        "backgroundColor": "#ffffff",
-                        "borderColor": "#262424",
-                        "borderRadius": 1000,
-                        "borderWidth": 1,
-                        "display": "flex",
-                        "height": 48,
-                        "justifyContent": "center",
-                        "overflow": "hidden",
-                        "position": "relative",
-                        "width": 48,
-                      },
-                      {
-                        "flexShrink": undefined,
-                      },
-                    ]
-                  }
                 >
-                  <Image
-                    accessibilityLabel="Some Body"
-                    accessibilityRole="image"
-                    accessible={false}
-                    alt="Some Body"
-                    aria-label="Some Body"
-                    contentFit="cover"
-                    onError={[Function]}
-                    placeholder=""
-                    role="img"
-                    source="https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
+                  <View
                     style={
                       [
                         {
+                          "alignItems": "center",
+                          "backgroundColor": "#ffffff",
+                          "borderColor": "#262424",
+                          "borderRadius": 1000,
+                          "borderWidth": 1,
+                          "display": "flex",
                           "height": 48,
+                          "justifyContent": "center",
+                          "overflow": "hidden",
+                          "position": "relative",
                           "width": 48,
                         },
-                        {},
                         {
                           "flexShrink": undefined,
                         },
                       ]
                     }
-                  />
-                </View>
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
-                    }
-                    jestInlineStyle={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Regular",
-                        "fontSize": 16,
-                        "fontWeight": "400",
-                        "lineHeight": 22.4,
-                        "userSelect": "auto",
-                      }
-                    }
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Regular",
-                        "fontSize": 16,
-                        "fontWeight": "400",
-                        "lineHeight": 22.4,
-                        "userSelect": "auto",
-                      }
-                    }
                   >
-                    Some Body
-                  </Text>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
+                    <Image
+                      alt="Some Body"
+                      aria-label="Some Body"
+                      contentFit="cover"
+                      onError={[Function]}
+                      placeholder=""
+                      role="img"
+                      source="https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
+                      style={
+                        [
+                          {
+                            "height": 48,
+                            "maxWidth": "100%",
+                            "width": 48,
+                          },
+                          {
+                            "aspectRatio": undefined,
+                          },
+                          {
+                            "flexShrink": undefined,
+                          },
+                        ]
                       }
-                    }
-                    jestInlineStyle={
-                      {
-                        "color": "#787777",
-                        "fontFamily": "InstrumentSans-Regular",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 19.599999999999998,
-                        "marginTop": 6,
-                        "userSelect": "auto",
-                      }
-                    }
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#787777",
-                        "fontFamily": "InstrumentSans-Regular",
-                        "fontSize": 14,
-                        "fontWeight": "400",
-                        "lineHeight": 19.599999999999998,
-                        "marginTop": 6,
-                        "userSelect": "auto",
-                      }
-                    }
-                  />
-                </View>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "marginTop": 12,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "marginTop": 12,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Hi
-              </Text>
-              <View
-                style={
-                  {
-                    "borderTopColor": "#ebebeb",
-                    "borderTopWidth": 1,
-                    "marginTop": 8,
-                    "paddingTop": 24,
-                  }
-                }
-              >
-                <View
-                  accessibilityLabel="spaces.collaborators.pending.requests.accept.detailed"
-                  accessibilityRole="button"
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": false,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
-                  }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    [
-                      [
+                    />
+                  </View>
+                  <View>
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
                         {
-                          "width": "auto",
-                        },
-                      ],
-                      undefined,
-                    ]
+                          "color": "#262424",
+                          "fontFamily": "InstrumentSans-Regular",
+                          "fontSize": 16,
+                          "fontWeight": "400",
+                          "lineHeight": 22.4,
+                          "userSelect": "auto",
+                        }
+                      }
+                    >
+                      Some Body
+                    </Text>
+                    <Text
+                      accessible={false}
+                      selectable={true}
+                      style={
+                        {
+                          "color": "#787777",
+                          "fontFamily": "InstrumentSans-Regular",
+                          "fontSize": 14,
+                          "fontWeight": "400",
+                          "lineHeight": 19.599999999999998,
+                          "marginTop": 6,
+                          "userSelect": "auto",
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 16,
+                      "fontWeight": "400",
+                      "lineHeight": 22.4,
+                      "marginTop": 12,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Hi
+                </Text>
+                <View
+                  style={
+                    {
+                      "borderTopColor": "#ebebeb",
+                      "borderTopWidth": 1,
+                      "marginTop": 8,
+                      "paddingTop": 24,
+                    }
                   }
                 >
                   <View
+                    accessibilityLabel="spaces.collaborators.pending.requests.accept.detailed"
+                    accessibilityRole="button"
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                     style={
                       [
-                        {
-                          "pointerEvents": "none",
-                        },
-                        false,
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "marginBottom": 24,
-                        },
+                        [
+                          {
+                            "width": "auto",
+                          },
+                        ],
+                        undefined,
                       ]
                     }
                   >
-                    <View>
-                      <RNSVGSvgView
-                        align="xMidYMid"
-                        bbHeight={24}
-                        bbWidth={24}
-                        color="#86df54"
-                        fill="none"
-                        focusable={false}
-                        height={24}
-                        meetOrSlice={0}
-                        minX={0}
-                        minY={0}
-                        style={
-                          [
-                            {
-                              "backgroundColor": "transparent",
-                              "borderWidth": 0,
-                            },
-                            {
-                              "flex": 0,
-                              "height": 24,
-                              "width": 24,
-                            },
-                          ]
-                        }
-                        tintColor="#86df54"
-                        vbHeight={24}
-                        vbWidth={24}
-                        width={24}
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <RNSVGGroup
-                          fill={null}
-                          propList={
+                    <View
+                      style={
+                        [
+                          {
+                            "pointerEvents": "none",
+                          },
+                          false,
+                          {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "marginBottom": 24,
+                          },
+                        ]
+                      }
+                    >
+                      <View>
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#86df54"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
                             [
-                              "fill",
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
                             ]
                           }
+                          tintColor="#86df54"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
-                          <RNSVGPath
-                            d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
-                            fill={
-                              {
-                                "type": 2,
-                              }
-                            }
+                          <RNSVGGroup
+                            fill={null}
                             propList={
                               [
                                 "fill",
                               ]
                             }
-                          />
-                        </RNSVGGroup>
-                      </RNSVGSvgView>
-                    </View>
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
-                      }
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.pending.requests.accept.detailed
-                       
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  accessibilityLabel="spaces.collaborators.pending.requests.decline.detailed"
-                  accessibilityRole="button"
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": false,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
-                  }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    [
-                      [
-                        {
-                          "width": "auto",
-                        },
-                      ],
-                      undefined,
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "pointerEvents": "none",
-                        },
-                        false,
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "marginBottom": 24,
-                        },
-                      ]
-                    }
-                  >
-                    <View>
-                      <RNSVGSvgView
-                        align="xMidYMid"
-                        bbHeight={24}
-                        bbWidth={24}
-                        color="#cc1820"
-                        fill="none"
-                        focusable={false}
-                        height={24}
-                        meetOrSlice={0}
-                        minX={0}
-                        minY={0}
-                        style={
-                          [
-                            {
-                              "backgroundColor": "transparent",
-                              "borderWidth": 0,
-                            },
-                            {
-                              "flex": 0,
-                              "height": 24,
-                              "width": 24,
-                            },
-                          ]
-                        }
-                        tintColor="#cc1820"
-                        vbHeight={24}
-                        vbWidth={24}
-                        width={24}
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <RNSVGGroup
-                          fill={null}
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        >
-                          <RNSVGGroup
-                            clipPath="close_svg__a"
-                            fill={
-                              {
-                                "payload": 4278190080,
-                                "type": 0,
-                              }
-                            }
                           >
                             <RNSVGPath
-                              d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
+                              d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                               fill={
                                 {
                                   "type": 2,
@@ -1634,209 +1424,139 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                               }
                             />
                           </RNSVGGroup>
-                          <RNSVGDefs>
-                            <RNSVGClipPath
-                              fill={
-                                {
-                                  "payload": 4278190080,
-                                  "type": 0,
-                                }
-                              }
-                              name="close_svg__a"
-                            >
-                              <RNSVGPath
-                                d="M0 0h24v24H0z"
-                                fill={
-                                  {
-                                    "payload": 4294967295,
-                                    "type": 0,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGClipPath>
-                          </RNSVGDefs>
-                        </RNSVGGroup>
-                      </RNSVGSvgView>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "paddingLeft": 10,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        spaces.collaborators.pending.requests.accept.detailed
+                         
+                      </Text>
                     </View>
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
-                      }
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.pending.requests.decline.detailed
-                       
-                    </Text>
                   </View>
-                </View>
-                <View
-                  accessibilityLabel="spaces.collaborators.permissions.viewProfile"
-                  accessibilityRole="button"
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": false,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
-                  }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    [
-                      [
-                        {
-                          "width": "auto",
-                        },
-                      ],
-                      undefined,
-                    ]
-                  }
-                  testID="spaces-collaborators-view-profile-btn"
-                >
                   <View
+                    accessibilityLabel="spaces.collaborators.pending.requests.decline.detailed"
+                    accessibilityRole="button"
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                     style={
                       [
-                        {
-                          "pointerEvents": "none",
-                        },
-                        false,
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "marginBottom": 24,
-                        },
+                        [
+                          {
+                            "width": "auto",
+                          },
+                        ],
+                        undefined,
                       ]
                     }
                   >
-                    <View>
-                      <RNSVGSvgView
-                        align="xMidYMid"
-                        bbHeight={24}
-                        bbWidth={24}
-                        color="#262424"
-                        fill="none"
-                        focusable={false}
-                        height={24}
-                        meetOrSlice={0}
-                        minX={0}
-                        minY={0}
-                        style={
-                          [
-                            {
-                              "backgroundColor": "transparent",
-                              "borderWidth": 0,
-                            },
-                            {
-                              "flex": 0,
-                              "height": 24,
-                              "width": 24,
-                            },
-                          ]
-                        }
-                        tintColor="#262424"
-                        vbHeight={24}
-                        vbWidth={24}
-                        width={24}
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <RNSVGGroup
-                          fill={null}
-                          propList={
+                    <View
+                      style={
+                        [
+                          {
+                            "pointerEvents": "none",
+                          },
+                          false,
+                          {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "marginBottom": 24,
+                          },
+                        ]
+                      }
+                    >
+                      <View>
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#cc1820"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
                             [
-                              "fill",
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
                             ]
                           }
+                          tintColor="#cc1820"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <RNSVGGroup
-                            clipPath="user_svg__a"
-                            fill={
-                              {
-                                "payload": 4278190080,
-                                "type": 0,
-                              }
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
                             }
                           >
-                            <RNSVGPath
-                              d="M4 22a8 8 0 0 1 16 0h-2a6 6 0 1 0-12 0zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6m0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4"
-                              fill={
-                                {
-                                  "type": 2,
-                                }
-                              }
-                              propList={
-                                [
-                                  "fill",
-                                ]
-                              }
-                            />
-                          </RNSVGGroup>
-                          <RNSVGDefs>
-                            <RNSVGClipPath
+                            <RNSVGGroup
+                              clipPath="close_svg__a"
                               fill={
                                 {
                                   "payload": 4278190080,
                                   "type": 0,
                                 }
                               }
-                              name="user_svg__a"
                             >
                               <RNSVGPath
-                                d="M0 0h24v24H0z"
+                                d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
                                 fill={
                                   {
-                                    "payload": 4294967295,
-                                    "type": 0,
+                                    "type": 2,
                                   }
                                 }
                                 propList={
@@ -1845,184 +1565,168 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                                   ]
                                 }
                               />
-                            </RNSVGClipPath>
-                          </RNSVGDefs>
-                        </RNSVGGroup>
-                      </RNSVGSvgView>
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="close_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "paddingLeft": 10,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        spaces.collaborators.pending.requests.decline.detailed
+                         
+                      </Text>
                     </View>
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
-                      }
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.permissions.viewProfile
-                    </Text>
                   </View>
-                </View>
-                <View
-                  accessibilityLabel="global.report"
-                  accessibilityRole="button"
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": false,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
-                  }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  style={
-                    [
-                      [
-                        {
-                          "width": "auto",
-                        },
-                      ],
-                      undefined,
-                    ]
-                  }
-                  testID="report-user-button"
-                >
                   <View
+                    accessibilityLabel="spaces.collaborators.permissions.viewProfile"
+                    accessibilityRole="button"
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                     style={
                       [
-                        {
-                          "pointerEvents": "none",
-                        },
-                        false,
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "marginBottom": 24,
-                        },
+                        [
+                          {
+                            "width": "auto",
+                          },
+                        ],
+                        undefined,
                       ]
                     }
+                    testID="spaces-collaborators-view-profile-btn"
                   >
-                    <View>
-                      <RNSVGSvgView
-                        align="xMidYMid"
-                        bbHeight={24}
-                        bbWidth={24}
-                        color="#262424"
-                        fill="none"
-                        focusable={false}
-                        height={24}
-                        meetOrSlice={0}
-                        minX={0}
-                        minY={0}
-                        style={
-                          [
-                            {
-                              "backgroundColor": "transparent",
-                              "borderWidth": 0,
-                            },
-                            {
-                              "flex": 0,
-                              "height": 24,
-                              "width": 24,
-                            },
-                          ]
-                        }
-                        tintColor="#262424"
-                        vbHeight={24}
-                        vbWidth={24}
-                        width={24}
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <RNSVGGroup
-                          fill={null}
-                          propList={
+                    <View
+                      style={
+                        [
+                          {
+                            "pointerEvents": "none",
+                          },
+                          false,
+                          {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "marginBottom": 24,
+                          },
+                        ]
+                      }
+                    >
+                      <View>
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
                             [
-                              "fill",
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
                             ]
                           }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <RNSVGGroup
-                            clipPath="flag_svg__a"
-                            fill={
-                              {
-                                "payload": 4278190080,
-                                "type": 0,
-                              }
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
                             }
                           >
-                            <RNSVGPath
-                              d="M5 16v6H3V3h9.382a1 1 0 0 1 .894.553L14 5h6a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-6.382a1 1 0 0 1-.894-.553L12 16zM5 5v9h8.236l1 2H19V7h-6.236l-1-2z"
-                              fill={
-                                {
-                                  "type": 2,
-                                }
-                              }
-                              propList={
-                                [
-                                  "fill",
-                                ]
-                              }
-                            />
-                          </RNSVGGroup>
-                          <RNSVGDefs>
-                            <RNSVGClipPath
+                            <RNSVGGroup
+                              clipPath="user_svg__a"
                               fill={
                                 {
                                   "payload": 4278190080,
                                   "type": 0,
                                 }
                               }
-                              name="flag_svg__a"
                             >
                               <RNSVGPath
-                                d="M0 0h24v24H0z"
+                                d="M4 22a8 8 0 0 1 16 0h-2a6 6 0 1 0-12 0zm8-9c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6m0-2c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4"
                                 fill={
                                   {
-                                    "payload": 4294967295,
-                                    "type": 0,
+                                    "type": 2,
                                   }
                                 }
                                 propList={
@@ -2031,53 +1735,231 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                                   ]
                                 }
                               />
-                            </RNSVGClipPath>
-                          </RNSVGDefs>
-                        </RNSVGGroup>
-                      </RNSVGSvgView>
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="user_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "paddingLeft": 10,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        spaces.collaborators.permissions.viewProfile
+                      </Text>
                     </View>
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
+                  </View>
+                  <View
+                    accessibilityLabel="global.report"
+                    accessibilityRole="button"
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
                       }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
                       }
-                      selectable={true}
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        [
+                          {
+                            "width": "auto",
+                          },
+                        ],
+                        undefined,
+                      ]
+                    }
+                    testID="report-user-button"
+                  >
+                    <View
                       style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "paddingLeft": 10,
-                          "userSelect": "auto",
-                        }
+                        [
+                          {
+                            "pointerEvents": "none",
+                          },
+                          false,
+                          {
+                            "alignItems": "center",
+                            "flexDirection": "row",
+                            "marginBottom": 24,
+                          },
+                        ]
                       }
                     >
-                      global.report
-                    </Text>
+                      <View>
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            [
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGGroup
+                              clipPath="flag_svg__a"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                            >
+                              <RNSVGPath
+                                d="M5 16v6H3V3h9.382a1 1 0 0 1 .894.553L14 5h6a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-6.382a1 1 0 0 1-.894-.553L12 16zM5 5v9h8.236l1 2H19V7h-6.236l-1-2z"
+                                fill={
+                                  {
+                                    "type": 2,
+                                  }
+                                }
+                                propList={
+                                  [
+                                    "fill",
+                                  ]
+                                }
+                              />
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="flag_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 16,
+                            "fontWeight": "400",
+                            "lineHeight": 22.4,
+                            "paddingLeft": 10,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        global.report
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
-        </RCTScrollView>
+          </RCTScrollView>
+        </View>
       </View>
-    </View>
-  </Modal>
-</View>
+    </Modal>
+  </View>
+</RNCSafeAreaView>
 `;

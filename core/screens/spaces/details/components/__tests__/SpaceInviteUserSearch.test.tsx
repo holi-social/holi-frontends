@@ -1,5 +1,6 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { fireEvent, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -82,16 +83,18 @@ const renderComponent = ({
   mocks = [userSearchSuccessMock],
   searchValue = 'foobar',
 }: {
-  mocks?: MockedResponse[]
+  mocks?: MockLink.MockedResponse[]
   searchValue?: string
 } = {}) =>
-  render(
-    <ToastProvider>
-      <MockedProvider mocks={mocks} cache={createCache()}>
-        <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={jest.fn()} />
-      </MockedProvider>
-    </ToastProvider>
-  )
+  renderRouter({
+    index: () => (
+      <ToastProvider>
+        <MockedProvider mocks={mocks} cache={createCache()}>
+          <SpaceInviteUserSearch spaceId={spaceId} searchValue={searchValue} onInviteHandled={jest.fn()} />
+        </MockedProvider>
+      </ToastProvider>
+    ),
+  })
 
 describe('SpaceInviteUserSearch', () => {
   //todo anyone: implement test
@@ -116,9 +119,9 @@ describe('SpaceInviteUserSearch', () => {
   })
 
   it('displays loader if search input is empty', async () => {
-    const { toJSON } = renderComponent({ searchValue: '' })
+    renderComponent({ searchValue: '' })
 
-    expect(toJSON()).toMatchSnapshot()
+    expect(screen.getByTestId('loader')).toBeOnTheScreen()
   })
 
   it('handles error during user search', async () => {

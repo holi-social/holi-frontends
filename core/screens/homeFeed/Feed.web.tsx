@@ -37,6 +37,7 @@ import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsC
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { useStyles } from 'holi-bricks/styles'
 
 const FeedListItem = memo(
   ({
@@ -112,6 +113,7 @@ const HomeFeed = () => {
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
   })
+  const { theme: bricksTheme } = useStyles()
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
@@ -138,10 +140,9 @@ const HomeFeed = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTitle: () => null,
-      headerTintColor: colors.black300,
+      headerTintColor: bricksTheme.colors.fill.main,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
@@ -158,7 +159,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeeds])
+  }, [navigate, t, setScreenOptions, colors.black300, bricksTheme.colors.fill.main, showGoodDeeds])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)

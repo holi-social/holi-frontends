@@ -46,13 +46,18 @@ type SpaceDetailViewProps = {
   onTabChange: (key: string) => void
 }
 
+type SpaceDetailsParams = {
+  askOptIn?: string
+}
+
+const { useParam } = createParamHooks<SpaceDetailsParams>()
+
 const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { useParam } = createParamHooks()
   const [askOptIn] = useParam('askOptIn')
 
   const [modalVisible, setModalVisible] = useState(false)

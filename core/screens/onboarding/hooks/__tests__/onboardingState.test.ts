@@ -1,4 +1,4 @@
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from 'expo-router/testing-library'
 
 import {
   type OnboardingStateValue,
@@ -9,13 +9,21 @@ import {
   useOnboardingRedirect,
   useOnboardingState,
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 
-const mockUsePathname = jest.fn()
+const mockNavigate = jest.fn()
+const mockPathname = jest.fn()
 jest.mock('@holi/core/navigation/hooks/usePathname', () => ({
-  usePathname: () => mockUsePathname(),
-  setPathname: jest.fn(),
+  usePathname: () => mockPathname(),
+}))
+jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
+  __esModule: true,
+  default: () => ({
+    navigate: mockNavigate,
+    currentParams: {},
+    pathname: mockPathname(),
+  }),
 }))
 const mockUseLoggedInUser = jest.fn()
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
@@ -31,6 +39,11 @@ const renderOnboardingInitialization = () =>
 const mockUseGuestMode = jest.mocked(useGuestMode)
 jest.mock('@holi/core/screens/onboarding/hooks/useGuestMode', () => ({
   useGuestMode: jest.fn(),
+}))
+
+jest.mock('react-native/Libraries/Utilities/Platform', () => ({
+  OS: 'web',
+  select: jest.fn(),
 }))
 
 describe('useOnboardingState', () => {
@@ -329,8 +342,12 @@ describe('useOnboardingInitialization', () => {
 describe('useOnboardingRedirect', () => {
   beforeEach(() => {
     jest.useFakeTimers()
+    mockNavigate.mockClear()
+    mockPathname.mockClear()
+    mockPathname.mockReturnValue('/')
     mockUseLoggedInUser.mockReturnValue({
       isLoggedIn: false,
+      isLoading: false,
     })
     mockUseGuestMode.mockReturnValue({
       isLoading: false,
@@ -357,18 +374,20 @@ describe('useOnboardingRedirect', () => {
     },
   ]
   it.each(testCasesRedirects)('should redirect to $expectedRoute if state is $state', ({ state, expectedRoute }) => {
-    onboardingStateVar(state)
-    mockUsePathname.mockReturnValue('/')
+    act(() => {
+      onboardingStateVar(state)
+    })
+    mockPathname.mockReturnValue('/')
 
     renderHook(() => useOnboardingRedirect())
-    jest.runOnlyPendingTimers()
+    jest.runAllTimers()
 
     expect(mockNavigate).toHaveBeenCalledWith(expectedRoute)
   })
 
   it.each(testCasesRedirects)('should require onboarding on startup for state $state', ({ state }) => {
     onboardingStateVar(state)
-    mockUsePathname.mockReturnValue('/')
+    mockPathname.mockReturnValue('/')
 
     const { result } = renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -378,7 +397,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not require onboarding on startup for state "finished"', () => {
     onboardingStateVar('finished')
-    mockUsePathname.mockReturnValue('/')
+    mockPathname.mockReturnValue('/')
 
     const { result } = renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -391,7 +410,7 @@ describe('useOnboardingRedirect', () => {
       isLoading: true,
     })
     onboardingStateVar('onboarding')
-    mockUsePathname.mockReturnValue('/')
+    mockPathname.mockReturnValue('/')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -401,7 +420,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not navigate to onboarding if current screen is not home', () => {
     onboardingStateVar('onboarding')
-    mockUsePathname.mockReturnValue('/volunteering')
+    mockPathname.mockReturnValue('/volunteering')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -411,7 +430,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not navigate to onboarding registration if already there', () => {
     onboardingStateVar('emailVerification')
-    mockUsePathname.mockReturnValue('/onboarding')
+    mockPathname.mockReturnValue('/onboarding')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -421,7 +440,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not redirect if state is finished', () => {
     onboardingStateVar('finished')
-    mockUsePathname.mockReturnValue('/')
+    mockPathname.mockReturnValue('/')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -431,7 +450,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not redirect to onboarding if user is on TaskCompletionFlow screen', () => {
     onboardingStateVar('accountSetup')
-    mockUsePathname.mockReturnValue('/spaces/123/tasks/456/complete')
+    mockPathname.mockReturnValue('/spaces/123/tasks/456/complete')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -441,7 +460,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not redirect to onboarding if user is on TaskCompletionFlow screen with different path format', () => {
     onboardingStateVar('emailVerification')
-    mockUsePathname.mockReturnValue('/spaces/my-space/tasks/task-123/complete')
+    mockPathname.mockReturnValue('/spaces/my-space/tasks/task-123/complete')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -24,7 +24,7 @@ import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/Vo
 import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'

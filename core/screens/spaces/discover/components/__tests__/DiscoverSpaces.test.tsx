@@ -1,5 +1,6 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { cleanup, render, screen } from '@testing-library/react-native'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { cleanup, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import {
@@ -60,14 +61,16 @@ const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, discoverSpacesUserSpec
 // note: this test has been slimmed down since the component was refactored
 //       feel free to add more tests again (see history)
 
-const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
-  render(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <ToastProvider>
-        <DiscoverSpaces />
-      </ToastProvider>
-    </MockedProvider>
-  )
+const renderDiscoverSpaces = (mocks: MockLink.MockedResponse[]) =>
+  renderRouter({
+    index: () => (
+      <MockedProvider mocks={mocks}>
+        <ToastProvider>
+          <DiscoverSpaces />
+        </ToastProvider>
+      </MockedProvider>
+    ),
+  })
 
 describe('DiscoverSpaces', () => {
   it('displays loading screen while loading', async () => {

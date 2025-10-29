@@ -1,11 +1,13 @@
 import React from 'react'
 
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
 import { SearchFacetsTabs } from '@holi/core/screens/search/SearchFacetsTabs'
 
 describe('SearchFacetsTabs', () => {
   it('should render available facets', async () => {
-    render(<SearchFacetsTabs currentFacet="volunteering" onFacetChange={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchFacetsTabs currentFacet="volunteering" onFacetChange={jest.fn()} />,
+    })
 
     expect(screen.getByLabelText('search.facets.volunteering')).toBeOnTheScreen()
     expect(screen.getByLabelText('search.facets.space')).toBeOnTheScreen()
@@ -16,7 +18,9 @@ describe('SearchFacetsTabs', () => {
     const onFacetChange = jest.fn()
     const user = userEvent.setup()
 
-    render(<SearchFacetsTabs currentFacet="volunteering" onFacetChange={onFacetChange} />)
+    renderRouter({
+      index: () => <SearchFacetsTabs currentFacet="volunteering" onFacetChange={onFacetChange} />,
+    })
 
     await user.press(screen.getByLabelText('search.facets.profile'))
 
@@ -24,7 +28,9 @@ describe('SearchFacetsTabs', () => {
   })
 
   it('applies initial selection', async () => {
-    render(<SearchFacetsTabs currentFacet="space" onFacetChange={jest.fn()} />)
+    renderRouter({
+      index: () => <SearchFacetsTabs currentFacet="space" onFacetChange={jest.fn()} />,
+    })
 
     const tab = screen.getByLabelText('search.facets.space')
     expect(tab).toHaveAccessibilityState({ selected: true })

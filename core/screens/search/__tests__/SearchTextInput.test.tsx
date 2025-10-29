@@ -1,6 +1,6 @@
 import React from 'react'
 import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
-import { render, userEvent, screen, act } from '@testing-library/react-native'
+import { render, userEvent, screen, act } from 'expo-router/testing-library'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 

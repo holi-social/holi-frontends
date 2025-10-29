@@ -1,6 +1,6 @@
 import useLink from '@holi/core/navigation/hooks/useLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { renderHook, waitFor } from 'expo-router/testing-library'
 import { Linking } from 'react-native'
 
 const mockUseRouting = jest.mocked(useRouting)

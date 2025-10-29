@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { act, render, screen } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { act, renderRouter, screen } from 'expo-router/testing-library'
 import React from 'react'
 
 import { pagedInvites, space } from '@holi/core/screens/spaces/__tests__/testData'
@@ -17,11 +17,13 @@ describe('SpaceInviteItem', () => {
   const invite = pagedInvites.data[0]
 
   it('renders correctly', () => {
-    render(
-      <MockedProvider>
-        <SpaceInviteItem space={space} invitedUser={invite.invitedUser} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <SpaceInviteItem space={space} invitedUser={invite.invitedUser} />
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 })

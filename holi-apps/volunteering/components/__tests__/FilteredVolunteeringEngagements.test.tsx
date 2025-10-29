@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
 import { TrackingEvent } from '@holi/core/tracking'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useFilteredVolunteeringEngagements } from '@holi-apps/volunteering/hooks/useFilteredVolunteeringEngagements'
@@ -40,13 +40,17 @@ describe('FilteredVolunteeringEngagements', () => {
       isLoading: true,
     })
 
-    render(<FilteredVolunteeringEngagements filters={filters} loadingFilters={true} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} loadingFilters={true} />,
+    })
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should fetch results with correct filters', () => {
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+    })
 
     expect(mockUseFilteredVolunteeringEngagements).toHaveBeenCalledWith({
       filters,
@@ -62,13 +66,17 @@ describe('FilteredVolunteeringEngagements', () => {
       isLoading: true,
     })
 
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+    })
 
     expect(screen.getByTestId('volunteering-list-skeleton')).toBeOnTheScreen()
   })
 
   it('should render filter results', () => {
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+    })
 
     // Header
     expect(screen.getByText('volunteering.filter.result')).toBeOnTheScreen()
@@ -88,7 +96,9 @@ describe('FilteredVolunteeringEngagements', () => {
       fetchNextPage,
     })
 
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+    })
 
     expect(screen.getByTestId('volunteering-loader')).toBeOnTheScreen()
     expect(fetchNextPage).toHaveBeenCalled()
@@ -102,30 +112,36 @@ describe('FilteredVolunteeringEngagements', () => {
       fetchNextPage,
     })
 
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+    })
 
     expect(screen.queryByTestId('volunteering-loader')).not.toBeOnTheScreen()
     expect(fetchNextPage).not.toHaveBeenCalled()
   })
 
-  it('should link to detail pages', async () => {
-    const user = userEvent.setup()
+  it('should link to detail pages', () => {
     const engagement = results.engagements[0]
 
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    const context = renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+      'volunteering/[id]': () => null,
+    })
 
-    await user.press(screen.getByText(engagement.title))
+    fireEvent.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+    expect(context).toHavePathname(`/volunteering/${engagement.link_locators?.volunteering}`)
   })
 
-  it('should track pressing cards', async () => {
-    const user = userEvent.setup()
+  it('should track pressing cards', () => {
     const engagement = results.engagements[0]
 
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+      'volunteering/[id]': () => null,
+    })
 
-    await user.press(screen.getByText(engagement.title))
+    fireEvent.press(screen.getByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0, {
@@ -138,21 +154,24 @@ describe('FilteredVolunteeringEngagements', () => {
   })
 
   it('should display message if loading filters failed', () => {
-    render(<FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} />,
+    })
 
     expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
-  it('should allow to reset filters if loading results failed', async () => {
+  it('should allow to reset filters if loading results failed', () => {
     const clearFilters = jest.fn()
-    const user = userEvent.setup()
 
-    render(
-      <FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} clearFilters={clearFilters} />
-    )
+    renderRouter({
+      index: () => (
+        <FilteredVolunteeringEngagements filters={filters} loadingFiltersFailed={true} clearFilters={clearFilters} />
+      ),
+    })
 
-    await user.press(screen.getByLabelText('search.filter.reset_other'))
+    fireEvent.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })
@@ -162,23 +181,26 @@ describe('FilteredVolunteeringEngagements', () => {
       ...results,
       engagements: [],
     })
-    render(<FilteredVolunteeringEngagements filters={filters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} />,
+    })
 
     expect(screen.getByText('volunteering.listing.nothingFound.title')).toBeOnTheScreen()
     expect(screen.getByText('volunteering.listing.nothingFound.subtitle')).toBeOnTheScreen()
   })
 
-  it('should allow to reset filters if no results were found', async () => {
+  it('should allow to reset filters if no results were found', () => {
     mockUseFilteredVolunteeringEngagements.mockReturnValue({
       ...results,
       engagements: [],
     })
     const clearFilters = jest.fn()
-    const user = userEvent.setup()
 
-    render(<FilteredVolunteeringEngagements filters={filters} clearFilters={clearFilters} />)
+    renderRouter({
+      index: () => <FilteredVolunteeringEngagements filters={filters} clearFilters={clearFilters} />,
+    })
 
-    await user.press(screen.getByLabelText('search.filter.reset_other'))
+    fireEvent.press(screen.getByLabelText('search.filter.reset_other'))
 
     expect(clearFilters).toHaveBeenCalled()
   })

@@ -1,4 +1,5 @@
-import { type DocumentNode, useApolloClient } from '@apollo/client'
+import { type DocumentNode } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,11 +9,10 @@ import type Animated from 'react-native-reanimated'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
@@ -27,9 +27,9 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { breakpoints, Spacing } from 'holi-bricks/foundations'
-import { MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
-import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
+import { DiscoverSpacesDocument, MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
 import * as Appcues from '@appcues/react-native'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export enum Tab {
   MINE = 'mine',
@@ -49,7 +49,6 @@ const Spaces = () => {
   const { isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<Animated.ScrollView>(null)
   const setScreenOptions = useSetScreenOptions()
-  const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -65,10 +64,14 @@ const Spaces = () => {
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
-  const { loading, data: mySpacesData } = useMySpacesQuery({
+  const {
+    loading,
+    data: mySpacesData,
+    error,
+  } = useMySpacesQuery({
     skip: !isLoggedIn,
-    onError: (error) => displayError(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' }),
   })
+  useApolloErrorLogging(error, 'Failed to load spaces for user', { location: 'Spaces.mySpaceQuery' })
   const mySpaces = mySpacesData?.mySpaces || []
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
@@ -94,16 +97,15 @@ const Spaces = () => {
       })
 
     setScreenOptions({
-      headerShown: true,
       /* have white background appearance */
       headerTransparent: false,
       /* hide title on ios with empty title string */
       headerTitle: '',
       headerBackVisible: false,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {t('spaces.organize')}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: (props) => (
         <HoliHorizontalRow>

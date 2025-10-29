@@ -1,12 +1,13 @@
 import React from 'react'
-import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
+import { renderRouter, screen, fireEvent, waitFor } from 'expo-router/testing-library'
 import { TrackingEvent } from '@holi/core/tracking'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { useMicroactions } from '@holi-apps/volunteering/hooks/useMicroactions'
 import StartSmallCarousel from '@holi/core/components/StartSmallCarousel'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { HOLI_MEMBER1_FIXTURE } from '@holi/chat/src/test-utils'
+import { Text } from 'react-native'
 
 const mockUseMicroactions = jest.mocked(useMicroactions)
 jest.mock('@holi-apps/volunteering/hooks/useMicroactions', () => ({
@@ -70,11 +71,13 @@ describe('StartSmallCarousel', () => {
       isLoading: true,
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+    })
 
     // Headers
     expect(screen.getByText('act.startSmall.title')).toBeOnTheScreen()
@@ -89,21 +92,25 @@ describe('StartSmallCarousel', () => {
       canFetchMore: false,
     })
 
-    const { toJSON } = render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+    })
 
-    await waitFor(() => expect(toJSON()).toBeNull())
+    await waitFor(() => expect(screen.queryByText('act.startSmall.title')).not.toBeOnTheScreen())
   })
 
   it('should render loaded micro actions and heading', async () => {
-    render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+    })
 
     await screen.findByText(results.engagements[0].title)
 
@@ -118,16 +125,18 @@ describe('StartSmallCarousel', () => {
   })
 
   it('should track pressing cards', async () => {
-    const user = userEvent.setup()
     const engagement = results.engagements[0]
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(await screen.findByText(engagement.title))
+    fireEvent.press(await screen.findByText(engagement.title))
 
     expect(mockTrack).toHaveBeenCalledWith(
       TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0, {
@@ -140,35 +149,38 @@ describe('StartSmallCarousel', () => {
   })
 
   it('should navigate to detail pages', async () => {
-    const user = userEvent.setup()
     const engagement = results.engagements[0]
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    const context = renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(await screen.findByText(engagement.title))
+    fireEvent.press(await screen.findByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.link_locators?.volunteering}`)
+    expect(context).toHavePathname(`/volunteering/${engagement.link_locators?.volunteering}`)
   })
 
   it('should fetch more results on button click', async () => {
-    const user = userEvent.setup()
     const fetchNextPage = jest.fn()
     mockUseMicroactions.mockReturnValue({
       ...results,
       fetchNextPage,
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+    })
 
-    await user.press(await screen.findByText('act.startSmall.showMore'))
+    fireEvent.press(await screen.findByText('act.startSmall.showMore'))
     expect(fetchNextPage).toHaveBeenCalled()
   })
 
@@ -180,11 +192,13 @@ describe('StartSmallCarousel', () => {
       fetchNextPage,
     })
 
-    render(
-      <MockedProvider mocks={mocks}>
-        <StartSmallCarousel />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={mocks}>
+          <StartSmallCarousel />
+        </MockedProvider>
+      ),
+    })
 
     await screen.findByText(results.engagements[0].title)
     expect(screen.queryByText('act.startSmall.showMore')).toBeNull()

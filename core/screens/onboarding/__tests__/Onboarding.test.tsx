@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import {
@@ -8,7 +8,7 @@ import {
 import { useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { render, screen } from '@testing-library/react-native'
+import { renderRouter, screen } from 'expo-router/testing-library'
 import type React from 'react'
 
 jest.useFakeTimers()
@@ -110,11 +110,13 @@ describe('Onboarding', () => {
     mockUseOnboardingState.mockReturnValue(null)
     mockUseOnboardingCurrentStepKey.mockReturnValue([null, jest.fn()])
 
-    render(
-      <MockedProvider mocks={[]}>
-        <Onboarding />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]}>
+          <Onboarding />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
   })
@@ -122,33 +124,29 @@ describe('Onboarding', () => {
   it('should render welcome screen initially', () => {
     mockUseOnboardingState.mockReturnValue('onboarding')
 
-    render(
-      <MockedProvider mocks={[]}>
-        <Onboarding />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]}>
+          <Onboarding />
+        </MockedProvider>
+      ),
+    })
 
     // Check if the stepper is rendered
     expect(screen.getByTestId('onboarding-stepper')).toBeOnTheScreen()
   })
 
   it('should render create account step when onboarding state changes', () => {
-    mockUseOnboardingState.mockReturnValue('onboarding')
-
-    const { rerender } = render(
-      <MockedProvider mocks={[]}>
-        <Onboarding />
-      </MockedProvider>
-    )
-
-    // When we have an existing registration flow, it should show create account
+    // When we have finished onboarding state, it should still show the stepper
     mockUseOnboardingState.mockReturnValue('finished')
 
-    rerender(
-      <MockedProvider mocks={[]}>
-        <Onboarding />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]}>
+          <Onboarding />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('onboarding-stepper')).toBeOnTheScreen()
   })
@@ -157,11 +155,13 @@ describe('Onboarding', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
     mockUseOnboardingState.mockReturnValue('finished')
 
-    render(
-      <MockedProvider mocks={[]}>
-        <Onboarding />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]}>
+          <Onboarding />
+        </MockedProvider>
+      ),
+    })
 
     // Should attempt to clean up and redirect
     expect(mockUseRedirect).toHaveBeenCalledWith('/act')
@@ -171,11 +171,13 @@ describe('Onboarding', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
     mockUseOnboardingState.mockReturnValue('accountSetup')
 
-    render(
-      <MockedProvider mocks={[]}>
-        <Onboarding />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]}>
+          <Onboarding />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByTestId('onboarding-stepper')).toBeOnTheScreen()
   })

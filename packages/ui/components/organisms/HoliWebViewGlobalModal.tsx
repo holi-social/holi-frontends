@@ -1,5 +1,7 @@
 import React from 'react'
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+
+import { useReactiveVar } from '@apollo/client/react'
 
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliWebView from '@holi/core/components/HoliWebView'

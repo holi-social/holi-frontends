@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import type { HoliPageProps } from '@holi/web/types'
 
-export const createApolloPageProps = (client: ApolloClient<NormalizedCacheObject> | undefined) => {
+export const createApolloPageProps = (client: ApolloClient | undefined) => {
   if (!client) {
     return undefined
   }

@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { render } from 'expo-router/testing-library'
 import React from 'react'
 
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
@@ -47,7 +47,7 @@ const authenticatedUserMock = {
 describe('PostReactions', () => {
   it('renders correctly', () => {
     const { getByTestId } = render(
-      <MockedProvider addTypename={false} mocks={[authenticatedUserMock]}>
+      <MockedProvider mocks={[authenticatedUserMock]}>
         <PostReactions post={post} />
       </MockedProvider>
     )

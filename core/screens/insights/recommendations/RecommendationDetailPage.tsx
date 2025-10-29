@@ -1,18 +1,15 @@
-import { useQuery } from '@apollo/client'
-import React, { useMemo, useState, useEffect } from 'react'
+import { useQuery } from '@apollo/client/react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import WebViewHandler from '@holi/core/screens/insights/components/WebViewHandler'
-import { type InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
+import { insightWithRecommendation, type InsightWithRecommendationResponse } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -31,6 +28,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import { Text } from 'holi-bricks/components/text'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -42,7 +40,6 @@ const { useUUIDParam } = createParamHooks<RecommendationDetailPageParams>()
 const RecommendationDetailPage = () => {
   const [insightId] = useUUIDParam('insightId')
   const [recommendationId] = useUUIDParam('recommendationId')
-  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
@@ -55,22 +52,18 @@ const RecommendationDetailPage = () => {
     data: { insightById } = {},
     refetch,
     loading,
+    error,
   } = useQuery<InsightWithRecommendationResponse>(insightWithRecommendation, {
     variables: { insightId, recommendationId },
     notifyOnNetworkStatusChange: true,
     skip: !insightId || !recommendationId,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load recommendation', {
-        location: 'RecommendationDetailPage.insightWithRecommendation',
-        recommendationId,
-      })
-    },
   })
 
   useOnRefresh(refetch)
+  useApolloNotFoundErrorHandling(error, 'Failed to load recommendation', {
+    location: 'RecommendationDetailPage.insightWithRecommendation',
+    recommendationId,
+  })
 
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
@@ -88,11 +81,12 @@ const RecommendationDetailPage = () => {
     if (showWebView) return
 
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.recommendations.title')}
+        </Text>
       ),
       headerRight: () => (
         <HoliActionDrawer.Drawer

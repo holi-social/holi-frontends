@@ -2,12 +2,12 @@ import React from 'react'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useSearchFilter } from '@holi/core/screens/search/hooks/useSearchFilter'
-import { render } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { Search } from '@holi/core/screens/search/Search'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import type { SearchFilter } from '@holi/core/screens/search/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import type { ApolloError } from '@apollo/client'
+import type { CombinedGraphQLErrors } from '@apollo/client'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -69,7 +69,9 @@ describe('Search', () => {
   it('should prefill filter from query parameters', () => {
     mockParameters({ query: 'some query', facet: 'space' })
 
-    render(<Search />)
+    renderRouter({
+      index: () => <Search />,
+    })
 
     expect(mockUseSearchFilter).toHaveBeenCalledWith(
       {
@@ -83,7 +85,9 @@ describe('Search', () => {
   it('fetches initial geolocation by id from query parameters', () => {
     mockParameters({ location: '123' })
 
-    render(<Search />)
+    renderRouter({
+      index: () => <Search />,
+    })
 
     expect(mockUseGeolocationDetailsWithSuggestion).toHaveBeenCalledWith('123', expect.any(Function))
   })
@@ -94,9 +98,11 @@ describe('Search', () => {
     mockUseErrorHandling.mockReturnValue({
       displayError: mockDisplayError,
     })
-    const error = { message: 'Test error' } as ApolloError
+    const error = { message: 'Test error' } as CombinedGraphQLErrors
 
-    render(<Search />)
+    renderRouter({
+      index: () => <Search />,
+    })
 
     // Trigger onError callback of geolocation hook
     const onError = mockUseGeolocationDetailsWithSuggestion.mock.calls[0][1]
@@ -113,7 +119,9 @@ describe('Search', () => {
   it('fetches results with filter created by useSearchFilter', () => {
     mockParameters({})
 
-    render(<Search />)
+    renderRouter({
+      index: () => <Search />,
+    })
 
     expect(useSearchResults).toHaveBeenCalledWith(filter)
   })

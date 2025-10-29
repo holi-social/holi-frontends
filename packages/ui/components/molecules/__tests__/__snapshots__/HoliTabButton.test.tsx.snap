@@ -53,22 +53,6 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -140,22 +124,6 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#262424",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -227,22 +195,6 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {
@@ -314,22 +266,6 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      jestInlineStyle={
-        {
-          "color": "#787777",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 21,
-          "fontWeight": "500",
-          "lineHeight": 29.4,
-          "userSelect": "none",
-        }
-      }
       selectable={false}
       style={
         {

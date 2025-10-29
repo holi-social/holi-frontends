@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { renderRouter, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -34,11 +34,13 @@ describe('RelatedSpaces', () => {
   const renderComponent = async (space: Space) => {
     mockParameters({ spaceIdOrName: space.name })
 
-    render(
-      <MockedProvider mocks={createMocksForSpace(space)} cache={createCache()}>
-        <RelatedSpaces spaceIdOrName={space.name} />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={createMocksForSpace(space)} cache={createCache()}>
+          <RelatedSpaces spaceIdOrName={space.name} />
+        </MockedProvider>
+      ),
+    })
 
     await waitForElementToBeRemoved(() => screen.getByTestId('initial-loader'))
   }

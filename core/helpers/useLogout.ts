@@ -1,4 +1,5 @@
-import { makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+import { useApolloClient, useReactiveVar } from '@apollo/client/react'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 

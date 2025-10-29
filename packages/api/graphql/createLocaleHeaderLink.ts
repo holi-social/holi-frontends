@@ -1,9 +1,9 @@
-import { setContext } from '@apollo/client/link/context'
+import { SetContextLink } from '@apollo/client/link/context'
 
 import i18n, { i18nConfig } from '@holi/core/i18n'
 
 const createLocaleHeaderLink = (locale?: string) =>
-  setContext((_, { headers }) => {
+  new SetContextLink(({ headers }) => {
     return {
       headers: {
         ...headers,

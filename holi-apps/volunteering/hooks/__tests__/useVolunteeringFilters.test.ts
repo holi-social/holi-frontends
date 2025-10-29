@@ -1,10 +1,11 @@
-import { act, renderHook } from '@testing-library/react-native'
-import type { ApolloError } from '@apollo/client'
+import { act, renderHook } from 'expo-router/testing-library'
 
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { GraphQLError } from 'graphql'
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
@@ -32,7 +33,7 @@ describe('useVolunteeringFilters', () => {
     })
 
     act(() => {
-      result.current.submit({ topics: ['elderly-care'], skills: [] })
+      result.current.setFilters({ topics: ['elderly-care'], skills: [] })
     })
 
     expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
@@ -42,7 +43,7 @@ describe('useVolunteeringFilters', () => {
     const { result } = renderHook(() => useVolunteeringFilters())
 
     act(() => {
-      result.current.submit({ topics: ['elderly-care'], location: { id: 'locationId', label: 'Hamburg' } })
+      result.current.setFilters({ topics: ['elderly-care'], location: { id: 'locationId', label: 'Hamburg' } })
     })
 
     expect(mockUseUpdateParams).toHaveBeenCalledWith({ topic: ['elderly-care'], geolocationId: 'locationId' })
@@ -74,9 +75,12 @@ describe('useVolunteeringFilters', () => {
 
     expect(result.current.filters).toEqual({})
     expect(mockUseUpdateParams).toHaveBeenCalledWith({
-      topic: undefined,
-      skill: undefined,
-      geolocationId: undefined,
+      topic: [],
+      skill: [],
+      commitment: [],
+      duration: [],
+      remote: '',
+      geolocationId: '',
     })
   })
   it('should fetch geolocation if location id is given', () => {
@@ -128,7 +132,7 @@ describe('useVolunteeringFilters', () => {
     expect(result.current.loadingGeolocation).toBeTruthy()
   })
   it('should expose geolocation error', () => {
-    const testError = new Error('Test') as ApolloError
+    const testError = new CombinedGraphQLErrors({ errors: [new GraphQLError('Test')] })
     mockParameters({ geolocationId: 'locationId' })
     mockUseGeolocationDetailsWithSuggestion.mockReturnValue({
       loadingGeolocation: false,
@@ -144,7 +148,7 @@ describe('useVolunteeringFilters', () => {
     expect(result.current.isFiltering).toBeFalsy()
 
     act(() => {
-      result.current.submit({ topics: ['topic1'] })
+      result.current.setFilters({ topics: ['topic1'] })
     })
 
     expect(result.current.isFiltering).toBeTruthy()

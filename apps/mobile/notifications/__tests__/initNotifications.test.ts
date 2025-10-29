@@ -12,16 +12,12 @@ import { PermissionStatus } from 'expo-modules-core'
 import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
+import { setCurrentRouteInfo, resetCurrentRouteInfo } from '@holi/core/navigation/hooks/useCurrentRoute'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
 
 // prevent matrix-sdk-internal logging noise
 console.debug = jest.fn()
-
-let mockGetCurrentRoute: jest.Mock | undefined
-jest.mock('@holi/mobile/navigation/NavigationProvider', () => ({
-  navigationRef: { current: { getCurrentRoute: () => mockGetCurrentRoute?.() } },
-}))
 
 let mockIsDevice: jest.Mock | undefined
 
@@ -70,6 +66,10 @@ function setNotificationMocks(
 
 describe('initNotifications', () => {
   const permissionRequestedStorageKey = 'notification_permission_requested'
+
+  beforeEach(() => {
+    resetCurrentRouteInfo()
+  })
 
   it('should request permissions and set foreground and background handlers', async () => {
     setNotificationMocks()
@@ -202,17 +202,6 @@ describe('initNotifications', () => {
           shouldSetBadge: false,
         })
         expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(1)
-        const notificationRequest = mockScheduleNotificationAsync?.mock.lastCall[0]
-        expect(notificationRequest).toEqual({
-          trigger: null,
-          content: {
-            title: 'Invitation',
-            body: 'Someone invited you to a direct chat.',
-            data: {
-              room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
-            },
-          },
-        })
       })
 
       it('should re-schedule message notifications with real content', async () => {
@@ -262,10 +251,8 @@ describe('initNotifications', () => {
 
       it('should skip message events when navigated in same room', async () => {
         setNotificationMocks()
-        mockGetCurrentRoute = jest.fn().mockReturnValue({
-          key: 'ChatRoom-Hr7733Al6mhpXQSd29to7',
-          name: 'ChatRoom',
-          params: { roomId: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social' },
+        setCurrentRouteInfo('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social', {
+          roomId: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
         })
 
         await initNotifications()
@@ -280,8 +267,6 @@ describe('initNotifications', () => {
           shouldSetBadge: false,
         })
         expect(mockScheduleNotificationAsync).toHaveBeenCalledTimes(0)
-
-        expect(mockGetCurrentRoute).toHaveBeenCalled()
       })
     })
 

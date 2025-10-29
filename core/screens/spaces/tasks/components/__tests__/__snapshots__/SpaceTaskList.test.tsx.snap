@@ -1,735 +1,130 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SpaceTaskList renders correctly when there are tasks within space 1`] = `
-<View
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
   style={
     {
-      "overflow": "hidden",
+      "flex": 1,
     }
   }
 >
   <View
     style={
-      [
-        {
-          "flexDirection": "row",
-          "flexWrap": "wrap",
-        },
-        {
-          "margin": -8,
-        },
-      ]
+      {
+        "overflow": "hidden",
+      }
     }
   >
     <View
-      dataSet={
-        {
-          "media": undefined,
-        }
-      }
       style={
-        {
-          "padding": 8,
-          "width": "50%",
-        }
+        [
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+          },
+          {
+            "margin": -8,
+          },
+        ]
       }
     >
       <View
+        dataSet={
+          {
+            "media": undefined,
+          }
+        }
         style={
           {
-            "alignItems": "stretch",
-            "backgroundColor": "#fff",
-            "borderColor": "#2222221f",
-            "borderRadius": 16,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "display": "flex",
-            "flex": 1,
-            "flexDirection": undefined,
-            "height": "100%",
             "padding": 8,
-            "paddingBottom": 16,
+            "width": "50%",
           }
         }
       >
         <View
           style={
-            [
-              {
-                "flexGrow": 0,
-                "flexShrink": 0,
-                "overflow": "hidden",
-                "position": "relative",
-              },
-              {
-                "borderRadius": 8,
-                "flexBasis": undefined,
-                "marginBottom": 16,
-              },
-            ]
-          }
-          testID="undefined-image-container"
-        >
-          <Image
-            accessibilityRole="image"
-            accessible={true}
-            aria-label="spaces.tasks.thumbnail.label"
-            contentFit="cover"
-            placeholder=""
-            role="img"
-            source={
-              {
-                "height": 136,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                "width": 311,
-              }
-            }
-            style={
-              {
-                "aspectRatio": 1.75,
-                "borderRadius": 8,
-                "flex": 1,
-                "width": "100%",
-              }
-            }
-            testID="undefined-card-image"
-          />
-          <View
-            style={
-              [
-                {
-                  "maxWidth": "100%",
-                  "paddingHorizontal": 8,
-                  "position": "absolute",
-                },
-                {
-                  "bottom": 8,
-                },
-              ]
-            }
-            testID="undefined-caption"
-          />
-        </View>
-        <View
-          style={
             {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-            }
-          }
-        >
-          <View
-            accessibilityLabel="Task title"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            role="link"
-            style={
-              [
-                {
-                  "display": "flex",
-                  "flex": 1,
-                },
-              ]
-            }
-            testID="link"
-          />
-        </View>
-        <View
-          style={
-            {
-              "alignItems": undefined,
+              "alignItems": "stretch",
+              "backgroundColor": "#fff",
+              "borderColor": "#2222221f",
+              "borderRadius": 16,
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "display": "flex",
               "flex": 1,
-              "paddingHorizontal": 8,
+              "flexDirection": undefined,
+              "height": "100%",
+              "padding": 8,
+              "paddingBottom": 16,
             }
           }
-          testID="undefined-content-container"
         >
           <View
             style={
-              {
-                "alignItems": "flex-start",
-                "flexDirection": "row",
-                "gap": 8,
-                "justifyContent": "space-between",
-                "zIndex": 2,
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "flex": 1,
-                }
-              }
-            >
-              <Text
-                accessible={false}
-                collapsable={false}
-                ellipsizeMode="tail"
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-                numberOfLines={2}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-                testID="task-title"
-              >
-                Task title
-              </Text>
-            </View>
-            <View
-              style={
-                {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
-                }
-              }
-            >
-              <View
-                accessibilityLabel="Task title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "display": "flex",
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="link"
-              />
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "marginTop": 8,
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "marginRight": 4,
-                  }
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={12}
-                  bbWidth={12}
-                  color="#787777"
-                  fill="none"
-                  focusable={false}
-                  height={12}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 12,
-                        "width": 12,
-                      },
-                    ]
-                  }
-                  tintColor="#787777"
-                  vbHeight={24}
-                  vbWidth={24}
-                  width={12}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <RNSVGGroup
-                    fill={null}
-                    propList={
-                      [
-                        "fill",
-                      ]
-                    }
-                  >
-                    <RNSVGGroup
-                      clipPath="map-pin-2-filled_svg__a"
-                      fill={
-                        {
-                          "payload": 4278190080,
-                          "type": 0,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGClipPath
-                        fill={
-                          {
-                            "payload": 4278190080,
-                            "type": 0,
-                          }
-                        }
-                        name="map-pin-2-filled_svg__a"
-                      >
-                        <RNSVGPath
-                          d="M0 0h24v24H0z"
-                          fill={
-                            {
-                              "payload": 4294967295,
-                              "type": 0,
-                            }
-                          }
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Hamburg, Germany
-              </Text>
-            </View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "marginRight": 4,
-                  }
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={12}
-                  bbWidth={12}
-                  color="#787777"
-                  fill="none"
-                  focusable={false}
-                  height={12}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 12,
-                        "width": 12,
-                      },
-                    ]
-                  }
-                  tintColor="#787777"
-                  vbHeight={24}
-                  vbWidth={24}
-                  width={12}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <RNSVGGroup
-                    fill={null}
-                    propList={
-                      [
-                        "fill",
-                      ]
-                    }
-                  >
-                    <RNSVGGroup
-                      clipPath="time-filled_svg__a"
-                      fill={
-                        {
-                          "payload": 4278190080,
-                          "type": 0,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGClipPath
-                        fill={
-                          {
-                            "payload": 4278190080,
-                            "type": 0,
-                          }
-                        }
-                        name="time-filled_svg__a"
-                      >
-                        <RNSVGPath
-                          d="M0 0h24v24H0z"
-                          fill={
-                            {
-                              "payload": 4294967295,
-                              "type": 0,
-                            }
-                          }
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                spaces.input.task.regularity.PROJECT_BASED.title
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "gap": 6,
-                "marginTop": 16,
-              }
-            }
-          >
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#d9f4ff",
-                    "borderColor": "#90ddff",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "color": "#262424",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "maxWidth": "100%",
-                    "minHeight": 24,
-                    "overflow": "hidden",
-                    "paddingHorizontal": 8,
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 13,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.104,
-                      "lineHeight": 15.6,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    },
-                    {
-                      "flexShrink": undefined,
-                    },
-                  ]
-                }
-              >
-                skill.emergency-care
-              </Text>
-            </View>
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#d9f4ff",
-                    "borderColor": "#90ddff",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "color": "#262424",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "maxWidth": "100%",
-                    "minHeight": 24,
-                    "overflow": "hidden",
-                    "paddingHorizontal": 8,
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 13,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.104,
-                      "lineHeight": 15.6,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    },
-                    {
-                      "flexShrink": undefined,
-                    },
-                  ]
-                }
-              >
-                skill.event-planning
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "height": 16,
-              }
-            }
-          />
-          <Text
-            accessible={false}
-            role="none"
-            selectable={true}
-            style={
               [
                 {
-                  "color": "#676565",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 15,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": -0.12,
-                  "lineHeight": 21,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "position": "relative",
                 },
                 {
-                  "flexShrink": undefined,
+                  "borderRadius": 8,
+                  "flexBasis": undefined,
+                  "marginBottom": 16,
                 },
               ]
             }
-            testID="task-description"
+            testID="undefined-image-container"
           >
-            Task description
-          </Text>
+            <Image
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="spaces.tasks.thumbnail.label"
+              contentFit="cover"
+              placeholder=""
+              role="img"
+              source={
+                {
+                  "height": 136,
+                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                  "width": 311,
+                }
+              }
+              style={
+                {
+                  "aspectRatio": 1.75,
+                  "borderRadius": 8,
+                  "flex": 1,
+                  "width": "100%",
+                }
+              }
+              testID="undefined-card-image"
+            />
+            <View
+              style={
+                [
+                  {
+                    "maxWidth": "100%",
+                    "paddingHorizontal": 8,
+                    "position": "absolute",
+                  },
+                  {
+                    "bottom": 8,
+                  },
+                ]
+              }
+              testID="undefined-caption"
+            />
+          </View>
           <View
             style={
               {
@@ -763,6 +158,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessible={true}
               collapsable={false}
               focusable={true}
+              href="/spaces/space-title/tasks/task-1"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -774,728 +170,674 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               onStartShouldSetResponder={[Function]}
               role="link"
               style={
-                [
-                  {
-                    "display": "flex",
-                    "flex": 1,
-                  },
-                ]
+                {
+                  "display": "flex",
+                  "flex": 1,
+                }
               }
               testID="link"
             />
+          </View>
+          <View
+            style={
+              {
+                "alignItems": undefined,
+                "flex": 1,
+                "paddingHorizontal": 8,
+              }
+            }
+            testID="undefined-content-container"
+          >
+            <View
+              style={
+                {
+                  "alignItems": "flex-start",
+                  "flexDirection": "row",
+                  "gap": 8,
+                  "justifyContent": "space-between",
+                  "zIndex": 2,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  ellipsizeMode="tail"
+                  numberOfLines={2}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
+                  testID="task-title"
+                >
+                  Task title
+                </Text>
+              </View>
+              <View
+                style={
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="Task title"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/spaces/space-title/tasks/task-1"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={
+                    {
+                      "display": "flex",
+                      "flex": 1,
+                    }
+                  }
+                  testID="link"
+                />
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "marginTop": 8,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexShrink": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    {
+                      "marginRight": 4,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="#787777"
+                    fill="none"
+                    focusable={false}
+                    height={12}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                    tintColor="#787777"
+                    vbHeight={24}
+                    vbWidth={24}
+                    width={12}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGGroup
+                        clipPath="map-pin-2-filled_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGPath
+                          d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
+                          fill={
+                            {
+                              "type": 2,
+                            }
+                          }
+                          propList={
+                            [
+                              "fill",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                      <RNSVGDefs>
+                        <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          name="map-pin-2-filled_svg__a"
+                        >
+                          <RNSVGPath
+                            d="M0 0h24v24H0z"
+                            fill={
+                              {
+                                "payload": 4294967295,
+                                "type": 0,
+                              }
+                            }
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGClipPath>
+                      </RNSVGDefs>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Hamburg, Germany
+                </Text>
+              </View>
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexShrink": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    {
+                      "marginRight": 4,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="#787777"
+                    fill="none"
+                    focusable={false}
+                    height={12}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                    tintColor="#787777"
+                    vbHeight={24}
+                    vbWidth={24}
+                    width={12}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGGroup
+                        clipPath="time-filled_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGPath
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
+                          fill={
+                            {
+                              "type": 2,
+                            }
+                          }
+                          propList={
+                            [
+                              "fill",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                      <RNSVGDefs>
+                        <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          name="time-filled_svg__a"
+                        >
+                          <RNSVGPath
+                            d="M0 0h24v24H0z"
+                            fill={
+                              {
+                                "payload": 4294967295,
+                                "type": 0,
+                              }
+                            }
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGClipPath>
+                      </RNSVGDefs>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  spaces.input.task.regularity.PROJECT_BASED.title
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "gap": 6,
+                  "marginTop": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#d9f4ff",
+                      "borderColor": "#90ddff",
+                      "borderRadius": 50,
+                      "borderWidth": 1,
+                      "color": "#262424",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "gap": 4,
+                      "maxWidth": "100%",
+                      "minHeight": 24,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 8,
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    [
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 13,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
+                        "fontWeight": "400",
+                        "letterSpacing": 0.104,
+                        "lineHeight": 15.6,
+                        "textAlign": undefined,
+                        "userSelect": "auto",
+                      },
+                      {
+                        "flexShrink": undefined,
+                      },
+                    ]
+                  }
+                >
+                  skill.emergency-care
+                </Text>
+              </View>
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#d9f4ff",
+                      "borderColor": "#90ddff",
+                      "borderRadius": 50,
+                      "borderWidth": 1,
+                      "color": "#262424",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "gap": 4,
+                      "maxWidth": "100%",
+                      "minHeight": 24,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 8,
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    [
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 13,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
+                        "fontWeight": "400",
+                        "letterSpacing": 0.104,
+                        "lineHeight": 15.6,
+                        "textAlign": undefined,
+                        "userSelect": "auto",
+                      },
+                      {
+                        "flexShrink": undefined,
+                      },
+                    ]
+                  }
+                >
+                  skill.event-planning
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "height": 16,
+                }
+              }
+            />
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+              testID="task-description"
+            >
+              Task description
+            </Text>
+            <View
+              style={
+                {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                }
+              }
+            >
+              <View
+                accessibilityLabel="Task title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                href="/spaces/space-title/tasks/task-1"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  {
+                    "display": "flex",
+                    "flex": 1,
+                  }
+                }
+                testID="link"
+              />
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <View
-      dataSet={
-        {
-          "media": undefined,
-        }
-      }
-      style={
-        {
-          "padding": 8,
-          "width": "50%",
-        }
-      }
-    >
       <View
+        dataSet={
+          {
+            "media": undefined,
+          }
+        }
         style={
           {
-            "alignItems": "stretch",
-            "backgroundColor": "#fff",
-            "borderColor": "#2222221f",
-            "borderRadius": 16,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "display": "flex",
-            "flex": 1,
-            "flexDirection": undefined,
-            "height": "100%",
             "padding": 8,
-            "paddingBottom": 16,
+            "width": "50%",
           }
         }
       >
         <View
           style={
-            [
-              {
-                "flexGrow": 0,
-                "flexShrink": 0,
-                "overflow": "hidden",
-                "position": "relative",
-              },
-              {
-                "borderRadius": 8,
-                "flexBasis": undefined,
-                "marginBottom": 16,
-              },
-            ]
-          }
-          testID="undefined-image-container"
-        >
-          <Image
-            accessibilityRole="image"
-            accessible={true}
-            aria-label="spaces.tasks.thumbnail.label"
-            contentFit="cover"
-            placeholder=""
-            role="img"
-            source={
-              {
-                "height": 136,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                "width": 311,
-              }
-            }
-            style={
-              {
-                "aspectRatio": 1.75,
-                "borderRadius": 8,
-                "flex": 1,
-                "width": "100%",
-              }
-            }
-            testID="undefined-card-image"
-          />
-          <View
-            style={
-              [
-                {
-                  "maxWidth": "100%",
-                  "paddingHorizontal": 8,
-                  "position": "absolute",
-                },
-                {
-                  "bottom": 8,
-                },
-              ]
-            }
-            testID="undefined-caption"
-          />
-        </View>
-        <View
-          style={
             {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-            }
-          }
-        >
-          <View
-            accessibilityLabel="Task title"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            role="link"
-            style={
-              [
-                {
-                  "display": "flex",
-                  "flex": 1,
-                },
-              ]
-            }
-            testID="link"
-          />
-        </View>
-        <View
-          style={
-            {
-              "alignItems": undefined,
+              "alignItems": "stretch",
+              "backgroundColor": "#fff",
+              "borderColor": "#2222221f",
+              "borderRadius": 16,
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "display": "flex",
               "flex": 1,
-              "paddingHorizontal": 8,
+              "flexDirection": undefined,
+              "height": "100%",
+              "padding": 8,
+              "paddingBottom": 16,
             }
           }
-          testID="undefined-content-container"
         >
           <View
             style={
-              {
-                "alignItems": "flex-start",
-                "flexDirection": "row",
-                "gap": 8,
-                "justifyContent": "space-between",
-                "zIndex": 2,
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "flex": 1,
-                }
-              }
-            >
-              <Text
-                accessible={false}
-                collapsable={false}
-                ellipsizeMode="tail"
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-                numberOfLines={2}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-                testID="task-title"
-              >
-                Task title
-              </Text>
-            </View>
-            <View
-              style={
-                {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
-                }
-              }
-            >
-              <View
-                accessibilityLabel="Task title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "display": "flex",
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="link"
-              />
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "marginTop": 8,
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "marginRight": 4,
-                  }
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={12}
-                  bbWidth={12}
-                  color="#787777"
-                  fill="none"
-                  focusable={false}
-                  height={12}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 12,
-                        "width": 12,
-                      },
-                    ]
-                  }
-                  tintColor="#787777"
-                  vbHeight={24}
-                  vbWidth={24}
-                  width={12}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <RNSVGGroup
-                    fill={null}
-                    propList={
-                      [
-                        "fill",
-                      ]
-                    }
-                  >
-                    <RNSVGGroup
-                      clipPath="map-pin-2-filled_svg__a"
-                      fill={
-                        {
-                          "payload": 4278190080,
-                          "type": 0,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGClipPath
-                        fill={
-                          {
-                            "payload": 4278190080,
-                            "type": 0,
-                          }
-                        }
-                        name="map-pin-2-filled_svg__a"
-                      >
-                        <RNSVGPath
-                          d="M0 0h24v24H0z"
-                          fill={
-                            {
-                              "payload": 4294967295,
-                              "type": 0,
-                            }
-                          }
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Hamburg, Germany
-              </Text>
-            </View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "marginRight": 4,
-                  }
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={12}
-                  bbWidth={12}
-                  color="#787777"
-                  fill="none"
-                  focusable={false}
-                  height={12}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 12,
-                        "width": 12,
-                      },
-                    ]
-                  }
-                  tintColor="#787777"
-                  vbHeight={24}
-                  vbWidth={24}
-                  width={12}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <RNSVGGroup
-                    fill={null}
-                    propList={
-                      [
-                        "fill",
-                      ]
-                    }
-                  >
-                    <RNSVGGroup
-                      clipPath="time-filled_svg__a"
-                      fill={
-                        {
-                          "payload": 4278190080,
-                          "type": 0,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGClipPath
-                        fill={
-                          {
-                            "payload": 4278190080,
-                            "type": 0,
-                          }
-                        }
-                        name="time-filled_svg__a"
-                      >
-                        <RNSVGPath
-                          d="M0 0h24v24H0z"
-                          fill={
-                            {
-                              "payload": 4294967295,
-                              "type": 0,
-                            }
-                          }
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                spaces.input.task.regularity.PROJECT_BASED.title
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "gap": 6,
-                "marginTop": 16,
-              }
-            }
-          >
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#d9f4ff",
-                    "borderColor": "#90ddff",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "color": "#262424",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "maxWidth": "100%",
-                    "minHeight": 24,
-                    "overflow": "hidden",
-                    "paddingHorizontal": 8,
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 13,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.104,
-                      "lineHeight": 15.6,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    },
-                    {
-                      "flexShrink": undefined,
-                    },
-                  ]
-                }
-              >
-                skill.emergency-care
-              </Text>
-            </View>
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#d9f4ff",
-                    "borderColor": "#90ddff",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "color": "#262424",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "maxWidth": "100%",
-                    "minHeight": 24,
-                    "overflow": "hidden",
-                    "paddingHorizontal": 8,
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 13,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.104,
-                      "lineHeight": 15.6,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    },
-                    {
-                      "flexShrink": undefined,
-                    },
-                  ]
-                }
-              >
-                skill.event-planning
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "height": 16,
-              }
-            }
-          />
-          <Text
-            accessible={false}
-            role="none"
-            selectable={true}
-            style={
               [
                 {
-                  "color": "#676565",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 15,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": -0.12,
-                  "lineHeight": 21,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "position": "relative",
                 },
                 {
-                  "flexShrink": undefined,
+                  "borderRadius": 8,
+                  "flexBasis": undefined,
+                  "marginBottom": 16,
                 },
               ]
             }
-            testID="task-description"
+            testID="undefined-image-container"
           >
-            Task description
-          </Text>
+            <Image
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="spaces.tasks.thumbnail.label"
+              contentFit="cover"
+              placeholder=""
+              role="img"
+              source={
+                {
+                  "height": 136,
+                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                  "width": 311,
+                }
+              }
+              style={
+                {
+                  "aspectRatio": 1.75,
+                  "borderRadius": 8,
+                  "flex": 1,
+                  "width": "100%",
+                }
+              }
+              testID="undefined-card-image"
+            />
+            <View
+              style={
+                [
+                  {
+                    "maxWidth": "100%",
+                    "paddingHorizontal": 8,
+                    "position": "absolute",
+                  },
+                  {
+                    "bottom": 8,
+                  },
+                ]
+              }
+              testID="undefined-caption"
+            />
+          </View>
           <View
             style={
               {
@@ -1529,6 +871,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessible={true}
               collapsable={false}
               focusable={true}
+              href="/spaces/space-title/tasks/task-2"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -1540,728 +883,674 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               onStartShouldSetResponder={[Function]}
               role="link"
               style={
-                [
-                  {
-                    "display": "flex",
-                    "flex": 1,
-                  },
-                ]
+                {
+                  "display": "flex",
+                  "flex": 1,
+                }
               }
               testID="link"
             />
+          </View>
+          <View
+            style={
+              {
+                "alignItems": undefined,
+                "flex": 1,
+                "paddingHorizontal": 8,
+              }
+            }
+            testID="undefined-content-container"
+          >
+            <View
+              style={
+                {
+                  "alignItems": "flex-start",
+                  "flexDirection": "row",
+                  "gap": 8,
+                  "justifyContent": "space-between",
+                  "zIndex": 2,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  ellipsizeMode="tail"
+                  numberOfLines={2}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
+                  testID="task-title"
+                >
+                  Task title
+                </Text>
+              </View>
+              <View
+                style={
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="Task title"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/spaces/space-title/tasks/task-2"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={
+                    {
+                      "display": "flex",
+                      "flex": 1,
+                    }
+                  }
+                  testID="link"
+                />
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "marginTop": 8,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexShrink": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    {
+                      "marginRight": 4,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="#787777"
+                    fill="none"
+                    focusable={false}
+                    height={12}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                    tintColor="#787777"
+                    vbHeight={24}
+                    vbWidth={24}
+                    width={12}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGGroup
+                        clipPath="map-pin-2-filled_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGPath
+                          d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
+                          fill={
+                            {
+                              "type": 2,
+                            }
+                          }
+                          propList={
+                            [
+                              "fill",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                      <RNSVGDefs>
+                        <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          name="map-pin-2-filled_svg__a"
+                        >
+                          <RNSVGPath
+                            d="M0 0h24v24H0z"
+                            fill={
+                              {
+                                "payload": 4294967295,
+                                "type": 0,
+                              }
+                            }
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGClipPath>
+                      </RNSVGDefs>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Hamburg, Germany
+                </Text>
+              </View>
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexShrink": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    {
+                      "marginRight": 4,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="#787777"
+                    fill="none"
+                    focusable={false}
+                    height={12}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                    tintColor="#787777"
+                    vbHeight={24}
+                    vbWidth={24}
+                    width={12}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGGroup
+                        clipPath="time-filled_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGPath
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
+                          fill={
+                            {
+                              "type": 2,
+                            }
+                          }
+                          propList={
+                            [
+                              "fill",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                      <RNSVGDefs>
+                        <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          name="time-filled_svg__a"
+                        >
+                          <RNSVGPath
+                            d="M0 0h24v24H0z"
+                            fill={
+                              {
+                                "payload": 4294967295,
+                                "type": 0,
+                              }
+                            }
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGClipPath>
+                      </RNSVGDefs>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  spaces.input.task.regularity.PROJECT_BASED.title
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "gap": 6,
+                  "marginTop": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#d9f4ff",
+                      "borderColor": "#90ddff",
+                      "borderRadius": 50,
+                      "borderWidth": 1,
+                      "color": "#262424",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "gap": 4,
+                      "maxWidth": "100%",
+                      "minHeight": 24,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 8,
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    [
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 13,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
+                        "fontWeight": "400",
+                        "letterSpacing": 0.104,
+                        "lineHeight": 15.6,
+                        "textAlign": undefined,
+                        "userSelect": "auto",
+                      },
+                      {
+                        "flexShrink": undefined,
+                      },
+                    ]
+                  }
+                >
+                  skill.emergency-care
+                </Text>
+              </View>
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#d9f4ff",
+                      "borderColor": "#90ddff",
+                      "borderRadius": 50,
+                      "borderWidth": 1,
+                      "color": "#262424",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "gap": 4,
+                      "maxWidth": "100%",
+                      "minHeight": 24,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 8,
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    [
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 13,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
+                        "fontWeight": "400",
+                        "letterSpacing": 0.104,
+                        "lineHeight": 15.6,
+                        "textAlign": undefined,
+                        "userSelect": "auto",
+                      },
+                      {
+                        "flexShrink": undefined,
+                      },
+                    ]
+                  }
+                >
+                  skill.event-planning
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "height": 16,
+                }
+              }
+            />
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+              testID="task-description"
+            >
+              Task description
+            </Text>
+            <View
+              style={
+                {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                }
+              }
+            >
+              <View
+                accessibilityLabel="Task title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                href="/spaces/space-title/tasks/task-2"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  {
+                    "display": "flex",
+                    "flex": 1,
+                  }
+                }
+                testID="link"
+              />
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <View
-      dataSet={
-        {
-          "media": undefined,
-        }
-      }
-      style={
-        {
-          "padding": 8,
-          "width": "50%",
-        }
-      }
-    >
       <View
+        dataSet={
+          {
+            "media": undefined,
+          }
+        }
         style={
           {
-            "alignItems": "stretch",
-            "backgroundColor": "#fff",
-            "borderColor": "#2222221f",
-            "borderRadius": 16,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "display": "flex",
-            "flex": 1,
-            "flexDirection": undefined,
-            "height": "100%",
             "padding": 8,
-            "paddingBottom": 16,
+            "width": "50%",
           }
         }
       >
         <View
           style={
-            [
-              {
-                "flexGrow": 0,
-                "flexShrink": 0,
-                "overflow": "hidden",
-                "position": "relative",
-              },
-              {
-                "borderRadius": 8,
-                "flexBasis": undefined,
-                "marginBottom": 16,
-              },
-            ]
-          }
-          testID="undefined-image-container"
-        >
-          <Image
-            accessibilityRole="image"
-            accessible={true}
-            aria-label="spaces.tasks.thumbnail.label"
-            contentFit="cover"
-            placeholder=""
-            role="img"
-            source={
-              {
-                "height": 136,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
-                "width": 311,
-              }
-            }
-            style={
-              {
-                "aspectRatio": 1.75,
-                "borderRadius": 8,
-                "flex": 1,
-                "width": "100%",
-              }
-            }
-            testID="undefined-card-image"
-          />
-          <View
-            style={
-              [
-                {
-                  "maxWidth": "100%",
-                  "paddingHorizontal": 8,
-                  "position": "absolute",
-                },
-                {
-                  "bottom": 8,
-                },
-              ]
-            }
-            testID="undefined-caption"
-          />
-        </View>
-        <View
-          style={
             {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-            }
-          }
-        >
-          <View
-            accessibilityLabel="Task title"
-            accessibilityState={
-              {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": undefined,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            role="link"
-            style={
-              [
-                {
-                  "display": "flex",
-                  "flex": 1,
-                },
-              ]
-            }
-            testID="link"
-          />
-        </View>
-        <View
-          style={
-            {
-              "alignItems": undefined,
+              "alignItems": "stretch",
+              "backgroundColor": "#fff",
+              "borderColor": "#2222221f",
+              "borderRadius": 16,
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "display": "flex",
               "flex": 1,
-              "paddingHorizontal": 8,
+              "flexDirection": undefined,
+              "height": "100%",
+              "padding": 8,
+              "paddingBottom": 16,
             }
           }
-          testID="undefined-content-container"
         >
           <View
             style={
-              {
-                "alignItems": "flex-start",
-                "flexDirection": "row",
-                "gap": 8,
-                "justifyContent": "space-between",
-                "zIndex": 2,
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "flex": 1,
-                }
-              }
-            >
-              <Text
-                accessible={false}
-                collapsable={false}
-                ellipsizeMode="tail"
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-                numberOfLines={2}
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 16,
-                    "fontWeight": "500",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-                testID="task-title"
-              >
-                Task title
-              </Text>
-            </View>
-            <View
-              style={
-                {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
-                }
-              }
-            >
-              <View
-                accessibilityLabel="Task title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "display": "flex",
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="link"
-              />
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "marginTop": 8,
-              }
-            }
-          >
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "marginRight": 4,
-                  }
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={12}
-                  bbWidth={12}
-                  color="#787777"
-                  fill="none"
-                  focusable={false}
-                  height={12}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 12,
-                        "width": 12,
-                      },
-                    ]
-                  }
-                  tintColor="#787777"
-                  vbHeight={24}
-                  vbWidth={24}
-                  width={12}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <RNSVGGroup
-                    fill={null}
-                    propList={
-                      [
-                        "fill",
-                      ]
-                    }
-                  >
-                    <RNSVGGroup
-                      clipPath="map-pin-2-filled_svg__a"
-                      fill={
-                        {
-                          "payload": 4278190080,
-                          "type": 0,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGClipPath
-                        fill={
-                          {
-                            "payload": 4278190080,
-                            "type": 0,
-                          }
-                        }
-                        name="map-pin-2-filled_svg__a"
-                      >
-                        <RNSVGPath
-                          d="M0 0h24v24H0z"
-                          fill={
-                            {
-                              "payload": 4294967295,
-                              "type": 0,
-                            }
-                          }
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Hamburg, Germany
-              </Text>
-            </View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "marginRight": 4,
-                  }
-                }
-              >
-                <RNSVGSvgView
-                  align="xMidYMid"
-                  bbHeight={12}
-                  bbWidth={12}
-                  color="#787777"
-                  fill="none"
-                  focusable={false}
-                  height={12}
-                  meetOrSlice={0}
-                  minX={0}
-                  minY={0}
-                  style={
-                    [
-                      {
-                        "backgroundColor": "transparent",
-                        "borderWidth": 0,
-                      },
-                      {
-                        "flex": 0,
-                        "height": 12,
-                        "width": 12,
-                      },
-                    ]
-                  }
-                  tintColor="#787777"
-                  vbHeight={24}
-                  vbWidth={24}
-                  width={12}
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <RNSVGGroup
-                    fill={null}
-                    propList={
-                      [
-                        "fill",
-                      ]
-                    }
-                  >
-                    <RNSVGGroup
-                      clipPath="time-filled_svg__a"
-                      fill={
-                        {
-                          "payload": 4278190080,
-                          "type": 0,
-                        }
-                      }
-                    >
-                      <RNSVGPath
-                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                    <RNSVGDefs>
-                      <RNSVGClipPath
-                        fill={
-                          {
-                            "payload": 4278190080,
-                            "type": 0,
-                          }
-                        }
-                        name="time-filled_svg__a"
-                      >
-                        <RNSVGPath
-                          d="M0 0h24v24H0z"
-                          fill={
-                            {
-                              "payload": 4294967295,
-                              "type": 0,
-                            }
-                          }
-                          propList={
-                            [
-                              "fill",
-                            ]
-                          }
-                        />
-                      </RNSVGClipPath>
-                    </RNSVGDefs>
-                  </RNSVGGroup>
-                </RNSVGSvgView>
-              </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                jestInlineStyle={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 12,
-                    "fontWeight": "400",
-                    "lineHeight": 16.799999999999997,
-                    "marginRight": 8,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                spaces.input.task.regularity.PROJECT_BASED.title
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "flexWrap": "wrap",
-                "gap": 6,
-                "marginTop": 16,
-              }
-            }
-          >
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#d9f4ff",
-                    "borderColor": "#90ddff",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "color": "#262424",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "maxWidth": "100%",
-                    "minHeight": 24,
-                    "overflow": "hidden",
-                    "paddingHorizontal": 8,
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 13,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.104,
-                      "lineHeight": 15.6,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    },
-                    {
-                      "flexShrink": undefined,
-                    },
-                  ]
-                }
-              >
-                skill.emergency-care
-              </Text>
-            </View>
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#d9f4ff",
-                    "borderColor": "#90ddff",
-                    "borderRadius": 50,
-                    "borderWidth": 1,
-                    "color": "#262424",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "maxWidth": "100%",
-                    "minHeight": 24,
-                    "overflow": "hidden",
-                    "paddingHorizontal": 8,
-                  },
-                  {
-                    "flexShrink": undefined,
-                  },
-                ]
-              }
-            >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  [
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 13,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.104,
-                      "lineHeight": 15.6,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    },
-                    {
-                      "flexShrink": undefined,
-                    },
-                  ]
-                }
-              >
-                skill.event-planning
-              </Text>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "height": 16,
-              }
-            }
-          />
-          <Text
-            accessible={false}
-            role="none"
-            selectable={true}
-            style={
               [
                 {
-                  "color": "#676565",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 15,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "400",
-                  "letterSpacing": -0.12,
-                  "lineHeight": 21,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
+                  "flexGrow": 0,
+                  "flexShrink": 0,
+                  "overflow": "hidden",
+                  "position": "relative",
                 },
                 {
-                  "flexShrink": undefined,
+                  "borderRadius": 8,
+                  "flexBasis": undefined,
+                  "marginBottom": 16,
                 },
               ]
             }
-            testID="task-description"
+            testID="undefined-image-container"
           >
-            Task description
-          </Text>
+            <Image
+              accessibilityRole="image"
+              accessible={true}
+              aria-label="spaces.tasks.thumbnail.label"
+              contentFit="cover"
+              placeholder=""
+              role="img"
+              source={
+                {
+                  "height": 136,
+                  "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:622:272/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Ftask-thumbnail.jpg%3Ftr%3Dw-48",
+                  "width": 311,
+                }
+              }
+              style={
+                {
+                  "aspectRatio": 1.75,
+                  "borderRadius": 8,
+                  "flex": 1,
+                  "width": "100%",
+                }
+              }
+              testID="undefined-card-image"
+            />
+            <View
+              style={
+                [
+                  {
+                    "maxWidth": "100%",
+                    "paddingHorizontal": 8,
+                    "position": "absolute",
+                  },
+                  {
+                    "bottom": 8,
+                  },
+                ]
+              }
+              testID="undefined-caption"
+            />
+          </View>
           <View
             style={
               {
@@ -2295,6 +1584,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               accessible={true}
               collapsable={false}
               focusable={true}
+              href="/spaces/space-title/tasks/task-3"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -2306,19 +1596,586 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               onStartShouldSetResponder={[Function]}
               role="link"
               style={
-                [
-                  {
-                    "display": "flex",
-                    "flex": 1,
-                  },
-                ]
+                {
+                  "display": "flex",
+                  "flex": 1,
+                }
               }
               testID="link"
             />
+          </View>
+          <View
+            style={
+              {
+                "alignItems": undefined,
+                "flex": 1,
+                "paddingHorizontal": 8,
+              }
+            }
+            testID="undefined-content-container"
+          >
+            <View
+              style={
+                {
+                  "alignItems": "flex-start",
+                  "flexDirection": "row",
+                  "gap": 8,
+                  "justifyContent": "space-between",
+                  "zIndex": 2,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "flex": 1,
+                  }
+                }
+              >
+                <Text
+                  accessible={false}
+                  ellipsizeMode="tail"
+                  numberOfLines={2}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Medium",
+                      "fontSize": 16,
+                      "fontWeight": "500",
+                      "lineHeight": 22.4,
+                      "userSelect": "auto",
+                    }
+                  }
+                  testID="task-title"
+                >
+                  Task title
+                </Text>
+              </View>
+              <View
+                style={
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  }
+                }
+              >
+                <View
+                  accessibilityLabel="Task title"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  href="/spaces/space-title/tasks/task-3"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  role="link"
+                  style={
+                    {
+                      "display": "flex",
+                      "flex": 1,
+                    }
+                  }
+                  testID="link"
+                />
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "marginTop": 8,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexShrink": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    {
+                      "marginRight": 4,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="#787777"
+                    fill="none"
+                    focusable={false}
+                    height={12}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                    tintColor="#787777"
+                    vbHeight={24}
+                    vbWidth={24}
+                    width={12}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGGroup
+                        clipPath="map-pin-2-filled_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGPath
+                          d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
+                          fill={
+                            {
+                              "type": 2,
+                            }
+                          }
+                          propList={
+                            [
+                              "fill",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                      <RNSVGDefs>
+                        <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          name="map-pin-2-filled_svg__a"
+                        >
+                          <RNSVGPath
+                            d="M0 0h24v24H0z"
+                            fill={
+                              {
+                                "payload": 4294967295,
+                                "type": 0,
+                              }
+                            }
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGClipPath>
+                      </RNSVGDefs>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  Hamburg, Germany
+                </Text>
+              </View>
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "flexShrink": 1,
+                  }
+                }
+              >
+                <View
+                  style={
+                    {
+                      "marginRight": 4,
+                    }
+                  }
+                >
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={12}
+                    bbWidth={12}
+                    color="#787777"
+                    fill="none"
+                    focusable={false}
+                    height={12}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 12,
+                          "width": 12,
+                        },
+                      ]
+                    }
+                    tintColor="#787777"
+                    vbHeight={24}
+                    vbWidth={24}
+                    width={12}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGGroup
+                        clipPath="time-filled_svg__a"
+                        fill={
+                          {
+                            "payload": 4278190080,
+                            "type": 0,
+                          }
+                        }
+                      >
+                        <RNSVGPath
+                          d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
+                          fill={
+                            {
+                              "type": 2,
+                            }
+                          }
+                          propList={
+                            [
+                              "fill",
+                            ]
+                          }
+                        />
+                      </RNSVGGroup>
+                      <RNSVGDefs>
+                        <RNSVGClipPath
+                          fill={
+                            {
+                              "payload": 4278190080,
+                              "type": 0,
+                            }
+                          }
+                          name="time-filled_svg__a"
+                        >
+                          <RNSVGPath
+                            d="M0 0h24v24H0z"
+                            fill={
+                              {
+                                "payload": 4294967295,
+                                "type": 0,
+                              }
+                            }
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          />
+                        </RNSVGClipPath>
+                      </RNSVGDefs>
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+                <Text
+                  accessible={false}
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#787777",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 12,
+                      "fontWeight": "400",
+                      "lineHeight": 16.799999999999997,
+                      "marginRight": 8,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  spaces.input.task.regularity.PROJECT_BASED.title
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "gap": 6,
+                  "marginTop": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#d9f4ff",
+                      "borderColor": "#90ddff",
+                      "borderRadius": 50,
+                      "borderWidth": 1,
+                      "color": "#262424",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "gap": 4,
+                      "maxWidth": "100%",
+                      "minHeight": 24,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 8,
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    [
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 13,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
+                        "fontWeight": "400",
+                        "letterSpacing": 0.104,
+                        "lineHeight": 15.6,
+                        "textAlign": undefined,
+                        "userSelect": "auto",
+                      },
+                      {
+                        "flexShrink": undefined,
+                      },
+                    ]
+                  }
+                >
+                  skill.emergency-care
+                </Text>
+              </View>
+              <View
+                style={
+                  [
+                    {
+                      "alignItems": "center",
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#d9f4ff",
+                      "borderColor": "#90ddff",
+                      "borderRadius": 50,
+                      "borderWidth": 1,
+                      "color": "#262424",
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "gap": 4,
+                      "maxWidth": "100%",
+                      "minHeight": 24,
+                      "overflow": "hidden",
+                      "paddingHorizontal": 8,
+                    },
+                    {
+                      "flexShrink": undefined,
+                    },
+                  ]
+                }
+              >
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    [
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 13,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
+                        "fontWeight": "400",
+                        "letterSpacing": 0.104,
+                        "lineHeight": 15.6,
+                        "textAlign": undefined,
+                        "userSelect": "auto",
+                      },
+                      {
+                        "flexShrink": undefined,
+                      },
+                    ]
+                  }
+                >
+                  skill.event-planning
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "height": 16,
+                }
+              }
+            />
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                [
+                  {
+                    "color": "#676565",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  },
+                  {
+                    "flexShrink": undefined,
+                  },
+                ]
+              }
+              testID="task-description"
+            >
+              Task description
+            </Text>
+            <View
+              style={
+                {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                }
+              }
+            >
+              <View
+                accessibilityLabel="Task title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                href="/spaces/space-title/tasks/task-3"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  {
+                    "display": "flex",
+                    "flex": 1,
+                  }
+                }
+                testID="link"
+              />
+            </View>
           </View>
         </View>
       </View>
     </View>
   </View>
-</View>
+</RNCSafeAreaView>
 `;

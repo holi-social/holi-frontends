@@ -1,4 +1,4 @@
-import { getApolloContext } from '@apollo/client'
+import { getApolloContext } from '@apollo/client/react'
 import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
 import type { PropsWithChildren } from 'react'
 import React, { useContext } from 'react'

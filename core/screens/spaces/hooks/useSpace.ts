@@ -9,7 +9,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 export const useSpace = (spaceIdOrName?: string) => {
   const { displayError } = useErrorHandling()
   const { replaceRoute } = useRouting()
-  const { loading, error, data, called, refetch } = useSpaceByIdQuery({
+  const { loading, error, data, refetch } = useSpaceByIdQuery({
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network', // ensures that all required fields are eventually present for members
     variables: { idOrName: spaceIdOrName ?? '' },
     skip: !spaceIdOrName,
@@ -30,5 +30,5 @@ export const useSpace = (spaceIdOrName?: string) => {
 
   const space = data?.spaceById
 
-  return { loading, error, space, called, refetch }
+  return { loading, error, space, called: !!space || !!error || loading, refetch }
 }

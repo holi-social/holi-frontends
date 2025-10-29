@@ -41,7 +41,7 @@ const SpaceInviteUserSearch: React.FC<SpaceInviteUserSearchProps> = ({ spaceId, 
   }, [debouncedTriggerUserSearch, searchValue])
 
   if (!searchInput) {
-    return <HoliLoader style={styles.loaderTop} />
+    return <HoliLoader style={styles.loaderTop} testID="loader" />
   }
 
   return (

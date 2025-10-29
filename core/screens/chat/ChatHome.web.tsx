@@ -7,7 +7,7 @@ import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -36,13 +36,12 @@ const ChatHome = () => {
   useEffect(() => {
     setScreenOptions({
       title,
-      headerBackTitleVisible: false,
       headerBackVisible: false,
       headerTitle: '',
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {title}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: () => <NotificationAndSearchHeader />,
     })

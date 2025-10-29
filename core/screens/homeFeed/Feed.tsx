@@ -1,9 +1,9 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
+import { AppState, RefreshControl, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useScrollToTop } from '@react-navigation/native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -27,7 +27,6 @@ import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
-import { useScrollToTop } from '@react-navigation/native'
 import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
@@ -41,10 +40,12 @@ import { useNotificationsInit } from '@holi/mobile/notifications/useNotification
 import * as Appcues from '@appcues/react-native'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { useStyles } from 'holi-bricks/styles'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
   const { t } = useTranslation()
+  const { theme: bricksTheme } = useStyles()
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
   const { navigate } = useRouting()
@@ -198,11 +199,10 @@ const HomeFeed = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: false,
       headerTitle: () => null,
-      headerTintColor: colors.black300,
+      headerTintColor: bricksTheme.colors.fill.main,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
@@ -219,7 +219,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeeds])
+  }, [navigate, t, setScreenOptions, colors.black300, bricksTheme.colors.fill.main, showGoodDeeds])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 

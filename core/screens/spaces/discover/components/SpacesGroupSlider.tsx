@@ -3,7 +3,6 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, type StyleProp, StyleSheet, View, type ViewStyle, useWindowDimensions } from 'react-native'
 
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,6 +13,7 @@ import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { useApolloErrorDisplay } from '@holi/core/hooks/useApolloErrorDisplay'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -51,7 +51,6 @@ const SpacesGroupSlider = ({
   pageSize = 5,
 }: PropsWithSkeleton<ContentProps>) => {
   const { t } = useTranslation()
-  const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { width: windowWidth } = useWindowDimensions()
   const styles = getStyles()
@@ -64,7 +63,7 @@ const SpacesGroupSlider = ({
 
   const topicFilter = topic ? { topicsV2: [topic] } : {}
   const skillFilter = skill ? { skillsV2: [skill] } : {}
-  const { data } = useDiscoverSpacesQuery({
+  const { data, error } = useDiscoverSpacesQuery({
     variables: {
       // component is either parameterized with topic or skill, so this doesn't fetch both
       ...topicFilter,
@@ -75,11 +74,10 @@ const SpacesGroupSlider = ({
     },
     skip: manualLoading || loadingGeolocation,
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) =>
-      displayError(error, 'Failed to discover spaces', {
-        displayMessage: t('spaces.spaceListing.error'),
-        location: 'SpacesGroupSlider.discoverSpacesQuery',
-      }),
+  })
+  useApolloErrorDisplay(error, 'Failed to discover spaces', {
+    displayMessage: t('spaces.spaceListing.error'),
+    location: 'SpacesGroupSlider.discoverSpacesQuery',
   })
   const fetchedSpaces = data?.discoverSpaces?.[0]?.spaces
 

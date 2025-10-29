@@ -1,4 +1,5 @@
-import { type ApolloClient, useApolloClient } from '@apollo/client'
+import type { ApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { getSessionFromStorage, submitLogoutFlow, submitSocialLogout } from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
@@ -29,8 +30,8 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 }))
 
 const mockUseApolloClient = jest.mocked(useApolloClient)
-jest.mock('@apollo/client', () => {
-  const actual = jest.requireActual('@apollo/client')
+jest.mock('@apollo/client/react', () => {
+  const actual = jest.requireActual('@apollo/client/react')
   return {
     ...actual,
     useApolloClient: jest.fn(),
@@ -40,6 +41,16 @@ jest.mock('@apollo/client', () => {
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: jest.fn(),
+}))
+
+const mockNavigate = jest.fn()
+jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
+  __esModule: true,
+  default: () => ({
+    navigate: mockNavigate,
+    pathname: '/',
+    currentParams: {},
+  }),
 }))
 
 const user: AuthenticatedUser = {
@@ -76,7 +87,7 @@ describe('useLogout', () => {
   }
   const mockClient = {
     clearStore: jest.fn(),
-  } as unknown as ApolloClient<object>
+  } as unknown as ApolloClient
 
   beforeEach(() => {
     jest.useFakeTimers()

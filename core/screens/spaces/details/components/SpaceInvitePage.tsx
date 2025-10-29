@@ -35,7 +35,6 @@ const SpaceInvitePage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerLeft: () => (Platform.OS === 'web' ? <HeaderBackButton /> : <HeaderBackButton icon={ArrowLeftS} />),

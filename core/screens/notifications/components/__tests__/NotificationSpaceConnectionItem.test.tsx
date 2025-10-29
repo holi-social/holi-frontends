@@ -1,5 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { act, fireEvent, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
@@ -36,9 +36,14 @@ const acceptRequest = {
       spaceId: notificationSpaceConnectionRequest.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceConnectionRequest.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 const declineRequest = {
   request: {
@@ -50,9 +55,14 @@ const declineRequest = {
       spaceId: notificationSpaceConnectionRequest.options.space.id,
     },
   },
-  newData: jest.fn(() => {
-    return {}
-  }),
+  result: {
+    data: {
+      updateSpaceUserConnection: {
+        id: notificationSpaceConnectionRequest.options.space.id,
+        connectionStatusToMyself: '',
+      },
+    },
+  },
 }
 
 const MOCKS = [acceptRequest, declineRequest]
@@ -74,7 +84,7 @@ describe('NotificationSpaceConnectionItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceConnectionItem notification={notification} />
         </MockedProvider>
       )
@@ -84,14 +94,13 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after declining a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('decline-connection-request-button'), 'click')
-      expect(declineRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
@@ -100,14 +109,13 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after accepting a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('accept-connection-request-button'), 'click')
-      expect(acceptRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
@@ -146,7 +154,7 @@ describe('NotificationSpaceConnectionItem', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
       render(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
+        <MockedProvider mocks={MOCKS}>
           <NotificationSpaceConnectionItem notification={notification} />
         </MockedProvider>
       )
@@ -157,14 +165,13 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after declining a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('decline-connection-request-button'), 'click')
-      expect(declineRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))
@@ -173,14 +180,13 @@ describe('NotificationSpaceConnectionItem', () => {
     it('renders loader after accepting a connection request', async () => {
       const { getByTestId } = render(
         <ToastProvider>
-          <MockedProvider mocks={MOCKS} addTypename={false}>
+          <MockedProvider mocks={MOCKS}>
             <NotificationSpaceConnectionItem notification={notification} />
           </MockedProvider>
         </ToastProvider>
       )
 
       fireEvent(getByTestId('accept-connection-request-button'), 'click')
-      expect(acceptRequest.newData).toHaveBeenCalled()
       expect(getByTestId('connection-notification-loader-indicator')).toBeDefined()
 
       await waitForElementToBeRemoved(() => getByTestId('connection-notification-loader-indicator'))

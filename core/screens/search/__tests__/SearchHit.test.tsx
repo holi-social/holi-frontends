@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { SearchHit } from '@holi/core/screens/search/SearchHit'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter, render, screen, fireEvent } from 'expo-router/testing-library'
 import React from 'react'
+import { Text } from 'react-native'
 import { testTrackingEvent } from '@holi/core/components/__tests__/Trackable.test'
 import { volunteeringHit, spaceHit, profileHit } from '@holi/core/screens/search/__tests__/testData'
 
@@ -11,11 +12,11 @@ jest.mock('@holi/core/screens/search/hooks/useUserLanguage')
 const useUserLanguageMock = jest.mocked(useUserLanguage)
 
 describe('SearchHit', () => {
-  it('correctly renders volunteering item (all fields, de)', async () => {
+  it('correctly renders volunteering item (all fields, de)', () => {
     useUserLanguageMock.mockReturnValue('de')
 
     const hit = volunteeringHit
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    renderRouter({ index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} /> })
 
     expect(screen.getByText(hit.title_de!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
     expect(screen.getByText(hit.location!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
@@ -27,7 +28,7 @@ describe('SearchHit', () => {
         encodeURIComponent(hit.image_url!) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     )
   })
-  it('correctly renders volunteering item (all fields, en)', async () => {
+  it('correctly renders volunteering item (all fields, en)', () => {
     useUserLanguageMock.mockReturnValue('en')
 
     const hit = volunteeringHit
@@ -43,7 +44,7 @@ describe('SearchHit', () => {
         encodeURIComponent(hit.image_url!) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     )
   })
-  it('falls back to en if de not available', async () => {
+  it('falls back to en if de not available', () => {
     useUserLanguageMock.mockReturnValue('de')
 
     const hit = {
@@ -51,10 +52,10 @@ describe('SearchHit', () => {
       title_en: faker.lorem.sentence(10),
       title_de: undefined,
     }
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    renderRouter({ index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} /> })
     expect(screen.getByText(hit.title_en!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
-  it('falls back to de if en not available', async () => {
+  it('falls back to de if en not available', () => {
     useUserLanguageMock.mockReturnValue('en')
 
     const hit = {
@@ -62,42 +63,45 @@ describe('SearchHit', () => {
       title_de: faker.lorem.sentence(10),
       title_en: undefined,
     }
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    renderRouter({ index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} /> })
 
     expect(screen.getByText(hit.title_de!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
-  it('renders the correct link (volunteering)', async () => {
-    const user = userEvent.setup()
-
+  it('renders the correct link (volunteering)', () => {
     const hit = volunteeringHit
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    const context = renderRouter({
+      index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} />,
+      'volunteering/[id]': () => <Text>Detail</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
-    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${hit.link_locators!.volunteering}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    fireEvent.press(screen.getByRole('link'))
+    expect(context).toHavePathname(`/volunteering/${hit.link_locators!.volunteering}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
-  it('renders the correct link (user)', async () => {
-    const user = userEvent.setup()
-
+  it('renders the correct link (user)', () => {
     const hit = profileHit
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    const context = renderRouter({
+      index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} />,
+      'profile/[id]': () => <Text>Profile</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
-    expect(mockNavigate).toHaveBeenCalledWith(`//profile/${hit.link_locators!.profile}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    fireEvent.press(screen.getByRole('link'))
+    expect(context).toHavePathname(`/profile/${hit.link_locators!.profile}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
-  it('renders the correct link (space)', async () => {
-    const user = userEvent.setup()
-
+  it('renders the correct link (space)', () => {
     const hit = spaceHit
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    const context = renderRouter({
+      index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} />,
+      'spaces/[spaceSlug]': () => <Text>Space</Text>,
+    })
 
-    await user.press(screen.getByRole('link'))
-    expect(mockNavigate).toHaveBeenCalledWith(`//spaces/${hit.link_locators!.space}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    fireEvent.press(screen.getByRole('link'))
+    expect(context).toHavePathname(`/spaces/${hit.link_locators!.space}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
-  it('correctly renders profile item with user_full_name', async () => {
+  it('correctly renders profile item with user_full_name', () => {
     useUserLanguageMock.mockReturnValue('de')
 
     const hit = profileHit
-    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+    renderRouter({ index: () => <SearchHit hit={hit} trackingEvent={testTrackingEvent} /> })
 
     expect(screen.getByText(hit.user_full_name!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })

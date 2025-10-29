@@ -1,6 +1,7 @@
 import React from 'react'
 import { Authentication, type AuthenticationProps } from '@holi/core/screens/auth/Authentication'
 import { render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { Button } from 'holi-bricks/components/button'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import HeaderAnimated from '@holi/core/components/HeaderAnimated/index.web'
@@ -49,7 +50,7 @@ describe('Authentication', () => {
   })
 
   it('should render and authentication selection', () => {
-    render(<Authentication initialSelection="login" />)
+    renderRouter({ index: () => <Authentication initialSelection="login" /> })
 
     expect(screen.getByLabelText('login-button'))
     expect(screen.getByLabelText('register-button'))
@@ -59,7 +60,7 @@ describe('Authentication', () => {
     const onLogin = jest.fn()
     const user = userEvent.setup()
 
-    render(<Authentication initialSelection="login" onLogin={onLogin} />)
+    renderRouter({ index: () => <Authentication initialSelection="login" onLogin={onLogin} /> })
 
     await user.press(screen.getByLabelText('login-button'))
 
@@ -70,7 +71,7 @@ describe('Authentication', () => {
     const onRegister = jest.fn()
     const user = userEvent.setup()
 
-    render(<Authentication initialSelection="registration" onRegister={onRegister} />)
+    renderRouter({ index: () => <Authentication initialSelection="registration" onRegister={onRegister} /> })
 
     await user.press(screen.getByLabelText('register-button'))
 
@@ -81,12 +82,14 @@ describe('Authentication', () => {
     const onContinueAsGuest = jest.fn()
     const user = userEvent.setup()
 
-    render(
-      <>
-        <HeaderAnimated />
-        <Authentication initialSelection="login" onContinueAsGuest={onContinueAsGuest} />
-      </>
-    )
+    renderRouter({
+      index: () => (
+        <>
+          <HeaderAnimated />
+          <Authentication initialSelection="login" onContinueAsGuest={onContinueAsGuest} />
+        </>
+      ),
+    })
 
     await user.press(screen.getByTestId('nav-button-back'))
 
