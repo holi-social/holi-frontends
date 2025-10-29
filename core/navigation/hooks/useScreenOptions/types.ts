@@ -1,4 +1,4 @@
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
+import type { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 
 export interface BackgroundImageURI {
   type: 'image'
@@ -15,7 +15,11 @@ export interface BackgroundCustom {
 
 export type HeaderBackgroundOptions = BackgroundImageURI | BackgroundGradient | BackgroundCustom
 
-export interface NavigationCustomOptions extends NativeStackNavigationOptions {
+export interface NavigationCustomOptions
+  extends Omit<
+    NativeStackNavigationOptions,
+    'statusBarAnimation' | 'statusBarStyle' | 'statusBarTranslucent' | 'statusBarHidden'
+  > {
   navigationCustomOptions?: {
     background?: HeaderBackgroundOptions
     footerShown?: boolean

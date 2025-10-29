@@ -43,7 +43,6 @@ describe('GoodDeedsBanner', () => {
       renderRouter({
         index: () => <GoodDeedsBanner counter={100} hashtag={{ position: 'bottom' }} />,
       })
-
       expect(screen.getByTestId('good-deeds-banner__hashtag-bar--bottom')).toBeOnTheScreen()
     })
 

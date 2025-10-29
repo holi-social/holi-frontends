@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client/react'
-import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -69,8 +68,10 @@ const DiscussionDetailPage = () => {
       navigationCustomOptions: {
         footerShown: false,
       },
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.discussions.pageTitle')}
+        </Text>
       ),
       headerLeft: ({ tintColor }) => (
         <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
@@ -89,8 +90,6 @@ const DiscussionDetailPage = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
-
       <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
         <HoliContainer noPadding>
           {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}

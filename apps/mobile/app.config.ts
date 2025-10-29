@@ -6,9 +6,9 @@ require('ts-node/register')
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.65.0', // user-facing value visible in stores
-  iosBuildNumber: '1.65.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 196, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.65.1', // user-facing value visible in stores
+  iosBuildNumber: '1.65.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 198, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -74,11 +74,15 @@ const config: ExpoConfig = {
       usesNonExemptEncryption: false,
     },
     infoPlist: {
-      UIViewControllerBasedStatusBarAppearance: true,
       CFBundleAllowMixedLocalizations: true,
       LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
       UIBackgroundModes: [
         'remote-notification', // enables the app to receive push notifications while app is in background
+      ],
+      // allow iOS ad-conversions postbacks through SkAdNetwork to these ad platforms:
+      SKAdNetworkItems: [
+        { SKAdNetworkIdentifier: 'v9wttpbfk9.skadnetwork' }, // Facebook
+        { SKAdNetworkIdentifier: 'n38lu8286q.skadnetwork' }, // Instagram
       ],
     },
     usesAppleSignIn: true,
