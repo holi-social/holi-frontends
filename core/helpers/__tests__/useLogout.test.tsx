@@ -5,7 +5,7 @@ import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook } from '@testing-library/react-native'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -86,7 +86,6 @@ describe('useLogout', () => {
     session_token: 'some_token',
     session: { id: '123' },
   }
-  const mockClearStore = jest.fn()
   const mockClient = {
     clearStore: jest.fn(),
   } as unknown as ApolloClient
