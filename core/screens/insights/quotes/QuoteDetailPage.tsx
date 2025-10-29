@@ -3,7 +3,6 @@ import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ImageStyle, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -30,6 +29,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { Stack } from 'holi-bricks/components/stack'
 import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 
 export type QuoteDetailPageParams = {
   insightId: string
