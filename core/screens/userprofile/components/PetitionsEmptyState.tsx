@@ -23,24 +23,23 @@ export const PetitionsEmptyState = () => {
       testID={'volunteering-empty'}
     >
       <Image
-        alt={t('volunteering.myVolunteering.noResults.imageAlt')}
-        source={require('@holi/ui/assets/img/volunteering/illu-empty-state-my-volunteer.svg')}
+        alt=""
+        source={require('@holi/ui/assets/img/illustrations/petitions.svg')}
         width={IMAGE_WIDTH}
         height={IMAGE_WIDTH * 0.7}
         resizeMode="contain"
       />
       <Stack alignItems="center" justifyContent="center" gap="3xs">
-        <Text size="sm">{t('profile.myVolunteer.empty.text')}</Text>
+        <Text size="sm">{t('profile.myVolunteer.petitions.empty.text')}</Text>
         <Stack maxWidth="xs">
           <Text textAlign="center" size="xxl">
-            {/* todo: localazy key */}
-            {t('profile.myVolunteer.empty.title')}
+            {t('profile.myVolunteer.petitions.empty.title')}
           </Text>
         </Stack>
       </Stack>
       <Button
         inline
-        label={t('profile.myVolunteer.empty.button')} // todo: localazy key
+        label={t('profile.myVolunteer.petitions.empty.button')}
         onPress={() => navigate('/act')}
         variant="primary"
       />

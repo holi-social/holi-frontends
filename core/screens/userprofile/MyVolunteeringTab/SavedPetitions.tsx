@@ -57,6 +57,7 @@ const StatusInfoHeader = () => {
 
 export const SavedPetitions = () => {
   const { styles } = useStyles(stylesheet)
+  const { t } = useTranslation()
   // const {
   //   items: committedVolunteeringOpportunities,
   //   canFetchMore,
@@ -73,7 +74,7 @@ export const SavedPetitions = () => {
   const isLoading = false // mocked
   const isInitialLoad = false // mocked
   const fetchMore = async () => {} // mocked
-  const totalResults = 5 // mocked
+  const totalResults = 0 // mocked
   // const refetch = async () => {} // mocked
 
   // useEffect(() => {
@@ -92,8 +93,7 @@ export const SavedPetitions = () => {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
-          {/* todo: localazy */}
-          <Text size="xl">My Petitions</Text>
+          <Text size="xl">{t('profile.tabs.myVolunteer.petitions.title')}</Text>
           <StatusInfoHeader />
         </Stack>
         <PetitionsEmptyState />
@@ -108,8 +108,7 @@ export const SavedPetitions = () => {
   return (
     <Stack padding={{ bottom: 'xs' }} gap="xxs">
       <Stack direction="row" justifyContent="space-between">
-        {/* todo: localazy */}
-        <Text size="xl">My Petitions</Text>
+        <Text size="xl">{t('profile.tabs.myVolunteer.petitions.title')}</Text>
         <StatusInfoHeader />
       </Stack>
 
