@@ -5,7 +5,6 @@ import { type ImageStyle, Platform, StyleSheet, View, type ViewStyle } from 'rea
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -88,7 +87,11 @@ const QuoteDetailPage = () => {
     setScreenOptions({
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.quotes.title')}
+        </Text>
+      ),
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer

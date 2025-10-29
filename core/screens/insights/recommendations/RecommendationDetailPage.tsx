@@ -5,7 +5,6 @@ import { type DimensionValue, Platform, StyleSheet, View, type ViewStyle } from 
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -90,8 +89,10 @@ const RecommendationDetailPage = () => {
     setScreenOptions({
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.recommendations.title')}
+        </Text>
       ),
       headerRight: () => (
         <HoliActionDrawer.Drawer

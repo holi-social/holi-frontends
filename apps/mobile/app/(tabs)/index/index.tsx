@@ -9,7 +9,6 @@ export default function Layout() {
       <Stack.Screen
         options={{
           headerShadowVisible: false,
-          headerTintColor: '#000',
           headerBackVisible: false,
           headerTitleAlign: 'center',
           title: '',

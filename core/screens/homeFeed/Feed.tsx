@@ -41,10 +41,12 @@ import { useNotificationsInit } from '@holi/mobile/notifications/useNotification
 import * as Appcues from '@appcues/react-native'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
+import { useStyles } from 'holi-bricks/styles'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
   const { t } = useTranslation()
+  const { theme: bricksTheme } = useStyles()
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
   const { navigate } = useRouting()
@@ -201,7 +203,7 @@ const HomeFeed = () => {
       headerBackVisible: true,
       headerTransparent: false,
       headerTitle: () => null,
-      headerTintColor: colors.black300,
+      headerTintColor: bricksTheme.colors.fill.main,
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
@@ -218,7 +220,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, showGoodDeeds])
+  }, [navigate, t, setScreenOptions, colors.black300, bricksTheme.colors.fill.main, showGoodDeeds])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 

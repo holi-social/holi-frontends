@@ -9,7 +9,6 @@ import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { TaskProgressCard } from '@holi/core/screens/spaces/tasks/components/TaskProgressCard'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import { white } from 'holi-bricks/foundations'
 
 import {
   useUpdateVolunteeringOpportunityStatusMutation,
@@ -98,7 +97,6 @@ const TaskDetails = () => {
   }
 
   useTrackOnce(id ? TrackingEvent.Task.detailPage.visited(taskProps) : undefined)
-
   return (
     <Screen
       onRefresh={refetch}
@@ -109,16 +107,17 @@ const TaskDetails = () => {
         headerTitleAlign: 'center',
         ...Platform.select({
           native: {
-            headerTintColor: white,
             title: '',
             headerTransparent: true,
           },
         }),
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
         headerRight: ({ tintColor }) => renderActionDrawer(tintColor),
-        navigationCustomOptions: { footerShown: false },
+        navigationCustomOptions: {
+          footerShown: false,
+        },
       }}
-      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
+      statusBarProps={{ translucent: true, style: isIos ? 'light' : 'dark', animated: true }}
       StickyBottomComponent={
         taskSelfReportingFlow ? (
           <TaskDetailsCTA

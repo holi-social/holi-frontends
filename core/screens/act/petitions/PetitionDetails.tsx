@@ -10,7 +10,6 @@ import { CalendarEventLine, ExternalLink, Focus2Line, UserLine } from '@holi/ico
 import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Stack } from 'holi-bricks/components/stack'
-import { white } from 'holi-bricks/foundations'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform } from 'react-native'
@@ -43,7 +42,7 @@ export const PetitionDetails = () => {
     <Screen
       preset="auto"
       statusBarProps={{
-        barStyle: Platform.OS === 'ios' ? 'light-content' : 'default',
+        style: Platform.OS === 'ios' ? 'light' : 'auto',
       }}
       headerOptions={{
         animation: 'slide_from_left',
@@ -51,7 +50,6 @@ export const PetitionDetails = () => {
         headerTitleAlign: 'center',
         ...Platform.select({
           native: {
-            headerTintColor: white,
             title: '',
             headerTransparent: true,
           },

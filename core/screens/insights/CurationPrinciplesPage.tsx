@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { type InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
@@ -166,8 +166,10 @@ const CurationPrinciplesPage: React.FC = () => {
       headerStyle: {
         backgroundColor: theme.colors.background20,
       },
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.curationPrinciplesPage.title')}
+        </Text>
       ),
     })
   }, [t, setScreenOptions, theme.colors.background20])

@@ -8,7 +8,7 @@ import { ButtonTracked } from '@holi/core/components/Trackable'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -36,10 +36,10 @@ const AnonymousProfileView = () => {
   const setScreenOptions = useSetScreenOptions()
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {t('profile.title')}
-        </HeaderTitle>
+        </Text>
       ),
       title: '',
       // explicitly set to `null` to override `headerRight` after logout

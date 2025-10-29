@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share } from '@holi/icons/src/generated'
@@ -62,7 +62,11 @@ const WebViewHandler: React.FC<WebViewHandlerProps> = ({
     setScreenOptions({
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{sourceName}</HeaderTitle>,
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {sourceName}
+        </Text>
+      ),
       headerRight: () => (
         <HoliActionDrawer.Drawer
           label={t('global.moreOptions')}

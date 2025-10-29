@@ -3,7 +3,6 @@ import { Platform } from 'react-native'
 
 import { Screen } from '@holi/core/components/Screen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { white } from 'holi-bricks/foundations'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
@@ -61,7 +60,6 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         headerTitleAlign: 'center',
         ...Platform.select({
           native: {
-            headerTintColor: white,
             title: '',
             headerTransparent: true,
           },
@@ -72,7 +70,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: isIos, barStyle: isIos ? 'light-content' : 'dark-content' }}
+      statusBarProps={{ translucent: isIos, style: isIos ? 'light' : 'dark' }}
       StickyBottomComponent={
         document && (
           <VolunteeringContact

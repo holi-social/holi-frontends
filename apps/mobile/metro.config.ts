@@ -12,7 +12,7 @@ const defaultConfig = sentry.getSentryExpoConfig(projectRoot)
 
 const config = {
   ...defaultConfig,
-  watchFolders: [workspaceRoot], // Watch all files within the monorepo
+  watchFolders: [...(defaultConfig.watchFolders || []), workspaceRoot],
   resolver: {
     ...defaultConfig?.resolver,
     // Let Metro know where to resolve packages, and in what order
@@ -20,7 +20,7 @@ const config = {
     // add "cjs" extension for apollo client (see https://github.com/apollographql/apollo-client/blob/main/CHANGELOG.md#apollo-client-354-2021-11-19)
     sourceExts: [...(defaultConfig?.resolver?.sourceExts || []), 'cjs', 'mjs'],
     assetExts: [...defaultConfig.resolver.assetExts, 'lottie'],
-    disableHierarchicalLookup: true,
+    disableHierarchicalLookup: false,
   },
 }
 

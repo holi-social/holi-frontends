@@ -6,6 +6,7 @@ import { useAppInit } from '@holi/mobile/lib/initializeApp'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/styles'
 import { useTrackCurrentRoute } from '@holi/core/navigation/hooks/useCurrentRoute'
+import { StatusBar } from 'expo-status-bar'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -40,6 +41,7 @@ export default function Layout() {
 
   return (
     <AppProviders>
+      <StatusBar style="auto" />
       <Stack
         initialRouteName="(tabs)"
         screenOptions={{
@@ -48,11 +50,11 @@ export default function Layout() {
           headerBackVisible: false,
           headerBackButtonDisplayMode: 'minimal',
           headerTitleAlign: 'center',
+          headerTintColor: theme.colors.fill.main,
           headerStyle: {
             backgroundColor: theme.colors.bg.support,
           },
           headerShadowVisible: false,
-          headerTintColor: theme.colors.fill.main,
           headerTitleStyle: {
             fontFamily: fontFamilies.regular,
             fontSize: 16,
@@ -61,6 +63,7 @@ export default function Layout() {
         }}
       >
         <Stack.Screen name="search" options={{ headerShown: true }} />
+        <Stack.Screen name="notifications" options={{ headerShown: true }} />
       </Stack>
     </AppProviders>
   )

@@ -15,7 +15,6 @@ import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useTheme } from '@holi/ui/styles/theme'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-
 export interface ForgotPasswordProps {
   webview?: boolean
 }
