@@ -9,7 +9,6 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { AuthenticationHeader } from '@holi/core/screens/auth/components/AuthenticationHeader'
-import { View } from 'react-native'
 
 export type AuthenticationType = 'login' | 'registration'
 
@@ -81,7 +80,7 @@ export const AuthenticationSelection = ({
   )
 
   return (
-    <View style={styles.container}>
+    <>
       <AuthenticationHeader authenticationStep={authenticationStep} />
       <HoliTabs
         activeTab={selectedAuthenticationType}
@@ -94,14 +93,11 @@ export const AuthenticationSelection = ({
         centeredTabButtons
         hideTabs={authenticationStep === 'code'}
       />
-    </View>
+    </>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    flex: 1,
-  },
   tabs: {
     backgroundColor: theme.colors.bg.main,
   },
