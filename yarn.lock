@@ -11732,9 +11732,9 @@ __metadata:
   linkType: hard
 
 "@types/extract-files@npm:*, @types/extract-files@npm:^13.0.1":
-  version: 13.0.1
-  resolution: "@types/extract-files@npm:13.0.1"
-  checksum: 10c0/4732f875db36498a4bf3deb6965267d515cc7a82be6a3b0346a6b9a6c9eec173ebae774301070de6c7f9b879121d81bc106498cce9cc7bc521b2e75b84710ed2
+  version: 13.0.2
+  resolution: "@types/extract-files@npm:13.0.2"
+  checksum: 10c0/f05a296095684c15c4b7710b87c1280c4cef59eb4822b595c460150b672d37a073183ece4d51c2f612c870ca07c5b1ddd681f1f88348915970547af644705340
   languageName: node
   linkType: hard
 
