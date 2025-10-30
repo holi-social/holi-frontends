@@ -5408,7 +5408,7 @@ __metadata:
     jest-offline: "npm:^1.0.1"
     jotai: "npm:2.4.3"
     jotai-devtools: "npm:0.7.1"
-    matrix-js-sdk: "npm:^38.0.0"
+    matrix-js-sdk: "npm:^39.0.0"
   peerDependencies:
     react: 18.3.1
     react-native: 0.76.9
@@ -24241,9 +24241,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"matrix-js-sdk@npm:^38.0.0":
-  version: 38.4.0
-  resolution: "matrix-js-sdk@npm:38.4.0"
+"matrix-js-sdk@npm:^39.0.0":
+  version: 39.0.0
+  resolution: "matrix-js-sdk@npm:39.0.0"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
     "@matrix-org/matrix-sdk-crypto-wasm": "npm:^15.3.0"
@@ -24259,7 +24259,7 @@ __metadata:
     sdp-transform: "npm:^2.14.1"
     unhomoglyph: "npm:^1.0.6"
     uuid: "npm:13"
-  checksum: 10c0/87fd48f0120833d13e2ef2e6720e19ef195e1d76ff4623622e5e34357441b23767d8d324b2affebd34b9ff851505aa0f826c74c298a88b0c04203600c313cbdb
+  checksum: 10c0/875f8bc369ff0dde99844fc884f7390f75d9c23906d86761ecb593c6cda49b34afe34436c2eeab75d7f7009721a6779d990d74e3c8d02bdc88d8cf420007d7f9
   languageName: node
   linkType: hard
 
