@@ -2,15 +2,13 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
-import { Keyboard, Platform } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { View } from 'react-native'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { StyleSheet } from 'react-native'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import TaskCompletionSteps from '@holi/core/screens/spaces/tasks/components/TaskCompletionSteps'
@@ -71,6 +69,14 @@ const TaskCompletionFlow = () => {
   const [email, setEmail] = useState<string | undefined>(undefined)
 
   const { refetch, data, id, spaceId, totalCompletions } = useTaskDetailsData()
+
+  const handleMessage = (messageId: number) => {
+    // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
+    if (messageId === 1040005) {
+      return true
+    }
+    return false
+  }
 
   useEffect(() => {
     if (isLoggedIn && spaceId && id) {
@@ -368,6 +374,7 @@ const TaskCompletionFlow = () => {
                   nodesToShow={step === 'email' ? ['code', 'email'] : ['code']}
                   withLoader={false}
                   noAutofocusForEmail
+                  handleMessage={handleMessage}
                 />
               </View>
               {
