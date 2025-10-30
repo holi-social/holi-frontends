@@ -8298,10 +8298,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@posthog/core@npm:1.0.2"
-  checksum: 10c0/b6cb66df077230c5cbd0de15b708b7e6fa47dac20a1bcfe5308d5c1b1ec487e57c923e22a51d6f8d45acea8239562fa9546c528d5c2bef1487419c70d3a76a43
+"@posthog/core@npm:1.4.0":
+  version: 1.4.0
+  resolution: "@posthog/core@npm:1.4.0"
+  checksum: 10c0/4d56220249d934c3648db6a5d1fdbdb0ffc2e2a298a6d226271841c54b52b72daf1f5cedfe777190fded7206e033283039944ca1b5e0766015d4e8dd0a170d9d
   languageName: node
   linkType: hard
 
@@ -26809,10 +26809,10 @@ __metadata:
   linkType: hard
 
 "posthog-react-native@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "posthog-react-native@npm:4.5.0"
+  version: 4.10.5
+  resolution: "posthog-react-native@npm:4.10.5"
   dependencies:
-    "@posthog/core": "npm:1.0.2"
+    "@posthog/core": "npm:1.4.0"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
     "@react-navigation/native": ">= 5.0.0"
@@ -26820,7 +26820,7 @@ __metadata:
     expo-device: ">= 4.0.0"
     expo-file-system: ">= 13.0.0"
     expo-localization: ">= 11.0.0"
-    posthog-react-native-session-replay: ">= 1.1.1"
+    posthog-react-native-session-replay: ">= 1.2.0"
     react-native-device-info: ">= 10.0.0"
     react-native-localize: ">= 3.0.0"
     react-native-navigation: ">= 6.0.0"
@@ -26849,7 +26849,7 @@ __metadata:
       optional: true
     react-native-safe-area-context:
       optional: true
-  checksum: 10c0/6619f3d95af249d05ff981c0a710dcf3167198916566b47d8613d05c24f5db1c5a71d1ded163d89ef189b0a6440285e0df196643a42f39943bbb36475f096b75
+  checksum: 10c0/884fac9f32720ed7ebaf4a20f26660922917f0f5799bd151d657b21f447f9d07910d6d1f7f2df0183f187b3c819f1ce4b69acd9b3483b74a48e441e71841b3ea
   languageName: node
   linkType: hard
 
