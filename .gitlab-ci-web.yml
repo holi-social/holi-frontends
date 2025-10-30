@@ -31,7 +31,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.49.1-noble'
+  image: 'mcr.microsoft.com/playwright:v1.56.1-noble'
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
