@@ -89,12 +89,12 @@ __metadata:
   linkType: hard
 
 "@appcues/react-native@npm:^4.4.3":
-  version: 4.4.4
-  resolution: "@appcues/react-native@npm:4.4.4"
+  version: 4.4.5
+  resolution: "@appcues/react-native@npm:4.4.5"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/0dd32224a3c4647ea9f79abff80a2a120ef9ee82f1c5d9018150dbcaf0a32a4d2ddfe8b1ddac2d0f0c3f44d348ea4ff479487ad27c2077cf7036442a79d816b3
+  checksum: 10c0/a85c8164f7780b7d5fb5c2f40403d31292bcc6eb9c48bfd46138eef558f1fc5cd70357ee1242757861cf107c80f91f707da5c9a25916fc9d59b1322eea4a6db0
   languageName: node
   linkType: hard
 
