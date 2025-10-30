@@ -19,13 +19,13 @@ jest.mock('@holi/core/screens/auth/components/RegistrationForm', () => ({
 
 describe('AuthenticationSelection', () => {
   it('should render login form as initial selection', () => {
-    render(<AuthenticationSelection initialSelection="login" resetFlow={jest.fn()} />)
+    render(<AuthenticationSelection initialSelection="login" resetFlowId={jest.fn()} />)
 
     expect(screen.getByLabelText('login-button')).toBeOnTheScreen()
   })
 
   it('should render registration form as initial selection', () => {
-    render(<AuthenticationSelection initialSelection="registration" resetFlow={jest.fn()} />)
+    render(<AuthenticationSelection initialSelection="registration" resetFlowId={jest.fn()} />)
 
     expect(screen.getByLabelText('register-button')).toBeOnTheScreen()
   })
@@ -33,7 +33,7 @@ describe('AuthenticationSelection', () => {
   it('should switch rendered form', async () => {
     const user = userEvent.setup()
 
-    render(<AuthenticationSelection initialSelection="login" resetFlow={jest.fn()} />)
+    render(<AuthenticationSelection initialSelection="login" resetFlowId={jest.fn()} />)
 
     expect(screen.getByLabelText('login-button')).toBeOnTheScreen()
 
@@ -46,33 +46,22 @@ describe('AuthenticationSelection', () => {
     expect(screen.getByLabelText('login-button')).toBeOnTheScreen()
   })
 
-  it('should reset flow on tab switch', async () => {
+  it('should reset flow id on tab switch', async () => {
     const resetFlow = jest.fn()
     const user = userEvent.setup()
 
-    render(<AuthenticationSelection initialSelection="login" resetFlow={resetFlow} />)
+    render(<AuthenticationSelection initialSelection="login" resetFlowId={resetFlow} />)
 
     await user.press(screen.getByLabelText('auth.tabs.register'))
 
     expect(resetFlow).toHaveBeenCalled()
   })
 
-  it('should call login callback on login', async () => {
-    const onLogin = jest.fn()
-    const user = userEvent.setup()
-
-    render(<AuthenticationSelection initialSelection="login" onLogin={onLogin} resetFlow={jest.fn()} />)
-
-    await user.press(screen.getByLabelText('login-button'))
-
-    expect(onLogin).toHaveBeenCalled()
-  })
-
   it('should call register callback on register', async () => {
     const onRegister = jest.fn()
     const user = userEvent.setup()
 
-    render(<AuthenticationSelection initialSelection="registration" onRegister={onRegister} resetFlow={jest.fn()} />)
+    render(<AuthenticationSelection initialSelection="registration" onRegister={onRegister} resetFlowId={jest.fn()} />)
 
     await user.press(screen.getByLabelText('register-button'))
 

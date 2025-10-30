@@ -36,6 +36,7 @@ import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { ChangeEmailButton } from '@holi/core/screens/auth/components/ChangeEmailButton'
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const logger = getLogger('Auth')
 
@@ -63,7 +64,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
   const handleMessage = useCallback(
     (messageId: number) => {
       // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
-      if (messageId === 1040005) {
+      if (messageId === OryErrorCode.CODE_SENT_REGISTRATION) {
         if (step === 'start') {
           setStep('code')
         }
@@ -137,7 +138,11 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
         if (
           (
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
-          )?.response?.data?.ui?.messages?.find((message) => message.id && [4000007, 4010003].includes(message.id))
+          )?.response?.data?.ui?.messages?.find(
+            (message) =>
+              message.id &&
+              [OryErrorCode.ACCOUNT_ALREADY_EXISTS, OryErrorCode.INVALID_REGISTRATION_STRATEGY].includes(message.id)
+          )
         ) {
           displayError(err, 'Failed to submit registration form as e-mail is already used', {
             displayMessage: t('auth.login.message.1010016'),

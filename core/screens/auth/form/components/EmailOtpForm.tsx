@@ -28,8 +28,8 @@ export const EmailOtpForm = ({
   return (
     <Stack gap="3xs">
       <AuthFormInputField
-        label={t(`auth.login.input.label-Email`)}
-        placeholder={t(`auth.login.input.placeholder-Email`)}
+        label={t('auth.login.input.label-Email')}
+        placeholder={t('auth.login.input.placeholder-Email')}
         value={email}
         validationErrorText={emailValidationError}
         onChange={setEmail}

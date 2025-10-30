@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { LoginFlow, UpdateLoginFlowWithOidcMethod } from '@ory/kratos-client'
+import type { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithOidcMethod } from '@ory/kratos-client'
 import { getInputNodeState } from '@holi/core/screens/auth/form/helpers/getInputNodeState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -10,7 +10,7 @@ import { getSocialLoginProviderId } from '@holi/core/screens/auth/form/helpers/g
 
 interface UseSocialLoginFormProps {
   flow?: LoginFlow
-  performLogin: (payload: UpdateLoginFlowWithOidcMethod) => Promise<void>
+  performLogin: (payload: UpdateLoginFlowBody) => Promise<void>
 }
 
 export const useSocialLoginForm = ({ flow, performLogin }: UseSocialLoginFormProps): SocialLoginFormProps => {
@@ -36,9 +36,9 @@ export const useSocialLoginForm = ({ flow, performLogin }: UseSocialLoginFormPro
           screen: 'mainLogin',
         })
       )
-      await performLogin(payload)
+      await performLogin(payload as UpdateLoginFlowBody)
     },
-    [appleProviderId, googleProviderId, csrfTokenNode.value, performLogin]
+    [appleProviderId, googleProviderId, csrfTokenNode.value, performLogin, flow, track]
   )
 
   return {

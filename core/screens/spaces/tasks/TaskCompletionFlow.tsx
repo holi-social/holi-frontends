@@ -44,6 +44,7 @@ import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/hel
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -164,7 +165,7 @@ const TaskCompletionFlow = () => {
         if (
           (
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
-          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+          )?.response?.data?.ui?.messages?.find((message) => message.id === OryErrorCode.ACCOUNT_ALREADY_EXISTS)
         ) {
           displayError(err, 'Failed to submit registration form as e-mail is already used', {
             displayMessage: t('auth.login.message.1010016'),

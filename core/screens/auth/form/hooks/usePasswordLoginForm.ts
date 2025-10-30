@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { LoginFlow, UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
+import type { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
 import { getInputNodeState } from '@holi/core/screens/auth/form/helpers/getInputNodeState'
 import type { EmailPasswordFormProps } from '@holi/core/screens/auth/form/components/EmailPasswordForm'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -8,7 +8,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 interface UsePasswordLoginFormProps {
   flow?: LoginFlow
-  performLogin: (payload: UpdateLoginFlowWithPasswordMethod) => Promise<void>
+  performLogin: (payload: UpdateLoginFlowBody) => Promise<void>
 }
 
 export const usePasswordLoginForm = ({ flow, performLogin }: UsePasswordLoginFormProps): EmailPasswordFormProps => {
@@ -31,8 +31,8 @@ export const usePasswordLoginForm = ({ flow, performLogin }: UsePasswordLoginFor
       csrf_token: csrfTokenNode.value ?? '',
     }
     track(TrackingEvent.Auth.LoginButtonPressed)
-    await performLogin(payload)
-  }, [email, password, csrfTokenNode.value, performLogin])
+    await performLogin(payload as UpdateLoginFlowBody)
+  }, [email, password, csrfTokenNode.value, performLogin, flow, track])
 
   return {
     email,

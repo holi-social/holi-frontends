@@ -1,6 +1,10 @@
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { RegistrationFlow, UpdateRegistrationFlowWithCodeMethod } from '@ory/kratos-client'
+import type {
+  RegistrationFlow,
+  UpdateRegistrationFlowBody,
+  UpdateRegistrationFlowWithCodeMethod,
+} from '@ory/kratos-client'
 import { getInputNodeState } from '@holi/core/screens/auth/form/helpers/getInputNodeState'
 import type { EmailOtpFormProps } from '@holi/core/screens/auth/form/components/EmailOtpForm'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -9,7 +13,7 @@ import type { CodeOtpFormProps } from '@holi/core/screens/auth/form/components/C
 
 interface UseOtpRegistrationFormProps {
   flow?: RegistrationFlow
-  performRegistration: (payload: UpdateRegistrationFlowWithCodeMethod) => Promise<void>
+  performRegistration: (payload: UpdateRegistrationFlowBody) => Promise<void>
   resetFlow: () => void
 }
 
@@ -45,9 +49,9 @@ export const useOtpRegistrationForm = ({
           screen: 'mainRegistration',
         })
       )
-      await performRegistration(payload)
+      await performRegistration(payload as UpdateRegistrationFlowBody)
     },
-    [email, code, csrfTokenNode.value, performRegistration]
+    [email, code, csrfTokenNode.value, performRegistration, flow, track]
   )
 
   return {

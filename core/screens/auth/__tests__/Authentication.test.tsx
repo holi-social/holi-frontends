@@ -25,10 +25,9 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 
 jest.useFakeTimers()
 
-const AuthenticationSelection = ({ onLogin, onRegister }: AuthenticationProps) => {
+const AuthenticationSelection = ({ onRegister }: AuthenticationProps) => {
   return (
     <>
-      <Button onPress={onLogin} label="login-button" />
       <Button onPress={onRegister} label="register-button" />
     </>
   )
@@ -54,17 +53,6 @@ describe('Authentication', () => {
 
     expect(screen.getByLabelText('login-button'))
     expect(screen.getByLabelText('register-button'))
-  })
-
-  it('should call onLogin callback on login', async () => {
-    const onLogin = jest.fn()
-    const user = userEvent.setup()
-
-    renderRouter({ index: () => <Authentication initialSelection="login" onLogin={onLogin} /> })
-
-    await user.press(screen.getByLabelText('login-button'))
-
-    expect(onLogin).toHaveBeenCalled()
   })
 
   it('should call register callback on register', async () => {
@@ -116,7 +104,7 @@ describe('Authentication', () => {
       state: 'loggedIn',
     })
 
-    render(<Authentication initialSelection="login" onLogin={jest.fn()} />)
+    render(<Authentication initialSelection="login" />)
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
   })

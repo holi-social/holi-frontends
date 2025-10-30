@@ -19,6 +19,7 @@ import type { SuccessfulNativeLogin } from '@ory/kratos-client'
 import type { AxiosResponse } from 'axios'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { LoginForm } from '@holi/core/screens/auth/components/LoginForm'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const mockUseLoginState = jest.mocked(useLoginState)
 jest.mock('@holi/core/auth/loginState', () => ({
@@ -125,7 +126,7 @@ describe('LoginForm', () => {
 
     renderRouter(
       {
-        '/login': () => <LoginForm step="start" setStep={jest.fn()} />,
+        '/login': () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
         '/': () => <Text>home</Text>,
         '/onboarding': () => <Text>onboarding</Text>,
         '/forgotPassword': () => <Text>forgotPassword</Text>,
@@ -150,7 +151,7 @@ describe('LoginForm', () => {
 
     it('should not initialize login flow', () => {
       renderRouter({
-        '/login': () => <LoginForm step="start" setStep={jest.fn()} />,
+        '/login': () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
       })
 
       expect(mockInitLoginFlow).not.toHaveBeenCalled()
@@ -161,7 +162,7 @@ describe('LoginForm', () => {
 
       const context = renderRouter(
         {
-          '/login': () => <LoginForm step="start" setStep={jest.fn()} />,
+          '/login': () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
           '/': () => <Text>home</Text>,
           '/onboarding': () => (
             <Link href="/login" asChild>
@@ -186,7 +187,7 @@ describe('LoginForm', () => {
   describe('flow initialization', () => {
     it('should initialize login flow', async () => {
       renderRouter({
-        index: () => <LoginForm step="start" setStep={jest.fn()} />,
+        index: () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
       })
 
       await act(() => jest.runOnlyPendingTimersAsync())
@@ -198,7 +199,7 @@ describe('LoginForm', () => {
       mockInitLoginFlow.mockRejectedValue('Test')
 
       renderRouter({
-        index: () => <LoginForm step="start" setStep={jest.fn()} />,
+        index: () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
       })
 
       await act(() => jest.runOnlyPendingTimersAsync())
@@ -211,7 +212,7 @@ describe('LoginForm', () => {
 
     it('should render form after initializing flow', async () => {
       renderRouter({
-        index: () => <LoginForm step="start" setStep={jest.fn()} />,
+        index: () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
       })
 
       await act(() => jest.runOnlyPendingTimersAsync())
@@ -222,7 +223,7 @@ describe('LoginForm', () => {
 
     it('should initialize login flow with id if given', async () => {
       renderRouter({
-        index: () => <LoginForm startedFlowId="123" step="start" setStep={jest.fn()} />,
+        index: () => <LoginForm startedFlowId="123" step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
       })
 
       expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
@@ -249,7 +250,7 @@ describe('LoginForm', () => {
     it('should track social login', async () => {
       const user = userEvent.setup()
 
-      render(<LoginForm step="start" setStep={jest.fn()} />)
+      render(<LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />)
 
       await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -284,7 +285,7 @@ describe('LoginForm', () => {
         response: {
           status: 400,
           data: {
-            ui: { messages: [{ id: 4000010 }] },
+            ui: { messages: [{ id: OryErrorCode.ACCOUNT_NOT_VERIFIED }] },
             type: '',
           },
         },

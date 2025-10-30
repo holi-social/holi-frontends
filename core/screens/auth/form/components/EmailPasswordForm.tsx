@@ -37,8 +37,8 @@ export const EmailPasswordForm = ({
   return (
     <Stack gap="3xs">
       <AuthFormInputField
-        label={t(`auth.login.input.label-Email`)}
-        placeholder={t(`auth.login.input.placeholder-Email`)}
+        label={t('auth.login.input.label-Email')}
+        placeholder={t('auth.login.input.placeholder-Email')}
         value={email}
         validationErrorText={emailValidationError}
         onChange={setEmail}
@@ -47,8 +47,8 @@ export const EmailPasswordForm = ({
         autoFocus={autoFocusEmail}
       />
       <AuthFormInputField
-        label={t(`auth.login.input.label-Password`)}
-        placeholder={t(`auth.login.input.placeholder-Password`)}
+        label={t('auth.login.input.label-Password')}
+        placeholder={t('auth.login.input.placeholder-Password')}
         value={password}
         validationErrorText={passwordValidationError}
         onChange={setPassword}

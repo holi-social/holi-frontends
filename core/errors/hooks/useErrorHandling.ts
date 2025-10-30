@@ -11,6 +11,7 @@ interface ToastErrorInfo extends ErrorContext {
   timeout?: number
   displayMessage?: string
   testID?: string
+  logLocally?: boolean
 }
 
 const isApolloError = (error: unknown): error is CombinedGraphQLErrors => CombinedGraphQLErrors.is(error)
@@ -35,9 +36,13 @@ export const useErrorHandling = () => {
   const { openToast } = useToast()
 
   const displayError = useCallback(
-    (error: unknown, logMessage: string, { displayMessage, timeout, testID, ...context }: ToastErrorInfo) => {
+    (
+      error: unknown,
+      logMessage: string,
+      { displayMessage, timeout, testID, logLocally, ...context }: ToastErrorInfo
+    ) => {
       if (!isNetworkConnectionError(error) && !isUnauthorizedError(error)) {
-        if (isApolloError(error) && error.message === 'Bad user input') {
+        if ((isApolloError(error) && error.message === 'Bad user input') || logLocally) {
           logErrorLocal(error, logMessage, context)
         } else {
           logError(error, logMessage, context)

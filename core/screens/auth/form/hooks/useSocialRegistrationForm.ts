@@ -1,6 +1,10 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { RegistrationFlow, UpdateRegistrationFlowWithOidcMethod } from '@ory/kratos-client'
+import type {
+  RegistrationFlow,
+  UpdateRegistrationFlowBody,
+  UpdateRegistrationFlowWithOidcMethod,
+} from '@ory/kratos-client'
 import { getInputNodeState } from '@holi/core/screens/auth/form/helpers/getInputNodeState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -10,7 +14,7 @@ import { getSocialLoginProviderId } from '@holi/core/screens/auth/form/helpers/g
 
 interface UseSocialRegistrationFormProps {
   flow?: RegistrationFlow
-  performRegistration: (payload: UpdateRegistrationFlowWithOidcMethod) => Promise<void>
+  performRegistration: (payload: UpdateRegistrationFlowBody) => Promise<void>
 }
 
 export const useSocialRegistrationForm = ({
@@ -39,9 +43,9 @@ export const useSocialRegistrationForm = ({
           screen: 'mainRegistration',
         })
       )
-      await performRegistration(payload)
+      await performRegistration(payload as UpdateRegistrationFlowBody)
     },
-    [appleProviderId, googleProviderId, csrfTokenNode.value, performRegistration]
+    [appleProviderId, googleProviderId, csrfTokenNode.value, performRegistration, flow, track]
   )
 
   return {

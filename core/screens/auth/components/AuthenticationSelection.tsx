@@ -21,16 +21,14 @@ type TabItem = HoliTabItem & {
 interface AuthenticationSelectionProps {
   initialSelection?: AuthenticationType
   flowId?: string
-  resetFlow: () => void
-  onLogin?: () => void
+  resetFlowId: () => void
   onRegister?: () => void
 }
 
 export const AuthenticationSelection = ({
   initialSelection = 'login',
   flowId,
-  resetFlow,
-  onLogin,
+  resetFlowId,
   onRegister,
 }: AuthenticationSelectionProps) => {
   const { t } = useTranslation()
@@ -47,7 +45,7 @@ export const AuthenticationSelection = ({
       content: () => (
         <LoginForm
           startedFlowId={initialSelection === 'login' ? flowId : undefined}
-          onLogin={onLogin}
+          resetFlowId={resetFlowId}
           step={authenticationStep}
           setStep={setAuthenticationStep}
         />
@@ -75,9 +73,9 @@ export const AuthenticationSelection = ({
       }
       setSelectedAuthenticationType(key as AuthenticationType)
       setAuthenticationStep('start')
-      resetFlow()
+      resetFlowId()
     },
-    [resetFlow, selectedAuthenticationType]
+    [resetFlowId, selectedAuthenticationType]
   )
 
   return (

@@ -11,6 +11,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { act, render, screen, userEvent, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const mockClearVerificationFlowData = clearVerificationFlowData as jest.Mock
 const mockUseVerificationFlowData = useVerificationFlowData as jest.Mock
@@ -337,19 +338,19 @@ describe('EmailVerification', () => {
 
     const testCases = [
       {
-        code: 4070001,
+        code: OryErrorCode.INVALID_VERIFICATION_TOKEN,
         expectedError: 'registration.emailVerification.message.cannotActivate',
       },
       {
-        code: 4070003,
+        code: OryErrorCode.VERIFICATION_FLOW_ERROR,
         expectedError: 'registration.emailVerification.message.cannotActivate',
       },
       {
-        code: 4070005,
+        code: OryErrorCode.VERIFICATION_FLOW_EXPIRED,
         expectedError: 'registration.emailVerification.message.flowExpired',
       },
       {
-        code: 4070006,
+        code: OryErrorCode.INVALID_VERIFICATION_CODE,
         expectedError: 'registration.emailVerification.message.invalidCode',
       },
     ]

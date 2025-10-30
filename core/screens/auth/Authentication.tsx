@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View } from 'react-native'
 
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
@@ -22,11 +22,13 @@ import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { Stack } from 'holi-bricks/components/stack'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 export interface AuthenticationProps {
   initialSelection: AuthenticationType
   onRegister?: () => void
-  onLogin?: () => void
   onContinueAsGuest?: () => void
 }
 
@@ -36,13 +38,23 @@ export type AuthenticationParams = {
 
 const { useParam, useUpdateParams } = createParamHooks<AuthenticationParams>()
 
-export const Authentication = ({ initialSelection, onRegister, onLogin, onContinueAsGuest }: AuthenticationProps) => {
+export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest }: AuthenticationProps) => {
   const [flowId] = useParam('flow')
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
-  const resetFlow = useCallback(() => updateParams({ flow: undefined }), [updateParams])
+  const resetFlowId = useCallback(() => updateParams({ flow: undefined }), [updateParams])
   const { isLoggedIn } = useLoggedInUser()
+  const { navigate } = useRouting()
+  const redirect = useRedirect('/')
+
+  // TODO(SF) correct for registration?
+  useEffect(() => {
+    if (isLoggedIn) {
+      const redirect = getRedirectAfterSocialLogin()
+      navigate(redirect || '/')
+    }
+  }, [isLoggedIn, navigate, redirect])
 
   if (isLoggedIn) {
     return (
@@ -86,11 +98,7 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
           <AuthenticationSelection
             flowId={flowId}
             initialSelection={initialSelection}
-            resetFlow={resetFlow}
-            onLogin={() => {
-              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-              onLogin?.()
-            }}
+            resetFlowId={resetFlowId}
             onRegister={() => {
               track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
               metaSdk.trackSignUp()

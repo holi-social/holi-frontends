@@ -25,14 +25,17 @@ export const AuthFormInputField = ({
   autoFocus,
   onSubmit,
 }: AuthFormInputFieldProps) => {
-  const onKeyPress = useCallback((event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
-    const nativeElement = event.nativeEvent as TextInputKeyPressEventData
-    if (nativeElement.key === 'Enter') {
-      const element = event.target as TextInputProps
-      onChange(element.value)
-      onSubmit()
-    }
-  }, [])
+  const onKeyPress = useCallback(
+    (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
+      const nativeElement = event.nativeEvent as TextInputKeyPressEventData
+      if (nativeElement.key === 'Enter') {
+        const element = event.target as TextInputProps
+        onChange(element.value)
+        onSubmit()
+      }
+    },
+    [onChange, onSubmit]
+  )
 
   // TODO(SF) only for login?
   const textContentType = type === 'password' ? 'password' : undefined
