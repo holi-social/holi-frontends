@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from 'expo-router/testing-library'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { TextLink } from './TextLink'
