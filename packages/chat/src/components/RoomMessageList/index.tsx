@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, View, type ViewStyle } from 'react-native'
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { type MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
@@ -51,6 +51,12 @@ const RoomMessageList = ({
   const groupedMessages = groupByDate(messages, i18n.language)
   return (
     <FlashList
+      style={styles.fixInfiniteWebScroll}
+      keyExtractor={(item) => {
+        if (isTextMessageItem(item)) return item.id
+        else if (isMessageSection(item)) return item.title
+        return ''
+      }}
       renderItem={({ item: message, index }) => {
         if (isMessageSection(message)) return <RoomMessageSection messageSection={message} />
 
@@ -95,5 +101,12 @@ const stylesheet = createStyleSheet(() => ({
   },
   listFooterSpacer: {
     height: 20,
+  },
+  fixInfiniteWebScroll: {
+    ...Platform.select({
+      web: {
+        maxHeight: 'calc(100vh - 124px)' as ViewStyle['maxHeight'],
+      },
+    }),
   },
 }))
