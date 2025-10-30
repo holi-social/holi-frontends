@@ -14,7 +14,7 @@
     "holi-bricks": "*",
     "immer": "^10.0.2",
     "jotai": "2.4.3",
-    "matrix-js-sdk": "^34.9.0"
+    "matrix-js-sdk": "^38.0.0"
   },
   "peerDependencies": {
     "react": "18.3.1",
