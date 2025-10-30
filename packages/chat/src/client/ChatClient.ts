@@ -402,7 +402,7 @@ export default class ChatClient {
   }
 
   public async joinRoom(roomId: string): Promise<Room | null> {
-    const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
+    const room = await this.mxClient.joinRoom(roomId)
     if (!room) {
       const errMsg = 'There was a problem joining the room after accepting invitation'
       logError(new Error(errMsg), 'Failed to join room', { location: 'ChatClient.joinRoom' })
