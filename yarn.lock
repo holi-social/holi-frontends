@@ -5652,7 +5652,7 @@ __metadata:
     "@react-native-google-signin/google-signin": "npm:^14.0.1"
     "@react-native-masked-view/masked-view": "npm:0.3.2"
     "@sentry/react-native": "npm:~6.10.0"
-    "@shopify/flash-list": "npm:1.7.3"
+    "@shopify/flash-list": "npm:1.7.6"
     "@types/lodash.at": "npm:^4.6.7"
     "@types/lodash.chunk": "npm:^4.2.9"
     "@types/lodash.debounce": "npm:^4.0.7"
@@ -9804,17 +9804,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@shopify/flash-list@npm:1.7.3":
-  version: 1.7.3
-  resolution: "@shopify/flash-list@npm:1.7.3"
+"@shopify/flash-list@npm:1.7.6":
+  version: 1.7.6
+  resolution: "@shopify/flash-list@npm:1.7.6"
   dependencies:
-    recyclerlistview: "npm:4.2.1"
+    recyclerlistview: "npm:4.2.3"
     tslib: "npm:2.8.1"
   peerDependencies:
     "@babel/runtime": "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/84aa7c87f39114c98374072609ea61eec3aecee3c8dc55220f114949897b25ff6b6bc1edf14161b0feead6e6c7f3845d6b0af0d8f300df319f45e3c5f4be3e15
+  checksum: 10c0/5e01435f23dfcb8f105943913b44115671839c011c001cc3be3e8c5efade4ff5f7e73067170d18bfb258579d656a8e95226ac493f16986fb70505a56d32af0bf
   languageName: node
   linkType: hard
 
@@ -28594,7 +28594,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recyclerlistview@npm:4.2.1, recyclerlistview@npm:^4.0.0":
+"recyclerlistview@npm:4.2.3":
+  version: 4.2.3
+  resolution: "recyclerlistview@npm:4.2.3"
+  dependencies:
+    lodash.debounce: "npm:4.0.8"
+    prop-types: "npm:15.8.1"
+    ts-object-utils: "npm:0.0.5"
+  peerDependencies:
+    react: ">= 15.2.1"
+    react-native: ">= 0.30.0"
+  checksum: 10c0/40b8b948d09f560ce98842e9141d2ce7ee5677ae2c20f7e30de901136d7764a42cc4e5ba3242fca0934055d5fef99c5b03430fcba28d7cfc27155b4ef97f70d5
+  languageName: node
+  linkType: hard
+
+"recyclerlistview@npm:^4.0.0":
   version: 4.2.1
   resolution: "recyclerlistview@npm:4.2.1"
   dependencies:
