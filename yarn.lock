@@ -5850,7 +5850,7 @@ __metadata:
     cookies: "npm:^0.8.0"
     cookies-next: "npm:^2.1.1"
     eslint: "npm:^8.33.0"
-    eslint-config-next: "npm:15.2.5"
+    eslint-config-next: "npm:15.5.6"
     holi-bricks: "npm:*"
     http-proxy: "npm:^1.18.1"
     jotai: "npm:2.4.3"
@@ -7421,12 +7421,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:15.2.5":
-  version: 15.2.5
-  resolution: "@next/eslint-plugin-next@npm:15.2.5"
+"@next/eslint-plugin-next@npm:15.5.6":
+  version: 15.5.6
+  resolution: "@next/eslint-plugin-next@npm:15.5.6"
   dependencies:
     fast-glob: "npm:3.3.1"
-  checksum: 10c0/7ccc81717534b4a8d3f179a3e6e9434366dda69dd5708613b51a83feb0440e3fcf66f75686b7e7b137bd5768e141f51cdf95941adfdff4aa41bd2907c83843bc
+  checksum: 10c0/2a42df314d6690f975731e28c8b47c370eb15976ff82d98ee615d97f9e103857c224bfd6e9b75074af77bfdd82c102e9499ace55d3cb0905e9d8ecb0ce46ede7
   languageName: node
   linkType: hard
 
@@ -18147,11 +18147,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:15.2.5":
-  version: 15.2.5
-  resolution: "eslint-config-next@npm:15.2.5"
+"eslint-config-next@npm:15.5.6":
+  version: 15.5.6
+  resolution: "eslint-config-next@npm:15.5.6"
   dependencies:
-    "@next/eslint-plugin-next": "npm:15.2.5"
+    "@next/eslint-plugin-next": "npm:15.5.6"
     "@rushstack/eslint-patch": "npm:^1.10.3"
     "@typescript-eslint/eslint-plugin": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
     "@typescript-eslint/parser": "npm:^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
@@ -18167,7 +18167,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/60f1051d49741206f2cd62cfb34232072f32c4c182ef37d0a8bea14e53c5305efcce400e48df5d5648b7bbb83906acb4a6f47b8a26d59484b77a9d7be1787119
+  checksum: 10c0/01e2b9cc1c9b0e82ef3c8dd454b70fc24093eaf05e4fb56256ab4b87c5cd7a6d20b3184da7e508912d4db046746f3ac2fbb3acd6837f11afd5ee3201b52775d1
   languageName: node
   linkType: hard
 
