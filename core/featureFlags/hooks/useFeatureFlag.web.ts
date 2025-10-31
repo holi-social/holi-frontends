@@ -1,8 +1,10 @@
 import { useFeatureFlagPayload, useFeatureFlagVariantKey, usePostHog } from 'posthog-js/react'
 
-import type { UseFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { JsonType } from 'posthog-js'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import type { FeatureFlagValue } from '@holi/core/featureFlags/types'
 
-export const useFeatureFlag: UseFeatureFlag = (flag) => {
+export const useFeatureFlag: (flag: FeatureFlagKey) => [FeatureFlagValue, JsonType] = (flag) => {
   const posthog = usePostHog()
   // These hooks get updated on feature flag values changes
   const state = useFeatureFlagVariantKey(flag)
