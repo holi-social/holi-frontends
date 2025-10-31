@@ -19,7 +19,7 @@
     "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook/web --project-token $CHROMATIC_BRICKS_PROJECT_TOKEN --exit-zero-on-changes"
   },
   "peerDependencies": {
-    "@react-native-community/datetimepicker": "8.2.0",
+    "@react-native-community/datetimepicker": "8.5.0",
     "expo-image": "~2.0.7",
     "next": "^14.2.7",
     "react": "18.3.1",
@@ -70,7 +70,7 @@
     "@holi/icons": "*",
     "@holi/ui": "*",
     "@react-native-async-storage/async-storage": "^2.1.2",
-    "@react-native-community/datetimepicker": "8.2.0",
+    "@react-native-community/datetimepicker": "8.5.0",
     "@react-native-community/slider": "4.5.5",
     "expo": "~52.0.47",
     "expo-constants": "17.0.8",
