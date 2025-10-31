@@ -5847,7 +5847,7 @@ __metadata:
     "@types/react-dom": "npm:~18.2.19"
     "@types/react-transition-group": "npm:^4.4.11"
     babel-loader: "npm:^10.0.0"
-    cookies: "npm:^0.8.0"
+    cookies: "npm:^0.9.0"
     cookies-next: "npm:^2.1.1"
     eslint: "npm:^8.33.0"
     eslint-config-next: "npm:15.2.5"
@@ -16051,13 +16051,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookies@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "cookies@npm:0.8.0"
+"cookies@npm:^0.9.0":
+  version: 0.9.1
+  resolution: "cookies@npm:0.9.1"
   dependencies:
     depd: "npm:~2.0.0"
     keygrip: "npm:~1.1.0"
-  checksum: 10c0/0af32f30d1ece0596efc05782c66b9d61659e20c6cc5b695452abf5ceb51883ef43c5c73d86badd7d028a0da7d39f864c95f33640aef04f97fad70f35986bea3
+  checksum: 10c0/3ffa1c0e992b62ee119adae4dd2ddd4a89166fa5434cd9bd9ff84ec4d2f14dfe2318a601280abfe32a4f64f884ec9345fb1912e488b002d188d2efa0d3919ba3
   languageName: node
   linkType: hard
 

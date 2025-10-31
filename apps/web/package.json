@@ -18,7 +18,7 @@
     "@ory/integrations": "^0.2.6",
     "@sentry/nextjs": "^8.36.0",
     "@types/react-transition-group": "^4.4.11",
-    "cookies": "^0.8.0",
+    "cookies": "^0.9.0",
     "cookies-next": "^2.1.1",
     "holi-bricks": "*",
     "http-proxy": "^1.18.1",
