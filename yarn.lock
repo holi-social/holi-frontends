@@ -5600,7 +5600,7 @@ __metadata:
     "@apollo/client": "npm:^4.0.7"
     "@faker-js/faker": "npm:^8.1.0"
     "@playwright/test": "npm:1.49.1"
-    axe-playwright: "npm:2.0.3"
+    axe-playwright: "npm:2.2.2"
     dotenv: "npm:^16.3.1"
     eslint: "npm:^8.33.0"
     eslint-plugin-react: "npm:^7.32.2"
@@ -14379,6 +14379,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axe-core@npm:^4.10.1":
+  version: 4.11.0
+  resolution: "axe-core@npm:4.11.0"
+  checksum: 10c0/7d7020a568a824c303711858c2fcfe56d001d27e46c0c2ff75dc31b436cfddfd4857a301e70536cc9e64829d25338f7fb782102d23497ebdc66801e9900fc895
+  languageName: node
+  linkType: hard
+
 "axe-core@npm:^4.2.0":
   version: 4.10.0
   resolution: "axe-core@npm:4.10.0"
@@ -14397,18 +14404,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-playwright@npm:2.0.3":
-  version: 2.0.3
-  resolution: "axe-playwright@npm:2.0.3"
+"axe-playwright@npm:2.2.2":
+  version: 2.2.2
+  resolution: "axe-playwright@npm:2.2.2"
   dependencies:
     "@types/junit-report-builder": "npm:^3.0.2"
-    axe-core: "npm:^4.10.0"
+    axe-core: "npm:^4.10.1"
     axe-html-reporter: "npm:2.2.11"
     junit-report-builder: "npm:^5.1.1"
-    picocolors: "npm:^1.1.0"
+    picocolors: "npm:^1.1.1"
   peerDependencies:
     playwright: ">1.0.0"
-  checksum: 10c0/e26e4bef972342cbf9368979f250721f89f9255a5ab518f8fd8601dd427b1ef183acf3654174d24b44cb6e7778b8a9b18bafd1583dc585f0da6b46e3a4ceadeb
+  checksum: 10c0/d035ef497ccce07086052fcfb2c633d1ca26e0593a90897b84d92e3d9c4696aa00631ecd8d85c6fdff6372b5aab48314075c97ab7e0bfc59314159d4db1e0ccc
   languageName: node
   linkType: hard
 
