@@ -5769,7 +5769,7 @@ __metadata:
     "@storybook/testing-library": "npm:^0.2.2"
     "@types/react": "npm:~18.3.12"
     babel-loader: "npm:^8.2.3"
-    babel-plugin-react-native-web: "npm:^0.19.12"
+    babel-plugin-react-native-web: "npm:^0.21.0"
     eslint: "npm:^8.33.0"
     lodash.debounce: "npm:^4.0.8"
     raf: "npm:^3.4.1"
@@ -14625,7 +14625,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-native-web@npm:^0.19.12, babel-plugin-react-native-web@npm:~0.19.13":
+"babel-plugin-react-native-web@npm:^0.21.0":
+  version: 0.21.2
+  resolution: "babel-plugin-react-native-web@npm:0.21.2"
+  checksum: 10c0/45fa9b2fce90cb0d962bbc9c665e944ef6720f5740a573d457adf8e2881bd4112396922d5d5c0ab7cfc706f0c457e3edebddc55289d30924e1f42b4b7d849b8e
+  languageName: node
+  linkType: hard
+
+"babel-plugin-react-native-web@npm:~0.19.13":
   version: 0.19.13
   resolution: "babel-plugin-react-native-web@npm:0.19.13"
   checksum: 10c0/0710db342063182163d58febfb01ef510c9460f0500f9faaf47603d06dda37554f216e6123a099a343eb2067c2dfb43c9d4ca573a9d659662ca429048db11af4
@@ -21363,7 +21370,7 @@ __metadata:
     "@types/react": "npm:~18.3.12"
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-docgen-typescript: "npm:^1.5.1"
-    babel-plugin-react-native-web: "npm:^0.19.12"
+    babel-plugin-react-native-web: "npm:^0.21.0"
     chromatic: "npm:^11.16.1"
     eslint: "npm:^8.33.0"
     expo: "npm:~52.0.47"
