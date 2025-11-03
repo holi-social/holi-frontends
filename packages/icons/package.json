@@ -19,6 +19,6 @@
     "react-native-svg": "15.8.0"
   },
   "devDependencies": {
-    "@svgr/cli": "8.0.1"
+    "@svgr/cli": "8.1.0"
   }
 }
