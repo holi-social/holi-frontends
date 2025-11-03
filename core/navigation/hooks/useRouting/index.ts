@@ -57,7 +57,11 @@ const useRouting = (): RoutingState => {
       }, PATH_CLEANUP_TIMER_DELAY)
 
       try {
-        router.back()
+        if (router.canGoBack()) {
+          router.back()
+        } else {
+          router.push(pathName)
+        }
       } catch {
         router.push(pathName)
       }
