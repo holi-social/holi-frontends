@@ -37,7 +37,6 @@ export const AuthFormInputField = ({
     [onChange, onSubmit]
   )
 
-  // TODO(SF) only for login?
   const textContentType = type === 'password' ? 'password' : undefined
 
   return (

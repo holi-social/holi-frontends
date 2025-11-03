@@ -59,7 +59,7 @@ export const useOtpLoginForm = ({
     codeValidationError: codeNode.validationError,
     autoFocusEmail: true,
     onSubmit,
-    submitLabel: t('tasks.register.unlogged.verify.email'), // TODO(SF) create extra key auth.login.input.label-SignInCode
+    submitLabel: t('auth.login.cta.OTPlogin'),
     submitDisabled: !flow,
     onResend: () => onSubmit(true),
   }

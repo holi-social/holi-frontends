@@ -1,4 +1,5 @@
 import { AuthFormInputField } from '@holi/core/screens/auth/form/components/AuthFormInputField'
+import { Mail } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
 import { Stack } from 'holi-bricks/components/stack'
 import React from 'react'
@@ -37,7 +38,14 @@ export const EmailOtpForm = ({
         onSubmit={onSubmit}
         autoFocus={autoFocusEmail}
       />
-      <Button margin={{ top: '3xs' }} label={submitLabel} onPress={onSubmit} size="lg" disabled={submitDisabled} />
+      <Button
+        margin={{ top: '3xs' }}
+        label={submitLabel}
+        onPress={onSubmit}
+        size="lg"
+        disabled={submitDisabled}
+        icon={Mail}
+      />
     </Stack>
   )
 }

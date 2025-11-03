@@ -6,6 +6,9 @@ import { Stack } from 'holi-bricks/components/stack'
 import { AuthFormInputField } from '@holi/core/screens/auth/form/components/AuthFormInputField'
 import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { LockUnlock, Mail } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Text, TextLink } from 'holi-bricks/components/text'
 
 export interface EmailPasswordFormProps {
   email?: string
@@ -55,17 +58,32 @@ export const EmailPasswordForm = ({
         type="password"
         onSubmit={onSubmit}
       />
-      <Button margin={{ top: '3xs' }} label={submitLabel} onPress={onSubmit} size="lg" disabled={submitDisabled} />
-      {/* TODO(SF) only for login */}
-      <Stack margin={{ top: 'sm' }}>
+      <Button
+        margin={{ top: '3xs' }}
+        label={submitLabel}
+        onPress={onSubmit}
+        size="lg"
+        disabled={submitDisabled}
+        icon={LockUnlock}
+      />
+      <Stack
+        margin={{ top: 'sm' }}
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        gap="3xs"
+        // textAlign="center"
+      >
+        <Text>{t('auth.login.forgotPassword')}</Text>
         <HoliTextLinkTracked
-          label={t('auth.login.link.forgotPassword')}
           href="/forgotPassword"
-          size="sm"
-          textAlign="center"
           trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
+          label={t('auth.login.link.forgotPassword')}
         >
-          {t('auth.login.link.forgotPassword')}
+          <Stack gap="4xs" direction="row" flex={0}>
+            <TextLink size="md">{t('auth.login.link.forgotPassword')}</TextLink>
+            <HoliIcon icon={Mail} />
+          </Stack>
         </HoliTextLinkTracked>
       </Stack>
     </Stack>

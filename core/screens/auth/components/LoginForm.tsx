@@ -2,15 +2,12 @@ import type { LoginFlow } from '@ory/kratos-client'
 import type React from 'react'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
 
 import { TrackingEvent } from '@holi/core/tracking'
-import { Spacing } from 'holi-bricks/foundations'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { Key2 } from '@holi/icons/src/generated'
 import { Text } from 'holi-bricks/components/text'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { useOtpLoginForm } from '@holi/core/screens/auth/form/hooks/useOtpLoginForm'
 import { EmailOtpForm } from '@holi/core/screens/auth/form/components/EmailOtpForm'
@@ -21,6 +18,7 @@ import { useSocialLoginForm } from '@holi/core/screens/auth/form/hooks/useSocial
 import { SocialLoginForm } from '@holi/core/screens/auth/form/components/SocialLoginForm'
 import { useLoginFlow } from '@holi/core/screens/auth/form/hooks/useLoginFlow'
 import { determineAuthenticationStepFromFlow } from '@holi/core/screens/auth/form/helpers/determineAuthenticationStepFromFlow'
+import { Stack } from 'holi-bricks/components/stack'
 
 interface LoginFormProps {
   startedFlowId?: string
@@ -31,7 +29,6 @@ interface LoginFormProps {
 
 export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFormProps) => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   const synchronizeStep = useCallback(
     (flow?: LoginFlow) => {
@@ -50,28 +47,25 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
   const passwordFormProps = usePasswordLoginForm({ flow, performLogin })
 
   return (
-    // TODO(SF) form style
-    <View>
+    <Stack margin={{ top: 'md' }} gap="md">
       {step === 'code' && <CodeOtpForm {...otpFormProps} />}
       {['start', 'email-password'].includes(step) && (
         <>
           <SocialLoginForm {...socialLoginFormProps} />
 
-          <View style={styles.dividerContainer}>
-            <View style={styles.divider}>
-              <HoliDivider />
-            </View>
-            <View style={styles.dividerContainer}>
-              <Text textAlign="center" color="greyDark">
+          <Stack gap="xs" direction="row" alignItems="center" justifyContent="center">
+            <HoliDivider autoWidth />
+            <Stack flex={1}>
+              <Text textAlign="center" color="greyDark" flexShrink={0}>
                 {t('auth.divider.email')}
               </Text>
-            </View>
-            <View style={styles.divider}>
-              <HoliDivider />
-            </View>
-          </View>
+            </Stack>
+
+            <HoliDivider autoWidth />
+          </Stack>
+
           {step === 'start' && (
-            <>
+            <Stack gap="3xs">
               <EmailOtpForm {...otpFormProps} />
 
               <ButtonTracked
@@ -86,45 +80,11 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
                   screen: 'mainLogin',
                 })}
               />
-            </>
+            </Stack>
           )}
         </>
       )}
       {step === 'email-password' && <EmailPasswordForm {...passwordFormProps} />}
-    </View>
+    </Stack>
   )
 }
-
-const stylesheet = createStyleSheet({
-  form: {
-    marginTop: Spacing.sm,
-    width: '100%',
-  },
-  formItemContainer: {
-    marginTop: Spacing.sm,
-  },
-  mailImage: {
-    marginTop: Spacing.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: Spacing.xs,
-  },
-  changeEmailContainer: {
-    gap: Spacing['3xs'],
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dividerContainer: {
-    marginTop: Spacing['3xs'],
-    marginBottom: Spacing['3xs'],
-    gap: Spacing.xs,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    maxWidth: '100%',
-  },
-  divider: {
-    flex: 1,
-  },
-})

@@ -240,7 +240,6 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
             </View>
           </View>
 
-          {/* TODO(SF) replace this */}
           <View style={styles.buttonContainer}>
             <ButtonTracked
               label={t('auth.CTA.OTP')}
