@@ -199,4 +199,20 @@ jest.mock('@holi/core/helpers/useFocusEffect', () => {
   }
 })
 
+jest.mock('@holi/core/helpers/useIsFocused', () => {
+  return {
+    __esModule: true,
+    useIsFocused: jest.fn().mockReturnValue(true),
+  }
+})
+
+jest.mock('@react-navigation/native', () => {
+  const module: typeof import('@react-navigation/native') = {
+    ...jest.requireActual('@react-navigation/native'),
+    useScrollToTop: jest.fn(),
+  }
+
+  return module
+})
+
 export default {}
