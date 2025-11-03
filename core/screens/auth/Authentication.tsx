@@ -65,55 +65,55 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
   }
 
   return (
-    <View style={styles.wrapper}>
-      <Screen
-        style={styles.wrapper}
-        preset="scroll"
-        keyboardShouldPersistTaps="always"
-        headerOptions={{
-          headerShown: true,
-          headerBackVisible: false,
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: styles.header.backgroundColor,
-          },
-          headerTitle: () => <HoliLogo color={styles.logo.color} />,
-          headerLeft: () => (
-            <HeaderBackButton
-              icon={Close}
-              onPress={() => {
-                track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
-                storeGuestMode(true)
-                onContinueAsGuest?.()
-              }}
-            />
-          ),
-          navigationCustomOptions: {
-            footerShown: false,
-          },
-        }}
-        contentContainerStyle={styles.wrapper}
-      >
-        <Stack flex={1}>
-          <AuthenticationSelection
-            flowId={flowId}
-            initialSelection={initialSelection}
-            resetFlowId={resetFlowId}
-            onRegister={() => {
-              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-              metaSdk.trackSignUp()
-              onRegister?.()
+    <Screen
+      style={styles.wrapper}
+      preset="scroll"
+      keyboardShouldPersistTaps="always"
+      headerOptions={{
+        headerShown: true,
+        headerBackVisible: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: styles.header.backgroundColor,
+        },
+        headerTitle: () => <HoliLogo color={styles.logo.color} />,
+        headerLeft: () => (
+          <HeaderBackButton
+            icon={Close}
+            onPress={() => {
+              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
+              storeGuestMode(true)
+              onContinueAsGuest?.()
             }}
           />
-        </Stack>
-        <View style={styles.footer}>
+        ),
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      }}
+      contentContainerStyle={styles.wrapper}
+      StickyBottomComponent={
+        <Stack padding={{ bottom: 'sm' }} gap="xs" backgroundColor="main">
           <HoliDivider />
           <HoliContainer>
             <DocumentsFooter />
           </HoliContainer>
-        </View>
-      </Screen>
-    </View>
+        </Stack>
+      }
+    >
+      <Stack flex={1}>
+        <AuthenticationSelection
+          flowId={flowId}
+          initialSelection={initialSelection}
+          resetFlowId={resetFlowId}
+          onRegister={() => {
+            track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+            metaSdk.trackSignUp()
+            onRegister?.()
+          }}
+        />
+      </Stack>
+    </Screen>
   )
 }
 
@@ -131,10 +131,5 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Spacing.md,
-  },
-  footer: {
-    paddingBottom: Spacing.sm,
-    gap: Spacing.xs,
-    backgroundColor: theme.colors.bg.main,
   },
 }))

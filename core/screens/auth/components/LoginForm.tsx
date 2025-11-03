@@ -53,10 +53,10 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
         <>
           <SocialLoginForm {...socialLoginFormProps} />
 
-          <Stack gap="xs" direction="row" alignItems="center" justifyContent="center">
+          <Stack gap="3xs" direction="row" alignItems="center" justifyContent="center">
             <HoliDivider autoWidth />
-            <Stack flex={1}>
-              <Text textAlign="center" color="greyDark" flexShrink={0}>
+            <Stack wrap="nowrap">
+              <Text textAlign="center" color="greyDark" size="xs">
                 {t('auth.divider.email')}
               </Text>
             </Stack>
