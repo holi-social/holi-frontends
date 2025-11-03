@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
 
-import { useFocusEffect } from '@react-navigation/native'
-
-import { RefreshHandler, useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
+import { type RefreshHandler, useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
+import { useFocusEffect } from 'expo-router'
 
 export const useOnRefresh = (callback?: RefreshHandler) => {
   const { registerRefreshHandler } = useRefreshContext()
