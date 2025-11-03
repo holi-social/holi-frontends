@@ -35,6 +35,10 @@ interface VolunteeringPaginationState {
   error?: ErrorLike
 }
 
+type CommittedVolunteeringOpportunity = NonNullable<
+  CommittedVolunteeringOpportunitiesQuery['committedVolunteeringOpportunities']
+>['data'][0]
+
 export const useCommittedVolunteering = (
   limit = 10
 ): VolunteeringPaginationState & {
@@ -58,10 +62,6 @@ export const useCommittedVolunteering = (
       })
     }
   }, [opportunitiesQuery.error, displayError])
-
-  type CommittedVolunteeringOpportunity = NonNullable<
-    CommittedVolunteeringOpportunitiesQuery['committedVolunteeringOpportunities']
-  >['data'][0]
 
   const {
     items: opportunitiesData,
