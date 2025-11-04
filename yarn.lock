@@ -25199,12 +25199,12 @@ __metadata:
   linkType: hard
 
 "next-http-proxy-middleware@npm:^1.2.6":
-  version: 1.2.6
-  resolution: "next-http-proxy-middleware@npm:1.2.6"
+  version: 1.2.7
+  resolution: "next-http-proxy-middleware@npm:1.2.7"
   dependencies:
     "@types/http-proxy": "npm:1.17.3"
     http-proxy: "npm:^1.18.1"
-  checksum: 10c0/e114c0cf3955e3f04a0973dac57bd1153970a987be952a8c850483da082b81763d9dd71a27941478ab0e600c3299d451d97241ccd5afc626fedd5f79975dc232
+  checksum: 10c0/e1f2dcf1beec456e3ebfea8c5b38f2babd447cc70874a6047aed038451da4ca2388d14377a927e5b6c469f07967fe165960d41129adad7ea2299a9877aab848d
   languageName: node
   linkType: hard
 
