@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, fireEvent, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
+import { renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -18,6 +18,7 @@ import {
 } from '@holi/api/graphql/graphql-codegen'
 import { CombinedGraphQLErrors } from '@apollo/client'
 import { GraphQLError } from 'graphql'
+import { userEvent } from '@testing-library/react-native'
 
 const spaceForAdmin = {
   ...space,
@@ -98,17 +99,6 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
 jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('EditSpaceCollaborators', () => {
-  beforeEach(() => {
-    jest.useFakeTimers()
-  })
-
-  afterEach(async () => {
-    await act(async () => {
-      jest.runOnlyPendingTimers()
-    })
-    jest.useRealTimers()
-  })
-
   const spaceWithMembershipRequestsAndInvites = {
     ...spaceForAdmin,
     membershipRequests: pagedMembershipRequests,
@@ -125,15 +115,13 @@ describe('EditSpaceCollaborators', () => {
       ),
     })
 
-    await act(async () => {
-      await waitFor(() => screen.findAllByTestId('spaces-collaborators-item'))
-    })
+    await screen.findAllByTestId('spaces-collaborators-item')
 
-    // Instead of using toMatchSnapshot(), let's verify specific elements
     expect(screen.getAllByTestId('spaces-collaborators-item').length).toBeGreaterThan(0)
   })
 
   it('renders correctly with pending requests', async () => {
+    const user = userEvent.setup()
     mockParameters({ spaceIdOrName: space.name })
     renderRouter({
       index: () => (
@@ -143,13 +131,11 @@ describe('EditSpaceCollaborators', () => {
       ),
     })
 
-    await act(async () => {
-      await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
-    })
+    await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
 
-    fireEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
+    await user.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
 
-    await waitFor(() => screen.findAllByTestId('space-pending-request-item'))
+    await screen.findAllByTestId('space-pending-request-item')
 
     // Instead of using toMatchSnapshot(), let's verify specific elements
     expect(screen.getAllByTestId('space-pending-request-item').length).toBeGreaterThan(0)
@@ -168,13 +154,8 @@ describe('EditSpaceCollaborators', () => {
       ),
     })
 
-    await act(async () => {
-      await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
-    })
-
-    await act(async () => {
-      await waitFor(() => screen.getByTestId('collaborator-tabs-button-requests-active'))
-    })
+    await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
+    await waitFor(() => screen.getByTestId('collaborator-tabs-button-requests-active'))
   })
 
   it('opens the modal for a user request if the corresponding parameter is passed', async () => {
