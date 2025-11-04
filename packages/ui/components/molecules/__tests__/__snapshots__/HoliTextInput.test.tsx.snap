@@ -815,7 +815,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
                 },
               ]
             }
-            tintColor="#ebebeb"
             vbHeight={24}
             vbWidth={24}
             width={22}

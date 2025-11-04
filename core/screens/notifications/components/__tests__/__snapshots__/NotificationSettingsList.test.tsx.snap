@@ -680,7 +680,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
@@ -1908,7 +1907,6 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                               },
                             ]
                           }
-                          tintColor="#ffffff"
                           vbHeight={24}
                           vbWidth={24}
                           width={20}
