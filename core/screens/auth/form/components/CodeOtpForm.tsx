@@ -25,7 +25,6 @@ export const CodeOtpForm = ({
   code,
   setCode,
   codeValidationError,
-  submitLabel,
   onSubmit,
   submitDisabled,
   onResend,
@@ -45,7 +44,14 @@ export const CodeOtpForm = ({
         type="text"
         onSubmit={onSubmit}
       />
-      <Button margin={{ top: '3xs' }} label={submitLabel} onPress={onSubmit} size="lg" disabled={submitDisabled} />
+      {/* TODO(SF) create custom key */}
+      <Button
+        margin={{ top: '3xs' }}
+        label={t('tasks.register.unlogged.verify.email')}
+        onPress={onSubmit}
+        size="lg"
+        disabled={submitDisabled}
+      />
       <Stack gap="3xs" direction="row" alignItems="center" justifyContent="center">
         <Text>{t('registration.emailVerification.resendInstruction')}</Text>
         <Button

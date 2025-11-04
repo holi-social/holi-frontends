@@ -28,26 +28,39 @@ export const useOtpLoginForm = ({
   const [email, setEmail] = useState<string | undefined>(emailNode.value)
   const [code, setCode] = useState<string | undefined>(codeNode.value)
 
-  const onSubmit = useCallback(
-    async (resend = false) => {
-      if (!flow) return
-      const payload: UpdateLoginFlowWithCodeMethod = {
-        method: 'code',
-        identifier: email ?? '',
-        csrf_token: csrfTokenNode.value ?? '',
-        code,
-        ...(resend ? { resend: 'code' } : {}),
-      }
-      track(
-        TrackingEvent.Auth.OneTimeCodePressed({
-          step: resend ? 'resend' : code ? 'code' : 'email',
-          screen: 'mainLogin',
-        })
-      )
-      await performLogin(payload as UpdateLoginFlowBody)
-    },
-    [email, code, csrfTokenNode.value, performLogin, flow, track]
-  )
+  const onSubmit = useCallback(async () => {
+    if (!flow) return
+    const payload: UpdateLoginFlowWithCodeMethod = {
+      method: 'code',
+      identifier: email ?? '',
+      csrf_token: csrfTokenNode.value ?? '',
+      code,
+    }
+    track(
+      TrackingEvent.Auth.OneTimeCodePressed({
+        step: flow?.state === 'sent_email' ? 'code' : 'email',
+        screen: 'mainLogin',
+      })
+    )
+    await performLogin(payload as UpdateLoginFlowBody)
+  }, [email, code, csrfTokenNode.value, performLogin, flow, track])
+
+  const onResend = useCallback(async () => {
+    if (!flow) return
+    const payload: UpdateLoginFlowWithCodeMethod = {
+      method: 'code',
+      identifier: email ?? '',
+      csrf_token: csrfTokenNode.value ?? '',
+      resend: 'code',
+    }
+    track(
+      TrackingEvent.Auth.OneTimeCodePressed({
+        step: 'resend',
+        screen: 'mainLogin',
+      })
+    )
+    await performLogin(payload as UpdateLoginFlowBody)
+  }, [email, csrfTokenNode.value, performLogin, flow, track])
 
   return {
     email,
@@ -61,6 +74,6 @@ export const useOtpLoginForm = ({
     onSubmit,
     submitLabel: t('auth.login.cta.OTPlogin'),
     submitDisabled: !flow,
-    onResend: () => onSubmit(true),
+    onResend,
   }
 }

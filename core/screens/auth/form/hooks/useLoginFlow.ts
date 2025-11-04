@@ -31,7 +31,7 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
   const { handleFlowSubmitError } = useFlowErrorHandling<LoginFlow>()
 
   const initializeFlow = useCallback(
-    (flowId?: string) => {
+    ({ flowId }: { flowId?: string } = {}) => {
       const flowPromise = flowId
         ? getLoginFlow(flowId)
             .then((flow) => {
@@ -66,7 +66,7 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
 
   useEffect(() => {
     if (!flow) {
-      initializeFlow(startedFlowId)
+      initializeFlow({ flowId: startedFlowId })
     }
   }, [initializeFlow, flow, startedFlowId])
 

@@ -7,11 +7,8 @@ export const determineAuthenticationStepFromFlow = (
 ): AuthenticationStep => {
   if (flow?.active === LoginFlowActiveEnum.Code && flow?.state === LoginFlowState.SentEmail) {
     return 'code'
-  } else if (flow?.active === LoginFlowActiveEnum.Password) {
+  } else if (flow?.active === LoginFlowActiveEnum.Password || (!flow?.active && currentStep === 'email-password')) {
     return 'email-password'
-  }
-  if (!flow?.active) {
-    return currentStep
   }
   return 'start'
 }
