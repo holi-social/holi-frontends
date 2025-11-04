@@ -73,7 +73,6 @@ export function useTypesenseEnrichedData<
         ],
       },
     },
-    skip: typesenseIds.length === 0,
   })
 
   const typesenseDocuments = useMemo(() => {
