@@ -4,6 +4,7 @@ import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { act, renderRouter, screen, userEvent } from 'expo-router/testing-library'
 import React from 'react'
+import { Text } from 'react-native'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -89,7 +90,10 @@ describe('AuthError', () => {
   it('should display button to go back to login', async () => {
     const user = userEvent.setup()
 
-    const context = renderRouter({ index: () => <AuthError /> })
+    const context = renderRouter({
+      index: () => <AuthError />,
+      login: () => <Text>Login Page</Text>,
+    })
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
