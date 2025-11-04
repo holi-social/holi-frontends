@@ -2,10 +2,8 @@ import type { ErrorLike } from '@apollo/client'
 import {
   useCommittedVolunteeringOpportunitiesQuery,
   type VolunteeringOpportunityStatusValue,
-  type CommittedVolunteeringOpportunitiesQuery,
 } from '@holi/api/graphql/graphql-codegen'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { isSSR } from '@holi/core/helpers/isSSR'
 import { useTypesenseEnrichedData } from '@holi/core/typesense/hooks/useTypesenseEnrichedData'
 import { useEffect } from 'react'
 
@@ -35,10 +33,6 @@ interface VolunteeringPaginationState {
   error?: ErrorLike
 }
 
-type CommittedVolunteeringOpportunity = NonNullable<
-  CommittedVolunteeringOpportunitiesQuery['committedVolunteeringOpportunities']
->['data'][0]
-
 export const useCommittedVolunteering = (
   limit = 10
 ): VolunteeringPaginationState & {
@@ -48,7 +42,7 @@ export const useCommittedVolunteering = (
   const { displayError } = useErrorHandling()
 
   const opportunitiesQuery = useCommittedVolunteeringOpportunitiesQuery({
-    fetchPolicy: isSSR ? 'cache-first' : 'network-only',
+    fetchPolicy: 'network-only',
     variables: {
       offset: 0,
       limit,
@@ -71,11 +65,7 @@ export const useCommittedVolunteering = (
     hasMore,
     fetchMore: fetchMoreUtil,
     refetch: refetchUtil,
-  } = useTypesenseEnrichedData<
-    typeof opportunitiesQuery,
-    CommittedVolunteeringOpportunity,
-    NormalizedCommittedVolunteeringItem
-  >({
+  } = useTypesenseEnrichedData({
     graphqlQuery: opportunitiesQuery,
     dataExtractor: (data) => data?.committedVolunteeringOpportunities || { data: [], totalResults: 0 },
     typesenseIdExtractor: (item) => toVolunteeringTypesenseId(item.externalVolunteeringOpportunityId),
