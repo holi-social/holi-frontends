@@ -7138,13 +7138,13 @@ __metadata:
   linkType: hard
 
 "@lottiefiles/react-lottie-player@npm:^3.5.4":
-  version: 3.5.4
-  resolution: "@lottiefiles/react-lottie-player@npm:3.5.4"
+  version: 3.6.0
+  resolution: "@lottiefiles/react-lottie-player@npm:3.6.0"
   dependencies:
     lottie-web: "npm:^5.12.2"
   peerDependencies:
-    react: 16 - 18
-  checksum: 10c0/fbd154c1291648d1c652e37cbd95e71991a48c6c6da2f1de7cc632fd6c4b4e5ab35336ee788cf65f01c036dae89f7cfbe89638c6ee6048590b0c9a671289e480
+    react: 16 - 19
+  checksum: 10c0/a27e36b257bd44e208a027b5c91abee8a24682cd3cf168e32ec164006c01021a21df83dfc6e3350263b360d5b71b3e884ff8aca7886c5828bda69910360b85b4
   languageName: node
   linkType: hard
 
