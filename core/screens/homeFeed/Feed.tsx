@@ -3,8 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, RefreshControl, AppState, type ScrollView } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { useNavigation, useScrollToTop } from '@react-navigation/native'
-
+import { useNavigation } from 'expo-router'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -191,8 +190,6 @@ const HomeFeed = () => {
       Math.random().toString()
     )
   }
-
-  useScrollToTop(ref)
 
   useNotificationsInit()
 

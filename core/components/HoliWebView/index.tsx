@@ -5,7 +5,7 @@ import { BackHandler, Linking, type NativeEventSubscription, Platform, StyleShee
 import { WebView, type WebViewNavigation } from 'react-native-webview'
 import type { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from 'expo-router'
 
 import type { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
