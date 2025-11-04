@@ -164,7 +164,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={22}
@@ -395,7 +394,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                   },
                 ]
               }
-              tintColor="#cc1820"
               vbHeight={24}
               vbWidth={24}
               width={16}
