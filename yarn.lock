@@ -27975,14 +27975,14 @@ __metadata:
   linkType: hard
 
 "react-native-reanimated-carousel@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "react-native-reanimated-carousel@npm:4.0.2"
+  version: 4.0.3
+  resolution: "react-native-reanimated-carousel@npm:4.0.3"
   peerDependencies:
     react: ">=18.0.0"
     react-native: ">=0.70.3"
     react-native-gesture-handler: ">=2.9.0"
     react-native-reanimated: ">=3.0.0"
-  checksum: 10c0/9768de933565266202282db4c383932a60f8ca7eaf83b94aa70f8f82837932ba28f521ef1c0e8c95e77c97dd9019111da1aab9dabde39164f5c2e9d0cd34a415
+  checksum: 10c0/b7d192fa5d5ad8b779cd51c67fe8a477eb338dbe29478eadb74deffd107b42e24fc7e581b6a055fae54cb8491801fb67f32be34b73e6bf346b6b9ab8ee51ad08
   languageName: node
   linkType: hard
 
