@@ -27907,10 +27907,10 @@ __metadata:
   linkType: hard
 
 "react-native-localize@npm:^3.5.2":
-  version: 3.5.2
-  resolution: "react-native-localize@npm:3.5.2"
+  version: 3.6.0
+  resolution: "react-native-localize@npm:3.6.0"
   peerDependencies:
-    "@expo/config-plugins": ^9.0.0 || ^10.0.0
+    "@expo/config-plugins": "*"
     react: "*"
     react-native: "*"
     react-native-macos: "*"
@@ -27919,7 +27919,7 @@ __metadata:
       optional: true
     react-native-macos:
       optional: true
-  checksum: 10c0/dc87a13cc0681eb5a524190edcbe589fdadec02cd94db7c86dbf6c03d18ece0333adee439b1419b1c01e9a73a2b0ee2fd37b7f881c0008b7770ccd9919ff32b6
+  checksum: 10c0/3ab63261152f56a9ef9d7413f206b50615483d2fa2f0f07b4fda34b3f95bd66d54c1ec35c8eb445326252855db0299ff6fdb7167422711bb0337994d9605a94d
   languageName: node
   linkType: hard
 
