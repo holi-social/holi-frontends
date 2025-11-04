@@ -458,7 +458,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                                 },
                               ]
                             }
-                            tintColor="#787777"
                             vbHeight={24}
                             vbWidth={24}
                             width={12}
@@ -582,7 +581,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                                 },
                               ]
                             }
-                            tintColor="#787777"
                             vbHeight={24}
                             vbWidth={24}
                             width={12}
@@ -1171,7 +1169,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                                 },
                               ]
                             }
-                            tintColor="#787777"
                             vbHeight={24}
                             vbWidth={24}
                             width={12}
@@ -1295,7 +1292,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                                 },
                               ]
                             }
-                            tintColor="#787777"
                             vbHeight={24}
                             vbWidth={24}
                             width={12}

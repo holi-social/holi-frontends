@@ -119,7 +119,6 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={24}
