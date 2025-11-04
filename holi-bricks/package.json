@@ -59,7 +59,7 @@
     "@types/react": "~18.3.12",
     "babel-loader": "^8.2.3",
     "babel-plugin-react-docgen-typescript": "^1.5.1",
-    "babel-plugin-react-native-web": "^0.19.12",
+    "babel-plugin-react-native-web": "^0.21.0",
     "chromatic": "^11.16.1",
     "eslint": "^8.33.0",
     "storybook": "^8.5.8",
