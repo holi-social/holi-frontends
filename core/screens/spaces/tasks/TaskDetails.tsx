@@ -59,7 +59,6 @@ const TaskDetails = () => {
     holiSpaceId: spaceId || '',
   }
   const { startChat, isLoading } = useStartChat(chatRoomContent, adminUsers || [])
-  const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
 
   // Task status management
   const [updateVolunteeringOpportunityStatus] = useUpdateVolunteeringOpportunityStatusMutation()
@@ -133,7 +132,7 @@ const TaskDetails = () => {
             startChat={startChat}
             status={taskStatus?.status}
           />
-        ) : displayCta ? (
+        ) : (
           <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }}>
             <TaskDetailsCTALegacy
               spaceIdOrName={spaceName}
@@ -147,7 +146,7 @@ const TaskDetails = () => {
               taskRegularity={taskRegularity}
             />
           </Stack>
-        ) : null
+        )
       }
     >
       <DetailsScreen
