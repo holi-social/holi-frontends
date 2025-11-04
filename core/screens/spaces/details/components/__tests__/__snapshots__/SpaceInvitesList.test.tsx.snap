@@ -332,7 +332,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -636,7 +635,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}
@@ -940,7 +938,6 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   },
                 ]
               }
-              tintColor="#262424"
               vbHeight={24}
               vbWidth={24}
               width={20}

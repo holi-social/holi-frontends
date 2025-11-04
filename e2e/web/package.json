@@ -21,7 +21,7 @@
   "devDependencies": {
     "@apollo/client": "^4.0.7",
     "@playwright/test": "1.56.1",
-    "axe-playwright": "2.0.3",
+    "axe-playwright": "2.2.2",
     "dotenv": "^16.3.1",
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",

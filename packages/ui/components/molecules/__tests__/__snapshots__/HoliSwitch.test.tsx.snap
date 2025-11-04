@@ -91,7 +91,6 @@ exports[`HoliSwitch renders correctly with styling props 1`] = `
               },
             ]
           }
-          tintColor="#6267e7"
           vbHeight={24}
           vbWidth={24}
           width={32}
@@ -217,7 +216,6 @@ exports[`HoliSwitch renders default styling correctly without any props 1`] = `
               },
             ]
           }
-          tintColor="#6267e7"
           vbHeight={24}
           vbWidth={24}
           width={24}
