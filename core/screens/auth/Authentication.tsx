@@ -52,7 +52,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
   useEffect(() => {
     if (isLoggedIn) {
       const redirect = getRedirectAfterSocialLogin()
-      navigate(redirect || '/')
+      setTimeout(() => navigate(redirect || '/'), 0)
     }
   }, [isLoggedIn, navigate, redirect])
 

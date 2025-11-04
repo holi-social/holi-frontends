@@ -1,91 +1,31 @@
 import React from 'react'
-import { Pressable } from 'react-native'
-import { useLoginState } from '@holi/core/auth/loginState'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
-import { act, render, screen, userEvent, waitFor } from '@testing-library/react-native'
-import { renderRouter } from 'expo-router/testing-library'
-import { Button } from 'holi-bricks/components/button'
-import { Text } from 'react-native'
-import { TrackingEvent } from '@holi/core/tracking'
-import { Link } from 'expo-router'
-import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import type { ApolloClient } from '@apollo/client'
-import { useApolloClient } from '@apollo/client/react'
-import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import type { SuccessfulNativeLogin } from '@ory/kratos-client'
-import type { AxiosResponse } from 'axios'
-import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
+import { render, screen } from '@testing-library/react-native'
 import { LoginForm } from '@holi/core/screens/auth/components/LoginForm'
-import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
+import { useOtpLoginForm } from '@holi/core/screens/auth/form/hooks/useOtpLoginForm'
+import { usePasswordLoginForm } from '@holi/core/screens/auth/form/hooks/usePasswordLoginForm'
+import { useSocialLoginForm } from '@holi/core/screens/auth/form/hooks/useSocialLoginForm'
+import { useLoginFlow } from '@holi/core/screens/auth/form/hooks/useLoginFlow'
 
-const mockUseLoginState = jest.mocked(useLoginState)
-jest.mock('@holi/core/auth/loginState', () => ({
-  useLoginState: jest.fn(),
+const mockUseOtpLoginForm = jest.mocked(useOtpLoginForm)
+jest.mock('@holi/core/screens/auth/form/hooks/useOtpLoginForm', () => ({
+  useOtpLoginForm: jest.fn(),
 }))
-
-const mockUseErrorHandling = jest.mocked(useErrorHandling)
-jest.mock('@holi/core/errors/hooks', () => ({
-  useErrorHandling: jest.fn(),
+const mockUsePasswordLoginForm = jest.mocked(usePasswordLoginForm)
+jest.mock('@holi/core/screens/auth/form/hooks/usePasswordLoginForm', () => ({
+  usePasswordLoginForm: jest.fn(),
 }))
-
-const mockUseRedirect = jest.mocked(useRedirect)
-jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
-  useRedirect: jest.fn(),
-  usePathToRedirect: jest.fn(),
+const mockUseSocialLoginForm = jest.mocked(useSocialLoginForm)
+jest.mock('@holi/core/screens/auth/form/hooks/useSocialLoginForm', () => ({
+  useSocialLoginForm: jest.fn(),
 }))
-
-const mockUseApolloClient = jest.mocked(useApolloClient)
-jest.mock('@apollo/client/react', () => {
-  const actual = jest.requireActual('@apollo/client/react')
-  return {
-    ...actual,
-    useApolloClient: jest.fn(),
-  }
-})
-
-const mockStoreOnboardingState = jest.mocked(storeOnboardingState)
-jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
-  storeOnboardingState: jest.fn(),
+const mockUseLoginFlow = jest.mocked(useLoginFlow)
+jest.mock('@holi/core/screens/auth/form/hooks/useLoginFlow', () => ({
+  useLoginFlow: jest.fn(),
 }))
-
-const mockSetVerificationFlowData = jest.mocked(setVerificationFlowData)
-jest.mock('@holi/core/auth/helpers/useVerificationFlowData', () => ({
-  setVerificationFlowData: jest.fn(),
-}))
-
-const mockDoBrowserLogin = jest.mocked(doBrowserLogin)
-const mockDoLogin = jest.mocked(doLogin)
-const mockHasIdentifier = jest.mocked(hasIdentifier)
-const mockInitLoginFlow = jest.mocked(initLoginFlow)
-const mockSubmitLoginFlow = jest.mocked(submitLoginFlow)
-jest.mock('@holi/core/auth/helpers/auth', () => ({
-  doBrowserLogin: jest.fn(),
-  doLogin: jest.fn(),
-  hasIdentifier: jest.fn(),
-  initLoginFlow: jest.fn(),
-  submitLoginFlow: jest.fn(),
-}))
-
-const formValues = { method: 'password', identifier: 'test@example.com', password: 'p455w0rd' }
-const OryLoginForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
-  return (
-    <>
-      <Button onPress={() => onSubmit(formValues, 'Google')} label={'social-submit-button'} />
-      <Button onPress={() => onSubmit(formValues)} label={'submit-button'} />
-    </>
-  )
-}
-jest.mock('@holi/core/auth/components/FormBuilder', () => OryLoginForm)
 
 jest.useFakeTimers()
 
 describe('LoginForm', () => {
-  const mockClient: ApolloClient = {} as ApolloClient
-  const displayError = jest.fn()
-  const redirect = jest.fn()
   const mockFlow = {
     id: '123',
     expires_at: '',
@@ -99,268 +39,131 @@ describe('LoginForm', () => {
       nodes: [],
     },
   }
-  const mockSession: OrySessionContext = {
-    session_token: 'some_token',
-    session: { id: '123' },
-  }
 
   beforeEach(() => {
-    mockUseLoginState.mockReturnValue({
-      isLoggedIn: false,
-      isLoggedOut: true,
-      isUnknown: false,
+    mockUseOtpLoginForm.mockReturnValue({
+      email: 'test@foo.bar',
+      setEmail: jest.fn(),
+      onChangeEmail: jest.fn(),
+      setCode: jest.fn(),
+      submitLabel: 'Send code',
+      onSubmit: jest.fn(),
+      submitDisabled: false,
+      onResend: jest.fn(),
     })
-    mockUseErrorHandling.mockReturnValue({ displayError })
-    mockInitLoginFlow.mockResolvedValue(mockFlow)
-    mockSubmitLoginFlow.mockResolvedValue({
-      data: mockSession,
-    } as AxiosResponse<SuccessfulNativeLogin>)
-    mockHasIdentifier.mockReturnValue(false)
-    mockDoBrowserLogin.mockResolvedValue(mockSession)
-    mockUseRedirect.mockReturnValue(redirect)
-    mockUseApolloClient.mockReturnValue(mockClient)
-  })
-
-  const submitForm = async () => {
-    const user = userEvent.setup()
-
-    renderRouter(
-      {
-        '/login': () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-        '/': () => <Text>home</Text>,
-        '/onboarding': () => <Text>onboarding</Text>,
-        '/forgotPassword': () => <Text>forgotPassword</Text>,
-      },
-      { initialUrl: '/login' }
-    )
-
-    await act(() => jest.runOnlyPendingTimersAsync())
-
-    await user.press(screen.getByLabelText('submit-button'))
-  }
-
-  describe('already logged in', () => {
-    beforeEach(() => {
-      mockUseLoginState.mockReturnValue({
-        isLoggedIn: true,
-        isLoggedOut: false,
-        isUnknown: false,
-        userId: '123',
-      })
+    mockUsePasswordLoginForm.mockReturnValue({
+      setEmail: jest.fn(),
+      setPassword: jest.fn(),
+      submitLabel: 'Log in',
+      onSubmit: jest.fn(),
+      submitDisabled: false,
     })
-
-    it('should not initialize login flow', () => {
-      renderRouter({
-        '/login': () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-      })
-
-      expect(mockInitLoginFlow).not.toHaveBeenCalled()
+    mockUseSocialLoginForm.mockReturnValue({
+      onSubmit: jest.fn(),
     })
-
-    it('should navigate to home', async () => {
-      const user = userEvent.setup()
-
-      const context = renderRouter(
-        {
-          '/login': () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-          '/': () => <Text>home</Text>,
-          '/onboarding': () => (
-            <Link href="/login" asChild>
-              <Pressable>
-                <Text>Go to login</Text>
-              </Pressable>
-            </Link>
-          ),
-          '/forgotPassword': () => <Text>forgotPassword</Text>,
-        },
-        { initialUrl: '/onboarding' }
-      )
-
-      await user.press(screen.getByText('Go to login'))
-
-      await waitFor(() => {
-        expect(context).toHavePathname('/')
-      })
+    mockUseLoginFlow.mockReturnValue({
+      flow: mockFlow,
+      performLogin: jest.fn(),
+      resetFlow: jest.fn(),
     })
   })
 
-  describe('flow initialization', () => {
-    it('should initialize login flow', async () => {
-      renderRouter({
-        index: () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-      })
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      expect(mockInitLoginFlow).toHaveBeenCalled()
+  it('should pass the correct props', () => {
+    const startedFlowId = '123'
+    const resetFlowId = jest.fn()
+    const performLogin = jest.fn()
+    const resetFlow = jest.fn()
+    mockUseLoginFlow.mockReturnValue({
+      flow: mockFlow,
+      performLogin,
+      resetFlow,
     })
 
-    it('should display error if initializing login flow fails', async () => {
-      mockInitLoginFlow.mockRejectedValue('Test')
+    render(<LoginForm startedFlowId={startedFlowId} resetFlowId={resetFlowId} step="start" setStep={jest.fn()} />)
 
-      renderRouter({
-        index: () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-      })
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      expect(displayError).toHaveBeenCalledWith('Test', 'Failed to initialize login flow', {
-        displayMessage: 'auth.login.error.initialization',
-        location: 'Login.initializeFlow',
-      })
+    expect(mockUseLoginFlow).toHaveBeenCalledWith({
+      startedFlowId,
+      onFlowUpdate: expect.any(Function),
+      resetFlowId,
     })
-
-    it('should render form after initializing flow', async () => {
-      renderRouter({
-        index: () => <LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-      })
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      expect(screen.getByLabelText('social-submit-button'))
-      expect(screen.getByLabelText('submit-button'))
+    expect(mockUseSocialLoginForm).toHaveBeenCalledWith({
+      flow: mockFlow,
+      performLogin,
     })
-
-    it('should initialize login flow with id if given', async () => {
-      renderRouter({
-        index: () => <LoginForm startedFlowId="123" step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />,
-      })
-
-      expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      expect(mockInitLoginFlow).toHaveBeenCalledWith('123')
+    expect(mockUseOtpLoginForm).toHaveBeenCalledWith({
+      flow: mockFlow,
+      performLogin,
+      resetFlow,
+    })
+    expect(mockUsePasswordLoginForm).toHaveBeenCalledWith({
+      flow: mockFlow,
+      performLogin,
     })
   })
 
-  describe('login', () => {
-    it('should submit the form', async () => {
-      await submitForm()
+  it('should render correct form for start step', () => {
+    render(<LoginForm resetFlowId={jest.fn()} step="start" setStep={jest.fn()} />)
 
-      expect(mockSubmitLoginFlow).toHaveBeenCalledWith(mockFlow, formValues, undefined, undefined)
+    // Expect two social login buttons
+    expect(screen.getAllByText('auth.login.input.label-ProviderSignIn')).toHaveLength(2)
+
+    expect(screen.getByText('auth.divider.email')).toBeOnTheScreen()
+
+    // Expect EmailOtpForm with custom button label
+    expect(screen.getByLabelText('auth.login.input.label-Email')).toBeOnTheScreen()
+    expect(screen.getByLabelText('Send code')).toBeOnTheScreen()
+
+    // Expect button to use password instead
+    expect(screen.getByLabelText('auth.CTA.emailPassword')).toBeOnTheScreen()
+  })
+
+  it('should render correct form for code step', () => {
+    render(<LoginForm resetFlowId={jest.fn()} step="code" setStep={jest.fn()} />)
+
+    // Expect CodeOtpForm
+    expect(screen.getByText('test@foo.bar')).toBeOnTheScreen()
+    expect(screen.getByLabelText('global.edit')).toBeOnTheScreen()
+    expect(screen.getByLabelText('registration.emailVerification.inputPlaceholder')).toBeOnTheScreen()
+    expect(screen.getByLabelText('tasks.register.unlogged.verify.email')).toBeOnTheScreen()
+    expect(screen.getByText('registration.emailVerification.resendInstruction')).toBeOnTheScreen()
+    expect(screen.getByLabelText('registration.emailVerification.resendEmail')).toBeOnTheScreen()
+  })
+
+  it('should render correct form for email-password step', () => {
+    render(<LoginForm resetFlowId={jest.fn()} step="email-password" setStep={jest.fn()} />)
+
+    // Expect two social login buttons
+    expect(screen.getAllByText('auth.login.input.label-ProviderSignIn')).toHaveLength(2)
+
+    expect(screen.getByText('auth.divider.email')).toBeOnTheScreen()
+
+    // Expect EmailPasswordForm with custom submit label
+    expect(screen.getByLabelText('auth.login.input.label-Email')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.input.label-Password')).toBeOnTheScreen()
+    expect(screen.getByLabelText('Log in')).toBeOnTheScreen()
+    expect(screen.getByText('auth.login.forgotPassword')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.link.forgotPassword')).toBeOnTheScreen()
+  })
+
+  it('should update step if necessary', () => {
+    const setStep = jest.fn()
+    render(<LoginForm resetFlowId={jest.fn()} step="start" setStep={setStep} />)
+
+    mockUseLoginFlow.mock.calls[0][0].onFlowUpdate({
+      ...mockFlow,
+      active: 'code',
+      state: 'sent_email',
     })
 
-    it('should track login', async () => {
-      await submitForm()
+    expect(setStep).toHaveBeenCalledWith('code')
+  })
 
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.LoginButtonPressed)
-    })
+  it('should not update step if not necessary', () => {
+    const setStep = jest.fn()
+    render(<LoginForm resetFlowId={jest.fn()} step="start" setStep={setStep} />)
 
-    it('should track social login', async () => {
-      const user = userEvent.setup()
+    mockUseLoginFlow.mock.calls[0][0].onFlowUpdate(mockFlow)
 
-      render(<LoginForm step="start" setStep={jest.fn()} resetFlowId={jest.fn()} />)
-
-      await act(() => jest.runOnlyPendingTimersAsync())
-
-      await user.press(screen.getByLabelText('social-submit-button'))
-
-      expect(mockTrack).toHaveBeenCalledWith(
-        TrackingEvent.Auth.SocialLoginButtonPressed({ provider: 'Google', screen: 'mainLogin' })
-      )
-    })
-
-    it('should perform login', async () => {
-      await submitForm()
-
-      expect(mockDoLogin).toHaveBeenCalledWith(mockClient, mockSession)
-    })
-
-    it('should display error when login fails', async () => {
-      mockSubmitLoginFlow.mockRejectedValue('Test')
-
-      await submitForm()
-
-      expect(displayError).toHaveBeenCalledWith('Test', 'Failed to login user', {
-        displayMessage: 'auth.login.error.login',
-        location: 'Login.performLogin',
-      })
-    })
-
-    it('should handle e-mail verification', async () => {
-      mockHasIdentifier.mockReturnValue(true)
-      mockSubmitLoginFlow.mockRejectedValue({
-        isAxiosError: true,
-        response: {
-          status: 400,
-          data: {
-            ui: { messages: [{ id: OryErrorCode.ACCOUNT_NOT_VERIFIED }] },
-            type: '',
-          },
-        },
-      })
-
-      await submitForm()
-
-      expect(mockSetVerificationFlowData).toHaveBeenCalledWith(formValues)
-      expect(mockStoreOnboardingState).toHaveBeenCalledWith('emailVerification')
-    })
-
-    it('should follow a redirect, when Ory sends a request', async () => {
-      mockSubmitLoginFlow.mockRejectedValue({
-        isAxiosError: true,
-        response: {
-          status: 422,
-          data: {
-            error: { id: 'browser_location_change_required' },
-            redirect_browser_to: '/redirect',
-          },
-        },
-      })
-
-      await submitForm()
-
-      expect(mockDoBrowserLogin).toHaveBeenCalledWith('/redirect', mockFlow)
-    })
-
-    it('should display error when a browser login fails', async () => {
-      mockSubmitLoginFlow.mockRejectedValue({
-        isAxiosError: true,
-        response: {
-          status: 422,
-          data: {
-            error: { id: 'browser_location_change_required' },
-            redirect_browser_to: '/redirect',
-          },
-        },
-      })
-      mockDoBrowserLogin.mockRejectedValue('Test')
-
-      await submitForm()
-
-      expect(displayError).toHaveBeenCalledWith('Test', 'Failed to login user', {
-        displayMessage: 'auth.login.error.login',
-        location: 'Login.doBrowserLogin',
-      })
-    })
-
-    it('should not display an error when social login is cancelled', async () => {
-      mockSubmitLoginFlow.mockRejectedValue(new HoliLoginCancelledError('Test'))
-
-      await submitForm()
-
-      expect(displayError).not.toHaveBeenCalled()
-    })
-
-    it('should perform login on successful browser login', async () => {
-      mockSubmitLoginFlow.mockRejectedValue({
-        isAxiosError: true,
-        response: {
-          status: 422,
-          data: {
-            error: { id: 'browser_location_change_required' },
-            redirect_browser_to: '/redirect',
-          },
-        },
-      })
-
-      await submitForm()
-
-      expect(mockDoLogin).toHaveBeenCalledWith(mockClient, mockSession)
-      expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
-      expect(mockUseRedirect).toHaveBeenCalledWith('/')
-      expect(redirect).toHaveBeenCalledWith(true)
-    })
+    expect(setStep).not.toHaveBeenCalled()
   })
 })
