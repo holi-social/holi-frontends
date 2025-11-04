@@ -1,6 +1,6 @@
 import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
-import { fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library'
+import { act, fireEvent, renderRouter, screen, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -13,6 +13,8 @@ import {
   UpdateSpaceUserConnectionDocument,
   InviteToSpaceByEmailDocument,
 } from '@holi/api/graphql/graphql-codegen'
+import { router } from 'expo-router'
+import { Text } from 'react-native'
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
@@ -83,16 +85,27 @@ export const inviteMutationSuccessMock = {
   },
 }
 
-const renderComponent = (mocks: MockLink.MockedResponse[] = [userSearchSuccessMock]) =>
-  renderRouter({
-    index: () => (
-      <ToastProvider>
-        <MockedProvider mocks={mocks} defaultOptions={{ mutate: { errorPolicy: 'all' } }}>
-          <SpaceInviteView spaceId={spaceId} idOrName={''} />
-        </MockedProvider>
-      </ToastProvider>
-    ),
+const renderComponent = (mocks: MockLink.MockedResponse[] = [userSearchSuccessMock]) => {
+  const context = renderRouter(
+    {
+      index: () => <Text>Home</Text>,
+      spaceInvite: () => (
+        <ToastProvider>
+          <MockedProvider mocks={mocks} defaultOptions={{ mutate: { errorPolicy: 'all' } }}>
+            <SpaceInviteView spaceId={spaceId} idOrName={''} />
+          </MockedProvider>
+        </ToastProvider>
+      ),
+    },
+    { initialUrl: '/' }
+  )
+
+  act(() => {
+    router.push('/spaceInvite')
   })
+
+  return context
+}
 
 const enterSearchTerm = (input: string) => fireEvent(screen.getByTestId('space-invite-user-input'), 'onChange', input)
 
@@ -102,7 +115,7 @@ describe('SpaceInviteView', () => {
 
     enterSearchTerm('foobar')
 
-    await waitFor(() => screen.findByText('Test User'))
+    await screen.findByText('Test User')
   })
 
   it('disables button to invite by email if input is not a valid email', async () => {
@@ -123,9 +136,10 @@ describe('SpaceInviteView', () => {
 
     enterSearchTerm('foo@bar.com')
     fireEvent.press(screen.getByTestId('space-invite-form-save-btn'))
-    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
+    await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
     expect(global.mockOpenToast).toHaveBeenCalledWith('spaces.invite.success', HoliToastType.SUCCESS)
+
     // Expect input to be cleared
     expect(screen.getByLabelText('spaces.invite.search.input')).toHaveDisplayValue('')
   })
@@ -135,6 +149,7 @@ describe('SpaceInviteView', () => {
 
     enterSearchTerm('foo@bar.com')
     fireEvent.press(screen.getByTestId('space-invite-form-save-btn'))
+
     await waitFor(() => expect(global.mockOpenToast).toHaveBeenCalled())
 
     expect(global.mockOpenToast).toHaveBeenCalledWith('global.technicalError', HoliToastType.ERROR, {})
