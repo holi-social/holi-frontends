@@ -40,6 +40,7 @@ import * as Appcues from '@appcues/react-native'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useStyles } from 'holi-bricks/styles'
+import { useScrollToTop } from '@react-navigation/native'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
@@ -192,6 +193,7 @@ const HomeFeed = () => {
   }
 
   useNotificationsInit()
+  useScrollToTop(ref)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
