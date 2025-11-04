@@ -215,4 +215,13 @@ jest.mock('@react-navigation/native', () => {
   return module
 })
 
+jest.mock('expo-router', () => {
+  const module: typeof import('expo-router') = {
+    ...jest.requireActual('expo-router'),
+    useFocusEffect: jest.requireActual('react').useEffect,
+  }
+
+  return module
+})
+
 export default {}
