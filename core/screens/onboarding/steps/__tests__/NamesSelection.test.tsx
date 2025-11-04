@@ -8,7 +8,7 @@ import { NamesSelection } from '@holi/core/screens/onboarding/steps/NamesSelecti
 
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { GraphQLError } from 'graphql'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent, waitFor } from 'expo-router/testing-library'
 import React from 'react'
 
 const mockUseLoggedInUser = useLoggedInUser as jest.Mock
@@ -184,7 +184,7 @@ describe('NamesSelection', () => {
 
     await user.press(screen.getByRole('button'))
 
-    expect(onFinish).toHaveBeenCalled()
+    await waitFor(() => expect(onFinish).toHaveBeenCalled())
   })
 
   it.each(nameFields)('should display field errors for %s', (field) => {
@@ -213,7 +213,8 @@ describe('NamesSelection', () => {
 
     await user.press(screen.getByRole('button'))
 
-    expect(handleBackendError).toHaveBeenCalledWith(expect.objectContaining({ message: 'Test' }))
+    await waitFor(() => expect(handleBackendError).toHaveBeenCalledWith(expect.objectContaining({ message: 'Test' })))
+
     expect(onFinish).not.toHaveBeenCalled()
   })
 

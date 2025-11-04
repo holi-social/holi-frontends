@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
-import { render, userEvent, screen } from 'expo-router/testing-library'
+import { render, userEvent, screen, waitFor } from 'expo-router/testing-library'
 import type { User } from '@holi/core/domain/shared/types'
 import { MockedProvider } from '@apollo/client/testing/react'
 import {
@@ -90,6 +90,6 @@ describe('UserTermsForm', () => {
 
     await user.press(screen.getByText('user.profileForm.save'))
 
-    expect(onSubmit).toHaveBeenCalled()
+    await waitFor(() => expect(onSubmit).toHaveBeenCalled())
   })
 })
