@@ -1,5 +1,4 @@
-//import { render } from '@testing-library/react-native'
-import { render } from 'expo-router/testing-library'
+import { render } from '@testing-library/react-native'
 
 import React from 'react'
 

@@ -54,7 +54,7 @@ describe('useCurrentRoute', () => {
 
       mockPathname = '/spaces/123'
       mockParams = { spaceId: '123' }
-      rerender()
+      rerender({})
 
       const routeInfo = getCurrentRouteInfo()
       expect(routeInfo).toEqual({
@@ -150,7 +150,7 @@ describe('useCurrentRoute', () => {
       expect(getCurrentRouteInfo().pathname).toBe('/chat')
 
       mockPathname = '/chat/rooms/abc'
-      rerender()
+      rerender({})
 
       expect(getCurrentRouteInfo().pathname).toBe('/chat/rooms/abc')
     })
@@ -163,7 +163,7 @@ describe('useCurrentRoute', () => {
       expect(getCurrentRouteInfo().params).toEqual({ view: 'list' })
 
       mockParams = { view: 'grid' }
-      rerender()
+      rerender({})
 
       expect(getCurrentRouteInfo().params).toEqual({ view: 'grid' })
     })

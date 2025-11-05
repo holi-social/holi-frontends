@@ -77,7 +77,7 @@ describe('useOnboardingCurrentStepKey', () => {
 
       mockUseOnboardingState.mockReturnValue(state)
 
-      rerender()
+      rerender({})
 
       await waitFor(() => expect(result.current[0]).toEqual(expectedStep))
     }
@@ -94,7 +94,7 @@ describe('useOnboardingCurrentStepKey', () => {
 
     // Simulate useFocusEffect call
     mockUseFocusEffect.mock.calls[0][0]()
-    rerender()
+    rerender({})
 
     expect(result.current[0]).toBeNull()
   })

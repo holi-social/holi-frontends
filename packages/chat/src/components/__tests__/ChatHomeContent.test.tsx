@@ -72,7 +72,7 @@ const useLoginStateMock = jest.mocked(useLoginState)
 const defaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
-}
+} as const
 
 const getLoggedUserQueryMock = (user: User) => {
   return {
