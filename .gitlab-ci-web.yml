@@ -278,11 +278,12 @@ web_release_candidate_deploy:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "🌐 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and is available at: https://$SLACK_NOTIFICATION_ENV_URL.
-    
-          If the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a \`PR_END_OF_FILE_ERROR\` in your browser.
+        --message "🌐 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` is available at: https://$SLACK_NOTIFICATION_ENV_URL.
+          Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) 
     
           To deploy this version to web production go to <$CI_PIPELINE_URL|this pipeline>"
+
+          If the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a \`PR_END_OF_FILE_ERROR\` in your browser.
     fi
 
 web_release_candidate_smoketest:
@@ -322,7 +323,8 @@ web_release_deploy:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "🌐 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and was manually deployed to <https://app.holi.social|app.holi.social>"
+        --message "🌐 :rocket: *Release* \`$SLACK_NOTIFICATION_RELEASE_VERSION\` was manually deployed to <https://app.holi.social|app.holi.social>
+          Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`)"
     fi
 
 web_release_smoketest:

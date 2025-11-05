@@ -256,7 +256,8 @@ mobile_release_candidate_publish:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "📱 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>"
+        --message "📱 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` was published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>
+          Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`)"
     fi
 
 mobile_release_publish:
@@ -282,7 +283,8 @@ mobile_release_publish:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "📱 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` has been updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) and published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>"
+        --message "📱 :rocket: *Release* \`$SLACK_NOTIFICATION_RELEASE_VERSION\` was published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>
+              Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`)"
     fi
 
 mobile_release_build_android:
@@ -345,7 +347,7 @@ mobile_release_submit_android:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "📱 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` (Android) has been submitted to the Play Store."
+        --message "📱 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` (Android) has been submitted to the Play Store."
     fi
 
 mobile_release_submit_ios:
@@ -372,5 +374,5 @@ mobile_release_submit_ios:
         --webhook "$SLACK_RELEASE_STATUS_WEBHOOK" \
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
-        --message "📱 Release \`$SLACK_NOTIFICATION_RELEASE_VERSION\` (iOS) has been submitted to the App Store."
+        --message "📱 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` (iOS) has been submitted to the App Store."
     fi
