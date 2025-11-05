@@ -257,7 +257,7 @@ mobile_release_candidate_publish:
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
         --message "📱 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` was published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>
-          Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`)"
+          Updated to commit \`\"$CI_COMMIT_TITLE\"\` (<https://gitlab.holi.team/app/holi-frontends/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHA>)"
     fi
 
 mobile_release_publish:
@@ -284,7 +284,7 @@ mobile_release_publish:
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
         --message "📱 :rocket: *Release* \`$SLACK_NOTIFICATION_RELEASE_VERSION\` was published to EAS channel <$SLACK_NOTIFICATION_EAS_CHANNEL|$EXPO_PUBLISH_RELEASE_CHANNEL>
-              Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`)"
+          Updated to commit \`\"$CI_COMMIT_TITLE\"\` (<https://gitlab.holi.team/app/holi-frontends/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHA>)"
     fi
 
 mobile_release_build_android:

@@ -279,7 +279,7 @@ web_release_candidate_deploy:
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
         --message "🌐 Release Candidate \`$SLACK_NOTIFICATION_RELEASE_VERSION\` is available at: https://$SLACK_NOTIFICATION_ENV_URL.
-          Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`) 
+          Updated to commit \`\"$CI_COMMIT_TITLE\"\` (<https://gitlab.holi.team/app/holi-frontends/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHA>)
     
           To deploy this version to web production go to <$CI_PIPELINE_URL|this pipeline>"
 
@@ -324,7 +324,7 @@ web_release_deploy:
         --release "$SLACK_NOTIFICATION_RELEASE_VERSION" \
         --color "$SLACK_NOTIFICATION_AVATAR_COLOR" \
         --message "🌐 :rocket: *Release* \`$SLACK_NOTIFICATION_RELEASE_VERSION\` was manually deployed to <https://app.holi.social|app.holi.social>
-          Updated to commit \`$CI_COMMIT_SHA\` (\`\"$CI_COMMIT_TITLE\"\`)"
+          Updated to commit \`\"$CI_COMMIT_TITLE\"\` (<https://gitlab.holi.team/app/holi-frontends/-/commit/$CI_COMMIT_SHA|$CI_COMMIT_SHA>)"
     fi
 
 web_release_smoketest:
