@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent, renderRouter } from 'expo-router/testing-library'
+import { screen, userEvent, renderRouter } from 'expo-router/testing-library'
 import { MyVolunteeringTab } from '@holi/core/screens/userprofile/MyVolunteeringTab/MyVolunteeringTab'
 import {
   makeCommittedVolunteeringItems,
@@ -184,26 +184,6 @@ describe('MyVolunteeringTab', () => {
     expect(screen.getByText('desc-help')).toBeOnTheScreen()
   })
 
-  it('should render loading icon when fetching more items', () => {
-    const items = makeCommittedVolunteeringItems(2)
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items,
-      canFetchMore: true,
-      isFetchingMore: true,
-    })
-
-    renderRouter({
-      index: () => (
-        <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
-        </MockedProvider>
-      ),
-    })
-
-    expect(screen.getByTestId('next-page-loader')).toBeOnTheScreen()
-  })
-
   it('should not render loader when no more items', () => {
     mockUseCommittedVolunteering.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
@@ -221,48 +201,6 @@ describe('MyVolunteeringTab', () => {
     })
     expect(screen.queryByTestId('next-page-loader')).not.toBeOnTheScreen()
     expect(screen.queryByTestId('load-more-button')).not.toBeOnTheScreen()
-  })
-
-  it('should render Load More button when more items available', () => {
-    const mockFetchMore = jest.fn()
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: makeCommittedVolunteeringItems(2),
-      fetchMore: mockFetchMore,
-      canFetchMore: true,
-      isFetchingMore: false,
-    })
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
-
-    const loadMoreButton = screen.getByTestId('load-more-button')
-    expect(loadMoreButton).toBeOnTheScreen()
-    expect(screen.getByText('Load More')).toBeOnTheScreen()
-  })
-
-  it('should call fetchMore when Load More button is pressed', async () => {
-    const user = userEvent.setup()
-    const mockFetchMore = jest.fn()
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: makeCommittedVolunteeringItems(2),
-      fetchMore: mockFetchMore,
-      canFetchMore: true,
-      isFetchingMore: false,
-    })
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
-    await user.press(screen.getByTestId('load-more-button'))
-
-    expect(mockFetchMore).toHaveBeenCalledTimes(1)
   })
 })
 

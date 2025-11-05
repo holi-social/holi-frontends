@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { ChipLabel } from 'holi-bricks/components/chips'
-import { Button } from 'holi-bricks/components/button'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -60,23 +59,9 @@ const StatusInfoHeader = () => {
 export const SavedEngagements = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const {
-    items: committedVolunteeringOpportunities,
-    canFetchMore,
-    isFetchingMore,
-    isLoading,
-    isInitialLoad,
-    fetchMore,
-    totalResults,
-    refetch,
-    error,
-  } = useCommittedVolunteering()
+  const { items: engagements, isLoading, isInitialLoad, hasError, refetch } = useCommittedVolunteering()
 
-  useEffect(() => {
-    refetch()
-  }, [refetch])
-
-  if (error) {
+  if (hasError) {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
@@ -96,7 +81,7 @@ export const SavedEngagements = () => {
     )
   }
 
-  if (!isLoading && totalResults === 0) {
+  if (!isLoading && engagements.length === 0) {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
@@ -116,22 +101,12 @@ export const SavedEngagements = () => {
       </Stack>
 
       <Stack gap="xs">
-        {committedVolunteeringOpportunities.map((item) => (
+        {engagements.map((item) => (
           <ErrorBoundary key={item.id}>
             <VolunteeringRecoCardWithStatus engagement={item} />
           </ErrorBoundary>
         ))}
       </Stack>
-
-      {committedVolunteeringOpportunities.length > 0 && canFetchMore && (
-        <Stack justifyContent="center" alignItems="center" padding={{ top: 'md' }}>
-          {isFetchingMore ? (
-            <HoliLoader style={styles.loader} testID="next-page-loader" />
-          ) : (
-            <Button inline label="Load More" onPress={fetchMore} variant="primary" testID="load-more-button" />
-          )}
-        </Stack>
-      )}
     </Stack>
   )
 }
