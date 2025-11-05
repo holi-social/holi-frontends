@@ -38,7 +38,7 @@ const MyBadges = () => {
   if (loading) {
     return (
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Text size="xxl">Superpowers</Text>
+        <Text size="xxl">{t('profile.tabs.badges.title')}</Text>
         <HoliSkeleton aspectRatio={712 / 357} borderRadius={16} height={'auto'} width={'100%'} />
       </Stack>
     )
@@ -47,7 +47,7 @@ const MyBadges = () => {
   return (
     <>
       <Stack padding={{ top: 'xs', bottom: 'xs' }} gap="xxs">
-        <Text size="xxl">Superpowers</Text>
+        <Text size="xxl">{t('profile.tabs.badges.title')}</Text>
 
         <Stack backgroundColor="support" padding={{ top: '3xs', bottom: '3xs' }} borderRadius="md">
           <Stack gap="md" direction="row" justifyContent="space-around" wrap="wrap">
@@ -71,6 +71,7 @@ const MyBadges = () => {
                     />
                   </View>
                 </Stack>
+
                 <Stack gap="4xs" alignItems="center">
                   <Stack direction="row" justifyContent="center" gap="4xs">
                     {badge.state === BadgeState.locked && (

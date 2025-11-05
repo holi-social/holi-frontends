@@ -3,7 +3,6 @@ import { Stack } from 'holi-bricks/components/stack'
 import React, { useCallback, useState } from 'react'
 import { Text } from 'holi-bricks/components/text'
 import { Screen } from '@holi/core/components/Screen'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { Button } from 'holi-bricks/components/button'
 import { Add, Pencil } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
@@ -86,7 +85,11 @@ const AboutMe = () => {
     <Screen
       headerOptions={{
         title: t('profile.title'),
-        headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+        headerTitle: ({ children }) => (
+          <Text headingLevel="1" size="lg">
+            {children}
+          </Text>
+        ),
       }}
     >
       {editMode && (

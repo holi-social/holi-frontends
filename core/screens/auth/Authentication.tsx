@@ -19,12 +19,12 @@ import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeS
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
-import { Stack } from 'holi-bricks/components/stack'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { Stack } from 'holi-bricks/components/stack'
 
 export interface AuthenticationProps {
   initialSelection: AuthenticationType
@@ -48,7 +48,6 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
   const { navigate } = useRouting()
   const redirect = useRedirect('/')
 
-  // TODO(SF) correct for registration?
   useEffect(() => {
     if (isLoggedIn) {
       const redirect = getRedirectAfterSocialLogin()
@@ -58,7 +57,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
 
   if (isLoggedIn) {
     return (
-      <View style={styles.wrapper}>
+      <View>
         <HoliLoader testID="loader" />
       </View>
     )
@@ -66,7 +65,6 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
 
   return (
     <Screen
-      style={styles.wrapper}
       preset="scroll"
       keyboardShouldPersistTaps="always"
       headerOptions={{
@@ -91,7 +89,6 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           footerShown: false,
         },
       }}
-      contentContainerStyle={styles.wrapper}
       StickyBottomComponent={
         <Stack padding={{ bottom: 'sm' }} gap="xs" backgroundColor="main">
           <HoliDivider />
@@ -101,26 +98,21 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
         </Stack>
       }
     >
-      <Stack flex={1}>
-        <AuthenticationSelection
-          flowId={flowId}
-          initialSelection={initialSelection}
-          resetFlowId={resetFlowId}
-          onRegister={() => {
-            track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-            metaSdk.trackSignUp()
-            onRegister?.()
-          }}
-        />
-      </Stack>
+      <AuthenticationSelection
+        flowId={flowId}
+        initialSelection={initialSelection}
+        resetFlowId={resetFlowId}
+        onRegister={() => {
+          track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+          metaSdk.trackSignUp()
+          onRegister?.()
+        }}
+      />
     </Screen>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  wrapper: {
-    flex: 1,
-  },
   logo: {
     color: theme.colors.fill.black,
   },

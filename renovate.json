@@ -9,7 +9,7 @@
     ":automergePatch",
     ":automergeTesters",
     ":automergeLinters",
-    "npm:unpublishSafe",
+    "security:minimumReleaseAgeNpm",
     ":approveMajorUpdates"
   ],
   "configMigration": true,

@@ -68,7 +68,6 @@ const PostCommentPage = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
-        headerTintColor: theme.colors.black300,
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       }),
     [setScreenOptions, t, colors.background10, theme.colors.black300]

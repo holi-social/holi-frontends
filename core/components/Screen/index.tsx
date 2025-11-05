@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { View, StatusBar, Platform, type ScrollView, type LayoutChangeEvent } from 'react-native'
+import { type LayoutChangeEvent, Platform, type ScrollView, View } from 'react-native'
 import { useStyles } from 'holi-bricks/styles'
 import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
 import { useScrollToTop } from '@react-navigation/native'
@@ -13,6 +13,7 @@ import type {
   ScreenProps,
   ScrollScreenProps,
 } from '@holi/core/components/Screen/types'
+import { StatusBar } from 'expo-status-bar'
 import { useScreenComponentInternal } from '@holi/core/components/Screen/useScreenComponentInternal'
 import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -157,6 +158,7 @@ export const Screen = (props: ScreenProps) => {
   const { styles, theme } = useStyles(stylesheet)
   // const { getActiveThemeName } = useBricks()
   // const themeName = getActiveThemeName()
+
   const { stickyBottomLayout, stickyBottomOffset, stickyTopLayout, stickyTopOffset } = useScreenComponentInternal({
     headerOptions,
   })
@@ -167,61 +169,61 @@ export const Screen = (props: ScreenProps) => {
     ? keyboardVerticalOffset
     : DEFAULT_VERTICAL_OFFSET + (Platform.OS === 'ios' ? stickyBottomOffset || 0 : 0)
 
-  //barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'}
   return (
-    <SafeAreaView
-      edges={safeAreaEdges}
-      mode="padding"
-      testID={testID}
-      style={[
-        styles.container,
-        styles.relative,
-        styles.padding(padding),
-        { backgroundColor: theme.colors.bg[backgroundColor] },
-      ]}
-    >
-      <StatusBar barStyle={'dark-content'} {...statusBarProps} />
-
-      <KeyboardAvoidingView
-        {...keyboardAvoidingViewProps}
-        behavior={isIos ? 'padding' : 'height'}
-        keyboardVerticalOffset={_keyboardVerticalOffset}
+    <>
+      <StatusBar {...statusBarProps} />
+      <SafeAreaView
+        edges={safeAreaEdges}
+        mode="padding"
+        testID={testID}
         style={[
-          keyboardAvoidingViewProps?.style,
-          styles.flex1,
+          styles.container,
           styles.relative,
-          styles.contentContainerPadding(navigationOptions.headerShown, safeAreaInsets.top, contentContainerPadding),
-          StickyBottomComponent && preset === 'fixed' ? styles.stickyBottomOffset(stickyBottomOffset) : null,
-          StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
+          styles.padding(padding),
+          { backgroundColor: theme.colors.bg[backgroundColor] },
         ]}
       >
-        {StickyTopComponent && (
-          <View style={[styles.stickyTop]} onLayout={stickyTopLayout}>
-            {StickyTopComponent}
-          </View>
-        )}
+        <KeyboardAvoidingView
+          {...keyboardAvoidingViewProps}
+          behavior={isIos ? 'padding' : 'height'}
+          keyboardVerticalOffset={_keyboardVerticalOffset}
+          style={[
+            keyboardAvoidingViewProps?.style,
+            styles.flex1,
+            styles.relative,
+            styles.contentContainerPadding(navigationOptions.headerShown, safeAreaInsets.top, contentContainerPadding),
+            StickyBottomComponent && preset === 'fixed' ? styles.stickyBottomOffset(stickyBottomOffset) : null,
+            StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
+          ]}
+        >
+          {StickyTopComponent && (
+            <View style={[styles.stickyTop]} onLayout={stickyTopLayout}>
+              {StickyTopComponent}
+            </View>
+          )}
 
-        {isNonScrolling(preset) ? (
-          <ScreenWithoutScrolling {...otherProps} />
-        ) : (
-          <ScreenWithScrolling
-            {...otherProps}
-            contentContainerStyle={[
-              otherProps.contentContainerStyle,
-              StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
-            ]}
+          {isNonScrolling(preset) ? (
+            <ScreenWithoutScrolling {...otherProps} />
+          ) : (
+            <ScreenWithScrolling
+              {...otherProps}
+              contentContainerStyle={[
+                otherProps.contentContainerStyle,
+                StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
+              ]}
+            />
+          )}
+        </KeyboardAvoidingView>
+
+        {StickyBottomComponent && (
+          <BottomComponentWrapper
+            StickyBottomComponent={StickyBottomComponent}
+            footerHidden={footerHidden}
+            padding={padding}
+            onLayout={stickyBottomLayout}
           />
         )}
-      </KeyboardAvoidingView>
-
-      {StickyBottomComponent && (
-        <BottomComponentWrapper
-          StickyBottomComponent={StickyBottomComponent}
-          footerHidden={footerHidden}
-          padding={padding}
-          onLayout={stickyBottomLayout}
-        />
-      )}
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   )
 }

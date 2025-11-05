@@ -11,7 +11,6 @@ export enum FeatureFlagKey {
   THEME_TOGGLE = 'THEME_TOGGLE', // boolean
   VIDEO_CALL = 'VIDEO_CALL', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   POST_TRANSLATION = 'POST_TRANSLATION', // boolean
-  TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
   SOCIAL_LOGIN = 'social-login', // boolean
   REWARDS_PHASE_1 = 'rewards-phase-1', // boolean
   REWARDS_PHASE_2 = 'rewards-phase-2', // boolean
@@ -20,7 +19,6 @@ export enum FeatureFlagKey {
   GOOD_DEEDS_INTRO_PHASE_0 = 'good-deeds-intro-phase-0', // boolean
   GOOD_DEEDS_INTRO_PHASE_1__SIGN_UP = 'good-deeds-intro_phase_1--sign-up-process', // boolean
   GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-tracked-first-good-deed', // boolean
-  GOOD_DEEDS_INTRO_PHASE_1__USER_FAVORITED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-favorited-first-good-deed', // boolean
   APPCUES_BANNER = 'appcues-banner', // boolean
   TASK_SELF_REPORTING_FLOW = 'self-reporting-flow-for-tasks', // boolean
 }

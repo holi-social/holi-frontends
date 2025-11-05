@@ -9,12 +9,12 @@ const goodDeedsIntroModalIsVisibleVar = makeVar(false)
 const goodDeedsIntroModalTypeVar = makeVar<IntroFlowType>(undefined)
 
 export const showGoodDeedsIntroModal = (type: IntroFlowType) => {
-  goodDeedsIntroModalIsVisibleVar(true)
   goodDeedsIntroModalTypeVar(type)
+  goodDeedsIntroModalIsVisibleVar(true)
 }
 export const hideGoodDeedsIntroModal = () => {
-  goodDeedsIntroModalIsVisibleVar(false)
   goodDeedsIntroModalTypeVar(undefined)
+  goodDeedsIntroModalIsVisibleVar(false)
 }
 
 export const useGoodDeedsIntroModalState = () => {

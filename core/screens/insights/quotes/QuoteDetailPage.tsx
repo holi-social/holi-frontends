@@ -1,17 +1,16 @@
 import { useQuery } from '@apollo/client/react'
-import React, { memo, useMemo, useState, useEffect } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ImageStyle, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import WebViewHandler from '@holi/core/screens/insights/components/WebViewHandler'
-import { type InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
+import { insightWithQuoteById, type InsightWithQuoteByIdResponse } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
@@ -82,7 +81,11 @@ const QuoteDetailPage = () => {
     setScreenOptions({
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.quotes.title')}
+        </Text>
+      ),
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer

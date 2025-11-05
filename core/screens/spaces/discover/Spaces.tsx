@@ -12,7 +12,7 @@ import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHead
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
@@ -27,8 +27,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { breakpoints, Spacing } from 'holi-bricks/foundations'
-import { MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
-import { DiscoverSpacesDocument } from '@holi/api/graphql/graphql-codegen'
+import { DiscoverSpacesDocument, MySpacesDocument, useMySpacesQuery } from '@holi/api/graphql/graphql-codegen'
 import * as Appcues from '@appcues/react-native'
 import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
@@ -103,10 +102,10 @@ const Spaces = () => {
       /* hide title on ios with empty title string */
       headerTitle: '',
       headerBackVisible: false,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {t('spaces.organize')}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: (props) => (
         <HoliHorizontalRow>

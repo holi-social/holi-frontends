@@ -1,16 +1,15 @@
 import { useQuery } from '@apollo/client/react'
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import WebViewHandler from '@holi/core/screens/insights/components/WebViewHandler'
-import { type InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
+import { insightWithRecommendation, type InsightWithRecommendationResponse } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -84,8 +83,10 @@ const RecommendationDetailPage = () => {
     setScreenOptions({
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.recommendations.title')}
+        </Text>
       ),
       headerRight: () => (
         <HoliActionDrawer.Drawer

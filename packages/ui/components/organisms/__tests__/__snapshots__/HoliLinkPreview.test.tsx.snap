@@ -173,7 +173,6 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
                 },
               ]
             }
-            tintColor="#787777"
             vbHeight={24}
             vbWidth={24}
             width={18}

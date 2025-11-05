@@ -5,6 +5,7 @@ import {
 } from '@holi/api/graphql/graphql-codegen'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useCallback } from 'react'
 
 export const useCompleteTask = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -17,15 +18,19 @@ export const useCompleteTask = () => {
     skip: !isLoggedIn,
   })
 
-  const completeTaskById = async (taskId: string) => {
-    await completeTask({
-      variables: { id: taskId },
-    })
-    if (isLoggedIn) {
-      await refetchRewardsCounter()
-      await refetchGlobalRewardsCounter()
-    }
-  }
+  const completeTaskById = useCallback(
+    async (taskId: string) => {
+      await completeTask({
+        variables: { id: taskId },
+      })
+
+      if (isLoggedIn) {
+        await refetchRewardsCounter()
+        await refetchGlobalRewardsCounter()
+      }
+    },
+    [completeTask, isLoggedIn, refetchRewardsCounter, refetchGlobalRewardsCounter]
+  )
 
   return {
     completeTask: completeTaskById,
