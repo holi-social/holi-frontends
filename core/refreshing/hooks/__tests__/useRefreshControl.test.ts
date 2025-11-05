@@ -1,5 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
-import { waitFor } from 'expo-router/testing-library'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useRefreshControl } from '@holi/core/refreshing/hooks/useRefreshControl'

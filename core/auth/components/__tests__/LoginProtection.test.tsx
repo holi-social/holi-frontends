@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { fireEvent, renderRouter, render, screen, waitForElementToBeRemoved } from 'expo-router/testing-library'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 

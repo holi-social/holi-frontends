@@ -1,5 +1,6 @@
 import React from 'react'
-import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, userEvent } from '@testing-library/react-native'
 import PrivacyPolicyAndTermsOfUseText from '@holi/core/screens/onboarding/components/PrivacyPolicyAndTermsOfUseText'
 
 describe('PrivacyPolicyAndTermsOfUseText', () => {

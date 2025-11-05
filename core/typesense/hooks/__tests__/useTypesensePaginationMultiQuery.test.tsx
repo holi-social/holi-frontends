@@ -11,7 +11,7 @@ import {
   useTypesensePaginationMultiQuery,
   type UseTypesensePaginationMultiQueryOptions,
 } from '@holi/core/typesense/hooks/useTypesensePaginationMultiQuery'
-import { act, renderHook, waitFor } from 'expo-router/testing-library'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 import { createCache } from '@holi/api/graphql/client'
 import type { SearchParams } from '@holi/core/typesense/types'
 import { createHits, testState } from '@holi/core/typesense/hooks/__tests__/testData'

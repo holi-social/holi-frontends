@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-native'
 import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
 import {
   ClientEvent,

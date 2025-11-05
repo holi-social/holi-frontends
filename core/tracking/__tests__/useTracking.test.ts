@@ -2,7 +2,7 @@ import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatfor
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Consent, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 
 jest.mock('@holi/core/helpers/config', () => ({
   posthogKey: 'some.key',

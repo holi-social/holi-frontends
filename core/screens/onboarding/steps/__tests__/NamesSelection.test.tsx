@@ -8,7 +8,7 @@ import { NamesSelection } from '@holi/core/screens/onboarding/steps/NamesSelecti
 
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { GraphQLError } from 'graphql'
-import { render, screen, userEvent, waitFor } from 'expo-router/testing-library'
+import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 const mockUseLoggedInUser = useLoggedInUser as jest.Mock

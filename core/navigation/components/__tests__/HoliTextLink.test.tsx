@@ -1,4 +1,5 @@
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 

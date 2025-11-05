@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, renderRouter, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { act, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'

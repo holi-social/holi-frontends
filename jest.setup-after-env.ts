@@ -1,7 +1,8 @@
 import '@testing-library/jest-native/extend-expect'
-import { configure } from 'expo-router/testing-library'
+import { configure } from '@testing-library/react-native'
+import { configure as configureExpoTestingLibrary } from 'expo-router/testing-library'
 
-configure({
+const config = {
   defaultDebugOptions: {
     // this only prints testable xml attributes of the visual tree to console
     // when using screen.debug()
@@ -14,4 +15,7 @@ configure({
       }
     },
   },
-})
+}
+
+configure(config)
+configureExpoTestingLibrary(config)
