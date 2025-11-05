@@ -1,3 +1,5 @@
+/// <reference types="expo-router/types/expect" />
+
 import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'

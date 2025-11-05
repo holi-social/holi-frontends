@@ -1,4 +1,3 @@
-import '@testing-library/jest-native/extend-expect'
 import { configure } from '@testing-library/react-native'
 import { configure as configureExpoTestingLibrary } from 'expo-router/testing-library'
 
