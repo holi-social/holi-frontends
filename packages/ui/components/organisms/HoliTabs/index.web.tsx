@@ -50,10 +50,12 @@ const HoliTabs = <D extends HoliTabItem>({
   return (
     <View testID={testID} style={{ flex: 1 }}>
       <View
-        style={{
-          backgroundColor: tabBarBackgroundColor ?? theme.colors.background10,
-          visibility: hideTabs ? 'hidden' : undefined,
-        }}
+        style={
+          {
+            backgroundColor: tabBarBackgroundColor ?? theme.colors.background10,
+            visibility: hideTabs ? 'hidden' : undefined,
+          } as ViewStyle
+        }
       >
         <BottomLineSeperator />
 
