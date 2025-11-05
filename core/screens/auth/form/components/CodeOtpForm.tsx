@@ -35,19 +35,17 @@ export const CodeOtpForm = ({
     <Stack gap="3xs">
       <ChangeEmailButton email={email} onChangeEmail={onChangeEmail} trackingScreenName="mainLogin" />
       <AuthFormInputField
-        // TODO(SF) create custom keys auth.login.input.label-InputSignInCode
-        label={t('registration.emailVerification.inputPlaceholder')}
-        placeholder={t('registration.emailVerification.inputPlaceholder')}
+        label={t('auth.login.input.label-SignInCode')}
+        placeholder={t('auth.login.input.label-SignInCode')}
         value={code}
         validationErrorText={codeValidationError}
         onChange={setCode}
         type="text"
         onSubmit={onSubmit}
       />
-      {/* TODO(SF) create custom key */}
       <Button
         margin={{ top: '3xs' }}
-        label={t('tasks.register.unlogged.verify.email')}
+        label={t('auth.login.cta.verifyEmail')}
         onPress={onSubmit}
         size="lg"
         disabled={submitDisabled}

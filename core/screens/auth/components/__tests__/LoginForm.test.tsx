@@ -123,8 +123,8 @@ describe('LoginForm', () => {
     // Expect CodeOtpForm
     expect(screen.getByText('test@foo.bar')).toBeOnTheScreen()
     expect(screen.getByLabelText('global.edit')).toBeOnTheScreen()
-    expect(screen.getByLabelText('registration.emailVerification.inputPlaceholder')).toBeOnTheScreen()
-    expect(screen.getByLabelText('tasks.register.unlogged.verify.email')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.input.label-SignInCode')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.cta.verifyEmail')).toBeOnTheScreen()
     expect(screen.getByText('registration.emailVerification.resendInstruction')).toBeOnTheScreen()
     expect(screen.getByLabelText('registration.emailVerification.resendEmail')).toBeOnTheScreen()
   })
