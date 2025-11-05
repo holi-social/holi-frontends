@@ -2,8 +2,9 @@ import { type AuthenticationStep, getFormNodesByStep } from '@holi/core/screens/
 
 describe('getFormNodesByStep', () => {
   const testCases = [
-    { step: 'start', expectedNodes: ['oidc', 'email', 'code'] },
+    { step: 'start', expectedNodes: ['oidc'] },
     { step: 'email-password', expectedNodes: ['email', 'password'] },
+    { step: 'email-code', expectedNodes: ['email', 'code'] },
     { step: 'code', expectedNodes: ['code'] },
     { step: 'invalid', expectedNodes: [] },
   ]

@@ -65,7 +65,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
     (messageId: number) => {
       // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
       if (messageId === OryErrorCode.CODE_SENT_REGISTRATION) {
-        if (step === 'start') {
+        if (step === 'email-code') {
           setStep('code')
         }
         return true
@@ -209,7 +209,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
           onChangeEmail={() => {
             showLoader()
             initializeFlow()?.then(() => {
-              setStep('start')
+              setStep('email-code')
               hideLoader()
             })
           }}
@@ -245,7 +245,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
               label={t('auth.CTA.OTP')}
               variant="secondary"
               size="lg"
-              onPress={() => setStep('start')}
+              onPress={() => setStep('email-code')}
               icon={Mail}
               testID={'ory-submit-email-button'}
               trackingEvent={TrackingEvent.Auth.HoliRegisterPressed({
