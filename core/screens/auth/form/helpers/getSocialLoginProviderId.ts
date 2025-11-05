@@ -1,4 +1,4 @@
-import { getNodeProviderId, getNodeProviderName } from '@holi/core/auth/helpers/auth'
+import { getNodeProviderId, getNodeProviderName } from '@holi/core/auth/helpers/auth/common'
 import type { LoginFlow, RegistrationFlow } from '@ory/kratos-client'
 import type { SocialLoginButtonProvider } from 'holi-bricks/components/button/SocialLoginButton'
 
