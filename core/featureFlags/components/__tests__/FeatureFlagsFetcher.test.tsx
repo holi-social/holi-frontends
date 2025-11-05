@@ -1,4 +1,4 @@
-import { render } from 'expo-router/testing-library'
+import { render } from '@testing-library/react-native'
 import React from 'react'
 import { AppState } from 'react-native'
 

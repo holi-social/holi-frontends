@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { makeCommittedVolunteeringItem } from '@holi/core/screens/userprofile/__tests__/helpers/generators'

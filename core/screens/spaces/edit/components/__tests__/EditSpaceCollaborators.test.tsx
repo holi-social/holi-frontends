@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'

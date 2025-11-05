@@ -2,7 +2,7 @@ import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { useAnonCount } from '@holi/core/domain/shared/hooks'
 import { Consent, ConsentState, TrackingPurpose } from '@holi/core/tracking/types'
-import { act, renderHook } from 'expo-router/testing-library'
+import { act, renderHook } from '@testing-library/react-native'
 import { useConsentModal } from '@holi/core/components/TrackingConsentModal/useConsentModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 

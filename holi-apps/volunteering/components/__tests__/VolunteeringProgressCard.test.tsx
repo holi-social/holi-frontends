@@ -1,5 +1,6 @@
 import type React from 'react'
-import { act, renderRouter, screen, userEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { act, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
 import {
   badgesMockWithUnseen,

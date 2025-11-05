@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, userEvent } from '@testing-library/react-native'
 import { SearchFacetsTabs } from '@holi/core/screens/search/SearchFacetsTabs'
 
 describe('SearchFacetsTabs', () => {

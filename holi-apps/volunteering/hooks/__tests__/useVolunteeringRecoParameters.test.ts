@@ -1,5 +1,5 @@
 import { CombinedGraphQLErrors } from '@apollo/client'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 import { useUserSpecificRecoParameters } from '@holi-apps/volunteering/hooks/useUserSpecificRecoParameters'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useVolunteeringRecoParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoParameters'

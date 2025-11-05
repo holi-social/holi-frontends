@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 
 import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch'

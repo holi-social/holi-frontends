@@ -1,6 +1,7 @@
 import React from 'react'
 import { VolunteeringRecommendations } from '@holi-apps/volunteering/components/VolunteeringRecommendations'
-import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, fireEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
 import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/helpers/generators'

@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, render } from 'expo-router/testing-library'
+import { act, render } from '@testing-library/react-native'
 import React from 'react'
 
 import { type LoginState, useLoginState } from '@holi/core/auth/loginState'

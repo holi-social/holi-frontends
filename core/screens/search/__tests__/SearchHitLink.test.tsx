@@ -1,5 +1,6 @@
 import React from 'react'
-import { renderRouter, fireEvent, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
 import { SearchHitLink } from '@holi/core/screens/search/SearchHitLink'
 import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/__tests__/testData'
 import { Text } from 'react-native'

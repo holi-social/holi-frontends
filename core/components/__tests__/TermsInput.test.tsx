@@ -1,6 +1,6 @@
 import React from 'react'
 import { TermsInput } from '@holi/core/components/TermsInput'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { ALL_SKILLS, ALL_TOPICS, type TermType } from '@holi/core/domain/shared/types'
 
 describe('TermsInput', () => {

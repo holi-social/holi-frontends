@@ -1,7 +1,8 @@
 import React from 'react'
 import { SearchButton } from '@holi/core/navigation/components/header/SearchButton'
-import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
-import { TrackingEvent } from '@holi/core/tracking'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, fireEvent } from '@testing-library/react-native'
+import type { TrackingEvent } from '@holi/core/tracking'
 import { Text } from 'react-native'
 
 describe('SearchButton', () => {

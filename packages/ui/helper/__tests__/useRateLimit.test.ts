@@ -1,5 +1,5 @@
 import { useRateLimit } from '@holi/ui/helper/useRateLimit'
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook, act } from '@testing-library/react-native'
 
 jest.useFakeTimers()
 

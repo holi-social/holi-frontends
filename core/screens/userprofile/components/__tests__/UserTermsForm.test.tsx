@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
-import { render, userEvent, screen, waitFor } from 'expo-router/testing-library'
+import { render, userEvent, screen, waitFor } from '@testing-library/react-native'
 import type { User } from '@holi/core/domain/shared/types'
 import { MockedProvider } from '@apollo/client/testing/react'
 import {

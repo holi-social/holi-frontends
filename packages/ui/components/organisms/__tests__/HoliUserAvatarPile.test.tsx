@@ -1,9 +1,9 @@
-import { faker } from '@faker-js/faker'
-import { render, screen } from 'expo-router/testing-library'
-import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { View } from 'react-native'
+import { faker } from '@faker-js/faker'
+import { render, screen } from '@testing-library/react-native'
 
+import { Text } from 'holi-bricks/components/text/Text'
 import i18next from '@holi/core/i18n'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { users } from '@holi/ui/components/organisms/__mocks__/users'

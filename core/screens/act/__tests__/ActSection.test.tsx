@@ -1,7 +1,8 @@
 import { mockFeatureFlags } from '@holi/core/helpers/__mocks__/mockFeatureFlags'
 
 import { MockedProvider } from '@apollo/client/testing/react'
-import { renderRouter, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen } from '@testing-library/react-native'
 import React from 'react'
 
 import type { User } from '@holi/core/domain/shared/types'

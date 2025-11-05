@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { renderRouter, screen } from 'expo-router/testing-library'
+import { screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'

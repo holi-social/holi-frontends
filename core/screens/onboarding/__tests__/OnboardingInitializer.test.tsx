@@ -1,6 +1,6 @@
 import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
-import { render } from 'expo-router/testing-library'
+import { render } from '@testing-library/react-native'
 import React from 'react'
 
 const mockUseOnboardingInitialization = useOnboardingInitialization as jest.Mock

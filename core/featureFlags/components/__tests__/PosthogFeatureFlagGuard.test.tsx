@@ -1,4 +1,5 @@
-import { renderRouter, screen, waitFor } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'

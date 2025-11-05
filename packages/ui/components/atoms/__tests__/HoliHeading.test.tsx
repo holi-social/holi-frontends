@@ -1,9 +1,9 @@
-import { render, screen } from 'expo-router/testing-library'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
-import { HoliHeading, HoliHeadingLevel, HoliHeadingSize } from '@holi/ui/components/atoms/HoliHeading'
+import { HoliHeading, type HoliHeadingLevel, type HoliHeadingSize } from '@holi/ui/components/atoms/HoliHeading'
 
 describe('renders correctly', () => {
   const booleanValues = [true, false]

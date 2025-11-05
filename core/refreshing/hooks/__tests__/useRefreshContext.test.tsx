@@ -1,4 +1,4 @@
-import { render, screen } from 'expo-router/testing-library'
+import { render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
 import React, { useEffect } from 'react'
 

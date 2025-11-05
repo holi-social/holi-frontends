@@ -1,8 +1,8 @@
-import { type MockLink } from '@apollo/client/testing'
+import type { MockedResponse } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { faker } from '@faker-js/faker'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { act, render, waitFor } from 'expo-router/testing-library'
+import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -132,9 +132,7 @@ const mockLocalStorage = (consentState?: ConsentState): void => {
   })
 }
 
-const mockAuthenticatedUserResponse = (
-  user: AuthenticatedUser
-): MockLink.MockedResponse<AuthenticatedUserV2Response> => ({
+const mockAuthenticatedUserResponse = (user: AuthenticatedUser): MockedResponse<AuthenticatedUserV2Response> => ({
   request: {
     query: authenticatedUserV2Query,
   },
@@ -149,10 +147,7 @@ const mockAuthenticatedUserResponse = (
 })
 
 const mockUpdateAuthenticatedUserResponse = (user: AuthenticatedUser, consentState: ConsentState) => {
-  const mockedResponse: MockLink.MockedResponse<
-    UpdateAuthenticatedUserV2Response,
-    { input: UpdateAuthenticatedUserInput }
-  > = {
+  const mockedResponse: MockedResponse<UpdateAuthenticatedUserV2Response, { input: UpdateAuthenticatedUserInput }> = {
     request: {
       query: updateAuthenticatedUserV2Mutation,
       variables: {

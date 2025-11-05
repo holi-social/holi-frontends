@@ -1,5 +1,5 @@
-import { render, screen } from 'expo-router/testing-library'
-import React from 'react'
+import { render, screen } from '@testing-library/react-native'
+import type React from 'react'
 
 import HoliHeadMobile from '@holi/core/components/HoliHead/index'
 import HoliHead from '@holi/core/components/HoliHead/index.web'

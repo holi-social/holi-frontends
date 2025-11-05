@@ -1,6 +1,7 @@
 import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
-import { cleanup, renderRouter, screen } from 'expo-router/testing-library'
+import { cleanup, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import {

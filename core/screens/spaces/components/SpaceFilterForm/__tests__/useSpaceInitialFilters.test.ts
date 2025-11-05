@@ -1,6 +1,6 @@
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { useSpaceInitialFilters } from '@holi/core/screens/spaces/components/SpaceFilterForm/useSpaceInitialFilters'
-import { renderHook } from 'expo-router/testing-library'
+import { renderHook } from '@testing-library/react-native'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 

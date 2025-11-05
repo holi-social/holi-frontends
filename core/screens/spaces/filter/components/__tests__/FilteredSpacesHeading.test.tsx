@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { cleanup, renderRouter, waitFor } from 'expo-router/testing-library'
+import { cleanup, waitFor } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'

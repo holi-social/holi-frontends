@@ -1,7 +1,7 @@
 import React from 'react'
 import { Authentication, type AuthenticationProps } from '@holi/core/screens/auth/Authentication'
-import { render, screen, userEvent } from '@testing-library/react-native'
 import { renderRouter } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import HeaderAnimated from '@holi/core/components/HeaderAnimated/index.web'

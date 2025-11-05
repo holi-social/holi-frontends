@@ -8,7 +8,7 @@ import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboar
 import { EmailVerification } from '@holi/core/screens/onboarding/steps/EmailVerification'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { act, render, screen, userEvent, waitFor } from 'expo-router/testing-library'
+import { act, render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 

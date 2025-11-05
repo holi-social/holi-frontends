@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 import { Provider, createStore } from 'jotai'
 import type { MatrixClient } from 'matrix-js-sdk'
 import React from 'react'
@@ -12,7 +12,7 @@ import { useBlockUser } from '@holi/core/hooks/useBlockUser'
 import { BlockUserMutation } from '@holi/core/queries'
 import { MockedProvider } from '@apollo/client/testing/react'
 import type { User } from '@holi/core/domain/shared/types'
-import { waitFor } from 'expo-router/testing-library'
+import { waitFor } from '@testing-library/react-native'
 import { toMatrixIdentity } from '@holi/chat/src/store'
 
 jest.mock('matrix-js-sdk')

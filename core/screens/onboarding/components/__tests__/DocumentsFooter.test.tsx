@@ -1,6 +1,7 @@
 import { useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 const mockUseDocumentModal = useDocumentModal as jest.Mock

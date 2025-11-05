@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from 'expo-router/testing-library'
+import { renderHook, waitFor } from '@testing-library/react-native'
 import { useCommittedVolunteering } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
 
 jest.mock('@holi/api/graphql/graphql-codegen', () => ({

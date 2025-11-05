@@ -1,12 +1,21 @@
-import { act, renderHook } from '@testing-library/react-hooks'
-import { waitFor } from 'expo-router/testing-library'
-import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
-import { ClientEvent, EventType, IEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
-import React from 'react'
-import { PropsWithChildren } from 'react'
+import { renderHook } from '@testing-library/react-hooks'
+import { act, waitFor } from '@testing-library/react-native'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
+import {
+  ClientEvent,
+  EventType,
+  type IEvent,
+  type MatrixClient,
+  type MatrixEvent,
+  type Room,
+  RoomEvent,
+} from 'matrix-js-sdk'
+import React from 'react'
+import type { PropsWithChildren } from 'react'
+
+import type ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomEvent, type ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import {
   _deleteRoomAtomSubscriber,
   _roomAtomsRecordAtomSubscriber,

@@ -1,4 +1,4 @@
-import { act, renderHook } from 'expo-router/testing-library'
+import { act, renderHook } from '@testing-library/react-native'
 import { addPushTokenListener, getDevicePushTokenAsync } from 'expo-notifications'
 
 import {

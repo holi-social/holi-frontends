@@ -1,5 +1,6 @@
 import React from 'react'
-import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
+import { screen, fireEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { DonationCard } from '@holi-apps/donations/components/DonationCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import { localizedTypesenseDonation } from '@holi-apps/donations/components/__tests__/testData'

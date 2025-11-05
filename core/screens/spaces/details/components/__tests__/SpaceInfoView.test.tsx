@@ -1,4 +1,5 @@
-import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import { createRelatedSpace, space } from '@holi/core/screens/spaces/__tests__/testData'

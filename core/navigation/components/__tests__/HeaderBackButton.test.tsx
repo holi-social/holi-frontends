@@ -1,6 +1,7 @@
 import React from 'react'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, fireEvent } from '@testing-library/react-native'
 import { Text } from 'react-native'
 
 describe('HeaderBackButton', () => {

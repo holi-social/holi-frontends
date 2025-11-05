@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from 'expo-router/testing-library'
 import React from 'react'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { users } from '@holi/ui/components/organisms/__mocks__/users'

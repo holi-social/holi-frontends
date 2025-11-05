@@ -1,5 +1,6 @@
 import React from 'react'
-import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, fireEvent } from '@testing-library/react-native'
 import { VolunteeringRecoCard } from '@holi-apps/volunteering/components/VolunteeringRecoCard'
 import { makeTaskDocument, makeVolunteeringDocument } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import { TrackingEvent } from '@holi/core/tracking'

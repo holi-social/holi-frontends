@@ -1,5 +1,5 @@
 import type { User } from '@holi/core/domain/shared/types'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-native'
 import type { GraphQLError } from 'graphql'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type NamesSelectionData, useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'

@@ -2,7 +2,7 @@ import { makeVolunteeringDocuments } from '@holi-apps/volunteering/__tests__/hel
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useVolunteeringRecos } from '@holi-apps/volunteering/hooks/useVolunteeringRecos'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 
 const mockUseVolunteeringRecos = jest.mocked(useVolunteeringRecos)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecos', () => ({

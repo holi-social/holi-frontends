@@ -1,6 +1,6 @@
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
-import { render, screen, userEvent, within } from 'expo-router/testing-library'
+import { render, screen, userEvent, within } from '@testing-library/react-native'
 import React from 'react'
 
 describe('VolunteeringListingHeader', () => {

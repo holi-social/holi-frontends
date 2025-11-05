@@ -1,6 +1,6 @@
 import React from 'react'
 import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
-import { render, screen } from 'expo-router/testing-library'
+import { render, screen } from '@testing-library/react-native'
 import type { SearchResponseHit } from '@holi/core/typesense/types'
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'

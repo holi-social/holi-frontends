@@ -1,4 +1,6 @@
-import { act, renderRouter, screen } from 'expo-router/testing-library'
+import { act, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
+
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 

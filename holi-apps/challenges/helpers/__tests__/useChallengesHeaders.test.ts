@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from 'expo-router/testing-library'
+import { renderHook, waitFor } from '@testing-library/react-native'
 
 import { Consent, TrackingPurpose } from '@holi/core/tracking/types'
 

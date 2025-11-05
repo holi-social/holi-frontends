@@ -1,8 +1,8 @@
-import { render } from 'expo-router/testing-library'
+import { render } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 
-import HoliBox, { BoxLayoutProps } from '@holi/ui/components/atoms/HoliBox'
+import HoliBox, { type BoxLayoutProps } from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 describe('HoliBox', () => {
