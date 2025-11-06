@@ -15,7 +15,7 @@ import {
   useFlowErrorHandling,
 } from '@holi/core/screens/auth/form/hooks/useFlowErrorHandling'
 
-interface UseLoginFlowProps {
+export interface UseLoginFlowProps {
   startedFlowId?: string
   resetFlowId: () => void
   onFlowUpdate: (flow?: LoginFlow) => void
@@ -52,8 +52,10 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
             })
         : initLoginFlow()
       return flowPromise
-        .then(safeSetFlow)
-        .then(onFlowUpdate)
+        .then((flow) => {
+          safeSetFlow(flow)
+          onFlowUpdate(flow)
+        })
         .catch((error) => {
           displayError(error, 'Failed to initialize login flow', {
             displayMessage: t('auth.login.error.initialization'),
@@ -98,5 +100,5 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
     }
   }
 
-  return { flow, performLogin, resetFlow: initializeFlow }
+  return { flow, performLogin, resetFlow: () => initializeFlow() }
 }

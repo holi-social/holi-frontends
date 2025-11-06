@@ -88,7 +88,7 @@ const mapFlowSubmitError = <F extends LoginFlow | RegistrationFlow>(error: unkno
   return { errorType: 'GENERIC', error: error }
 }
 
-interface HandleFlowErrorProps<F extends LoginFlow | RegistrationFlow> {
+export interface HandleFlowErrorProps<F extends LoginFlow | RegistrationFlow> {
   resetFlow: () => void
   handleBrowserLogin: (redirectUrl: string) => Promise<void>
   handleEmailVerification: () => void
