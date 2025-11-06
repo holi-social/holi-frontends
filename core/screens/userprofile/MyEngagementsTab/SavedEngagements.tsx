@@ -17,7 +17,7 @@ import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/
 import { VolunteeringEmptyState } from '@holi/core/screens/userprofile/components/VolunteeringEmptyState'
 import { EngagementsListErrorState } from '@holi/core/screens/userprofile/components/EngagementsListErrorState'
 
-const StatusInfoHeader = () => {
+const StatusInfoModal = () => {
   const { t } = useTranslation()
   const { volunteeringStatuses } = useMyVolunteeringStatuses()
   const { show, hide, props: modalProps } = useModalState()
@@ -66,7 +66,7 @@ export const SavedEngagements = () => {
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
           <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
-          <StatusInfoHeader />
+          <StatusInfoModal />
         </Stack>
         <EngagementsListErrorState refetch={refetch} />
       </Stack>
@@ -86,7 +86,7 @@ export const SavedEngagements = () => {
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
           <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
-          <StatusInfoHeader />
+          <StatusInfoModal />
         </Stack>
         <VolunteeringEmptyState />
       </Stack>
@@ -97,7 +97,7 @@ export const SavedEngagements = () => {
     <Stack padding={{ bottom: 'xs' }} gap="xxs">
       <Stack direction="row" justifyContent="space-between">
         <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
-        <StatusInfoHeader />
+        <StatusInfoModal />
       </Stack>
 
       <Stack gap="xs">
