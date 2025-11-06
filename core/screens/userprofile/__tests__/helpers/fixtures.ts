@@ -1,14 +1,14 @@
 import { faker } from '@faker-js/faker'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
-import type { EngagementEntry } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
+import type { Engagement } from '@holi/core/screens/userprofile/hooks/useEngagements'
 
-export const makeCommittedVolunteeringItem = ({
+export const makeEngagement = ({
   status = VolunteeringOpportunityStatusValue.ToDo,
   location = true,
 }: {
   status?: VolunteeringOpportunityStatusValue
   location?: boolean
-} = {}): EngagementEntry => {
+} = {}): Engagement => {
   const externalId = faker.string.uuid()
   return {
     id: `volunteering_${externalId}`,
@@ -25,10 +25,10 @@ export const makeCommittedVolunteeringItem = ({
 
 export const makeCommittedVolunteeringItems = (
   length: number,
-  options?: Parameters<typeof makeCommittedVolunteeringItem>[0]
-): EngagementEntry[] =>
+  options?: Parameters<typeof makeEngagement>[0]
+): Engagement[] =>
   Array.from({ length }, (_, index) =>
-    makeCommittedVolunteeringItem({
+    makeEngagement({
       ...options,
       status: [
         VolunteeringOpportunityStatusValue.ToDo,

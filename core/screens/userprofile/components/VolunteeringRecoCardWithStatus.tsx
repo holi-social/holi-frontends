@@ -1,7 +1,7 @@
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { getInitials } from '@holi/core/helpers'
 import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
-import type { EngagementEntry } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
+import type { Engagement } from '@holi/core/screens/userprofile/hooks/useEngagements'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
 import { TrackingEvent } from '@holi/core/tracking'
 import { Global, MapPin2Filled } from '@holi/icons/src/generated'
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import type { DimensionValue } from 'react-native'
 
 interface VolunteeringRecoCardWithStatusProps {
-  engagement: EngagementEntry
+  engagement: Engagement
   fixedWidth?: DimensionValue
   trackingEvent?: TrackingEvent
 }

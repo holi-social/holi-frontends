@@ -10,7 +10,7 @@ import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 
-export type EngagementEntry = {
+export type Engagement = {
   id: string
   title: string
   organizerName: string
@@ -22,12 +22,11 @@ export type EngagementEntry = {
   link: string
 }
 
-//todo gregor: useEngagements
-export const useCommittedVolunteering = (
+export const useEngagements = (
   limit = 100
 ): {
   refetch: () => Promise<void>
-  items: EngagementEntry[]
+  engagements: Engagement[]
   isLoading: boolean
   isInitialLoad: boolean
   hasError: boolean
@@ -69,12 +68,12 @@ export const useCommittedVolunteering = (
   useEffect(() => {
     if (okunaQuery.error) {
       displayError(okunaQuery.error, 'Failed to load okuna data', {
-        location: 'useCommittedVolunteering.useCommittedVolunteeringOpportunitiesQuery',
+        location: 'useEngagements.useCommittedVolunteeringOpportunitiesQuery',
       })
     }
     if (typesenseSearchQuery.error) {
       displayError(typesenseSearchQuery.error, 'Failed to search for typesense data', {
-        location: 'useCommittedVolunteering.useTypesense_MultiSearchQuery',
+        location: 'useEngagements.useTypesense_MultiSearchQuery',
       })
     }
   }, [typesenseSearchQuery.error, okunaQuery.error, displayError])
@@ -88,7 +87,7 @@ export const useCommittedVolunteering = (
       return acc
     }, []) ?? []
 
-  const engagements = okunaVos.reduce((acc: EngagementEntry[], okunaVo) => {
+  const engagements = okunaVos.reduce((acc: Engagement[], okunaVo) => {
     const relatedTypesenseVo = typesenseVOs.find((typesenseVO) => {
       const rawTypesenseVoId = typesenseVO.link_locators?.volunteering ?? typesenseVO.link_locators?.task
       return rawTypesenseVoId === okunaVo.externalVolunteeringOpportunityId
@@ -108,13 +107,13 @@ export const useCommittedVolunteering = (
       await typesenseSearchQuery.refetch()
     } catch (error) {
       displayError(error as Error, 'Failed to refetch engagements', {
-        location: 'useCommittedVolunteering.refetch',
+        location: 'useEngagements.refetch',
       })
     }
   }
 
   return {
-    items: engagements,
+    engagements: engagements,
     isLoading: !!okunaQuery.loading || !!typesenseSearchQuery.loading,
     isInitialLoad: okunaVos.length === 0 && okunaQuery.loading && typesenseSearchQuery.loading,
     refetch,
@@ -125,7 +124,7 @@ export const useCommittedVolunteering = (
 const mapToEngagement = (
   okunaData: VolunteeringOpportunityStatus,
   typesenseData: LocalizedTypesenseDocument
-): EngagementEntry => {
+): Engagement => {
   const linkByType: Record<string, string> = {
     volunteering: `/volunteering/${typesenseData.link_locators?.volunteering}`,
     task: `/spaces/${typesenseData.link_locators?.space}/tasks/${typesenseData.link_locators?.task}`,

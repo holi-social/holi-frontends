@@ -1,4 +1,4 @@
-import { useCommittedVolunteering } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
+import { useEngagements } from '@holi/core/screens/userprofile/hooks/useEngagements'
 import { renderHook } from '@testing-library/react-hooks'
 import { waitFor } from '@testing-library/react-native'
 
@@ -29,7 +29,7 @@ const {
   useTypesense_MultiSearchQuery,
 } = require('@holi/api/graphql/graphql-codegen')
 
-describe('useCommittedVolunteering', () => {
+describe('useEngagements', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockDisplayError.mockClear()
@@ -41,39 +41,42 @@ describe('useCommittedVolunteering', () => {
     useCommittedVolunteeringOpportunitiesQuery.mockReturnValue({ loading: true })
     useTypesense_MultiSearchQuery.mockReturnValue({ loading: true })
 
-    const { result } = renderHook(() => useCommittedVolunteering())
+    const { result } = renderHook(() => useEngagements())
 
     expect(result.current.isLoading).toBe(true)
     expect(result.current.isInitialLoad).toBe(true)
   })
 
   it('should finally return items', async () => {
-    const { result } = renderHook(() => useCommittedVolunteering())
+    const { result } = renderHook(() => useEngagements())
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false)
       expect(result.current.isInitialLoad).toBe(false)
-      expect(result.current.items).toHaveLength(3)
+      expect(result.current.engagements).toHaveLength(3)
 
-      expect(result.current.items[0].id).toEqual('181175')
-      expect(result.current.items[0].type).toEqual('volunteering')
-      expect(result.current.items[0].link).toEqual('/volunteering/181175')
+      // voltastics vo
+      expect(result.current.engagements[0].id).toEqual('181175')
+      expect(result.current.engagements[0].type).toEqual('volunteering')
+      expect(result.current.engagements[0].link).toEqual('/volunteering/181175')
 
-      expect(result.current.items[1].id).toEqual('40ddaa0a-942c-4902-a983-f1b8b21719d2')
-      expect(result.current.items[1].type).toEqual('volunteering')
-      expect(result.current.items[1].link).toEqual('/volunteering/40ddaa0a-942c-4902-a983-f1b8b21719d2')
+      // aktion mensch vo
+      expect(result.current.engagements[1].id).toEqual('40ddaa0a-942c-4902-a983-f1b8b21719d2')
+      expect(result.current.engagements[1].type).toEqual('volunteering')
+      expect(result.current.engagements[1].link).toEqual('/volunteering/40ddaa0a-942c-4902-a983-f1b8b21719d2')
 
-      expect(result.current.items[2].id).toEqual('ebfb0054-ced6-4bbb-b415-46cd873b6ae2')
-      expect(result.current.items[2].type).toEqual('task')
-      expect(result.current.items[2].link).toEqual('/spaces/new-space/tasks/ebfb0054-ced6-4bbb-b415-46cd873b6ae2')
+      // space task vo
+      expect(result.current.engagements[2].id).toEqual('ebfb0054-ced6-4bbb-b415-46cd873b6ae2')
+      expect(result.current.engagements[2].type).toEqual('task')
+      expect(result.current.engagements[2].link).toEqual('/spaces/new-space/tasks/ebfb0054-ced6-4bbb-b415-46cd873b6ae2')
     })
   })
 
   it('should handle errors', () => {
     useTypesense_MultiSearchQuery.mockReturnValue(mockOkunaErronousQuery)
 
-    const { result } = renderHook(() => useCommittedVolunteering())
-    expect(result.current.items).toEqual([])
+    const { result } = renderHook(() => useEngagements())
+    expect(result.current.engagements).toEqual([])
     expect(result.current.hasError).toEqual(true)
     expect(mockDisplayError).toHaveBeenCalled()
     expect(mockDisplayError.mock.calls[0][0]).toStrictEqual(Error('broken'))

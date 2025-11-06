@@ -4,13 +4,13 @@ import { MyVolunteeringTab } from '@holi/core/screens/userprofile/MyVolunteering
 import {
   makeCommittedVolunteeringItems,
   mockCommittedVolunteeringHookResult,
-} from '@holi/core/screens/userprofile/__tests__/helpers/generators'
+} from '@holi/core/screens/userprofile/__tests__/helpers/fixtures'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { FavoritesDocument } from '@holi/api/graphql/graphql-codegen'
 
-const mockUseCommittedVolunteering = jest.fn()
-jest.mock('@holi/core/screens/userprofile/hooks/useCommittedVolunteering', () => ({
-  useCommittedVolunteering: () => mockUseCommittedVolunteering(),
+const mockUseEngagements = jest.fn()
+jest.mock('@holi/core/screens/userprofile/hooks/useEngagements', () => ({
+  useEngagements: () => mockUseEngagements(),
 }))
 
 const mockUseMyVolunteeringStatuses = jest.fn()
@@ -104,7 +104,7 @@ describe('MyVolunteeringTab', () => {
   })
 
   it('should render loader during initial load', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       isInitialLoad: true,
       items: [],
@@ -122,7 +122,7 @@ describe('MyVolunteeringTab', () => {
   })
 
   it('should render empty state when no items and no loading', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       isInitialLoad: false,
       totalResults: 0,
@@ -142,7 +142,7 @@ describe('MyVolunteeringTab', () => {
 
   it('should render volunteering items and status header', () => {
     const items = makeCommittedVolunteeringItems(3)
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       items,
       totalResults: items.length,
@@ -165,7 +165,7 @@ describe('MyVolunteeringTab', () => {
 
   it('should open status modal when info link is pressed', async () => {
     const user = userEvent.setup()
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       items: makeCommittedVolunteeringItems(1),
     })
@@ -185,7 +185,7 @@ describe('MyVolunteeringTab', () => {
   })
 
   it('should not render loader when no more items', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       items: makeCommittedVolunteeringItems(2),
       canFetchMore: false,
@@ -212,7 +212,7 @@ describe('MyVolunteeringTab with Favorites', () => {
       getVolunteeringStatus: jest.fn(),
     })
     mockUseFeatureFlag.mockReturnValue([true, undefined])
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       items: [],
       totalResults: 0,
@@ -346,7 +346,7 @@ describe('MyVolunteeringTab with Favorites', () => {
 
   it('should not render favorite section when feature flag disabled', () => {
     mockUseFeatureFlag.mockReturnValue([false, undefined])
-    mockUseCommittedVolunteering.mockReturnValue({
+    mockUseEngagements.mockReturnValue({
       ...mockCommittedVolunteeringHookResult,
       items: [],
       totalResults: 0,

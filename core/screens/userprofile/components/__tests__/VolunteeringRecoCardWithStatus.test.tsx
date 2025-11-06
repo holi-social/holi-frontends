@@ -2,12 +2,12 @@ import React from 'react'
 import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
 import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
-import { makeCommittedVolunteeringItem } from '@holi/core/screens/userprofile/__tests__/helpers/generators'
+import { makeEngagement } from '@holi/core/screens/userprofile/__tests__/helpers/fixtures'
 import { TrackingEvent } from '@holi/core/tracking'
 
 describe('VolunteeringRecoCardWithStatus', () => {
   const defaultProps = {
-    engagement: makeCommittedVolunteeringItem({
+    engagement: makeEngagement({
       status: VolunteeringOpportunityStatusValue.ToDo,
     }),
     index: 0,
@@ -23,7 +23,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should render Planned status chip for TO_DO status', () => {
-    const engagement = makeCommittedVolunteeringItem({
+    const engagement = makeEngagement({
       status: VolunteeringOpportunityStatusValue.ToDo,
     })
 
@@ -35,7 +35,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should render Connected status chip for CONTACTED status', () => {
-    const engagement = makeCommittedVolunteeringItem({
+    const engagement = makeEngagement({
       status: VolunteeringOpportunityStatusValue.Contacted,
     })
 
@@ -47,7 +47,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should render Helping status chip for DOING status', () => {
-    const engagement = makeCommittedVolunteeringItem({
+    const engagement = makeEngagement({
       status: VolunteeringOpportunityStatusValue.Doing,
     })
 
@@ -59,7 +59,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should render remote location label', () => {
-    const engagement = makeCommittedVolunteeringItem({
+    const engagement = makeEngagement({
       location: false,
     })
     engagement.locationType = 'remote'
@@ -70,7 +70,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should render onsite location when provided', () => {
-    const engagement = makeCommittedVolunteeringItem({
+    const engagement = makeEngagement({
       location: true,
     })
     renderRouter({
@@ -80,7 +80,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should be clickable and track events', () => {
-    const engagement = makeCommittedVolunteeringItem()
+    const engagement = makeEngagement()
 
     renderRouter({
       index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,
@@ -102,7 +102,7 @@ describe('VolunteeringRecoCardWithStatus', () => {
   })
 
   it('should handle engagement without organizer', () => {
-    const engagement = makeCommittedVolunteeringItem()
+    const engagement = makeEngagement()
     engagement.organizerName = ''
     renderRouter({
       index: () => <VolunteeringRecoCardWithStatus engagement={engagement} />,

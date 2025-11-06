@@ -9,7 +9,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
-import { useCommittedVolunteering } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
+import { useEngagements } from '@holi/core/screens/userprofile/hooks/useEngagements'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -59,7 +59,7 @@ const StatusInfoHeader = () => {
 export const SavedEngagements = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const { items: engagements, isLoading, isInitialLoad, hasError, refetch } = useCommittedVolunteering()
+  const { engagements, isLoading, isInitialLoad, hasError, refetch } = useEngagements()
 
   if (hasError) {
     return (
