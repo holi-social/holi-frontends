@@ -37,14 +37,3 @@ export const makeCommittedVolunteeringItems = (
       ][index % 3],
     })
   )
-
-export const mockCommittedVolunteeringHookResult = {
-  items: makeCommittedVolunteeringItems(3),
-  totalResults: 3,
-  canFetchMore: false,
-  isLoading: false,
-  isInitialLoad: false,
-  isFetchingMore: false,
-  fetchMore: jest.fn(),
-  refetch: jest.fn(),
-}

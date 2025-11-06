@@ -113,7 +113,7 @@ export const useEngagements = (
   }
 
   return {
-    engagements: engagements,
+    engagements,
     isLoading: !!okunaQuery.loading || !!typesenseSearchQuery.loading,
     isInitialLoad: okunaVos.length === 0 && okunaQuery.loading && typesenseSearchQuery.loading,
     refetch,
