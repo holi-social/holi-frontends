@@ -89,6 +89,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
           <HoliTransition.Fade visible={!revealed} skipInitialEnter style={{ position: 'absolute', zIndex: 10 }}>
             <ScratchMask {...scratchProps} />
           </HoliTransition.Fade>
+
           {!revealed && (
             <View style={styles.chipLabel}>
               <ChipLabel color="yellow" blackBorder>
@@ -147,7 +148,7 @@ const stylesheet = createStyleSheet({
     zIndex: 1,
   },
   chipLabel: {
-    zIndex: 10,
+    zIndex: 9999,
     position: 'absolute',
     bottom: -16,
     alignSelf: 'center',
