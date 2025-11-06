@@ -10,18 +10,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { DimensionValue } from 'react-native'
 
-interface VolunteeringRecoCardWithStatusProps {
+interface EngagementCardProps {
   engagement: Engagement
   fixedWidth?: DimensionValue
   trackingEvent?: TrackingEvent
 }
 
-// todo gregor: "EngagementCard"
-export const VolunteeringRecoCardWithStatus = ({
-  engagement,
-  fixedWidth,
-  trackingEvent,
-}: VolunteeringRecoCardWithStatusProps) => {
+export const EngagementCard = ({ engagement, fixedWidth, trackingEvent }: EngagementCardProps) => {
   const { t } = useTranslation()
   const { isRemote, isHybrid } = getLocationTypeInfo(engagement.locationType, engagement.location)
 

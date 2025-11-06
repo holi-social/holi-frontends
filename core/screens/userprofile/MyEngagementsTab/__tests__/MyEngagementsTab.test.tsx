@@ -40,8 +40,8 @@ jest.mock('@holi/core/screens/userprofile/components/VolunteeringEmptyState', ()
   },
 }))
 
-jest.mock('@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus', () => ({
-  VolunteeringRecoCardWithStatus: ({ engagement }: { engagement: { id: string; title: string } }) => {
+jest.mock('@holi/core/screens/userprofile/components/EngagementCard', () => ({
+  EngagementCard: ({ engagement }: { engagement: { id: string; title: string } }) => {
     const { View, Text } = require('react-native')
     return (
       <View testID={`volunteering-card-${engagement.id}`}>

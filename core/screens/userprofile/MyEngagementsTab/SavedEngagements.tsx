@@ -8,7 +8,7 @@ import { Information } from '@holi/icons/src/generated'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
+import { EngagementCard } from '@holi/core/screens/userprofile/components/EngagementCard'
 import { useEngagements } from '@holi/core/screens/userprofile/hooks/useEngagements'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
@@ -103,7 +103,7 @@ export const SavedEngagements = () => {
       <Stack gap="xs">
         {engagements.map((item) => (
           <ErrorBoundary key={item.id}>
-            <VolunteeringRecoCardWithStatus engagement={item} />
+            <EngagementCard engagement={item} />
           </ErrorBoundary>
         ))}
       </Stack>
