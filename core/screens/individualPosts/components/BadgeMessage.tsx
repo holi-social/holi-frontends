@@ -122,7 +122,13 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
       ) : (
         <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xs">
           <Button label={t('badge.modal.reward.button')} size="lg" onPress={onClaim} />
-          <TextLink onPress={() => navigate('/profile')} size="md">
+          <TextLink
+            onPress={() => {
+              onClaim?.()
+              navigate('/profile?tab=badges')
+            }}
+            size="md"
+          >
             {t('badge.modal.reward.link')}
           </TextLink>
         </Stack>
