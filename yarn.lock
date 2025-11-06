@@ -27813,11 +27813,11 @@ __metadata:
   linkType: hard
 
 "react-native-device-info@npm:^14.0.4":
-  version: 14.0.4
-  resolution: "react-native-device-info@npm:14.0.4"
+  version: 14.1.1
+  resolution: "react-native-device-info@npm:14.1.1"
   peerDependencies:
     react-native: "*"
-  checksum: 10c0/3d89519b4e9f9f130b352f5243282f8b807aba0f55ccc0e1dc9f15b285215949751491ef2f11f1984a55f0f5e0ae76cd16620d2cdfcc118e2ca5f39d300d5524
+  checksum: 10c0/38ae82b2364b8af5b5cfdd142842bb7dd53b2e37b7225b375ac2f5ebf9272c5250fec2fb08cb58af494339c2341de617393717fc5488c575a5b9d817237d7f54
   languageName: node
   linkType: hard
 
