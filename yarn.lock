@@ -5539,7 +5539,7 @@ __metadata:
     "@ory/client": "npm:^1.1.21"
     "@react-native-async-storage/async-storage": "npm:1.24.0"
     "@react-native-clipboard/clipboard": "npm:^1.16.3"
-    "@react-native-community/datetimepicker": "npm:8.2.0"
+    "@react-native-community/datetimepicker": "npm:8.5.0"
     "@react-native-community/netinfo": "npm:11.4.1"
     "@react-native-google-signin/google-signin": "npm:^14.0.1"
     "@react-native-masked-view/masked-view": "npm:0.3.2"
@@ -5683,7 +5683,7 @@ __metadata:
     "@babel/core": "npm:^7.24.0"
     "@babel/preset-env": "npm:^7.25.4"
     "@holi/icons": "npm:^1.0.0"
-    "@react-native-community/datetimepicker": "npm:8.2.0"
+    "@react-native-community/datetimepicker": "npm:8.5.0"
     "@storybook/react": "npm:^7.6.10"
     "@types/tinycolor2": "npm:1.4.6"
     eslint: "npm:^8.33.0"
@@ -5703,7 +5703,7 @@ __metadata:
     react-native-svg: "npm:15.14.0"
     react-test-renderer: "npm:18.3.1"
   peerDependencies:
-    "@react-native-community/datetimepicker": 8.2.0
+    "@react-native-community/datetimepicker": 8.5.0
     "@types/react-transition-group": ^4.4.11
     lottie-react: 2.4.1
     lottie-react-native: 6.7.2
@@ -8527,13 +8527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/datetimepicker@npm:8.2.0":
-  version: 8.2.0
-  resolution: "@react-native-community/datetimepicker@npm:8.2.0"
+"@react-native-community/datetimepicker@npm:8.5.0":
+  version: 8.5.0
+  resolution: "@react-native-community/datetimepicker@npm:8.5.0"
   dependencies:
     invariant: "npm:^2.2.4"
   peerDependencies:
-    expo: ">=50.0.0"
+    expo: ">=52.0.0"
     react: "*"
     react-native: "*"
     react-native-windows: "*"
@@ -8542,7 +8542,7 @@ __metadata:
       optional: true
     react-native-windows:
       optional: true
-  checksum: 10c0/bfb99fd5148f15be6a00653434979591a880394fc5b5c50c16fea7cac13d84d663603f3cb62dbfb6933c472d4805b69456bab445ea44122c95cbf437bc4b8bb3
+  checksum: 10c0/bff2032d1335ed20f342efa90b4d25a659e141ef9a99749c8bc53a6839f7f3f62a2fd0a3a12b6ff66b45d478ff78b2da8cde687406ead5d20813c89e4be9cd7c
   languageName: node
   linkType: hard
 
@@ -20759,7 +20759,7 @@ __metadata:
     "@holi/icons": "npm:*"
     "@holi/ui": "npm:*"
     "@react-native-async-storage/async-storage": "npm:^2.1.2"
-    "@react-native-community/datetimepicker": "npm:8.2.0"
+    "@react-native-community/datetimepicker": "npm:8.5.0"
     "@react-native-community/slider": "npm:4.5.7"
     "@storybook/addon-a11y": "npm:^8.5.8"
     "@storybook/addon-actions": "npm:^8.5.8"
@@ -20806,7 +20806,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
     typescript: "npm:^5.8.3"
   peerDependencies:
-    "@react-native-community/datetimepicker": 8.2.0
+    "@react-native-community/datetimepicker": 8.5.0
     expo-image: ~2.0.7
     next: ^14.2.7
     react: 18.3.1
