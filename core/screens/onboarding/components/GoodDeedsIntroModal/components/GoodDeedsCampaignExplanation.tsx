@@ -38,7 +38,7 @@ export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }:
   const [heroExplanaitonHeight, setHeroExplanaitonHeight] = useState(0)
 
   const handleNextPress = () => {
-    track(TrackingEvent.OnboardingIntro.FindGoodDeedButtonClicked)
+    track(TrackingEvent.OnboardingIntro.FindGoodDeedButtonClicked(type))
     onNextPress()
   }
 
