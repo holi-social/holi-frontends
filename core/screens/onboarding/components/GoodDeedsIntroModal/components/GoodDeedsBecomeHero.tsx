@@ -32,7 +32,7 @@ export const GoodDeedsBecomeHero = ({ type, onNextPress }: GoodDeedsBecomeHeroPr
   const [heroBecomeHeight, setHeroBecomeHeight] = useState(0)
 
   const handleNextPress = () => {
-    track(TrackingEvent.OnboardingIntro.TellMeMoreButtonClicked)
+    track(TrackingEvent.OnboardingIntro.TellMeMoreButtonClicked(type))
     onNextPress()
   }
 
