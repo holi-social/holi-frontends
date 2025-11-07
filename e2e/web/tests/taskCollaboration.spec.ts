@@ -85,17 +85,16 @@ test.describe('@Task collaboration multi user journey', () => {
       await chatInputBox.fill('Hello from automated QA task collaborator (e2e)')
 
       await clickElementByAriaLabel(carol, 'Send message')
-
+      await carol.getByText('Hello from automated QA task collaborator (e2e)')
       await clickElementByTestId(carol, 'nav-button-back')
 
-      await clickButtonByText(carol, 'Move on')
-      await clickButtonByText(carol, 'I’m on it')
-      await clickButtonByText(carol, 'Claim')
+      await clickElementByAriaLabel(carol, 'Go to next step')
+      await clickElementByAriaLabel(carol, 'Mark as done')
+      await clickElementByAriaLabel(carol, 'Claim')
 
       await carol.goto('/profile')
 
       const card = carol.getByTestId('volunteering-reco-card-with-status').first()
-
       await expect(card).toContainText('Helping')
     })
   })
