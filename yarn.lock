@@ -5128,7 +5128,7 @@ __metadata:
     expo-calendar: "npm:~15.0.7"
     expo-camera: "npm:~17.0.9"
     expo-constants: "npm:~18.0.10"
-    expo-dev-client: "npm:~6.0.16"
+    expo-dev-client: "npm:~6.0.17"
     expo-device: "npm:~8.0.9"
     expo-file-system: "npm:~19.0.17"
     expo-image: "npm:~3.0.10"
@@ -5162,7 +5162,6 @@ __metadata:
     lodash.isequal: "npm:^4.5.0"
     lodash.partition: "npm:^4.6.0"
     lodash.shuffle: "npm:^4.2.0"
-    lottie-ios: "npm:4.5.1"
     lottie-react-native: "npm:~7.3.1"
     posthog-react-native: "npm:^4.10.1"
     react: "npm:19.1.0"
@@ -17864,6 +17863,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-dev-client@npm:~6.0.17":
+  version: 6.0.17
+  resolution: "expo-dev-client@npm:6.0.17"
+  dependencies:
+    expo-dev-launcher: "npm:6.0.17"
+    expo-dev-menu: "npm:7.0.16"
+    expo-dev-menu-interface: "npm:2.0.0"
+    expo-manifests: "npm:~1.0.8"
+    expo-updates-interface: "npm:~2.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/aa3a323834d325267777f36d4756436824a6792490ef30cac57b2965ed836452eb519a19e539c7006ea3234fe6c4642bcdb7bf46e895db0149f88ed0d5e352b2
+  languageName: node
+  linkType: hard
+
 "expo-dev-launcher@npm:6.0.16":
   version: 6.0.16
   resolution: "expo-dev-launcher@npm:6.0.16"
@@ -17873,6 +17887,18 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/ec84911b2e722caf4fd4d0c9febe85ec1a443ce0742faa6407c36db21532be522da8094b57d8c1fa55c878af834df0345347b09bad0a4d56b9e564b61e233ec0
+  languageName: node
+  linkType: hard
+
+"expo-dev-launcher@npm:6.0.17":
+  version: 6.0.17
+  resolution: "expo-dev-launcher@npm:6.0.17"
+  dependencies:
+    expo-dev-menu: "npm:7.0.16"
+    expo-manifests: "npm:~1.0.8"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/6a4a389b7c9efc4c4c99bd27f3a20808f84661ddc64f8bde93acea55c936b766639a7b81641a4069cc6d2bfedaacb3979e2cbb8f9d4563977f91290ef86e19e1
   languageName: node
   linkType: hard
 
@@ -22747,13 +22773,6 @@ __metadata:
   bin:
     loose-envify: cli.js
   checksum: 10c0/655d110220983c1a4b9c0c679a2e8016d4b67f6e9c7b5435ff5979ecdb20d0813f4dec0a08674fcbdd4846a3f07edbb50a36811fd37930b94aaa0d9daceb017e
-  languageName: node
-  linkType: hard
-
-"lottie-ios@npm:4.5.1":
-  version: 4.5.1
-  resolution: "lottie-ios@npm:4.5.1"
-  checksum: 10c0/c5308e7cf26e2d7c610fdc9bda4fa1894eea986080f99cf11422f62d79db1c1962349ee8954243d219666a6441cb130888d68f0110237ae46d1b50608cde3fc2
   languageName: node
   linkType: hard
 
