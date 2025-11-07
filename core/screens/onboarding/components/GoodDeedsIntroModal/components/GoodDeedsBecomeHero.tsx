@@ -9,6 +9,8 @@ import { Text } from 'holi-bricks/components/text'
 import { breakpoints } from 'holi-bricks/foundations'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliFigmaSpanPlaceholder } from '@holi/ui/components/atoms/HoliFigmaSpanPlaceholder'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
 // eslint-disable-next-line no-restricted-imports
@@ -25,8 +27,14 @@ export const GoodDeedsBecomeHero = ({ type, onNextPress }: GoodDeedsBecomeHeroPr
   const { t } = useTranslation()
   const { top: safeAreaTop } = useSafeAreaInsets()
   const isDesktopView = useIsDesktopView()
+  const { track } = useTracking()
 
   const [heroBecomeHeight, setHeroBecomeHeight] = useState(0)
+
+  const handleNextPress = () => {
+    track(TrackingEvent.OnboardingIntro.TellMeMoreButtonClicked)
+    onNextPress()
+  }
 
   return (
     <Stack justifyContent="space-between" flex={1} backgroundColor="white" direction={isDesktopView ? 'row' : 'column'}>
@@ -95,7 +103,7 @@ export const GoodDeedsBecomeHero = ({ type, onNextPress }: GoodDeedsBecomeHeroPr
         <GoodDeedsIntroFooterNavigation
           isBackButtonAvailable={false}
           nextButtonLabel="onboarding.modal.step01.buttonPrimary"
-          onNextPress={onNextPress}
+          onNextPress={handleNextPress}
         />
       </Stack>
     </Stack>

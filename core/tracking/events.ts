@@ -956,6 +956,18 @@ export namespace TrackingEvent {
     ...versionOne,
     properties,
   })
+
+  export namespace OnboardingIntro {
+    export const TellMeMoreButtonClicked: TrackingEvent = {
+      name: 'tell_me_more_button_clicked',
+      ...versionOne,
+    }
+
+    export const FindGoodDeedButtonClicked: TrackingEvent = {
+      name: 'find_good_deed_button_clicked',
+      ...versionOne,
+    }
+  }
 }
 
 export const Unknown: TrackingEvent = {

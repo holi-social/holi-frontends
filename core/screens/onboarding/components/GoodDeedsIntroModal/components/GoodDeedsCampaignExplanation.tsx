@@ -8,6 +8,8 @@ import { Image } from 'holi-bricks/components/image'
 import { Text } from 'holi-bricks/components/text'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import { GoodDeedsIntroFooterNavigation } from './GoodDeedsIntroFooterNavigation'
 // eslint-disable-next-line no-restricted-imports
@@ -26,6 +28,7 @@ type GoodDeedsCampaignExplanationProps = {
 export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }: GoodDeedsCampaignExplanationProps) => {
   const { t } = useTranslation()
   const isDesktopView = useIsDesktopView()
+  const { track } = useTracking()
 
   const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({
     fetchPolicy: 'cache-and-network',
@@ -33,6 +36,11 @@ export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }:
   })
 
   const [heroExplanaitonHeight, setHeroExplanaitonHeight] = useState(0)
+
+  const handleNextPress = () => {
+    track(TrackingEvent.OnboardingIntro.FindGoodDeedButtonClicked)
+    onNextPress()
+  }
 
   // resusable elements
   const textContent = (
@@ -47,7 +55,7 @@ export const GoodDeedsCampaignExplanation = ({ type, onNextPress, onBackPress }:
     <GoodDeedsIntroFooterNavigation
       isBackButtonAvailable
       onBackPress={onBackPress}
-      onNextPress={onNextPress}
+      onNextPress={handleNextPress}
       nextButtonLabel={
         type === 'onboarding'
           ? 'onboarding.modal.goodDeed.campaignExplanation.button'
