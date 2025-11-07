@@ -35,7 +35,7 @@ export const useEngagements = (
   const { displayError } = useErrorHandling()
 
   const okunaQuery = useCommittedVolunteeringOpportunitiesQuery({
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
     variables: {
       offset: 0,
       limit,
@@ -52,6 +52,7 @@ export const useEngagements = (
   }, [])
 
   const typesenseSearchQuery = useTypesense_MultiSearchQuery({
+    fetchPolicy: 'no-cache',
     variables: {
       input: {
         searches: [
