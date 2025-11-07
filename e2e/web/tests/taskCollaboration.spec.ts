@@ -1,6 +1,13 @@
-import { clickButtonByText, clickElementByTestId, locateElementByTestId, retry } from '@holi/e2e-web/tests/helpers'
+import {
+  clickButtonByText,
+  clickElementByAriaLabel,
+  clickElementByTestId,
+  locateElementByTestId,
+  retry,
+} from '@holi/e2e-web/tests/helpers'
 import { test } from '@holi/e2e-web/tests/testmaster'
 import { expect } from '@playwright/test'
+import { InteractionType, VisibilityType } from '@holi/api/graphql/graphql-codegen'
 
 test.describe('@Task collaboration multi user journey', () => {
   test('Task Space Admins can be contacted by User', async ({ sessions }) => {
@@ -11,7 +18,10 @@ test.describe('@Task collaboration multi user journey', () => {
     const { page: carol } = await sessions.signUp()
 
     const space = await aliceApi.createSpace()
-    const task = await aliceApi.createSpaceTask(space.id)
+    const task = await aliceApi.createSpaceTask(space.id, {
+      interactionType: InteractionType.Chat,
+      visibility: VisibilityType.Public,
+    })
 
     await test.step('Another User is promoted to space admin', async () => {
       //  Alice invites Bob to space
@@ -43,10 +53,6 @@ test.describe('@Task collaboration multi user journey', () => {
       await carol.goto('/spaces/' + space.id + '/tasks')
       await carol.getByTestId('link').first().click()
       await carol.getByLabel('Get in touch').click()
-    })
-
-    await test.step('Task chat explanation modal is confirmable', async () => {
-      await expect(carol.getByText("Let's connect")).toBeVisible()
       await carol.getByRole('button', { name: 'Open chat' }).click()
     })
 
@@ -59,6 +65,38 @@ test.describe('@Task collaboration multi user journey', () => {
       //and all admins are mentioned
       await expect(carol.getByRole('link', { name: aliceFullName })).toBeVisible()
       await expect(carol.getByRole('link', { name: bobFullName })).toBeVisible()
+    })
+
+    await test.step('User can view the engaged (contacted) task in the profile', async () => {
+      await carol.goto('/profile')
+      carol.getByText('My Engagements')
+
+      const card = carol.getByTestId('volunteering-reco-card-with-status').first()
+
+      await expect(card).toBeVisible({ timeout: 10000 })
+      await expect(card).toContainText(task.name)
+    })
+
+    await test.step('User advance the engagements volunteering opportunity status by chatting', async () => {
+      await clickElementByTestId(carol, 'volunteering-reco-card-with-status')
+      await carol.getByRole('button', { name: 'Open chat' }).click()
+
+      const chatInputBox = carol.getByTestId('chat-message-input-input')
+      await chatInputBox.fill('Hello from automated QA task collaborator (e2e)')
+
+      await clickElementByAriaLabel(carol, 'Send message')
+
+      await clickElementByTestId(carol, 'nav-button-back')
+
+      await clickButtonByText(carol, 'Move on')
+      await clickButtonByText(carol, 'I’m on it')
+      await clickButtonByText(carol, 'Claim')
+
+      await carol.goto('/profile')
+
+      const card = carol.getByTestId('volunteering-reco-card-with-status').first()
+
+      await expect(card).toContainText('Helping')
     })
   })
 })

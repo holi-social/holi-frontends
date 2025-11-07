@@ -9,13 +9,14 @@ import {
   deleteAuthenticatedAccount,
   signUp,
 } from './helpers/api'
+import { CreateTaskInput } from '@holi/api/graphql/graphql-codegen'
 
 type Session = {
   page: Page
   user: User
   api: {
     createSpace: () => Promise<E2ETestSpaceResponse>
-    createSpaceTask: (spaceId: string) => Promise<E2ETestSpaceTaskResponse>
+    createSpaceTask: (spaceId: string, overrides: Partial<CreateTaskInput>) => Promise<E2ETestSpaceTaskResponse>
   }
 }
 
@@ -41,7 +42,8 @@ export class SessionHandler {
       page: newPage,
       api: {
         createSpace: () => createSpace(context),
-        createSpaceTask: (spaceId: string) => createSpaceTask(context, spaceId),
+        createSpaceTask: (spaceId: string, overrides: Partial<CreateTaskInput>) =>
+          createSpaceTask(context, spaceId, overrides),
       },
     }
   }
