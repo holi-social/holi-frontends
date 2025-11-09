@@ -99,7 +99,7 @@
     ]
   },
   "dependencies": {
-    "react-native-web": "^0.19.12"
+    "react-native-web": "^0.21.0"
   },
   "resolutions": {
     "eslint-plugin-react-hooks": "4.6.2",
