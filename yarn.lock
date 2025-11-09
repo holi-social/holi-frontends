@@ -5461,7 +5461,7 @@ __metadata:
     expo-tracking-transparency: ~5.1.1
     graphql-request: ^7.1.0
     react-native-fbsdk-next: ^13.4.1
-    react-native-reanimated: ~3.16.1
+    react-native-reanimated: ~3.16.1 || ~3.19.0
     react-native-svg: 15.14.0
     react-zoom-pan-pinch: ^2.1.3
   languageName: unknown
@@ -5616,7 +5616,7 @@ __metadata:
     react-native-keyboard-controller: "npm:^1.17.1"
     react-native-localize: "npm:^3.5.2"
     react-native-media-query: "npm:^2.0.1"
-    react-native-reanimated: "npm:~3.16.1"
+    react-native-reanimated: "npm:~3.19.0"
     react-native-reanimated-carousel: "npm:^4.0.2"
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:4.12.0"
@@ -5712,7 +5712,7 @@ __metadata:
     react-native: 0.76.9
     react-native-animated-pagination-dot: ^0.4.0
     react-native-controlled-mentions: ^2.2.5
-    react-native-reanimated: ~3.16.1
+    react-native-reanimated: ~3.16.1 || ~3.19.0
     react-native-render-html: ^6.3.4
     react-native-safe-area-context: 4.12.0
     react-native-svg: 15.14.0
@@ -5765,7 +5765,7 @@ __metadata:
     react-multi-carousel: "npm:^2.8.5"
     react-native-gesture-handler: "npm:~2.20.2"
     react-native-media-query: "npm:^2.0.1"
-    react-native-reanimated: "npm:~3.16.1"
+    react-native-reanimated: "npm:~3.19.0"
     react-native-svg-web: "npm:^1.0.9"
     react-native-web: "npm:^0.19.12"
     react-transition-group: "npm:^4.4.5"
@@ -20796,7 +20796,7 @@ __metadata:
     react-dom: "npm:18.3.1"
     react-native: "npm:0.76.9"
     react-native-gesture-handler: "npm:~2.20.2"
-    react-native-reanimated: "npm:~3.16.1"
+    react-native-reanimated: "npm:~3.19.0"
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:4.12.0"
     react-native-svg: "npm:15.14.0"
@@ -27892,6 +27892,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-is-edge-to-edge@npm:1.1.7":
+  version: 1.1.7
+  resolution: "react-native-is-edge-to-edge@npm:1.1.7"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/b7a37437f439b1e27a4d980de01994aa71b9091dc3ed00c21172d5505fb11978cd5ed3a43f97c89d502a3a08cf26e5cea6435b8d6e93d3557a92dd43563f7021
+  languageName: node
+  linkType: hard
+
 "react-native-is-edge-to-edge@npm:^1.1.6":
   version: 1.1.6
   resolution: "react-native-is-edge-to-edge@npm:1.1.6"
@@ -27995,9 +28005,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:~3.16.1":
-  version: 3.16.7
-  resolution: "react-native-reanimated@npm:3.16.7"
+"react-native-reanimated@npm:~3.19.0":
+  version: 3.19.3
+  resolution: "react-native-reanimated@npm:3.19.3"
   dependencies:
     "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
     "@babel/plugin-transform-class-properties": "npm:^7.0.0-0"
@@ -28010,11 +28020,12 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.16.7"
     convert-source-map: "npm:^2.0.0"
     invariant: "npm:^2.2.4"
+    react-native-is-edge-to-edge: "npm:1.1.7"
   peerDependencies:
     "@babel/core": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 10c0/007cbec677d036e8d2c0744dfff52282ddfb9a89bb3eee82e7eaebcf731b07505e241af04ac87a38da038a18e380b32ec8a55263d1bb8559274d1c077b0b1d25
+  checksum: 10c0/adf06db4961bbb9dd3acf432f6359c74ee497a71cea6350ed0380c9f231d89e19e6458ac41b298b85e31cc1caffd537f18908f9050dd3d8ae4c5dc95322fc884
   languageName: node
   linkType: hard
 
