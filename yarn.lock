@@ -28103,8 +28103,8 @@ __metadata:
   linkType: hard
 
 "react-native-unistyles@npm:^2.11.0":
-  version: 2.32.0
-  resolution: "react-native-unistyles@npm:2.32.0"
+  version: 2.43.0
+  resolution: "react-native-unistyles@npm:2.43.0"
   peerDependencies:
     "@react-native/normalize-colors": "*"
     react: "*"
@@ -28119,7 +28119,7 @@ __metadata:
       optional: true
     react-native-windows:
       optional: true
-  checksum: 10c0/01d27e42fdaa08ff382ec8e77f11e8a08c1b43141fd3f69e7a94c14efc19475b72d37270993640e16d92ac0ad672ba2c4135872b927119971d4b4d80352f66dd
+  checksum: 10c0/4ca908993749ab780ff1df483f85c8711643e76d772fbbbad40c60ad5dde0facbd185ed14fd1aab6c624dedaf7d1e87e89caba0aadeafa409330916810b78658
   languageName: node
   linkType: hard
 
