@@ -109,7 +109,7 @@
     "find-yarn-workspace-root": "^2.0.0",
     "jest-each": "^29.6.3",
     "jest-mock-extended": "^3.0.5",
-    "react-devtools": "4.14.0",
+    "react-devtools": "4.28.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "use-sync-external-store": "^1.1.0"
