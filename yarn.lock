@@ -27762,21 +27762,22 @@ __metadata:
   linkType: hard
 
 "react-native-calendars@npm:^1.1306.0":
-  version: 1.1307.0
-  resolution: "react-native-calendars@npm:1.1307.0"
+  version: 1.1313.0
+  resolution: "react-native-calendars@npm:1.1313.0"
   dependencies:
     hoist-non-react-statics: "npm:^3.3.1"
     lodash: "npm:^4.17.15"
     memoize-one: "npm:^5.2.1"
     moment: "npm:^2.29.4"
     prop-types: "npm:^15.5.10"
+    react-native-safe-area-context: "npm:4.5.0"
     react-native-swipe-gestures: "npm:^1.0.5"
     recyclerlistview: "npm:^4.0.0"
     xdate: "npm:^0.8.0"
   dependenciesMeta:
     moment:
       optional: true
-  checksum: 10c0/c097259660eac529f847f40a84eb1f4c622b419334a6e43e1f0168a729eb15dcce88426a8a3f3bff58653cf2e8db848cdd67a15176926d523b3c0880147720f5
+  checksum: 10c0/a1c7325755ebac65bfed8224c1308ab430fa5dea43c95fed027eb23745b075f6ec1906cce18d95a3f5dcd127860aebebddb3a040408a281071e3f6d0cd19c5b9
   languageName: node
   linkType: hard
 
@@ -28045,6 +28046,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/122e7e24de39371b107fcac7ecd6b62d41301a46c945c7a6b3a07c8b65d4cb9ebf58bf163bfecfd430b1bd8fdf61d4f319dac1812edd7986c00b7d2cc16da24c
+  languageName: node
+  linkType: hard
+
+"react-native-safe-area-context@npm:4.5.0":
+  version: 4.5.0
+  resolution: "react-native-safe-area-context@npm:4.5.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/cd9dfe25803b7b120940c243d9c9f10b0b61d262ad5875245909cdbf0025684241189b2796d35028519fee0e7a94e6f47bcaf2e23fc7801875d5f633a7778296
   languageName: node
   linkType: hard
 
