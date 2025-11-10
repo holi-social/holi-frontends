@@ -5023,7 +5023,7 @@ __metadata:
     "@graphql-codegen/typescript-graphql-request": "npm:^6.3.0"
     "@graphql-codegen/typescript-operations": "npm:^5.0.2"
     "@graphql-eslint/eslint-plugin": "npm:^3.18.0"
-    "@novu/client": "npm:0.24.2"
+    "@novu/client": "npm:0.20.0"
     "@ory/kratos-client": "npm:v1.3.8"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@shopify/flash-list": "npm:^2.2.0"
@@ -6900,23 +6900,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@novu/client@npm:0.24.2":
-  version: 0.24.2
-  resolution: "@novu/client@npm:0.24.2"
+"@novu/client@npm:0.20.0":
+  version: 0.20.0
+  resolution: "@novu/client@npm:0.20.0"
   dependencies:
-    "@novu/shared": "npm:^0.24.2"
-  checksum: 10c0/c4bc867479b1eef43bf5ee4659062c83987cabaa19608cdc09c44034535c6c27482cc25841250006b1f8eb44c99357679d8adf1b34a1231de2443c0bb3f3d180
+    "@novu/shared": "npm:^0.20.0"
+  checksum: 10c0/7575a76d5b4b57ae54d6e6965dd93715e15dc9a00586c6368e643d4c1a6a4201587f1437ec3a9dd84978ed75003bb272c1929fa0c0f15820aede059cab292ad6
   languageName: node
   linkType: hard
 
-"@novu/shared@npm:^0.24.2":
-  version: 0.24.2
-  resolution: "@novu/shared@npm:0.24.2"
+"@novu/shared@npm:^0.20.0":
+  version: 0.20.0
+  resolution: "@novu/shared@npm:0.20.0"
   dependencies:
-    axios: "npm:^1.6.2"
+    axios: "npm:^1.4.0"
     class-transformer: "npm:0.5.1"
     class-validator: "npm:0.14.0"
-  checksum: 10c0/0be951d4678474e106423cbab0bdef1bb0b9f81883901846be43c9fb04205fc5b0d96bf4b028224399e050cfe1f47bb051e4b7b20a685c2efb642b5e7f25c0a8
+  checksum: 10c0/0b8c9764bd8657e9d7eb15ad633128a845503fc7639c1a4367814d9f36d0ec472ba8add98a6cb420bff50c8b058cb1c9cbfb4b453baf146b7c95ad3333b20325
   languageName: node
   linkType: hard
 
@@ -13922,7 +13922,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.1, axios@npm:^1.8.2":
+"axios@npm:^1.4.0, axios@npm:^1.6.1, axios@npm:^1.8.2":
   version: 1.12.1
   resolution: "axios@npm:1.12.1"
   dependencies:
@@ -13930,17 +13930,6 @@ __metadata:
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
   checksum: 10c0/eda4dff56c02d13b950fd9487b678ac197ce5f21dfc98df73632df29e45d8dd24602a34e8d9b6e016d84a41ef7fd7fc4a7618060a72cc536b91cda1eaa9cd907
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.6.2":
-  version: 1.13.2
-  resolution: "axios@npm:1.13.2"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.4"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/e8a42e37e5568ae9c7a28c348db0e8cf3e43d06fcbef73f0048669edfe4f71219664da7b6cc991b0c0f01c28a48f037c515263cb79be1f1ae8ff034cd813867b
   languageName: node
   linkType: hard
 
