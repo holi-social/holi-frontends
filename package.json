@@ -104,7 +104,7 @@
   "resolutions": {
     "eslint-plugin-react-hooks": "4.6.2",
     "eslint-plugin-jsx-a11y": "6.7.1",
-    "mime-db": "1.53.0",
+    "mime-db": "1.54.0",
     "expo-dev-menu": "7.0.16",
     "expo-constants": "18.0.10",
     "expo-web-browser": "15.0.9",
