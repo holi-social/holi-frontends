@@ -72,9 +72,8 @@ const mapFlowSubmitError = <F extends LoginFlow | RegistrationFlow>(error: unkno
         return { errorType: 'BAD_REQUEST', flow }
       }
       case 404:
+        return { errorType: 'INVALID_FLOW', error: error.response }
       case 410:
-        // This happens when the flow is, for example, expired or was deleted.
-        // We simply re-initialize the flow if that happens!
         return { errorType: 'INVALID_FLOW', error: error.response }
       case 422: {
         // Not an error but the way Ory handles browser redirects
@@ -111,8 +110,10 @@ export const useFlowErrorHandling = <F extends LoginFlow | RegistrationFlow>() =
           // Do not display error if user cancelled the login/registration
           break
         case 'INVALID_FLOW':
+          // This happens when the flow is, for example, expired or was deleted.
+          // We simply re-initialize the flow if that happens!
           callbacks.resetFlow()
-          displayError(flowSubmitError.error, 'Flow could not be found, reinitializing flow', {
+          displayError(flowSubmitError.error, 'Flow is invalid, reinitializing flow', {
             location: 'useFlowErrorHandling.handleFlowSubmitError',
             logLocally: true,
           })
@@ -123,7 +124,7 @@ export const useFlowErrorHandling = <F extends LoginFlow | RegistrationFlow>() =
             .catch((error) => handleFlowSubmitError(error, callbacks))
           break
         case 'DUPLICATED_ACCOUNT':
-          displayError(new Error('Email already used'), 'Failed to submit form', {
+          displayError(new Error('Email already used'), 'Failed to submit flow', {
             displayMessage: i18n.t('auth.login.message.1010016'),
             location: 'useFlowErrorHandling.handleFlowSubmitError',
             logLocally: true,

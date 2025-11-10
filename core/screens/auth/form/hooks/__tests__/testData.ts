@@ -166,10 +166,12 @@ export const createLoginFlowWithNode = (node: UiNode) => ({
   },
 })
 
-export const createLoginFlowWithMessage = (message: UiText) => ({
+export const createLoginFlowWithMessages = (messages: UiText[]) => ({
   ...loginFlow,
   ui: {
     ...loginFlow.ui,
-    messages: [message, ...(loginFlow.ui.messages ?? [])],
+    messages: [...messages, ...(loginFlow.ui.messages ?? [])],
   },
 })
+
+export const createLoginFlowWithMessage = (message: UiText) => createLoginFlowWithMessages([message])
