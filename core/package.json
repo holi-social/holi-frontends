@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@apollo/client": "^4.0.7",
-    "@novu/client": "0.20.0",
+    "@novu/client": "0.24.2",
     "@ory/kratos-client": "v1.3.8",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@shopify/flash-list": "^2.2.0",
