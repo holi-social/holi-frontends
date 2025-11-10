@@ -1,6 +1,6 @@
 import { Screen } from '@holi/core/components/Screen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
-import { DetailsScreen, type DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
+import { DetailsScreen, type DetailsScreenData, type DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import type { Petition } from '@holi/core/screens/act/petitions/PetitionCard'
@@ -15,14 +15,15 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform } from 'react-native'
 import petitions from './petitions.json'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { PetitionProgressCard } from '@holi/core/screens/spaces/tasks/components/PetitionProgressCard'
+import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 export type PetitionDetailsParams = {
   petitionId: string
-}
-
-export enum PetitionStatusValue {
-  ToSign = 'TO_SIGN',
-  Completed = 'COMPLETED',
 }
 
 const { useParam } = createParamHooks<PetitionDetailsParams>()
@@ -30,7 +31,9 @@ const { useParam } = createParamHooks<PetitionDetailsParams>()
 export const PetitionDetails = () => {
   const { t } = useTranslation()
   const [petitionId] = useParam('petitionId')
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const { navigate } = useRouting()
+
   const petition = petitions.find((petition) => petition.id === petitionId) as Petition
   const infoList: DetailsScreenInfoList[] = [
     { title: `${t('act.petitions.createdBy', { initiatorNames: petition.startedBy })}`, icon: UserLine },
@@ -41,19 +44,60 @@ export const PetitionDetails = () => {
     },
   ]
 
-  // todo: backend data
+  // Mocked data for development purposes -----------------------------------------------
+  // Tobe replaced by:
   // const { isLoading, document, refetchStatus } = usePetitionsDetailsData(petitionId)
   // const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
-  // const onPetitionStatusChange = async (status: PetitionStatusValue) => {
-  // updatePetitionStatus({
-  //   variables: {
-  //     PetitionId: petitionId,
-  //     newStatus: status,
-  //   },
-  // })
+  type PetitionDetailsScreenData = DetailsScreenData & {
+    externalUrl?: string
+    commitmentType?: string
+    locationType?: string
+    location?: string
+    source?: string
+    contact?: TypesenseDocument['contact']
+  }
 
-  // await refetchStatus()
-  // }
+  const documentMock: PetitionDetailsScreenData = {
+    title: 'Some title',
+    externalUrl: 'https://www.lovelace.com',
+    contact: [
+      { type: Typesense_DocumentContactType.Person, value: 'Ada Lovelace' },
+      { type: Typesense_DocumentContactType.Email, value: 'ada@lovelace.com' },
+      { type: Typesense_DocumentContactType.Phone, value: '+49 1234 1234567' },
+      {
+        label: "Ada's Website",
+        type: Typesense_DocumentContactType.Website,
+        value: 'https://www.lovelace.com',
+      },
+    ],
+    commitmentType: 'once',
+    status: VolunteeringOpportunityStatusValue.Done,
+  }
+
+  const refetchStatusMock = async () => {
+    return
+  }
+
+  const updatePetitionStatusMock = async (params: {
+    variables: {
+      PetitionId: string | undefined
+      newStatus: VolunteeringOpportunityStatusValue
+    }
+  }) => {
+    return params
+  }
+  // End of mocked data --------------------------------------------------------------------
+
+  const onPetitionStatusChange = async (status: VolunteeringOpportunityStatusValue) => {
+    updatePetitionStatusMock({
+      variables: {
+        PetitionId: petitionId,
+        newStatus: status,
+      },
+    })
+
+    await refetchStatusMock()
+  }
 
   useTrackOnce(TrackingEvent.PetitionDetails.viewed(petitionId as string))
 
@@ -92,7 +136,7 @@ export const PetitionDetails = () => {
                 icon={GoodDeeds}
                 label={t('act.petitions.cta')}
                 onPress={() => {
-                  // onPetitionStatusChange(PetitionStatusValue.ToSign) // todo
+                  onPetitionStatusChange(VolunteeringOpportunityStatusValue.ToDo)
                   Linking.openURL(petition.externalLink as string)
                 }}
                 trackingEvent={TrackingEvent.PetitionDetails.findMore}
@@ -113,6 +157,21 @@ export const PetitionDetails = () => {
             progressBarPercentage={petition.percentage}
             progressBarLeft={t('act.petitions.percent', { percentage: petition.percentage })}
           />
+        }
+        progressCard={
+          rewardsPhaseTwoEnabled &&
+          documentMock?.status &&
+          [VolunteeringOpportunityStatusValue.ToDo, VolunteeringOpportunityStatusValue.Done].includes(
+            documentMock?.status
+          ) ? (
+            <HoliTransition.FadeDown visible>
+              <PetitionProgressCard
+                status={documentMock?.status}
+                onStatusChange={onPetitionStatusChange}
+                externalLink={petition.externalLink as string}
+              />
+            </HoliTransition.FadeDown>
+          ) : null
         }
       />
     </Screen>
