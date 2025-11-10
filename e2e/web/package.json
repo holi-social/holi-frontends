@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.11.0",
   "devDependencies": {
     "@apollo/client": "^4.0.7",
     "@playwright/test": "1.56.1",
