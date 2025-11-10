@@ -1,6 +1,6 @@
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 import { useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
-import { renderHook } from 'expo-router/testing-library'
+import { renderHook } from '@testing-library/react-native'
 
 describe('useSortedTerms', () => {
   describe('for topics', () => {

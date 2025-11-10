@@ -7,7 +7,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliNoResultsProps = {
   firstText?: string
-  media?: JSX.Element
+  media?: React.ReactElement
   secondText: string
   style?: StyleProp<ViewStyle>
   testID?: string

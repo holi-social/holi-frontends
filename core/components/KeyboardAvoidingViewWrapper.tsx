@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, ViewProps } from 'react-native'
+import { KeyboardAvoidingView, Platform, type ScrollView, StyleSheet, type ViewProps } from 'react-native'
 
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -10,7 +10,7 @@ export interface KeyboardAvoidingViewWrapperProps extends ViewProps {
 
 const KeyboardAvoidingViewWrapper = React.forwardRef<KeyboardAvoidingView, KeyboardAvoidingViewWrapperProps>(
   ({ renderProp }: KeyboardAvoidingViewWrapperProps, ref) => {
-    const scrollViewRef = useRef<ScrollView>(null)
+    const scrollViewRef = useRef(null as unknown as ScrollView)
     const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
 
     return (

@@ -1,6 +1,6 @@
-import type { ApolloClient } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
+import { act, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { createStore } from 'jotai'
 import {
   ClientEvent,
@@ -69,10 +69,10 @@ const loggedOut: LoginState = {
 }
 
 const useLoginStateMock = jest.mocked(useLoginState)
-const defaultOptions: ApolloClient.DefaultOptions = {
+const defaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
-}
+} as const
 
 const getLoggedUserQueryMock = (user: User) => {
   return {
@@ -184,7 +184,7 @@ describe('ChatHomeContent Component', () => {
     await waitForElementToBeRemoved(() => screen.getByTestId('chat-home-loader'))
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(roomName)
+    expect(displayedRoom).toHaveTextContent(roomName, { exact: false })
   })
 
   it('should render existing room with pending invitation', async () => {
@@ -225,8 +225,8 @@ describe('ChatHomeContent Component', () => {
     })
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name)
-    expect(displayedRoom).toHaveTextContent('chat.invitation.newconversation')
+    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name, { exact: false })
+    expect(displayedRoom).toHaveTextContent(/chat.invitation.newconversation/)
   })
 
   it('should render incoming rooms', async () => {
@@ -319,6 +319,6 @@ describe('ChatHomeContent Component', () => {
 
     expect(screen.queryByTestId(`room-item-${SPACE_ROOM_NAME_FIXTURE}`)).not.toBeOnTheScreen()
     const displayedRoom = await screen.findByTestId(`room-item-${SPACE_CHILD_ROOM_NAME_FIXTURE}`)
-    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE)
+    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE, { exact: false })
   })
 })

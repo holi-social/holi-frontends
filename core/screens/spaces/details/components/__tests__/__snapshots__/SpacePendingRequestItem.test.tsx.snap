@@ -952,7 +952,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
       accessibilityLabel="spaces.collaborators.permissions.label"
       accessibilityViewIsModal={true}
       animationType="none"
-      hardwareAccelerated={false}
       onRequestClose={[Function]}
       testID="space-collaborators-permissions-modal"
       transparent={true}
@@ -1092,7 +1091,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           >
             <View
               collapsable={false}
-              handlerTag={1}
+              handlerTag={-1}
               handlerType="PanGestureHandler"
               onGestureHandlerEvent={[Function]}
               onGestureHandlerStateChange={[Function]}

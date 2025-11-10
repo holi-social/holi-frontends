@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, View, type ViewStyle } from 'react-native'
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { type MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
@@ -32,10 +32,10 @@ const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[]
     groupedMessages[formattedDate] = groupedMessages[formattedDate] ?? [
       { title: getSectionDisplayDate(locale, timestamp) },
     ]
-    groupedMessages[formattedDate].unshift(message)
+    groupedMessages[formattedDate].push(message)
   }
 
-  return Object.values(groupedMessages).reverse().flat()
+  return Object.values(groupedMessages).flat()
 }
 
 const RoomMessageList = ({
@@ -51,6 +51,12 @@ const RoomMessageList = ({
   const groupedMessages = groupByDate(messages, i18n.language)
   return (
     <FlashList
+      style={styles.fixInfiniteWebScroll}
+      keyExtractor={(item) => {
+        if (isTextMessageItem(item)) return item.id
+        else if (isMessageSection(item)) return item.title
+        return ''
+      }}
       renderItem={({ item: message, index }) => {
         if (isMessageSection(message)) return <RoomMessageSection messageSection={message} />
 
@@ -74,15 +80,15 @@ const RoomMessageList = ({
         )
       }}
       data={groupedMessages}
-      // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
-      // use ListFooterComponent to add padding bottom for HeaderAnimated
-      inverted={true}
+      maintainVisibleContentPosition={{
+        autoscrollToBottomThreshold: 0.2,
+        startRenderingFromBottom: true,
+      }}
       onScroll={onScroll}
-      estimatedItemSize={52}
       removeClippedSubviews
       keyboardDismissMode="interactive"
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
+      ListHeaderComponent={() => <View style={styles.listHeaderSpacer}>{starter}</View>}
+      ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
     />
   )
 }
@@ -90,10 +96,17 @@ const RoomMessageList = ({
 export default RoomMessageList
 
 const stylesheet = createStyleSheet(() => ({
-  listFooterSpacer: {
+  listHeaderSpacer: {
     paddingHorizontal: Spacing['xs'],
   },
-  listHeaderSpacer: {
+  listFooterSpacer: {
     height: 20,
+  },
+  fixInfiniteWebScroll: {
+    ...Platform.select({
+      web: {
+        maxHeight: 'calc(100vh - 124px)' as ViewStyle['maxHeight'],
+      },
+    }),
   },
 }))

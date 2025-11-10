@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render, screen, userEvent } from 'expo-router/testing-library'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringLocationFilterSelection } from '@holi-apps/volunteering/components/VolunteeringLocationFilterSelection'
 import { usePlacesAutocomplete } from '@holi/core/geolocation/hooks/usePlacesAutocomplete'
 import { testLocation } from '@holi-apps/volunteering/__tests__/testData'
@@ -106,17 +106,11 @@ describe('VolunteeringLocationFilterSelection', () => {
     const inputField = screen.getByLabelText('volunteering.filter.location.label')
 
     await act(async () => {
-      // Unclear why this is needed for the test
-      await jest.runAllTimersAsync()
-
       // Focus input field to display options
-      const interaction = user.paste(inputField, 'Hamburg, Germany')
-
-      expect(screen.getByText('Hamburg, Germany')).toBeOnTheScreen()
-      expect(screen.getByText('Hannover, Germany')).toBeOnTheScreen()
-
-      await interaction
+      await user.paste(inputField, 'Hamburg, Germany')
     })
+    expect(screen.getByText('Hamburg, Germany')).toBeOnTheScreen()
+    expect(screen.getByText('Hannover, Germany')).toBeOnTheScreen()
   })
 
   it('should submit selection', async () => {

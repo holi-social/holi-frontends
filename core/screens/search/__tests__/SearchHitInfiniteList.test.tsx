@@ -1,5 +1,6 @@
 import React from 'react'
-import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { act, fireEvent, screen } from '@testing-library/react-native'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfiniteList'
 import type { TrackingEvent } from '@holi/core/tracking'

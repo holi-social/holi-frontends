@@ -1,6 +1,7 @@
 import { MockedProvider } from '@apollo/client/testing/react'
 import type { MockLink } from '@apollo/client/testing'
-import { fireEvent, renderRouter, waitFor } from 'expo-router/testing-library'
+import { fireEvent, waitFor } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 import { Text } from 'react-native'
 

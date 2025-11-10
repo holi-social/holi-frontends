@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { isApp } from '@holi/core/helpers/isApp'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { FileCopy, Share } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -37,7 +37,7 @@ const ShareAppointment: React.FC<ShareAppointmentProps> = ({
       : ''
   }${meetLink}\n`
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/spaces/${space?.name}/appointments/${appointment?.id}`,
     linkType: LinkType.UNIVERSAL,
     message: isApp ? message : '',
