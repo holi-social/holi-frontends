@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringArrayFilterSelection } from '@holi-apps/volunteering/components/VolunteeringArrayFilterSelection'
 import { useVolunteeringFilterOptions } from '@holi-apps/volunteering/hooks/useVolunteeringFilterOptions'
 
@@ -22,7 +22,7 @@ describe('VolunteeringArrayFilterSelection', () => {
     const chips = screen.getAllByRole('switch')
     expect(chips).toHaveLength(expectedOptions.length)
     expectedOptions.forEach((option, index) => {
-      expect(chips[index]).toHaveTextContent(option)
+      expect(chips[index]).toHaveTextContent(option, { exact: false })
     })
   }
 

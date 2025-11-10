@@ -1,4 +1,4 @@
-import { render, screen } from 'expo-router/testing-library'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'

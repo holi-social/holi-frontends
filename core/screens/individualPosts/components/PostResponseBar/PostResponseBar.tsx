@@ -9,7 +9,7 @@ import UserAvatarPile from '@holi/core/screens/individualPosts/components/PostRe
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { Comment, Share } from '@holi/icons/src/generated'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Text } from 'holi-bricks/components/text'
@@ -33,7 +33,7 @@ const PostResponseBar = ({ post, onCommentPress, style }: PostResponseBarProps) 
   const commenters = isFeedPost ? (post as FeedPost).commenters.data : (post as Post).commenters.data
   const { track } = useTracking()
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/feed-posts/${(post as FeedPost).slug}`,
     linkType: LinkType.UNIVERSAL,
     message: post.title,

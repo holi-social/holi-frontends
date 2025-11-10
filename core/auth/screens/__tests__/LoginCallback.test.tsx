@@ -1,6 +1,8 @@
 import React from 'react'
 import { LoginCallback } from '@holi/core/auth/screens/LoginCallback'
-import { renderRouter, screen, waitFor } from 'expo-router/testing-library'
+import { screen, waitFor } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
+
 import * as WebBrowser from 'expo-web-browser'
 import { Text } from 'react-native'
 

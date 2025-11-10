@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect } from 'expo-router'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'

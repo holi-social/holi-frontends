@@ -11,6 +11,7 @@ import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/Vol
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 
 import {
+  FavoritableType,
   useUpdateVolunteeringOpportunityStatusMutation,
   useVolunteeringOpportunityStatusQuery,
   VolunteeringOpportunityStatusValue,
@@ -26,6 +27,14 @@ import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { Stack } from 'holi-bricks/components/stack'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { DoItLater, DoItLaterModal } from '@holi/core/screens/spaces/tasks/DoItLater'
+import { BookmarkLine } from '@holi/icons/src/generated'
+import { useTranslation } from 'react-i18next'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 const isIos = Platform.OS === 'ios'
 
@@ -46,9 +55,14 @@ const TaskDetails = () => {
     interactionType,
     taskDuration,
     taskRegularity,
+    totalCompletions,
+    isGoodDeed,
   } = useTaskDetailsData()
-
+  const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
+  const { props: doItLaterModalProps, show: showDoItLater } = useModalState()
   const loginState = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
   const { adminUsers } = useSpaceAdminUsers(spaceName)
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const [taskSelfReportingFlow] = useFeatureFlag(FeatureFlagKey.TASK_SELF_REPORTING_FLOW)
@@ -59,7 +73,6 @@ const TaskDetails = () => {
     holiSpaceId: spaceId || '',
   }
   const { startChat, isLoading } = useStartChat(chatRoomContent, adminUsers || [])
-  const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
 
   // Task status management
   const [updateVolunteeringOpportunityStatus] = useUpdateVolunteeringOpportunityStatusMutation()
@@ -98,82 +111,128 @@ const TaskDetails = () => {
 
   useTrackOnce(id ? TrackingEvent.Task.detailPage.visited(taskProps) : undefined)
   return (
-    <Screen
-      onRefresh={refetch}
-      preset="auto"
-      headerOptions={{
-        animation: 'slide_from_left',
-        headerBackVisible: false,
-        headerTitleAlign: 'center',
-        ...Platform.select({
-          native: {
-            title: '',
-            headerTransparent: true,
+    <>
+      <Screen
+        onRefresh={refetch}
+        preset="auto"
+        headerOptions={{
+          animation: 'slide_from_left',
+          headerBackVisible: false,
+          headerTitleAlign: 'center',
+          ...Platform.select({
+            native: {
+              title: '',
+              headerTransparent: true,
+            },
+          }),
+          headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+          headerRight: ({ tintColor }) => renderActionDrawer(tintColor),
+          navigationCustomOptions: {
+            footerShown: false,
           },
-        }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-        headerRight: ({ tintColor }) => renderActionDrawer(tintColor),
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      }}
-      statusBarProps={{ translucent: true, style: isIos ? 'light' : 'dark', animated: true }}
-      StickyBottomComponent={
-        taskSelfReportingFlow ? (
-          <TaskDetailsCTA
-            spaceIdOrName={spaceName}
-            isFavorite={data?.isFavorite}
-            refetchFavorite={refetch}
-            isLoading={isLoading}
-            onModalDismiss={() => {
-              if (!rewardsPhaseTwoEnabled) return
-              // Update status to "TO_DO" only once when initially the status is null
-              if (taskStatus === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
-            }}
-            startChat={startChat}
-            status={taskStatus?.status}
-          />
-        ) : displayCta ? (
-          <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }}>
-            <TaskDetailsCTALegacy
+        }}
+        statusBarProps={{ translucent: true, style: isIos ? 'light' : 'dark', animated: true }}
+        StickyBottomComponent={
+          taskSelfReportingFlow ? (
+            <TaskDetailsCTA
               spaceIdOrName={spaceName}
-              taskName={data?.title}
-              taskId={id}
-              spaceTitle={spaceTitle}
-              spaceId={spaceId}
-              interactionType={interactionType}
-              interactionSignupLink={interactionSignupLink}
-              taskDuration={taskDuration}
-              taskRegularity={taskRegularity}
+              isFavorite={data?.isFavorite}
+              refetchFavorite={refetch}
+              isLoading={isLoading}
+              onModalDismiss={() => {
+                if (!rewardsPhaseTwoEnabled) return
+                // Update status to "TO_DO" only once when initially the status is null
+                if (taskStatus === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
+              }}
+              startChat={startChat}
+              status={taskStatus?.status}
             />
-          </Stack>
-        ) : null
-      }
-    >
-      <DetailsScreen
-        {...data}
-        _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
-        placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
-        progressCard={
-          rewardsPhaseTwoEnabled &&
-          !!taskStatus?.status &&
-          [
-            VolunteeringOpportunityStatusValue.ToDo,
-            VolunteeringOpportunityStatusValue.Contacted,
-            VolunteeringOpportunityStatusValue.Doing,
-          ].includes(taskStatus.status) ? (
-            <HoliTransition.FadeDown visible>
-              <TaskProgressCard
-                status={taskStatus.status}
-                onStatusChange={onVolunteeringStatusChange}
-                startChat={startChat}
-                taskProps={taskProps}
+          ) : (
+            <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }}>
+              <TaskDetailsCTALegacy
+                spaceIdOrName={spaceName}
+                taskName={data?.title}
+                taskId={id}
+                spaceTitle={spaceTitle}
+                spaceId={spaceId}
+                interactionType={interactionType}
+                interactionSignupLink={interactionSignupLink}
+                taskDuration={taskDuration}
+                taskRegularity={taskRegularity}
               />
-            </HoliTransition.FadeDown>
-          ) : null
+              {id &&
+                (isGoodDeed && !isLoggedIn ? (
+                  <ButtonTracked
+                    variant="secondary"
+                    label={t('volunteering.progress.button.favorites.toSave')}
+                    onPress={showDoItLater}
+                    icon={BookmarkLine}
+                    trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
+                      step: 'save',
+                      ...taskProps,
+                    })}
+                  />
+                ) : (
+                  <SaveForLaterButton
+                    favoritableType={FavoritableType.Task}
+                    favoritableId={id}
+                    __typename={'Task'}
+                    isFavorite={data?.isFavorite}
+                    onError={(error: Error) =>
+                      displayError(
+                        error,
+                        data?.isFavorite
+                          ? 'Failed to add the task to favorites'
+                          : 'Failed to remove the task from favorites',
+                        {
+                          location: 'TaskDetails.saveForLaterTask',
+                          favoritableId: id,
+                        }
+                      )
+                    }
+                  />
+                ))}
+            </Stack>
+          )
         }
-      />
-    </Screen>
+      >
+        <DetailsScreen
+          {...data}
+          _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
+          placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
+          progressCard={
+            rewardsPhaseTwoEnabled &&
+            !!taskStatus?.status &&
+            [
+              VolunteeringOpportunityStatusValue.ToDo,
+              VolunteeringOpportunityStatusValue.Contacted,
+              VolunteeringOpportunityStatusValue.Doing,
+            ].includes(taskStatus.status) ? (
+              <HoliTransition.FadeDown visible>
+                <TaskProgressCard
+                  status={taskStatus.status}
+                  onStatusChange={onVolunteeringStatusChange}
+                  startChat={startChat}
+                  taskProps={taskProps}
+                />
+              </HoliTransition.FadeDown>
+            ) : null
+          }
+        />
+      </Screen>
+      {id && (
+        <DoItLaterModal {...doItLaterModalProps}>
+          <DoItLater
+            id={id}
+            title={data.title}
+            imageSrc={data.coverImage?.uri}
+            completedCount={totalCompletions || 0}
+            trackingProps={taskProps}
+            onJoin={doItLaterModalProps.onDismiss}
+          />
+        </DoItLaterModal>
+      )}
+    </>
   )
 }
 

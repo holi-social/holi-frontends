@@ -1,5 +1,6 @@
 import React from 'react'
-import { renderRouter, screen } from 'expo-router/testing-library'
+import { screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 

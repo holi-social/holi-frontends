@@ -37,8 +37,6 @@ pino().debug('Avoid treeshaking of externally included logging framework by next
 initializeBricks({ isProduction })
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
-  // defaultProps can be used to pass page specific props to the DefaultLayout component
-  const { defaultProps = {} } = Component
   const { t } = useTranslation()
   const holiPageProps = new HoliPageProps(pageProps)
   const router = useRouter()
@@ -71,8 +69,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // TODO: alternatively to this approach, we could choose <AppLayout> for every route with '/apps/' prefix
   // taken from https://nextjs.org/docs/basic-features/layouts#with-typescript
   // Use the layout defined at the page level, if available
-  const getLayout =
-    Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
+  const getLayout = Component.getLayout ?? ((page) => <NavigationLayoutRoot>{page}</NavigationLayoutRoot>)
 
   return (
     <WebRootProvider pageProps={holiPageProps}>

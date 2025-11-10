@@ -52,7 +52,7 @@ export const ActNavBar = () => {
   }
 
   return (
-    <View style={{ overflowX: 'auto' }}>
+    <View>
       <Stack
         direction="row"
         justifyContent="space-between"

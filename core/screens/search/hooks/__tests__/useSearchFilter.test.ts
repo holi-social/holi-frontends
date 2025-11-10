@@ -1,5 +1,5 @@
 import { useSearchFilter } from '@holi/core/screens/search/hooks/useSearchFilter'
-import { act, renderHook } from 'expo-router/testing-library'
+import { act, renderHook } from '@testing-library/react-native'
 
 describe('useSearchFilter', () => {
   it('should initialize with the correct default values', () => {

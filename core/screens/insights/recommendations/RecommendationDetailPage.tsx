@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -29,6 +28,7 @@ import ReactionCount from '@holi/core/components/reactions/ReactionCount'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import { Text } from 'holi-bricks/components/text'
 import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -68,7 +68,7 @@ const RecommendationDetailPage = () => {
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insightId}/recommendations/${recommendationId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.recommendations.share.message', {

@@ -1,5 +1,6 @@
 import React from 'react'
-import { screen, userEvent, renderRouter } from 'expo-router/testing-library'
+import { screen, userEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { MyEngagementsTab } from '@holi/core/screens/userprofile/MyEngagementsTab/MyEngagementsTab'
 import { makeCommittedVolunteeringItems } from '@holi/core/screens/userprofile/__tests__/helpers/fixtures'
 import { MockedProvider } from '@apollo/client/testing/react'

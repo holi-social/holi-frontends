@@ -115,7 +115,8 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: Spacing.md,
   },
   footer: {
-    paddingY: Spacing.sm,
+    paddingTop: Spacing.sm,
+    paddingBottom: Spacing.sm,
     gap: Spacing.xs,
     backgroundColor: theme.colors.bg.main,
   },

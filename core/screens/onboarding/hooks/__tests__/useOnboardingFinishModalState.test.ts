@@ -2,7 +2,7 @@ import {
   hideOnboardingFinishModal,
   useOnboardingFinishModalState,
 } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-native'
 
 describe('useOnboardingFinishModalState', () => {
   beforeEach(() => {

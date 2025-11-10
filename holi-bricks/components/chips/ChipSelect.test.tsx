@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from 'expo-router/testing-library'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { ChipSelect } from './ChipSelect'
@@ -17,7 +17,7 @@ describe('ChipSelect', () => {
       </ChipSelect>
     )
 
-    expect(screen.root).toHaveTextContent('42')
+    expect(screen.root).toHaveTextContent(/42/)
   })
 
   it('should raise press event', () => {
