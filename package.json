@@ -108,6 +108,6 @@
     "expo-dev-menu": "7.0.16",
     "expo-constants": "18.0.10",
     "expo-web-browser": "15.0.9",
-    "sharp": "0.33.5"
+    "sharp": "0.34.5"
   }
 }
