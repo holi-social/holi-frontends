@@ -58,7 +58,7 @@ const CommentForm = ({
   const { track } = useTracking()
 
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef(null as unknown as ScrollView)
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

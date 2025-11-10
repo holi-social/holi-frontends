@@ -33,7 +33,7 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
 
   // const circlePosXEnd = 44
   // const circlePosXStart = 4
-  const prevSwitchOnRef = useRef<boolean>()
+  const prevSwitchOnRef = useRef<boolean>(value)
   const prevSwitchOn = !!prevSwitchOnRef.current
   const [animXValue] = useState(new Animated.Value(value ? 1 : 0))
 

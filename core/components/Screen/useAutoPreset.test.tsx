@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook, act } from '@testing-library/react-native'
 import { useAutoPreset } from './useAutoPreset'
 import type { LayoutChangeEvent } from 'react-native'
 

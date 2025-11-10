@@ -1,6 +1,15 @@
 import { Stack } from 'expo-router'
 import React from 'react'
+import { useStyles } from 'holi-bricks/styles'
 
 export default function Layout() {
-  return <Stack />
+  const { theme } = useStyles()
+
+  return (
+    <Stack
+      screenOptions={{
+        headerTintColor: theme.colors.fill.main,
+      }}
+    />
+  )
 }

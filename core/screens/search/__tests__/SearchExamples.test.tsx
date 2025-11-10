@@ -1,6 +1,7 @@
 import React from 'react'
 import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
-import { renderRouter, screen, fireEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, fireEvent } from '@testing-library/react-native'
 import { SEARCH_FACETS_IN_ORDER } from '@holi/core/screens/search/types'
 import { Text } from 'react-native'
 

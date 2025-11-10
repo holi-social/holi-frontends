@@ -1,4 +1,5 @@
-import { render } from 'expo-router/testing-library'
+import { render } from '@testing-library/react-native'
+
 import React from 'react'
 
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'

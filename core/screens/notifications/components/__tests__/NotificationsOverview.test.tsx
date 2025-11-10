@@ -1,5 +1,7 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, render, renderRouter, screen, waitFor, waitForElementToBeRemoved } from 'expo-router/testing-library'
+import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
+
 import React from 'react'
 
 import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
@@ -309,7 +311,9 @@ describe('NotificationsOverview', () => {
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     await waitFor(async () =>
-      expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
+      expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage, {
+        exact: false,
+      })
     )
   })
 
@@ -325,7 +329,7 @@ describe('NotificationsOverview', () => {
     // wait for user to be loaded
     const loaderTextContent = 'loginRedirect.title'
     await waitForElementToBeRemoved(() => screen.getByText(loaderTextContent))
-    const emptyNotificationsMessage = 'notifications.display.empty.text2'
+    const emptyNotificationsMessage = /notifications.display.empty.text2/
     await waitFor(async () =>
       expect(await screen.findByTestId('notifications-overview')).toHaveTextContent(emptyNotificationsMessage)
     )

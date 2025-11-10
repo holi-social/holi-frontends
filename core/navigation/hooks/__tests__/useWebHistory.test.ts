@@ -1,5 +1,5 @@
 import { history, useWebHistory } from '@holi/core/navigation/hooks/useWebHistory'
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 
 describe('useWebHistory', () => {
   beforeEach(() => {

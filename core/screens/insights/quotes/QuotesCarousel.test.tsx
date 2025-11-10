@@ -1,7 +1,7 @@
-import { render, screen } from 'expo-router/testing-library'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { Quote } from '@holi/core/screens/insights/types'
+import type { Quote } from '@holi/core/screens/insights/types'
 
 import QuotesCarousel from './QuotesCarousel'
 

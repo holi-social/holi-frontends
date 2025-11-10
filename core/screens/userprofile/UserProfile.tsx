@@ -37,11 +37,12 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import ConnectionsTab from '@holi/core/screens/userprofile/components/ConnectionsTab'
 import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
+import { Screen } from '@holi/core/components/Screen'
+import { Stack } from 'holi-bricks/components/stack'
 
 export type UserProfileParams = {
   userId: string
@@ -243,21 +244,23 @@ const UserProfile = () => {
   }
 
   return (
-    <ScrollViewRefreshable style={styles.layout} contentContainerStyle={styles.content}>
-      <View style={[mixins.container, styles.container]}>
+    <Screen backgroundColor="support">
+      <Stack backgroundColor="support" padding={{ left: 'xs', bottom: 'xs' }}>
         <UserProfileView user={user} showContactFeatures={true} />
-      </View>
+      </Stack>
 
-      <HoliTabs
-        activeTab={activeTab}
-        onChange={setActiveTab}
-        data={tabs}
-        keyExtractor={(item) => item.key}
-        renderTabContent={({ item }) => item.content()}
-        backgroundColor={colors.background20}
-        testID="profile-tabs"
-      />
-    </ScrollViewRefreshable>
+      <Stack minHeight="100%" backgroundColor="main">
+        <HoliTabs
+          activeTab={activeTab}
+          onChange={setActiveTab}
+          data={tabs}
+          keyExtractor={(item) => item.key}
+          renderTabContent={({ item }) => item.content()}
+          backgroundColor={colors.background20}
+          testID="profile-tabs"
+        />
+      </Stack>
+    </Screen>
   )
 }
 

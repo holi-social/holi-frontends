@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 import type { GraphQLError } from 'graphql'
 
 import type { FieldErrors } from '@holi/core/errors/helpers'

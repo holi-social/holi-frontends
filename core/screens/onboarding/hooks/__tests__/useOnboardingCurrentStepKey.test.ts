@@ -3,8 +3,8 @@ import {
   useOnboardingCurrentStepKey,
   type OnboardingStepKey,
 } from '@holi/core/screens/onboarding/hooks/useOnboardingCurrentStepKey'
-import { renderHook } from '@testing-library/react-hooks'
-import { waitFor } from 'expo-router/testing-library'
+import { renderHook } from '@testing-library/react-native'
+import { waitFor } from '@testing-library/react-native'
 import { useFocusEffect } from '@holi/core/helpers'
 
 const mockUseOnboardingState = useOnboardingState as jest.Mock
@@ -77,7 +77,7 @@ describe('useOnboardingCurrentStepKey', () => {
 
       mockUseOnboardingState.mockReturnValue(state)
 
-      rerender()
+      rerender({})
 
       await waitFor(() => expect(result.current[0]).toEqual(expectedStep))
     }
@@ -94,7 +94,7 @@ describe('useOnboardingCurrentStepKey', () => {
 
     // Simulate useFocusEffect call
     mockUseFocusEffect.mock.calls[0][0]()
-    rerender()
+    rerender({})
 
     expect(result.current[0]).toBeNull()
   })

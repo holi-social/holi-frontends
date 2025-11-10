@@ -3,7 +3,8 @@ import React from 'react'
 import { useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
 import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
-import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { act, fireEvent, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 
 const mockUseOnboardingFinishModalState = useOnboardingFinishModalState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState', () => ({

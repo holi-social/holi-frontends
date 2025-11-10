@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from 'expo-router/testing-library'
+import { fireEvent, render, screen, within } from '@testing-library/react-native'
 import React from 'react'
 
 import NotificationSettingsList from '@holi/core/screens/notifications/components/NotificationSettingsList'

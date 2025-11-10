@@ -1,5 +1,5 @@
 import { PartnerListInfoRow } from '@holi-apps/volunteering/components/PartnerListInfoRow'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 describe('PartnerInfoListRow', () => {

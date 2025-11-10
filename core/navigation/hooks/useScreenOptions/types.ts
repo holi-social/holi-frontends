@@ -10,7 +10,7 @@ export interface BackgroundGradient {
 }
 export interface BackgroundCustom {
   type: 'custom'
-  component: JSX.Element
+  component: React.ReactElement
 }
 
 export type HeaderBackgroundOptions = BackgroundImageURI | BackgroundGradient | BackgroundCustom
