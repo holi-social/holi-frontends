@@ -5440,7 +5440,7 @@ __metadata:
     react: "npm:19.1.0"
     react-i18next: "npm:^15.0.2"
     react-native: "npm:0.81.5"
-    react-native-keyboard-controller: "npm:1.18.5"
+    react-native-keyboard-controller: "npm:1.19.5"
     react-native-phone-number-input: "npm:^2.1.0"
     react-native-reanimated-carousel: "npm:^4.0.2"
     typescript-graphql-request: "npm:^4.4.6"
@@ -5608,7 +5608,7 @@ __metadata:
     react-native-gesture-handler: "npm:~2.29.0"
     react-native-get-random-values: "npm:^1.11.0"
     react-native-image-pan-zoom: "npm:^2.1.12"
-    react-native-keyboard-controller: "npm:1.18.5"
+    react-native-keyboard-controller: "npm:1.19.5"
     react-native-localize: "npm:^3.5.2"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~4.1.1"
@@ -28298,16 +28298,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-keyboard-controller@npm:1.18.5":
-  version: 1.18.5
-  resolution: "react-native-keyboard-controller@npm:1.18.5"
+"react-native-keyboard-controller@npm:1.19.5":
+  version: 1.19.5
+  resolution: "react-native-keyboard-controller@npm:1.19.5"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.2.1"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=3.0.0"
-  checksum: 10c0/708b8c299fdfc11749db4d84238330a2f04a07a92f40a5f0aa2870ffedb9e47c05455d50c3441a321f5cd5cacf7c936d5706e74cfb234a132e6c6c9ebb0d5e57
+  checksum: 10c0/0655d167e0edcca385f2a08380b0371b3ed6fb0679bd42c1b94b848518fe3bcaaa3f51b8272f22dc61ca45249bb35a746cfcdd9f20bcd58db093959f5a2156e2
   languageName: node
   linkType: hard
 

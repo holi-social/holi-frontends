@@ -10,7 +10,7 @@
     "react": "19.1.0",
     "react-i18next": "^15.0.2",
     "react-native": "0.81.5",
-    "react-native-keyboard-controller": "1.18.5",
+    "react-native-keyboard-controller": "1.19.5",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated-carousel": "^4.0.2",
     "uuid": "^11.0.5",
