@@ -2,7 +2,7 @@
 import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
-import React from 'react'
+import type React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { useErrorHandling } from '@holi/core/errors/hooks'

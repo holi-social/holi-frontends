@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppointmentsWidget renders correctly if there are no appointments 1`] = `null`;
+exports[`AppointmentsWidget renders correctly if there are no appointments 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+    }
+  }
+/>
+`;
 
-exports[`AppointmentsWidget renders correctly when there are appointments 1`] = `null`;
+exports[`AppointmentsWidget renders correctly when there are appointments 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+    }
+  }
+/>
+`;

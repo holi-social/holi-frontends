@@ -45,7 +45,8 @@ export const useScreenComponentInternal = ({ headerOptions }: UseScreenComponent
         : undefined
       setScreenOptions({ ...headerOptions, ...headerBg })
     }
-  }, [headerOptions, setScreenOptions])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [headerOptions])
 
   return {
     stickyBottomOffset,

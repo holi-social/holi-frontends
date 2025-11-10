@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
@@ -141,7 +141,7 @@ xdescribe('Space follow button', () => {
       connectionStatusToMyself: [],
     }
     render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]}>
         <SpaceFollow space={aSpace} />
       </MockedProvider>
     )
@@ -155,7 +155,7 @@ xdescribe('Space follow button', () => {
       connectionStatusToMyself: [],
     }
     render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]}>
         <SpaceFollow space={aSpace} />
       </MockedProvider>
     )
@@ -169,7 +169,7 @@ xdescribe('Space follow button', () => {
       connectionStatusToMyself: [SpaceUserConnectionType.Follower],
     }
     render(
-      <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
+      <MockedProvider mocks={[authenticatedUserRequest]}>
         <SpaceFollow space={aSpace} />
       </MockedProvider>
     )
@@ -179,7 +179,7 @@ xdescribe('Space follow button', () => {
 
   it('changes the button text after clicking follow-button', async () => {
     render(
-      <MockedProvider mocks={MOCKS_NOT_FOLLOWING} addTypename={false}>
+      <MockedProvider mocks={MOCKS_NOT_FOLLOWING}>
         <SpaceDetails />
       </MockedProvider>
     )
@@ -194,7 +194,7 @@ xdescribe('Space follow button', () => {
 
   it('it shows already following button', async () => {
     render(
-      <MockedProvider mocks={MOCKS_FOLLOWING} addTypename={false}>
+      <MockedProvider mocks={MOCKS_FOLLOWING}>
         <SpaceDetails />
       </MockedProvider>
     )

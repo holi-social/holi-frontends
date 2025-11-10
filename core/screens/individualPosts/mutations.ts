@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 import { z } from 'zod'
 
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
@@ -85,5 +85,5 @@ export const UpdateFeedPostReactionMutation = gql`
 `
 
 export interface UpdateFeedPostReactionResponse {
-  feedPost: FeedPost
+  updateFeedPostReaction: FeedPost
 }

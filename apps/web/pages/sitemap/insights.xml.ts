@@ -1,9 +1,10 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 import type { GetServerSidePropsContext } from 'next'
 import pino from 'pino'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import { generateSitemapIndex, getUrlPrefix } from '@holi/web/helpers/sitemap'
+import type { LastInsightsResponse } from '@holi/core/screens/insights/queries'
 
 const logger = pino()
 
@@ -33,8 +34,8 @@ export const getServerSideProps = async ({ req, res, locale }: GetServerSideProp
   const prefix = getUrlPrefix(req, locale)
   const client = initializeWebApolloClient({ locale })
   const totalInsightsCount = await client
-    .query({ query: insightsCountQuery })
-    .then((result) => result.data.lastInsights.totalResults)
+    .query<LastInsightsResponse>({ query: insightsCountQuery })
+    .then((result) => result.data?.lastInsights.totalResults ?? 0)
     .catch((error) => {
       logger.error({
         message: 'Error retrieving insights count',

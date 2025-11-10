@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import { useEffect } from 'react'
 import { Platform } from 'react-native'

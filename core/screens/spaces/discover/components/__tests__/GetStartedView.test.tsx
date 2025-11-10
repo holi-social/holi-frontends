@@ -1,6 +1,9 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { cleanup, fireEvent, render } from '@testing-library/react-native'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { cleanup, fireEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
+import { Text } from 'react-native'
 
 import {
   authenticatedUserMock,
@@ -62,35 +65,45 @@ const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, getStartedViewUserSpec
 // note: this test has been slimmed down since the component was refactored
 //       feel free to add more tests again (see history)
 
-const renderGetStartedView = (mocks: MockedResponse[]) =>
-  render(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <ToastProvider>
-        <GetStartedView />
-      </ToastProvider>
-    </MockedProvider>
-  )
+const renderGetStartedView = (mocks: MockLink.MockedResponse[]) =>
+  renderRouter({
+    index: () => (
+      <MockedProvider mocks={mocks}>
+        <ToastProvider>
+          <GetStartedView />
+        </ToastProvider>
+      </MockedProvider>
+    ),
+    'spaces/create': () => <Text>Create Space</Text>,
+    'spaces/explore': () => <Text>Explore Spaces</Text>,
+  })
 
 describe('GetStartedView', () => {
   it('renders correctly', async () => {
     const { getByTestId } = renderGetStartedView(MOCKS)
 
-    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.welcome')
-    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.description')
+    expect(getByTestId('get-started-view-header')).toHaveTextContent(/spaces.discover.welcome/)
+    expect(getByTestId('get-started-view-header')).toHaveTextContent(/spaces.discover.description/)
   })
 
-  it('renders buttons correctly', async () => {
-    const { queryAllByTestId } = renderGetStartedView(MOCKS)
+  it('renders create button correctly', async () => {
+    const context = renderGetStartedView(MOCKS)
+    const { queryAllByTestId } = context
 
     const createButtons = queryAllByTestId('get-started-view-create-button')
     expect(createButtons).toHaveLength(2)
     fireEvent.press(createButtons[0])
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/create')
+    expect(context).toHavePathname('/spaces/create')
+  })
+
+  it('renders explore button correctly', async () => {
+    const context = renderGetStartedView(MOCKS)
+    const { queryAllByTestId } = context
 
     const exploreButtons = queryAllByTestId('get-started-view-explore-button')
     expect(exploreButtons).toHaveLength(2)
     fireEvent.press(exploreButtons[0])
-    expect(mockNavigate).toHaveBeenCalledWith('/spaces/explore/')
+    expect(context).toHavePathname('/spaces/explore')
   })
 
   // solve act() wrap warning

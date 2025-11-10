@@ -6,7 +6,7 @@ import type { FieldError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import type { ApolloError } from '@apollo/client'
+import type { ErrorLike } from '@apollo/client'
 
 export interface NamesSelectionData {
   firstName?: string
@@ -58,14 +58,13 @@ export const useNamesSelection = ({ user }: UseNamesSelectionOptions) => {
       setFieldErrors(translateFieldErrors(fieldErrors))
     }
   }
-  const namesScrollViewRef = useRef<ScrollView>(null)
+  const namesScrollViewRef = useRef(null as unknown as ScrollView)
   const scrollToNamesInputWithId = useScrollToInputOnFocus(namesScrollViewRef)
 
   const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesSelectionData) =>
     scrollToNamesInputWithId(fieldName, undefined, validateOnBlur)
 
-  const handleBackendError = (error: Pick<ApolloError, 'graphQLErrors' | 'message'>) =>
-    setFieldErrors(handleGraphQLError(error))
+  const handleBackendError = (error: ErrorLike) => setFieldErrors(handleGraphQLError(error))
 
   return {
     names,

@@ -106,17 +106,11 @@ describe('VolunteeringLocationFilterSelection', () => {
     const inputField = screen.getByLabelText('volunteering.filter.location.label')
 
     await act(async () => {
-      // Unclear why this is needed for the test
-      await jest.runAllTimersAsync()
-
       // Focus input field to display options
-      const interaction = user.paste(inputField, 'Hamburg, Germany')
-
-      expect(screen.getByText('Hamburg, Germany')).toBeOnTheScreen()
-      expect(screen.getByText('Hannover, Germany')).toBeOnTheScreen()
-
-      await interaction
+      await user.paste(inputField, 'Hamburg, Germany')
     })
+    expect(screen.getByText('Hamburg, Germany')).toBeOnTheScreen()
+    expect(screen.getByText('Hannover, Germany')).toBeOnTheScreen()
   })
 
   it('should submit selection', async () => {

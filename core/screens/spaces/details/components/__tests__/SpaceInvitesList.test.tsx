@@ -1,5 +1,6 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { PaginationContext } from '@holi/core/pagination/Pagination'
@@ -13,11 +14,13 @@ describe('SpaceInvitesList', () => {
       data: [],
       totalResults: 0,
     }
-    render(
-      <PaginationContext.Provider value={paginationContext}>
-        <SpaceInvitesList space={space} />
-      </PaginationContext.Provider>
-    )
+    renderRouter({
+      index: () => (
+        <PaginationContext.Provider value={paginationContext}>
+          <SpaceInvitesList space={space} />
+        </PaginationContext.Provider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -26,13 +29,15 @@ describe('SpaceInvitesList', () => {
       loading: false,
       ...pagedInvites,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <SpaceInvitesList space={space} />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <SpaceInvitesList space={space} />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 })

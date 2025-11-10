@@ -1,5 +1,6 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { screen, waitFor } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { PaginationContext } from '@holi/core/pagination/Pagination'
@@ -13,13 +14,15 @@ describe('SpacePendingRequestsList', () => {
       data: [],
       totalResults: 0,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <SpacePendingRequestsList space={space} />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <SpacePendingRequestsList space={space} />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -28,13 +31,15 @@ describe('SpacePendingRequestsList', () => {
       loading: false,
       ...pagedMembershipRequests,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <SpacePendingRequestsList space={space} />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <SpacePendingRequestsList space={space} />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -43,13 +48,15 @@ describe('SpacePendingRequestsList', () => {
       loading: false,
       ...pagedMembershipRequests,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <SpacePendingRequestsList space={space} initiallySelectedUserId="requesting-user-1" />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <SpacePendingRequestsList space={space} initiallySelectedUserId="requesting-user-1" />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     await waitFor(() => screen.getByTestId('space-collaborators-permissions-modal-backdrop'))
   })
 
@@ -58,13 +65,15 @@ describe('SpacePendingRequestsList', () => {
       loading: false,
       ...pagedMembershipRequests,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <SpacePendingRequestsList space={space} initiallySelectedUserId="unknown-user" />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <SpacePendingRequestsList space={space} initiallySelectedUserId="unknown-user" />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 })

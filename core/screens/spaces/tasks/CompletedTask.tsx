@@ -7,24 +7,32 @@ import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { Platform, View } from 'react-native'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { StyleSheet } from 'react-native'
+import { Platform, View, type ViewProps } from 'react-native'
+import { useTheme } from '@holi/ui/styles/theme'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { GoodDeedCounterCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedCounterCard'
 import { Close } from '@holi/icons/src/generated'
-import { useWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
+import {
+  storeWelcomeGoodDeedsCounterModal,
+  useWelcomeGoodDeedsCounterModal,
+} from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useGetRewardsCounterQuery, useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { removeRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
-import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import GoodDeedsCounterAnimation from '@holi/core/components/GoodDeedsCounterAnimation'
+import { Stack } from 'holi-bricks/components/stack'
+import { Image } from 'holi-bricks/components/image'
+import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { showGoodDeedsIntroModal } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
+import { useUnseenImpactStarterBadge } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal/helpers/useUnseenImpactStarterBadge'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 
 export type CompletedTaskParams = {
   taskId: string
@@ -33,10 +41,14 @@ export type CompletedTaskParams = {
 const CompletedTask = () => {
   const { theme } = useTheme()
   const { t } = useTranslation()
-  const styles = getStyles(theme)
+  const { styles } = useStyles(stylesheet)
   const { navigate } = useRouting()
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
+  const { impactStarterBadge, loading: loadingUnseenImpactStarterBadge } = useUnseenImpactStarterBadge()
   const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
+  const [userTrackedFirstGoodDeedEnabled] = useFeatureFlag(
+    FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED
+  )
 
   const {
     refetch,
@@ -72,7 +84,13 @@ const CompletedTask = () => {
     if (badgesEnabled) {
       await checkNewBadges()
     }
-    navigate('/')
+    navigate('/act')
+  }
+
+  const showGoodDeedsIntroOnActPage = () => {
+    showGoodDeedsIntroModal('first-tracked-good-deed')
+    storeWelcomeGoodDeedsCounterModal(false)
+    navigate('/act')
   }
 
   return (
@@ -93,28 +111,76 @@ const CompletedTask = () => {
           footerShown: false,
         },
       }}
+      noContainerPaddingWeb
       StickyBottomComponent={
         welcomeGoodDeedsCounterModal ? (
-          <View style={styles.footer}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
-              isSvg
-              width={126}
-              height={33}
-              label={t('navigation.title')}
-            />
-            <Text size="sm">{t('tasks.register.success.brandSubtitle')}</Text>
-            <ButtonTracked
-              label={t('tasks.register.success.newUser.cta')}
-              inline
-              onPress={() => navigate('/act')}
-              trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
-                step: 'completed',
-                authState: 'unregistered',
-                ...taskProps,
-              })}
-            />
-          </View>
+          userTrackedFirstGoodDeedEnabled ? (
+            <HoliContainer noPaddingOnSmallViewports>
+              <Stack
+                backgroundColor="yellowDefault"
+                borderRadius={{ topLeft: 'lg', topRight: 'lg' }}
+                padding={{ top: 'md', bottom: 'md', left: 'xs', right: 'xs' }}
+                alignItems="center"
+              >
+                <Stack maxWidth="sm" gap="xxs" alignItems="center">
+                  <Text size="xxl" textAlign="center">
+                    {t('tasks.register.success.brandSubtitle')}
+                  </Text>
+
+                  <Stack direction="row" backgroundColor="yellowLight" gap="3xs" padding="xs" borderRadius="xxs">
+                    <Image
+                      source={require('@holi/ui/assets/img/badges/badge-impact-starter.svg')}
+                      width={56}
+                      height={64}
+                      alt={t('badge.name.volunteering.starter')}
+                    />
+
+                    <Stack flexShrink={1} gap="3xs">
+                      <Text bold>{t('badge.name.volunteering.starter')}</Text>
+
+                      <Text>{t('tasks.register.success.badgeDescription')}</Text>
+                    </Stack>
+                  </Stack>
+
+                  <View style={styles.claimButtonContainer}>
+                    <ButtonTracked
+                      loading={loadingUnseenImpactStarterBadge}
+                      label={t('goodDeed.rewardsMessage.button')}
+                      onPress={impactStarterBadge ? showGoodDeedsIntroOnActPage : handleClaimReward}
+                      trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+                        step: 'completed',
+                        authState: 'unregistered',
+                        ...taskProps,
+                      })}
+                    />
+                  </View>
+                </Stack>
+              </Stack>
+            </HoliContainer>
+          ) : (
+            <HoliContainer noPaddingOnSmallViewports>
+              <View style={styles.footer}>
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/illustrations/campaignLogo.svg')}
+                  isSvg
+                  width={126}
+                  height={33}
+                  label={t('navigation.title')}
+                />
+                <Text size="sm">{t('tasks.register.success.brandSubtitle')}</Text>
+                <ButtonTracked
+                  label={t('tasks.register.success.newUser.cta')}
+                  inline
+                  onPress={() => navigate('/act')}
+                  trackingEvent={TrackingEvent.Task.CTAButton.illDoIt({
+                    step: 'completed',
+                    authState: 'unregistered',
+                    ...taskProps,
+                  })}
+                />
+              </View>
+            </HoliContainer>
+          )
         ) : (
           <View style={[styles.footer, styles.footerWithoutWelcomeGoodDeedsCounterModal]}>
             <ButtonTracked
@@ -137,14 +203,16 @@ const CompletedTask = () => {
               <Text size="3xl" textAlign="center">
                 {t('tasks.register.success.title')}
               </Text>
-              <View style={styles.cardContainer}>
-                <GoodDeedCounterCard
-                  imageSrc={data.coverImage?.uri}
-                  title={data.title}
-                  completedCount={totalCompletions}
-                  totalCount={globalCounter}
-                />
-              </View>
+              <HoliContainer>
+                <View style={[styles.cardContainer]}>
+                  <GoodDeedCounterCard
+                    imageSrc={data.coverImage?.uri}
+                    title={data.title}
+                    completedCount={totalCompletions}
+                    totalCount={globalCounter}
+                  />
+                </View>
+              </HoliContainer>
               <View style={styles.counterContainer}>
                 <GoodDeedsCounterAnimation
                   deedCount={counter}
@@ -162,33 +230,45 @@ const CompletedTask = () => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    body: {
-      borderBottomStartRadius: BorderRadius.xl,
-      borderBottomEndRadius: BorderRadius.xl,
-      paddingBottom: Spacing['xxs'],
+const stylesheet = createStyleSheet(() => ({
+  body: {
+    borderBottomStartRadius: BorderRadius.xl,
+    borderBottomEndRadius: BorderRadius.xl,
+    paddingBottom: Spacing['xxs'],
+  },
+  container: {
+    gap: Spacing['3xs'],
+    marginBottom: Spacing.xs,
+    alignItems: 'center',
+  },
+  cardContainer: {
+    marginTop: Spacing.xs,
+    width: '100%',
+  },
+  counterContainer: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  footer: {
+    paddingBottom: Spacing.sm,
+    gap: Spacing.xs,
+    borderTopStartRadius: BorderRadius.xl,
+    borderTopEndRadius: BorderRadius.xl,
+    alignItems: 'center',
+    padding: Spacing.xs,
+  },
+  footerWithoutWelcomeGoodDeedsCounterModal: {
+    backgroundColor: 'transparent',
+  },
+  nativePadding: {
+    paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0,
+  },
+  claimButtonContainer: {
+    width: {
+      zero: '100%',
+      md: 200,
     },
-    container: {
-      gap: Spacing['3xs'],
-      marginBottom: Spacing.xs,
-      alignItems: 'center',
-    },
-    cardContainer: { marginTop: Spacing.xs, width: '100%' },
-    counterContainer: { alignItems: 'center', width: '100%' },
-    footer: {
-      paddingBottom: Spacing.sm,
-      gap: Spacing.xs,
-      backgroundColor: theme.colors.brandB100,
-      borderTopStartRadius: BorderRadius.xl,
-      borderTopEndRadius: BorderRadius.xl,
-      alignItems: 'center',
-      padding: Spacing.xs,
-    },
-    footerWithoutWelcomeGoodDeedsCounterModal: {
-      backgroundColor: 'transparent',
-    },
-    nativePadding: { paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0 },
-  })
+  } as ViewProps,
+}))
 
 export default memo(CompletedTask)

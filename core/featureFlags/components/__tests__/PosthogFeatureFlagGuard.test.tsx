@@ -1,4 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
@@ -25,11 +26,13 @@ describe('PosthogFeatureFlagGuard', () => {
     mockFeatureFlags([FeatureFlagKey.DONATIONS], [], [])
     const unsupportedFeatureFlag = FeatureFlagKey.STORAGE
 
-    render(
-      <PosthogFeatureFlagGuard featureFlagKey={unsupportedFeatureFlag} i18nKey={'someFeatureNameKey'}>
-        <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
-    )
+    renderRouter({
+      index: () => (
+        <PosthogFeatureFlagGuard featureFlagKey={unsupportedFeatureFlag} i18nKey={'someFeatureNameKey'}>
+          <HoliText>{featureText}</HoliText>
+        </PosthogFeatureFlagGuard>
+      ),
+    })
 
     await waitFor(() => expect(screen.queryByText(featureText)).not.toBeOnTheScreen())
   })
@@ -38,11 +41,13 @@ describe('PosthogFeatureFlagGuard', () => {
     const featureText = 'secret-feature-flag'
     mockFeatureFlags([FeatureFlagKey.CHAT])
 
-    render(
-      <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
-        <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
-    )
+    renderRouter({
+      index: () => (
+        <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
+          <HoliText>{featureText}</HoliText>
+        </PosthogFeatureFlagGuard>
+      ),
+    })
 
     await waitFor(() => expect(screen.queryByText(featureText)).toBeOnTheScreen())
   })
@@ -51,11 +56,13 @@ describe('PosthogFeatureFlagGuard', () => {
     const featureText = 'secret-feature-flag'
     mockFeatureFlags([], [FeatureFlagKey.NOTIFICATIONS])
 
-    render(
-      <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.NOTIFICATIONS} i18nKey={'notifications.title'}>
-        <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
-    )
+    renderRouter({
+      index: () => (
+        <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.NOTIFICATIONS} i18nKey={'notifications.title'}>
+          <HoliText>{featureText}</HoliText>
+        </PosthogFeatureFlagGuard>
+      ),
+    })
 
     await waitFor(() => {
       expect(screen.queryByText(featureText)).not.toBeOnTheScreen()
@@ -66,11 +73,13 @@ describe('PosthogFeatureFlagGuard', () => {
     const featureText = 'secret-feature-flag'
     mockFeatureFlags([], [], [FeatureFlagKey.CHAT])
 
-    render(
-      <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
-        <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
-    )
+    renderRouter({
+      index: () => (
+        <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
+          <HoliText>{featureText}</HoliText>
+        </PosthogFeatureFlagGuard>
+      ),
+    })
 
     expect(await screen.findByText('global.maintenance.description')).toBeOnTheScreen()
     expect(screen.queryByText(featureText)).not.toBeOnTheScreen()

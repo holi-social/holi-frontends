@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client/react'
 import * as Notifications from 'expo-notifications'
 import React, { type PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,7 +58,7 @@ const CommentForm = ({
   const { track } = useTracking()
 
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef(null as unknown as ScrollView)
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

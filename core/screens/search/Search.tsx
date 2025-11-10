@@ -16,6 +16,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSearchFilter } from '@holi/core/screens/search/hooks/useSearchFilter'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Spacing } from 'holi-bricks/foundations'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ArrowDownS } from '@holi/icons/src/generated'
 
 export type SearchParams = {
   query?: string
@@ -69,11 +71,12 @@ export const Search = () => {
 
   return (
     <Screen
-      backgroundColor="main"
-      preset="fixed"
       contentContainerStyle={{ flex: 1 }} // needed for FlashList initial size calculations
       style={{ maxHeight }}
       headerOptions={{
+        headerBackVisible: false,
+        animation: 'slide_from_bottom',
+        headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
         title: t('search.title'),
         headerTitleAlign: 'center',
         navigationCustomOptions: {

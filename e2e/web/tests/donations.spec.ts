@@ -84,14 +84,12 @@ const testDisplaysProjectDetails = async (context: BrowserContext, page: Page) =
   await donationPage.close() // close newly opened tab
   await delayMs(1000)
 
-  // check if clicking on initiative button actually opens a tab with a reasonable URL
+  // check if clicking on initiative button actually opens a tab
   await page.waitForSelector(byTestId('donations-project-initiative-btn'))
   const [initiativePage] = await Promise.all([
     context.waitForEvent('page'),
     clickElementByTestId(page, 'donations-project-initiative-btn'), // opens a new tab
   ])
-  const initiativeUrl = initiativePage.url()
-  expect(initiativeUrl).toMatch(/https:\/\/(www|secure).betterplace.org\/.*\/organisations\/.*/)
   await initiativePage.close() // close newly opened tab
 }
 

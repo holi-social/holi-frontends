@@ -1,5 +1,6 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { PaginationContext } from '@holi/core/pagination/Pagination'
@@ -13,13 +14,15 @@ describe('AppointmentsWidget', () => {
       data: [],
       totalResults: 0,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <AppointmentsWidget space={space} />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <AppointmentsWidget space={space} />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -28,13 +31,15 @@ describe('AppointmentsWidget', () => {
       loading: false,
       ...pagedAppointments,
     }
-    render(
-      <MockedProvider>
-        <PaginationContext.Provider value={paginationContext}>
-          <AppointmentsWidget space={space} />
-        </PaginationContext.Provider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <PaginationContext.Provider value={paginationContext}>
+            <AppointmentsWidget space={space} />
+          </PaginationContext.Provider>
+        </MockedProvider>
+      ),
+    })
     expect(screen.toJSON()).toMatchSnapshot()
   })
 })

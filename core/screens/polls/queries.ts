@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
-import { Poll } from '@holi/core/screens/polls/types'
+import type { Poll } from '@holi/core/screens/polls/types'
 
 export const PollFragment = gql`
   ${UserAvatarFragment}
@@ -41,4 +41,8 @@ export const userHasVotedByPollId = gql`
 
 export type PollWithChoicesResponse = {
   pollWithChoices: Poll
+}
+
+export interface UserHasVotedByPollIdResponse {
+  userHasVotedByPollId: boolean
 }

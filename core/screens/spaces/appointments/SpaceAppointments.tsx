@@ -48,7 +48,7 @@ const SpaceAppointments = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const { data, loading, called } = useSpaceMembershipByIdQuery({
+  const { data, loading, error } = useSpaceMembershipByIdQuery({
     skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName ?? '' },
   })
@@ -82,7 +82,7 @@ const SpaceAppointments = () => {
     },
   }
 
-  useRefreshOnNavigation({ initialized: called })
+  useRefreshOnNavigation({ initialized: !!data || !!error || loading })
 
   const { top: safeAreaTop } = useSafeAreaInsets()
   const tabContentContainerStyle: StyleProp<ViewStyle> = {

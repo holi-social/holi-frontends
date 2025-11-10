@@ -17,7 +17,7 @@ module.exports = {
     // Force module uuid to resolve with the CJS entry point, because Jest does not support package.json.exports. See https://github.com/uuidjs/uuid/issues/451
     '^uuid$': 'uuid',
     '\\.(lottie)$': '<rootDir>/__mocks__/lottieMock.js',
-    '^apollo-upload-client/createUploadLink\\.mjs$': '<rootDir>/__mocks__/apollo-upload-client/createUploadLink.js',
+    '^apollo-upload-client/UploadHttpLink\\.mjs$': '<rootDir>/__mocks__/apollo-upload-client/UploadHttpLink.js',
     '^expo-image-manipulator$': '<rootDir>/__mocks__/expo-image-manipulator/index.js',
   },
   setupFiles: [
@@ -29,9 +29,9 @@ module.exports = {
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client)',
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client|@shopify/flash-list|immer)',
   ],
-  resetMocks: true,
+  clearMocks: true,
   coverageReporters: ['text-summary', 'lcov'],
   collectCoverageFrom: [
     'apps/**/*.{js,jsx,ts,tsx}',

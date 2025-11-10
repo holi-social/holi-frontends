@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { type FeedPostCategoriesQueryResult, feedPostCategoriesQuery } from '@holi/core/screens/individualPosts/queries'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export type FeedPostCategories = {
   id: string
@@ -21,12 +21,12 @@ const useFeedPostCategories = () => {
 
   const { user } = useLoggedInUser()
 
-  const { data, loading } = useQuery<FeedPostCategoriesQueryResult>(feedPostCategoriesQuery, {
+  const { data, loading, error } = useQuery<FeedPostCategoriesQueryResult>(feedPostCategoriesQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) =>
-      logError(error, 'Failed to load feed post categories', {
-        location: 'useFeedPostCategories.feedPostCategoriesQuery',
-      }),
+  })
+
+  useApolloErrorLogging(error, 'Failed to load feed post categories', {
+    location: 'useFeedPostCategories.feedPostCategoriesQuery',
   })
 
   const categoryPresentationBySlug: Record<

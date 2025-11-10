@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import type React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import type { Space } from '@holi/api/graphql/graphql-codegen'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
-import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
+import { updateSpaceMutation, type UpdateSpaceResponse } from '@holi/core/screens/spaces/edit/mutations'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { TermsInput } from '@holi/core/components/TermsInput'
 
@@ -20,7 +20,7 @@ const EditSpaceTopics: React.FC<EditSpaceTopicsProps> = ({ space, onDismiss }: E
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
-  const [updateSpace] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()

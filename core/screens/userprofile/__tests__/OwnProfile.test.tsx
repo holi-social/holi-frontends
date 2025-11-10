@@ -1,5 +1,6 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
@@ -40,11 +41,13 @@ describe('OwnProfile', () => {
       user: { id: '123', fullName: 'Test User' },
     })
 
-    render(
-      <MockedProvider mocks={[insightsCountRequest]} addTypename={false}>
-        <OwnProfile />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[insightsCountRequest]}>
+          <OwnProfile />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.queryByText('Test User')).toBeTruthy()
     expect(screen.queryByText('profile.anonymous.you')).toBeFalsy()
@@ -58,11 +61,13 @@ describe('OwnProfile', () => {
       isLoading: false,
     })
 
-    render(
-      <MockedProvider addTypename={false}>
-        <OwnProfile />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider>
+          <OwnProfile />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.queryByText('profile.anonymous.you')).toBeTruthy()
     expect(screen.queryByText('auth.loginProtection.registration')).toBeTruthy()

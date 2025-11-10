@@ -1,5 +1,6 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { act, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -79,11 +80,13 @@ describe('SpaceDetailView', () => {
   })
 
   it('renders correctly', async () => {
-    render(
-      <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
-        <SpaceDetailWrapper />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
+          <SpaceDetailWrapper />
+        </MockedProvider>
+      ),
+    })
 
     expect(screen.getByText('Space title')).toBeDefined()
     expect(screen.getByText('Space description')).toBeDefined()

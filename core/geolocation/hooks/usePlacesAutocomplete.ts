@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client/react'
 import { logError } from '@holi/core/errors/helpers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
@@ -11,6 +11,7 @@ import { useDebounce } from '@holi/ui/helper'
 import type { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useTranslation } from 'react-i18next'
 import type { GeolocationLevel, GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
@@ -37,19 +38,21 @@ export const usePlacesAutocomplete = ({
   const { t } = useTranslation()
 
   const [value, setValue] = useState(selected?.label || '')
+  const [called, setCalled] = useState(false)
 
-  const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
-    variables: {
-      limit: PLACE_SUGGESTION_MAX_COUNT,
-      level,
-    },
-    onError: (error) =>
-      logError(error, 'Failed to fetch places suggestions', {
-        location: 'PlacesAutocomplete.fetchSuggestions',
-        query: geoPlacesQuery,
+  const [fetchSuggestions, { loading, error, data }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {})
+  const fetchSuggestionsCallback = useCallback(
+    ({ variables }: { variables?: { text?: string } }) =>
+      fetchSuggestions({
+        variables: {
+          limit: PLACE_SUGGESTION_MAX_COUNT,
+          level,
+          ...variables,
+        },
       }),
-  })
-  const debouncedFetchSuggestions = useDebounce(fetchSuggestions, PLACE_SUGGESTION_DEBOUNCE)
+    [fetchSuggestions, level]
+  )
+  const debouncedFetchSuggestions = useDebounce(fetchSuggestionsCallback, PLACE_SUGGESTION_DEBOUNCE)
   const [fetchPlaceDetails] = useLazyQuery<GeoPlaceDetailsResponse>(geoPlaceDetailsQuery)
 
   const placeSuggestions: PlacesAutocompleteOption[] = (data?.geo_placesAutocomplete || [])
@@ -66,6 +69,7 @@ export const usePlacesAutocomplete = ({
 
   const getSuggestions = useCallback(
     (value: string) => {
+      setCalled(true)
       setValue(value)
       const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.value === value)
       if (selectedSuggestion) {
@@ -167,6 +171,11 @@ export const usePlacesAutocomplete = ({
   useEffect(() => {
     setValue(selected?.label || '')
   }, [selected?.label])
+
+  useApolloErrorLogging(error, 'Failed to fetch places suggestions', {
+    location: 'PlacesAutocomplete.fetchSuggestions',
+    query: geoPlacesQuery,
+  })
 
   const noResultsText = useMemo(() => {
     return !loading && called && data && !placeSuggestions.length && value

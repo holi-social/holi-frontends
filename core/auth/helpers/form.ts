@@ -155,6 +155,7 @@ export const handleFormSubmitError = (
           location: 'auth.helpers.form.handleFormSubmitError',
         })
         initializeFlow()
+        showError(err as Error)
         return
     }
   }

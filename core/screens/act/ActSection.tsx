@@ -19,7 +19,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayEvents = useFeatureFlagWithMaintenance(FeatureFlagKey.EVENTS).isOn
-  const displayPetitions = useFeatureFlagWithMaintenance(FeatureFlagKey.PETITIONS).isOn
+  const [displayPetitions] = useFeatureFlag(FeatureFlagKey.PETITIONS)
   const displayStartSmallCarousel = useFeatureFlag(FeatureFlagKey.START_SMALL_CAROUSEL)
 
   switch (type) {

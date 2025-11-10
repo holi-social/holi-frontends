@@ -1,25 +1,23 @@
 import { TextLink } from 'holi-bricks/components/text'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-
+import { Link } from 'expo-router'
 import type { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
-import useLink from '@holi/core/navigation/hooks/useLink'
 
 export const HoliTextLink = ({
   href,
   label,
-  external,
   onPress,
   children,
   color,
   size,
   textAlign,
 }: PropsWithChildren<HoliTextLinkProps>) => {
-  const handleLinkPress = useLink({ href, external, onPress })
-
   return (
-    <TextLink size={size} color={color} textAlign={textAlign} onPress={handleLinkPress} aria-label={label}>
-      {children}
+    <TextLink size={size} color={color} textAlign={textAlign} role="none">
+      <Link href={href} onPress={onPress} aria-label={label}>
+        {children}
+      </Link>
     </TextLink>
   )
 }

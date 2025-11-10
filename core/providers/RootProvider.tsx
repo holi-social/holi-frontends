@@ -1,4 +1,5 @@
-import { type ApolloClient, ApolloProvider } from '@apollo/client'
+import { type ApolloClient } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { type PropsWithChildren } from 'react'
 import { Platform } from 'react-native'
@@ -21,7 +22,7 @@ import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { SnackbarGlobal } from '@holi/core/components/SnackbarGlobal'
 import { HoliWebViewGlobalModal } from '@holi/ui/components/organisms/HoliWebViewGlobalModal'
 import { GoodDeedsIntroModal } from '@holi/core/screens/onboarding/components/GoodDeedsIntroModal'
-import { EarnedBadgesModalProvider } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
+import { EarnedBadgesGlobalModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 import FeatureFlagGuard from '@holi/core/featureFlags/components/FeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
@@ -31,7 +32,7 @@ const initialWindowMetricsForWeb = {
 }
 
 interface RootProviderProps {
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient
   posthogBootstrapState?: PosthogProviderProps['bootstrapState']
 }
 
@@ -57,11 +58,10 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
                     {isMobile ? <UpdateAppModal /> : null}
                     {isMobile ? <HoliWebViewGlobalModal /> : null}
                     <SignupModalProvider>
-                      <EarnedBadgesModalProvider>
-                        <ChatSessionInitializer>
-                          <ChatProvider>{children}</ChatProvider>
-                        </ChatSessionInitializer>
-                      </EarnedBadgesModalProvider>
+                      <EarnedBadgesGlobalModal />
+                      <ChatSessionInitializer>
+                        <ChatProvider>{children}</ChatProvider>
+                      </ChatSessionInitializer>
                     </SignupModalProvider>
                   </RefreshContextProvider>
                 </SessionExpiryProtection>

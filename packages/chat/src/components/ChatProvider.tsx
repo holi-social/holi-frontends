@@ -1,17 +1,15 @@
-import { Provider, createStore } from 'jotai'
-import React, { PropsWithChildren, Suspense, useEffect } from 'react'
+import { Provider, type createStore } from 'jotai'
+import React, { type PropsWithChildren, useEffect } from 'react'
 
 import { ensureChatLoggedOut } from '@holi/chat/src/client/chatSession'
 import { useChatConnected, useChatReloadCounter } from '@holi/chat/src/client/chatState'
-import type { ChatDevToolsProps } from '@holi/chat/src/components/ChatDevTools/types'
 import { useSubscribeToChat } from '@holi/chat/src/store'
 import { listenOnLoginStateChange } from '@holi/core/auth/loginState'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
+import ChatDevTools from './ChatDevTools'
+
 import { getLogger } from '@holi/core/helpers/logging'
 
 const logger = getLogger('Chat')
-
-export const ChatDevTools = dynamicImport<ChatDevToolsProps>(() => import('./ChatDevTools'), { ssr: false })
 
 const ChatStore = () => {
   logger.debug('ChatStore', 'subscribeToChat')
@@ -43,9 +41,7 @@ const ChatProvider = ({ store, children }: PropsWithChildren<Props>) => {
   // To reset Jotai Provider for new user login we render a new one only when new identity is provided
   return (
     <Provider key={reloadCount} store={store}>
-      <Suspense>
-        <ChatDevTools chatConnected={chatConnected} />
-      </Suspense>
+      <ChatDevTools chatConnected={chatConnected} />
 
       {/* when ChatClient is prepared we render `<ChatStore />` to initialize Jotai atoms */}
       {chatConnected && <ChatStore />}

@@ -16,6 +16,7 @@ import type {
 import { getNodeId, getNodeTranslationKey, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import type { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
+import { getLogger } from '@holi/core/helpers/logging'
 
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,7 +47,15 @@ enum OryErrorCode {
 }
 const ORY_SIGNIN_NODE_ID = 1070001
 
+const logger = getLogger('Auth')
+
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
+
+const logMissingTranslation = (key: string, i18n: UseTranslationResponse<'translation', undefined>['i18n']) => {
+  if (!i18n.exists(key)) {
+    logger.debug('FormInputField.getValidationErrorText', `Missing translation for key ${key}`)
+  }
+}
 
 export const getValidationErrorText = (
   { messages, attributes }: UiNode,
@@ -67,10 +76,12 @@ export const getValidationErrorText = (
     // `identifier` or `traits.email` is used for email field
     const emailNames = ['identifier', 'traits.email', 'email']
     const passwordNames = ['password']
-    const possibleNames = [emailNames, passwordNames]
+    const codeNames = ['code']
+    const possibleNames = [emailNames, passwordNames, codeNames]
     const modifier = possibleNames.findIndex((namesArr) => namesArr.includes(name))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
+    logMissingTranslation(messageKeyModifier, i18n)
     return i18n.t(messageKeyModifier, text)
   }
 
@@ -82,9 +93,11 @@ export const getValidationErrorText = (
     const modifier = possibleReasons.findIndex((str) => reason.includes(str))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
+    logMissingTranslation(messageKeyModifier, i18n)
     return i18n.t(messageKeyModifier, text)
   }
 
+  logMissingTranslation(messageKey, i18n)
   return i18n.t(messageKey, text)
 }
 

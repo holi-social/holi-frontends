@@ -3,22 +3,6 @@
 exports[`renders correctly renders correctly when size is 'default', bold is 'false', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontWeight": "400",
-      "lineHeight": 22.4,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -38,22 +22,6 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
 exports[`renders correctly renders correctly when size is 'default', bold is 'false', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 16,
-      "fontWeight": "400",
-      "lineHeight": 22.4,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -73,22 +41,6 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
 exports[`renders correctly renders correctly when size is 'default', bold is 'true', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 16,
-      "fontWeight": "500",
-      "lineHeight": 22.4,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -108,22 +60,6 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
 exports[`renders correctly renders correctly when size is 'default', bold is 'true', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 16,
-      "fontWeight": "500",
-      "lineHeight": 22.4,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -143,22 +79,6 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
 exports[`renders correctly renders correctly when size is 'extralarge', bold is 'false', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 28,
-      "fontWeight": "400",
-      "lineHeight": 39.199999999999996,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -178,22 +98,6 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
 exports[`renders correctly renders correctly when size is 'extralarge', bold is 'false', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 28,
-      "fontWeight": "400",
-      "lineHeight": 39.199999999999996,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -213,22 +117,6 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
 exports[`renders correctly renders correctly when size is 'extralarge', bold is 'true', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 28,
-      "fontWeight": "500",
-      "lineHeight": 39.199999999999996,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -248,22 +136,6 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
 exports[`renders correctly renders correctly when size is 'extralarge', bold is 'true', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 28,
-      "fontWeight": "500",
-      "lineHeight": 39.199999999999996,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -283,22 +155,6 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
 exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'false', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 12,
-      "fontWeight": "400",
-      "lineHeight": 16.799999999999997,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -318,22 +174,6 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
 exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'false', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 12,
-      "fontWeight": "400",
-      "lineHeight": 16.799999999999997,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -353,22 +193,6 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
 exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'true', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 12,
-      "fontWeight": "500",
-      "lineHeight": 16.799999999999997,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -388,22 +212,6 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
 exports[`renders correctly renders correctly when size is 'extrasmall', bold is 'true', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 12,
-      "fontWeight": "500",
-      "lineHeight": 16.799999999999997,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -423,22 +231,6 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
 exports[`renders correctly renders correctly when size is 'large', bold is 'false', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 21,
-      "fontWeight": "400",
-      "lineHeight": 29.4,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -458,22 +250,6 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
 exports[`renders correctly renders correctly when size is 'large', bold is 'false', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 21,
-      "fontWeight": "400",
-      "lineHeight": 29.4,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -493,22 +269,6 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
 exports[`renders correctly renders correctly when size is 'large', bold is 'true', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 21,
-      "fontWeight": "500",
-      "lineHeight": 29.4,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -528,22 +288,6 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
 exports[`renders correctly renders correctly when size is 'large', bold is 'true', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 21,
-      "fontWeight": "500",
-      "lineHeight": 29.4,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -563,22 +307,6 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
 exports[`renders correctly renders correctly when size is 'small', bold is 'false', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 14,
-      "fontWeight": "400",
-      "lineHeight": 19.599999999999998,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -598,22 +326,6 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
 exports[`renders correctly renders correctly when size is 'small', bold is 'false', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 14,
-      "fontWeight": "400",
-      "lineHeight": 19.599999999999998,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {
@@ -633,22 +345,6 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
 exports[`renders correctly renders correctly when size is 'small', bold is 'true', selectable is 'false' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 14,
-      "fontWeight": "500",
-      "lineHeight": 19.599999999999998,
-      "userSelect": "none",
-    }
-  }
   selectable={false}
   style={
     {
@@ -668,22 +364,6 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
 exports[`renders correctly renders correctly when size is 'small', bold is 'true', selectable is 'true' 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#262424",
-      "fontFamily": "InstrumentSans-Medium",
-      "fontSize": 14,
-      "fontWeight": "500",
-      "lineHeight": 19.599999999999998,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {

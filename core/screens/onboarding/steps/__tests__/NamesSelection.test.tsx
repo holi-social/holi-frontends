@@ -1,4 +1,5 @@
-import { MockedProvider } from '@apollo/client/testing'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
 import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
@@ -6,7 +7,8 @@ import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
 import { NamesSelection } from '@holi/core/screens/onboarding/steps/NamesSelection'
 
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { GraphQLError } from 'graphql'
+import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 const mockUseLoggedInUser = useLoggedInUser as jest.Mock
@@ -67,7 +69,7 @@ describe('NamesSelection', () => {
         },
       },
     },
-    error: Error('Test'),
+    error: new CombinedGraphQLErrors({ errors: [new GraphQLError('Test')] }),
   }
 
   beforeEach(() => {
@@ -182,7 +184,7 @@ describe('NamesSelection', () => {
 
     await user.press(screen.getByRole('button'))
 
-    expect(onFinish).toHaveBeenCalled()
+    await waitFor(() => expect(onFinish).toHaveBeenCalled())
   })
 
   it.each(nameFields)('should display field errors for %s', (field) => {
@@ -204,14 +206,15 @@ describe('NamesSelection', () => {
     mockUseNamesSelection.mockReturnValue({ names: loggedInUser, nameStepIsValid: true, handleBackendError })
 
     render(
-      <MockedProvider mocks={[failingUpdateMock]}>
+      <MockedProvider mocks={[failingUpdateMock]} defaultOptions={{ mutate: { errorPolicy: 'all' } }}>
         <NamesSelection onFinish={onFinish} />
       </MockedProvider>
     )
 
     await user.press(screen.getByRole('button'))
 
-    expect(handleBackendError).toHaveBeenCalledWith(expect.objectContaining({ message: 'Test' }))
+    await waitFor(() => expect(handleBackendError).toHaveBeenCalledWith(expect.objectContaining({ message: 'Test' })))
+
     expect(onFinish).not.toHaveBeenCalled()
   })
 

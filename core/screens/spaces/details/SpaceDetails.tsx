@@ -98,7 +98,6 @@ const SpaceDetails = () => {
   useEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
-      headerTintColor: colors.foreground30,
       headerTitle: '',
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => (

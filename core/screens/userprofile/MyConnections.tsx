@@ -1,7 +1,7 @@
 import React from 'react'
 import { Screen } from '@holi/core/components/Screen'
 import { useTranslation } from 'react-i18next'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import OwnConnectionsTab from '@holi/core/screens/userprofile/components/OwnConnectionsTab'
 import { Stack } from 'holi-bricks/components/stack'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -20,7 +20,11 @@ const MyConnections = () => {
     <Screen
       headerOptions={{
         title: t('connections.title'),
-        headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+        headerTitle: ({ children }) => (
+          <Text headingLevel="1" size="lg">
+            {children}
+          </Text>
+        ),
       }}
     >
       <Stack padding="xs">

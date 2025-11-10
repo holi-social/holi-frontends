@@ -33,6 +33,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
       accessible={true}
       collapsable={false}
       focusable={true}
+      href="/profile/77d695d7-fea0-4b20-a2a4-d641e63fb25b"
       onBlur={[Function]}
       onClick={[Function]}
       onFocus={[Function]}
@@ -43,11 +44,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
       onResponderTerminationRequest={[Function]}
       onStartShouldSetResponder={[Function]}
       role="link"
-      style={
-        [
-          false,
-        ]
-      }
+      style={{}}
       testID="link"
     >
       <View
@@ -129,22 +126,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
-                "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {
@@ -159,22 +140,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           >
             <Text
               accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              jestInlineStyle={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
-              }
               selectable={true}
               style={
                 {
@@ -190,23 +155,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            jestInlineStyle={
-              {
-                "color": "#787777",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 12,
-                "fontWeight": "400",
-                "lineHeight": 16.799999999999997,
-                "marginTop": 4,
-                "userSelect": "auto",
-              }
-            }
             selectable={true}
             style={
               {

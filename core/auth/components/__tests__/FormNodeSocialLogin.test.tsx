@@ -3,7 +3,6 @@ import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFl
 import { FormNodeSocialLogin } from '@holi/core/auth/components/FormNodeSocialLogin'
 import type { UiNode } from '@ory/kratos-client'
 import { render, screen, userEvent } from '@testing-library/react-native'
-
 const mockUseFeatureFlagToggle = jest.mocked(useFeatureFlagToggle)
 jest.mock('@holi/core/featureFlags/hooks/useFeatureFlagToggle', () => ({
   useFeatureFlagToggle: jest.fn(),

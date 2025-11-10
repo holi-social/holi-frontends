@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { useHeaderAnimationProgress } from '@holi/core/helpers'
+import { useHeaderAnimationProgress } from '@holi/core/helpers/useHeaderAnimationProgress'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -65,9 +65,9 @@ const HeaderAnimated = () => {
                 {typeof headerTitle === 'function' ? (
                   headerTitle({ children: title || '', tintColor: headerTintColor })
                 ) : (
-                  <HeaderTitle tintColor={headerTintColor}>
+                  <Text headingLevel="1" size="lg">
                     {typeof headerTitle === 'string' ? headerTitle : title}
-                  </HeaderTitle>
+                  </Text>
                 )}
               </View>
 

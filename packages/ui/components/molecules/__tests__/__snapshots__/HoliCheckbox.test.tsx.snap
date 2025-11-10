@@ -371,7 +371,6 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 },
               ]
             }
-            tintColor="#ffffff"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -565,7 +564,6 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
                 },
               ]
             }
-            tintColor="#bdbcbc"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -758,7 +756,6 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
                 },
               ]
             }
-            tintColor="#ffffff"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -952,7 +949,6 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
                 },
               ]
             }
-            tintColor="#bdbcbc"
             vbHeight={24}
             vbWidth={24}
             width={20}
@@ -1145,7 +1141,6 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
                 },
               ]
             }
-            tintColor="#262424"
             vbHeight={24}
             vbWidth={24}
             width={20}

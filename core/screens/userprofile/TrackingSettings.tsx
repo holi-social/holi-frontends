@@ -46,7 +46,9 @@ const TrackingSettings = () => {
   const setScreenOptions = useSetScreenOptions()
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('profile.settings.tracking.title') })
+    setScreenOptions({
+      title: t('profile.settings.tracking.title'),
+    })
   }, [setScreenOptions, t])
 
   const [consentState] = useConsentState()

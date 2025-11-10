@@ -1,5 +1,6 @@
-import { useMutation } from '@apollo/client'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useMutation } from '@apollo/client/react'
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -8,7 +9,11 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import SpaceContactForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceContactForm'
-import { UpdateSpaceInputSchema, updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
+import {
+  UpdateSpaceInputSchema,
+  updateSpaceMutation,
+  type UpdateSpaceResponse,
+} from '@holi/core/screens/spaces/edit/mutations'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -48,7 +53,7 @@ const EditSpaceContact: React.FC<EditSpaceContactProps> = ({ space, onDismiss }:
     }
   }, [contactDescription, contactEmail, contactPhone, space.id, setInputValid])
 
-  const [updateSpace] = useMutation(updateSpaceMutation, {
+  const [updateSpace] = useMutation<UpdateSpaceResponse>(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.edit.success'), HoliToastType.SUCCESS)
       onDismiss()

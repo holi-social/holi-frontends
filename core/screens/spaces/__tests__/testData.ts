@@ -59,9 +59,6 @@ export const user: User = {
   skillsV2: ALL_SKILLS.slice(7, 9),
   connectionStatusToMyself: UserConnectionStatus.NotConnected,
   connectionStatusToSpace: [SpaceUserConnectionType.Member],
-  interests: [],
-  sdgs: [],
-  skills: [],
   __typename: 'User',
 }
 
@@ -209,7 +206,6 @@ export const task: Task = {
   __typename: 'Task',
   interactionSignupLink: 'https://www.example.com/signup',
   created: '2024-04-12T07:39:03Z',
-  skills: [],
   impact: 'test-impact',
   isFavorite: false,
 }
@@ -280,7 +276,6 @@ export const space: Space = {
   },
   invites: pagedInvites,
   representatives: [],
-  sdgs: [],
   topics: [],
 }
 

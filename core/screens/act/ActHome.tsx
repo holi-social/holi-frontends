@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 
@@ -25,9 +25,6 @@ import {
   useWelcomeGoodDeedsCounterModal,
 } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
 import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
-import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
-import { useApolloClient } from '@apollo/client'
-import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 type ActHomeParams = {
   section: string
@@ -43,9 +40,6 @@ const ActHome = () => {
   const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
   const showAppcuesBanner = useFeatureFlagToggle(FeatureFlagKey.APPCUES_BANNER)
-  const client = useApolloClient()
-  const checkNewBadges = useEarnedBadgesModal()
-  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
   const sections = orderedSections(selectedContentType)
 
   const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
@@ -57,17 +51,6 @@ const ActHome = () => {
     }
   }, [welcomeGoodDeedsCounterModal, showWelcomeModal])
 
-  useEffect(() => {
-    if (!badgesEnabled) return
-    ;(async () => {
-      await client.refetchQueries({ include: [BadgesDocument] })
-
-      if (badgesEnabled) {
-        await checkNewBadges()
-      }
-    })()
-  }, [client, badgesEnabled, checkNewBadges])
-
   return (
     <>
       <Screen
@@ -75,14 +58,13 @@ const ActHome = () => {
         scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
         headerOptions={{
           title,
-          headerBackTitleVisible: true,
           headerBackVisible: true,
           headerTitle: '',
-          headerLeft: ({ tintColor }) => (
+          headerLeft: () => (
             <Stack direction="row" gap="xxs" alignItems="center">
-              <HeaderTitle size="large" tintColor={tintColor}>
+              <Text headingLevel="1" size="lg">
                 {title}
-              </HeaderTitle>
+              </Text>
               {showGoodDeedChip && <GoodDeedsChip />}
             </Stack>
           ),

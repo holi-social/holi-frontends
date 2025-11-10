@@ -1,24 +1,26 @@
-import { DocumentNode, QueryHookOptions, TypedDocumentNode, useQuery } from '@apollo/client'
+import type { ErrorLike, DocumentNode, TypedDocumentNode } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import at from 'lodash.at'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { Paged } from '@holi/core/types'
+import type { Paged } from '@holi/core/types'
 
 type PagedResponse<T, QueryName extends string> = {
   [P in QueryName]: Paged<T>
 }
 
-export interface PaginationQueryHookOptions extends QueryHookOptions {
+export interface PaginationQueryHookOptions extends useQuery.Options {
   pageSize: number
   queryPath: string
+  onError?: (error: ErrorLike) => void
 }
 
 function usePaginationQuery<TData>(
   query: DocumentNode | TypedDocumentNode<PagedResponse<TData, string>>,
   options: PaginationQueryHookOptions
 ) {
-  const { pageSize, queryPath, variables, ...remainingOptions } = options
+  const { pageSize, queryPath, variables, onError, ...remainingOptions } = options
   const [isFetchingMore, setIsFetchingMore] = useState(false)
 
   const {
@@ -40,6 +42,12 @@ function usePaginationQuery<TData>(
 
   const initialLoading = loading && !pagedData
   const canFetchMore = !initialLoading && data.length < totalResults
+
+  useEffect(() => {
+    if (error) {
+      onError?.(error)
+    }
+  }, [error, onError])
 
   const fetchNextPage = useCallback(async () => {
     if (isFetchingMore) {

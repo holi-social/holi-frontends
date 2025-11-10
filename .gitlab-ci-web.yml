@@ -10,7 +10,7 @@ default:
 
 .web_deploy:
   image:
-    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.9.8'
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.13.4'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ['/bin/sh', '-c']
   variables:
@@ -31,7 +31,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.49.1-noble'
+  image: 'mcr.microsoft.com/playwright:v1.56.1-noble'
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -57,7 +57,7 @@ default:
 
 .web_destroy:
   image:
-    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.9.8'
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.13.4'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ['/bin/sh', '-c']
   variables:

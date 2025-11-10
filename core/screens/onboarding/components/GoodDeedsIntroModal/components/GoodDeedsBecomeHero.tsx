@@ -46,7 +46,7 @@ export const GoodDeedsBecomeHero = ({ type, onNextPress }: GoodDeedsBecomeHeroPr
                 isDesktopView
                   ? Math.min(event.nativeEvent.layout.height, event.nativeEvent.layout.width) * 0.9
                   : event.nativeEvent.layout.width - 24,
-                breakpoints.sm - 24
+                breakpoints.xs - 24
               )
             )
           }
@@ -60,7 +60,7 @@ export const GoodDeedsBecomeHero = ({ type, onNextPress }: GoodDeedsBecomeHeroPr
         </View>
       </Stack>
 
-      <Stack flex={isDesktopView ? 447 : undefined} justifyContent="space-between">
+      <Stack flex={isDesktopView ? 447 : 1} justifyContent="space-between">
         <Stack gap="3xs" padding={{ top: 'lg', bottom: 'lg', left: 'md', right: 'md' }}>
           <Text size="3xl">
             <Trans

@@ -1,4 +1,5 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { renderHook } from '@testing-library/react-native'
 import { useUserSpecificRecoParameters } from '@holi-apps/volunteering/hooks/useUserSpecificRecoParameters'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useVolunteeringRecoParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoParameters'
@@ -104,18 +105,11 @@ describe('useVolunteeringRecoParameters', () => {
 
   it('passes on the geolocation error handler', () => {
     const onGeolocationError = jest.fn()
-    const error = {
-      name: '',
-      message: 'Test error',
-      graphQLErrors: [],
-      protocolErrors: [],
-      clientErrors: [],
-      networkError: null,
-      extraInfo: undefined,
-    }
-    mockUseGeolocationDetails.mockImplementation((id, onError) => {
-      /* eslint-disable  @typescript-eslint/no-explicit-any */
-      onError?.(error as any)
+    const error = new CombinedGraphQLErrors({
+      errors: [],
+    })
+    mockUseGeolocationDetails.mockImplementation((_, onError) => {
+      onError?.(error)
       return {
         loadingGeolocation: false,
       }

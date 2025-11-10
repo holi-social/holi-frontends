@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -14,6 +13,7 @@ import PostContent from '@holi/core/screens/posts/components/PostContent'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, type PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useTheme } from '@holi/ui/styles/theme'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type CommentInputPageParams = {
   insightId?: string
@@ -27,7 +27,7 @@ const CommentInputPage = () => {
   const [insightId] = useUUIDParam('insightId')
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [postId] = useUUIDParam('postId')
-  const { navigate, replaceRoute } = useRouting()
+  const { navigate } = useRouting()
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const setScreenOptions = useSetScreenOptions()
@@ -38,13 +38,8 @@ const CommentInputPage = () => {
   const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
     skip: !postId,
-    onError: (error) => {
-      if (isNotFoundError(error) || isForbiddenError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId })
-    },
   })
+  useApolloNotFoundErrorHandling(error, 'Failed to load post', { location: 'CommentInputPage.PostById', postId })
 
   useLayoutEffect(
     () =>

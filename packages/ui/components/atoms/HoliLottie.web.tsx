@@ -11,7 +11,7 @@ interface HoliLottieProps {
   loop?: boolean
 }
 
-const HoliLottie: React.VFC<HoliLottieProps> = ({ animType, loop = true }) => {
+const HoliLottie = ({ animType, loop = true }: HoliLottieProps) => {
   return <Lottie animationData={animations[animType]} loop={loop} />
 }
 

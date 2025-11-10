@@ -9,7 +9,9 @@ import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/C
 import { useLogout } from '@holi/core/helpers'
 import { useIsOnline } from '@holi/core/helpers/useIsOnline'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+
+import { useReactiveVar } from '@apollo/client/react'
 
 const isProcessingUnauthorizedLogout = makeVar(false)
 

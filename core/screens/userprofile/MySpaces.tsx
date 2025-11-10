@@ -1,7 +1,6 @@
 import React from 'react'
 import { Screen } from '@holi/core/components/Screen'
 import { useTranslation } from 'react-i18next'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { Text } from 'holi-bricks/components/text'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -34,7 +33,11 @@ const MySpaces = () => {
     <Screen
       headerOptions={{
         title: t('spaces.title'),
-        headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+        headerTitle: ({ children }) => (
+          <Text headingLevel="1" size="lg">
+            {children}
+          </Text>
+        ),
       }}
     >
       <Stack padding="xs">

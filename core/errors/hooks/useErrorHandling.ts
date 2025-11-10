@@ -1,10 +1,11 @@
-import type { ApolloError } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { type ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { CombinedGraphQLErrors } from '@apollo/client'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 interface ToastErrorInfo extends ErrorContext {
   timeout?: number
@@ -12,25 +13,19 @@ interface ToastErrorInfo extends ErrorContext {
   testID?: string
 }
 
-const isApolloError = (error: unknown): error is ApolloError => {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'message' in error &&
-    typeof error.message === 'string' &&
-    'graphQLErrors' in error
-  )
-}
+const isApolloError = (error: unknown): error is CombinedGraphQLErrors => CombinedGraphQLErrors.is(error)
 
 const extractTestID = (error: unknown): string | undefined => {
   if (isApolloError(error)) {
-    const cause = error.networkError
+    const cause = error.cause
     if (typeof cause === 'object' && cause !== null && 'testID' in cause) {
       const testID = cause.testID
       if (typeof testID === 'string') {
         return testID
       }
     }
+  } else if (error instanceof HoliError) {
+    return error.testID
   }
   return undefined
 }

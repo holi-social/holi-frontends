@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView, Linking, Platform, Share } from 'react-native'
 import type { WebView, WebViewMessageEvent } from 'react-native-webview'
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from 'expo-router'
 
 import { holiNextJSApiUrl } from '@holi/api/config'
 import HoliWebView from '@holi/core/components/HoliWebView'
@@ -34,7 +34,7 @@ const ChallengesAppHome = () => {
 
   const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
-  const webViewRef = useRef<WebView>(null)
+  const webViewRef = useRef<WebView>(null as unknown as WebView)
 
   const requestPermissions = async () => {
     const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()

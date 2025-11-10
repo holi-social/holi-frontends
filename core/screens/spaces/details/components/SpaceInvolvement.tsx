@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -26,6 +25,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import type { Space } from '@holi/api/graphql/graphql-codegen'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 interface SpaceInvolvementProps {
   style?: StyleProp<ViewStyle>
@@ -49,14 +49,13 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
     refetch,
   } = useQuery<AppointmentsBySpaceIdResponse>(appointmentsBySpaceIdQuery, {
     variables: { spaceId: space.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
-    onError: (error) =>
-      logError(error, 'Failed to load appointments widget', {
-        location: 'AppointmentWidget.appointmentsBySpaceIdQuery',
-        spaceIdOrName: space.name,
-      }),
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   })
   useOnRefresh(refetch)
+  useApolloErrorLogging(errorAppointments, 'Failed to load appointments widget', {
+    location: 'AppointmentWidget.appointmentsBySpaceIdQuery',
+    spaceIdOrName: space.name,
+  })
 
   return (
     <>

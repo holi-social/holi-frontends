@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useNotificationService } from '@holi/core/screens/notifications/hooks/useNotificationService'
 
 export const useUnseenNotificationsCount = () => {
+  const { isLoggedIn } = useLoggedInUser()
   const { novuService } = useNotificationService()
   const [unseenNotificationsCount, setUnseenNotificationsCount] = useState(0)
 
@@ -21,7 +23,7 @@ export const useUnseenNotificationsCount = () => {
     [novuService]
   )
   useEffect(() => {
-    if (novuService) {
+    if (isLoggedIn && novuService) {
       fetchUnseenNotificiationsCount()
       const fetchIntervalId = setInterval(() => {
         // Only log errors locally without sending sentry reports
@@ -30,7 +32,7 @@ export const useUnseenNotificationsCount = () => {
 
       return () => clearInterval(fetchIntervalId)
     }
-  }, [fetchUnseenNotificiationsCount, novuService])
+  }, [fetchUnseenNotificiationsCount, novuService, isLoggedIn])
 
   return { hasUnseenNotifications: !!unseenNotificationsCount, unseenNotificationsCount }
 }

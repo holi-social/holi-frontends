@@ -46,29 +46,8 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
     }
   }, [scratchProps.progress, setRevealed])
 
-  const StickyBottomComponent = () =>
-    !revealed ? (
-      <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%">
-        <Button
-          label={t('badge.modal.scratchCard.button')}
-          size="lg"
-          onPress={() => {
-            track(TrackingEvent.Rewards.badgeRevealedButton(badge.localazyKey))
-            setRevealed(true)
-          }}
-        />
-      </Stack>
-    ) : (
-      <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xs">
-        <Button label={t('badge.modal.reward.button')} size="lg" onPress={onClaim} />
-        <TextLink onPress={() => navigate('/profile')} size="md">
-          {t('badge.modal.reward.link')}
-        </TextLink>
-      </Stack>
-    )
-
   return (
-    <Screen StickyBottomComponent={<StickyBottomComponent />} backgroundColor="support">
+    <Screen preset="fixed" backgroundColor="support">
       <Stack alignItems="center" justifyContent="center" gap="lg" padding="xl">
         {!revealed ? (
           <Stack alignItems="center" justifyContent="center">
@@ -128,6 +107,26 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
           </Stack>
         )}
       </Stack>
+
+      {!revealed ? (
+        <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%">
+          <Button
+            label={t('badge.modal.scratchCard.button')}
+            size="lg"
+            onPress={() => {
+              track(TrackingEvent.Rewards.badgeRevealedButton(badge.localazyKey))
+              setRevealed(true)
+            }}
+          />
+        </Stack>
+      ) : (
+        <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xs">
+          <Button label={t('badge.modal.reward.button')} size="lg" onPress={onClaim} />
+          <TextLink onPress={() => navigate('/profile')} size="md">
+            {t('badge.modal.reward.link')}
+          </TextLink>
+        </Stack>
+      )}
     </Screen>
   )
 }

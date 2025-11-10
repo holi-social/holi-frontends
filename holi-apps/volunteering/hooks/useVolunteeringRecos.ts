@@ -45,7 +45,7 @@ export const useVolunteeringRecos = ({ pageSize, displayErrors }: UseVolunteerin
   useOnRefresh(refetch)
 
   return {
-    isLoading: isLoading || isLoadingParameters,
+    isLoading: isLoadingParameters || (isLoading && !engagements.length),
     engagements,
     canFetchMore: state.canFetchMore,
     fetchNextPage,

@@ -2,7 +2,6 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
-import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -20,6 +19,7 @@ import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 import { useTranslation } from 'react-i18next'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 export interface SpacesTabProps {
   memberId: string
@@ -32,12 +32,12 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const { data, refetch } = useSpacesByMemberQuery({
+  const { data, refetch, error } = useSpacesByMemberQuery({
     variables: { memberId },
-    onError: (error) =>
-      logError(error, 'Failed to load spaces for user', { location: 'SpacesTab.spacesByMemberIdQuery' }),
   })
   useOnRefresh(refetch)
+
+  useApolloErrorLogging(error, 'Failed to load spaces for user', { location: 'SpacesTab.spacesByMemberIdQuery' })
 
   const spaces = data?.spaces
 

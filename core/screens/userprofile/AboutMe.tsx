@@ -3,7 +3,6 @@ import { Stack } from 'holi-bricks/components/stack'
 import React, { useCallback, useState } from 'react'
 import { Text } from 'holi-bricks/components/text'
 import { Screen } from '@holi/core/components/Screen'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import { Button } from 'holi-bricks/components/button'
 import { Add, Pencil } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
@@ -17,7 +16,7 @@ import { Platform, useWindowDimensions } from 'react-native'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { useSortedUserTerms } from '@holi/core/domain/shared/useSortedUserTerms'
@@ -86,7 +85,11 @@ const AboutMe = () => {
     <Screen
       headerOptions={{
         title: t('profile.title'),
-        headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+        headerTitle: ({ children }) => (
+          <Text headingLevel="1" size="lg">
+            {children}
+          </Text>
+        ),
       }}
     >
       {editMode && (

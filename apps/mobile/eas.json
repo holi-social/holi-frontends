@@ -2,6 +2,9 @@
   "build": {
     "base": {
       "node": "20.16.0",
+      "env": {
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+      },
       "ios": {
         "resourceClass": "m-medium"
       },
@@ -119,7 +122,7 @@
     },
     "production": {
       "extends": "base",
-      "channel": "production-1-64",
+      "channel": "production-1-65",
       "env": {
         "APP_VARIANT": "production",
         "ENVIRONMENT_ID": "production",
