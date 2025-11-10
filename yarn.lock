@@ -5103,7 +5103,7 @@ __metadata:
     "@ory/client": "npm:^1.1.21"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
     "@react-native-clipboard/clipboard": "npm:^1.16.3"
-    "@react-native-community/datetimepicker": "npm:8.4.4"
+    "@react-native-community/datetimepicker": "npm:8.5.0"
     "@react-native-community/netinfo": "npm:11.4.1"
     "@react-native-google-signin/google-signin": "npm:^14.0.1"
     "@react-native-masked-view/masked-view": "npm:0.3.2"
@@ -5248,7 +5248,7 @@ __metadata:
     "@babel/core": "npm:^7.24.0"
     "@babel/preset-env": "npm:^7.25.4"
     "@holi/icons": "npm:^1.0.0"
-    "@react-native-community/datetimepicker": "npm:8.4.4"
+    "@react-native-community/datetimepicker": "npm:8.5.0"
     "@storybook/react": "npm:^7.6.10"
     "@types/tinycolor2": "npm:1.4.6"
     eslint: "npm:^8.33.0"
@@ -5267,7 +5267,7 @@ __metadata:
     react-native-svg: "npm:15.12.1"
     react-test-renderer: "npm:19.1.0"
   peerDependencies:
-    "@react-native-community/datetimepicker": 8.4.4
+    "@react-native-community/datetimepicker": 8.5.0
     "@types/react-transition-group": ^4.4.11
     lottie-react: 2.4.1
     lottie-react-native: ~7.3.1
@@ -8262,9 +8262,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/datetimepicker@npm:8.4.4":
-  version: 8.4.4
-  resolution: "@react-native-community/datetimepicker@npm:8.4.4"
+"@react-native-community/datetimepicker@npm:8.5.0":
+  version: 8.5.0
+  resolution: "@react-native-community/datetimepicker@npm:8.5.0"
   dependencies:
     invariant: "npm:^2.2.4"
   peerDependencies:
@@ -8277,7 +8277,7 @@ __metadata:
       optional: true
     react-native-windows:
       optional: true
-  checksum: 10c0/05794d2746584be85bd74f86593951714407da2bebf49e63e676d58d40a5c85923ae87342a930fde59b60bd5f18e6c878fe747a92f67271d339ed4b1fde6479e
+  checksum: 10c0/bff2032d1335ed20f342efa90b4d25a659e141ef9a99749c8bc53a6839f7f3f62a2fd0a3a12b6ff66b45d478ff78b2da8cde687406ead5d20813c89e4be9cd7c
   languageName: node
   linkType: hard
 
@@ -19884,7 +19884,7 @@ __metadata:
     "@holi/icons": "npm:*"
     "@holi/ui": "npm:*"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
-    "@react-native-community/datetimepicker": "npm:8.4.4"
+    "@react-native-community/datetimepicker": "npm:8.5.0"
     "@react-native-community/slider": "npm:5.1.0"
     "@storybook/addon-a11y": "npm:^8.5.8"
     "@storybook/addon-actions": "npm:^8.5.8"
