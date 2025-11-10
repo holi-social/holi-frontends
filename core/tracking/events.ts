@@ -956,6 +956,22 @@ export namespace TrackingEvent {
     ...versionOne,
     properties,
   })
+
+  export namespace OnboardingIntro {
+    export type OnboardingIntroFlow = 'onboarding' | 'first-tracked-good-deed' | 'first-favorite-good-deed'
+
+    export const TellMeMoreButtonClicked = (flow?: OnboardingIntroFlow): TrackingEvent => ({
+      name: 'tell_me_more_button_pressed',
+      properties: { flow },
+      ...versionOne,
+    })
+
+    export const FindGoodDeedButtonClicked = (flow?: OnboardingIntroFlow): TrackingEvent => ({
+      name: 'find_good_deed_button_pressed',
+      properties: { flow },
+      ...versionOne,
+    })
+  }
 }
 
 export const Unknown: TrackingEvent = {
