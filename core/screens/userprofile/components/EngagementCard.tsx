@@ -1,7 +1,7 @@
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { getInitials } from '@holi/core/helpers'
 import { getLocationTypeInfo } from '@holi/core/helpers/getLocationTypeInfo'
-import type { NormalizedCommittedVolunteeringItem } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
+import type { Engagement } from '@holi/core/screens/userprofile/hooks/useEngagements'
 import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/useMyVolunteeringStatuses'
 import { TrackingEvent } from '@holi/core/tracking'
 import { Global, MapPin2Filled } from '@holi/icons/src/generated'
@@ -10,21 +10,17 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { DimensionValue } from 'react-native'
 
-interface VolunteeringRecoCardWithStatusProps {
-  engagement: NormalizedCommittedVolunteeringItem
+interface EngagementCardProps {
+  engagement: Engagement
   fixedWidth?: DimensionValue
   trackingEvent?: TrackingEvent
 }
-export const VolunteeringRecoCardWithStatus = ({
-  engagement,
-  fixedWidth,
-  trackingEvent,
-}: VolunteeringRecoCardWithStatusProps) => {
+
+export const EngagementCard = ({ engagement, fixedWidth, trackingEvent }: EngagementCardProps) => {
   const { t } = useTranslation()
   const { isRemote, isHybrid } = getLocationTypeInfo(engagement.locationType, engagement.location)
 
   const { getVolunteeringStatus } = useMyVolunteeringStatuses()
-  const link = `/volunteering/${engagement.externalVolunteeringOpportunityId}`
   const linkLabel = engagement?.organizerName
     ? t('volunteering.engagement.title', {
         title: engagement.title,
@@ -37,7 +33,7 @@ export const VolunteeringRecoCardWithStatus = ({
 
   return (
     <HoliLinkTracked
-      href={link}
+      href={engagement.link}
       label={linkLabel}
       trackingEvent={trackingEvent ?? TrackingEvent.MyVolunteering.pressed(engagement.id)}
       isFullHeight={!!fixedWidth}

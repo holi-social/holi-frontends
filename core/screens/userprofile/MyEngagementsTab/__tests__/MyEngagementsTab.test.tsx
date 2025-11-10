@@ -1,17 +1,14 @@
 import React from 'react'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { screen, userEvent } from '@testing-library/react-native'
 import { renderRouter } from 'expo-router/testing-library'
-import { MyVolunteeringTab } from '@holi/core/screens/userprofile/MyVolunteeringTab/MyVolunteeringTab'
-import {
-  makeCommittedVolunteeringItems,
-  mockCommittedVolunteeringHookResult,
-} from '@holi/core/screens/userprofile/__tests__/helpers/generators'
+import { MyEngagementsTab } from '@holi/core/screens/userprofile/MyEngagementsTab/MyEngagementsTab'
+import { makeCommittedVolunteeringItems } from '@holi/core/screens/userprofile/__tests__/helpers/fixtures'
 import { MockedProvider } from '@apollo/client/testing/react'
 import { FavoritesDocument } from '@holi/api/graphql/graphql-codegen'
 
-const mockUseCommittedVolunteering = jest.fn()
-jest.mock('@holi/core/screens/userprofile/hooks/useCommittedVolunteering', () => ({
-  useCommittedVolunteering: () => mockUseCommittedVolunteering(),
+const mockUseEngagements = jest.fn()
+jest.mock('@holi/core/screens/userprofile/hooks/useEngagements', () => ({
+  useEngagements: () => mockUseEngagements(),
 }))
 
 const mockUseMyVolunteeringStatuses = jest.fn()
@@ -44,8 +41,8 @@ jest.mock('@holi/core/screens/userprofile/components/VolunteeringEmptyState', ()
   },
 }))
 
-jest.mock('@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus', () => ({
-  VolunteeringRecoCardWithStatus: ({ engagement }: { engagement: { id: string; title: string } }) => {
+jest.mock('@holi/core/screens/userprofile/components/EngagementCard', () => ({
+  EngagementCard: ({ engagement }: { engagement: { id: string; title: string } }) => {
     const { View, Text } = require('react-native')
     return (
       <View testID={`volunteering-card-${engagement.id}`}>
@@ -83,7 +80,21 @@ const mocks = [
   },
 ]
 
-describe('MyVolunteeringTab', () => {
+const useEngagementsThree = {
+  engagements: makeCommittedVolunteeringItems(3),
+  isLoading: false,
+  isInitialLoad: false,
+  refetch: jest.fn(),
+}
+
+const useEngagementsEmpty = {
+  engagements: [],
+  isLoading: false,
+  isInitialLoad: false,
+  refetch: jest.fn(),
+}
+
+describe('MyEngagementsTab', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockUseMyVolunteeringStatuses.mockReturnValue({
@@ -105,16 +116,15 @@ describe('MyVolunteeringTab', () => {
   })
 
   it('should render loader during initial load', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
+    mockUseEngagements.mockReturnValue({
+      ...useEngagementsThree,
       isInitialLoad: true,
-      items: [],
     })
 
     renderRouter({
       index: () => (
         <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -123,17 +133,15 @@ describe('MyVolunteeringTab', () => {
   })
 
   it('should render empty state when no items and no loading', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
+    mockUseEngagements.mockReturnValue({
+      ...useEngagementsEmpty,
       isInitialLoad: false,
-      totalResults: 0,
-      items: [],
     })
 
     renderRouter({
       index: () => (
         <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -142,23 +150,20 @@ describe('MyVolunteeringTab', () => {
   })
 
   it('should render volunteering items and status header', () => {
-    const items = makeCommittedVolunteeringItems(3)
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items,
-      totalResults: items.length,
+    mockUseEngagements.mockReturnValue({
+      ...useEngagementsThree,
     })
 
     renderRouter({
       index: () => (
         <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
 
     expect(screen.getByText('profile.myVolunteer.link.status')).toBeOnTheScreen()
-    items.forEach((item) => {
+    useEngagementsThree.engagements.forEach((item) => {
       expect(screen.getByTestId(`volunteering-card-${item.id}`)).toBeOnTheScreen()
       expect(screen.getByText(item.title)).toBeOnTheScreen()
     })
@@ -166,14 +171,14 @@ describe('MyVolunteeringTab', () => {
 
   it('should open status modal when info link is pressed', async () => {
     const user = userEvent.setup()
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
+    mockUseEngagements.mockReturnValue({
+      ...useEngagementsThree,
       items: makeCommittedVolunteeringItems(1),
     })
     renderRouter({
       index: () => (
         <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -183,87 +188,6 @@ describe('MyVolunteeringTab', () => {
     expect(screen.getByText('desc-planned')).toBeOnTheScreen()
     expect(screen.getByText('desc-connected')).toBeOnTheScreen()
     expect(screen.getByText('desc-help')).toBeOnTheScreen()
-  })
-
-  it('should render loading icon when fetching more items', () => {
-    const items = makeCommittedVolunteeringItems(2)
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items,
-      canFetchMore: true,
-      isFetchingMore: true,
-    })
-
-    renderRouter({
-      index: () => (
-        <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
-        </MockedProvider>
-      ),
-    })
-
-    expect(screen.getByTestId('next-page-loader')).toBeOnTheScreen()
-  })
-
-  it('should not render loader when no more items', () => {
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: makeCommittedVolunteeringItems(2),
-      canFetchMore: false,
-      isFetchingMore: false,
-    })
-
-    renderRouter({
-      index: () => (
-        <MockedProvider mocks={mocks}>
-          <MyVolunteeringTab />
-        </MockedProvider>
-      ),
-    })
-    expect(screen.queryByTestId('next-page-loader')).not.toBeOnTheScreen()
-    expect(screen.queryByTestId('load-more-button')).not.toBeOnTheScreen()
-  })
-
-  it('should render Load More button when more items available', () => {
-    const mockFetchMore = jest.fn()
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: makeCommittedVolunteeringItems(2),
-      fetchMore: mockFetchMore,
-      canFetchMore: true,
-      isFetchingMore: false,
-    })
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
-
-    const loadMoreButton = screen.getByTestId('load-more-button')
-    expect(loadMoreButton).toBeOnTheScreen()
-    expect(screen.getByText('Load More')).toBeOnTheScreen()
-  })
-
-  it('should call fetchMore when Load More button is pressed', async () => {
-    const user = userEvent.setup()
-    const mockFetchMore = jest.fn()
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: makeCommittedVolunteeringItems(2),
-      fetchMore: mockFetchMore,
-      canFetchMore: true,
-      isFetchingMore: false,
-    })
-
-    render(
-      <MockedProvider mocks={mocks}>
-        <MyVolunteeringTab />
-      </MockedProvider>
-    )
-    await user.press(screen.getByTestId('load-more-button'))
-
-    expect(mockFetchMore).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -275,10 +199,8 @@ describe('MyVolunteeringTab with Favorites', () => {
       getVolunteeringStatus: jest.fn(),
     })
     mockUseFeatureFlag.mockReturnValue([true, undefined])
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
-      items: [],
-      totalResults: 0,
+    mockUseEngagements.mockReturnValue({
+      ...useEngagementsEmpty,
       isInitialLoad: false,
     })
   })
@@ -294,7 +216,7 @@ describe('MyVolunteeringTab with Favorites', () => {
     renderRouter({
       index: () => (
         <MockedProvider>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -314,7 +236,7 @@ describe('MyVolunteeringTab with Favorites', () => {
     renderRouter({
       index: () => (
         <MockedProvider>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -346,7 +268,7 @@ describe('MyVolunteeringTab with Favorites', () => {
     renderRouter({
       index: () => (
         <MockedProvider>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -374,7 +296,7 @@ describe('MyVolunteeringTab with Favorites', () => {
     renderRouter({
       index: () => (
         <MockedProvider>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -399,7 +321,7 @@ describe('MyVolunteeringTab with Favorites', () => {
     renderRouter({
       index: () => (
         <MockedProvider>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })
@@ -409,8 +331,8 @@ describe('MyVolunteeringTab with Favorites', () => {
 
   it('should not render favorite section when feature flag disabled', () => {
     mockUseFeatureFlag.mockReturnValue([false, undefined])
-    mockUseCommittedVolunteering.mockReturnValue({
-      ...mockCommittedVolunteeringHookResult,
+    mockUseEngagements.mockReturnValue({
+      ...useEngagementsThree,
       items: [],
       totalResults: 0,
       isInitialLoad: false,
@@ -419,7 +341,7 @@ describe('MyVolunteeringTab with Favorites', () => {
     renderRouter({
       index: () => (
         <MockedProvider>
-          <MyVolunteeringTab />
+          <MyEngagementsTab />
         </MockedProvider>
       ),
     })

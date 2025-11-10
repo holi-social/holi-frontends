@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { ChipLabel } from 'holi-bricks/components/chips'
-import { Button } from 'holi-bricks/components/button'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { VolunteeringRecoCardWithStatus } from '@holi/core/screens/userprofile/components/VolunteeringRecoCardWithStatus'
-import { useCommittedVolunteering } from '@holi/core/screens/userprofile/hooks/useCommittedVolunteering'
+import { EngagementCard } from '@holi/core/screens/userprofile/components/EngagementCard'
+import { useEngagements } from '@holi/core/screens/userprofile/hooks/useEngagements'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -18,7 +17,7 @@ import { useMyVolunteeringStatuses } from '@holi/core/screens/userprofile/hooks/
 import { VolunteeringEmptyState } from '@holi/core/screens/userprofile/components/VolunteeringEmptyState'
 import { EngagementsListErrorState } from '@holi/core/screens/userprofile/components/EngagementsListErrorState'
 
-const StatusInfoHeader = () => {
+const StatusInfoModal = () => {
   const { t } = useTranslation()
   const { volunteeringStatuses } = useMyVolunteeringStatuses()
   const { show, hide, props: modalProps } = useModalState()
@@ -60,28 +59,14 @@ const StatusInfoHeader = () => {
 export const SavedEngagements = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const {
-    items: committedVolunteeringOpportunities,
-    canFetchMore,
-    isFetchingMore,
-    isLoading,
-    isInitialLoad,
-    fetchMore,
-    totalResults,
-    refetch,
-    error,
-  } = useCommittedVolunteering()
+  const { engagements, isLoading, isInitialLoad, hasError, refetch } = useEngagements()
 
-  useEffect(() => {
-    refetch()
-  }, [refetch])
-
-  if (error) {
+  if (hasError) {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
           <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
-          <StatusInfoHeader />
+          <StatusInfoModal />
         </Stack>
         <EngagementsListErrorState refetch={refetch} />
       </Stack>
@@ -96,12 +81,12 @@ export const SavedEngagements = () => {
     )
   }
 
-  if (!isLoading && totalResults === 0) {
+  if (!isLoading && engagements.length === 0) {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
           <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
-          <StatusInfoHeader />
+          <StatusInfoModal />
         </Stack>
         <VolunteeringEmptyState />
       </Stack>
@@ -112,26 +97,16 @@ export const SavedEngagements = () => {
     <Stack padding={{ bottom: 'xs' }} gap="xxs">
       <Stack direction="row" justifyContent="space-between">
         <Text size="xl">{t('profile.tabs.myVolunteer')}</Text>
-        <StatusInfoHeader />
+        <StatusInfoModal />
       </Stack>
 
       <Stack gap="xs">
-        {committedVolunteeringOpportunities.map((item) => (
+        {engagements.map((item) => (
           <ErrorBoundary key={item.id}>
-            <VolunteeringRecoCardWithStatus engagement={item} />
+            <EngagementCard engagement={item} />
           </ErrorBoundary>
         ))}
       </Stack>
-
-      {committedVolunteeringOpportunities.length > 0 && canFetchMore && (
-        <Stack justifyContent="center" alignItems="center" padding={{ top: 'md' }}>
-          {isFetchingMore ? (
-            <HoliLoader style={styles.loader} testID="next-page-loader" />
-          ) : (
-            <Button inline label="Load More" onPress={fetchMore} variant="primary" testID="load-more-button" />
-          )}
-        </Stack>
-      )}
     </Stack>
   )
 }
