@@ -8381,15 +8381,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.5.2":
-  version: 1.5.2
-  resolution: "@posthog/core@npm:1.5.2"
-  dependencies:
-    cross-spawn: "npm:^7.0.6"
-  checksum: 10c0/89fc7b090f657c4e0a241fbaed928cb49a2b02cae91655bd172b12b23ecabd91e3ba8efb5437d2fcd5887ed8768be08bc948f50ca23b58137c654ce0030dd5e7
-  languageName: node
-  linkType: hard
-
 "@preact/signals-core@npm:^1.2.3":
   version: 1.8.0
   resolution: "@preact/signals-core@npm:1.8.0"
