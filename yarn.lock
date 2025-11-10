@@ -5603,7 +5603,7 @@ __metadata:
     react-native-calendars: "npm:^1.1306.0"
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-device-info: "npm:^14.0.4"
-    react-native-edge-to-edge: "npm:1.6.2"
+    react-native-edge-to-edge: "npm:1.7.0"
     react-native-fbsdk-next: "npm:^13.4.1"
     react-native-gesture-handler: "npm:~2.29.0"
     react-native-get-random-values: "npm:^1.11.0"
@@ -28200,13 +28200,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-edge-to-edge@npm:1.6.2":
-  version: 1.6.2
-  resolution: "react-native-edge-to-edge@npm:1.6.2"
+"react-native-edge-to-edge@npm:1.7.0":
+  version: 1.7.0
+  resolution: "react-native-edge-to-edge@npm:1.7.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/4c9defc3075aedff2bcef2a39ed97d037f220342baa95d374f3c68dee9e4493429f2f8f3b3dbb7ba355cdfb89a00d6400218c90944cc80e84283d3eb8646c584
+  checksum: 10c0/809dcf1c68f79cff788963ec7691b37024986e82470be5047bfbe42929fc2c7d45db23eab816321e776f0bb3a8295f7efa526377bce6a559c10681cd409d597d
   languageName: node
   linkType: hard
 
