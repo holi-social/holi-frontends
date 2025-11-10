@@ -4,7 +4,7 @@ import { SavedEngagements } from '@holi/core/screens/userprofile/MyEngagementsTa
 import { FavoritesSlider } from '@holi/core/screens/userprofile/MyEngagementsTab/FavoritesSlider'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { SavedPetitions } from '@holi/core/screens/userprofile/MyVolunteeringTab/SavedPetitions'
+import { SavedPetitions } from '@holi/core/screens/userprofile/MyEngagementsTab/SavedPetitions'
 
 export const MyEngagementsTab = () => {
   const [showFavoritesSlider] = useFeatureFlag(FeatureFlagKey.FAVORITES_SLIDER)
