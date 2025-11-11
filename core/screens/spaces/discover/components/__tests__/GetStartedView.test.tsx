@@ -1,6 +1,7 @@
 import type { MockLink } from '@apollo/client/testing'
 import { MockedProvider } from '@apollo/client/testing/react'
-import { cleanup, fireEvent, renderRouter } from 'expo-router/testing-library'
+import { cleanup, fireEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 import { Text } from 'react-native'
 
@@ -81,8 +82,8 @@ describe('GetStartedView', () => {
   it('renders correctly', async () => {
     const { getByTestId } = renderGetStartedView(MOCKS)
 
-    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.welcome')
-    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.description')
+    expect(getByTestId('get-started-view-header')).toHaveTextContent(/spaces.discover.welcome/)
+    expect(getByTestId('get-started-view-header')).toHaveTextContent(/spaces.discover.description/)
   })
 
   it('renders create button correctly', async () => {

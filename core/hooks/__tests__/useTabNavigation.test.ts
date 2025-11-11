@@ -1,4 +1,4 @@
-import { act, renderHook } from 'expo-router/testing-library'
+import { act, renderHook } from '@testing-library/react-native'
 
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'

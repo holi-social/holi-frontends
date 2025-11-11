@@ -1,4 +1,4 @@
-import { render, screen } from 'expo-router/testing-library'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'

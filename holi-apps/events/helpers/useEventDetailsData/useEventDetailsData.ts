@@ -11,7 +11,7 @@ import { Linking } from 'react-native'
 import type { MultiPlatformImageSource } from 'holi-bricks/components/image'
 import { useRateLimit } from '@holi/ui/helper'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import { TrackingEvent } from '@holi/core/tracking'
 import { EVENTS_SOURCE_MAPPING } from '@holi-apps/events/helpers/eventsSourceMapping'
 import { getFormattedEventDates } from '@holi/core/i18n/helpers/dateHelper'
@@ -57,7 +57,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
 
   const event = data?.appEvents_event?.data
   const formattedDates = getFormattedEventDates(i18n.language, event?.startDate, event?.endDate) as string
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/events/${eventId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${event?.title} ${formattedDates && '- ' + formattedDates} ${event?.location && ' - ' + event.location}`,

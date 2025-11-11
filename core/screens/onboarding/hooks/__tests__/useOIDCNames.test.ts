@@ -2,7 +2,7 @@ import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
-import { renderHook, waitFor } from 'expo-router/testing-library'
+import { renderHook, waitFor } from '@testing-library/react-native'
 
 const mockGetSessionFromStorage = jest.mocked(getSessionFromStorage)
 jest.mock('@holi/core/auth/helpers/auth', () => ({

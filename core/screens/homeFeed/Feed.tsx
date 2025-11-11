@@ -1,10 +1,9 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppState, RefreshControl, StyleSheet, View } from 'react-native'
+import { StyleSheet, View, RefreshControl, AppState, type ScrollView } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { useNavigation, useScrollToTop } from '@react-navigation/native'
-
+import { useNavigation } from 'expo-router'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -41,6 +40,7 @@ import * as Appcues from '@appcues/react-native'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
 import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useStyles } from 'holi-bricks/styles'
+import { useScrollToTop } from '@react-navigation/native'
 
 const HomeFeed = () => {
   Appcues.screen('Feed')
@@ -68,7 +68,7 @@ const HomeFeed = () => {
 
   const { track } = useTracking()
   const navigation = useNavigation()
-  const ref = useRef(null)
+  const ref = useRef<ScrollView>(null as unknown as ScrollView)
 
   useEffect(() => {
     if (!isFocused || !showGoodDeeds) return
@@ -192,9 +192,8 @@ const HomeFeed = () => {
     )
   }
 
-  useScrollToTop(ref)
-
   useNotificationsInit()
+  useScrollToTop(ref)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -268,7 +267,6 @@ const HomeFeed = () => {
               disableVirtualization={true}
               trackOnce={true}
               withFlashList={false}
-              estimatedItemSize={260}
               ref={ref}
               onLastViewedIndexChange={updateLastViewedIndex}
             />

@@ -1,7 +1,8 @@
 import { Intro } from '@holi/core/screens/onboarding/steps/Intro'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { act, renderRouter, screen, fireEvent, within } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { act, screen, fireEvent, within } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 

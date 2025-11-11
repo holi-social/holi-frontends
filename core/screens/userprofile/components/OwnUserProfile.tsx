@@ -25,7 +25,7 @@ import OwnConnectionsTab from '@holi/core/screens/userprofile/components/OwnConn
 import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
-import { MyVolunteeringTab } from '@holi/core/screens/userprofile/MyVolunteeringTab/MyVolunteeringTab'
+import { MyEngagementsTab } from '@holi/core/screens/userprofile/MyEngagementsTab/MyEngagementsTab'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { GoodDeedsTab } from '@holi/core/screens/userprofile/components/GoodDeedsTab'
@@ -112,7 +112,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
         {
           key: Tab.MY_VOLUNTEERING,
           tabTitle: t('profile.tabs.myVolunteer'),
-          content: () => <MyVolunteeringTab />,
+          content: () => <MyEngagementsTab />,
         },
         {
           key: Tab.BADGES,
@@ -135,7 +135,7 @@ const OwnUserProfile = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
           {
             key: Tab.MY_VOLUNTEERING,
             tabTitle: t('profile.tabs.myVolunteer'),
-            content: () => <MyVolunteeringTab />,
+            content: () => <MyEngagementsTab />,
           },
           {
             key: Tab.GOOD_DEEDS,

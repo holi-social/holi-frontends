@@ -5,7 +5,7 @@ import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import { isLoggingOutVar, useLogout } from '@holi/core/helpers/useLogout'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook } from '@testing-library/react-native'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -16,6 +16,7 @@ jest.mock('@holi/core/auth/loginState', () => ({
 }))
 
 const mockGetSessionFromStorage = jest.mocked(getSessionFromStorage)
+
 const mockSubmitLogoutFlow = jest.mocked(submitLogoutFlow)
 const mockSubmitSocialLogout = jest.mocked(submitSocialLogout)
 jest.mock('@holi/core/auth/helpers/auth', () => ({
@@ -228,14 +229,16 @@ describe('useLogout', () => {
     it('should return flag while logging out', async () => {
       const { result } = renderHook(useLogout)
 
+      let promise: Promise<void>
+      act(() => {
+        promise = result.current.logout()
+      })
+
+      expect(result.current.isLoggingOut).toBeTruthy()
+      expect(isLoggingOutVar()).toBeTruthy()
+
       await act(async () => {
-        const promise = result.current.logout()
-
-        await waitFor(() => expect(isLoggingOutVar()).toBeTruthy())
-        expect(result.current.isLoggingOut).toBeTruthy()
-
         await promise
-        await jest.runOnlyPendingTimersAsync()
       })
 
       expect(result.current.isLoggingOut).toBeFalsy()

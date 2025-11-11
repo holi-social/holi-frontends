@@ -1,4 +1,5 @@
-import { jest } from '@jest/globals'
+/// <reference types="expo-router/types/expect" />
+
 import { initializeBricks } from 'holi-bricks/config'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
@@ -82,10 +83,12 @@ global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
 global.mockTrack = jest.fn()
 
-global.TextEncoder = jest.fn<() => TextEncoder>()
+global.TextEncoder = jest.fn() as typeof TextEncoder
 
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
-  openURL: global.mockOpenURL,
+  default: {
+    openURL: global.mockOpenURL,
+  },
 }))
 
 jest.mock('expo-linking', () => {
@@ -110,7 +113,23 @@ jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 
 jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
-jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
+jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter', () => {
+  return {
+    __esModule: true,
+    default: () => ({
+      addListener: () => ({
+        remove: jest.fn(),
+      }),
+    }),
+  }
+})
+import type { Platform } from 'react-native'
+
+jest.mock('react-native/Libraries/Utilities/Platform', () => {
+  const mockPlatform = jest.requireActual<Platform>('react-native/Libraries/Utilities/Platform')
+  mockPlatform.OS = 'android'
+  return mockPlatform
+})
 
 jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
@@ -180,6 +199,31 @@ jest.mock('@holi/core/helpers/useFocusEffect', () => {
     __esModule: true,
     useFocusEffect: jest.fn(),
   }
+})
+
+jest.mock('@holi/core/helpers/useIsFocused', () => {
+  return {
+    __esModule: true,
+    useIsFocused: jest.fn().mockReturnValue(true),
+  }
+})
+
+jest.mock('@react-navigation/native', () => {
+  const module: typeof import('@react-navigation/native') = {
+    ...jest.requireActual('@react-navigation/native'),
+    useScrollToTop: jest.fn(),
+  }
+
+  return module
+})
+
+jest.mock('expo-router', () => {
+  const module: typeof import('expo-router') = {
+    ...jest.requireActual('expo-router'),
+    useFocusEffect: jest.requireActual('react').useEffect,
+  }
+
+  return module
 })
 
 export default {}

@@ -4,7 +4,7 @@ import type { APIRequestContext, BrowserContext } from '@playwright/test'
 import { newUserEmail, randomPassword } from './fixtures'
 
 import { readFileSync } from 'fs'
-import { CreateTaskDocument } from '@holi/api/graphql/graphql-codegen'
+import { CreateTaskDocument, CreateTaskInput } from '@holi/api/graphql/graphql-codegen'
 import { print } from 'graphql'
 
 export type User = {
@@ -138,7 +138,7 @@ export type E2ETestSpaceResponse = {
 }
 
 export const createSpace = async (context: BrowserContext) => {
-  const file = new File([readFileSync('tests/helpers/testimage.png')], 'testimage.png')
+  const file = new File([new Uint8Array(readFileSync('tests/helpers/testimage.png'))], 'testimage.png')
 
   const formData = new FormData()
   formData.append(
@@ -181,7 +181,11 @@ export type E2ETestSpaceTaskResponse = {
   description: string
 }
 
-export const createSpaceTask = async (context: BrowserContext, spaceId: string) => {
+export const createSpaceTask = async (
+  context: BrowserContext,
+  spaceId: string,
+  override?: Partial<CreateTaskInput>
+) => {
   const createSpaceTaskResponse: { data?: { createTask: E2ETestSpaceTaskResponse }; errors?: object[] } = await (
     await context.request.post(`${baseURL}/api/graphql`, {
       data: {
@@ -198,6 +202,7 @@ export const createSpaceTask = async (context: BrowserContext, spaceId: string) 
             contactEmail: faker.internet.email(),
             slotsAvailable: 1,
             skillsV2: [],
+            ...override,
           },
         },
       },

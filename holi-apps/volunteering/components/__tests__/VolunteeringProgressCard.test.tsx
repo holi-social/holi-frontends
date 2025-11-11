@@ -1,5 +1,6 @@
 import type React from 'react'
-import { renderRouter, screen, userEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { act, screen, userEvent } from '@testing-library/react-native'
 import { VolunteeringProgressCard } from '@holi-apps/volunteering/components/VolunteeringProgressCard'
 import {
   badgesMockWithUnseen,
@@ -129,7 +130,9 @@ describe('VolunteeringProgressCard', () => {
 
       screen.debug()
       expect(screen.getByText('goodDeed.rewardsMessage.button')).toBeOnTheScreen()
-      await user.press(screen.getByText('goodDeed.rewardsMessage.button'))
+      await act(async () => {
+        await user.press(screen.getByText('goodDeed.rewardsMessage.button'))
+      })
       expect(onStatusChange).toHaveBeenCalledWith(VolunteeringOpportunityStatusValue.Doing)
     })
   })

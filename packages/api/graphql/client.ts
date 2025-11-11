@@ -148,6 +148,9 @@ export const createCache = () =>
           results: typesenseMultiSearchPagedPolicy(),
         },
       },
+      VolunteeringOpportunityStatus: {
+        keyFields: ['externalVolunteeringOpportunityId'],
+      },
       Query: {
         fields: {
           appEvents_events: pagedPolicy(),

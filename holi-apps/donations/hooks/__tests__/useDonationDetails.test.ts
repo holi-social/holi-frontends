@@ -4,7 +4,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
 import { TypesenseDocumentType } from '@holi/core/typesense/types'
-import { renderHook } from 'expo-router/testing-library'
+import { renderHook } from '@testing-library/react-native'
 
 const mockUseSingleTypesenseDocumentQuery = jest.mocked(useSingleTypesenseDocumentQuery)
 jest.mock('@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery', () => ({

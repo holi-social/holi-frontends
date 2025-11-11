@@ -1,7 +1,7 @@
 import type React from 'react'
 import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react'
 import { FlatList, type LayoutChangeEvent } from 'react-native'
-import { FlashList, type FlashListProps } from '@shopify/flash-list'
+import { FlashList, FlashListRef, type FlashListProps } from '@shopify/flash-list'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import {
   type CustomViewabilityConfig,
@@ -20,7 +20,6 @@ const TrackableFlatList = forwardRef(
       listItemIdentifier,
       trackOnce,
       withFlashList = false,
-      estimatedItemSize,
       onLastViewedIndexChange,
       ...restProps
     }: TrackableFlatListProps,
@@ -28,10 +27,10 @@ const TrackableFlatList = forwardRef(
   ) => {
     const { track } = useTracking()
 
-    const listRef = useRef<FlatList | FlashList<TrackableFlatListItem>>(null)
+    const listRef = useRef<FlatList | FlashListRef<TrackableFlatListItem>>(null)
 
     // Expose the listRef to the parent component to allow for scrollToTop
-    useImperativeHandle(ref, () => listRef.current as FlatList | FlashList<TrackableFlatListItem>)
+    useImperativeHandle(ref, () => listRef.current as FlatList | FlashListRef<TrackableFlatListItem>)
 
     const [listBelowFoldThreshold, setListBelowFoldThreshold] = useState(0)
     const [isListTrackingInitialized, setIsListTrackingInitialized] = useState(false)
@@ -129,11 +128,10 @@ const TrackableFlatList = forwardRef(
         {withFlashList ? (
           <FlashList
             {...(restProps as FlashListProps<TrackableFlatListItem>)}
-            ref={listRef as React.RefObject<FlashList<TrackableFlatListItem>>}
+            ref={listRef as React.RefObject<FlashListRef<TrackableFlatListItem>>}
             onLayout={onListLayout}
             viewabilityConfig={viewabilityConfig}
             onViewableItemsChanged={onViewableItemsChangedCallback}
-            estimatedItemSize={estimatedItemSize}
           />
         ) : (
           <FlatList

@@ -42,6 +42,11 @@ const config: StorybookConfig = {
         './image/Image.tsx': './image/Image.web.tsx',
         'react-native-svg': 'react-native-svg-web',
       }
+
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        console: false,
+      }
     }
 
     const fileTypesWithOverrides = ['txt']
