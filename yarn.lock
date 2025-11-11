@@ -5750,7 +5750,7 @@ __metadata:
     next-http-proxy-middleware: "npm:^1.2.6"
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
-    posthog-js: "npm:1.211.3"
+    posthog-js: "npm:^1.290.0"
     posthog-node: "npm:^4.2.0"
     raf: "npm:^3.4.1"
     react: "npm:19.1.0"
@@ -27005,15 +27005,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:1.211.3":
-  version: 1.211.3
-  resolution: "posthog-js@npm:1.211.3"
+"posthog-js@npm:^1.290.0":
+  version: 1.290.0
+  resolution: "posthog-js@npm:1.290.0"
   dependencies:
+    "@posthog/core": "npm:1.5.2"
     core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-    web-vitals: "npm:^4.2.0"
-  checksum: 10c0/cc5377f3e07002fca86b9fc3fca1926a148b76ad6731c44c1814fe7ec7b45f1110e6c9088debeeb73a7724d45f04e24497e5c467b336a53ecfab574e23759123
+    web-vitals: "npm:^4.2.4"
+  checksum: 10c0/941fbb23c99933d0cfb3b6f1eefc6ed35c00e1016798ee9a3e4183672075d06c66be204f59436b8dafb3db7cf1cd19b723443bc5e948696f893538eb84e54bc4
   languageName: node
   linkType: hard
 
@@ -32911,7 +32912,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^4.2.0":
+"web-vitals@npm:^4.2.4":
   version: 4.2.4
   resolution: "web-vitals@npm:4.2.4"
   checksum: 10c0/383c9281d5b556bcd190fde3c823aeb005bb8cf82e62c75b47beb411014a4ed13fa5c5e0489ed0f1b8d501cd66b0bebcb8624c1a75750bd5df13e2a3b1b2d194
