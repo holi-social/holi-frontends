@@ -19,8 +19,12 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { PetitionProgressCard } from '@holi/core/screens/spaces/tasks/components/PetitionProgressCard'
-import { Typesense_DocumentContactType, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import {
+  Typesense_DocumentContactType,
+  type VolunteeringOpportunityStatusValue,
+} from '@holi/api/graphql/graphql-codegen'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 export type PetitionDetailsParams = {
   petitionId: string
@@ -44,8 +48,8 @@ export const PetitionDetails = () => {
     },
   ]
 
-  // Mocked data for development purposes -----------------------------------------------
-  // Tobe replaced by:
+  // TODO: Mocked data for development purposes -----------------------------------------------
+  // To be replaced by:
   // const { isLoading, document, refetchStatus } = usePetitionsDetailsData(petitionId)
   // const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
   type PetitionDetailsScreenData = DetailsScreenData & {
@@ -71,7 +75,7 @@ export const PetitionDetails = () => {
       },
     ],
     commitmentType: 'once',
-    status: VolunteeringOpportunityStatusValue.Done,
+    status: PetitionsStatusValue.Completed,
   }
 
   const refetchStatusMock = async () => {
@@ -81,22 +85,24 @@ export const PetitionDetails = () => {
   const updatePetitionStatusMock = async (params: {
     variables: {
       PetitionId: string | undefined
-      newStatus: VolunteeringOpportunityStatusValue
+      newStatus: PetitionsStatusValue
     }
   }) => {
     return params
   }
   // End of mocked data --------------------------------------------------------------------
 
-  const onPetitionStatusChange = async (status: VolunteeringOpportunityStatusValue) => {
-    updatePetitionStatusMock({
-      variables: {
-        PetitionId: petitionId,
-        newStatus: status,
-      },
-    })
+  const onPetitionStatusChange = async (status: PetitionsStatusValue | VolunteeringOpportunityStatusValue) => {
+    if (status === PetitionsStatusValue.Completed || status === PetitionsStatusValue.ToSign) {
+      updatePetitionStatusMock({
+        variables: {
+          PetitionId: petitionId,
+          newStatus: status,
+        },
+      })
 
-    await refetchStatusMock()
+      await refetchStatusMock()
+    }
   }
 
   useTrackOnce(TrackingEvent.PetitionDetails.viewed(petitionId as string))
@@ -136,7 +142,7 @@ export const PetitionDetails = () => {
                 icon={GoodDeeds}
                 label={t('act.petitions.cta')}
                 onPress={() => {
-                  onPetitionStatusChange(VolunteeringOpportunityStatusValue.ToDo)
+                  onPetitionStatusChange(PetitionsStatusValue.ToSign)
                   Linking.openURL(petition.externalLink as string)
                 }}
                 trackingEvent={TrackingEvent.PetitionDetails.findMore}
@@ -161,12 +167,12 @@ export const PetitionDetails = () => {
         progressCard={
           rewardsPhaseTwoEnabled &&
           documentMock?.status &&
-          [VolunteeringOpportunityStatusValue.ToDo, VolunteeringOpportunityStatusValue.Done].includes(
-            documentMock?.status
+          [PetitionsStatusValue.ToSign, PetitionsStatusValue.Completed].includes(
+            documentMock?.status as PetitionsStatusValue
           ) ? (
             <HoliTransition.FadeDown visible>
               <PetitionProgressCard
-                status={documentMock?.status}
+                status={documentMock?.status as PetitionsStatusValue}
                 onStatusChange={onPetitionStatusChange}
                 externalLink={petition.externalLink as string}
               />

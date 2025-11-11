@@ -14,19 +14,20 @@ import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { type ChipSize, chipSizeToTextSize } from 'holi-bricks/components/chips/size'
 import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 export type ChipColor = Color | 'white'
 
 export type ChipStatusProps = AccessibilityProps &
   LayoutProps & {
-    status: VolunteeringOpportunityStatusValue
+    status: VolunteeringOpportunityStatusValue | PetitionsStatusValue
     size?: ChipSize
   }
 
 type chipStatusColor = 'blue' | 'orange' | 'purple' | 'green'
 
 const STATUS_MAP: Record<
-  VolunteeringOpportunityStatusValue,
+  VolunteeringOpportunityStatusValue | PetitionsStatusValue,
   { label: string; icon: HoliIconType; color: chipStatusColor; iconColor?: FillColors }
 > = {
   [VolunteeringOpportunityStatusValue.WontDo]: { label: 'WontDo', icon: OneOfThree, color: 'blue' }, // Dummy
@@ -44,6 +45,13 @@ const STATUS_MAP: Record<
     icon: OneOfThree,
     color: 'purple',
     iconColor: 'purpleDark',
+  },
+  [PetitionsStatusValue.ToSign]: { label: 'status.toSign', icon: OneOfThree, color: 'blue' }, // TODO: change icon
+  [PetitionsStatusValue.Completed]: {
+    label: 'status.completed',
+    icon: CheckboxCircleFilled,
+    color: 'green',
+    iconColor: 'greenDark',
   },
 }
 

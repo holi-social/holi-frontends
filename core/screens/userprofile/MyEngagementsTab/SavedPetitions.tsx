@@ -58,8 +58,11 @@ const StatusInfoHeader = () => {
 export const SavedPetitions = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
+
+  // mocked data for petitions ----------------------------
+  // to be replaced by:
   // const {
-  //   items: committedVolunteeringOpportunities,
+  //   items: committedPetitions,
   //   canFetchMore,
   //   isFetchingMore,
   //   isLoading,
@@ -68,18 +71,15 @@ export const SavedPetitions = () => {
   //   totalResults,
   //   refetch,
   //   error,
-  // } = useCommittedVolunteering()
-  const canFetchMore = false // mocked
-  const isFetchingMore = false // mocked
-  const isLoading = false // mocked
-  const isInitialLoad = false // mocked
-  const fetchMore = async () => {} // mocked
-  const totalResults = 0 // mocked
-  // const refetch = async () => {} // mocked
-
-  // useEffect(() => {
-  //   refetch()
-  // }, [refetch])
+  // } = useCommittedPetitions()
+  const canFetchMore = false
+  const isFetchingMore = false
+  const isLoading = false
+  const isInitialLoad = false
+  const fetchMore = async () => {}
+  const totalResults = 5
+  // const refetch = async () => {}
+  // -------------------------------------------------------
 
   if (isInitialLoad) {
     return (

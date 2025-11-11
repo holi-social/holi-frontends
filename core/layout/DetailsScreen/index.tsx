@@ -23,6 +23,7 @@ import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Spacing } from 'holi-bricks/foundations'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
+import type { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -72,7 +73,7 @@ export type DetailsScreenData = {
   additionalContent?: ReactNode | ReactNode[]
   progressCard?: ReactNode
   isFavorite?: boolean
-  status?: VolunteeringOpportunityStatusValue | null
+  status?: VolunteeringOpportunityStatusValue | PetitionsStatusValue | null
   location?: string
   locationType?: string
 }

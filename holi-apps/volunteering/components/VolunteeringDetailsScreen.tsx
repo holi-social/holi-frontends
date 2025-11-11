@@ -121,11 +121,14 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
                   VolunteeringOpportunityStatusValue.ToDo,
                   VolunteeringOpportunityStatusValue.Contacted,
                   VolunteeringOpportunityStatusValue.Doing,
-                ].includes(document?.status)
+                ].includes(document?.status as VolunteeringOpportunityStatusValue)
               }
             >
               <VolunteeringProgressCard
-                status={document?.status ?? VolunteeringOpportunityStatusValue.ToDo}
+                status={
+                  (document?.status as VolunteeringOpportunityStatusValue | undefined) ??
+                  VolunteeringOpportunityStatusValue.ToDo
+                }
                 document={document!}
                 engagementId={engagementId}
                 onStatusChange={onVolunteeringStatusChange}

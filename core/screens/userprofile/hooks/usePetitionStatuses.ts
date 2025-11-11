@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { CheckmarkGreen, ProgressIndicator1Of3 } from '@holi/icons/src/generated'
 import type { ChipLabelProps } from 'holi-bricks/components/chips/ChipLabel'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 export type PetitionStatusConfig = {
   name: string
@@ -11,14 +11,14 @@ export type PetitionStatusConfig = {
 
 export type PetitionStatuses = {
   petitionStatuses: PetitionStatusConfig[]
-  getPetitionStatus: (status: VolunteeringOpportunityStatusValue) => PetitionStatusConfig | undefined
+  getPetitionStatus: (status: PetitionsStatusValue) => PetitionStatusConfig | undefined
 }
 
 export const usePetitionStatuses = (): PetitionStatuses => {
   const { t } = useTranslation()
-  const getStatusConfig = (status: VolunteeringOpportunityStatusValue): PetitionStatusConfig | undefined => {
+  const getStatusConfig = (status: PetitionsStatusValue): PetitionStatusConfig | undefined => {
     switch (status) {
-      case VolunteeringOpportunityStatusValue.ToDo:
+      case PetitionsStatusValue.ToSign:
         return {
           description: t('profile.myVolunteer.modal.description.toSign'),
           name: t('status.toSign'),
@@ -29,7 +29,7 @@ export const usePetitionStatuses = (): PetitionStatuses => {
             children: t('status.toSign'),
           },
         }
-      case VolunteeringOpportunityStatusValue.Done:
+      case PetitionsStatusValue.Completed:
         return {
           name: t('status.done'),
           description: t('profile.myVolunteer.modal.description.done'),
@@ -46,11 +46,11 @@ export const usePetitionStatuses = (): PetitionStatuses => {
   }
 
   return {
-    petitionStatuses: [VolunteeringOpportunityStatusValue.ToDo, VolunteeringOpportunityStatusValue.Done].map(
+    petitionStatuses: [PetitionsStatusValue.ToSign, PetitionsStatusValue.Completed].map(
       getStatusConfig
     ) as PetitionStatusConfig[],
-    getPetitionStatus: (status: VolunteeringOpportunityStatusValue): PetitionStatusConfig | undefined => {
-      if (!Object.values(VolunteeringOpportunityStatusValue).includes(status)) {
+    getPetitionStatus: (status: PetitionsStatusValue): PetitionStatusConfig | undefined => {
+      if (!Object.values(PetitionsStatusValue).includes(status)) {
         return undefined
       }
       return getStatusConfig(status)
