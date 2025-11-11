@@ -1,5 +1,4 @@
-import { ChannelTypeEnum, IMessage } from '@novu/shared'
-import { ChannelCTATypeEnum } from '@novu/shared/dist/cjs/types/channel'
+import { ChannelCTATypeEnum, ChannelTypeEnum, IMessage } from '@novu/shared'
 
 export const aMessageListPage = (data: IMessage[], overrides = {}) => ({
   data,
