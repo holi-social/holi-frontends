@@ -1,6 +1,6 @@
 import React from 'react'
 import { EmailOtpForm } from '@holi/core/screens/auth/form/components/EmailOtpForm'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
 
 describe('EmailOtpForm', () => {
   it('should render email input field and buttons for email otp login', () => {

@@ -1,7 +1,9 @@
 import React from 'react'
 import { EmailPasswordForm } from '@holi/core/screens/auth/form/components/EmailPasswordForm'
-import { renderRouter, render, screen, userEvent, fireEvent } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { TrackingEvent } from '@holi/core/tracking'
+import { Text } from 'holi-bricks/components/text'
 
 describe('EmailPasswordForm', () => {
   it('should render correct input fields and buttons for email and password login', () => {
@@ -141,9 +143,10 @@ describe('EmailPasswordForm', () => {
       index: () => (
         <EmailPasswordForm setEmail={jest.fn()} setPassword={jest.fn()} submitLabel="" onSubmit={jest.fn()} />
       ),
+      forgotPassword: () => <Text>Forgot password</Text>,
     })
 
-    fireEvent.press(screen.getByLabelText('auth.login.link.forgotPassword'))
+    await userEvent.press(screen.getByLabelText('auth.login.link.forgotPassword'))
 
     expect(context).toHavePathname('/forgotPassword')
     expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.ForgotPasswordButtonPressed)
