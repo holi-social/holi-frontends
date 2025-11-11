@@ -63,16 +63,18 @@ export const login = async (
     await tapOnElementWithTestId('anonymous-profile-login-btn')
   }
 
+  await tapOnElementWithTestId('btn-to-email-password-form')
+
   // Fill out login form
-  await waitForElementWithTestId('ory-identifier-input')
-  await fillFieldByTestId('ory-identifier-input', email)
-  await fillFieldByTestId('ory-password-input', password)
+  await waitForElementWithTestId('email-input')
+  await fillFieldByTestId('email-input', email)
+  await fillFieldByTestId('password-input', password)
 
   // Close the keyboard by clicking on the header
   await tapOnElementWithTestId('heading')
 
   // Submit the form
-  await tapOnElementWithTestId('ory-submit-password')
+  await tapOnElementWithTestId('submit-password')
 
   if (expectHomeScreen) {
     await waitForHomeScreen()

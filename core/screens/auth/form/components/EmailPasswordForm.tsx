@@ -48,6 +48,7 @@ export const EmailPasswordForm = ({
         type="email"
         onSubmit={onSubmit}
         autoFocus={autoFocusEmail}
+        testID="email"
       />
       <AuthFormInputField
         label={t('auth.login.input.label-Password')}
@@ -57,6 +58,7 @@ export const EmailPasswordForm = ({
         onChange={setPassword}
         type="password"
         onSubmit={onSubmit}
+        testID="password"
       />
       <Button
         margin={{ top: '3xs' }}
@@ -65,6 +67,7 @@ export const EmailPasswordForm = ({
         size="lg"
         disabled={submitDisabled}
         icon={LockUnlock}
+        testID="submit-password"
       />
       <Stack margin={{ top: 'sm' }} direction="row" alignItems="center" justifyContent="center" gap="3xs">
         <Text>{t('auth.login.forgotPassword')}</Text>
@@ -74,7 +77,9 @@ export const EmailPasswordForm = ({
           label={t('auth.login.link.forgotPassword')}
         >
           <Stack gap="4xs" direction="row" flex={0}>
-            <TextLink size="md">{t('auth.login.link.forgotPassword')}</TextLink>
+            <TextLink size="md" testID="link-to-forgot-password-form">
+              {t('auth.login.link.forgotPassword')}
+            </TextLink>
             <HoliIcon icon={Mail} />
           </Stack>
         </HoliTextLinkTracked>

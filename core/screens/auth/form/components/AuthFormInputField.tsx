@@ -13,6 +13,7 @@ export interface AuthFormInputFieldProps {
   type: HoliTextInputProps['type']
   autoFocus?: boolean
   onSubmit: () => Promise<void>
+  testID?: string
 }
 
 export const AuthFormInputField = ({
@@ -24,6 +25,7 @@ export const AuthFormInputField = ({
   type,
   autoFocus,
   onSubmit,
+  testID,
 }: AuthFormInputFieldProps) => {
   const onKeyPress = useCallback(
     (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
@@ -56,6 +58,7 @@ export const AuthFormInputField = ({
         autoFocus,
         textContentType,
       }}
+      testID={testID}
     />
   )
 }
