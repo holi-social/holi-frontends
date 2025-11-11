@@ -5,7 +5,6 @@ import React, { type PropsWithChildren, useEffect } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
-import { isSSR } from '@holi/core/helpers/isSSR'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { ConsentState } from '@holi/core/tracking/types'
@@ -40,8 +39,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
         disable_compression: isDevEnv,
         opt_out_capturing_by_default: true,
         loaded: (posthog) => {
-          // Suppressing logging during SSR as some browser API (localStorage, navigator) is missing and leads to error logs
-          if (debugOutput && !isSSR) {
+          if (debugOutput) {
             posthog.debug()
           }
         },
