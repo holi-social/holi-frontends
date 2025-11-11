@@ -19,7 +19,7 @@ type AuthProps = {
 
 export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 
-export const testIdContinueAsGuest = 'onboarding-account-creation-btn-continue-as-guest'
+export const testIdContinueAsGuest = 'nav-button-back'
 
 export const registerNewUser = async (): Promise<string> => {
   const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
@@ -36,7 +36,6 @@ export const continueAsGuest = async () => {
     await tapOnElementWithTestId('btn-to-onboarding')
     // Skip onboarding by closing the modal
     await tapOnElementWithTestId('nav-button-back')
-    await tapOnElementWithTestId(testIdContinueAsGuest)
     // User will land on home screen after onboarding
   }
 
