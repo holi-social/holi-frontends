@@ -12,7 +12,7 @@ export interface EmailOtpFormProps {
   autoFocusEmail?: boolean
   submitLabel: string
   onSubmit: () => Promise<void>
-  submitDisabled: boolean
+  submitDisabled?: boolean
 }
 
 export const EmailOtpForm = ({
@@ -22,7 +22,7 @@ export const EmailOtpForm = ({
   autoFocusEmail,
   submitLabel,
   onSubmit,
-  submitDisabled,
+  submitDisabled = false,
 }: EmailOtpFormProps) => {
   const { t } = useTranslation()
 

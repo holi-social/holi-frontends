@@ -13,9 +13,8 @@ export interface CodeOtpFormProps {
   code?: string
   setCode: (code?: string) => void
   codeValidationError?: string
-  submitLabel: string
   onSubmit: () => Promise<void>
-  submitDisabled: boolean
+  submitDisabled?: boolean
   onResend: () => Promise<void>
 }
 
@@ -26,7 +25,7 @@ export const CodeOtpForm = ({
   setCode,
   codeValidationError,
   onSubmit,
-  submitDisabled,
+  submitDisabled = false,
   onResend,
 }: CodeOtpFormProps) => {
   const { t } = useTranslation()
@@ -58,6 +57,7 @@ export const CodeOtpForm = ({
           size="lg"
           transparent
           icon={Refresh}
+          disabled={submitDisabled}
         />
       </Stack>
     </Stack>

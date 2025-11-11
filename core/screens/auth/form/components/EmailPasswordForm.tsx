@@ -20,7 +20,7 @@ export interface EmailPasswordFormProps {
   autoFocusEmail?: boolean
   submitLabel: string
   onSubmit: () => Promise<void>
-  submitDisabled: boolean
+  submitDisabled?: boolean
 }
 
 export const EmailPasswordForm = ({
@@ -33,7 +33,7 @@ export const EmailPasswordForm = ({
   autoFocusEmail,
   submitLabel,
   onSubmit,
-  submitDisabled,
+  submitDisabled = false,
 }: EmailPasswordFormProps) => {
   const { t } = useTranslation()
 
@@ -66,14 +66,7 @@ export const EmailPasswordForm = ({
         disabled={submitDisabled}
         icon={LockUnlock}
       />
-      <Stack
-        margin={{ top: 'sm' }}
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        gap="3xs"
-        // textAlign="center"
-      >
+      <Stack margin={{ top: 'sm' }} direction="row" alignItems="center" justifyContent="center" gap="3xs">
         <Text>{t('auth.login.forgotPassword')}</Text>
         <HoliTextLinkTracked
           href="/forgotPassword"
