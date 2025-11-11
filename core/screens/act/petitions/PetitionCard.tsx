@@ -5,7 +5,7 @@ import { CompactCard } from 'holi-bricks/components/compactCard'
 import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking'
 import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
-import type { PetitionStatusValue } from '@holi/core/screens/act/petitions/PetitionDetails'
+import type { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 export type Petition = {
   id: string
@@ -19,7 +19,7 @@ export type Petition = {
   description: string
   externalLink?: string
   signatures?: number // number of signatures yet
-  status: PetitionStatusValue // TO_SIGN | COMPLETED
+  status: VolunteeringOpportunityStatusValue
 }
 
 export interface PetitionProps {

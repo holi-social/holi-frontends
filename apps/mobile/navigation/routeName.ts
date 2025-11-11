@@ -119,6 +119,7 @@ export enum RouteName {
   Insights = 'Insights',
   Spaces = 'Spaces',
   Events = 'Events',
+  Petitions = 'Petitions',
   SpacesStack = 'SpacesStack',
   Chat = 'Chat',
   Auth = 'Auth',

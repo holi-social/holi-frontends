@@ -54,6 +54,7 @@ export type RootStackScreens = {
   [RouteName.EventList]: undefined
 
   [RouteName.PetitionDetailsScreen]: undefined
+  [RouteName.Petitions]: undefined
 }
 
 export interface RootNavigatorProps {

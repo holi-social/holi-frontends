@@ -66,6 +66,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
+    [RouteName.Petitions]: {
+      screens: {
+        [RouteName.PetitionDetailsScreen]: 'petitions/:petitionId',
+        [RouteName.Petitions]: 'petitions',
+      },
+    },
+
     [RouteName.Insights]: {
       screens: {
         [RouteName.InsightsPage]: 'insights',
