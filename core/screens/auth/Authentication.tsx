@@ -97,6 +97,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           </HoliContainer>
         </Stack>
       }
+      contentContainerStyle={{ flex: 0 }}
     >
       <AuthenticationSelection
         flowId={flowId}
