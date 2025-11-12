@@ -85,7 +85,7 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
-          name  = "HOLI_CHALLENGES_APP"
+          name  = "NEXT_PUBLIC_HOLI_CHALLENGES_APP"
           value = local.environment == "production" ? "https://challenges.holi.social" : "https://staging.challenges-dev.holi.social"
         }
         env {

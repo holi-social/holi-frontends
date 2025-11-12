@@ -306,7 +306,7 @@ const config: ExpoConfig = {
     e2e: {
       userId: process.env.E2E_USER_ID, // not required as not used in production
     },
-    challengesApp: requiredEnvVar('HOLI_CHALLENGES_APP'),
+    challengesApp: requiredEnvVar('NEXT_PUBLIC_HOLI_CHALLENGES_APP'),
     posthog: {
       key: requiredEnvVar('NEXT_PUBLIC_POSTHOG_KEY'),
       host: requiredEnvVar('NEXT_PUBLIC_POSTHOG_HOST'),

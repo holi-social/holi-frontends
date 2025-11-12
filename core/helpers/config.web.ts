@@ -31,4 +31,6 @@ export const jitsiUrl = (() => {
 export const posthogKey = !isSSR ? window.NEXT_PUBLIC_POSTHOG_KEY : process.env.NEXT_PUBLIC_POSTHOG_KEY
 export const posthogHost = !isSSR ? window.NEXT_PUBLIC_POSTHOG_HOST : process.env.NEXT_PUBLIC_POSTHOG_HOST
 
-export const challengeAppBaseUrl = !isSSR ? window.HOLI_CHALLENGES_APP : process.env.HOLI_CHALLENGES_APP
+export const challengeAppBaseUrl = !isSSR
+  ? window.NEXT_PUBLIC_HOLI_CHALLENGES_APP
+  : process.env.NEXT_PUBLIC_HOLI_CHALLENGES_APP
