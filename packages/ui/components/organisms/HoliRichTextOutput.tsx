@@ -1,12 +1,12 @@
 import { Text, type TextLinkProps, type TextLinkSize } from 'holi-bricks/components/text'
 import React from 'react'
-import { Platform, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { createUUID } from '@holi/core/helpers/strings'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import type { Link } from '@holi/core/screens/posts/types'
-import { REGEX_URL, REGEX_USER_MENTIONS, ensureProtocolPrefix, isValidUrl } from '@holi/ui/helper/richText'
+import { ensureProtocolPrefix, isValidUrl, REGEX_URL, REGEX_USER_MENTIONS } from '@holi/ui/helper/richText'
 import type { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -147,17 +147,6 @@ const HoliRichTextOutput = ({
         <HoliSkeleton
           {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, sizesToSkeletonHeight[size], '60%')}
         />
-      </View>
-    )
-  }
-
-  // Check if there are any links in the text to avoid nested anchor tags
-  const hasLinks = links.length > 0 || REGEX_URL.test(text)
-
-  if (hasLinks && Platform.OS === 'web') {
-    return (
-      <View testID={testID} style={props?.style as StyleProp<ViewStyle>}>
-        {textWithMentions}
       </View>
     )
   }
