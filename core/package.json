@@ -28,7 +28,7 @@
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-react-native": "^4.1.0",
+    "eslint-plugin-react-native": "^5.0.0",
     "expo-router": "~6.0.13",
     "graphql-codegen-typescript-react-apollo-4": "^1.0.2",
     "graphql-config": "^4.5.0",
