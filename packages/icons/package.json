@@ -16,7 +16,7 @@
     "eslint-plugin-react-native": "^4.1.0",
     "react": "19.1.0",
     "react-native": "0.81.5",
-    "react-native-svg": "15.14.0"
+    "react-native-svg": "15.15.0"
   },
   "devDependencies": {
     "@svgr/cli": "8.1.0"
