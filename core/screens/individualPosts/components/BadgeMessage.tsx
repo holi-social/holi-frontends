@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
@@ -14,7 +15,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { ScratchMask } from '@holi/core/screens/individualPosts/components/ScratchMask'
-import { useEffect, useState } from 'react'
 import {
   SCRATCHCARD_HEIGHT,
   SCRATCHCARD_WIDTH,
@@ -89,6 +89,7 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
           <HoliTransition.Fade visible={!revealed} skipInitialEnter style={{ position: 'absolute', zIndex: 10 }}>
             <ScratchMask {...scratchProps} />
           </HoliTransition.Fade>
+
           {!revealed && (
             <View style={styles.chipLabel}>
               <ChipLabel color="yellow" blackBorder>
@@ -122,7 +123,13 @@ export const BadgeMessage = ({ badge, onClaim }: BadgeMessageProps) => {
       ) : (
         <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }} alignItems="center" width="100%" gap="xs">
           <Button label={t('badge.modal.reward.button')} size="lg" onPress={onClaim} />
-          <TextLink onPress={() => navigate('/profile')} size="md">
+          <TextLink
+            onPress={() => {
+              onClaim?.()
+              navigate('/profile?tab=badges')
+            }}
+            size="md"
+          >
             {t('badge.modal.reward.link')}
           </TextLink>
         </Stack>
@@ -147,7 +154,7 @@ const stylesheet = createStyleSheet({
     zIndex: 1,
   },
   chipLabel: {
-    zIndex: 10,
+    zIndex: 9999,
     position: 'absolute',
     bottom: -16,
     alignSelf: 'center',
