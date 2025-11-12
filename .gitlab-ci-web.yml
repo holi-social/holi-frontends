@@ -218,7 +218,7 @@ web_build_docker_prod:
 
 web_review_deploy:
   extends: .web_deploy
-  needs: ['web_build_docker']
+  needs: ['web_build_docker_dev']
   environment:
     name: web-review/$CI_COMMIT_REF_SLUG
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
@@ -262,7 +262,7 @@ web_review_destroy:
 
 web_staging_deploy:
   extends: .web_deploy
-  needs: ['web_build_docker']
+  needs: ['web_build_docker_dev']
   environment:
     name: web-staging
     deployment_tier: staging
@@ -292,7 +292,7 @@ web_staging_e2e:
 
 web_release_candidate_deploy:
   extends: .web_deploy
-  needs: ['web_build_docker']
+  needs: ['web_build_docker_dev']
   environment:
     name: web-rc/${CI_COMMIT_BRANCH}
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
@@ -336,7 +336,7 @@ web_release_candidate_destroy:
 
 web_release_deploy:
   extends: .web_deploy
-  needs: ['web_release_candidate_smoketest']
+  needs: ['web_build_docker_prod', 'web_release_candidate_smoketest']
   allow_failure: false
   environment:
     name: web-production
