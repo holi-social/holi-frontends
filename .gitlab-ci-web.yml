@@ -11,7 +11,6 @@ default:
   needs: ['lint_compile_test']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   script:
-    - echo NEXT_PUBLIC_POSTHOG_KEY $NEXT_PUBLIC_POSTHOG_KEY
     - corepack enable
     - yarn install --immutable --immutable-cache
     - yarn web:build
