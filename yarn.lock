@@ -5751,7 +5751,7 @@ __metadata:
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
     posthog-js: "npm:1.211.3"
-    posthog-node: "npm:^4.2.0"
+    posthog-node: "npm:^5.0.0"
     raf: "npm:^3.4.1"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
@@ -14234,7 +14234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.1, axios@npm:^1.8.2":
+"axios@npm:^1.6.1":
   version: 1.12.1
   resolution: "axios@npm:1.12.1"
   dependencies:
@@ -27017,12 +27017,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:^4.2.0":
-  version: 4.18.0
-  resolution: "posthog-node@npm:4.18.0"
+"posthog-node@npm:^5.0.0":
+  version: 5.11.2
+  resolution: "posthog-node@npm:5.11.2"
   dependencies:
-    axios: "npm:^1.8.2"
-  checksum: 10c0/aa30427599d15b98357b5a88096a8b38b0812c71af49eb54fce0a46164521c247c3b064973931c3471cf84cb7f0e391bfc5d6174cd038f75f8c02cb8a9626cff
+    "@posthog/core": "npm:1.5.2"
+  checksum: 10c0/dbddf27b0e0f0538ab3288af907660caaff16163518bcd8ccbe6f1f24482e34d2609d62ddd607d69748933026bea752cab6de8a6d317ed789646936ca5e4356f
   languageName: node
   linkType: hard
 
