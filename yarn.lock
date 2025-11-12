@@ -15518,7 +15518,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^11.15.0, chromatic@npm:^11.16.1":
+"chromatic@npm:^11.15.0":
   version: 11.29.0
   resolution: "chromatic@npm:11.29.0"
   peerDependencies:
@@ -15534,6 +15534,25 @@ __metadata:
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
   checksum: 10c0/4c26e00a170cb40b38f837358fbcab51ab0bdf3644a396b166074cd167696be6a34eeb5583e65425f4392845c8a3052f6d538ea9fb0d09a903100c52d858b4f9
+  languageName: node
+  linkType: hard
+
+"chromatic@npm:^13.0.0":
+  version: 13.3.3
+  resolution: "chromatic@npm:13.3.3"
+  peerDependencies:
+    "@chromatic-com/cypress": ^0.*.* || ^1.0.0
+    "@chromatic-com/playwright": ^0.*.* || ^1.0.0
+  peerDependenciesMeta:
+    "@chromatic-com/cypress":
+      optional: true
+    "@chromatic-com/playwright":
+      optional: true
+  bin:
+    chroma: dist/bin.js
+    chromatic: dist/bin.js
+    chromatic-cli: dist/bin.js
+  checksum: 10c0/6fc54df030113d91ef00a2050f5cb13ca182b355dae2c29cdd326fac6cf21d8ddc2cd93dc3f5db04379b7769d4df8e3ea5f18c3642e9e3a48545565f992a838c
   languageName: node
   linkType: hard
 
@@ -20692,7 +20711,7 @@ __metadata:
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-docgen-typescript: "npm:^1.5.1"
     babel-plugin-react-native-web: "npm:^0.21.2"
-    chromatic: "npm:^11.16.1"
+    chromatic: "npm:^13.0.0"
     eslint: "npm:^8.33.0"
     expo: "npm:54.0.23"
     expo-constants: "npm:~18.0.10"
