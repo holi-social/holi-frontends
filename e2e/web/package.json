@@ -31,6 +31,6 @@
     "playwright-core": "1.56.1"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.1.0"
+    "@faker-js/faker": "^10.0.0"
   }
 }
