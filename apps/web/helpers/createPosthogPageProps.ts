@@ -1,11 +1,11 @@
 import { PostHog } from 'posthog-node'
 
 export const createPosthogPageProps = async (userId = '') => {
-  if (!process.env.POSTHOG_KEY) {
+  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     return undefined
   }
 
-  const client = new PostHog(process.env.POSTHOG_KEY, { host: process.env.POSTHOG_HOST })
+  const client = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY, { host: process.env.NEXT_PUBLIC_POSTHOG_HOST })
 
   client.identify({ distinctId: userId })
 

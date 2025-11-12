@@ -308,8 +308,8 @@ const config: ExpoConfig = {
     },
     challengesApp: requiredEnvVar('HOLI_CHALLENGES_APP'),
     posthog: {
-      key: requiredEnvVar('POSTHOG_KEY'),
-      host: requiredEnvVar('POSTHOG_HOST'),
+      key: requiredEnvVar('NEXT_PUBLIC_POSTHOG_KEY'),
+      host: requiredEnvVar('NEXT_PUBLIC_POSTHOG_HOST'),
     },
     socialLogin: {
       googleIosClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID'),
