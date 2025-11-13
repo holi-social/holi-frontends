@@ -22,7 +22,7 @@
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-typescript": "^7.25.7",
-    "@chromatic-com/storybook": "^3.2.4",
+    "@chromatic-com/storybook": "^4.0.0",
     "@expo/metro-runtime": "~6.1.2",
     "@gorhom/bottom-sheet": "^4.6.4",
     "@storybook/addon-a11y": "^8.5.8",
