@@ -33,7 +33,7 @@ export const HoliLink = ({
       }
       await propagateEventOrPromise
     },
-    [href, onPress, push]
+    [href, onPress, push, replace, replaceRoute]
   )
 
   return (

@@ -4,7 +4,7 @@ import { useReactiveVar } from '@apollo/client/react'
 
 export const welcomeGoodDeedsCounterModalVar = makeVar<boolean>(false)
 
-export const clearOnboardingState = () => {
+export const clearWelcomeGoodDeedsCounterModal = () => {
   welcomeGoodDeedsCounterModalVar(false)
 }
 
