@@ -13,8 +13,9 @@ export const HoliLink = ({
   children,
   isFullHeight = false,
   testID = 'link',
+  replace,
 }: PropsWithChildren<HoliLinkProps>) => {
-  const { push } = useWebHistory()
+  const { push, replace: replaceRoute } = useWebHistory()
   const onLinkPress = useCallback(
     async (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
       // Async onPress callbacks won't be awaited before event propagation
@@ -24,7 +25,12 @@ export const HoliLink = ({
         event?.stopPropagation()
         return false
       }
-      push(href) // Sync web history
+      // Sync web history
+      if (replace) {
+        replaceRoute(href)
+      } else {
+        push(href)
+      }
       await propagateEventOrPromise
     },
     [href, onPress, push]
@@ -39,6 +45,7 @@ export const HoliLink = ({
       onClick={onLinkPress}
       data-testid={testID}
       style={isFullHeight ? { flex: 1, display: 'flex' } : { flex: 'auto' }}
+      replace={replace}
     >
       {children}
     </Link>
