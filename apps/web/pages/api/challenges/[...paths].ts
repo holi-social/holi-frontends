@@ -13,7 +13,7 @@ proxy.on('proxyReq', (proxyReq: ClientRequest, req: IncomingMessage) => {
 })
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  proxy.web(req, res, { target: process.env.HOLI_CHALLENGES_APP, autoRewrite: false, changeOrigin: true })
+  proxy.web(req, res, { target: process.env.NEXT_PUBLIC_HOLI_CHALLENGES_APP, autoRewrite: false, changeOrigin: true })
 }
 
 export default handler

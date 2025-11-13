@@ -28,3 +28,11 @@ apps/mobile/eas.json:generic-api-key:110
 apps/mobile/eas.json:generic-api-key:141
 apps/mobile/eas.json:generic-api-key:179
 .env.local:facebook-secret:84
+.env.local:posthog-api-key:52
+.env.staging:posthog-api-key:20
+.env.production:posthog-api-key:20
+apps/mobile/eas.json:posthog-api-key:40
+apps/mobile/eas.json:posthog-api-key:74
+apps/mobile/eas.json:posthog-api-key:111
+apps/mobile/eas.json:posthog-api-key:146
+apps/mobile/eas.json:posthog-api-key:188

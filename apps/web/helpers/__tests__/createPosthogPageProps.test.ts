@@ -12,7 +12,7 @@ jest.mock('posthog-node', () => ({
 
 describe('createPosthogPageProps', () => {
   beforeEach(() => {
-    process.env.POSTHOG_KEY = 'test'
+    process.env.NEXT_PUBLIC_POSTHOG_KEY = 'test'
   })
 
   it('should identify and fetch default feature flags from posthog', async () => {
