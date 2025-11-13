@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
@@ -36,6 +36,8 @@ export type AuthenticationParams = {
   flow?: string
 }
 
+const isIos = Platform.OS === 'ios'
+
 const { useParam, useUpdateParams } = createParamHooks<AuthenticationParams>()
 
 export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest }: AuthenticationProps) => {
@@ -67,6 +69,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
     <Screen
       preset="scroll"
       keyboardShouldPersistTaps="always"
+      statusBarProps={{ translucent: isIos, style: isIos ? 'light' : 'dark' }}
       headerOptions={{
         headerShown: true,
         headerBackVisible: false,
