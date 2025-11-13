@@ -30,7 +30,7 @@
     "ni18n": "^1.1.0",
     "pino": "^8.8.0",
     "posthog-js": "1.211.3",
-    "posthog-node": "^4.2.0",
+    "posthog-node": "^5.0.0",
     "raf": "^3.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
