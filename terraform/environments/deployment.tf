@@ -51,7 +51,7 @@ resource "google_cloud_run_service" "mvp_web" {
     spec {
       service_account_name = data.terraform_remote_state.holi_frontends_common_state.outputs.cloud_run_service_account_email
       containers {
-        image = "${data.terraform_remote_state.holi_infra_state.outputs.artifact_registry_location}/holi-frontends-web:${var.image_tag}"
+        image = "${data.terraform_remote_state.holi_infra_state.outputs.artifact_registry_location}/${local.environment_image}:${var.image_tag}"
         ports {
           container_port = 3000
         }
@@ -68,7 +68,7 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
-          name = "POSTHOG_KEY"
+          name = "NEXT_PUBLIC_POSTHOG_KEY"
           value_from {
             secret_key_ref {
               name = local.environment_name == "production" ? "POSTHOG_API_KEY_PRODUCTION" : "POSTHOG_API_KEY_DEVELOPMENT"
@@ -77,7 +77,7 @@ resource "google_cloud_run_service" "mvp_web" {
           }
         }
         env {
-          name  = "POSTHOG_HOST"
+          name  = "NEXT_PUBLIC_POSTHOG_HOST"
           value = local.posthog_host
         }
         env {
@@ -85,7 +85,7 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
-          name  = "HOLI_CHALLENGES_APP"
+          name  = "NEXT_PUBLIC_HOLI_CHALLENGES_APP"
           value = local.environment == "production" ? "https://challenges.holi.social" : "https://staging.challenges-dev.holi.social"
         }
         env {
