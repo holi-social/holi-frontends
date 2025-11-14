@@ -4,7 +4,6 @@ import type {
   RecoveryFlow,
   RegistrationFlow,
   SettingsFlow,
-  UiText,
   UpdateLoginFlowBody,
   UpdateLoginFlowWithOidcMethod,
   UpdateRegistrationFlowBody,
@@ -80,40 +79,20 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
-  let extraMessages: UiText[] = []
+export const getLoginFlow = async (flowId: string): Promise<LoginFlow> => {
+  return newKratosSdk()
+    .getLoginFlow({ id: flowId })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('getLoginFlow'))
+}
 
-  if (flowId) {
-    const flow = await newKratosSdk()
-      .getLoginFlow({ id: flowId })
-      .then(({ data }) => {
-        // Treat message "E-mail address already used by another account" as error and recreate the login flow
-        const errorMessages = data?.ui?.messages?.filter((message) => message.id === 1010016)
-        if (errorMessages?.length) {
-          extraMessages = errorMessages
-          return undefined
-        }
-        return data
-      })
-      .catch(handleKratosSdkError('getLoginFlow'))
-    if (flow) {
-      return flow
-    }
-  }
+export const initLoginFlow = async (): Promise<LoginFlow> => {
   return newKratosSdk()
     .createNativeLoginFlow({
       returnTo: NATIVE_RETURN_TO,
       returnSessionTokenExchangeCode: true,
     })
-    .then(({ data }) => {
-      return {
-        ...data,
-        ui: {
-          ...data.ui,
-          messages: extraMessages.concat(data.ui.messages ?? []),
-        },
-      }
-    })
+    .then(({ data }) => data)
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 }
 
@@ -252,7 +231,7 @@ export const submitRegistrationFlow = async (
  * @param flow The initiated and submitted login flow from Ory
  * @param redirectUrl All redirectUrls passed in here need to be registered in Ory in the Allowed Urls under Branding->Browser redirects
  */
-export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
+export const doBrowserLogin = async (url: string, flow: LoginFlow): Promise<OrySessionContext> => {
   const redirect = AuthSession.makeRedirectUri({
     preferLocalhost: true,
     path: 'login/callback',
@@ -270,18 +249,17 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
     return newKratosSdk()
       .exchangeSessionToken({ initCode, returnToCode })
       .then((res) => {
-        if (res?.data.session_token) {
-          const orySession: OrySessionContext = {
-            session: res.data.session,
-            session_token: res.data.session_token,
-          }
-          setSessionInStorage(orySession)
-          return orySession
+        const orySession: OrySessionContext = {
+          session: res.data.session,
+          session_token: res.data.session_token,
         }
+        setSessionInStorage(orySession)
+        return orySession
       })
-  } else if (!['cancel', 'dismiss'].includes(result.type)) {
-    throw new Error('Failed to complete auth session')
+  } else if (['cancel', 'dismiss'].includes(result.type)) {
+    throw new HoliLoginCancelledError('Browser login was cancelled by the user')
   }
+  throw new Error('Failed to complete auth session')
 }
 
 export const submitSocialLogout = async (accountType?: AccountType) => {

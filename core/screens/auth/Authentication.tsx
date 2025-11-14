@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react'
-import { View } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { Platform, View } from 'react-native'
 
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
@@ -21,11 +21,14 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { Stack } from 'holi-bricks/components/stack'
 
 export interface AuthenticationProps {
   initialSelection: AuthenticationType
   onRegister?: () => void
-  onLogin?: () => void
   onContinueAsGuest?: () => void
 }
 
@@ -33,15 +36,26 @@ export type AuthenticationParams = {
   flow?: string
 }
 
+const isIos = Platform.OS === 'ios'
+
 const { useParam, useUpdateParams } = createParamHooks<AuthenticationParams>()
 
-export const Authentication = ({ initialSelection, onRegister, onLogin, onContinueAsGuest }: AuthenticationProps) => {
+export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest }: AuthenticationProps) => {
   const [flowId] = useParam('flow')
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
-  const resetFlow = useCallback(() => updateParams({ flow: undefined }), [updateParams])
+  const resetFlowId = useCallback(() => updateParams({ flow: undefined }), [updateParams])
   const { isLoggedIn } = useLoggedInUser()
+  const { navigate } = useRouting()
+  const redirect = useRedirect('/')
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const redirect = getRedirectAfterSocialLogin()
+      setTimeout(() => navigate(redirect || '/'), 0)
+    }
+  }, [isLoggedIn, navigate, redirect])
 
   if (isLoggedIn) {
     return (
@@ -55,6 +69,7 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
     <Screen
       preset="scroll"
       keyboardShouldPersistTaps="always"
+      statusBarProps={{ translucent: isIos, style: isIos ? 'light' : 'dark' }}
       headerOptions={{
         headerShown: true,
         headerBackVisible: false,
@@ -77,27 +92,26 @@ export const Authentication = ({ initialSelection, onRegister, onLogin, onContin
           footerShown: false,
         },
       }}
+      StickyBottomComponent={
+        <Stack padding={{ bottom: 'sm' }} gap="xs" backgroundColor="main">
+          <HoliDivider />
+          <HoliContainer>
+            <DocumentsFooter />
+          </HoliContainer>
+        </Stack>
+      }
+      contentContainerStyle={{ flex: 0 }}
     >
       <AuthenticationSelection
         flowId={flowId}
         initialSelection={initialSelection}
-        resetFlow={resetFlow}
-        onLogin={() => {
-          track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
-          onLogin?.()
-        }}
+        resetFlowId={resetFlowId}
         onRegister={() => {
           track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
           metaSdk.trackSignUp()
           onRegister?.()
         }}
       />
-      <View style={styles.footer}>
-        <HoliDivider />
-        <HoliContainer>
-          <DocumentsFooter />
-        </HoliContainer>
-      </View>
     </Screen>
   )
 }
@@ -113,11 +127,5 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Spacing.md,
-  },
-  footer: {
-    paddingTop: Spacing.sm,
-    paddingBottom: Spacing.sm,
-    gap: Spacing.xs,
-    backgroundColor: theme.colors.bg.main,
   },
 }))

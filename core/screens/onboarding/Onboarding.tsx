@@ -51,21 +51,22 @@ const Onboarding = () => {
   usePreventBackNavigation(true)
 
   const { show: showGoodDeedsIntroModal } = useGoodDeedsIntroModalState()
-  const cleanUp = async () => {
+  const finishOnboarding = useCallback(async () => {
     storeOnboardingState('finished')
     await clearOnboardingUserDataAsyncStore()
-  }
-  const finishOnboarding = useCallback(async () => {
-    await cleanUp()
 
-    const redirectPath = pathToRedirect() ?? (await getRedirectAfterSocialLogin())
+    const redirectPath = pathToRedirect() ?? getRedirectAfterSocialLogin()
+
+    // Workaround for crashes on Android
+    setTimeout(() => {
+      if (!redirectPath) {
+        showGoodDeedsIntroModal('onboarding')
+      } else if (redirectPath.includes('/profile/settings/favorites/add?taskId=')) {
+        showGoodDeedsIntroModal('first-favorite-good-deed')
+      }
+    }, 0)
+
     redirect(true)
-
-    if (!redirectPath) {
-      showGoodDeedsIntroModal('onboarding')
-    } else if (redirectPath.includes('/profile/settings/favorites/add?taskId=')) {
-      showGoodDeedsIntroModal('first-favorite-good-deed')
-    }
   }, [redirect, showGoodDeedsIntroModal])
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen
@@ -75,59 +76,62 @@ const Onboarding = () => {
     }
   }, [finishOnboarding, isLoggedIn, onboardingState])
 
-  const renderStep = (key: OnboardingStepKey) => {
-    switch (key) {
-      case 'WELCOME_SCREEN':
-        return (
-          <Intro
-            onContinue={() => {
-              setCurrentStep('CREATE_ACCOUNT')
-            }}
-          />
-        )
+  const renderStep = useCallback(
+    (key: OnboardingStepKey) => {
+      switch (key) {
+        case 'WELCOME_SCREEN':
+          return (
+            <Intro
+              onContinue={() => {
+                setCurrentStep('CREATE_ACCOUNT')
+              }}
+            />
+          )
 
-      case 'CREATE_ACCOUNT':
-        return (
-          <Authentication
-            initialSelection="registration"
-            onContinueAsGuest={() => {
-              finishOnboarding()
-            }}
-            onRegister={() => {
-              setCurrentStep('EMAIL_VERIFICATION')
-            }}
-          />
-        )
-      case 'EMAIL_VERIFICATION':
-        return (
-          <EmailVerification
-            onSuccess={() => {
-              track(SignupStepCompleted({ step: 'verificationCode', answer: 'verifyAccount' }))
-              setCurrentStep('USER_NAME_SELECTION')
-            }}
-            onDismiss={() => {
-              track(SignupStepCompleted({ step: 'verificationCode', answer: 'continueAsGuest' }))
-              finishOnboarding()
-            }}
-            testID="onboarding-email-verification"
-          />
-        )
-      case 'USER_NAME_SELECTION':
-        return (
-          <View style={styles.nameSelectionWrapper}>
-            <NamesSelection
-              onFinish={() => {
-                track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
+        case 'CREATE_ACCOUNT':
+          return (
+            <Authentication
+              initialSelection="registration"
+              onContinueAsGuest={() => {
                 finishOnboarding()
               }}
-              testID="onboarding-name-selection"
+              onRegister={() => {
+                setCurrentStep('EMAIL_VERIFICATION')
+              }}
             />
-          </View>
-        )
-      default:
-        throw new HoliError(`Onboarding: "${key}" is not a valid step`)
-    }
-  }
+          )
+        case 'EMAIL_VERIFICATION':
+          return (
+            <EmailVerification
+              onSuccess={() => {
+                track(SignupStepCompleted({ step: 'verificationCode', answer: 'verifyAccount' }))
+                setCurrentStep('USER_NAME_SELECTION')
+              }}
+              onDismiss={() => {
+                track(SignupStepCompleted({ step: 'verificationCode', answer: 'continueAsGuest' }))
+                finishOnboarding()
+              }}
+              testID="onboarding-email-verification"
+            />
+          )
+        case 'USER_NAME_SELECTION':
+          return (
+            <View style={styles.nameSelectionWrapper}>
+              <NamesSelection
+                onFinish={() => {
+                  track(SignupStepCompleted({ step: 'name', answer: 'continue' }))
+                  finishOnboarding()
+                }}
+                testID="onboarding-name-selection"
+              />
+            </View>
+          )
+        default:
+          throw new HoliError(`Onboarding: "${key}" is not a valid step`)
+      }
+    },
+    [finishOnboarding, setCurrentStep, track]
+  )
 
   if (!currentStep || (isLoggedIn && !['finished', 'accountSetup'].includes(onboardingState ?? ''))) {
     return <HoliLoader testID="loader" />
