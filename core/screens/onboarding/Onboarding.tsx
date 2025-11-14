@@ -55,13 +55,16 @@ const Onboarding = () => {
     storeOnboardingState('finished')
     await clearOnboardingUserDataAsyncStore()
 
-    const redirectPath = pathToRedirect() ?? (await getRedirectAfterSocialLogin())
+    const redirectPath = pathToRedirect() ?? getRedirectAfterSocialLogin()
 
-    if (!redirectPath) {
-      showGoodDeedsIntroModal('onboarding')
-    } else if (redirectPath.includes('/profile/settings/favorites/add?taskId=')) {
-      showGoodDeedsIntroModal('first-favorite-good-deed')
-    }
+    // Workaround for crashes on Android
+    setTimeout(() => {
+      if (!redirectPath) {
+        showGoodDeedsIntroModal('onboarding')
+      } else if (redirectPath.includes('/profile/settings/favorites/add?taskId=')) {
+        showGoodDeedsIntroModal('first-favorite-good-deed')
+      }
+    }, 0)
 
     redirect(true)
   }, [redirect, showGoodDeedsIntroModal])
