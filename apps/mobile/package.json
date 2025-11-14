@@ -103,7 +103,7 @@
     "@types/lodash.groupby": "^4.6.9",
     "@types/lodash.partition": "^4.6.9",
     "@types/lodash.shuffle": "^4.2.9",
-    "@types/react": "~19.1.10",
+    "@types/react": "^19.2.4",
     "@types/react-dom": "~19.1.7",
     "@types/react-native-get-random-values": "^1",
     "eslint": "^8.33.0",

@@ -5429,7 +5429,7 @@ __metadata:
     "@ory/kratos-client": "npm:v1.3.8"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@shopify/flash-list": "npm:^2.2.0"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     "@types/tinycolor2": "npm:1.4.6"
     eslint: "npm:^8.33.0"
     eslint-plugin-react: "npm:^7.32.2"
@@ -5551,7 +5551,7 @@ __metadata:
     "@types/lodash.isequal": "npm:^4.5.8"
     "@types/lodash.partition": "npm:^4.6.9"
     "@types/lodash.shuffle": "npm:^4.2.9"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     "@types/react-dom": "npm:~19.1.7"
     "@types/react-native-get-random-values": "npm:^1"
     apollo-link-timeout: "npm:^4.0.0"
@@ -5658,7 +5658,7 @@ __metadata:
     "@storybook/nextjs": "npm:^7.6.10"
     "@storybook/react": "npm:^7.6.10"
     "@storybook/testing-library": "npm:^0.2.2"
-    "@types/react": "npm:19.1.17"
+    "@types/react": "npm:^19.2.4"
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-native-web: "npm:^0.21.2"
     eslint: "npm:^8.33.0"
@@ -5735,7 +5735,7 @@ __metadata:
     "@ory/integrations": "npm:^0.2.6"
     "@sentry/nextjs": "npm:^8.36.0"
     "@types/locale": "npm:^0.1.4"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     "@types/react-dom": "npm:~19.1.7"
     "@types/react-transition-group": "npm:^4.4.11"
     babel-loader: "npm:^10.0.0"
@@ -12533,12 +12533,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:19.1.17, @types/react@npm:~19.1.10":
+"@types/react@npm:*":
   version: 19.1.17
   resolution: "@types/react@npm:19.1.17"
   dependencies:
     csstype: "npm:^3.0.2"
   checksum: 10c0/8a8369ea00fc961f0884be4d1da4a039b2b6445de9c8b690ed0ebe15acfb0b1f27005278fef1fe39a1722a30f4415778b790d0089e2b30019371c61355ea316f
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^19.2.4":
+  version: 19.2.4
+  resolution: "@types/react@npm:19.2.4"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/c878262c4bce047e53a44ef644088fce359ebdfdca7060a4ac1717c8362563b9506a7ebae145977836e95d5948b8f8b426dcd516044c3a3c0563a6f1b60408ce
   languageName: node
   linkType: hard
 
@@ -20761,7 +20770,7 @@ __metadata:
     "@storybook/test": "npm:^8.5.8"
     "@testing-library/react": "npm:^16.0.1"
     "@testing-library/react-native": "npm:^13.3.3"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-docgen-typescript: "npm:^1.5.1"
     babel-plugin-react-native-web: "npm:^0.21.2"
