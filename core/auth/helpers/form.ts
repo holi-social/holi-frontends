@@ -13,6 +13,7 @@ import type { AxiosError } from 'axios'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const logger = getLogger('Other')
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name', 'traits.identity']
@@ -100,7 +101,7 @@ export const findInputNodeByNameAndType = (
   )
 }
 
-const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
+export const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
   return !!(err as AxiosError).response
 }
 
@@ -113,7 +114,7 @@ export const isUnverifiedUserError = (error: unknown) => {
   if (error.response?.status !== 400) return
   if (!isVerificationFlowWithErrorData(error.response.data)) return
 
-  return error.response.data.ui.messages?.some(({ id }) => id === 4000010)
+  return error.response.data.ui.messages?.some(({ id }) => id === OryErrorCode.ACCOUNT_NOT_VERIFIED)
 }
 
 export const handleFormSubmitError = (

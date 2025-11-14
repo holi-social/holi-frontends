@@ -30,7 +30,7 @@ export const Intro = ({ onContinue }: Props) => {
         <AnimatedIntro />
         <View style={styles.ctasContainer as unknown as ViewStyle}>
           <Button label={t('onboarding.welcome.forward')} size="lg" onPress={onContinue} testID="btn-to-onboarding" />
-          <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+          <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} replaceRoute={true} />
         </View>
       </Stack>
 

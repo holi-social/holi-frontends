@@ -12,10 +12,11 @@ export const HoliTextLink = ({
   color,
   size,
   textAlign,
+  replace,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   return (
     <TextLink size={size} color={color} textAlign={textAlign} role="none">
-      <Link href={href} onPress={onPress} aria-label={label}>
+      <Link href={href} onPress={onPress} aria-label={label} replace={replace}>
         {children}
       </Link>
     </TextLink>

@@ -14,7 +14,7 @@ export const AuthenticationHeader = ({ authenticationStep }: AuthenticationHeade
 
   if (authenticationStep === 'code') {
     return (
-      <Stack justifyContent="center" gap="xs" alignItems="center" margin={{ top: 'md' }}>
+      <Stack justifyContent="center" gap="xs" alignItems="center" margin={{ top: 'md' }} testID="heading">
         <Image
           source={require('@holi/ui/assets/img/illustrations/illustration_new_mail.svg')}
           width={251}
