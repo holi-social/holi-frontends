@@ -9,7 +9,7 @@ import {
   type HandleFlowErrorProps,
   useFlowErrorHandling,
 } from '@holi/core/screens/auth/form/hooks/useFlowErrorHandling'
-import { createLoginFlowWithMessage, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
+import { createFlowWithMessage, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
 import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -168,7 +168,7 @@ describe('useLoginFlow', () => {
 
     it('should initialize new flow and reset flow id on duplicated account error', async () => {
       mockGetLoginFlow.mockResolvedValue(
-        createLoginFlowWithMessage({
+        createFlowWithMessage(loginFlow, {
           id: OryErrorCode.DUPLICATED_ACCOUNT_IDENTIFIER,
           type: 'error',
           text: 'Duplicated account',

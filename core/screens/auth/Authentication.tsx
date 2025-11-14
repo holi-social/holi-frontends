@@ -18,7 +18,6 @@ import { Close } from '@holi/icons/src/generated'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
-import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
@@ -82,6 +81,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           <HeaderBackButton
             icon={Close}
             onPress={() => {
+              // TODO(SF) step not correct
               track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
               storeGuestMode(true)
               onContinueAsGuest?.()
@@ -106,11 +106,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
         flowId={flowId}
         initialSelection={initialSelection}
         resetFlowId={resetFlowId}
-        onRegister={() => {
-          track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-          metaSdk.trackSignUp()
-          onRegister?.()
-        }}
+        onRegister={onRegister}
       />
     </Screen>
   )

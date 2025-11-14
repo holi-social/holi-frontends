@@ -7,7 +7,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
+import type { AuthenticationStep } from '@holi/core/screens/auth/types'
 import { AuthenticationHeader } from '@holi/core/screens/auth/components/AuthenticationHeader'
 
 export type AuthenticationType = 'login' | 'registration'
@@ -57,6 +57,7 @@ export const AuthenticationSelection = ({
       content: () => (
         <RegistrationForm
           startedFlowId={initialSelection === 'registration' ? flowId : undefined}
+          resetFlowId={resetFlowId}
           onRegister={onRegister}
           step={authenticationStep}
           setStep={setAuthenticationStep}

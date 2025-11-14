@@ -50,6 +50,7 @@ describe('LoginForm', () => {
       onSubmit: jest.fn(),
       submitDisabled: false,
       onResend: jest.fn(),
+      trackingScreenName: 'mainLogin',
     })
     mockUsePasswordLoginForm.mockReturnValue({
       setEmail: jest.fn(),

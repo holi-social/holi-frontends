@@ -1,5 +1,5 @@
 import React from 'react'
-import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
+import type { AuthenticationStep } from '@holi/core/screens/auth/types'
 import { Stack } from 'holi-bricks/components/stack'
 import { Image } from 'holi-bricks/components/image'
 import { useTranslation } from 'react-i18next'

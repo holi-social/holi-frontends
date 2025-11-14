@@ -1,4 +1,4 @@
-import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
+import type { AuthenticationStep } from '@holi/core/screens/auth/types'
 import { type LoginFlow, LoginFlowActiveEnum, LoginFlowState, type RegistrationFlow } from '@ory/kratos-client'
 
 export const determineAuthenticationStepFromFlow = (
