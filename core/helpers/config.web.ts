@@ -28,7 +28,9 @@ export const jitsiUrl = (() => {
 })()
 
 // Add env vars to window interface declaration in window.d.ts
-export const posthogKey = !isSSR ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
-export const posthogHost = !isSSR ? window.POSTHOG_HOST : process.env.POSTHOG_HOST
+export const posthogKey = !isSSR ? window.NEXT_PUBLIC_POSTHOG_KEY : process.env.NEXT_PUBLIC_POSTHOG_KEY
+export const posthogHost = !isSSR ? window.NEXT_PUBLIC_POSTHOG_HOST : process.env.NEXT_PUBLIC_POSTHOG_HOST
 
-export const challengeAppBaseUrl = !isSSR ? window.HOLI_CHALLENGES_APP : process.env.HOLI_CHALLENGES_APP
+export const challengeAppBaseUrl = !isSSR
+  ? window.NEXT_PUBLIC_HOLI_CHALLENGES_APP
+  : process.env.NEXT_PUBLIC_HOLI_CHALLENGES_APP

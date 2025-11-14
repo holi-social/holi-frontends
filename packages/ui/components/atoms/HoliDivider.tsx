@@ -1,19 +1,24 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const HoliDivider = () => {
+interface HoliDividerProps {
+  autoWidth?: boolean
+}
+
+const HoliDivider = ({ autoWidth }: HoliDividerProps) => {
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, autoWidth), [theme, autoWidth])
 
   return <View style={styles.divider} />
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, autoWidth?: boolean) =>
   StyleSheet.create({
     divider: {
-      width: '100%',
+      flex: autoWidth ? 1 : undefined,
+      width: autoWidth ? 'auto' : '100%',
       height: 1,
       backgroundColor: theme.colors.gray100,
     },

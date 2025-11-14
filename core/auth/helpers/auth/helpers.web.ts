@@ -6,7 +6,6 @@ import type {
   SettingsFlow,
   SuccessfulNativeLogin,
   SuccessfulNativeRegistration,
-  UiText,
   UpdateLoginFlowBody,
   UpdateRegistrationFlowBody,
   VerificationFlow,
@@ -71,25 +70,14 @@ export const removeSessionFromStorage = (): Promise<void> => {
   return AsyncStore.removeItem(userSessionName)
 }
 
-export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
-  let extraMessages: UiText[] = []
-  if (flowId) {
-    const flow = await newKratosSdk()
-      .getLoginFlow({ id: flowId })
-      .then(({ data }) => {
-        // Treat message "E-mail address already used by another account" as error and recreate the login flow
-        const errorMessages = data?.ui?.messages?.filter((message) => message.id === 1010016)
-        if (errorMessages?.length) {
-          extraMessages = errorMessages
-          return undefined
-        }
-        return data
-      })
-      .catch(handleKratosSdkError('getLoginFlow'))
-    if (flow) {
-      return flow
-    }
-  }
+// Login
+export const getLoginFlow = async (flowId: string): Promise<LoginFlow> => {
+  return newKratosSdk()
+    .getLoginFlow({ id: flowId })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('getLoginFlow'))
+}
+export const initLoginFlow = async (): Promise<LoginFlow> => {
   const redirect = getRedirectAfterSocialLogin()
   const returnTo = redirect ? { returnTo: `${holiNextJSApiUrl}${redirect || ''}` } : {}
 
@@ -98,15 +86,7 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
       refresh: true,
       ...returnTo,
     })
-    .then(({ data }) => {
-      return {
-        ...data,
-        ui: {
-          ...data.ui,
-          messages: extraMessages.concat(data.ui.messages ?? []),
-        },
-      }
-    })
+    .then(({ data }) => data)
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 }
 

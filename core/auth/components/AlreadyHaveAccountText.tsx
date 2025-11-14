@@ -9,9 +9,10 @@ import { View } from 'react-native'
 export interface AlreadyHaveAccountTextProps {
   trackingEvent: TrackingEvent
   onPress?(): void
+  replaceRoute?: boolean
 }
 
-const AlreadyHaveAccountText = ({ trackingEvent, onPress }: AlreadyHaveAccountTextProps) => {
+const AlreadyHaveAccountText = ({ trackingEvent, onPress, replaceRoute }: AlreadyHaveAccountTextProps) => {
   const { t } = useTranslation()
 
   return (
@@ -24,6 +25,7 @@ const AlreadyHaveAccountText = ({ trackingEvent, onPress }: AlreadyHaveAccountTe
             href="/login"
             size="sm"
             trackingEvent={trackingEvent}
+            replace={replaceRoute}
           >
             {t('auth.login')}
           </HoliTextLinkTracked>

@@ -16,8 +16,11 @@ describe('@ForgotPassword', () => {
       await tapOnElementWithTestId('anonymous-profile-login-btn')
     }
 
+    // Close keyboard by clicking the header
+    await tapOnElementWithTestId('heading')
+
     await tapOnElementWithTestId('btn-to-email-password-form')
-    await tapOnElementWithTestId('btn-to-forgot-password-form')
+    await tapOnElementWithTestId('link-to-forgot-password-form')
 
     await waitForElementWithTestId('web-view')
     await tapOnElementWithTestId('nav-button-back')

@@ -20,6 +20,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const CODE_MAX_COUNT = 6
 
@@ -141,20 +142,20 @@ export const EmailVerification = ({
         // on email verification error
         messages?.forEach(async ({ id }) => {
           switch (id) {
-            case 4070001:
-            case 4070003:
+            case OryErrorCode.INVALID_VERIFICATION_TOKEN:
+            case OryErrorCode.VERIFICATION_FLOW_ERROR:
               openToast(t('registration.emailVerification.message.cannotActivate'), HoliToastType.ERROR)
               break
 
-            case 4070002:
+            case OryErrorCode.ACCOUNT_ALREADY_VERIFIED:
               await handleSuccessfulVerification(t('registration.emailVerification.message.alreadyActivated'))
               break
 
-            case 4070005:
+            case OryErrorCode.VERIFICATION_FLOW_EXPIRED:
               openToast(t('registration.emailVerification.message.flowExpired'), HoliToastType.ERROR)
               break
 
-            case 4070006:
+            case OryErrorCode.INVALID_VERIFICATION_CODE:
               openToast(t('registration.emailVerification.message.invalidCode'), HoliToastType.ERROR)
               break
 
