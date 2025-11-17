@@ -452,7 +452,7 @@ Say you wanted to create the route "/profile/:id" which opened the profile page 
 ```ts
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
-export type UserProfileParams = {
+type UserProfileParams = {
   userId: string
 }
 const { useParam } = createParamHooks<UserProfileParams>()

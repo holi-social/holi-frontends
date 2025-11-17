@@ -44,7 +44,7 @@ import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 
-export type UserProfileParams = {
+type UserProfileParams = {
   userId: string
 }
 

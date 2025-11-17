@@ -32,7 +32,7 @@ export interface AuthenticationProps {
   onContinueAsGuest?: () => void
 }
 
-export type AuthenticationParams = {
+type AuthenticationParams = {
   flow?: string
 }
 
