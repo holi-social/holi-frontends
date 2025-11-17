@@ -472,23 +472,13 @@ export default UserProfilePage
 
 #### mobile
 
-- define the route name in `apps/mobile/navigation/routeName.ts`
-- create a route in `apps/mobile/navigation/RootNavigator.tsx` e.g. in the RootStack and use the shared screen component to render
+Routing uses file-based routing (similar to Next.js) from [Expo Router](https://docs.expo.dev/router/introduction/)
 
-```tsx
-<RootStack.Screen name={RouteName.UserProfile} component={UserProfile} />
-```
-
-- create a linking mapping in `core/navigation/index.tsx` between the navigator route name and the web url
+- create `mobile/app/profile/[userId].tsx`
+  - render the shared screen within
 
 ```ts
-// ...
-config: {
-    screens: {
-        // ...
-        [RouteName.UserProfile]: 'profile/:userId',
-    }
-}
+export { default } from '@holi/core/screens/userprofile/UserProfile'
 ```
 
 #### conclusion
@@ -496,24 +486,11 @@ config: {
 you can now navigate from anywhere in web and mobile using the navigate function exposed by the useRouting hook.
 
 ```tsx
-const {navigate} = useRouting()
+const { navigate } = useRouting()
 
 <Button onPress = {() => navigate('/profile/jasper')}>
   jaspers profile
 </Button>
-```
-
-#### notes
-
-**Important hint: A screen name must be unique.**
-
-It may be configured at different places, but over all it must be unique.
-
-```tsx
-// e.g.
-<RootStack.Screen name="Spaces" component={SpacesHomeNavigator} />
-<SpacesDrawer.Screen name="AppStore" component={AppStoreScreen} />
-<CommunityBottomNav.Screen name="Board" component={BoardScreen} />
 ```
 
 ### I18n (Internationalization)
