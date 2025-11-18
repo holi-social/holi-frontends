@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@faker-js/faker": "^8.1.0",
+    "@faker-js/faker": "^10.0.0",
     "@graphql-codegen/cli": "^6.0.1",
     "@graphql-codegen/typescript": "^5.0.2",
     "@graphql-codegen/typescript-operations": "^5.0.2",

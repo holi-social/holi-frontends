@@ -31,11 +31,11 @@ import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import { Key2, Mail } from '@holi/icons/src/generated'
+import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { getFormNodesByStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { ChangeEmailButton } from '@holi/core/screens/auth/components/ChangeEmailButton'
-import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const logger = getLogger('Auth')

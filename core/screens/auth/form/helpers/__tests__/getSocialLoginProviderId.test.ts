@@ -1,4 +1,4 @@
-import type { UiNode, LoginFlow } from '@ory/kratos-client'
+import type { LoginFlow, UiNode } from '@ory/kratos-client'
 import { getSocialLoginProviderId } from '@holi/core/screens/auth/form/helpers/getSocialLoginProviderId'
 
 const createFlowWithUiNode = (node: UiNode): LoginFlow => ({

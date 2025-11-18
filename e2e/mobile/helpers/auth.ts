@@ -22,7 +22,7 @@ export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 export const testIdContinueAsGuest = 'nav-button-back'
 
 export const registerNewUser = async (): Promise<string> => {
-  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.username()}${faker.string.numeric(4)}@e2etest.com`
   await register({ email, password: defaultPassword })
   return email
 }
