@@ -103,5 +103,5 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
     [finalizeLogin, flow, handleFlowSubmitError, initializeFlow, navigate, onFlowUpdate, safeSetFlow]
   )
 
-  return { flow, performLogin, resetFlow: () => initializeFlow() }
+  return { flow, performLogin, resetFlow: () => initializeFlow(), usePasswordLabel: t('auth.CTA.login.emailPassword') }
 }

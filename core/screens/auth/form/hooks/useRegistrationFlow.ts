@@ -129,5 +129,10 @@ export const useRegistrationFlow = ({
     [finalizeRegistration, flow, handleFlowSubmitError, initializeFlow, navigate, onFlowUpdate, safeSetFlow]
   )
 
-  return { flow, performRegistration, resetFlow: () => initializeFlow() }
+  return {
+    flow,
+    performRegistration,
+    resetFlow: () => initializeFlow(),
+    usePasswordLabel: t('auth.CTA.registration.emailPassword'),
+  }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { RegistrationForm } from '@holi/core/screens/auth/components/RegistrationForm'
 import { useOtpRegistrationForm } from '@holi/core/screens/auth/form/hooks/useOtpRegistrationForm'
 import { usePasswordRegistrationForm } from '@holi/core/screens/auth/form/hooks/usePasswordRegistrationForm'
@@ -66,6 +66,7 @@ describe('RegistrationForm', () => {
       flow: mockFlow,
       performRegistration: jest.fn(),
       resetFlow: jest.fn(),
+      usePasswordLabel: 'Use password',
     })
   })
 
@@ -79,6 +80,7 @@ describe('RegistrationForm', () => {
       flow: mockFlow,
       performRegistration,
       resetFlow,
+      usePasswordLabel: 'Use password',
     })
 
     render(
@@ -125,7 +127,7 @@ describe('RegistrationForm', () => {
     expect(screen.getByLabelText('Send code')).toBeOnTheScreen()
 
     // Expect button to use password instead
-    expect(screen.getByLabelText('auth.CTA.emailPassword')).toBeOnTheScreen()
+    expect(screen.getByLabelText('Use password')).toBeOnTheScreen()
   })
 
   it('should render correct form for code step', () => {
@@ -152,8 +154,29 @@ describe('RegistrationForm', () => {
     expect(screen.getByLabelText('auth.login.input.label-Email')).toBeOnTheScreen()
     expect(screen.getByLabelText('auth.login.input.label-Password')).toBeOnTheScreen()
     expect(screen.getByLabelText('Create account')).toBeOnTheScreen()
-    expect(screen.getByText('auth.login.forgotPassword')).toBeOnTheScreen()
-    expect(screen.getByLabelText('auth.login.link.forgotPassword')).toBeOnTheScreen()
+    // Do NOT expect option to reset password
+    expect(screen.queryByText('auth.login.forgotPassword')).not.toBeOnTheScreen()
+    expect(screen.queryByLabelText('auth.login.link.forgotPassword')).not.toBeOnTheScreen()
+  })
+
+  it('should switch to password step on button press', async () => {
+    const setEmail = jest.fn()
+    mockUsePasswordRegistrationForm.mockReturnValue({
+      setEmail,
+      setPassword: jest.fn(),
+      submitLabel: 'Create account',
+      onSubmit: jest.fn(),
+      submitDisabled: false,
+    })
+    const setStep = jest.fn()
+    const user = userEvent.setup()
+
+    render(<RegistrationForm resetFlowId={jest.fn()} step="start" setStep={setStep} />)
+
+    await user.press(screen.getByLabelText('Use password'))
+
+    expect(setStep).toHaveBeenCalledWith('email-password')
+    expect(setEmail).toHaveBeenCalledWith('test@foo.bar')
   })
 
   it('should update step if necessary', () => {

@@ -40,7 +40,11 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
     [step, setStep]
   )
 
-  const { flow, performLogin, resetFlow } = useLoginFlow({ startedFlowId, onFlowUpdate: synchronizeStep, resetFlowId })
+  const { flow, performLogin, resetFlow, usePasswordLabel } = useLoginFlow({
+    startedFlowId,
+    onFlowUpdate: synchronizeStep,
+    resetFlowId,
+  })
 
   const socialLoginFormProps = useSocialLoginForm({ flow, performLogin })
   const otpFormProps = useOtpLoginForm({ flow, performLogin, resetFlow })
@@ -69,11 +73,14 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
               <EmailOtpForm {...otpFormProps} />
 
               <ButtonTracked
-                label={t('auth.CTA.emailPassword')}
+                label={usePasswordLabel}
                 testID="btn-to-email-password-form"
                 variant="secondary"
                 size="lg"
-                onPress={() => setStep('email-password')}
+                onPress={() => {
+                  passwordFormProps.setEmail(otpFormProps.email)
+                  setStep('email-password')
+                }}
                 icon={Key2}
                 trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
                   method: 'email',
@@ -84,7 +91,7 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
           )}
         </>
       )}
-      {step === 'email-password' && <EmailPasswordForm {...passwordFormProps} />}
+      {step === 'email-password' && <EmailPasswordForm {...passwordFormProps} isLogin />}
     </Stack>
   )
 }

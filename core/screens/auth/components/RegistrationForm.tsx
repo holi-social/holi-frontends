@@ -41,7 +41,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, resetFlowId, step,
     [step, setStep]
   )
 
-  const { flow, performRegistration, resetFlow } = useRegistrationFlow({
+  const { flow, performRegistration, resetFlow, usePasswordLabel } = useRegistrationFlow({
     startedFlowId,
     onFlowUpdate: synchronizeStep,
     resetFlowId,
@@ -75,11 +75,14 @@ export const RegistrationForm = ({ onRegister, startedFlowId, resetFlowId, step,
               <EmailOtpForm {...otpFormProps} />
 
               <ButtonTracked
-                label={t('auth.CTA.emailPassword')}
+                label={usePasswordLabel}
                 testID="btn-to-email-password-form"
                 variant="secondary"
                 size="lg"
-                onPress={() => setStep('email-password')}
+                onPress={() => {
+                  passwordFormProps.setEmail(otpFormProps.email)
+                  setStep('email-password')
+                }}
                 icon={Key2}
                 trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
                   method: 'email',

@@ -12,7 +12,7 @@ describe('useOtpRegistrationForm', () => {
       )
 
       expect(result.current.autoFocusEmail).toBeTruthy()
-      expect(result.current.submitLabel).toEqual('auth.login.input.label-SignUp')
+      expect(result.current.submitLabel).toEqual('auth.login.input.label-SignUpCode')
       expect(result.current.trackingScreenName).toEqual('mainRegistration')
     })
   })

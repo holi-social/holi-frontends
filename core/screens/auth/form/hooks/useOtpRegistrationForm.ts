@@ -80,7 +80,7 @@ export const useOtpRegistrationForm = ({
     setCode,
     codeValidationError: codeNode.validationError,
     onSubmit,
-    submitLabel: t('auth.login.input.label-SignUp'),
+    submitLabel: t('auth.login.input.label-SignUpCode'),
     submitDisabled: !flow,
     onResend,
     trackingScreenName: 'mainRegistration',

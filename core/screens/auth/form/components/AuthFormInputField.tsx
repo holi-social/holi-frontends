@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 
 import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
-import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native'
+import type { NativeSyntheticEvent, TextInputKeyPressEvent } from 'react-native'
 import type { TextInputProps } from 'react-native'
 
 export interface AuthFormInputFieldProps {
@@ -28,8 +28,8 @@ export const AuthFormInputField = ({
   testID,
 }: AuthFormInputFieldProps) => {
   const onKeyPress = useCallback(
-    (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
-      const nativeElement = event.nativeEvent as TextInputKeyPressEventData
+    (event: TextInputKeyPressEvent | NativeSyntheticEvent<TextInputProps>) => {
+      const nativeElement = event.nativeEvent as TextInputKeyPressEvent['nativeEvent']
       if (nativeElement.key === 'Enter') {
         const element = event.target as TextInputProps
         onChange(element.value)

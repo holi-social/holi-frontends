@@ -15,8 +15,8 @@ describe('CodeOtpForm', () => {
       />
     )
 
-    expect(screen.getByText('ada@lovelace.com'))
-    expect(screen.getByLabelText('global.edit'))
+    expect(screen.getByText('ada@lovelace.com')).toBeOnTheScreen()
+    expect(screen.getByLabelText('global.edit')).toBeOnTheScreen()
   })
 
   it('should call callback to change email', async () => {
@@ -49,8 +49,8 @@ describe('CodeOtpForm', () => {
       />
     )
 
-    expect(screen.getByLabelText('auth.login.input.label-SignInCode'))
-    expect(screen.getByLabelText('auth.login.cta.verifyEmail'))
+    expect(screen.getByLabelText('auth.login.input.label-SignInCode')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.cta.verifyEmail')).toBeOnTheScreen()
   })
 
   it('should control code input', async () => {
@@ -150,8 +150,8 @@ describe('CodeOtpForm', () => {
       />
     )
 
-    expect(screen.getByText('registration.emailVerification.resendInstruction'))
-    expect(screen.getByLabelText('registration.emailVerification.resendEmail'))
+    expect(screen.getByText('registration.emailVerification.resendInstruction')).toBeOnTheScreen()
+    expect(screen.getByLabelText('registration.emailVerification.resendEmail')).toBeOnTheScreen()
   })
 
   it('should call callback to resend code', async () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { LoginForm } from '@holi/core/screens/auth/components/LoginForm'
 import { useOtpLoginForm } from '@holi/core/screens/auth/form/hooks/useOtpLoginForm'
 import { usePasswordLoginForm } from '@holi/core/screens/auth/form/hooks/usePasswordLoginForm'
@@ -66,6 +66,7 @@ describe('LoginForm', () => {
       flow: mockFlow,
       performLogin: jest.fn(),
       resetFlow: jest.fn(),
+      usePasswordLabel: 'Use password',
     })
   })
 
@@ -78,6 +79,7 @@ describe('LoginForm', () => {
       flow: mockFlow,
       performLogin,
       resetFlow,
+      usePasswordLabel: 'Use password',
     })
 
     render(<LoginForm startedFlowId={startedFlowId} resetFlowId={resetFlowId} step="start" setStep={jest.fn()} />)
@@ -115,7 +117,7 @@ describe('LoginForm', () => {
     expect(screen.getByLabelText('Send code')).toBeOnTheScreen()
 
     // Expect button to use password instead
-    expect(screen.getByLabelText('auth.CTA.emailPassword')).toBeOnTheScreen()
+    expect(screen.getByLabelText('Use password')).toBeOnTheScreen()
   })
 
   it('should render correct form for code step', () => {
@@ -144,6 +146,26 @@ describe('LoginForm', () => {
     expect(screen.getByLabelText('Log in')).toBeOnTheScreen()
     expect(screen.getByText('auth.login.forgotPassword')).toBeOnTheScreen()
     expect(screen.getByLabelText('auth.login.link.forgotPassword')).toBeOnTheScreen()
+  })
+
+  it('should switch to password step on button press', async () => {
+    const setEmail = jest.fn()
+    mockUsePasswordLoginForm.mockReturnValue({
+      setEmail,
+      setPassword: jest.fn(),
+      submitLabel: 'Log in',
+      onSubmit: jest.fn(),
+      submitDisabled: false,
+    })
+    const setStep = jest.fn()
+    const user = userEvent.setup()
+
+    render(<LoginForm resetFlowId={jest.fn()} step="start" setStep={setStep} />)
+
+    await user.press(screen.getByLabelText('Use password'))
+
+    expect(setStep).toHaveBeenCalledWith('email-password')
+    expect(setEmail).toHaveBeenCalledWith('test@foo.bar')
   })
 
   it('should update step if necessary', () => {

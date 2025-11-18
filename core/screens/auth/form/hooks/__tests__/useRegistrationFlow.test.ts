@@ -93,6 +93,14 @@ describe('useRegistrationFlow', () => {
     })
   })
 
+  describe('static props', () => {
+    it('should use correct label for password button', async () => {
+      const { result } = renderHook(() => useRegistrationFlow({ resetFlowId: jest.fn(), onFlowUpdate: jest.fn() }))
+
+      expect(result.current.usePasswordLabel).toEqual('auth.CTA.registration.emailPassword')
+    })
+  })
+
   describe('new flow', () => {
     it('should initialize new flow', async () => {
       const { result } = renderHook(() => useRegistrationFlow({ resetFlowId: jest.fn(), onFlowUpdate: jest.fn() }))
