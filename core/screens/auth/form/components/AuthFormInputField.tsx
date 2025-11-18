@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
 
 import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
-import type { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native'
-import type { TextInputProps } from 'react-native'
+import type { NativeSyntheticEvent, TextInputKeyPressEventData, TextInputProps } from 'react-native'
 
 export interface AuthFormInputFieldProps {
   label: string

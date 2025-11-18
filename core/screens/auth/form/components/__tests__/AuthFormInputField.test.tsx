@@ -1,6 +1,6 @@
 import React from 'react'
 import type { TextInputIOSProps } from 'react-native'
-import { render, userEvent, screen } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import { AuthFormInputField } from '@holi/core/screens/auth/form/components/AuthFormInputField'
 import type { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 

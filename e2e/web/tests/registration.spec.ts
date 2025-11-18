@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Page, expect, test } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 
 import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
 import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
