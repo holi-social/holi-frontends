@@ -5,12 +5,13 @@ import { Linking } from 'react-native'
 
 const mockNavigate = jest.fn()
 const mockNavigateBack = jest.fn()
+const mockReplaceRoute = jest.fn()
 const testEvent = {} as React.SyntheticEvent
 
 jest.mock<() => RoutingState>('@holi/core/navigation/hooks/useRouting', () => () => ({
   navigate: mockNavigate,
   navigateBack: mockNavigateBack,
-  replaceRoute: jest.fn(),
+  replaceRoute: mockReplaceRoute,
   replaceHistory: jest.fn(),
   setParams: jest.fn(),
 }))
@@ -61,6 +62,14 @@ describe('useLink', () => {
     result.current(testEvent)
 
     expect(mockNavigate).toHaveBeenCalledWith('//')
+  })
+
+  it('should replace route to href', () => {
+    const { result } = renderHook(() => useLink({ href: '/', replace: true }))
+
+    result.current(testEvent)
+
+    expect(mockReplaceRoute).toHaveBeenCalledWith('//')
   })
 
   it('should open external url', () => {

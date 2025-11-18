@@ -14,6 +14,7 @@ export const HoliLink = ({
   isFullHeight = false,
   testID = 'link',
   onPress,
+  replace,
 }: PropsWithChildren<HoliLinkProps>) => {
   const { styles } = useStyles(stylesheet)
 
@@ -27,6 +28,7 @@ export const HoliLink = ({
       onPress={onPress}
       asChild
       style={[isFullHeight && styles.fullHeight]}
+      replace={replace}
     >
       {isText ? <TextLink>{children}</TextLink> : <Pressable>{children}</Pressable>}
     </Link>

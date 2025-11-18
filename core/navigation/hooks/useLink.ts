@@ -9,11 +9,12 @@ export interface UseLinkProps {
   /** if given, `onPress` will be executed before opening href (if given). if `onPress` returns `false` (synchronously, required for web) event propagation will be stopped */
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   external?: boolean
+  replace?: boolean
 }
 
 // This hook is for mobile only and is used inside HoliLink and HoliTextLink, which have alternative implementations for web.
-const useLink = ({ onPress, external, href }: UseLinkProps) => {
-  const { navigate } = useRouting()
+const useLink = ({ onPress, external, href, replace }: UseLinkProps) => {
+  const { navigate, replaceRoute } = useRouting()
 
   return useCallback(
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
@@ -42,9 +43,13 @@ const useLink = ({ onPress, external, href }: UseLinkProps) => {
       } else {
         route = '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
       }
-      navigate(route)
+      if (replace) {
+        replaceRoute(route)
+      } else {
+        navigate(route)
+      }
     },
-    [external, href, navigate, onPress]
+    [external, href, navigate, onPress, replace, replaceRoute]
   )
 }
 

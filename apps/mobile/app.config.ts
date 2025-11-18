@@ -6,9 +6,9 @@ require('ts-node/register')
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.65.5', // user-facing value visible in stores
-  iosBuildNumber: '1.65.5', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 202, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.66.1', // user-facing value visible in stores
+  iosBuildNumber: '1.66.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 205, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -306,10 +306,10 @@ const config: ExpoConfig = {
     e2e: {
       userId: process.env.E2E_USER_ID, // not required as not used in production
     },
-    challengesApp: requiredEnvVar('HOLI_CHALLENGES_APP'),
+    challengesApp: requiredEnvVar('NEXT_PUBLIC_HOLI_CHALLENGES_APP'),
     posthog: {
-      key: requiredEnvVar('POSTHOG_KEY'),
-      host: requiredEnvVar('POSTHOG_HOST'),
+      key: requiredEnvVar('NEXT_PUBLIC_POSTHOG_KEY'),
+      host: requiredEnvVar('NEXT_PUBLIC_POSTHOG_HOST'),
     },
     socialLogin: {
       googleIosClientId: requiredEnvVar('SOCIAL_LOGIN_GOOGLE_IOS_CLIENT_ID'),
