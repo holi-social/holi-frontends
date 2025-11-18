@@ -1,0 +1,12 @@
+query SignedPetitions($offset: Int! = 0, $limit: Int! = 10) {
+  signedPetitions(offset: $offset, limit: $limit) {
+    totalResults
+  }
+}
+
+query PetitionStatus($petitionId: String!) {
+  petitionStatus(petitionId: $petitionId) {
+    externalPetitionId
+    status
+  }
+}
