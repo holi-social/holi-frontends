@@ -1,15 +1,15 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Input.tsx
 import type { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import type { UseTranslationResponse } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import type {
   NativeSyntheticEvent,
   StyleProp,
   TextInputKeyPressEventData,
   TextInputProps,
-  View,
   TextStyle,
+  View,
   ViewStyle,
 } from 'react-native'
 

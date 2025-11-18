@@ -1,7 +1,7 @@
 import { MockedProvider } from '@apollo/client/testing/react'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import { clearVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { useLoginState, setLoginStateLoggedIn } from '@holi/core/auth/loginState'
+import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
