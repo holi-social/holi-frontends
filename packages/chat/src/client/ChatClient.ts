@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next'
 import {
   ClientEvent,
+  createClient,
   Direction,
   EventTimeline,
   EventTimelineSet,
@@ -20,10 +21,8 @@ import {
   type RoomState,
   RoomStateEvent,
   Visibility,
-  createClient,
 } from 'matrix-js-sdk'
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
-import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
 import type { MsgType, RoomMessageEventContent } from 'matrix-js-sdk/lib/types'
 
@@ -67,16 +66,9 @@ import { isEmptyString, isString } from '@holi/chat/src/utils'
 import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
-import { environment } from '@holi/core/helpers/environment'
 import { getLogger } from '@holi/core/helpers/logging'
-import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
 const logger = getLogger('Chat')
-
-// Disable matrix-js-sdk logging for Staging and Production
-if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === environment)) {
-  matrixLogger.disableAll()
-}
 
 // TODO: make the client accessible to window for development.
 
@@ -410,7 +402,7 @@ export default class ChatClient {
   }
 
   public async joinRoom(roomId: string): Promise<Room | null> {
-    const room = await this.mxClient.joinRoom(roomId, { syncRoom: true })
+    const room = await this.mxClient.joinRoom(roomId)
     if (!room) {
       const errMsg = 'There was a problem joining the room after accepting invitation'
       logError(new Error(errMsg), 'Failed to join room', { location: 'ChatClient.joinRoom' })
