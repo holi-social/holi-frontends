@@ -1,0 +1,6 @@
+mutation UpdatePetitionStatus($petitionId: String!, $newStatus: PetitionStatusValue!) {
+  updatePetitionStatus(petitionId: $petitionId, newStatus: $newStatus) {
+    externalPetitionId
+    status
+  }
+}

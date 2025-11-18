@@ -1,6 +1,6 @@
 import { Screen } from '@holi/core/components/Screen'
 import { ButtonTracked } from '@holi/core/components/Trackable'
-import { DetailsScreen, type DetailsScreenData, type DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
+import { DetailsScreen, type DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import type { Petition } from '@holi/core/screens/act/petitions/PetitionCard'
@@ -20,11 +20,11 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { PetitionProgressCard } from '@holi/core/screens/spaces/tasks/components/PetitionProgressCard'
 import {
-  Typesense_DocumentContactType,
+  PetitionStatusValue,
+  usePetitionStatusQuery,
+  useUpdatePetitionStatusMutation,
   type VolunteeringOpportunityStatusValue,
 } from '@holi/api/graphql/graphql-codegen'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
-import { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 export type PetitionDetailsParams = {
   petitionId: string
@@ -48,60 +48,26 @@ export const PetitionDetails = () => {
     },
   ]
 
-  // TODO: Mocked data for development purposes -----------------------------------------------
-  // To be replaced by:
-  // const { isLoading, document, refetchStatus } = usePetitionsDetailsData(petitionId)
-  // const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
-  type PetitionDetailsScreenData = DetailsScreenData & {
-    externalUrl?: string
-    commitmentType?: string
-    locationType?: string
-    location?: string
-    source?: string
-    contact?: TypesenseDocument['contact']
-  }
-
-  const documentMock: PetitionDetailsScreenData = {
-    title: 'Some title',
-    externalUrl: 'https://www.lovelace.com',
-    contact: [
-      { type: Typesense_DocumentContactType.Person, value: 'Ada Lovelace' },
-      { type: Typesense_DocumentContactType.Email, value: 'ada@lovelace.com' },
-      { type: Typesense_DocumentContactType.Phone, value: '+49 1234 1234567' },
-      {
-        label: "Ada's Website",
-        type: Typesense_DocumentContactType.Website,
-        value: 'https://www.lovelace.com',
-      },
-    ],
-    commitmentType: 'once',
-    status: PetitionsStatusValue.Completed,
-  }
-
-  const refetchStatusMock = async () => {
-    return
-  }
-
-  const updatePetitionStatusMock = async (params: {
+  const {
+    data: { petitionStatus } = {},
+    refetch: refetchStatus,
+  } = usePetitionStatusQuery({
     variables: {
-      PetitionId: string | undefined
-      newStatus: PetitionsStatusValue
-    }
-  }) => {
-    return params
-  }
-  // End of mocked data --------------------------------------------------------------------
+      petitionId: petitionId || '',
+    },
+  })
 
-  const onPetitionStatusChange = async (status: PetitionsStatusValue | VolunteeringOpportunityStatusValue) => {
-    if (status === PetitionsStatusValue.Completed || status === PetitionsStatusValue.ToSign) {
-      updatePetitionStatusMock({
+  const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
+
+  const onPetitionStatusChange = async (status: PetitionStatusValue | VolunteeringOpportunityStatusValue) => {
+    if (status === PetitionStatusValue.Signed || status === PetitionStatusValue.Planned) {
+      await updatePetitionStatus({
         variables: {
-          PetitionId: petitionId,
+          petitionId: petitionId || '',
           newStatus: status,
         },
       })
-
-      await refetchStatusMock()
+      await refetchStatus()
     }
   }
 
@@ -129,27 +95,29 @@ export const PetitionDetails = () => {
         },
       }}
       StickyBottomComponent={
-        <Stack
-          padding={{ left: 'md', right: 'md', bottom: 'lg' }}
-          alignItems="center"
-          justifyContent="center"
-          alignSelf="center"
-          width="100%"
-        >
-          {petition.externalLink && (
-            <Stack width={'100%'} maxWidth="xs">
-              <ButtonTracked
-                icon={GoodDeeds}
-                label={t('act.petitions.cta')}
-                onPress={() => {
-                  onPetitionStatusChange(PetitionsStatusValue.ToSign)
-                  Linking.openURL(petition.externalLink as string)
-                }}
-                trackingEvent={TrackingEvent.PetitionDetails.findMore}
-              />
-            </Stack>
-          )}
-        </Stack>
+        petitionStatus?.status == PetitionStatusValue.Planned && (
+          <Stack
+            padding={{ left: 'md', right: 'md', bottom: 'lg' }}
+            alignItems="center"
+            justifyContent="center"
+            alignSelf="center"
+            width="100%"
+          >
+            {petition.externalLink && (
+              <Stack width={'100%'} maxWidth="xs">
+                <ButtonTracked
+                  icon={GoodDeeds}
+                  label={t('act.petitions.cta')}
+                  onPress={() => {
+                    onPetitionStatusChange(PetitionStatusValue.Planned)
+                    Linking.openURL(petition.externalLink as string)
+                  }}
+                  trackingEvent={TrackingEvent.PetitionDetails.findMore}
+                />
+              </Stack>
+            )}
+          </Stack>
+        )
       }
     >
       <DetailsScreen
@@ -165,14 +133,10 @@ export const PetitionDetails = () => {
           />
         }
         progressCard={
-          rewardsPhaseTwoEnabled &&
-          documentMock?.status &&
-          [PetitionsStatusValue.ToSign, PetitionsStatusValue.Completed].includes(
-            documentMock?.status as PetitionsStatusValue
-          ) ? (
+          rewardsPhaseTwoEnabled && petitionStatus?.status ? (
             <HoliTransition.FadeDown visible>
               <PetitionProgressCard
-                status={documentMock?.status as PetitionsStatusValue}
+                status={petitionStatus?.status}
                 onStatusChange={onPetitionStatusChange}
                 externalLink={petition.externalLink as string}
               />

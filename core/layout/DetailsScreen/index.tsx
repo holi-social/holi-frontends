@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, View, useWindowDimensions } from 'react-native'
 
 import { ChipStatus } from '@holi-apps/volunteering/components/ChipStatus'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { type PetitionStatusValue, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
@@ -23,7 +23,6 @@ import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Spacing } from 'holi-bricks/foundations'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
-import type { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -73,7 +72,7 @@ export type DetailsScreenData = {
   additionalContent?: ReactNode | ReactNode[]
   progressCard?: ReactNode
   isFavorite?: boolean
-  status?: VolunteeringOpportunityStatusValue | PetitionsStatusValue | null
+  status?: VolunteeringOpportunityStatusValue | PetitionStatusValue | null
   location?: string
   locationType?: string
 }

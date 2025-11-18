@@ -15,19 +15,18 @@ import { VolunteeringFinishedModal } from '@holi-apps/volunteering/components/Vo
 import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
+import { BadgesDocument, PetitionStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ProgressStepper, type ProgressStepperStep } from 'holi-bricks/components/progressStepper/ProgressStepper'
-import { PetitionsStatusValue } from '@holi/core/screens/act/petitions/status'
 
 interface PetitionProgressCardProps {
-  onStatusChange: (status: PetitionsStatusValue) => void
-  status?: PetitionsStatusValue
+  onStatusChange: (status: PetitionStatusValue) => void
+  status?: PetitionStatusValue
   externalLink: string
 }
 
 export const PetitionProgressCard = ({
   onStatusChange,
-  status = PetitionsStatusValue.ToSign,
+  status = PetitionStatusValue.Planned,
   externalLink,
 }: PetitionProgressCardProps) => {
   const { navigate } = useRouting()
@@ -39,7 +38,7 @@ export const PetitionProgressCard = ({
   const { show: showFinishedModal, props: finishedModalProps } = useModalState({
     onDismiss: async () => {
       // track(TrackingEvent.Rewards.goodDeedClaimed('petition'))
-      onStatusChange(PetitionsStatusValue.Completed)
+      onStatusChange(PetitionStatusValue.Signed)
 
       await client.refetchQueries({
         include: [BadgesDocument],
@@ -51,13 +50,13 @@ export const PetitionProgressCard = ({
     },
   })
 
-  const petitionProgressSteps: ProgressStepperStep<PetitionsStatusValue>[] = [
+  const petitionProgressSteps: ProgressStepperStep<PetitionStatusValue>[] = [
     {
-      key: PetitionsStatusValue.ToSign,
+      key: PetitionStatusValue.Planned,
       label: t('petition.progress.progressBar.sign'),
     },
     {
-      key: PetitionsStatusValue.Completed,
+      key: PetitionStatusValue.Signed,
       label: t('petition.progress.progressBar.done'),
     },
   ]
@@ -80,7 +79,7 @@ export const PetitionProgressCard = ({
         </HoliTransition.Fade>
 
         <HoliTransition.FadeSwitch animKey={status}>
-          {status === PetitionsStatusValue.ToSign && (
+          {status === PetitionStatusValue.Planned && (
             <Stack gap="xs">
               <Stack gap="3xs">
                 <Text size="lg">{t('petition.progress.progressCard.done.title')}</Text>
@@ -105,7 +104,7 @@ export const PetitionProgressCard = ({
             </Stack>
           )}
 
-          {status === PetitionsStatusValue.Completed && (
+          {status === PetitionStatusValue.Signed && (
             <>
               <Stack direction="row" gap="xs" alignItems="center">
                 <Stack

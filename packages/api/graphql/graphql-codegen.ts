@@ -2995,6 +2995,16 @@ export type LinkFragmentFragment = {
   icon?: string
 }
 
+export type UpdatePetitionStatusMutationVariables = Exact<{
+  petitionId: Scalars['String']['input']
+  newStatus: PetitionStatusValue
+}>
+
+export type UpdatePetitionStatusMutation = {
+  __typename?: 'Mutation'
+  updatePetitionStatus: { __typename?: 'PetitionStatus'; externalPetitionId: string; status: PetitionStatusValue }
+}
+
 export type SignedPetitionsQueryVariables = Exact<{
   offset?: Scalars['Int']['input']
   limit?: Scalars['Int']['input']
@@ -5831,6 +5841,55 @@ export const FullEventFragmentDoc = gql`
   }
 }
     `
+export const UpdatePetitionStatusDocument = gql`
+    mutation UpdatePetitionStatus($petitionId: String!, $newStatus: PetitionStatusValue!) {
+  updatePetitionStatus(petitionId: $petitionId, newStatus: $newStatus) {
+    externalPetitionId
+    status
+  }
+}
+    `
+export type UpdatePetitionStatusMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  UpdatePetitionStatusMutation,
+  UpdatePetitionStatusMutationVariables
+>
+
+/**
+ * __useUpdatePetitionStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdatePetitionStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePetitionStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePetitionStatusMutation, { data, loading, error }] = useUpdatePetitionStatusMutation({
+ *   variables: {
+ *      petitionId: // value for 'petitionId'
+ *      newStatus: // value for 'newStatus'
+ *   },
+ * });
+ */
+export function useUpdatePetitionStatusMutation(
+  baseOptions?: ApolloReactHooks.useMutation.Options<
+    UpdatePetitionStatusMutation,
+    UpdatePetitionStatusMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return ApolloReactHooks.useMutation<UpdatePetitionStatusMutation, UpdatePetitionStatusMutationVariables>(
+    UpdatePetitionStatusDocument,
+    options
+  )
+}
+export type UpdatePetitionStatusMutationHookResult = ReturnType<typeof useUpdatePetitionStatusMutation>
+export type UpdatePetitionStatusMutationResult = ApolloReactHooks.useMutation.Result<UpdatePetitionStatusMutation>
+export type UpdatePetitionStatusMutationOptions = ApolloReactHooks.useMutation.Options<
+  UpdatePetitionStatusMutation,
+  UpdatePetitionStatusMutationVariables
+>
 export const SignedPetitionsDocument = gql`
     query SignedPetitions($offset: Int! = 0, $limit: Int! = 10) {
   signedPetitions(offset: $offset, limit: $limit) {
