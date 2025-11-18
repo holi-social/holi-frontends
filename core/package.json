@@ -13,7 +13,7 @@
     "react-native-keyboard-controller": "1.19.5",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated-carousel": "^4.0.2",
-    "uuid": "^11.0.5",
+    "uuid": "^13.0.0",
     "zod": "^3.17.9"
   },
   "devDependencies": {
@@ -23,7 +23,7 @@
     "@graphql-codegen/typescript-graphql-request": "^6.3.0",
     "@graphql-codegen/typescript-operations": "^5.0.2",
     "@graphql-eslint/eslint-plugin": "^4.0.0",
-    "@types/react": "~19.1.10",
+    "@types/react": "^19.2.4",
     "@types/tinycolor2": "1.4.6",
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",

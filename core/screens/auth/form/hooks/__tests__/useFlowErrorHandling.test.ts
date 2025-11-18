@@ -1,4 +1,4 @@
-import { type AxiosResponse, AxiosError } from 'axios'
+import { AxiosError, type AxiosResponse } from 'axios'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {

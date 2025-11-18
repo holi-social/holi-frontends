@@ -3010,17 +3010,17 @@ __metadata:
   linkType: hard
 
 "@chromatic-com/storybook@npm:^4.0.0":
-  version: 4.1.2
-  resolution: "@chromatic-com/storybook@npm:4.1.2"
+  version: 4.1.3
+  resolution: "@chromatic-com/storybook@npm:4.1.3"
   dependencies:
     "@neoconfetti/react": "npm:^1.0.0"
-    chromatic: "npm:^12.0.0"
+    chromatic: "npm:^13.3.3"
     filesize: "npm:^10.0.12"
     jsonfile: "npm:^6.1.0"
     strip-ansi: "npm:^7.1.0"
   peerDependencies:
     storybook: ^0.0.0-0 || ^9.0.0 || ^9.1.0-0 || ^9.2.0-0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0
-  checksum: 10c0/1719a79acba4a6e851b0729724f049fae99c904a9619916d877ec05524cd6bc4141908b8d11aef4dfe9724fbeb6d3629ffbc8ea15f1ac5b59d5317b93a70a510
+  checksum: 10c0/31d1cc7e98489238a22c7560677bf07235b87c48dc1f39faf1fdc7dda2f41221709c10af2a5fcb10e46bea7b80cc81badf08aba7015f0c5b8d0a9e037e92e1bf
   languageName: node
   linkType: hard
 
@@ -4087,10 +4087,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^8.1.0":
-  version: 8.4.1
-  resolution: "@faker-js/faker@npm:8.4.1"
-  checksum: 10c0/4f2aecddcfdc2cc8b50b2d15d1e37302a7c7a5bbd184ae910a9d271bc11248533ca74dcdd4a9ccbe20410553e7af0f6a4d334c5b955635e09a32ddf4a64942d4
+"@faker-js/faker@npm:^10.0.0":
+  version: 10.1.0
+  resolution: "@faker-js/faker@npm:10.1.0"
+  checksum: 10c0/3dc277245ec1bef8b839a9dc45b4ccb1688d21b8bde6531a849c1773193de30047e40e085b7e900c42c940911ecf1645b582ad3c85093df5bfdbddeb44a2b554
   languageName: node
   linkType: hard
 
@@ -5429,7 +5429,7 @@ __metadata:
     "@ory/kratos-client": "npm:v1.3.8"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@shopify/flash-list": "npm:^2.2.0"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     "@types/tinycolor2": "npm:1.4.6"
     eslint: "npm:^8.33.0"
     eslint-plugin-react: "npm:^7.32.2"
@@ -5449,7 +5449,7 @@ __metadata:
     react-native-phone-number-input: "npm:^2.1.0"
     react-native-reanimated-carousel: "npm:^4.0.2"
     typescript-graphql-request: "npm:^4.4.6"
-    uuid: "npm:^11.0.5"
+    uuid: "npm:^13.0.0"
     zod: "npm:^3.17.9"
   peerDependencies:
     "@react-navigation/native": ^6.0.13
@@ -5471,7 +5471,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@holi/e2e-mobile@workspace:e2e/mobile"
   dependencies:
-    "@faker-js/faker": "npm:^8.1.0"
+    "@faker-js/faker": "npm:^10.0.0"
     "@types/jest": "npm:^29.5.1"
     eslint: "npm:^8.33.0"
     eslint-plugin-react: "npm:^7.32.2"
@@ -5488,7 +5488,7 @@ __metadata:
   resolution: "@holi/e2e-web@workspace:e2e/web"
   dependencies:
     "@apollo/client": "npm:^4.0.7"
-    "@faker-js/faker": "npm:^8.1.0"
+    "@faker-js/faker": "npm:^10.0.0"
     "@playwright/test": "npm:1.56.1"
     axe-playwright: "npm:2.2.2"
     dotenv: "npm:^17.0.0"
@@ -5551,7 +5551,7 @@ __metadata:
     "@types/lodash.isequal": "npm:^4.5.8"
     "@types/lodash.partition": "npm:^4.6.9"
     "@types/lodash.shuffle": "npm:^4.2.9"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     "@types/react-dom": "npm:~19.1.7"
     "@types/react-native-get-random-values": "npm:^1"
     apollo-link-timeout: "npm:^4.0.0"
@@ -5658,7 +5658,7 @@ __metadata:
     "@storybook/nextjs": "npm:^7.6.10"
     "@storybook/react": "npm:^7.6.10"
     "@storybook/testing-library": "npm:^0.2.2"
-    "@types/react": "npm:19.1.17"
+    "@types/react": "npm:^19.2.4"
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-native-web: "npm:^0.21.2"
     eslint: "npm:^8.33.0"
@@ -5735,7 +5735,7 @@ __metadata:
     "@ory/integrations": "npm:^0.2.6"
     "@sentry/nextjs": "npm:^8.36.0"
     "@types/locale": "npm:^0.1.4"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     "@types/react-dom": "npm:~19.1.7"
     "@types/react-transition-group": "npm:^4.4.11"
     babel-loader: "npm:^10.0.0"
@@ -12533,12 +12533,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:19.1.17, @types/react@npm:~19.1.10":
+"@types/react@npm:*":
   version: 19.1.17
   resolution: "@types/react@npm:19.1.17"
   dependencies:
     csstype: "npm:^3.0.2"
   checksum: 10c0/8a8369ea00fc961f0884be4d1da4a039b2b6445de9c8b690ed0ebe15acfb0b1f27005278fef1fe39a1722a30f4415778b790d0089e2b30019371c61355ea316f
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^19.2.4":
+  version: 19.2.4
+  resolution: "@types/react@npm:19.2.4"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/c878262c4bce047e53a44ef644088fce359ebdfdca7060a4ac1717c8362563b9506a7ebae145977836e95d5948b8f8b426dcd516044c3a3c0563a6f1b60408ce
   languageName: node
   linkType: hard
 
@@ -12950,17 +12959,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wdio/config@npm:7.33.0":
-  version: 7.33.0
-  resolution: "@wdio/config@npm:7.33.0"
+"@wdio/config@npm:7.40.0":
+  version: 7.40.0
+  resolution: "@wdio/config@npm:7.40.0"
   dependencies:
     "@types/glob": "npm:^8.1.0"
     "@wdio/logger": "npm:7.26.0"
-    "@wdio/types": "npm:7.33.0"
-    "@wdio/utils": "npm:7.33.0"
+    "@wdio/types": "npm:7.40.0"
+    "@wdio/utils": "npm:7.40.0"
     deepmerge: "npm:^4.0.0"
     glob: "npm:^8.0.3"
-  checksum: 10c0/9c4f34d51d91b9c8b77244f34134779928652fb428f0c1cef6be1f95610d9cf29138c98cdf8e798b42b7ed88acc1948e5cb5d014c4fb828ce3a87f31682dfd41
+  checksum: 10c0/cb8022f25a19ffb4f5f9b8cb0644f3ee862cfba759c91b09ad2111dbb2fc1762391d06d161744d1d2d50f5bc3e95a94075572838318d9b874a2f802c13806a21
   languageName: node
   linkType: hard
 
@@ -12983,18 +12992,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wdio/repl@npm:7.33.0":
-  version: 7.33.0
-  resolution: "@wdio/repl@npm:7.33.0"
+"@wdio/repl@npm:7.40.0":
+  version: 7.40.0
+  resolution: "@wdio/repl@npm:7.40.0"
   dependencies:
-    "@wdio/utils": "npm:7.33.0"
-  checksum: 10c0/fd0dad94467b354002a694961dfc216fd149d6506c04515edce586d78ff1b9af30c3743c53c558681f450408a29f1401a218a2e245d91dbd5d238c6fe4df1572
+    "@wdio/utils": "npm:7.40.0"
+  checksum: 10c0/c61d795df0f378a801d6baaaef49073b9b50e33d028cdbe9e3bc603c8f02e3ac8c3e90bcf4f6a6999e4ccc509e61df701fb3617baa1086bfaaab961cc09fe6e6
   languageName: node
   linkType: hard
 
-"@wdio/types@npm:7.33.0":
-  version: 7.33.0
-  resolution: "@wdio/types@npm:7.33.0"
+"@wdio/types@npm:7.40.0":
+  version: 7.40.0
+  resolution: "@wdio/types@npm:7.40.0"
   dependencies:
     "@types/node": "npm:^18.0.0"
     got: "npm:^11.8.1"
@@ -13003,18 +13012,18 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/6475c5c7bee0be220975e0557ff161824379437ab04a665dbf28cc613a7fb6ea20def1ea05070a7563901ed75b03f762a44c63be88fffc3f861d4e2f805da773
+  checksum: 10c0/f10697e732bb7677c36c97b779baae2812e84da8814f23a9e81bc7cb60f5ea89577e190065958ebe2522fb0cc3481838395cbaef08c9eb572bc8d475949b5a48
   languageName: node
   linkType: hard
 
-"@wdio/utils@npm:7.33.0":
-  version: 7.33.0
-  resolution: "@wdio/utils@npm:7.33.0"
+"@wdio/utils@npm:7.40.0":
+  version: 7.40.0
+  resolution: "@wdio/utils@npm:7.40.0"
   dependencies:
     "@wdio/logger": "npm:7.26.0"
-    "@wdio/types": "npm:7.33.0"
+    "@wdio/types": "npm:7.40.0"
     p-iteration: "npm:^1.1.8"
-  checksum: 10c0/4a320b8aa5e15b8f190576304e54e26e306666af340a8a8985d28e36a042154e70efeab35c96f2efa3a4579d7eec8d92962d131b5ec21ccc1141821d488a5650
+  checksum: 10c0/747fcd96ba1acda6c503e276c39ee802764f5b88f95354efb2fc4b051b144d40fd5a1a2c8b9bdead7795fbaa36935a122b1d369623d29e2ed89e9605218523ca
   languageName: node
   linkType: hard
 
@@ -15537,26 +15546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^12.0.0":
-  version: 12.2.0
-  resolution: "chromatic@npm:12.2.0"
-  peerDependencies:
-    "@chromatic-com/cypress": ^0.*.* || ^1.0.0
-    "@chromatic-com/playwright": ^0.*.* || ^1.0.0
-  peerDependenciesMeta:
-    "@chromatic-com/cypress":
-      optional: true
-    "@chromatic-com/playwright":
-      optional: true
-  bin:
-    chroma: dist/bin.js
-    chromatic: dist/bin.js
-    chromatic-cli: dist/bin.js
-  checksum: 10c0/c40c977c589fe03d788103281c3e000224049c65932f67293e9825faadccc654931f1b68ec442beb516d87449d00420d73e3984103b49faca42ead1c12867932
-  languageName: node
-  linkType: hard
-
-"chromatic@npm:^13.0.0":
+"chromatic@npm:^13.0.0, chromatic@npm:^13.3.3":
   version: 13.3.3
   resolution: "chromatic@npm:13.3.3"
   peerDependencies:
@@ -17156,24 +17146,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devtools@npm:7.35.0":
-  version: 7.35.0
-  resolution: "devtools@npm:7.35.0"
+"devtools@npm:7.40.0":
+  version: 7.40.0
+  resolution: "devtools@npm:7.40.0"
   dependencies:
     "@types/node": "npm:^18.0.0"
     "@types/ua-parser-js": "npm:^0.7.33"
-    "@wdio/config": "npm:7.33.0"
+    "@wdio/config": "npm:7.40.0"
     "@wdio/logger": "npm:7.26.0"
     "@wdio/protocols": "npm:7.27.0"
-    "@wdio/types": "npm:7.33.0"
-    "@wdio/utils": "npm:7.33.0"
+    "@wdio/types": "npm:7.40.0"
+    "@wdio/utils": "npm:7.40.0"
     chrome-launcher: "npm:^0.15.0"
     edge-paths: "npm:^2.1.0"
     puppeteer-core: "npm:13.1.3"
     query-selector-shadow-dom: "npm:^1.0.0"
     ua-parser-js: "npm:^1.0.1"
     uuid: "npm:^9.0.0"
-  checksum: 10c0/6de6c94804acf138cb84f31a49ef0215eecc3ecb92ab422aad4e5b6aa3bc1527f0b8e9516acb72d98632995c9036ad21ae95407009f88cb94c8216c938cd605a
+  checksum: 10c0/5ae97b3dcd9cff9b91447d63a62818c3ab2130581c54b594bf1a72301306c693e08dc28d9e7f62a2868b3549541ead6d1d44d9f45bc3ae7b71b410369275594e
   languageName: node
   linkType: hard
 
@@ -20761,7 +20751,7 @@ __metadata:
     "@storybook/test": "npm:^8.5.8"
     "@testing-library/react": "npm:^16.0.1"
     "@testing-library/react-native": "npm:^13.3.3"
-    "@types/react": "npm:~19.1.10"
+    "@types/react": "npm:^19.2.4"
     babel-loader: "npm:^8.2.3"
     babel-plugin-react-docgen-typescript: "npm:^1.5.1"
     babel-plugin-react-native-web: "npm:^0.21.2"
@@ -20795,7 +20785,7 @@ __metadata:
   resolution: "holi-frontends@workspace:."
   dependencies:
     "@biomejs/biome": "npm:1.9.4"
-    "@faker-js/faker": "npm:^8.1.0"
+    "@faker-js/faker": "npm:^10.0.0"
     "@graphql-codegen/cli": "npm:^6.0.1"
     "@graphql-codegen/typescript": "npm:^5.0.2"
     "@graphql-codegen/typescript-operations": "npm:^5.0.2"
@@ -27100,8 +27090,8 @@ __metadata:
   linkType: hard
 
 "posthog-react-native@npm:^4.10.1":
-  version: 4.10.8
-  resolution: "posthog-react-native@npm:4.10.8"
+  version: 4.11.0
+  resolution: "posthog-react-native@npm:4.11.0"
   dependencies:
     "@posthog/core": "npm:1.5.2"
   peerDependencies:
@@ -27140,7 +27130,7 @@ __metadata:
       optional: true
     react-native-safe-area-context:
       optional: true
-  checksum: 10c0/878fd63d3c3eeacd99f1ef66b129389447d2ddf72bbc81da3e8babd69664f1e4bb344950e578da7f90892894b718cbfe7d4bf9b99912e0c2ded8bced0d7666cd
+  checksum: 10c0/48aed11696ee8aea56074e4f1325e26aba3fe28d0c1ee0cad183c0e283bde0f71ec7b60d92916ed622af5db4810a1c6d159fe8684ef41c73cb4f26374e19f774
   languageName: node
   linkType: hard
 
@@ -29652,8 +29642,8 @@ __metadata:
   linkType: hard
 
 "sass@npm:^1.56.2":
-  version: 1.94.0
-  resolution: "sass@npm:1.94.0"
+  version: 1.94.1
+  resolution: "sass@npm:1.94.1"
   dependencies:
     "@parcel/watcher": "npm:^2.4.1"
     chokidar: "npm:^4.0.0"
@@ -29664,7 +29654,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 10c0/e32968180d4a98b4a6468920ce77ca0428c651dbdfe139572138dc0264d8329a93d652299b1d6ffce20db3d8a4981e497a4e5c3a5e0163d47db41b1e1d913123
+  checksum: 10c0/ab6170dc272245940a271e7b24bc87ef0b5c732ff3b2b4b4ac50d6e714bc19bcc4537c058596486d82fe3d96d69821189e4b49c663c8a59ba475dbeff0cb1cd1
   languageName: node
   linkType: hard
 
@@ -32748,12 +32738,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:11, uuid@npm:^11.0.5":
+"uuid@npm:11":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
     uuid: dist/esm/bin/uuid
   checksum: 10c0/34aa51b9874ae398c2b799c88a127701408cd581ee89ec3baa53509dd8728cbb25826f2a038f9465f8b7be446f0fbf11558862965b18d21c993684297628d4d3
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "uuid@npm:13.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10c0/950e4c18d57fef6c69675344f5700a08af21e26b9eff2bf2180427564297368c538ea11ac9fb2e6528b17fc3966a9fd2c5049361b0b63c7d654f3c550c9b3d67
   languageName: node
   linkType: hard
 
@@ -32995,40 +32994,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webdriver@npm:7.33.0":
-  version: 7.33.0
-  resolution: "webdriver@npm:7.33.0"
+"webdriver@npm:7.40.0":
+  version: 7.40.0
+  resolution: "webdriver@npm:7.40.0"
   dependencies:
     "@types/node": "npm:^18.0.0"
-    "@wdio/config": "npm:7.33.0"
+    "@wdio/config": "npm:7.40.0"
     "@wdio/logger": "npm:7.26.0"
     "@wdio/protocols": "npm:7.27.0"
-    "@wdio/types": "npm:7.33.0"
-    "@wdio/utils": "npm:7.33.0"
+    "@wdio/types": "npm:7.40.0"
+    "@wdio/utils": "npm:7.40.0"
     got: "npm:^11.0.2"
     ky: "npm:0.30.0"
     lodash.merge: "npm:^4.6.1"
-  checksum: 10c0/58d98223c1092a158e3b542c743d89dcedc441d66cb16a9ce4de9a0c45be9fbdd111de809f027176f078b766f7db1716d68ba6165a193fc3e8bb0e9748a5b27c
+  checksum: 10c0/b16bde301f473c3307b479345d6ee46abc54e290f4938ff7733ee31959de853012da052fa619e20e35840529adf5bd636d9b8610a201aecb3abd61f9f13d6692
   languageName: node
   linkType: hard
 
 "webdriverio@npm:^7.30.1":
-  version: 7.36.0
-  resolution: "webdriverio@npm:7.36.0"
+  version: 7.40.0
+  resolution: "webdriverio@npm:7.40.0"
   dependencies:
     "@types/aria-query": "npm:^5.0.0"
     "@types/node": "npm:^18.0.0"
-    "@wdio/config": "npm:7.33.0"
+    "@wdio/config": "npm:7.40.0"
     "@wdio/logger": "npm:7.26.0"
     "@wdio/protocols": "npm:7.27.0"
-    "@wdio/repl": "npm:7.33.0"
-    "@wdio/types": "npm:7.33.0"
-    "@wdio/utils": "npm:7.33.0"
+    "@wdio/repl": "npm:7.40.0"
+    "@wdio/types": "npm:7.40.0"
+    "@wdio/utils": "npm:7.40.0"
     archiver: "npm:^5.0.0"
     aria-query: "npm:^5.2.1"
     css-shorthand-properties: "npm:^1.1.1"
     css-value: "npm:^0.0.1"
-    devtools: "npm:7.35.0"
+    devtools: "npm:7.40.0"
     devtools-protocol: "npm:^0.0.1260888"
     fs-extra: "npm:^11.1.1"
     grapheme-splitter: "npm:^1.0.2"
@@ -33042,8 +33041,8 @@ __metadata:
     resq: "npm:^1.9.1"
     rgb2hex: "npm:0.2.5"
     serialize-error: "npm:^8.0.0"
-    webdriver: "npm:7.33.0"
-  checksum: 10c0/3fcfd2e35ab4ae2c2d6be57d15dc0e76aeedb8c0300af43605891c24094ff5d2448d8b90308396209c021e997ae7446821ee480cd4b20938a781f403b355936e
+    webdriver: "npm:7.40.0"
+  checksum: 10c0/ad9b09ffcd43d903e5b3cac18cff348cc99488177f7ccc3a1e9c0c6cae345c6675e3461fa265e14cbde1c6729ea57657e263cd7b7b345860b9a8f5ed106ab7c6
   languageName: node
   linkType: hard
 
