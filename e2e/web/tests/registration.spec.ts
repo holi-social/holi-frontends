@@ -63,7 +63,7 @@ const fillOutRegistration = async (
   await page.goto('/onboarding')
 
   await page.getByRole('button', { name: "Let's go" }).click()
-  await page.getByRole('button', { name: 'Use password' }).click()
+  await page.getByRole('button', { name: 'Continue with password' }).click()
 
   await page.getByRole('textbox', { name: 'Email' }).fill(email)
   await page.getByRole('textbox', { name: 'Password' }).fill(password)
