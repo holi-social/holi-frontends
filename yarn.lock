@@ -27090,8 +27090,8 @@ __metadata:
   linkType: hard
 
 "posthog-react-native@npm:^4.10.1":
-  version: 4.10.8
-  resolution: "posthog-react-native@npm:4.10.8"
+  version: 4.11.0
+  resolution: "posthog-react-native@npm:4.11.0"
   dependencies:
     "@posthog/core": "npm:1.5.2"
   peerDependencies:
@@ -27130,7 +27130,7 @@ __metadata:
       optional: true
     react-native-safe-area-context:
       optional: true
-  checksum: 10c0/878fd63d3c3eeacd99f1ef66b129389447d2ddf72bbc81da3e8babd69664f1e4bb344950e578da7f90892894b718cbfe7d4bf9b99912e0c2ded8bced0d7666cd
+  checksum: 10c0/48aed11696ee8aea56074e4f1325e26aba3fe28d0c1ee0cad183c0e283bde0f71ec7b60d92916ed622af5db4810a1c6d159fe8684ef41c73cb4f26374e19f774
   languageName: node
   linkType: hard
 
