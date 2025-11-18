@@ -92,22 +92,30 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           footerShown: false,
         },
       }}
-      StickyBottomComponent={
-        <Stack padding={{ bottom: 'sm' }} gap="xs" backgroundColor="main">
+      contentContainerStyle={{ flex: 1 }}
+    >
+      <Stack flex={1}>
+        <Stack flex={1}>
+          <AuthenticationSelection
+            flowId={flowId}
+            initialSelection={initialSelection}
+            resetFlowId={resetFlowId}
+            onRegister={onRegister}
+          />
+        </Stack>
+        <Stack
+          padding={{ bottom: 'sm' }}
+          gap="xs"
+          backgroundColor="main"
+          // Workaround for footer being cut-off on Android, possibly due to edge-to-edge
+          margin={Platform.OS === 'android' ? { bottom: 'md' } : undefined}
+        >
           <HoliDivider />
           <HoliContainer>
             <DocumentsFooter />
           </HoliContainer>
         </Stack>
-      }
-      contentContainerStyle={{ flex: 0 }}
-    >
-      <AuthenticationSelection
-        flowId={flowId}
-        initialSelection={initialSelection}
-        resetFlowId={resetFlowId}
-        onRegister={onRegister}
-      />
+      </Stack>
     </Screen>
   )
 }
