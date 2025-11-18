@@ -1,8 +1,8 @@
 import { getOnboardingUserDataAsyncStore } from '@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore'
 import { useUserData } from '@holi/core/screens/onboarding/hooks/useUserData'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
-import { renderHook } from '@testing-library/react-hooks'
-import { waitFor } from 'expo-router/testing-library'
+import { renderHook } from '@testing-library/react-native'
+import { waitFor } from '@testing-library/react-native'
 
 const mockGetOnboardingUserDataAsyncStore = getOnboardingUserDataAsyncStore as jest.Mock
 jest.mock('@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore', () => {

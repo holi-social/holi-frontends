@@ -1,9 +1,9 @@
 # Production image, copy all the files and run next
-FROM europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/node:22-slim
+FROM europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/node:24-slim
 
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 COPY ./next.config.js ./
 COPY ./public ./public
@@ -31,12 +31,12 @@ USER node
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # This can be used to enable CPU profiling
 # CMD [ "sh", "-c", "echo Staring && node --cpu-prof --cpu-prof-dir=/mount/main --require=./server-preload.js server.js"]

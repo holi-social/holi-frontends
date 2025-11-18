@@ -11,8 +11,8 @@ import { Platform, View } from 'react-native'
 import { Trackable, type TrackableBaseProps } from '@holi/core/components/Trackable'
 import { Spacing } from 'holi-bricks/foundations'
 
-export const HIT_HEIGHT = 65
-export const HIT_HEIGHT_PROFILE = 48
+const HIT_HEIGHT = 65
+const HIT_HEIGHT_PROFILE = 48
 
 export interface SearchHitProps extends TrackableBaseProps {
   hit: TypesenseDocument

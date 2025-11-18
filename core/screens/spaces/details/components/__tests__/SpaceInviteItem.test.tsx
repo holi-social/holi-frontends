@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing/react'
-import { act, renderRouter, screen } from 'expo-router/testing-library'
+import { act, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 import { pagedInvites, space } from '@holi/core/screens/spaces/__tests__/testData'

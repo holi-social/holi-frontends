@@ -8,7 +8,7 @@ import HoliHead from '@holi/core/components/HoliHead'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
 import { Text } from 'holi-bricks/components/text'
@@ -87,7 +87,7 @@ const PostDetailsPage = () => {
     variables: { idOrSlug },
   })
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/feed-posts/${post?.slug}`,
     linkType: LinkType.UNIVERSAL,
     message: post?.title ?? '',

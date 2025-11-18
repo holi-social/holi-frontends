@@ -1,6 +1,7 @@
 import { useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import React from 'react'
 
 const mockUseDocumentModal = useDocumentModal as jest.Mock
@@ -36,7 +37,7 @@ describe('DocumentsFooter', () => {
     const links = screen.getAllByRole('link')
     expect(links).toHaveLength(3)
 
-    expect(links[2]).toHaveTextContent('imprint')
+    expect(links[2]).toHaveTextContent(/imprint/)
   })
 
   const documentsInOrder = ['privacyPolicy', 'termsOfUse', 'imprint']

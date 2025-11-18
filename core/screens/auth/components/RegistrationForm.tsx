@@ -31,11 +31,12 @@ import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import { Key2, Mail } from '@holi/icons/src/generated'
+import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { getFormNodesByStep } from '@holi/core/screens/auth/helpers/authenticationStep'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { ChangeEmailButton } from '@holi/core/screens/auth/components/ChangeEmailButton'
-import type { AuthenticationStep } from '@holi/core/screens/auth/helpers/authenticationStep'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const logger = getLogger('Auth')
 
@@ -63,7 +64,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
   const handleMessage = useCallback(
     (messageId: number) => {
       // Not displaying info message that an OTP code was sent via e-mail, as it's displayed using text on the screen instead.
-      if (messageId === 1040005) {
+      if (messageId === OryErrorCode.CODE_SENT_REGISTRATION) {
         if (step === 'email-code') {
           setStep('code')
         }
@@ -137,14 +138,18 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
         if (
           (
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
-          )?.response?.data?.ui?.messages?.find((message) => message.id && [4000007, 4010003].includes(message.id))
+          )?.response?.data?.ui?.messages?.find(
+            (message) =>
+              message.id &&
+              [OryErrorCode.ACCOUNT_ALREADY_EXISTS, OryErrorCode.INVALID_REGISTRATION_STRATEGY].includes(message.id)
+          )
         ) {
           displayError(err, 'Failed to submit registration form as e-mail is already used', {
             displayMessage: t('auth.login.message.1010016'),
             location: 'RegistrationForm.onSubmit',
           })
           initializeFlow()?.then(() => {
-            setStep('oidc')
+            setStep('start')
           })
           return
         }
@@ -219,7 +224,7 @@ export const RegistrationForm = ({ onRegister, startedFlowId, step, setStep }: R
         handleMessage={handleMessage}
       />
 
-      {!isLoaderShown && step === 'oidc' && (
+      {!isLoaderShown && step === 'start' && (
         <>
           <View style={styles.dividerContainer}>
             <View style={styles.divider}>

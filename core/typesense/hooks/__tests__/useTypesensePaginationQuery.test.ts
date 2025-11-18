@@ -1,5 +1,5 @@
 import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import { renderHook } from 'expo-router/testing-library'
+import { renderHook } from '@testing-library/react-native'
 import {
   useTypesensePaginationMultiQuery,
   type UseTypesensePaginationMultiQueryHook,

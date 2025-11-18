@@ -1,4 +1,5 @@
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
@@ -31,6 +32,17 @@ describe('HoliTextLink', () => {
   it('should navigate on press if no onPress is given', () => {
     const context = renderRouter({
       index: () => <HoliTextLink label="test" href="/spaces" size="md" />,
+      spaces: () => <Text>Spaces</Text>,
+    })
+
+    fireEvent.press(screen.getByRole('link'))
+
+    expect(context).toHavePathname('/spaces')
+  })
+
+  it('should replace route on press if no onPress is given', () => {
+    const context = renderRouter({
+      index: () => <HoliTextLink label="test" href="/spaces" size="md" replace />,
       spaces: () => <Text>Spaces</Text>,
     })
 

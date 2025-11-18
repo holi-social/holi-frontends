@@ -274,7 +274,6 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -440,7 +439,6 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -752,7 +750,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -918,7 +915,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     },
                   ]
                 }
-                tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
                 width={16}
@@ -956,7 +952,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
       accessibilityLabel="spaces.collaborators.permissions.label"
       accessibilityViewIsModal={true}
       animationType="none"
-      hardwareAccelerated={false}
       onRequestClose={[Function]}
       testID="space-collaborators-permissions-modal"
       transparent={true}
@@ -1096,7 +1091,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           >
             <View
               collapsable={false}
-              handlerTag={1}
+              handlerTag={-1}
               handlerType="PanGestureHandler"
               onGestureHandlerEvent={[Function]}
               onGestureHandlerStateChange={[Function]}
@@ -1396,7 +1391,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                               },
                             ]
                           }
-                          tintColor="#86df54"
                           vbHeight={24}
                           vbWidth={24}
                           width={24}
@@ -1529,7 +1523,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                               },
                             ]
                           }
-                          tintColor="#cc1820"
                           vbHeight={24}
                           vbWidth={24}
                           width={24}
@@ -1699,7 +1692,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                               },
                             ]
                           }
-                          tintColor="#262424"
                           vbHeight={24}
                           vbWidth={24}
                           width={24}
@@ -1868,7 +1860,6 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                               },
                             ]
                           }
-                          tintColor="#262424"
                           vbHeight={24}
                           vbWidth={24}
                           width={24}

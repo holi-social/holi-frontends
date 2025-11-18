@@ -9,12 +9,16 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
-import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
+import type { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import { setCurrentRouteInfo, resetCurrentRouteInfo } from '@holi/core/navigation/hooks/useCurrentRoute'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
+
+jest.mock('expo-task-manager', () => {
+  return { defineTask: jest.fn() }
+})
 
 // prevent matrix-sdk-internal logging noise
 console.debug = jest.fn()
@@ -101,6 +105,8 @@ describe('initNotifications', () => {
     expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
     expect(mockGetStorage).toHaveBeenCalledTimes(0)
     expect(mockWriteStorage).toHaveBeenCalledTimes(0)
+
+    mockIsDevice.mockReset()
   })
 
   it('should not request permission if already granted', async () => {
@@ -166,6 +172,7 @@ describe('initNotifications', () => {
           // @ts-ignore locally triggered this can be null, so the type is wrong
           trigger: null,
           content: {
+            categoryIdentifier: null,
             title: 'some test title',
             data: {},
             body: 'some test body',
@@ -177,7 +184,8 @@ describe('initNotifications', () => {
       }
       const emptyCallResult = await handleNotificationCallback(locallyTriggeredNotification)
       expect(emptyCallResult).toEqual({
-        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
       })
@@ -197,7 +205,8 @@ describe('initNotifications', () => {
           handleNotificationForRemoteInvitationTriggerAndroidMock
         )
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -214,7 +223,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerAndroidMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -242,7 +252,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerAndroidMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -262,7 +273,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerAndroidMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -281,7 +293,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForRemoteMessageTriggerIosMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -309,7 +322,8 @@ describe('initNotifications', () => {
 
         const emptyCallResult = await handleNotificationCallback(handleNotificationForBadgeUpdateTriggerIosMock)
         expect(emptyCallResult).toEqual({
-          shouldShowAlert: false,
+          shouldShowBanner: false,
+          shouldShowList: false,
           shouldPlaySound: false,
           shouldSetBadge: false,
         })
@@ -327,7 +341,8 @@ describe('initNotifications', () => {
 
       const emptyCallResult = await handleNotificationCallback(handleNotificationForLocalTriggerMock)
       expect(emptyCallResult).toEqual({
-        shouldShowAlert: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
       })

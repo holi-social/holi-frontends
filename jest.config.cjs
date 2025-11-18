@@ -29,9 +29,9 @@ module.exports = {
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client|immer|p-retry|is-network-error|matrix-js-sdk)',
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client|@shopify/flash-list|immer|@faker-js|uuid|p-retry|is-network-error)',
   ],
-  resetMocks: true,
+  clearMocks: true,
   coverageReporters: ['text-summary', 'lcov'],
   collectCoverageFrom: [
     'apps/**/*.{js,jsx,ts,tsx}',

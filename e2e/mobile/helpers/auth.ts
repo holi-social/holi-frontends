@@ -17,18 +17,13 @@ type AuthProps = {
   password?: string
 }
 
-type RegistrationProps = {
-  userData?: boolean
-  skipAccountSetup?: boolean
-}
-
 export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 
-export const testIdContinueAsGuest = 'onboarding-account-creation-btn-continue-as-guest'
+export const testIdContinueAsGuest = 'nav-button-back'
 
-export const registerNewUser = async (props?: RegistrationProps): Promise<string> => {
-  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
-  await register({ email, password: defaultPassword, ...props })
+export const registerNewUser = async (): Promise<string> => {
+  const email = `${faker.internet.username()}${faker.string.numeric(4)}@e2etest.com`
+  await register({ email, password: defaultPassword })
   return email
 }
 
@@ -38,9 +33,9 @@ export const loginNewUser = async (email: string) => {
 
 export const continueAsGuest = async () => {
   if (await checkIfElementWithTestIdExists('btn-to-onboarding')) {
-    // Skip through all onboarding steps and continue as guet
-    await skipOnboardingSteps()
-    await tapOnElementWithTestId(testIdContinueAsGuest)
+    await tapOnElementWithTestId('btn-to-onboarding')
+    // Skip onboarding by closing the modal
+    await tapOnElementWithTestId('nav-button-back')
     // User will land on home screen after onboarding
   }
 
@@ -63,16 +58,18 @@ export const login = async (
     await tapOnElementWithTestId('anonymous-profile-login-btn')
   }
 
+  await tapOnElementWithTestId('btn-to-email-password-form')
+
   // Fill out login form
-  await waitForElementWithTestId('ory-identifier-input')
-  await fillFieldByTestId('ory-identifier-input', email)
-  await fillFieldByTestId('ory-password-input', password)
+  await waitForElementWithTestId('email-input')
+  await fillFieldByTestId('email-input', email)
+  await fillFieldByTestId('password-input', password)
 
   // Close the keyboard by clicking on the header
   await tapOnElementWithTestId('heading')
 
   // Submit the form
-  await tapOnElementWithTestId('ory-submit-password')
+  await tapOnElementWithTestId('submit-password')
 
   if (expectHomeScreen) {
     await waitForHomeScreen()
@@ -82,16 +79,9 @@ export const login = async (
 export const register = async ({
   email = process.env.E2E_USER_USERNAME || 'empty',
   password = process.env.E2E_USER_PASSWORD || 'empty',
-  userData,
-  skipAccountSetup,
-}: AuthProps & { userData?: boolean; skipAccountSetup?: boolean } = {}) => {
+}: AuthProps = {}) => {
   if (await checkIfElementWithTestIdExists('btn-to-onboarding', 1000)) {
-    // Pass through onboarding
-    if (userData) {
-      await fillOutOnboarding()
-    } else {
-      await skipOnboardingSteps()
-    }
+    await fillOutOnboarding()
   } else {
     // Register from anonymous profile screen
     await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
@@ -109,11 +99,6 @@ export const register = async ({
 
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
-
-  // Finish account setup
-  if (!skipAccountSetup) {
-    await finishAccountSetup()
-  }
 }
 
 export const finishAccountSetup = async ({
@@ -139,26 +124,11 @@ export const finishAccountSetup = async ({
   delayMs(10000)
 }
 
-const skipOnboardingSteps = async () => {
-  // Skip through all onboarding steps
-  const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
-  await tapOnElement(onboardingButton)
-  // Wait for each screen to prevent pressing the same button twice
-  await waitForElementWithTestId('onboarding-location-selection')
-  await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-  await waitForElementWithTestId('onboarding-interests-selection')
-  await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-  await waitForElementWithTestId('onboarding-skills-selection')
-  await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-  await waitForElementWithTestId('onboarding-account-creation')
-}
-
 const fillOutOnboarding = async () => {
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
 
-  // Simplified onboarding flow - just navigate to account creation
-  await waitForElementWithTestId('onboarding-account-creation')
+  await waitForElementWithTestId('btn-to-email-password-form')
 }
 
 const logoutOrDelete = async (fn: () => Promise<void>, skipNavigationToHome = false) => {

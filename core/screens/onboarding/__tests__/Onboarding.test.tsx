@@ -8,7 +8,8 @@ import {
 import { useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { renderRouter, screen } from 'expo-router/testing-library'
+import { renderRouter } from 'expo-router/testing-library'
+import { screen } from '@testing-library/react-native'
 import type React from 'react'
 
 jest.useFakeTimers()

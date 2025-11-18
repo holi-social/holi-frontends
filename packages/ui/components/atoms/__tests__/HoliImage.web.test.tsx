@@ -1,9 +1,9 @@
-import { render, screen } from 'expo-router/testing-library'
 import React from 'react'
 import { Platform } from 'react-native'
+import { render, screen } from '@testing-library/react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage/index.web'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
+import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 const allSources = [
   { uri: 'http://placekitten.com/320/213', width: 320, height: 213 },

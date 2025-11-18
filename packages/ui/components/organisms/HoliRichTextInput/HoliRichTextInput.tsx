@@ -1,19 +1,25 @@
 import { useLazyQuery } from '@apollo/client/react'
-import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type React from 'react'
+import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  NativeSyntheticEvent,
-  StyleProp,
+  type BlurEvent,
+  type FocusEvent,
+  type StyleProp,
   StyleSheet,
-  TextInput,
-  TextInputFocusEventData,
+  type TextInput,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native'
-import { LayoutChangeEvent } from 'react-native'
-import { MentionInput, MentionSuggestionsProps, PartType, Suggestion } from 'react-native-controlled-mentions'
+import type { LayoutChangeEvent } from 'react-native'
+import {
+  MentionInput,
+  type MentionSuggestionsProps,
+  type PartType,
+  type Suggestion,
+} from 'react-native-controlled-mentions'
 
-import { UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import { type UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
+import type { User } from '@holi/core/domain/shared/types'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -22,7 +28,7 @@ import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRich
 import { transformStringWithMentions } from '@holi/ui/components/organisms/HoliRichTextInput/helper/transformStringWithMentions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliRichTextInputProps = {
   initialValue?: string
@@ -32,8 +38,8 @@ export type HoliRichTextInputProps = {
   maxSuggestionOptions?: number
   debounceDelay?: number
   onChange?: (text: string) => void
-  onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
-  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
+  onFocus?: (e: FocusEvent) => void
+  onBlur?: (e: BlurEvent) => void
   onSelectSuggestion?: (suggestion: User) => void
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
@@ -167,7 +173,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
 
   const onInputChange = useCallback(
     (text: string) => {
-      const maxChars = props.maxNoOfCharacters || Infinity
+      const maxChars = props.maxNoOfCharacters || Number.POSITIVE_INFINITY
       const currentCharacterCount = text.length
 
       // Check if the new input is within the character limit

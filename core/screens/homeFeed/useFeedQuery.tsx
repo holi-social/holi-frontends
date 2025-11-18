@@ -134,7 +134,7 @@ export const useFeedQuery = () => {
           if (!fetchMoreResult?.feed?.data) return prev
 
           const existingIds = new Set(
-            prev.feed.data.map((post: FeedItem) => post.feedPost?.id || post.spacePost?.id || post.post?.id)
+            prev?.feed?.data.map((post: FeedItem) => post.feedPost?.id || post.spacePost?.id || post.post?.id)
           )
 
           const newPosts = fetchMoreResult.feed.data.filter((newItem: FeedItem) => {
@@ -144,8 +144,8 @@ export const useFeedQuery = () => {
 
           return {
             feed: {
-              ...prev.feed,
-              data: [...prev.feed.data, ...newPosts],
+              ...(prev?.feed ?? fetchMoreResult.feed),
+              data: [...(prev?.feed?.data ?? []), ...newPosts],
             },
           }
         },

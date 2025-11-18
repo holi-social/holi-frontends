@@ -58,7 +58,7 @@ export const useNamesSelection = ({ user }: UseNamesSelectionOptions) => {
       setFieldErrors(translateFieldErrors(fieldErrors))
     }
   }
-  const namesScrollViewRef = useRef<ScrollView>(null)
+  const namesScrollViewRef = useRef(null as unknown as ScrollView)
   const scrollToNamesInputWithId = useScrollToInputOnFocus(namesScrollViewRef)
 
   const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesSelectionData) =>

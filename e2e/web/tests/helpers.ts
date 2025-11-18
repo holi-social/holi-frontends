@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Browser, type Locator, type Page, expect } from '@playwright/test'
+import { type Browser, expect, type Locator, type Page } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
@@ -46,7 +46,7 @@ export const login = async (page: Page, email: string, password: string) => {
   await page.context().clearCookies()
 
   await page.goto('/login')
-  await page.getByRole('button', { name: 'Continue with email and password' }).click()
+  await page.getByRole('button', { name: 'Use password' }).click()
 
   await page.getByRole('textbox', { name: 'Email' }).fill(email)
   await page.getByRole('textbox', { name: 'Password' }).fill(password)

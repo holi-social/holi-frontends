@@ -1,13 +1,14 @@
 import React from 'react'
+import '@holi/core/components/Screen/mock'
 import { Authentication, type AuthenticationProps } from '@holi/core/screens/auth/Authentication'
-import { render, screen, userEvent } from '@testing-library/react-native'
-import { renderRouter } from 'expo-router/testing-library'
+import { renderRouter, screen, userEvent, waitFor } from 'expo-router/testing-library'
 import { Button } from 'holi-bricks/components/button'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import HeaderAnimated from '@holi/core/components/HeaderAnimated/index.web'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
+import { Text } from 'holi-bricks/components/text'
 
 jest.mock('@holi/core/helpers/useLogout')
 
@@ -25,10 +26,10 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 
 jest.useFakeTimers()
 
-const AuthenticationSelection = ({ onLogin, onRegister }: AuthenticationProps) => {
+const AuthenticationSelection = ({ onRegister }: AuthenticationProps) => {
   return (
     <>
-      <Button onPress={onLogin} label="login-button" />
+      <Button label="login-button" />
       <Button onPress={onRegister} label="register-button" />
     </>
   )
@@ -49,22 +50,11 @@ describe('Authentication', () => {
     })
   })
 
-  it('should render and authentication selection', () => {
+  it('should render authentication selection', () => {
     renderRouter({ index: () => <Authentication initialSelection="login" /> })
 
     expect(screen.getByLabelText('login-button'))
     expect(screen.getByLabelText('register-button'))
-  })
-
-  it('should call onLogin callback on login', async () => {
-    const onLogin = jest.fn()
-    const user = userEvent.setup()
-
-    renderRouter({ index: () => <Authentication initialSelection="login" onLogin={onLogin} /> })
-
-    await user.press(screen.getByLabelText('login-button'))
-
-    expect(onLogin).toHaveBeenCalled()
   })
 
   it('should call register callback on register', async () => {
@@ -116,8 +106,14 @@ describe('Authentication', () => {
       state: 'loggedIn',
     })
 
-    render(<Authentication initialSelection="login" onLogin={jest.fn()} />)
+    const context = renderRouter(
+      { login: () => <Authentication initialSelection="login" />, index: () => <Text size="md">Home</Text> },
+      { initialUrl: 'login' }
+    )
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
+
+    // Expect navigation to home page
+    await waitFor(() => expect(context.getPathname()).toEqual('/'))
   })
 })

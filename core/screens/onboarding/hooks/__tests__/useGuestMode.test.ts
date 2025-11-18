@@ -1,6 +1,6 @@
 import { getGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
-import { act, renderHook } from 'expo-router/testing-library'
+import { act, renderHook } from '@testing-library/react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 const mockGetGuestMode = getGuestMode as jest.Mock

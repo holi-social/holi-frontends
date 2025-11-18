@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen, userEvent } from 'expo-router/testing-library'
+import { render, screen, userEvent } from '@testing-library/react-native'
+
 import { VolunteeringFilterRow } from '@holi-apps/volunteering/components/VolunteeringFilterRow'
 import { emptyFilters, fullFilters, testLocation } from '@holi-apps/volunteering/__tests__/testData'
 import { useFilterFacetCounts } from '@holi-apps/volunteering/hooks/useFilterFacetCounts'
@@ -62,12 +63,12 @@ describe('VolunteeringFilterRow', () => {
     render(<VolunteeringFilterRow filters={emptyFilters} onSubmit={jest.fn()} clearFilters={jest.fn()} />)
 
     const filters = screen.getAllByRole('switch')
-    expect(filters[0]).toHaveTextContent('remote')
-    expect(filters[1]).toHaveTextContent('location')
-    expect(filters[2]).toHaveTextContent('topics')
-    expect(filters[3]).toHaveTextContent('commitmentDurations')
-    expect(filters[4]).toHaveTextContent('commitmentLabels')
-    expect(filters[5]).toHaveTextContent('skills')
+    expect(filters[0]).toHaveTextContent(/remote/)
+    expect(filters[1]).toHaveTextContent(/location/)
+    expect(filters[2]).toHaveTextContent(/topics/)
+    expect(filters[3]).toHaveTextContent(/commitmentDurations/)
+    expect(filters[4]).toHaveTextContent(/commitmentLabels/)
+    expect(filters[5]).toHaveTextContent(/skills/)
   })
 
   it('should use correct label for unselected filters', () => {
@@ -94,12 +95,12 @@ describe('VolunteeringFilterRow', () => {
     )
 
     const filters = screen.getAllByRole('switch')
-    expect(filters[0]).toHaveTextContent('topic')
-    expect(filters[1]).toHaveTextContent('commitment_label')
-    expect(filters[2]).toHaveTextContent('remote')
-    expect(filters[3]).toHaveTextContent('location')
-    expect(filters[4]).toHaveTextContent('commitmentDurations')
-    expect(filters[5]).toHaveTextContent('skills')
+    expect(filters[0]).toHaveTextContent(/topic/)
+    expect(filters[1]).toHaveTextContent(/commitment_label/)
+    expect(filters[2]).toHaveTextContent(/remote/)
+    expect(filters[3]).toHaveTextContent(/location/)
+    expect(filters[4]).toHaveTextContent(/commitmentDurations/)
+    expect(filters[5]).toHaveTextContent(/skills/)
   })
 
   it('should use correct label for selected filters', () => {

@@ -227,7 +227,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -539,7 +538,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={20}
@@ -699,7 +697,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={20}
@@ -1469,7 +1466,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -1781,7 +1777,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                     },
                   ]
                 }
-                tintColor="#fff"
                 vbHeight={24}
                 vbWidth={24}
                 width={20}
@@ -2649,7 +2644,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -2922,7 +2916,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -4023,7 +4016,6 @@ exports[`SingleSelect correctly filters options 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={16}
@@ -4170,7 +4162,6 @@ exports[`SingleSelect correctly filters options 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -5247,7 +5238,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -5488,7 +5478,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}
@@ -5730,7 +5719,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                         },
                       ]
                     }
-                    tintColor="#262424"
                     vbHeight={24}
                     vbWidth={24}
                     width={22}

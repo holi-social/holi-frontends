@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 
@@ -94,9 +94,9 @@ describe('renders correctly', () => {
 
     expect(screen.getAllByTestId('user-card')).toHaveLength(users.length)
 
-    expect(screen.getAllByTestId('user-card')[0]).toHaveTextContent('Dima Rosmait')
+    expect(screen.getAllByTestId('user-card')[0]).toHaveTextContent(/Dima Rosmait/)
     expect(screen.getAllByTestId('user-card')[0]).toHaveTextContent(
-      'Lorem ipsum dolor sit amet, consectetur adipisici elit.'
+      /Lorem ipsum dolor sit amet, consectetur adipisici elit./
     )
   })
 })

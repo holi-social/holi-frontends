@@ -1,4 +1,4 @@
-import { getInfoAsync } from 'expo-file-system'
+import { getInfoAsync } from 'expo-file-system/legacy'
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
   type ImagePickerAsset,

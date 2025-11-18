@@ -118,7 +118,6 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
               },
             ]
           }
-          tintColor="#fff"
           vbHeight={24}
           vbWidth={24}
           width={20}
@@ -307,7 +306,6 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
               },
             ]
           }
-          tintColor="#fff"
           vbHeight={24}
           vbWidth={24}
           width={20}

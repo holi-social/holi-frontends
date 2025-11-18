@@ -6,12 +6,12 @@ import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/
 import { waitForHomeScreen } from '@holi/e2e-mobile/helpers/navigation'
 
 describe('@RegistrationJourney', () => {
-  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.username()}${faker.string.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
   it('validates Email and password fields', async () => {
     // no password and no email
-    await register({ email: '', password: '', skipAccountSetup: true })
+    await register({ email: '', password: '' })
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
     await waitForElementWithTestId('ory-password-input-error-message')
@@ -19,19 +19,19 @@ describe('@RegistrationJourney', () => {
     await tapOnElementWithTestId(testIdContinueAsGuest)
 
     // invalid email provided
-    await register({ email: '', password, skipAccountSetup: true })
+    await register({ email: '', password })
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
     await tapOnElementWithTestId(testIdContinueAsGuest)
 
     // short password provided
-    await register({ email, password: 'Sh0rt', skipAccountSetup: true })
+    await register({ email, password: 'Sh0rt' })
     await waitForElementWithTestId('ory-password-input-error-message')
 
     await tapOnElementWithTestId(testIdContinueAsGuest)
 
     // weak password provided
-    await register({ email, password: '11111111', skipAccountSetup: true })
+    await register({ email, password: '11111111' })
     await waitForElementWithTestId('ory-password-input-error-message')
 
     await tapOnElementWithTestId(testIdContinueAsGuest)
@@ -39,7 +39,7 @@ describe('@RegistrationJourney', () => {
 
   it('performs full onboarding', async () => {
     // Register with simplified onboarding flow
-    await registerNewUser({ userData: true })
+    await registerNewUser()
 
     // Expect being redirected to home feed
     await waitForHomeScreen()

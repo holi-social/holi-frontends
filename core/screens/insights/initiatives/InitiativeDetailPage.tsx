@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { LinkType, useShareLink } from '@holi/core/navigation/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -66,7 +66,7 @@ const InitiativeDetailPage = () => {
 
   const initiative = insightById?.initiative
 
-  const [, shareLink] = useShareLink({
+  const shareLink = useShareLink({
     link: `/insights/${insightId}/initiatives/${initiativeId}`,
     linkType: LinkType.UNIVERSAL,
     message: `${t('insights.initiatives.share.message', {

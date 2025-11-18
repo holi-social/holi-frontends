@@ -83,7 +83,6 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
             },
           ]
         }
-        tintColor="#787777"
         vbHeight={24}
         vbWidth={24}
         width={24}
@@ -227,7 +226,6 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
             },
           ]
         }
-        tintColor="#787777"
         vbHeight={24}
         vbWidth={24}
         width={24}

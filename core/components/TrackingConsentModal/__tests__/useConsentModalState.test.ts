@@ -1,6 +1,6 @@
 import { useConsentModalState } from '@holi/core/components/TrackingConsentModal/useConsentModalState'
 import { Consent, TrackingPurpose } from '@holi/core/tracking/types'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-native'
 import { updateConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { useAnonCount } from '@holi/core/domain/shared/hooks'
 
