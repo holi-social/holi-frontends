@@ -30,7 +30,7 @@ test.describe('@ChangePassword', () => {
     await page.getByRole('button', { name: 'Change password' }).click()
 
     await expect(page.getByTestId('new-password-input-error-message')).toHaveText(
-      /The password must be at least 8 characters long/
+      /Use at least 8 characters, feel free to use more!/
     )
 
     // FIXME: Re-Enable after ORY is fixed

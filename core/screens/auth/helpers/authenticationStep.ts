@@ -1,10 +1,11 @@
 import type { NodeType } from '@holi/core/auth/components/FormBuilder'
 
-export type AuthenticationStep = 'oidc' | 'code' | 'email-code' | 'email-password'
+// TODO(SF) email-code only to keep current behaviour of registration
+export type AuthenticationStep = 'start' | 'code' | 'email-password' | 'email-code'
 
 export const getFormNodesByStep = (step: AuthenticationStep): NodeType[] => {
   switch (step) {
-    case 'oidc':
+    case 'start':
       return ['oidc']
     case 'email-password':
       return ['email', 'password']

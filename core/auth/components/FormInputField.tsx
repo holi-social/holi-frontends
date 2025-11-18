@@ -1,15 +1,15 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Input.tsx
 import type { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import type { UseTranslationResponse } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import type {
   NativeSyntheticEvent,
   StyleProp,
   TextInputKeyPressEventData,
   TextInputProps,
-  View,
   TextStyle,
+  View,
   ViewStyle,
 } from 'react-native'
 
@@ -17,6 +17,7 @@ import { getNodeId, getNodeTranslationKey, oryNodeIsInput } from '@holi/core/aut
 import type { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 import { getLogger } from '@holi/core/helpers/logging'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,12 +40,6 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
   style?: StyleProp<TextStyle>
 }
 
-// https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
-enum OryErrorCode {
-  EMAIL_OR_PASSWORD_WRONG = 4000001,
-  EMAIL_OR_PASSWORD_MISSING = 4000002,
-  INVALID_PASSWORD = 4000005,
-}
 const ORY_SIGNIN_NODE_ID = 1070001
 
 const logger = getLogger('Auth')
@@ -68,10 +63,7 @@ export const getValidationErrorText = (
   const messageKey = `auth.login.input.message.${id}`
 
   // if email or password are missing
-  if (
-    'type' in attributes &&
-    (id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING || id === OryErrorCode.EMAIL_OR_PASSWORD_WRONG)
-  ) {
+  if ('type' in attributes && (id === OryErrorCode.PROPERTY_MISSING || id === OryErrorCode.PROPERTY_ERROR)) {
     const { name } = attributes as { name: string }
     // `identifier` or `traits.email` is used for email field
     const emailNames = ['identifier', 'traits.email', 'email']

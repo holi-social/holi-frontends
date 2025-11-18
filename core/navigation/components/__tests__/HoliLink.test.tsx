@@ -1,5 +1,5 @@
 import { renderRouter } from 'expo-router/testing-library'
-import { screen, fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import type Link from 'next/link'
@@ -55,12 +55,24 @@ describe('HoliLink', () => {
     expect(context).toHavePathname('/spaces')
   })
 
+  it('should replace route on press if no onPress is given', () => {
+    const context = renderRouter({
+      index: () => <HoliLink label="test" href="/spaces" replace />,
+      spaces: () => <Text>Spaces page</Text>,
+    })
+
+    fireEvent.press(screen.getByTestId('link'))
+
+    expect(context).toHavePathname('/spaces')
+  })
+
   describe('web', () => {
     const mockPush = jest.fn()
+    const mockReplace = jest.fn()
     beforeEach(() => {
       const mockedWebHistory: ReturnType<typeof useWebHistory> = {
         push: mockPush,
-        replace: jest.fn(),
+        replace: mockReplace,
         back: jest.fn(),
         syncInitialRoute: jest.fn(),
       }
@@ -73,6 +85,14 @@ describe('HoliLink', () => {
       fireEvent.press(screen.getByTestId('link'))
 
       expect(mockPush).toHaveBeenCalledWith('/spaces')
+    })
+
+    it('should replace route in web history', () => {
+      render(<HoliLinkWeb label="test" href="/spaces" replace />)
+
+      fireEvent.press(screen.getByTestId('link'))
+
+      expect(mockReplace).toHaveBeenCalledWith('/spaces')
     })
   })
 })

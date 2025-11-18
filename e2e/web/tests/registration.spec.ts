@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Page, expect, test } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 
 import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
 import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
@@ -63,7 +63,7 @@ const fillOutRegistration = async (
   await page.goto('/onboarding')
 
   await page.getByRole('button', { name: "Let's go" }).click()
-  await page.getByRole('button', { name: 'Continue with email and password' }).click()
+  await page.getByRole('button', { name: 'Use password' }).click()
 
   await page.getByRole('textbox', { name: 'Email' }).fill(email)
   await page.getByRole('textbox', { name: 'Password' }).fill(password)

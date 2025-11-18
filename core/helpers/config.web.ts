@@ -1,5 +1,4 @@
 import { environment } from '@holi/core/helpers/environment'
-import { isSSR } from '@holi/core/helpers/isSSR'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
 export const chatServerName = (() => {
@@ -27,8 +26,7 @@ export const jitsiUrl = (() => {
   return process.env.NEXT_PUBLIC_JITSI_URL || baseUrl
 })()
 
-// Add env vars to window interface declaration in window.d.ts
-export const posthogKey = !isSSR ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
-export const posthogHost = !isSSR ? window.POSTHOG_HOST : process.env.POSTHOG_HOST
+export const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+export const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST
 
-export const challengeAppBaseUrl = !isSSR ? window.HOLI_CHALLENGES_APP : process.env.HOLI_CHALLENGES_APP
+export const challengeAppBaseUrl = process.env.NEXT_PUBLIC_HOLI_CHALLENGES_APP

@@ -39,4 +39,15 @@ describe('HoliTextLink', () => {
 
     expect(context).toHavePathname('/spaces')
   })
+
+  it('should replace route on press if no onPress is given', () => {
+    const context = renderRouter({
+      index: () => <HoliTextLink label="test" href="/spaces" size="md" replace />,
+      spaces: () => <Text>Spaces</Text>,
+    })
+
+    fireEvent.press(screen.getByRole('link'))
+
+    expect(context).toHavePathname('/spaces')
+  })
 })

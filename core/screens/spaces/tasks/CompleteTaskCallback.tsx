@@ -5,12 +5,16 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useTranslation } from 'react-i18next'
 import { Spacing } from 'holi-bricks/foundations'
 import { getLogger } from '@holi/core/helpers/logging'
-import { useCompleteReadyToGoTaskMutation } from '@holi/api/graphql/graphql-codegen'
+import {
+  useCompleteReadyToGoTaskMutation,
+  useGetRewardsCounterQuery,
+  useGlobalRewardsCounterQuery,
+} from '@holi/api/graphql/graphql-codegen'
 
 const logger = getLogger('CompleteTaskCallback')
 
@@ -27,12 +31,24 @@ const CompleteTaskCallback = () => {
   const [completeTask] = useCompleteReadyToGoTaskMutation()
   const { t } = useTranslation()
 
+  const { refetch: refetchRewardsCounter } = useGetRewardsCounterQuery({
+    fetchPolicy: 'no-cache',
+    skip: !isLoggedIn,
+  })
+  const { refetch: refetchGlobalRewardsCounter } = useGlobalRewardsCounterQuery({
+    skip: !isLoggedIn,
+  })
+
   const handleCompleteTask = useCallback(async () => {
     if (!id) return
 
     try {
       await completeTask({ variables: { id } })
       storeWelcomeGoodDeedsCounterModal(true)
+
+      if (isLoggedIn) {
+        await Promise.all([refetchRewardsCounter(), refetchGlobalRewardsCounter()])
+      }
     } catch (error) {
       logger.debug('CompleteTaskCallback', 'Failed to complete task', { error })
     } finally {
@@ -40,7 +56,7 @@ const CompleteTaskCallback = () => {
       // This is a "forced" success scenario only done because an error in this flow is worse than not registering the task completion
       navigate(`/spaces/${spaceId}/tasks/${id}/completed`)
     }
-  }, [id, spaceId, completeTask, navigate])
+  }, [id, spaceId, completeTask, navigate, isLoggedIn, refetchRewardsCounter, refetchGlobalRewardsCounter])
 
   useEffect(() => {
     if (!isLoggedIn) {

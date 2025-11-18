@@ -67,9 +67,8 @@ const CompletedTask = () => {
     duration: taskDuration,
     interactionType,
   }
-
-  const { data: rewardsData } = useGetRewardsCounterQuery({ fetchPolicy: 'no-cache' })
-  const { data: globalRewardsData } = useGlobalRewardsCounterQuery()
+  const { data: rewardsData } = useGetRewardsCounterQuery({ fetchPolicy: 'cache-first' })
+  const { data: globalRewardsData } = useGlobalRewardsCounterQuery({ fetchPolicy: 'cache-first' })
   const counter = rewardsData?.rewards_counter.counter ?? 0
   const globalCounter = globalRewardsData?.rewards_globalCounter?.counter ?? 0
   const labelText = t('goodDeeds.name', { count: counter })
