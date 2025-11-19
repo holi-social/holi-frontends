@@ -94,7 +94,7 @@ const TaskCompletionFlow = () => {
     return (
       initRegistrationFlow()
         // The flow was initialized successfully, let's set the form data:
-        .then(({ data: flow }) => {
+        .then((flow) => {
           safeSetFlow(flow)
         })
         .catch((error) =>

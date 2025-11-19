@@ -9,7 +9,7 @@ import {
   type HandleFlowErrorProps,
   useFlowErrorHandling,
 } from '@holi/core/screens/auth/form/hooks/useFlowErrorHandling'
-import { createLoginFlowWithMessage, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
+import { createFlowWithMessage, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
 import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -78,6 +78,14 @@ describe('useLoginFlow', () => {
     })
     mockUseFlowErrorHandling.mockReturnValue({
       handleFlowSubmitError: jest.fn(),
+    })
+  })
+
+  describe('static props', () => {
+    it('should use correct label for password button', async () => {
+      const { result } = renderHook(() => useLoginFlow({ resetFlowId: jest.fn(), onFlowUpdate: jest.fn() }))
+
+      expect(result.current.usePasswordLabel).toEqual('auth.CTA.login.emailPassword')
     })
   })
 
@@ -168,7 +176,7 @@ describe('useLoginFlow', () => {
 
     it('should initialize new flow and reset flow id on duplicated account error', async () => {
       mockGetLoginFlow.mockResolvedValue(
-        createLoginFlowWithMessage({
+        createFlowWithMessage(loginFlow, {
           id: OryErrorCode.DUPLICATED_ACCOUNT_IDENTIFIER,
           type: 'error',
           text: 'Duplicated account',

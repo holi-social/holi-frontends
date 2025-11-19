@@ -4,6 +4,7 @@ import type {
   RecoveryFlow,
   RegistrationFlow,
   SettingsFlow,
+  SuccessfulNativeRegistration,
   UpdateLoginFlowBody,
   UpdateLoginFlowWithOidcMethod,
   UpdateRegistrationFlowBody,
@@ -211,7 +212,7 @@ export const submitRegistrationFlow = async (
   flow: RegistrationFlow,
   payload: UpdateRegistrationFlowBody,
   provider?: string
-) => {
+): AxiosPromise<SuccessfulNativeRegistration> => {
   const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
   logger.debug('retrieveSubmitFlowBody', 'registration flow body', updateRegistrationFlowBody)
   const response = await newKratosSdk()
@@ -308,19 +309,20 @@ export const submitReauthFlow = async (flow: LoginFlow, password: string, email:
     .catch(handleKratosSdkError('submitReauthFlow'))
 }
 
-export const getRegistrationFlow = (flowId: string) =>
-  newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
-
 // Register
-export const initRegistrationFlow = async (flowId?: string) => {
-  if (flowId) {
-    return getRegistrationFlow(flowId)
-  }
+export const getRegistrationFlow = (flowId: string) =>
+  newKratosSdk()
+    .getRegistrationFlow({ id: flowId })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('getRegistrationFlow'))
+
+export const initRegistrationFlow = async () => {
   return newKratosSdk()
     .createNativeRegistrationFlow({
       returnTo: NATIVE_RETURN_TO,
       returnSessionTokenExchangeCode: true,
     })
+    .then(({ data }) => data)
     .catch(handleKratosSdkError('createNativeRegistrationFlow'))
 }
 

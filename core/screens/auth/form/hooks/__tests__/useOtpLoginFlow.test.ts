@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-native'
 import type { UiNode } from '@ory/kratos-client'
 import { useOtpLoginForm } from '@holi/core/screens/auth/form/hooks/useOtpLoginForm'
-import { createLoginFlowWithNode, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
+import { createFlowWithNode, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
 import { TrackingEvent } from '@holi/core/tracking'
 
 describe('useOtpLoginForm', () => {
@@ -11,6 +11,7 @@ describe('useOtpLoginForm', () => {
 
       expect(result.current.autoFocusEmail).toBeTruthy()
       expect(result.current.submitLabel).toEqual('auth.login.cta.OTPlogin')
+      expect(result.current.trackingScreenName).toEqual('mainLogin')
     })
   })
 
@@ -54,7 +55,11 @@ describe('useOtpLoginForm', () => {
       }
 
       const { result } = renderHook(() =>
-        useOtpLoginForm({ flow: createLoginFlowWithNode(emailNode), performLogin: jest.fn(), resetFlow: jest.fn() })
+        useOtpLoginForm({
+          flow: createFlowWithNode(loginFlow, emailNode),
+          performLogin: jest.fn(),
+          resetFlow: jest.fn(),
+        })
       )
 
       expect(result.current.email).toEqual('asd')
@@ -126,7 +131,11 @@ describe('useOtpLoginForm', () => {
       }
 
       const { result } = renderHook(() =>
-        useOtpLoginForm({ flow: createLoginFlowWithNode(codeNode), performLogin: jest.fn(), resetFlow: jest.fn() })
+        useOtpLoginForm({
+          flow: createFlowWithNode(loginFlow, codeNode),
+          performLogin: jest.fn(),
+          resetFlow: jest.fn(),
+        })
       )
 
       expect(result.current.code).toEqual('123')

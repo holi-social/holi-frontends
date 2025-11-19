@@ -75,5 +75,6 @@ export const useOtpLoginForm = ({
     submitLabel: t('auth.login.cta.OTPlogin'),
     submitDisabled: !flow,
     onResend,
+    trackingScreenName: 'mainLogin',
   }
 }

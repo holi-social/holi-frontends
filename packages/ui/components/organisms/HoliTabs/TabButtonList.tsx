@@ -92,7 +92,10 @@ const TabButtonList = <D,>({
     () => activeTabButtonLayout,
     ({ width = 0, x = 0 }) => {
       activeIndicatorWidth.value = withTiming(width)
-      activeIndicatorLeftPosition.value = withSpring(x, { stiffness: 80, damping: 12 })
+      activeIndicatorLeftPosition.value = withSpring(x, {
+        stiffness: 1000,
+        damping: 80,
+      })
     }
   )
 

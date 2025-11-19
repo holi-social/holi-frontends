@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-native'
 import type { UiNode } from '@ory/kratos-client'
 import { usePasswordLoginForm } from '@holi/core/screens/auth/form/hooks/usePasswordLoginForm'
-import { createLoginFlowWithNode, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
+import { createFlowWithNode, loginFlow } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
 import { TrackingEvent } from '@holi/core/tracking'
 
 describe('usePasswordLoginForm', () => {
@@ -54,7 +54,7 @@ describe('usePasswordLoginForm', () => {
       }
 
       const { result } = renderHook(() =>
-        usePasswordLoginForm({ flow: createLoginFlowWithNode(emailNode), performLogin: jest.fn() })
+        usePasswordLoginForm({ flow: createFlowWithNode(loginFlow, emailNode), performLogin: jest.fn() })
       )
 
       expect(result.current.email).toEqual('asd')
@@ -116,7 +116,7 @@ describe('usePasswordLoginForm', () => {
       }
 
       const { result } = renderHook(() =>
-        usePasswordLoginForm({ flow: createLoginFlowWithNode(passwordNode), performLogin: jest.fn() })
+        usePasswordLoginForm({ flow: createFlowWithNode(loginFlow, passwordNode), performLogin: jest.fn() })
       )
 
       expect(result.current.password).toEqual('123')
