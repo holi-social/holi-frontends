@@ -92,10 +92,9 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           footerShown: false,
         },
       }}
-      contentContainerStyle={{ flex: 1 }}
     >
-      <Stack flex={1}>
-        <Stack flex={1}>
+      <Stack>
+        <Stack>
           <AuthenticationSelection
             flowId={flowId}
             initialSelection={initialSelection}
@@ -103,13 +102,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
             onRegister={onRegister}
           />
         </Stack>
-        <Stack
-          padding={{ bottom: 'sm' }}
-          gap="xs"
-          backgroundColor="main"
-          // Workaround for footer being cut-off on Android, possibly due to edge-to-edge
-          margin={Platform.OS === 'android' ? { bottom: 'md' } : undefined}
-        >
+        <Stack padding={{ top: 'sm', bottom: 'sm' }} gap="xs" backgroundColor="main">
           <HoliDivider />
           <HoliContainer>
             <DocumentsFooter />
