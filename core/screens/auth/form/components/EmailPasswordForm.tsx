@@ -21,6 +21,7 @@ export interface EmailPasswordFormProps {
   submitLabel: string
   onSubmit: () => Promise<void>
   submitDisabled?: boolean
+  isLogin?: boolean
 }
 
 export const EmailPasswordForm = ({
@@ -34,6 +35,7 @@ export const EmailPasswordForm = ({
   submitLabel,
   onSubmit,
   submitDisabled = false,
+  isLogin = false,
 }: EmailPasswordFormProps) => {
   const { t } = useTranslation()
 
@@ -69,21 +71,23 @@ export const EmailPasswordForm = ({
         icon={LockUnlock}
         testID="submit-password"
       />
-      <Stack margin={{ top: 'sm' }} direction="row" alignItems="center" justifyContent="center" gap="3xs">
-        <Text>{t('auth.login.forgotPassword')}</Text>
-        <HoliTextLinkTracked
-          href="/forgotPassword"
-          trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
-          label={t('auth.login.link.forgotPassword')}
-        >
-          <Stack gap="4xs" direction="row" flex={0}>
-            <TextLink size="md" testID="link-to-forgot-password-form">
-              {t('auth.login.link.forgotPassword')}
-            </TextLink>
-            <HoliIcon icon={Mail} />
-          </Stack>
-        </HoliTextLinkTracked>
-      </Stack>
+      {isLogin ? (
+        <Stack margin={{ top: 'sm' }} direction="row" alignItems="center" justifyContent="center" gap="3xs">
+          <Text>{t('auth.login.forgotPassword')}</Text>
+          <HoliTextLinkTracked
+            href="/forgotPassword"
+            trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
+            label={t('auth.login.link.forgotPassword')}
+          >
+            <Stack gap="4xs" direction="row" flex={0}>
+              <TextLink size="md" testID="link-to-forgot-password-form">
+                {t('auth.login.link.forgotPassword')}
+              </TextLink>
+              <HoliIcon icon={Mail} />
+            </Stack>
+          </HoliTextLinkTracked>
+        </Stack>
+      ) : undefined}
     </Stack>
   )
 }

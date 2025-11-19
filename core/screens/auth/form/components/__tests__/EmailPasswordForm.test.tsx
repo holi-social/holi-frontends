@@ -16,9 +16,9 @@ describe('EmailPasswordForm', () => {
       />
     )
 
-    expect(screen.getByLabelText('auth.login.input.label-Email'))
-    expect(screen.getByLabelText('auth.login.input.label-Password'))
-    expect(screen.getByLabelText('custom submit label'))
+    expect(screen.getByLabelText('auth.login.input.label-Email')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.input.label-Password')).toBeOnTheScreen()
+    expect(screen.getByLabelText('custom submit label')).toBeOnTheScreen()
   })
 
   it('should control email input', async () => {
@@ -131,17 +131,26 @@ describe('EmailPasswordForm', () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('should render text and link to reset password', () => {
+  it('should not render text and link to reset password if not login form', () => {
     render(<EmailPasswordForm setEmail={jest.fn()} setPassword={jest.fn()} submitLabel="" onSubmit={jest.fn()} />)
 
-    expect(screen.getByText('auth.login.forgotPassword'))
-    expect(screen.getByLabelText('auth.login.link.forgotPassword'))
+    expect(screen.queryByText('auth.login.forgotPassword')).not.toBeOnTheScreen()
+    expect(screen.queryByLabelText('auth.login.link.forgotPassword')).not.toBeOnTheScreen()
+  })
+
+  it('should render text and link to reset password for login form', () => {
+    render(
+      <EmailPasswordForm setEmail={jest.fn()} setPassword={jest.fn()} submitLabel="" onSubmit={jest.fn()} isLogin />
+    )
+
+    expect(screen.getByText('auth.login.forgotPassword')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.link.forgotPassword')).toBeOnTheScreen()
   })
 
   it('should track and navigate to reset password', async () => {
     const context = renderRouter({
       index: () => (
-        <EmailPasswordForm setEmail={jest.fn()} setPassword={jest.fn()} submitLabel="" onSubmit={jest.fn()} />
+        <EmailPasswordForm setEmail={jest.fn()} setPassword={jest.fn()} submitLabel="" onSubmit={jest.fn()} isLogin />
       ),
       forgotPassword: () => <Text>Forgot password</Text>,
     })
