@@ -12,20 +12,20 @@ test.describe('@Registration', () => {
 
       // no password and email provided
       await fillOutRegistration(page, { email: '', password: '' })
-      await expect(page.getByTestId('ory-traits-email-input-error-message')).toBeVisible()
-      await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
+      await expect(page.getByTestId('email-input-error-message')).toBeVisible()
+      await expect(page.getByTestId('password-input-error-message')).toBeVisible()
 
       // invalid email provided
       await fillOutRegistration(page, { email: '!!!wrong@', password: validPassword })
-      await expect(page.getByTestId('ory-traits-email-input-error-message')).toBeVisible()
+      await expect(page.getByTestId('email-input-error-message')).toBeVisible()
 
       // short password provided
       await fillOutRegistration(page, { email: validEmail, password: 'Sh0rt' })
-      await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
+      await expect(page.getByTestId('password-input-error-message')).toBeVisible()
 
       // weak password provided
       await fillOutRegistration(page, { email: validEmail, password: '11111111' })
-      await expect(page.getByTestId('ory-password-input-error-message')).toBeVisible()
+      await expect(page.getByTestId('password-input-error-message')).toBeVisible()
     })
 
     test('should register with valid credentials', async ({ context, page }) => {
