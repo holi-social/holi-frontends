@@ -26,7 +26,7 @@ export const oryNodeIsCheckbox = (pet: UiNodeAttributes | UiNodeInputAttributes)
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'checkbox'
 }
 
-export const oryNodeIsSubmit = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
+export const oryNodeIsSubmit = (pet: UiNodeAttributes): pet is UiNodeInputAttributes & { node_type: 'input' } => {
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'submit'
 }
 
@@ -55,7 +55,8 @@ export const getNodeId = ({ attributes }: UiNode) => {
   ) {
     return attributes.name
   } else if (oryNodeIsSubmit(attributes)) {
-    return attributes.value
+    const inputAttributes: UiNodeInputAttributes = attributes // workaround as long as @ory/kratos type definitions are a little broken
+    return inputAttributes.value
   } else {
     return attributes.id
   }
