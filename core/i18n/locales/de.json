@@ -149,6 +149,7 @@
   "auth.login.message.4000006": "Falsche Anmeldedaten! Bitte überprüfe deine Eingaben auf Tippfehler",
   "auth.login.message.4000035": "Dieser Account existiert nicht oder unterstützt den Login mit Einmal-Code nicht.",
   "auth.login.message.4010008": "Der Einmal-Code ist ungültig oder wurde bereits verwendet. Bitte noch einmal versuchen.",
+  "auth.login.message.4040003": "Der Registrierungsflow ist abgelaufen oder ungültig. Bitte versuche es erneut.",
   "auth.login.message.default": "Ups! Da ist ein technisches Problem aufgetreten!",
   "auth.login.signUp.link.headline": "Du hast noch kein Benutzerkonto?",
   "auth.loginProtection.continueAsGuest": "Als Gast umsehen",

@@ -34,6 +34,7 @@ interface Props extends InputProps {
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: StyleProp<ViewStyle>
   submitLabelOverride?: string
+  disabled?: boolean
 }
 
 const FormNode = (props: Props) => {
@@ -58,7 +59,7 @@ const FormNode = (props: Props) => {
     return (
       <FormInputField
         {...props}
-        disabled={node.attributes.disabled}
+        disabled={node.attributes.disabled || props.disabled}
         attributes={node.attributes}
         translationPrefix={props.translationPrefix}
         onEnterPress={props.onSubmitPress}
@@ -95,7 +96,7 @@ const FormNode = (props: Props) => {
           <Text>{t('registration.emailVerification.resendInstruction')}</Text>
           <Button
             label={t('registration.emailVerification.resendEmail')}
-            disabled={node.attributes.disabled}
+            disabled={node.attributes.disabled || props.disabled}
             onPress={() => props.onSubmitPress({ method: 'code', resend: 'code' })}
             size="lg"
             transparent
@@ -110,7 +111,7 @@ const FormNode = (props: Props) => {
       <View style={props.style}>
         <Button
           label={t(translationKey)}
-          disabled={node.attributes.disabled}
+          disabled={node.attributes.disabled || props.disabled}
           onPress={() =>
             props.onSubmitPress(
               'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined

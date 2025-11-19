@@ -8,7 +8,7 @@ import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
-import { HoliLogoFilled, Loader, LogoApple, LogoFacebook, LogoGoogle } from '@holi/icons/src/generated'
+import { HoliLogoFilled, Loader, LogoApple, LogoFacebook, LogoGoogle, Mail } from '@holi/icons/src/generated'
 
 import {
   buttonBaseStyle,
@@ -19,18 +19,19 @@ import {
   getButtonVariantStyle,
 } from './helpers'
 
-export type SocialLoginButtonProvider = 'Google' | 'Facebook' | 'Apple' | 'Holi'
+export type SocialLoginButtonProvider = 'Google' | 'Facebook' | 'Apple' | 'Holi' | 'Email'
 
 const iconsByProvider = {
   Google: LogoGoogle,
   Facebook: LogoFacebook,
   Apple: LogoApple,
   Holi: HoliLogoFilled,
+  Email: Mail,
 }
 
 export type SocialLoginButtonProps = AccessibilityProps &
   LayoutProps & {
-    label: string
+    label?: string
     provider: SocialLoginButtonProvider
     onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
     disabled?: boolean
@@ -57,6 +58,7 @@ export const SocialLoginButton = ({
   })
 
   const isSpinning = loading || isProcessing
+  const hasLabel = label !== undefined
 
   const handlePress = useCallback(
     async (event: GestureResponderEvent) => {
@@ -90,17 +92,19 @@ export const SocialLoginButton = ({
       testID={testID}
       {...accessibilityProps(rest)}
     >
-      <View style={styles.content}>
+      <View style={styles.content(hasLabel)}>
         <HoliIcon
           icon={iconsByProvider[provider]}
           size={styles.icon.height}
           colorOverride={styles.text(disabled, selected).color}
         />
-        <View style={styles.textContainer}>
-          <TextLink size="md" colorOverride={styles.text(disabled, selected).color} role="presentation">
-            {label}
-          </TextLink>
-        </View>
+        {hasLabel && (
+          <View style={styles.textContainer}>
+            <TextLink size="md" colorOverride={styles.text(disabled, selected).color} role="presentation">
+              {label}
+            </TextLink>
+          </View>
+        )}
         {isSpinning && (
           <View testID="spinner">
             <SpinningIconContainer spinning={isSpinning}>
@@ -131,10 +135,11 @@ const stylesheet = createStyleSheet((theme) => ({
       },
     }
   },
-  content: {
+  content: (hasLabel: boolean) => ({
     ...buttonContentStyle,
     gap: Spacing['3xs'],
-  },
+    paddingVertical: hasLabel ? 'auto' : Spacing.sm,
+  }),
   textContainer: {
     height: Spacing.xxl,
     justifyContent: 'center',

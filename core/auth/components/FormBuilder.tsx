@@ -46,6 +46,7 @@ interface Props<T> {
   nodesToShow?: NodeType[]
   oidcProviders?: string[]
   withLoader?: boolean
+  disabled?: boolean
 }
 
 interface FlowData<T> {
@@ -71,6 +72,7 @@ const FormBuilder = <
   nodesToShow = allNodeTypes,
   oidcProviders = ['Google', 'Facebook', 'Apple'],
   withLoader = true,
+  disabled = false,
 }: Props<T>) => {
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
@@ -219,6 +221,7 @@ const FormBuilder = <
               style={{ marginTop: isSubmitButton ? Spacing.xs : Spacing['3xs'] }}
               isSignin={isSignin}
               submitLabelOverride={submitLabelOverride}
+              disabled={disabled}
             />
           )
         })
