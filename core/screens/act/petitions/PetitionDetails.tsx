@@ -24,6 +24,7 @@ import {
   useUpdatePetitionStatusMutation,
   type VolunteeringOpportunityStatusValue,
 } from '@holi/api/graphql/graphql-codegen'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 export type PetitionDetailsParams = {
   petitionId: string
@@ -36,6 +37,7 @@ export const PetitionDetails = () => {
   const [petitionId] = useParam('petitionId')
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const { navigate } = useRouting()
+  const { isLoggedIn } = useLoggedInUser()
 
   const {
     data: { petitionStatus } = {},
@@ -45,6 +47,7 @@ export const PetitionDetails = () => {
       petitionId: petitionId || '',
     },
     fetchPolicy: 'no-cache',
+    skip: !isLoggedIn,
   })
 
   const petition = petitions.find((petition) => petition.id === petitionId)

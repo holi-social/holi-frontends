@@ -58,7 +58,7 @@ export const SavedPetitions = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data, loading } = useSignedPetitionsQuery()
+  const { data, loading } = useSignedPetitionsQuery({ fetchPolicy: 'cache-first' })
   const signedPetitions = data?.signedPetitions.data || []
   const totalResults = data?.signedPetitions.totalResults
 
