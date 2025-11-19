@@ -1,5 +1,5 @@
 import { renderRouter } from 'expo-router/testing-library'
-import { screen, fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import type Link from 'next/link'

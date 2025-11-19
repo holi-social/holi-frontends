@@ -30,7 +30,11 @@ export const hasIdentifier = (
   return 'identifier' in loginFlowBody
 }
 
-const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith is ContinueWithVerificationUi => {
+const isContinueWithVerificationUi = (
+  continueWith: ContinueWith
+): continueWith is ContinueWithVerificationUi & {
+  action: 'show_verification_ui'
+} => {
   return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
 }
 

@@ -16,6 +16,7 @@ export interface CodeOtpFormProps {
   onSubmit: () => Promise<void>
   submitDisabled?: boolean
   onResend: () => Promise<void>
+  trackingScreenName: 'mainLogin' | 'mainRegistration'
 }
 
 export const CodeOtpForm = ({
@@ -27,12 +28,13 @@ export const CodeOtpForm = ({
   onSubmit,
   submitDisabled = false,
   onResend,
+  trackingScreenName,
 }: CodeOtpFormProps) => {
   const { t } = useTranslation()
 
   return (
     <Stack gap="3xs">
-      <ChangeEmailButton email={email} onChangeEmail={onChangeEmail} trackingScreenName="mainLogin" />
+      <ChangeEmailButton email={email} onChangeEmail={onChangeEmail} trackingScreenName={trackingScreenName} />
       <AuthFormInputField
         label={t('auth.login.input.label-SignInCode')}
         placeholder={t('auth.login.input.label-SignInCode')}

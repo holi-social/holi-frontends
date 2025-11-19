@@ -6,7 +6,7 @@ import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/
 import { waitForHomeScreen } from '@holi/e2e-mobile/helpers/navigation'
 
 describe('@RegistrationJourney', () => {
-  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.username()}${faker.string.numeric(4)}@e2etest.com`
   const password = 'TheSamePassword4A11E2eUsers'
 
   it('validates Email and password fields', async () => {

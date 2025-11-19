@@ -54,7 +54,7 @@
     "@blunck/next-html": "^1.0.0",
     "@emotion/react": "^11.11.1",
     "@types/locale": "^0.1.4",
-    "@types/react": "~19.1.10",
+    "@types/react": "^19.2.4",
     "@types/react-dom": "~19.1.7",
     "babel-loader": "^10.0.0",
     "eslint": "^8.33.0",

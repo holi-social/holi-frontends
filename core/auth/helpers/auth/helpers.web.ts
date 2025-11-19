@@ -114,7 +114,7 @@ export const submitRegistrationFlow = async (
   payload: UpdateRegistrationFlowBody,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   provider?: string
-): Promise<AxiosPromise<SuccessfulNativeRegistration>> => {
+): AxiosPromise<SuccessfulNativeRegistration> => {
   const response = await newKratosSdk()
     .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: payload }, { withCredentials: true })
     .catch(handleKratosSdkError('updateRegistrationFlow'))
@@ -169,18 +169,19 @@ export const submitLogoutFlow = () =>
     })
     .catch(handleKratosSdkErrorIgnoringCodes('updateLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
 
-export const getRegistrationFlow = (flowId: string) =>
-  newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
-
 // Registration
-export const initRegistrationFlow = (flowId?: string): AxiosPromise<RegistrationFlow> => {
-  if (flowId) {
-    return getRegistrationFlow(flowId)
-  }
+export const getRegistrationFlow = (flowId: string) =>
+  newKratosSdk()
+    .getRegistrationFlow({ id: flowId })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('getRegistrationFlow'))
+
+export const initRegistrationFlow = (): Promise<RegistrationFlow> => {
   const redirect = getRedirectAfterSocialLogin()
   const returnTo = redirect ? { returnTo: `${holiNextJSApiUrl}${redirect || ''}` } : {}
   return newKratosSdk()
     .createBrowserRegistrationFlow(returnTo)
+    .then(({ data }) => data)
     .catch(handleKratosSdkError('createBrowserRegistrationFlow'))
 }
 

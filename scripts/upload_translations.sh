@@ -4,6 +4,34 @@ set -eu
 
 LOCAL_LOCALES_DIR="core/i18n/locales"
 PATCH_FILE="local_i18n_changes.patch"
+if [[ "${1:-}" == "--force" ]]; then
+  FORCE=1
+fi
+
+
+if [ "${FORCE:-}" ]; then
+  echo ""
+  echo "⚠️  WARNING: This action might override changes in Localazy!"
+  echo ""
+
+  printf "Continue with unchecked upload anyways? (y/N): "
+  read REPLY
+  echo ""
+
+  case "$REPLY" in
+    [yY])
+      echo "⬆️  Uploading translations now..."
+
+      localazy upload -r $LOCALAZY_API_KEY_READ -w $LOCALAZY_API_KEY_WRITE
+      exit 0
+      ;;
+    *)
+      echo "ℹ️  Continuing with checking translations before upload"
+      echo ""
+      ;;
+  esac
+fi
+
 
 git add .
 git update-index --refresh

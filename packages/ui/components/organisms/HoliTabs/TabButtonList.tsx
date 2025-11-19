@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import type { LayoutChangeEvent, LayoutRectangle } from 'react-native'
+import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native'
 import { StyleSheet, View } from 'react-native'
 import Animated, {
-  type SharedValue,
   interpolate,
   scrollTo,
+  type SharedValue,
   useAnimatedReaction,
   useAnimatedRef,
   useAnimatedStyle,
@@ -92,7 +92,10 @@ const TabButtonList = <D,>({
     () => activeTabButtonLayout,
     ({ width = 0, x = 0 }) => {
       activeIndicatorWidth.value = withTiming(width)
-      activeIndicatorLeftPosition.value = withSpring(x, { stiffness: 80, damping: 12 })
+      activeIndicatorLeftPosition.value = withSpring(x, {
+        stiffness: 1000,
+        damping: 80,
+      })
     }
   )
 

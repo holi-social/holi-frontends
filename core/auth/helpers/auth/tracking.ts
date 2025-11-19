@@ -1,6 +1,5 @@
 import { TrackingEvent } from '@holi/core/tracking'
 import type {
-  UpdateLoginFlowBody,
   UpdateLoginFlowWithCodeMethod,
   UpdateRegistrationFlowBody,
   UpdateRegistrationFlowWithCodeMethod,
@@ -16,28 +15,6 @@ const getOTPStep = (
     return 'code'
   }
   return 'email'
-}
-
-export const getTrackingEventForLoginFlowSubmit = ({
-  payload,
-  provider,
-}: {
-  payload: UpdateLoginFlowBody
-  provider?: string
-}): TrackingEvent => {
-  if (payload.method === 'code') {
-    return TrackingEvent.Auth.OneTimeCodePressed({
-      step: getOTPStep(payload),
-      screen: 'mainLogin',
-    })
-  }
-  if (provider) {
-    return TrackingEvent.Auth.SocialLoginButtonPressed({
-      provider,
-      screen: 'mainLogin',
-    })
-  }
-  return TrackingEvent.Auth.LoginButtonPressed
 }
 
 export const getTrackingEventForRegistrationFlowSubmit = ({
