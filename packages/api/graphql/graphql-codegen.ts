@@ -3012,7 +3012,11 @@ export type SignedPetitionsQueryVariables = Exact<{
 
 export type SignedPetitionsQuery = {
   __typename?: 'Query'
-  signedPetitions: { __typename?: 'PetitionStatusPaged'; totalResults: number }
+  signedPetitions: {
+    __typename?: 'PetitionStatusPaged'
+    totalResults: number
+    data: Array<{ __typename?: 'PetitionStatus'; externalPetitionId: string; status: PetitionStatusValue }>
+  }
 }
 
 export type PetitionStatusQueryVariables = Exact<{
@@ -5894,6 +5898,10 @@ export const SignedPetitionsDocument = gql`
     query SignedPetitions($offset: Int! = 0, $limit: Int! = 10) {
   signedPetitions(offset: $offset, limit: $limit) {
     totalResults
+    data {
+      externalPetitionId
+      status
+    }
   }
 }
     `

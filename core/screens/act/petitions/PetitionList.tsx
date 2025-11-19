@@ -7,9 +7,10 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Screen } from '@holi/core/components/Screen'
 import { Image } from 'holi-bricks/components/image'
 import petitions from './petitions.json' // TODO: replace with real data from backend
-import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
+import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
 import InfoModal from '@holi/core/components/InfoModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import type { PetitionStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 export const PetitionList = () => {
   const { t } = useTranslation()
@@ -47,7 +48,11 @@ export const PetitionList = () => {
 
         <Stack gap="3xs">
           {petitions.map((petition) => (
-            <PetitionCard key={petition.id} petition={petition as Petition} />
+            <PetitionCard
+              key={petition.id}
+              externalPetitionId={petition.id}
+              status={petition.status as PetitionStatusValue}
+            />
           ))}
         </Stack>
       </Stack>

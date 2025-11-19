@@ -3,7 +3,6 @@ import { ButtonTracked } from '@holi/core/components/Trackable'
 import { DetailsScreen, type DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import type { Petition } from '@holi/core/screens/act/petitions/PetitionCard'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { CalendarEventLine, Focus2Line, GoodDeeds, UserLine } from '@holi/icons/src/generated'
@@ -38,16 +37,6 @@ export const PetitionDetails = () => {
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const { navigate } = useRouting()
 
-  const petition = petitions.find((petition) => petition.id === petitionId) as Petition
-  const infoList: DetailsScreenInfoList[] = [
-    { title: `${t('act.petitions.createdBy', { initiatorNames: petition.startedBy })}`, icon: UserLine },
-    { title: `${t('act.petitions.towards', { targetNames: petition.targetOrganisation })}`, icon: Focus2Line },
-    {
-      title: `${petition.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')}`,
-      icon: CalendarEventLine,
-    },
-  ]
-
   const {
     data: { petitionStatus } = {},
     refetch: refetchStatus,
@@ -55,7 +44,19 @@ export const PetitionDetails = () => {
     variables: {
       petitionId: petitionId || '',
     },
+    fetchPolicy: 'no-cache',
   })
+
+  const petition = petitions.find((petition) => petition.id === petitionId)
+
+  const infoList: DetailsScreenInfoList[] = [
+    { title: `${t('act.petitions.createdBy', { initiatorNames: petition?.startedBy })}`, icon: UserLine },
+    { title: `${t('act.petitions.towards', { targetNames: petition?.targetOrganisation })}`, icon: Focus2Line },
+    {
+      title: `${petition?.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')}`,
+      icon: CalendarEventLine,
+    },
+  ]
 
   const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
 
@@ -72,6 +73,10 @@ export const PetitionDetails = () => {
   }
 
   useTrackOnce(TrackingEvent.PetitionDetails.viewed(petitionId as string))
+
+  if (!petition) {
+    return null
+  }
 
   return (
     <Screen
@@ -95,7 +100,8 @@ export const PetitionDetails = () => {
         },
       }}
       StickyBottomComponent={
-        petitionStatus?.status == PetitionStatusValue.Planned && (
+        petitionStatus?.status !== PetitionStatusValue.Signed &&
+        petitionStatus?.status !== PetitionStatusValue.Planned && (
           <Stack
             padding={{ left: 'md', right: 'md', bottom: 'lg' }}
             alignItems="center"
@@ -110,7 +116,7 @@ export const PetitionDetails = () => {
                   label={t('act.petitions.cta')}
                   onPress={() => {
                     onPetitionStatusChange(PetitionStatusValue.Planned)
-                    Linking.openURL(petition.externalLink as string)
+                    Linking.openURL(petition?.externalLink as string)
                   }}
                   trackingEvent={TrackingEvent.PetitionDetails.findMore}
                 />
@@ -138,7 +144,7 @@ export const PetitionDetails = () => {
               <PetitionProgressCard
                 status={petitionStatus?.status}
                 onStatusChange={onPetitionStatusChange}
-                externalLink={petition.externalLink as string}
+                externalLink={petition?.externalLink as string}
               />
             </HoliTransition.FadeDown>
           ) : null

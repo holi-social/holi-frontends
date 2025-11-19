@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { ChipLabel } from 'holi-bricks/components/chips'
-import { Button } from 'holi-bricks/components/button'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -13,9 +12,9 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
-import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
-import petitions from '@holi/core/screens/act/petitions/petitions.json'
+import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
 import { PetitionsEmptyState } from '@holi/core/screens/userprofile/components/PetitionsEmptyState'
+import { useSignedPetitionsQuery } from '@holi/api/graphql/graphql-codegen'
 
 const StatusInfoHeader = () => {
   const { t } = useTranslation()
@@ -59,29 +58,11 @@ export const SavedPetitions = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  // mocked data for petitions ----------------------------
-  // to be replaced by:
-  // const {
-  //   items: committedPetitions,
-  //   canFetchMore,
-  //   isFetchingMore,
-  //   isLoading,
-  //   isInitialLoad,
-  //   fetchMore,
-  //   totalResults,
-  //   refetch,
-  //   error,
-  // } = useCommittedPetitions()
-  const canFetchMore = false
-  const isFetchingMore = false
-  const isLoading = false
-  const isInitialLoad = false
-  const fetchMore = async () => {}
-  const totalResults = 5
-  // const refetch = async () => {}
-  // -------------------------------------------------------
+  const { data, loading } = useSignedPetitionsQuery()
+  const signedPetitions = data?.signedPetitions.data || []
+  const totalResults = data?.signedPetitions.totalResults
 
-  if (isInitialLoad) {
+  if (loading) {
     return (
       <Stack padding={{ top: '3xl' }}>
         <HoliLoader testID="initial-loader" style={styles.loader} />
@@ -89,7 +70,7 @@ export const SavedPetitions = () => {
     )
   }
 
-  if (!isLoading && totalResults === 0) {
+  if (!loading && totalResults === 0) {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
@@ -101,10 +82,6 @@ export const SavedPetitions = () => {
     )
   }
 
-  const committedPetitions = petitions.filter(
-    (petition) => petition.status === 'COMPLETED' || petition.status === 'TO_SIGN'
-  ) as Petition[]
-
   return (
     <Stack padding={{ bottom: 'xs' }} gap="xxs">
       <Stack direction="row" justifyContent="space-between">
@@ -113,22 +90,12 @@ export const SavedPetitions = () => {
       </Stack>
 
       <Stack gap="xs">
-        {committedPetitions.map((item) => (
-          <ErrorBoundary key={item.id}>
-            <PetitionCard petition={item} showCommitmentStatus />
+        {signedPetitions.map((item) => (
+          <ErrorBoundary key={item.externalPetitionId}>
+            <PetitionCard externalPetitionId={item.externalPetitionId} status={item.status} showCommitmentStatus />
           </ErrorBoundary>
         ))}
       </Stack>
-
-      {committedPetitions.length > 0 && canFetchMore && (
-        <Stack justifyContent="center" alignItems="center" padding={{ top: 'md' }}>
-          {isFetchingMore ? (
-            <HoliLoader style={styles.loader} testID="next-page-loader" />
-          ) : (
-            <Button inline label="Load More" onPress={fetchMore} variant="primary" testID="load-more-button" />
-          )}
-        </Stack>
-      )}
     </Stack>
   )
 }
