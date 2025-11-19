@@ -1,11 +1,13 @@
-import { getApolloContext } from '@apollo/client'
-import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { RenderPromises } from '@apollo/client/react/ssr'
+import { getApolloContext } from '@apollo/client/react'
+import type { ApolloClient } from '@apollo/client'
+import { prerenderStatic } from '@apollo/client/react/ssr'
+import { renderToString } from 'react-dom/server'
 
 import type { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { type DocumentContext, type DocumentProps, Head, Html, Main, NextScript } from 'next/document'
 import type { Router } from 'next/router'
-import React, { Children } from 'react'
+import type React from 'react'
+import { Children } from 'react'
 import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
@@ -17,7 +19,7 @@ import { createApolloPageProps, createApolloWebClient } from '@holi/web/helpers/
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 interface ApolloDocumentProps {
-  apolloClient: ApolloClient<NormalizedCacheObject>
+  apolloClient: ApolloClient
 }
 
 initializeBricks({ isProduction })
@@ -39,10 +41,9 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     const { getStyleElement } = AppRegistry.getApplication('HOLI')
 
     const originalRenderPage = context.renderPage
-    let apolloClient: ApolloClient<NormalizedCacheObject> | undefined
+    let apolloClient: ApolloClient | undefined
+    let pageProps: AppPropsType<Router, NextJSPageProps> | undefined
 
-    // for usage of renderPromises see https://github.com/apollographql/apollo-client/blob/main/src/react/ssr/getDataFromTree.ts
-    const renderPromises = new RenderPromises()
     context.renderPage = () =>
       originalRenderPage({
         // @ts-ignore
@@ -50,27 +51,34 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           if (process.env.WEB_BUILD) {
             return <App {...props} />
           }
-
+          pageProps = props
           apolloClient =
             apolloClient ??
             createApolloWebClient(new HoliPageProps(props.pageProps), context.req?.headers as Record<string, string>)
           const ApolloContext = getApolloContext()
 
           return (
-            <ApolloContext.Provider value={{ renderPromises, client: apolloClient }}>
+            <ApolloContext.Provider value={{ client: apolloClient }}>
               <App {...props} />
             </ApolloContext.Provider>
           )
         },
       })
 
-    // Re-render page until all render promises were resolved to populate the Apollo cache
-    let initialProps = await Document.getInitialProps(context)
-    while (renderPromises.hasPromises()) {
-      await renderPromises.consumeAndAwaitPromises()
-      initialProps = await Document.getInitialProps(context)
+    if (!process.env.WEB_BUILD) {
+      // Render page once to initialize page props
+      await Document.getInitialProps(context)
+      // Prerender page to populate the Apollo cache
+      await prerenderStatic({
+        tree: <context.AppTree pageProps={pageProps} />,
+        context: { client: apolloClient },
+        maxRerenders: 10,
+        renderFunction: renderToString,
+        ignoreResults: true,
+      })
     }
-    renderPromises.stop()
+    // Render final HTML
+    const initialProps = await Document.getInitialProps(context)
 
     const styles = [getStyleElement(), flush()]
     return { ...initialProps, styles: Children.toArray(styles), apolloClient }
@@ -87,7 +95,6 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           <link rel="icon" type="image/png" sizes="32x32" href={`/favicons/${env}/favicon-32x32.png`} />
           <link rel="icon" type="image/png" sizes="16x16" href={`/favicons/${env}/favicon-16x16.png`} />
           <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />
-          {promoteEnvVarsToWindow(['POSTHOG_KEY', 'POSTHOG_HOST', 'HOLI_CHALLENGES_APP'])}
           {/*
               FIXME: This script is needed for Matrix JS SDK version 4.3.*
               because it uses global to reference the window object,
@@ -124,9 +131,4 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
       </Html>
     )
   }
-}
-
-const promoteEnvVarsToWindow = (varNames: string[]) => {
-  const varsHtml = varNames.map((varName) => `window.${varName} = "${process.env[varName]}"`).join(';\n') + ';'
-  return <script dangerouslySetInnerHTML={{ __html: varsHtml }} />
 }

@@ -1,7 +1,7 @@
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 
 export const useSpaceAdminUsers = (spaceIdOrName?: string) => {
-  const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
+  const { loading, error, space, refetch } = useSpace(spaceIdOrName)
 
   const members = space?.members.data
   const adminMembers = members?.filter((member) => member.isAdministrator)
@@ -11,7 +11,6 @@ export const useSpaceAdminUsers = (spaceIdOrName?: string) => {
     loading,
     error,
     adminUsers,
-    called,
     refetch,
   }
 }

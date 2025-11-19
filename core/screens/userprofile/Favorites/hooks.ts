@@ -3,12 +3,12 @@ import {
   useFavoritesQuery,
   useTypesense_MultiSearchQuery,
 } from '@holi/api/graphql/graphql-codegen'
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
+import { useApolloErrorDisplay } from '@holi/core/hooks/useApolloErrorDisplay'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const useFavoritesTypesenseDocuments = (typesenseIds: string[]) => {
   const language = useUserLanguage()
@@ -19,7 +19,7 @@ const useFavoritesTypesenseDocuments = (typesenseIds: string[]) => {
    */
   const [documents, setDocuments] = useState<LocalizedTypesenseDocument[]>([])
 
-  const { loading } = useTypesense_MultiSearchQuery({
+  const { data, loading } = useTypesense_MultiSearchQuery({
     variables: {
       input: {
         searches: [
@@ -31,8 +31,11 @@ const useFavoritesTypesenseDocuments = (typesenseIds: string[]) => {
         ],
       },
     },
-    onCompleted: (data) => {
-      setDocuments(
+  })
+
+  useEffect(() => {
+    if (data) {
+      const newDocuments =
         data.typesense_multiSearch?.results.reduce((acc: LocalizedTypesenseDocument[], result) => {
           if (result.__typename === 'Typesense_SearchResponseSuccess') {
             const hits = result.hits ?? []
@@ -40,9 +43,9 @@ const useFavoritesTypesenseDocuments = (typesenseIds: string[]) => {
           }
           return acc
         }, []) ?? []
-      )
-    },
-  })
+      setDocuments(newDocuments)
+    }
+  }, [data, language])
 
   return { documents, loading }
 }
@@ -58,8 +61,6 @@ export const fromTypesenseId = (id: string) => {
 }
 
 export const useFavorites = (limit?: number) => {
-  const { displayError } = useErrorHandling()
-
   const {
     data: {
       favorites: { data: favorites = [], totalResults = 0 } = {},
@@ -69,15 +70,13 @@ export const useFavorites = (limit?: number) => {
     error,
   } = useFavoritesQuery({
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
-      displayError(error, 'Failed to load favorites', {
-        location: 'Favorites.favoritesQuery',
-      })
-    },
     variables: {
       offset: 0,
       limit: limit || 100, // limit it 100 for first iteration
     },
+  })
+  useApolloErrorDisplay(error, 'Failed to load favorites', {
+    location: 'Favorites.favoritesQuery',
   })
 
   const favoriteTypesenseIds = favorites.reduce((acc: string[], { favoritable }) => {

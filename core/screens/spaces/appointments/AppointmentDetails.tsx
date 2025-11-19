@@ -1,11 +1,10 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -38,6 +37,7 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { SpaceUserConnectionType } from '@holi/api/graphql/graphql-codegen'
 import { breakpoints } from 'holi-bricks/foundations'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
@@ -53,7 +53,7 @@ const AppointmentDetails = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
-  const { navigateBack, replaceRoute, navigate } = useRouting()
+  const { navigateBack, navigate } = useRouting()
   const loginState = useLoggedInUser()
   const { width: deviceWidth } = useClientWindowDimensions()
 
@@ -69,23 +69,18 @@ const AppointmentDetails = () => {
     error: errorAppointment,
     data: appointmentData,
     refetch: refetchAppointment,
-    called: calledAppointment,
+    loading,
   } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
     variables: { idOrSlug },
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load appointment', {
-        location: 'AppointmentDetails.appointmentByIdOrSlugQuery',
-        idOrSlug,
-      })
-    },
     skip: !idOrSlug,
   })
 
   useOnRefresh(() => Promise.all([refetchAppointment(), refetchSpace()]))
-  useRefreshOnNavigation({ initialized: calledAppointment })
+  useApolloNotFoundErrorHandling(errorAppointment, 'Failed to load appointment', {
+    location: 'AppointmentDetails.appointmentByIdOrSlugQuery',
+    idOrSlug,
+  })
+  useRefreshOnNavigation({ initialized: !!appointmentData || !!errorAppointment || loading })
 
   const appointment = appointmentData?.appointment
 

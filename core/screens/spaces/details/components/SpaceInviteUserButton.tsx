@@ -36,13 +36,7 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   const styles = useMemo(() => getStyles(theme), [theme])
   const { track } = useTracking()
 
-  const [acceptRequestToJoin, { loading: loadingUserConnectionUpdate }] = useUpdateSpaceUserConnectionMutation({
-    variables: {
-      spaceId: spaceId,
-      userId: user.id,
-      connectAction: UpdateConnectionAction.Connect,
-      connectionType: SpaceUserConnectionType.Member,
-    },
+  const [acceptRequestToJoinMutation, { loading: loadingUserConnectionUpdate }] = useUpdateSpaceUserConnectionMutation({
     onCompleted() {
       openToast(t('spaces.invite.user.request.accepted', { user: userName }), HoliToastType.SUCCESS)
       onInviteHandled()
@@ -58,6 +52,18 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
       })
     },
   })
+  const acceptRequestToJoin = useCallback(
+    () =>
+      acceptRequestToJoinMutation({
+        variables: {
+          spaceId: spaceId,
+          userId: user.id,
+          connectAction: UpdateConnectionAction.Connect,
+          connectionType: SpaceUserConnectionType.Member,
+        },
+      }),
+    [acceptRequestToJoinMutation, spaceId, user.id]
+  )
 
   const isCollaborator = user.connectionStatusToSpace?.includes(SpaceUserConnectionType.Member)
   const wantsToJoin = user.connectionStatusToSpace?.includes(SpaceUserConnectionType.MembershipRequestor)

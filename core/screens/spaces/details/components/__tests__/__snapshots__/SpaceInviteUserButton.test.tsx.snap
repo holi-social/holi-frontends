@@ -99,7 +99,6 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={20}
@@ -233,7 +232,6 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
               },
             ]
           }
-          tintColor="#262424"
           vbHeight={24}
           vbWidth={24}
           width={20}
@@ -273,22 +271,6 @@ exports[`SpaceInviteUserButton displays nothing if the user is already a member 
 exports[`SpaceInviteUserButton displays status if the user is already invited 1`] = `
 <Text
   accessible={false}
-  collapsable={false}
-  jestAnimatedStyle={
-    {
-      "value": {},
-    }
-  }
-  jestInlineStyle={
-    {
-      "color": "#787777",
-      "fontFamily": "InstrumentSans-Regular",
-      "fontSize": 14,
-      "fontWeight": "400",
-      "lineHeight": 19.599999999999998,
-      "userSelect": "auto",
-    }
-  }
   selectable={true}
   style={
     {

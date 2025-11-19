@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import posthog, { type BootstrapConfig, PostHog, type Properties as PosthogProperties } from 'posthog-js'
+import posthog, { type BootstrapConfig, CaptureResult, PostHog } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
 
@@ -21,23 +21,13 @@ interface PosthogProviderProps {
   bootstrapState: BootstrapConfig
 }
 
-const withConsentProperties = (properties: PosthogProperties) => {
-  return {
-    ...properties,
+const withConsentProperties = (cr: CaptureResult | null) => {
+  if (!cr) return cr
+  cr.properties = {
+    ...cr.properties,
     ...ConsentState.toEventProperties(getConsentState()),
   }
-}
-
-// tracking UTM parameters is only allowed if users gave consent to tracking for marketing purposes. we're currently not
-// asking the user for consent, so UTM parameters are removed in case they're present
-const withoutUtmParameters = (properties: PosthogProperties) => {
-  const result: PosthogProperties = {}
-  for (const key in properties) {
-    if (!key.startsWith('utm_')) {
-      result[key] = properties[key]
-    }
-  }
-  return result
+  return cr
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
@@ -56,7 +46,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
           posthog.debug()
         }
       },
-      sanitize_properties: (properties) => withoutUtmParameters(withConsentProperties(properties)),
+      before_send: (cr) => withConsentProperties(cr),
       bootstrap: {
         ...featureFlagBootstrapValues,
         ...bootstrapState,

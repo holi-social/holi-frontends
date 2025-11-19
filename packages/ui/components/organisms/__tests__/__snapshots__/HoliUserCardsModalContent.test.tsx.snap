@@ -144,6 +144,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/1"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -154,11 +155,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -206,9 +203,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Dima Rosmait"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Dima Rosmait"
                         aria-label="Dima Rosmait"
                         contentFit="cover"
@@ -219,9 +213,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -231,24 +228,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -275,23 +254,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -355,6 +317,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/2"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -365,11 +328,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -455,24 +414,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -499,23 +440,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -579,6 +503,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/3"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -589,11 +514,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -641,9 +562,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Thomas Mueller"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Thomas Mueller"
                         aria-label="Thomas Mueller"
                         contentFit="cover"
@@ -654,9 +572,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -666,24 +587,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -710,23 +613,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -790,6 +676,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/4"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -800,11 +687,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -890,24 +773,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -934,23 +799,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -1014,6 +862,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/5"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1024,11 +873,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -1076,9 +921,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Peter Pan"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Peter Pan"
                         aria-label="Peter Pan"
                         contentFit="cover"
@@ -1089,9 +931,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -1101,24 +946,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -1145,23 +972,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -1225,6 +1035,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/6"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1235,11 +1046,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -1325,24 +1132,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -1369,23 +1158,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {
@@ -1451,6 +1223,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   accessible={true}
                   collapsable={false}
                   focusable={true}
+                  href="/profile/7"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1461,11 +1234,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
                   role="link"
-                  style={
-                    [
-                      false,
-                    ]
-                  }
+                  style={{}}
                   testID="link"
                 >
                   <View
@@ -1513,9 +1282,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
-                        accessibilityLabel="Lionel Messi"
-                        accessibilityRole="image"
-                        accessible={false}
                         alt="Lionel Messi"
                         aria-label="Lionel Messi"
                         contentFit="cover"
@@ -1526,9 +1292,12 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                           [
                             {
                               "height": 128,
+                              "maxWidth": "100%",
                               "width": 128,
                             },
-                            {},
+                            {
+                              "aspectRatio": undefined,
+                            },
                             {
                               "flexShrink": undefined,
                             },
@@ -1538,24 +1307,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     </View>
                     <Text
                       accessible={false}
-                      collapsable={false}
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      jestInlineStyle={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "marginVertical": 8,
-                          "textAlign": "center",
-                          "userSelect": "auto",
-                        }
-                      }
                       selectable={true}
                       style={
                         {
@@ -1582,23 +1333,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                     >
                       <Text
                         accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        jestInlineStyle={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 16,
-                            "fontWeight": "400",
-                            "lineHeight": 22.4,
-                            "textAlign": "center",
-                            "userSelect": "auto",
-                          }
-                        }
                         selectable={true}
                         style={
                           {

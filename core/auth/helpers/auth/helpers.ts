@@ -2,8 +2,9 @@
 import type {
   LoginFlow,
   RecoveryFlow,
+  RegistrationFlow,
   SettingsFlow,
-  UiText,
+  SuccessfulNativeRegistration,
   UpdateLoginFlowBody,
   UpdateLoginFlowWithOidcMethod,
   UpdateRegistrationFlowBody,
@@ -25,6 +26,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 import { config } from '@holi/mobile/config'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
+import { HoliOryRegistrationConfigError } from '@holi/core/errors/classes/HoliOnboardingError'
 
 type JwtPayloadWithNonce = JwtPayload & { nonce?: string }
 type PartialUpdateFlowBody = Pick<UpdateLoginFlowWithOidcMethod, 'id_token' | 'id_token_nonce'>
@@ -78,40 +80,20 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
-  let extraMessages: UiText[] = []
+export const getLoginFlow = async (flowId: string): Promise<LoginFlow> => {
+  return newKratosSdk()
+    .getLoginFlow({ id: flowId })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('getLoginFlow'))
+}
 
-  if (flowId) {
-    const flow = await newKratosSdk()
-      .getLoginFlow({ id: flowId })
-      .then(({ data }) => {
-        // Treat message "E-mail address already used by another account" as error and recreate the login flow
-        const errorMessages = data?.ui?.messages?.filter((message) => message.id === 1010016)
-        if (errorMessages?.length) {
-          extraMessages = errorMessages
-          return undefined
-        }
-        return data
-      })
-      .catch(handleKratosSdkError('getLoginFlow'))
-    if (flow) {
-      return flow
-    }
-  }
+export const initLoginFlow = async (): Promise<LoginFlow> => {
   return newKratosSdk()
     .createNativeLoginFlow({
       returnTo: NATIVE_RETURN_TO,
       returnSessionTokenExchangeCode: true,
     })
-    .then(({ data }) => {
-      return {
-        ...data,
-        ui: {
-          ...data.ui,
-          messages: extraMessages.concat(data.ui.messages ?? []),
-        },
-      }
-    })
+    .then(({ data }) => data)
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 }
 
@@ -226,13 +208,31 @@ export const submitLoginFlow = async (
     .catch(handleKratosSdkError('updateLoginFlow'))
 }
 
+export const submitRegistrationFlow = async (
+  flow: RegistrationFlow,
+  payload: UpdateRegistrationFlowBody,
+  provider?: string
+): AxiosPromise<SuccessfulNativeRegistration> => {
+  const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
+  logger.debug('retrieveSubmitFlowBody', 'registration flow body', updateRegistrationFlowBody)
+  const response = await newKratosSdk()
+    .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody }, { withCredentials: false })
+    .catch(handleKratosSdkError('updateRegistrationFlow'))
+
+  if (!response.data.session_token) {
+    throw new HoliOryRegistrationConfigError()
+  }
+
+  return response
+}
+
 /**
  *
  * @param url The URL is returned by Ory after submitting the login flow as a 422 error and can be parsed from the error with the {@link getBrowserRedirect()} function
  * @param flow The initiated and submitted login flow from Ory
  * @param redirectUrl All redirectUrls passed in here need to be registered in Ory in the Allowed Urls under Branding->Browser redirects
  */
-export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
+export const doBrowserLogin = async (url: string, flow: LoginFlow): Promise<OrySessionContext> => {
   const redirect = AuthSession.makeRedirectUri({
     preferLocalhost: true,
     path: 'login/callback',
@@ -250,25 +250,20 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
     return newKratosSdk()
       .exchangeSessionToken({ initCode, returnToCode })
       .then((res) => {
-        if (res?.data.session_token) {
-          const orySession: OrySessionContext = {
-            session: res.data.session,
-            session_token: res.data.session_token,
-          }
-          setSessionInStorage(orySession)
-          return orySession
+        const orySession: OrySessionContext = {
+          session: res.data.session,
+          session_token: res.data.session_token,
         }
+        setSessionInStorage(orySession)
+        return orySession
       })
-  } else if (!['cancel', 'dismiss'].includes(result.type)) {
-    throw new Error('Failed to complete auth session')
+  } else if (['cancel', 'dismiss'].includes(result.type)) {
+    throw new HoliLoginCancelledError('Browser login was cancelled by the user')
   }
+  throw new Error('Failed to complete auth session')
 }
 
-// Logout
-export const submitLogoutFlow = async ({
-  sessionToken,
-  accountType,
-}: { sessionToken?: string; accountType?: AccountType }) => {
+export const submitSocialLogout = async (accountType?: AccountType) => {
   switch (accountType) {
     case AccountType.Google:
       await GoogleSignin.signOut()
@@ -277,9 +272,13 @@ export const submitLogoutFlow = async ({
       // noop: It is not recommended to use AppleAuthentication.signOutAsync
       break
     case AccountType.Facebook:
-      await LoginManager.logOut()
+      LoginManager.logOut()
       break
   }
+}
+
+// Logout
+export const submitLogoutFlow = async ({ sessionToken }: { sessionToken?: string }) => {
   if (sessionToken) {
     return newKratosSdk()
       .performNativeLogout({
@@ -310,19 +309,20 @@ export const submitReauthFlow = async (flow: LoginFlow, password: string, email:
     .catch(handleKratosSdkError('submitReauthFlow'))
 }
 
-export const getRegistrationFlow = (flowId: string) =>
-  newKratosSdk().getRegistrationFlow({ id: flowId }).catch(handleKratosSdkError('getRegistrationFlow'))
-
 // Register
-export const initRegistrationFlow = async (flowId?: string) => {
-  if (flowId) {
-    return getRegistrationFlow(flowId)
-  }
+export const getRegistrationFlow = (flowId: string) =>
+  newKratosSdk()
+    .getRegistrationFlow({ id: flowId })
+    .then(({ data }) => data)
+    .catch(handleKratosSdkError('getRegistrationFlow'))
+
+export const initRegistrationFlow = async () => {
   return newKratosSdk()
     .createNativeRegistrationFlow({
       returnTo: NATIVE_RETURN_TO,
       returnSessionTokenExchangeCode: true,
     })
+    .then(({ data }) => data)
     .catch(handleKratosSdkError('createNativeRegistrationFlow'))
 }
 

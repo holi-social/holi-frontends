@@ -1,22 +1,28 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
+import { fireEvent, screen } from '@testing-library/react-native'
 import React from 'react'
+import { Text } from 'react-native'
 
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 
 describe('HoliTextLink', () => {
   it('renders child component', () => {
-    render(
-      <HoliTextLink label="test" href="/" size="md">
-        inner
-      </HoliTextLink>
-    )
+    renderRouter({
+      index: () => (
+        <HoliTextLink label="test" href="/" size="md">
+          inner
+        </HoliTextLink>
+      ),
+    })
 
     expect(screen.getByText('inner')).toBeDefined()
   })
 
   it('calls onPress handler', () => {
     const onPress = jest.fn()
-    render(<HoliTextLink label="test" href="/" onPress={onPress} size="md" />)
+    renderRouter({
+      index: () => <HoliTextLink label="test" href="/" onPress={onPress} size="md" />,
+    })
 
     fireEvent.press(screen.getByRole('link'))
 
@@ -24,10 +30,24 @@ describe('HoliTextLink', () => {
   })
 
   it('should navigate on press if no onPress is given', () => {
-    render(<HoliTextLink label="test" href="/spaces" size="md" />)
+    const context = renderRouter({
+      index: () => <HoliTextLink label="test" href="/spaces" size="md" />,
+      spaces: () => <Text>Spaces</Text>,
+    })
 
     fireEvent.press(screen.getByRole('link'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//spaces')
+    expect(context).toHavePathname('/spaces')
+  })
+
+  it('should replace route on press if no onPress is given', () => {
+    const context = renderRouter({
+      index: () => <HoliTextLink label="test" href="/spaces" size="md" replace />,
+      spaces: () => <Text>Spaces</Text>,
+    })
+
+    fireEvent.press(screen.getByRole('link'))
+
+    expect(context).toHavePathname('/spaces')
   })
 })

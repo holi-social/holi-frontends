@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-native'
 import { useMicroactionParameters } from '@holi-apps/volunteering/hooks/useMicroactionParameters'
 import { MICROACTION_PAGE_SIZE } from '@holi-apps/volunteering/hooks/useMicroactions'
 

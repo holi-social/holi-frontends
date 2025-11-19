@@ -2,15 +2,13 @@ import React, { memo, useCallback, useEffect, useState } from 'react'
 import { Screen } from '@holi/core/components/Screen'
 
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
-import { Keyboard, Platform } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import { BorderRadius, Spacing } from 'holi-bricks/foundations'
 import { useTranslation } from 'react-i18next'
 import { Text } from 'holi-bricks/components/text'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { View } from 'react-native'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { StyleSheet } from 'react-native'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import TaskCompletionSteps from '@holi/core/screens/spaces/tasks/components/TaskCompletionSteps'
@@ -20,10 +18,9 @@ import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-c
 import { useSafeDispatch } from '@holi/core/helpers/useSafeDispatch'
 import { useErrorHandling } from '@holi/core/errors/hooks/useErrorHandling'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
+import { HoliOryRegistrationConfigError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { doBrowserLogin, retrieveSubmitFlowBody } from '@holi/core/auth/helpers/auth/helpers'
 import { extractValue } from '@holi/core/auth/helpers/helper'
-import { getNodesByStep } from '@holi/core/screens/onboarding/helpers/getNodesByStep'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -33,7 +30,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -41,10 +38,9 @@ import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { GoodDeedMoreCard } from '@holi/core/screens/spaces/tasks/components/GoodDeedMoreCard'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { storeWelcomeGoodDeedsCounterModal } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
-import { Edit2, Mail, HoliLogoFilled, HoliLogo } from '@holi/icons/src/generated'
-import { setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers.web'
+import { Edit2, HoliLogo } from '@holi/icons/src/generated'
+import { removeRedirectAfterSocialLogin, setRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 import { ButtonTracked } from '@holi/core/components/Trackable'
-import { Button } from 'holi-bricks/components/button'
 import { SocialLoginButton } from 'holi-bricks/components/button'
 import { getTrackingEventForRegistrationFlowSubmit } from '@holi/core/auth/helpers/auth/tracking'
 import { getNodeProviderId, getNodeProviderName } from '@holi/core/auth/helpers/auth'
@@ -52,6 +48,7 @@ import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { SocialLoginButtonProvider } from 'holi-bricks/components/button/SocialLoginButton'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const logger = getLogger('TaskCompletionFlow')
 
@@ -120,7 +117,7 @@ const TaskCompletionFlow = () => {
     return (
       initRegistrationFlow()
         // The flow was initialized successfully, let's set the form data:
-        .then(({ data: flow }) => {
+        .then((flow) => {
           safeSetFlow(flow)
         })
         .catch((error) =>
@@ -146,158 +143,147 @@ const TaskCompletionFlow = () => {
   }, [spaceId, id])
 
   useEffect(() => {
-    console.log('Step changed:', step)
-  }, [step])
-
-  useEffect(() => {
-    console.log('Flow state changed:', flow?.state)
     if (flow?.state === 'sent_email') {
-      console.log('Transitioning to sent email step')
       setStep('code')
     } else if (flow?.state === 'choose_method') {
-      console.log('Flow reset to choose method')
       setStep('oidc')
     }
   }, [flow])
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody & { 'traits.email'?: string }, provider?: string) => {
+    if (!flow) return
+
     if (payload['traits.email']) {
       setEmail(payload['traits.email'])
     }
+
     track(getTrackingEventForRegistrationFlowSubmit({ payload, provider, screen: 'taskRegistration' }))
-    if (flow) {
-      // Check if flow is still valid before submitting
-      if (!flow.id || (flow.expires_at && new Date(flow.expires_at) < new Date())) {
-        console.log('Flow expired or invalid, reinitializing...')
+    // Check if flow is still valid before submitting
+    if (!flow.id || (flow.expires_at && new Date(flow.expires_at) < new Date())) {
+      initializeFlow()?.then(() => {
+        setStep('oidc')
+      })
+      return
+    }
+
+    showLoader()
+    Keyboard.dismiss()
+
+    try {
+      const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
+      const extraBody: { 'traits.given_name'?: string } = {}
+      if (name) {
+        extraBody['traits.given_name'] = name
+      }
+
+      // Extract CSRF token from the flow
+      const csrf_token = extractValue(flow, 'csrf_token')
+
+      const { data } = await newKratosSdk().updateRegistrationFlow({
+        flow: flow.id,
+        updateRegistrationFlowBody: {
+          ...updateRegistrationFlowBody,
+          ...extraBody,
+          csrf_token,
+        },
+      })
+
+      // Update the flow state with the response
+      safeSetFlow(data)
+
+      // ORY Kratos can be configured in such a way that it requires a login after
+      // registration. You could handle that case by navigating to the Login screen
+      // but for simplicity we'll just print an error here:
+      if (Platform.OS === 'web' ? !data.session : !data.session_token) {
+        throw new HoliOryRegistrationConfigError()
+      }
+
+      logger.debug('TaskCompletionFlow', 'registration was successful')
+
+      const verificationFlowData = getVerificationFlowFromRegistration(data)
+      setVerificationFlowData(verificationFlowData)
+
+      await doLogin(client, {
+        session: data.session,
+        session_token: data.session_token,
+      } as OrySessionContext)
+
+      await handleCompleteTask()
+    } catch (err) {
+      if (
+        (
+          err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
+        )?.response?.data?.ui?.messages?.find((message) => message.id === OryErrorCode.ACCOUNT_ALREADY_EXISTS)
+      ) {
+        displayError(err, 'Failed to submit form', {
+          displayMessage: t('auth.login.message.1010016'),
+          location: 'TaskCompletionFlow.onSubmit',
+        })
         initializeFlow()?.then(() => {
           setStep('oidc')
         })
         return
       }
 
-      showLoader()
-      Keyboard.dismiss()
+      if (err instanceof HoliLoginCancelledError) {
+        // Do not display error if user cancelled the login
+        return
+      }
+      const url = getBrowserRedirect(err)
 
-      try {
-        const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
-        const extraBody: { 'traits.given_name'?: string } = {}
-        if (name) {
-          extraBody['traits.given_name'] = name
+      if (url) {
+        if (Platform.OS === 'web') {
+          navigate(url)
+        } else {
+          const data = await doBrowserLogin(url, flow).catch((error) => {
+            handleFormSubmitError(
+              safeSetFlow,
+              initializeFlow,
+              (err) =>
+                displayError(err, 'Failed to login user', {
+                  displayMessage: t('auth.login.error.login'),
+                  location: 'TaskCompletionFlow.doBrowserLogin',
+                }),
+              error
+            )
+          })
+
+          if (data) {
+            await doLogin(client, data)
+            await handleCompleteTask()
+          }
         }
-
-        // Extract CSRF token from the flow
-        const csrf_token = extractValue(flow, 'csrf_token')
-
-        const { data } = await newKratosSdk().updateRegistrationFlow({
-          flow: flow.id,
-          updateRegistrationFlowBody: {
-            ...updateRegistrationFlowBody,
-            ...extraBody,
-            csrf_token,
-          },
-        })
-
-        console.log('Registration flow response:', data)
-
-        // Update the flow state with the response
-        safeSetFlow(data)
-
-        // ORY Kratos can be configured in such a way that it requires a login after
-        // registration. You could handle that case by navigating to the Login screen
-        // but for simplicity we'll just print an error here:
-        if (Platform.OS === 'web' ? !data.session : !data.session_token) {
-          const err = new HoliOnboardingError(
-            'It looks like you configured ORY Kratos to not issue a session automatically after registration. This edge-case is currently not supported in this example app. You can find more information on enabling this feature here: https://www.ory.sh/kratos/docs/next/self-service/flows/user-registration#successful-registration'
-          )
-          throw err
-        }
-
-        logger.debug('TaskCompletionFlow', 'registration was successful')
-
-        const verificationFlowData = getVerificationFlowFromRegistration(data)
-        setVerificationFlowData(verificationFlowData)
-
-        await doLogin(client, {
-          session: data.session,
-          session_token: data.session_token,
-        } as OrySessionContext)
-
-        await handleCompleteTask()
-      } catch (err) {
+      } else {
+        // Check if this is a flow expiration error (4040003)
         if (
           (
             err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
-          )?.response?.data?.ui?.messages?.find((message) => message.id === 4000007)
+          )?.response?.data?.ui?.messages?.find((message) => message.id === 4040003)
         ) {
-          displayError(err, 'Failed to submit form', {
-            displayMessage: t('auth.login.message.1010016'),
+          displayError(err, 'Flow expired', {
+            displayMessage: t('auth.login.message.4040003'),
             location: 'TaskCompletionFlow.onSubmit',
           })
+          // Re-initialize the flow when it expires
           initializeFlow()?.then(() => {
             setStep('oidc')
           })
           return
         }
-        if (err instanceof HoliLoginCancelledError) {
-          // Do not display error if user cancelled the login
-          return
-        }
-        const url = getBrowserRedirect(err)
 
-        if (url) {
-          if (Platform.OS === 'web') {
-            navigate(url)
-          } else {
-            const data = await doBrowserLogin(url, flow).catch((error) => {
-              handleFormSubmitError(
-                safeSetFlow,
-                initializeFlow,
-                (err) =>
-                  displayError(err, 'Failed to login user', {
-                    displayMessage: t('auth.login.error.login'),
-                    location: 'TaskCompletionFlow.doBrowserLogin',
-                  }),
-                error
-              )
-            })
-
-            if (data) {
-              await doLogin(client, data)
-              await handleCompleteTask()
-            }
-          }
-        } else {
-          // Check if this is a flow expiration error (4040003)
-          if (
-            (
-              err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
-            )?.response?.data?.ui?.messages?.find((message) => message.id === 4040003)
-          ) {
-            displayError(err, 'Flow expired', {
-              displayMessage: t('auth.login.message.4040003'),
+        handleFormSubmitError(
+          safeSetFlow,
+          initializeFlow,
+          (error) =>
+            displayError(error, 'Failed to submit form', {
+              displayMessage: t('auth.registration.error.registration'),
               location: 'TaskCompletionFlow.onSubmit',
-            })
-            // Re-initialize the flow when it expires
-            initializeFlow()?.then(() => {
-              setStep('oidc')
-            })
-            return
-          }
-
-          handleFormSubmitError(
-            safeSetFlow,
-            initializeFlow,
-            (error) =>
-              displayError(error, 'Failed to submit form', {
-                displayMessage: t('auth.registration.error.registration'),
-                location: 'TaskCompletionFlow.onSubmit',
-              }),
-            err
-          )
-        }
-      } finally {
-        hideLoader()
+            }),
+          err
+        )
       }
+    } finally {
+      hideLoader()
     }
   }
 
@@ -326,6 +312,8 @@ const TaskCompletionFlow = () => {
                           screen: 'taskRegistration',
                         })
                       )
+                      setPathToRedirect(null)
+                      removeRedirectAfterSocialLogin()
                       return initializeFlow()?.then(() => {
                         setStep('oidc')
                       })

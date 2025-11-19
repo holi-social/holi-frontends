@@ -44,7 +44,7 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
   const { loading, data: users } = usePaginationContext<User>()
 
   if (loading) {
-    return <HoliLoader style={styles.loader} />
+    return <HoliLoader style={styles.loader} testID="loader" />
   }
   if (!users?.length) {
     return <HoliText>{emptyText ?? t('spaces.invite.user.notFound')}</HoliText>

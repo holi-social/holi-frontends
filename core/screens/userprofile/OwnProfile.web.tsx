@@ -1,15 +1,15 @@
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, useWindowDimensions, Share } from 'react-native'
+import { Platform, ScrollView, Share, useWindowDimensions } from 'react-native'
 import Clipboard from '@react-native-clipboard/clipboard'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
@@ -29,14 +29,12 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { holiNextJSApiUrl } from '@holi/api/config'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useOwnProfileTab } from '@holi/core/screens/userprofile/hooks/useOwnProfileTab'
 
 const OwnProfile = () => {
   const { track } = useTracking()
 
-  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const [activeTab, setActiveTab] = useState<string>(rewardsPhaseTwoEnabled ? Tab.MY_VOLUNTEERING : Tab.PROFILE)
+  const { activeTab, handleTabChange, rewardsPhaseTwoEnabled } = useOwnProfileTab()
   const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -109,14 +107,12 @@ const OwnProfile = () => {
 
     setScreenOptions({
       title,
-      headerShown: true,
-      headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTitle: () => null,
-      headerLeft: ({ tintColor }) => (
-        <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
+      headerLeft: () => (
+        <Text headingLevel="1" size="lg">
           {title}
-        </HeaderTitle>
+        </Text>
       ),
       headerRight: () => (
         <HoliHorizontalRow>
@@ -191,7 +187,7 @@ const OwnProfile = () => {
               user={user}
               toggleEditMode={toggleEditMode}
               activeTab={activeTab}
-              onTabChange={setActiveTab}
+              onTabChange={handleTabChange}
             />
           </>
         ) : (

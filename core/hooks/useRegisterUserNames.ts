@@ -1,5 +1,5 @@
-import { useMutation } from '@apollo/client'
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { z } from 'zod'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'

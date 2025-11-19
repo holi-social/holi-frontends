@@ -1,122 +1,75 @@
-import React, { useState } from 'react'
+import React, {} from 'react'
 
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { HoliStepper, type HoliStepperItem } from '@holi/ui/components/organisms/HoliStepperV2'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 
-import { GoodDeedsExplainMobile } from './components/GoodDeedsExplainMobile'
-import { GoodDeedsDoMobile } from './components/GoodDeedsDoMobile'
-import { GoodDeedsExplainDesktop } from './components/GoodDeedsExplainDesktop'
-import { GoodDeedsDoDesktop } from './components/GoodDeedsDoDesktop'
-import { GoodDeedsIntroFooterNavigation } from './components/GoodDeedsIntroFooterNavigation'
 import { useGoodDeedsIntroModalState } from './helpers/useGoodDeedsIntroModalState'
 import { useIsDesktopView } from './helpers/isDesktopView'
+import { GoodDeedsIntroStepper } from './GoodDeedsIntroStepper'
+import type { GoodDeedsOnboardingStepItem } from './types'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const GoodDeedsOnboardingStepKeys = ['GOOD_DEEDS_EXPLANATION', 'GOOD_DEEDS_DO'] as const
-export type GoodDeedsOnboardingStepKey = (typeof GoodDeedsOnboardingStepKeys)[number]
-
-export interface GoodDeedsOnboardingStepItem extends HoliStepperItem {
-  key: GoodDeedsOnboardingStepKey
-}
-
-export const goodDeedsOnboardingStepsDesktop: GoodDeedsOnboardingStepItem[] = [
+export const goodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
   {
-    key: 'GOOD_DEEDS_EXPLANATION',
+    key: 'GOOD_DEEDS_BECOME_HERO',
     backgroundColor: 'white',
   },
   {
-    key: 'GOOD_DEEDS_DO',
+    key: 'GOOD_DEEDS_PROGRESS_EXPLANATION',
+    backgroundColor: 'white',
+  },
+  {
+    key: 'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
+    backgroundColor: 'white',
   },
 ]
 
-export const goodDeedsOnboardingStepsMobile: GoodDeedsOnboardingStepItem[] = [
+export const firstTrackedGoodDeedsOnboardingSteps: GoodDeedsOnboardingStepItem[] = [
   {
-    key: 'GOOD_DEEDS_EXPLANATION',
-    FooterNavigationComponent: GoodDeedsIntroFooterNavigation,
-    footerNavigation: { isBackButtonAvailable: false, nextButtonLabel: 'onboarding.modal.step01.buttonPrimary' },
+    key: 'GOOD_DEEDS_IMPACT_STARTER',
+    backgroundColor: 'yellowDefault',
+  },
+  {
+    key: 'GOOD_DEEDS_YOU_ARE_HERO',
     backgroundColor: 'white',
   },
   {
-    key: 'GOOD_DEEDS_DO',
-    FooterNavigationComponent: GoodDeedsIntroFooterNavigation,
-    footerNavigation: { isBackButtonAvailable: true, nextButtonLabel: 'onboarding.modal.step02.buttonPrimary' },
-    backgroundColor: 'yellowDefault',
+    key: 'GOOD_DEEDS_PROGRESS_EXPLANATION',
+    backgroundColor: 'white',
+  },
+  {
+    key: 'GOOD_DEEDS_CAMPAIGN_EXPLANATION',
+    backgroundColor: 'white',
   },
 ]
 
 export const GoodDeedsIntroModal = () => {
+  const pathname = usePathname()
+  const isOnboardingScreen = pathname.includes('onboarding')
+  const isLoginScreen = pathname.includes('login')
   const isDesktopView = useIsDesktopView()
   const { styles } = useStyles(stylesheet)
 
-  const [currentStep, setCurrentStep] = useState<GoodDeedsOnboardingStepKey>('GOOD_DEEDS_EXPLANATION')
+  const { type, visible, hide } = useGoodDeedsIntroModalState()
 
-  const { visible, hide } = useGoodDeedsIntroModalState()
+  const steps = type === 'first-tracked-good-deed' ? firstTrackedGoodDeedsOnboardingSteps : goodDeedsOnboardingSteps
 
-  const handleClose = () => {
-    hide()
-    setCurrentStep('GOOD_DEEDS_EXPLANATION')
-  }
-
-  const renderStep = isDesktopView
-    ? (key: GoodDeedsOnboardingStepKey) => {
-        switch (key) {
-          case 'GOOD_DEEDS_EXPLANATION':
-            return <GoodDeedsExplainDesktop onNextPress={() => setCurrentStep('GOOD_DEEDS_DO')} />
-          case 'GOOD_DEEDS_DO':
-            return (
-              <GoodDeedsDoDesktop
-                onNextPress={handleClose}
-                onBackPress={() => setCurrentStep('GOOD_DEEDS_EXPLANATION')}
-              />
-            )
-          default:
-            throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
-        }
-      }
-    : (key: GoodDeedsOnboardingStepKey) => {
-        switch (key) {
-          case 'GOOD_DEEDS_EXPLANATION':
-            return <GoodDeedsExplainMobile />
-          case 'GOOD_DEEDS_DO':
-            return <GoodDeedsDoMobile />
-          default:
-            throw new HoliError(`Good Deeds Onboarding: "${key}" is not a valid step`)
-        }
-      }
+  if (!visible || !type) return null
 
   return (
     <HoliModal
-      label=""
+      label="Good Deeds Onboarding"
       desktop={isDesktopView}
       relativeHeight={1}
       autoHeight={false}
-      shown={visible}
-      onDismiss={handleClose}
+      shown={visible && !(isOnboardingScreen || isLoginScreen)} // do not show on Onboarding or Login screens
+      onDismiss={hide}
       style={isDesktopView ? styles.modalDesktop : styles.modalMobile}
       testID="onboarding-good-deeds-modal"
     >
-      <HoliStepper
-        data={isDesktopView ? goodDeedsOnboardingStepsDesktop : goodDeedsOnboardingStepsMobile}
-        activeStepKey={currentStep}
-        keyExtractor={(item) => item.key}
-        renderStep={({ key }) => renderStep(key as GoodDeedsOnboardingStepKey)}
-        onChange={(key, previousKey, buttonPressed) => {
-          // finish onboarding if user is on last step and clicks on continue
-          if (buttonPressed === 'continue' && [key, previousKey].every((key) => key === 'GOOD_DEEDS_DO')) {
-            handleClose()
-            return
-          }
-
-          setCurrentStep(key as GoodDeedsOnboardingStepKey)
-        }}
-        WrapperComponent={({ children }) => <>{children}</>}
-        paddingTop={0}
-        paddingBottom={0}
-        testID="onboarding-good-deeds-modal--stepper"
-      />
+      {/* Use key to reset the stepper when the type changes */}
+      <GoodDeedsIntroStepper key={type} type={type} steps={steps} onEnd={hide} />
     </HoliModal>
   )
 }

@@ -60,7 +60,9 @@ export const DonationDetailView = ({ projectId }: DonationDetailViewProps) => {
   })
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('donations.app.name') })
+    setScreenOptions({
+      title: t('donations.app.name'),
+    })
   }, [setScreenOptions, t])
 
   if (!projectId || isLoading || !project) {

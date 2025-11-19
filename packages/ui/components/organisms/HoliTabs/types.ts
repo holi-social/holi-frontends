@@ -23,4 +23,5 @@ export interface HoliTabsProps<D> {
   tabBarBackgroundColor?: string
   testID?: string
   marginHorizontal?: number
+  hideTabs?: boolean
 }

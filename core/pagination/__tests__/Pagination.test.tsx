@@ -1,5 +1,7 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { act, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import type { MockLink } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { act, fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { Text } from 'holi-bricks/components/text/Text'
 import type React from 'react'
 import { View } from 'react-native'
@@ -37,22 +39,24 @@ const TestComponent: React.FC = () => {
   )
 }
 
-const renderPagination = (mocks: MockedResponse[]) =>
-  render(
-    <MockedProvider mocks={mocks} cache={createCache()}>
-      <ToastProvider>
-        <Pagination
-          query={lastInsightsQuery}
-          queryOptions={{
-            queryPath: 'lastInsights',
-            pageSize,
-          }}
-        >
-          <TestComponent />
-        </Pagination>
-      </ToastProvider>
-    </MockedProvider>
-  )
+const renderPagination = (mocks: MockLink.MockedResponse[]) =>
+  renderRouter({
+    index: () => (
+      <MockedProvider mocks={mocks} cache={createCache()}>
+        <ToastProvider>
+          <Pagination
+            query={lastInsightsQuery}
+            queryOptions={{
+              queryPath: 'lastInsights',
+              pageSize,
+            }}
+          >
+            <TestComponent />
+          </Pagination>
+        </ToastProvider>
+      </MockedProvider>
+    ),
+  })
 
 describe('PaginationContext', () => {
   beforeEach(() => {

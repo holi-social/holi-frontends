@@ -18,7 +18,7 @@ export type TextLinkSize = 'md' | 'sm' | 'xs'
 export type TextLinkProps = AccessibilityProps &
   LayoutProps &
   React.PropsWithChildren & {
-    size: TextLinkSize
+    size?: TextLinkSize
     numberOfLines?: number
     /** Managed Theme color. */
     color?: TextProps['color']
@@ -27,10 +27,11 @@ export type TextLinkProps = AccessibilityProps &
     textAlign?: TextStyle['textAlign']
     ellipsizeMode?: TextProps['ellipsizeMode']
     onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+    testID?: string
   }
 
 export const TextLink = ({
-  size,
+  size = 'md',
   numberOfLines,
   color = 'main',
   colorOverride,
@@ -39,6 +40,7 @@ export const TextLink = ({
   children,
   onPress,
   role = 'link',
+  testID,
   ...rest
 }: TextLinkProps) => {
   const { styles } = useStyles(stylesheet, { size })
@@ -50,6 +52,7 @@ export const TextLink = ({
       role={role}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
+      testID={testID}
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation

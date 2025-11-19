@@ -1,0 +1,119 @@
+import React from 'react'
+import '@holi/core/components/Screen/mock'
+import { Authentication, type AuthenticationProps } from '@holi/core/screens/auth/Authentication'
+import { renderRouter, screen, userEvent, waitFor } from 'expo-router/testing-library'
+import { Button } from 'holi-bricks/components/button'
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
+import HeaderAnimated from '@holi/core/components/HeaderAnimated/index.web'
+import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { AccountType } from '@holi/api/graphql/graphql-codegen'
+import { Text } from 'holi-bricks/components/text'
+
+jest.mock('@holi/core/helpers/useLogout')
+
+jest.mock('@holi/core/navigation/hooks/useParam')
+
+const mockStoreGuestMode = jest.mocked(storeGuestMode)
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
+  storeGuestMode: jest.fn(),
+}))
+
+const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: jest.fn(),
+}))
+
+jest.useFakeTimers()
+
+const AuthenticationSelection = ({ onRegister }: AuthenticationProps) => {
+  return (
+    <>
+      <Button label="login-button" />
+      <Button onPress={onRegister} label="register-button" />
+    </>
+  )
+}
+jest.mock('@holi/core/screens/auth/components/AuthenticationSelection', () => ({
+  AuthenticationSelection,
+}))
+
+describe('Authentication', () => {
+  beforeEach(() => {
+    mockParameters()
+    mockUseLoggedInUser.mockReturnValue({
+      isLoggedIn: false,
+      isLoggedOut: true,
+      isLoading: false,
+      user: undefined,
+      state: 'loggedOut',
+    })
+  })
+
+  it('should render authentication selection', () => {
+    renderRouter({ index: () => <Authentication initialSelection="login" /> })
+
+    expect(screen.getByLabelText('login-button')).toBeOnTheScreen()
+    expect(screen.getByLabelText('register-button')).toBeOnTheScreen()
+  })
+
+  it('should call register callback on register', async () => {
+    const onRegister = jest.fn()
+    const user = userEvent.setup()
+
+    renderRouter({ index: () => <Authentication initialSelection="registration" onRegister={onRegister} /> })
+
+    await user.press(screen.getByLabelText('register-button'))
+
+    expect(onRegister).toHaveBeenCalled()
+  })
+
+  it('should enable guest mode and call onContinueAsGuest callback on close', async () => {
+    const onContinueAsGuest = jest.fn()
+    const user = userEvent.setup()
+
+    renderRouter({
+      index: () => (
+        <>
+          <HeaderAnimated />
+          <Authentication initialSelection="login" onContinueAsGuest={onContinueAsGuest} />
+        </>
+      ),
+    })
+
+    await user.press(screen.getByTestId('nav-button-back'))
+
+    expect(mockStoreGuestMode).toHaveBeenCalledWith(true)
+    expect(onContinueAsGuest).toHaveBeenCalled()
+  })
+
+  it('should render loading if user is already logged in', async () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoading: false,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      user: {
+        id: 'test-user-id',
+        identity: 'test-user',
+        accountType: AccountType.Email,
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'TU',
+        fullName: 'Test User',
+        isEmployee: false,
+        email: 'test@example.com',
+        isOidc: false,
+      },
+      state: 'loggedIn',
+    })
+
+    const context = renderRouter(
+      { login: () => <Authentication initialSelection="login" />, index: () => <Text size="md">Home</Text> },
+      { initialUrl: 'login' }
+    )
+
+    expect(screen.getByTestId('loader')).toBeOnTheScreen()
+
+    // Expect navigation to home page
+    await waitFor(() => expect(context.getPathname()).toEqual('/'))
+  })
+})

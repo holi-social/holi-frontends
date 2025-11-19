@@ -4,7 +4,7 @@ import { FlatList, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import { useLazyAbortableQuery } from '@holi/api/useLazyAbortableQuery'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { type UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
+import { userByNameQuery, type UserByNameResponse } from '@holi/core/domain/shared/queries'
 import type { User } from '@holi/core/domain/shared/types'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
@@ -22,7 +22,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { Spacing } from 'holi-bricks/foundations'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import { Button } from 'holi-bricks/components/button'
 
 const FIND_USER_BY_NAME_LIMIT = 30
@@ -47,10 +47,10 @@ const ChatStartConversationView = () => {
   useEffect(() => {
     setScreenOptions({
       title: t('chat.start.title'),
-      headerTitle: ({ tintColor, children }) => (
-        <HeaderTitle size="large" tintColor={tintColor}>
+      headerTitle: ({ children }) => (
+        <Text headingLevel="1" size="lg">
           {children}
-        </HeaderTitle>
+        </Text>
       ),
       headerStyle: {
         backgroundColor: colors.background20,

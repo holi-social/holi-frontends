@@ -1,31 +1,40 @@
 import React, { memo, useCallback } from 'react'
+import { Platform } from 'react-native'
 import { Screen } from '@holi/core/components/Screen'
-
-import { Stack } from 'holi-bricks/components/stack'
-import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
-import { Platform, StyleSheet, View } from 'react-native'
-import { BorderRadius, Spacing, white } from 'holi-bricks/foundations'
 import { TaskDetailsCTA } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA'
+import { TaskDetailsCTA as TaskDetailsCTALegacy } from '@holi/core/screens/spaces/tasks/components/TaskDetailsCTA/indexLegacy'
+import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
+import { TaskProgressCard } from '@holi/core/screens/spaces/tasks/components/TaskProgressCard'
+import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+
+import {
+  FavoritableType,
+  useUpdateVolunteeringOpportunityStatusMutation,
+  useVolunteeringOpportunityStatusQuery,
+  VolunteeringOpportunityStatusValue,
+} from '@holi/api/graphql/graphql-codegen'
+
+import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
+import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useSpaceAdminUsers'
+import { useLoginState } from '@holi/core/auth/loginState'
+import { useStartChat } from '@holi/core/screens/spaces/hooks/useStartChat'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
-import { VolunteeringSimilarRecos } from '@holi-apps/volunteering/components/VolunteeringSimilarRecos'
+import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
-import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import { FavoritableType } from '@holi/api/graphql/graphql-codegen'
+import { Stack } from 'holi-bricks/components/stack'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { DoItLater, DoItLaterModal } from '@holi/core/screens/spaces/tasks/DoItLater'
+import { BookmarkLine } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { DoItLaterModal, DoItLater } from '@holi/core/screens/spaces/tasks/DoItLater'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { BookmarkLine } from '@holi/icons/src/generated'
-import { ButtonTracked } from '@holi/core/components/Trackable'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isIos = Platform.OS === 'ios'
 
@@ -34,10 +43,6 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetails = () => {
-  const { props: doItLaterModalProps, show: showDoItLater } = useModalState()
-  const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
-
   const {
     data,
     isOwner,
@@ -53,11 +58,39 @@ const TaskDetails = () => {
     totalCompletions,
     isGoodDeed,
   } = useTaskDetailsData()
-  const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
+  const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const { theme } = useTheme()
-  const styles = getStyles(theme)
+  const { props: doItLaterModalProps, show: showDoItLater } = useModalState()
+  const loginState = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
+  const { adminUsers } = useSpaceAdminUsers(spaceName)
+  const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
+  const [taskSelfReportingFlow] = useFeatureFlag(FeatureFlagKey.TASK_SELF_REPORTING_FLOW)
+  const chatRoomContent = {
+    taskName: data?.title,
+    taskId: id || '',
+    spaceName: spaceTitle || '',
+    holiSpaceId: spaceId || '',
+  }
+  const { startChat, isLoading } = useStartChat(chatRoomContent, adminUsers || [])
 
+  // Task status management
+  const [updateVolunteeringOpportunityStatus] = useUpdateVolunteeringOpportunityStatusMutation()
+  const { refetch: refetchStatus, data: statusData } = useVolunteeringOpportunityStatusQuery({
+    variables: { volunteeringOpportunityId: id || '' },
+    skip: !loginState.isLoggedIn,
+  })
+  const taskStatus = statusData?.volunteeringOpportunityStatus
+
+  const onVolunteeringStatusChange = async (status: VolunteeringOpportunityStatusValue) => {
+    if (!id) return
+    await updateVolunteeringOpportunityStatus({
+      variables: { volunteeringOpportunityId: id, newStatus: status },
+    })
+    await refetchStatus()
+  }
+
+  // Render top-right task drawer (edit/settings)
   const renderActionDrawer = useCallback(
     (tintColor?: string) =>
       id && (
@@ -77,7 +110,6 @@ const TaskDetails = () => {
   }
 
   useTrackOnce(id ? TrackingEvent.Task.detailPage.visited(taskProps) : undefined)
-
   return (
     <>
       <Screen
@@ -89,7 +121,6 @@ const TaskDetails = () => {
           headerTitleAlign: 'center',
           ...Platform.select({
             native: {
-              headerTintColor: white,
               title: '',
               headerTransparent: true,
             },
@@ -100,63 +131,93 @@ const TaskDetails = () => {
             footerShown: false,
           },
         }}
-        statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content', animated: true }}
+        statusBarProps={{ translucent: true, style: isIos ? 'light' : 'dark', animated: true }}
         StickyBottomComponent={
-          <View style={styles.stickyBottomComponent}>
-            {displayCta && (
-              <Stack width="100%">
-                <TaskDetailsCTA
-                  spaceIdOrName={spaceName}
-                  taskName={data?.title}
-                  taskId={id}
-                  spaceTitle={spaceTitle}
-                  spaceId={spaceId}
-                  interactionType={interactionType}
-                  interactionSignupLink={interactionSignupLink}
-                  taskDuration={taskDuration}
-                  taskRegularity={taskRegularity}
-                />
-              </Stack>
-            )}
-            {id &&
-              (isGoodDeed && !isLoggedIn ? (
-                <ButtonTracked
-                  variant="secondary"
-                  label={t('volunteering.progress.button.favorites.toSave')}
-                  onPress={showDoItLater}
-                  icon={BookmarkLine}
-                  trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
-                    step: 'save',
-                    ...taskProps,
-                  })}
-                />
-              ) : (
-                <SaveForLaterButton
-                  favoritableType={FavoritableType.Task}
-                  favoritableId={id}
-                  __typename={'Task'}
-                  isFavorite={data?.isFavorite}
-                  onError={(error: Error) =>
-                    displayError(
-                      error,
-                      data?.isFavorite
-                        ? 'Failed to add the task to favorites'
-                        : 'Failed to remove the task from favorites',
-                      {
-                        location: 'TaskDetails.saveForLaterTask',
-                        favoritableId: id,
-                      }
-                    )
-                  }
-                />
-              ))}
-          </View>
+          taskSelfReportingFlow ? (
+            <TaskDetailsCTA
+              spaceIdOrName={spaceName}
+              isFavorite={data?.isFavorite}
+              refetchFavorite={refetch}
+              isLoading={isLoading}
+              onModalDismiss={() => {
+                if (!rewardsPhaseTwoEnabled) return
+                // Update status to "TO_DO" only once when initially the status is null
+                if (taskStatus === null) onVolunteeringStatusChange(VolunteeringOpportunityStatusValue.ToDo)
+              }}
+              startChat={startChat}
+              status={taskStatus?.status}
+            />
+          ) : (
+            <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }}>
+              <TaskDetailsCTALegacy
+                spaceIdOrName={spaceName}
+                taskName={data?.title}
+                taskId={id}
+                spaceTitle={spaceTitle}
+                spaceId={spaceId}
+                interactionType={interactionType}
+                interactionSignupLink={interactionSignupLink}
+                taskDuration={taskDuration}
+                taskRegularity={taskRegularity}
+              />
+              {id &&
+                (isGoodDeed && !isLoggedIn ? (
+                  <ButtonTracked
+                    variant="secondary"
+                    label={t('volunteering.progress.button.favorites.toSave')}
+                    onPress={showDoItLater}
+                    icon={BookmarkLine}
+                    trackingEvent={TrackingEvent.Task.CTAButton.saveForLater({
+                      step: 'save',
+                      ...taskProps,
+                    })}
+                  />
+                ) : (
+                  <SaveForLaterButton
+                    favoritableType={FavoritableType.Task}
+                    favoritableId={id}
+                    __typename={'Task'}
+                    isFavorite={data?.isFavorite}
+                    onError={(error: Error) =>
+                      displayError(
+                        error,
+                        data?.isFavorite
+                          ? 'Failed to add the task to favorites'
+                          : 'Failed to remove the task from favorites',
+                        {
+                          location: 'TaskDetails.saveForLaterTask',
+                          favoritableId: id,
+                        }
+                      )
+                    }
+                  />
+                ))}
+            </Stack>
+          )
         }
       >
         <DetailsScreen
           {...data}
           _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
+          progressCard={
+            rewardsPhaseTwoEnabled &&
+            !!taskStatus?.status &&
+            [
+              VolunteeringOpportunityStatusValue.ToDo,
+              VolunteeringOpportunityStatusValue.Contacted,
+              VolunteeringOpportunityStatusValue.Doing,
+            ].includes(taskStatus.status) ? (
+              <HoliTransition.FadeDown visible>
+                <TaskProgressCard
+                  status={taskStatus.status}
+                  onStatusChange={onVolunteeringStatusChange}
+                  startChat={startChat}
+                  taskProps={taskProps}
+                />
+              </HoliTransition.FadeDown>
+            ) : null
+          }
         />
       </Screen>
       {id && (
@@ -174,22 +235,5 @@ const TaskDetails = () => {
     </>
   )
 }
-
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    stickyBottomComponent: {
-      backgroundColor: theme.colors.background10,
-      paddingHorizontal: Spacing.xs,
-      paddingTop: Spacing.xs,
-      paddingBottom: Spacing.md,
-      borderTopRightRadius: BorderRadius.xxl,
-      borderTopLeftRadius: BorderRadius.xxl,
-      alignItems: 'center',
-      justifyContent: 'center',
-      alignSelf: 'center',
-      width: '100%',
-      gap: Spacing['3xs'],
-    },
-  })
 
 export default memo(TaskDetails)

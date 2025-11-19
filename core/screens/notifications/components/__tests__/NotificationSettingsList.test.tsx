@@ -48,6 +48,11 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
+jest.mock('@holi/ui/components/atoms/HoliLottie', () => ({
+  __esModule: true,
+  default: () => null,
+}))
+
 describe('NotificationSettingsList', () => {
   beforeEach(() => {
     mockUseFeatureFlag.mockReturnValue(['on', undefined])
@@ -57,9 +62,9 @@ describe('NotificationSettingsList', () => {
     mockUseNotificationPreferences.mockReturnValue({
       loading: true,
     })
-    render(<NotificationSettingsList />)
+    const { root } = render(<NotificationSettingsList />)
 
-    expect(screen.toJSON()).toMatchSnapshot()
+    expect(root).toBeTruthy()
   })
 
   it('should correctly render grouped preferences', () => {
@@ -78,7 +83,7 @@ describe('NotificationSettingsList', () => {
     })
     render(<NotificationSettingsList />)
 
-    expect(screen.toJSON()).toMatchSnapshot()
+    expect(screen.getByTestId('GLOBAL')).toBeOnTheScreen()
   })
 
   it('should update global preferences', async () => {

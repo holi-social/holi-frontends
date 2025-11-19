@@ -1,21 +1,23 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Input.tsx
 import type { UiNode, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import type { UseTranslationResponse } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import type {
   NativeSyntheticEvent,
   StyleProp,
   TextInputKeyPressEventData,
   TextInputProps,
-  View,
   TextStyle,
+  View,
   ViewStyle,
 } from 'react-native'
 
 import { getNodeId, getNodeTranslationKey, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import type { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliTextInput, { type HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
+import { getLogger } from '@holi/core/helpers/logging'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 export interface InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,15 +40,17 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
   style?: StyleProp<TextStyle>
 }
 
-// https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
-enum OryErrorCode {
-  EMAIL_OR_PASSWORD_WRONG = 4000001,
-  EMAIL_OR_PASSWORD_MISSING = 4000002,
-  INVALID_PASSWORD = 4000005,
-}
 const ORY_SIGNIN_NODE_ID = 1070001
 
+const logger = getLogger('Auth')
+
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
+
+const logMissingTranslation = (key: string, i18n: UseTranslationResponse<'translation', undefined>['i18n']) => {
+  if (!i18n.exists(key)) {
+    logger.debug('FormInputField.getValidationErrorText', `Missing translation for key ${key}`)
+  }
+}
 
 export const getValidationErrorText = (
   { messages, attributes }: UiNode,
@@ -59,18 +63,17 @@ export const getValidationErrorText = (
   const messageKey = `auth.login.input.message.${id}`
 
   // if email or password are missing
-  if (
-    'type' in attributes &&
-    (id === OryErrorCode.EMAIL_OR_PASSWORD_MISSING || id === OryErrorCode.EMAIL_OR_PASSWORD_WRONG)
-  ) {
+  if ('type' in attributes && (id === OryErrorCode.PROPERTY_MISSING || id === OryErrorCode.PROPERTY_ERROR)) {
     const { name } = attributes as { name: string }
     // `identifier` or `traits.email` is used for email field
     const emailNames = ['identifier', 'traits.email', 'email']
     const passwordNames = ['password']
-    const possibleNames = [emailNames, passwordNames]
+    const codeNames = ['code']
+    const possibleNames = [emailNames, passwordNames, codeNames]
     const modifier = possibleNames.findIndex((namesArr) => namesArr.includes(name))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
+    logMissingTranslation(messageKeyModifier, i18n)
     return i18n.t(messageKeyModifier, text)
   }
 
@@ -82,9 +85,11 @@ export const getValidationErrorText = (
     const modifier = possibleReasons.findIndex((str) => reason.includes(str))
     const messageKeyModifier = `${messageKey}-${modifier}`
 
+    logMissingTranslation(messageKeyModifier, i18n)
     return i18n.t(messageKeyModifier, text)
   }
 
+  logMissingTranslation(messageKey, i18n)
   return i18n.t(messageKey, text)
 }
 

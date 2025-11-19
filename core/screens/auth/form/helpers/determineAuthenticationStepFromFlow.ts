@@ -1,0 +1,14 @@
+import type { AuthenticationStep } from '@holi/core/screens/auth/types'
+import { type LoginFlow, LoginFlowActiveEnum, LoginFlowState, type RegistrationFlow } from '@ory/kratos-client'
+
+export const determineAuthenticationStepFromFlow = (
+  flow: LoginFlow | RegistrationFlow | undefined,
+  currentStep: AuthenticationStep
+): AuthenticationStep => {
+  if (flow?.active === LoginFlowActiveEnum.Code && flow?.state === LoginFlowState.SentEmail) {
+    return 'code'
+  } else if (flow?.active === LoginFlowActiveEnum.Password || (!flow?.active && currentStep === 'email-password')) {
+    return 'email-password'
+  }
+  return 'start'
+}

@@ -1,10 +1,11 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
+import { useReactiveVar } from '@apollo/client/react'
 import { useCallback, useEffect } from 'react'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
 
-const pathToRedirect = makeVar<string | null>(null)
+export const pathToRedirect = makeVar<string | null>(null)
 export const setPathToRedirect = pathToRedirect
 export const usePathToRedirect = () => useReactiveVar(pathToRedirect)
 

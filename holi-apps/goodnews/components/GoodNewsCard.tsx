@@ -3,7 +3,6 @@ import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
@@ -12,6 +11,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
+import { Image } from 'holi-bricks/components/image'
 
 type GoodNewsCardProps = {
   article: GoodNewsArticle
@@ -31,10 +31,9 @@ const GoodNewsCard: React.FC<GoodNewsCardProps> = ({ article, style }: GoodNewsC
     <HoliLink label={article.headline} href={`/apps/goodnews?articleId=${article.id}`}>
       <View style={[styles.container, style]} testID="goodnews-card">
         <View style={styles.header}>
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/goodnews/goodnews-wordmark.png')}
-            isSvg={false}
-            label={article.headline}
+          <Image
+            source={require('@holi/ui/assets/img/goodnews/goodnews-wordmark.png')}
+            alt={article.headline}
             width={107}
             height={16}
             resizeMode={'contain'}

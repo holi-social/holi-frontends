@@ -1,8 +1,10 @@
 import { type BadgesQuery, useBadgesQuery } from '@holi/api/graphql/graphql-codegen'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { animations } from '@holi/ui/lottie-animations'
 import { useCallback } from 'react'
 
 export type Badge = {
+  slug: string
   localazyKey: string
   state: BadgeState
   imgSrc: string
@@ -52,11 +54,12 @@ const slugAnimationMapping: Record<string, keyof typeof animations> = {
 
 const badgeOrder = ['badgeImpactStarter', 'badgeStoryStarter', 'badgeImpactExplorer', 'badgeStoryExplorer']
 
-const mapBadges = (data?: BadgesQuery): Badge[] => {
+export const mapBadges = (data?: BadgesQuery): Badge[] => {
   if (!data) return []
 
   const inProgressBadges = data?.rewards_badges.inProgress.map((b) => ({
     id: undefined,
+    slug: b.slug,
     currentStep: b.progressMade,
     totalSteps: b.progressGoal,
     unlockedAt: undefined,
@@ -70,6 +73,7 @@ const mapBadges = (data?: BadgesQuery): Badge[] => {
 
   const unlockedBadges = data?.rewards_badges.unlocked.map((b) => ({
     id: b.id,
+    slug: b.slug,
     currentStep: b.progressGoal,
     totalSteps: b.progressGoal,
     unlockedAt: new Date(b.unlockedAt),
@@ -91,19 +95,34 @@ const mapBadges = (data?: BadgesQuery): Badge[] => {
 }
 
 export const useBadges = () => {
+  const { isLoggedIn } = useLoggedInUser()
   const { data, refetch, loading } = useBadgesQuery({
+    skip: !isLoggedIn,
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
   })
+
+  const refetchBadges = useCallback(async () => {
+    if (!isLoggedIn) {
+      return
+    } else {
+      await refetch()
+    }
+  }, [isLoggedIn, refetch])
+
+  if (!isLoggedIn) {
+    return {
+      badges: [] as Badge[],
+      refetchBadges,
+      loading: false,
+    }
+  }
 
   const allBadges = mapBadges(data)
 
   return {
     badges: allBadges,
-    refetchBadges: useCallback(async () => {
-      const result = await refetch()
-      return mapBadges(result.data)
-    }, [refetch]),
+    refetchBadges,
     loading,
   }
 }

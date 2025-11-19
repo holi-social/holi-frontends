@@ -1,6 +1,6 @@
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { MockedResponse } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { faker } from '@faker-js/faker'
-import { jest } from '@jest/globals'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'

@@ -1,7 +1,7 @@
 // This file configures the initialization of Sentry on the browser.
 // The config you add here will be used whenever a page is visited.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
-import { ApolloError } from '@apollo/client'
+import { CombinedGraphQLErrors, CombinedProtocolErrors, ServerError, ServerParseError } from '@apollo/client'
 import * as Sentry from '@sentry/nextjs'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -13,7 +13,7 @@ Sentry.init({
   // Note: if you want to override the automatic release value, do not set a
   // `release` value here - use the environment variable `SENTRY_RELEASE`, so
   // that it will also get attached to your source maps
-  beforeSend: function (event, hint) {
+  beforeSend: (event, hint) => {
     const exception = hint.originalException
 
     // The right-hand side operators of instanceof must be objects, otherwise an exception is thrown.
@@ -22,8 +22,13 @@ Sentry.init({
     // https://holistic-foundation.sentry.io/issues/4238280229/?project=6396737&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
     // https://holistic-foundation.sentry.io/issues/4188987374/?project=6377191&query=is%3Aunresolved&referrer=issue-stream&stream_index=0
     try {
-      if (exception instanceof ApolloError) {
-        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.networkError)]
+      if (
+        CombinedGraphQLErrors.is(exception) ||
+        CombinedProtocolErrors.is(exception) ||
+        ServerParseError.is(exception) ||
+        ServerError.is(exception)
+      ) {
+        event.fingerprint = ['{{ default }}', 'apollo-client-error', String(exception.message)]
       } else if (exception instanceof HoliError) {
         event.fingerprint = ['{{ default }}', 'holi-client-error']
       }

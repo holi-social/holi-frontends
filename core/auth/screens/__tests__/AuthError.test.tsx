@@ -2,8 +2,10 @@ import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { AuthError } from '@holi/core/auth/screens/AuthError'
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
-import { act, render, screen, userEvent } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
+import { act, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
+import { Text } from 'react-native'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -35,7 +37,7 @@ describe('AuthError', () => {
   })
 
   it('should fetch flow error by id', async () => {
-    render(<AuthError />)
+    renderRouter({ index: () => <AuthError /> })
 
     expect(mockGetFlowError).toHaveBeenCalledWith({ id: '123' })
 
@@ -45,13 +47,13 @@ describe('AuthError', () => {
   it('should not fetch flow error if no id was given', () => {
     mockParameters({})
 
-    render(<AuthError />)
+    renderRouter({ index: () => <AuthError /> })
 
     expect(mockGetFlowError).not.toHaveBeenCalled()
   })
 
   it('should display loader while fetching the flow error', async () => {
-    render(<AuthError />)
+    renderRouter({ index: () => <AuthError /> })
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
 
@@ -59,7 +61,7 @@ describe('AuthError', () => {
   })
 
   it('should display a general error', async () => {
-    render(<AuthError />)
+    renderRouter({ index: () => <AuthError /> })
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -67,7 +69,7 @@ describe('AuthError', () => {
   })
 
   it('should log the flow error locally', async () => {
-    render(<AuthError />)
+    renderRouter({ index: () => <AuthError /> })
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -79,7 +81,7 @@ describe('AuthError', () => {
   it('should log error if fetching the flow error failed', async () => {
     mockGetFlowError.mockRejectedValue('Test')
 
-    render(<AuthError />)
+    renderRouter({ index: () => <AuthError /> })
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
@@ -89,12 +91,15 @@ describe('AuthError', () => {
   it('should display button to go back to login', async () => {
     const user = userEvent.setup()
 
-    render(<AuthError />)
+    const context = renderRouter({
+      index: () => <AuthError />,
+      login: () => <Text>Login Page</Text>,
+    })
 
     await act(() => jest.runOnlyPendingTimersAsync())
 
     await user.press(screen.getByText('auth.error.backToLogin'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/login')
+    expect(context).toHavePathname('/login')
   })
 })

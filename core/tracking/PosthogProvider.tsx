@@ -14,7 +14,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
       new PostHog(posthogKey, {
         host: posthogHost,
         defaultOptIn: false,
-        captureNativeAppLifecycleEvents: true,
+        captureAppLifecycleEvents: true,
         bootstrap: {
           ...featureFlagBootstrapValues,
           ...bootstrapState,
@@ -23,7 +23,11 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
     [bootstrapState]
   )
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+  return (
+    <PostHogProvider client={posthog} autocapture={false}>
+      {children}
+    </PostHogProvider>
+  )
 }
 
 export default PosthogProvider

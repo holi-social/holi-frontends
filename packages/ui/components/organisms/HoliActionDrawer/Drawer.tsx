@@ -47,7 +47,7 @@ export const Drawer = ({
   buttonProps,
   renderCustomButton,
   onHide,
-}: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
+}: PropsWithChildren<ActionDrawerProps>) => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState()

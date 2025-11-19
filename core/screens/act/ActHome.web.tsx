@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 
@@ -15,16 +15,12 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { CounterModalContent } from '@holi/core/screens/homeFeed/components/GoodDeedsChipUser'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import {
   storeWelcomeGoodDeedsCounterModal,
   useWelcomeGoodDeedsCounterModal,
 } from '@holi/core/screens/act/useDisplayWelcomeGoodDeedsCounterModal/useDisplayWelcomeGoodDeedsCounterModal'
-import { BadgesDocument } from '@holi/api/graphql/graphql-codegen'
-import { useApolloClient } from '@apollo/client'
-import { useEarnedBadgesModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesModalProvider'
 
 type ActHomeParams = {
   section: string
@@ -38,9 +34,6 @@ const ActHome = () => {
   const [selectedContentType] = useParam('section')
   const [showGoodDeedChip] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const welcomeGoodDeedsCounterModal = useWelcomeGoodDeedsCounterModal()
-  const client = useApolloClient()
-  const checkNewBadges = useEarnedBadgesModal()
-  const [badgesEnabled] = useFeatureFlag(FeatureFlagKey.BADGES)
   const sections = orderedSections(selectedContentType)
 
   const { show: showWelcomeModal, hide: hideWelcomeModal, props: welcomeModalProps } = useModalState()
@@ -52,14 +45,6 @@ const ActHome = () => {
     }
   }, [welcomeGoodDeedsCounterModal, showWelcomeModal])
 
-  useEffect(() => {
-    if (!badgesEnabled) return
-    ;(async () => {
-      await client.refetchQueries({ include: [BadgesDocument] })
-      await checkNewBadges()
-    })()
-  }, [client, badgesEnabled, checkNewBadges])
-
   return (
     <>
       <Screen
@@ -67,14 +52,13 @@ const ActHome = () => {
         scrollViewProps={{ contentContainerStyle: { paddingBottom: Spacing['3xl'] } }}
         headerOptions={{
           title,
-          headerBackTitleVisible: true,
           headerBackVisible: true,
           headerTitle: '',
-          headerLeft: ({ tintColor }) => (
+          headerLeft: () => (
             <Stack direction="row" gap="xxs" alignItems="center">
-              <HeaderTitle size="large" tintColor={tintColor}>
+              <Text headingLevel="1" size="lg">
                 {title}
-              </HeaderTitle>
+              </Text>
               {showGoodDeedChip && <GoodDeedsChip />}
             </Stack>
           ),

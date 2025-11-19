@@ -1,4 +1,3 @@
-import type { ApolloError } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -10,6 +9,8 @@ import {
   useDeleteSpacePostMutation,
   VisibilityFilter,
 } from '@holi/api/graphql/graphql-codegen'
+import type { ErrorLike } from '@apollo/client'
+import { useCallback } from 'react'
 
 const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () => void) => {
   const { t } = useTranslation()
@@ -17,12 +18,11 @@ const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () =>
   const { displayError } = useErrorHandling()
 
   const [deletePost, { loading: isLoadingPostDeletion }] = useDeleteSpacePostMutation({
-    variables: { id: post.id },
     onCompleted: () => {
       openToast(t('insights.post.delete.success'), HoliToastType.SUCCESS)
       handleConfirm?.()
     },
-    onError: (error: ApolloError) => {
+    onError: (error: ErrorLike) => {
       handleConfirm?.()
       displayError(error, 'Failed to delete post', {
         location: 'useDeletePost',
@@ -50,7 +50,9 @@ const useDeletePost = (post: Post, spaceIdOrName?: string, handleConfirm?: () =>
       : [],
   })
 
-  return { isLoadingPostDeletion, deletePost }
+  const deletePostCallback = useCallback(() => deletePost({ variables: { id: post.id } }), [deletePost, post.id])
+
+  return { isLoadingPostDeletion, deletePost: deletePostCallback }
 }
 
 export default useDeletePost

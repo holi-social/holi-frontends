@@ -42,6 +42,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Text } from 'holi-bricks/components/text'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 const ChangeEmail = () => {
   const { t, i18n } = useTranslation()
@@ -133,7 +134,7 @@ const ChangeEmail = () => {
             if (passwordNode && flow.ui.messages && !passwordNode.messages?.length) {
               passwordNode.messages = flow.ui.messages
             }
-            if (passwordNode?.messages?.some((msg) => msg.id === 4000010)) {
+            if (passwordNode?.messages?.some((msg) => msg.id === OryErrorCode.ACCOUNT_NOT_VERIFIED)) {
               openToast(t('auth.login.error.unverified'), HoliToastType.SUCCESS)
               // @ts-ignore FIXME
               setVerificationFlowData({ identifier: email, method: '', password: '' })

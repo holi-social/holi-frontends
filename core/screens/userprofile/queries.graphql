@@ -19,12 +19,6 @@ fragment FullUser on User {
   connectionStatusToMyself
 }
 
-query AuthenticatedUser {
-  authenticatedUser {
-    ...FullUser
-  }
-}
-
 query CommittedVolunteeringOpportunities($offset: Int!, $limit: Int!) {
   committedVolunteeringOpportunities(offset: $offset, limit: $limit) {
     data {

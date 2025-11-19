@@ -47,20 +47,26 @@ export const useOnboardingCurrentStepKey = (hasRegistrationFlow?: boolean) => {
 
   useEffect(() => {
     if (prevOnboardingState.current === null || prevOnboardingState.current !== onboardingState) {
-      setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
+      const targetState = determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow)
+      if (currentStepKey != targetState) {
+        setCurrentStepKey(targetState)
+      }
       prevOnboardingState.current = onboardingState
     }
-  }, [hasRegistrationFlow, onboardingState])
+  }, [hasRegistrationFlow, onboardingState, currentStepKey])
 
   useFocusEffect(
     useCallback(() => {
       // Only reset the step if the onboarding state has actually changed
       // This prevents resetting to initial step when browser regains focus
       if (prevOnboardingState.current !== onboardingState) {
-        setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow))
+        const targetState = determineOnboardingInitialStepKey(onboardingState, hasRegistrationFlow)
+        if (currentStepKey != targetState) {
+          setCurrentStepKey(targetState)
+        }
         prevOnboardingState.current = onboardingState
       }
-    }, [hasRegistrationFlow, onboardingState])
+    }, [hasRegistrationFlow, onboardingState, currentStepKey])
   )
 
   return [currentStepKey, setCurrentStepKey] as const

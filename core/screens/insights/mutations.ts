@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { InitiativeFragment, QuoteFragment, RecommendationFragment } from '@holi/core/screens/insights/queries'
 import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'

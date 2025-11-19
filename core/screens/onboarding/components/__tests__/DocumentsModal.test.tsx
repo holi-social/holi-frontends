@@ -1,6 +1,6 @@
 import React from 'react'
 import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-native'
 import { render, screen } from '@testing-library/react-native'
 
 describe('useDocumentModal', () => {

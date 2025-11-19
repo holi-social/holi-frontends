@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { getExistingRoomId, ignoreUser, toMatrixIdentity, useSetRemoveRoomAtom } from '@holi/chat/src/store'
 import type { User } from '@holi/core/domain/shared/types'
 

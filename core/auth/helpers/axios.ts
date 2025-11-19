@@ -1,11 +1,11 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/axios.tsx
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'axios'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 
-const logger = getLogger('CreateAccount')
+const logger = getLogger('Auth')
 const REQUEST_TIMEOUT_IN_MS = 10000
 const RETRY_COUNT = 10
 

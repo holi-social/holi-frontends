@@ -25,9 +25,6 @@ exports[`React tree renders correctly 1`] = `
   testID="space-avatar"
 >
   <Image
-    accessibilityLabel="Space title"
-    accessibilityRole="image"
-    accessible={false}
     alt="Space title"
     aria-label="Space title"
     contentFit="cover"
@@ -39,9 +36,12 @@ exports[`React tree renders correctly 1`] = `
       [
         {
           "height": 64,
+          "maxWidth": "100%",
           "width": 64,
         },
-        {},
+        {
+          "aspectRatio": undefined,
+        },
         {
           "flexShrink": undefined,
         },

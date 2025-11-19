@@ -1,6 +1,6 @@
-import type { DefaultOptions } from '@apollo/client'
-import { MockedProvider } from '@apollo/client/testing'
-import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { MockedProvider } from '@apollo/client/testing/react'
+import { act, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { renderRouter } from 'expo-router/testing-library'
 import { createStore } from 'jotai'
 import {
   ClientEvent,
@@ -69,10 +69,10 @@ const loggedOut: LoginState = {
 }
 
 const useLoginStateMock = jest.mocked(useLoginState)
-const defaultOptions: DefaultOptions = {
+const defaultOptions = {
   watchQuery: { fetchPolicy: 'no-cache' },
   query: { fetchPolicy: 'no-cache' },
-}
+} as const
 
 const getLoggedUserQueryMock = (user: User) => {
   return {
@@ -133,11 +133,13 @@ describe('ChatHomeContent Component', () => {
     mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: undefined, chunk: [] })
 
     useLoginStateMock.mockReturnValue(loggedOut)
-    render(
-      <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
-        <ChatHomeContent />
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider mocks={[]} cache={createCache()}>
+          <ChatHomeContent />
+        </MockedProvider>
+      ),
+    })
 
     expect(await screen.findByTestId('chat-login')).toBeOnTheScreen()
   })
@@ -161,27 +163,28 @@ describe('ChatHomeContent Component', () => {
     mxClient.roomState.mockResolvedValue([])
     mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: undefined, chunk: [] })
 
-    render(
-      <MockedProvider
-        mocks={[
-          getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
-        ]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
-        <ChatProvider store={store}>
-          <ChatHomeContent />
-        </ChatProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider
+          mocks={[
+            getLoggedUserQueryMock(HOLI_CREATOR_FIXTURE),
+            getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
+          ]}
+          defaultOptions={defaultOptions}
+          cache={createCache()}
+        >
+          <ChatProvider store={store}>
+            <ChatHomeContent />
+          </ChatProvider>
+        </MockedProvider>
+      ),
+    })
 
     // During the loading phase we show the `<HoliLoader />`
     await waitForElementToBeRemoved(() => screen.getByTestId('chat-home-loader'))
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(roomName)
+    expect(displayedRoom).toHaveTextContent(roomName, { exact: false })
   })
 
   it('should render existing room with pending invitation', async () => {
@@ -205,24 +208,25 @@ describe('ChatHomeContent Component', () => {
     mxClient.getUserId.mockReturnValue(MEMBER1_FIXTURE.id)
     mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: undefined, chunk: [] })
 
-    render(
-      <MockedProvider
-        mocks={[
-          getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
-          getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
-        ]}
-        addTypename={false}
-        defaultOptions={defaultOptions}
-      >
-        <ChatProvider store={store}>
-          <ChatHomeContent />
-        </ChatProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider
+          mocks={[
+            getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
+            getUserByChatIdQueryMock(DM_MEMBERS, HOLI_DM_USERS_FIXTURE),
+          ]}
+          defaultOptions={defaultOptions}
+        >
+          <ChatProvider store={store}>
+            <ChatHomeContent />
+          </ChatProvider>
+        </MockedProvider>
+      ),
+    })
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
-    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name)
-    expect(displayedRoom).toHaveTextContent('chat.invitation.newconversation')
+    expect(displayedRoom).toHaveTextContent(CREATOR_FIXTURE.name, { exact: false })
+    expect(displayedRoom).toHaveTextContent(/chat.invitation.newconversation/)
   })
 
   it('should render incoming rooms', async () => {
@@ -270,21 +274,22 @@ describe('ChatHomeContent Component', () => {
       stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
     })
 
-    render(
-      <MockedProvider
-        mocks={[
-          getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
-          getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
-        ]}
-        addTypename={true}
-        defaultOptions={defaultOptions}
-        cache={createCache()}
-      >
-        <ChatProvider store={store}>
-          <ChatHomeContent />
-        </ChatProvider>
-      </MockedProvider>
-    )
+    renderRouter({
+      index: () => (
+        <MockedProvider
+          mocks={[
+            getLoggedUserQueryMock(HOLI_MEMBER1_FIXTURE),
+            getUserByChatIdQueryMock(SPACE_MEMBERS_FIXTURE, HOLI_SPACE_USERS_FIXTURE),
+          ]}
+          defaultOptions={defaultOptions}
+          cache={createCache()}
+        >
+          <ChatProvider store={store}>
+            <ChatHomeContent />
+          </ChatProvider>
+        </MockedProvider>
+      ),
+    })
 
     // During the loading phase we show the `<HoliLoader />`
     await waitForElementToBeRemoved(() => screen.getByTestId('chat-home-loader'))
@@ -314,6 +319,6 @@ describe('ChatHomeContent Component', () => {
 
     expect(screen.queryByTestId(`room-item-${SPACE_ROOM_NAME_FIXTURE}`)).not.toBeOnTheScreen()
     const displayedRoom = await screen.findByTestId(`room-item-${SPACE_CHILD_ROOM_NAME_FIXTURE}`)
-    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE)
+    expect(displayedRoom).toHaveTextContent(SPACE_ROOM_NAME_FIXTURE, { exact: false })
   })
 })

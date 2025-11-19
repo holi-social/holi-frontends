@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Browser, type Locator, type Page, expect } from '@playwright/test'
+import { type Browser, expect, type Locator, type Page } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'
@@ -46,7 +46,7 @@ export const login = async (page: Page, email: string, password: string) => {
   await page.context().clearCookies()
 
   await page.goto('/login')
-  await page.getByRole('button', { name: 'Continue with email and password' }).click()
+  await page.getByRole('button', { name: 'Use password' }).click()
 
   await page.getByRole('textbox', { name: 'Email' }).fill(email)
   await page.getByRole('textbox', { name: 'Password' }).fill(password)
@@ -58,7 +58,7 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/onboarding')
 
   await page.getByRole('button', { name: "Let's go" }).click()
-  await page.getByRole('button', { name: 'Continue as a guest' }).click()
+  await page.getByRole('button', { name: 'Back' }).click()
 
   await page.getByLabel('Bottom navigation').getByText('Feed').click()
 }
@@ -180,13 +180,12 @@ export const withSSR = async (
   await context.close()
 }
 
-export async function scrollToMakeHeaderVisible(page: Page) {
+export async function scrollDown(page: Page) {
   // Wait for the page to load
   await page.waitForLoadState()
 
   // Scroll down and then scroll up to trigger the modal
-  await page.mouse.wheel(0, 600)
-  await page.mouse.wheel(0, -750)
+  await page.mouse.wheel(0, 1200)
 }
 
 export async function gotoWithRetries(page: Page, url: string, retries = 3, delay = 2000) {

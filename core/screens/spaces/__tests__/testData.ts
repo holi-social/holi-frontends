@@ -4,34 +4,32 @@ import {
   type AppointmentPaged,
   type DiscoverSpaces,
   Duration,
+  type ExternalLink,
+  ExternalLinkType,
+  type GeolocationPoint,
   InteractionType,
+  LocationType,
+  type MySpaces,
+  type Onboarding,
   PermissionType,
   type PostPaged,
   Regularity,
-  type SpaceInvitePaged,
-  type SpaceMemberPaged,
-  type SpaceMembershipRequestPaged,
-} from '@holi/api/graphql/graphql-codegen'
-
-import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
-import {
-  type User,
-  LocationType,
-  type Onboarding,
   type RelatedSpaceFragment,
   type Space,
   type SpaceInvite,
-  type ExternalLink,
-  ExternalLinkType,
+  type SpaceInvitePaged,
   type SpaceMember,
+  type SpaceMemberPaged,
   type SpaceMembershipRequest,
-  type MySpaces,
+  type SpaceMembershipRequestPaged,
   SpaceUserConnectionType,
   type Task,
-  VisibilityType,
+  type User,
   UserConnectionStatus,
-  type GeolocationPoint,
+  VisibilityType,
 } from '@holi/api/graphql/graphql-codegen'
+
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 export const locationId = '123'
 const geolocation: GeolocationPoint = {
@@ -59,9 +57,6 @@ export const user: User = {
   skillsV2: ALL_SKILLS.slice(7, 9),
   connectionStatusToMyself: UserConnectionStatus.NotConnected,
   connectionStatusToSpace: [SpaceUserConnectionType.Member],
-  interests: [],
-  sdgs: [],
-  skills: [],
   __typename: 'User',
 }
 
@@ -209,7 +204,6 @@ export const task: Task = {
   __typename: 'Task',
   interactionSignupLink: 'https://www.example.com/signup',
   created: '2024-04-12T07:39:03Z',
-  skills: [],
   impact: 'test-impact',
   isFavorite: false,
 }
@@ -280,7 +274,6 @@ export const space: Space = {
   },
   invites: pagedInvites,
   representatives: [],
-  sdgs: [],
   topics: [],
 }
 
@@ -306,7 +299,7 @@ export const createRelatedSpace = (space: Partial<RelatedSpaceFragment> = {}): R
     coverBlurhash: faker.string.alphanumeric(10),
     name: faker.lorem.words(),
     avatar: faker.image.avatar(),
-    avatarDefaultColor: faker.internet.color(),
+    avatarDefaultColor: faker.color.rgb(),
     members: {
       __typename: 'SpaceMemberPaged',
       totalResults: 1,

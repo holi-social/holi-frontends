@@ -1,11 +1,10 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
 import type { User } from '@holi/core/domain/shared/types'
-import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
 import { type CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
@@ -23,6 +22,7 @@ import StartDiscussion from './StartDiscussion'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { breakpoints } from 'holi-bricks/foundations'
+import { useApolloErrorLogging } from '@holi/core/hooks/useApolloErrorLogging'
 
 type DiscussionCardProps = {
   discussion: Discussion
@@ -40,15 +40,14 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const {
     data: { commentable } = {},
     loading,
+    error,
   } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
     variables: { commentableId: discussion.id, commentableType: CommentableType.DISCUSSION },
     notifyOnNetworkStatusChange: true,
-    onError: (error) => {
-      logError(error, 'Failed to load discussion comments metadata', {
-        location: 'InsightDetailPage.discussion',
-        discussionId: discussion.id,
-      })
-    },
+  })
+  useApolloErrorLogging(error, 'Failed to load discussion comments metadata', {
+    location: 'InsightDetailPage.discussion',
+    discussionId: discussion.id,
   })
 
   const latestCommenters: readonly User[] = commentable?.commenters?.data || []

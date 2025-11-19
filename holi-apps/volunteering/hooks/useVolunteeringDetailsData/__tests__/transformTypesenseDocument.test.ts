@@ -393,4 +393,108 @@ describe('transformDocument', () => {
       },
     ])
   })
+
+  it('should add missing protocol to external urls', () => {
+    const docWithIntermediateDuration: TypesenseDocument = {
+      ...baseDocument,
+      organizer_url: 'www.ada.org',
+      external_url: 'www.lovelace.com',
+    }
+    const onOpenLink = jest.fn()
+
+    const { t } = useTranslation()
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: docWithIntermediateDuration,
+      onOpenLink,
+      status: null,
+    })
+    expect(result.infoList).toEqual([
+      {
+        title: 'Berlin, Germany',
+        icon: MapPin2,
+      },
+      {
+        title: 'volunteering.engagement.commitment_label.recurring',
+        icon: Refresh,
+      },
+      {
+        icon: AiEstimatedTime,
+        subtitle: 'volunteeringDetails.timeAI',
+        subtitleColor: 'informative',
+        title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
+      },
+      {
+        icon: Globe,
+        title: 'www.lovelace.com',
+        onPress: expect.any(Function),
+        showExternalIcon: true,
+      },
+    ])
+    expect(result.author).toEqual({
+      topTitle: 'postedVia',
+      title: 'Test Organization',
+      mainAvatar: {
+        label: 'Test Organization',
+        source: 'https://example.com/organizer/image.jpg',
+      },
+      isExternalLink: true,
+      onPress: expect.any(Function),
+    })
+
+    // Simulate link press on external link
+    result?.infoList?.at(3)?.onPress?.()
+
+    expect(onOpenLink).toHaveBeenCalledWith('https://www.lovelace.com/')
+
+    // Simulate link press on website link
+    result?.author?.onPress?.()
+
+    expect(onOpenLink).toHaveBeenCalledWith('https://www.ada.org/')
+  })
+
+  it('should ignore invalid external urls', () => {
+    const docWithIntermediateDuration: TypesenseDocument = {
+      ...baseDocument,
+      organizer_url: 'invalid url',
+      external_url: 'invalid url',
+      contact: [],
+    }
+    const onOpenLink = jest.fn()
+
+    const { t } = useTranslation()
+    const result = transformTypesenseDocument({
+      t,
+      language: 'en',
+      document: docWithIntermediateDuration,
+      onOpenLink,
+      status: null,
+    })
+    expect(result.infoList).toEqual([
+      {
+        title: 'Berlin, Germany',
+        icon: MapPin2,
+      },
+      {
+        title: 'volunteering.engagement.commitment_label.recurring',
+        icon: Refresh,
+      },
+      {
+        icon: AiEstimatedTime,
+        subtitle: 'volunteeringDetails.timeAI',
+        subtitleColor: 'informative',
+        title: 'volunteering.engagement.commitment_duration.HOURS_1to2',
+      },
+    ])
+    expect(result.author).toEqual({
+      topTitle: 'postedVia',
+      title: 'Test Organization',
+      mainAvatar: {
+        label: 'Test Organization',
+        source: 'https://example.com/organizer/image.jpg',
+      },
+      isExternalLink: false,
+    })
+  })
 })

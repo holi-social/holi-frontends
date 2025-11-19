@@ -1,14 +1,14 @@
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Text } from 'holi-bricks/components/text'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { type InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
+import { insightAuthors, type InsightAuthorsResponse } from '@holi/core/screens/insights/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -162,13 +162,14 @@ const CurationPrinciplesPage: React.FC = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerStyle: {
         backgroundColor: theme.colors.background20,
       },
-      headerTitle: ({ tintColor }) => (
-        <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
+      headerTitle: () => (
+        <Text headingLevel="1" size="lg">
+          {t('insights.curationPrinciplesPage.title')}
+        </Text>
       ),
     })
   }, [t, setScreenOptions, theme.colors.background20])

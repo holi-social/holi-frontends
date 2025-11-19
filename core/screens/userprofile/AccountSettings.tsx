@@ -27,7 +27,9 @@ const AccountSettings = () => {
   const isEmailAccount = user?.accountType === AccountType.Email
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('profile.settings.account.title') })
+    setScreenOptions({
+      title: t('profile.settings.account.title'),
+    })
   }, [setScreenOptions, t])
 
   return (

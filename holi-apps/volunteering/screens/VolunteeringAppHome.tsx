@@ -15,14 +15,15 @@ import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHead
 const VolunteeringAppHome = () => {
   const { t } = useTranslation()
 
-  const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } = useVolunteeringFilters()
+  const { setFilters, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } =
+    useVolunteeringFilters()
 
   const throttledScrollEventProps = useThrottledMobileScrollEvents()
 
   const headerComponent = (
     <Stack backgroundColor="main">
       <VolunteeringFilterRow
-        onSubmit={submit}
+        onSubmit={setFilters}
         filters={filters}
         loadingFilters={loadingGeolocation}
         clearFilters={clearFilters}

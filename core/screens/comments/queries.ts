@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client'
 
 import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { User } from '@holi/core/domain/shared/types'

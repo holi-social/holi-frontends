@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -24,6 +24,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useApolloNotFoundErrorHandling } from '@holi/core/hooks/useApolloNotFoundErrorHandling'
 
 export type EditPostParams = {
   idOrSlug: string
@@ -38,7 +39,7 @@ const EditPost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { colors } = theme
-  const { navigateBack, replaceRoute } = useRouting()
+  const { navigateBack } = useRouting()
   const { user } = useLoggedInUser()
 
   const { t } = useTranslation()
@@ -59,19 +60,16 @@ const EditPost = () => {
   const {
     data: { post } = {},
     loading: loadingPost,
+    error: loadPostError,
   } = useQuery<PostQueryResponse>(postQuery, {
     variables: { idOrSlug },
     skip: !idOrSlug,
     notifyOnNetworkStatusChange: true,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load quote', {
-        location: 'EditPost.postQuery',
-        idOrSlug,
-      })
-    },
+  })
+
+  useApolloNotFoundErrorHandling(loadPostError, 'Failed to load post', {
+    location: 'EditPost.postQuery',
+    idOrSlug,
   })
 
   const [updateFeedPost] = useMutation<UpdateFeedPostResponse>(updateFeedPostMutation, {

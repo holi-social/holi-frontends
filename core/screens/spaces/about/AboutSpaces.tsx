@@ -31,7 +31,6 @@ const AboutSpaces = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerStyle: { backgroundColor: colors.background20 },

@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook, act } from '@testing-library/react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
 import type { LocalizedTypesenseDocument } from '@holi/core/typesense/types'

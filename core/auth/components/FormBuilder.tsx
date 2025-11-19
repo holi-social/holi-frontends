@@ -24,6 +24,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { logError } from '@holi/core/errors/helpers'
+import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
 
 type NodeId = string
 
@@ -107,7 +108,7 @@ const FormBuilder = <
         if (isEmailField(String(name))) {
           // Show some general messages as email error
           // Requested in ticket HOLI-2392
-          const SHOULD_BE_EMAIL_MESSAGE = [4000007]
+          const SHOULD_BE_EMAIL_MESSAGE = [OryErrorCode.ACCOUNT_ALREADY_EXISTS]
           const globalMessages = store.globalMessages || []
           const newEmailMessages = globalMessages.filter((message) =>
             SHOULD_BE_EMAIL_MESSAGE.some((id) => id === message.id)
@@ -211,7 +212,8 @@ const FormBuilder = <
               node={node}
               onSubmitPress={(overrides, provider) => {
                 // Only submit resend if specifically requested, as it's otherwise hard to detect (and display errors for) missing inputs
-                if (overrides && !('resend' in overrides)) {
+                // Guard against overrides being a string (e.g. password from field Enter key press)
+                if (overrides && typeof overrides === 'object' && !('resend' in overrides)) {
                   delete submitType.resend
                 }
                 return onSubmit({ ...values, ...submitType, ...overrides }, provider)
