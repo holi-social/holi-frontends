@@ -4,7 +4,7 @@ set -eu
 
 LOCAL_LOCALES_DIR="core/i18n/locales"
 PATCH_FILE="local_i18n_changes.patch"
-if [[ "$1" == "--force" ]]; then
+if [[ "${1:-}" == "--force" ]]; then
   FORCE=1
 fi
 
