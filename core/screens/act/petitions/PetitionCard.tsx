@@ -5,60 +5,67 @@ import { CompactCard } from 'holi-bricks/components/compactCard'
 import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking'
 import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
-import type { PetitionStatusValue } from '@holi/api/graphql/graphql-codegen'
-import petitions from './petitions.json'
+import { usePetitionStatusQuery } from '@holi/api/graphql/graphql-codegen'
 
 export type Petition = {
-  externalPetitionId: string
-  status: PetitionStatusValue
+  description: string
+  initiators: string[]
+  petitionSuccessful: boolean
+  signatures: number
+  slug: string
+  tag: string
+  targets: string[]
+  title: string
+  id: string
 }
 
 export interface PetitionProps {
-  externalPetitionId: string
-  status: PetitionStatusValue
+  petition: Petition
   maxCardWidth?: number
   showCommitmentStatus?: boolean
 }
 
-const PetitionCard = ({
-  externalPetitionId,
-  status,
-  maxCardWidth: cardWidth,
-  showCommitmentStatus = false,
-}: PetitionProps) => {
-  const petitionById = petitions.find((petitionItem) => petitionItem.id === externalPetitionId)
-
+const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus }: PetitionProps) => {
   const { t } = useTranslation()
-  const { getPetitionStatus } = usePetitionStatuses()
-  const statusChip = getPetitionStatus(status)
 
-  if (!petitionById) {
+  const {
+    data: { petitionStatus } = {},
+  } = usePetitionStatusQuery({
+    variables: {
+      petitionId: petition.id,
+    },
+  })
+
+  const { getPetitionStatus } = usePetitionStatuses()
+  const statusChip = petitionStatus?.status ? getPetitionStatus(petitionStatus.status) : null
+
+  if (!petition) {
     return null
   }
 
   return (
     <HoliLinkTracked
-      trackingEvent={TrackingEvent.Petitions.pressed(petitionById.id)}
-      label={petitionById.title}
-      href={`/petitions/${petitionById.id}`}
+      trackingEvent={TrackingEvent.Petitions.pressed(petition.id)}
+      label={petition.title}
+      href={`/petitions/${petition.id}`}
       isFullHeight
     >
       <CompactCard
-        title={petitionById.title}
-        subtitle={t(`act.petitions.category.${petitionById.category}`)}
-        imageSrc={petitionById.imageUrl}
+        title={petition.title}
+        subtitle={petition.tag}
+        // imageSrc={petition.imageUrl} // TODO
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.petitions.thumbnail.label')}
         fullHeight
       >
-        {petitionById.signatures && !showCommitmentStatus && (
+        {petition.signatures && !showCommitmentStatus && (
           <CompactCard.FooterChips
             chips={[
               {
                 iconLeading: PencilFilled,
                 children: t('act.petitions.signatureCount', {
-                  signatureCount: petitionById.signatures.toLocaleString('de-DE'),
+                  signatureCount: petition.signatures.toLocaleString('de-DE'),
                 }),
               },
             ]}

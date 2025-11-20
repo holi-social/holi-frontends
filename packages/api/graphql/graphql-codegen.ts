@@ -2211,6 +2211,7 @@ export type Typesense_Document = {
   commitment_duration?: Maybe<Scalars['String']['output']>
   commitment_label?: Maybe<Scalars['String']['output']>
   contact?: Maybe<Array<Maybe<Typesense_DocumentContact>>>
+  description?: Maybe<Scalars['String']['output']>
   description_de?: Maybe<Scalars['String']['output']>
   description_en?: Maybe<Scalars['String']['output']>
   donation_open_amount_in_cents?: Maybe<Scalars['Int']['output']>
@@ -2218,6 +2219,7 @@ export type Typesense_Document = {
   external_url?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   image_url?: Maybe<Scalars['String']['output']>
+  initiators?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   link_locators?: Maybe<Typesense_DocumentLinkLocators>
   location?: Maybe<Scalars['String']['output']>
   location_country_de?: Maybe<Scalars['String']['output']>
@@ -2230,10 +2232,16 @@ export type Typesense_Document = {
   organizer_location_country_en?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
   organizer_url?: Maybe<Scalars['String']['output']>
+  petitionSuccessful?: Maybe<Scalars['Boolean']['output']>
+  signatures?: Maybe<Scalars['Int']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  slug?: Maybe<Scalars['String']['output']>
   source?: Maybe<Scalars['String']['output']>
   summary_de?: Maybe<Scalars['String']['output']>
   summary_en?: Maybe<Scalars['String']['output']>
+  tag?: Maybe<Scalars['String']['output']>
+  targets?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  title?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
   title_en?: Maybe<Scalars['String']['output']>
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -2266,6 +2274,7 @@ export type Typesense_DocumentLinkLocators = {
 
 export enum Typesense_DocumentType {
   Donation = 'donation',
+  Petition = 'petition',
   Profile = 'profile',
   Space = 'space',
   Task = 'task',
@@ -5078,6 +5087,14 @@ export type FullTypesenseDocumentFragment = {
   summary_en?: string
   donation_progress_percentage?: number
   donation_open_amount_in_cents?: number
+  description?: string
+  initiators?: Array<string>
+  petitionSuccessful?: boolean
+  signatures?: number
+  slug?: string
+  tag?: string
+  targets?: Array<string>
+  title?: string
   link_locators?: {
     __typename?: 'Typesense_DocumentLinkLocators'
     volunteering?: string
@@ -5138,6 +5155,14 @@ export type Typesense_DocumentByIdQuery = {
             summary_en?: string
             donation_progress_percentage?: number
             donation_open_amount_in_cents?: number
+            description?: string
+            initiators?: Array<string>
+            petitionSuccessful?: boolean
+            signatures?: number
+            slug?: string
+            tag?: string
+            targets?: Array<string>
+            title?: string
             link_locators?: {
               __typename?: 'Typesense_DocumentLinkLocators'
               volunteering?: string
@@ -5204,6 +5229,14 @@ export type Typesense_MultiSearchQuery = {
               summary_en?: string
               donation_progress_percentage?: number
               donation_open_amount_in_cents?: number
+              description?: string
+              initiators?: Array<string>
+              petitionSuccessful?: boolean
+              signatures?: number
+              slug?: string
+              tag?: string
+              targets?: Array<string>
+              title?: string
               link_locators?: {
                 __typename?: 'Typesense_DocumentLinkLocators'
                 volunteering?: string
@@ -5821,6 +5854,14 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   summary_en
   donation_progress_percentage
   donation_open_amount_in_cents
+  description
+  initiators
+  petitionSuccessful
+  signatures
+  slug
+  tag
+  targets
+  title
 }
     `
 export const FullEventFragmentDoc = gql`

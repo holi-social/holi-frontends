@@ -40,6 +40,14 @@ fragment FullTypesenseDocument on Typesense_Document {
   summary_en
   donation_progress_percentage
   donation_open_amount_in_cents
+  description
+  initiators
+  petitionSuccessful
+  signatures
+  slug
+  tag
+  targets
+  title
 }
 
 query typesense_documentById($id: String!, $documentType: String!) {

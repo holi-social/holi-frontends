@@ -6,16 +6,16 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { Stack } from 'holi-bricks/components/stack'
 import { Screen } from '@holi/core/components/Screen'
 import { Image } from 'holi-bricks/components/image'
-import petitions from './petitions.json' // TODO: replace with real data from backend
-import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
 import InfoModal from '@holi/core/components/InfoModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import type { PetitionStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { usePetitions } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/usePetitions'
+import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
+import { Button } from 'holi-bricks/components/button'
 
 export const PetitionList = () => {
   const { t } = useTranslation()
-  const count = petitions.length // TODO: replace with real count from backend
   const { show: showPartnerModal, hide: closePartnerModal, visible: partnerModalVisible } = useModalState()
+  const { petitions, totalResults, canFetchMore, fetchNextPage } = usePetitions({ displayErrors: true })
 
   return (
     <Screen
@@ -32,7 +32,7 @@ export const PetitionList = () => {
         headerTitleAlign: 'center',
       }}
     >
-      <Stack padding={{ top: 'md' }} gap="md">
+      <Stack padding={{ top: 'md', bottom: 'md' }} gap="md">
         <Stack gap="xs">
           <Text headingLevel="1" size="3xl">
             {t('petitions.title')}
@@ -43,18 +43,26 @@ export const PetitionList = () => {
             <Text>{t('petitionOverview.partnersTitle')}</Text>
           </Stack>
 
-          <Text>{t('petitionOverview.totalCount', { number: count })}</Text>
+          <Text>{t('petitionOverview.totalCount', { number: totalResults })}</Text>
         </Stack>
 
         <Stack gap="3xs">
           {petitions.map((petition) => (
-            <PetitionCard
-              key={petition.id}
-              externalPetitionId={petition.id}
-              status={petition.status as PetitionStatusValue}
-            />
+            <PetitionCard petition={petition as Petition} key={petition.id} />
           ))}
         </Stack>
+
+        {canFetchMore && (
+          <Stack padding={{ bottom: 'md' }}>
+            <Button
+              label={t('global.seeMore')}
+              loadingLabel={t('global.loading')}
+              inline
+              onPress={fetchNextPage}
+              testID="btn-fetch-more"
+            />
+          </Stack>
+        )}
       </Stack>
 
       <InfoModal

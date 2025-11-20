@@ -5,14 +5,12 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
-import { CalendarEventLine, Focus2Line, GoodDeeds, UserLine } from '@holi/icons/src/generated'
-import { FooterProgressBar } from 'holi-bricks/components/compactCard/footer/FooterProgressBar'
+import { Focus2Line, GoodDeeds, PencilFilled, UserLine } from '@holi/icons/src/generated'
 import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Stack } from 'holi-bricks/components/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform } from 'react-native'
-import petitions from './petitions.json'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -20,11 +18,10 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { PetitionProgressCard } from '@holi/core/screens/spaces/tasks/components/PetitionProgressCard'
 import {
   PetitionStatusValue,
-  usePetitionStatusQuery,
   useUpdatePetitionStatusMutation,
   type VolunteeringOpportunityStatusValue,
 } from '@holi/api/graphql/graphql-codegen'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { usePetitionDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/usePetitionDetailsData'
 
 export type PetitionDetailsParams = {
   petitionId: string
@@ -37,28 +34,13 @@ export const PetitionDetails = () => {
   const [petitionId] = useParam('petitionId')
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const { navigate } = useRouting()
-  const { isLoggedIn } = useLoggedInUser()
 
-  const {
-    data: { petitionStatus } = {},
-    refetch: refetchStatus,
-  } = usePetitionStatusQuery({
-    variables: {
-      petitionId: petitionId || '',
-    },
-    fetchPolicy: 'no-cache',
-    skip: !isLoggedIn,
-  })
-
-  const petition = petitions.find((petition) => petition.id === petitionId)
+  const { document: petition, status, refetchStatus } = usePetitionDetailsData(petitionId as string)
 
   const infoList: DetailsScreenInfoList[] = [
-    { title: `${t('act.petitions.createdBy', { initiatorNames: petition?.startedBy })}`, icon: UserLine },
-    { title: `${t('act.petitions.towards', { targetNames: petition?.targetOrganisation })}`, icon: Focus2Line },
-    {
-      title: `${petition?.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')}`,
-      icon: CalendarEventLine,
-    },
+    { title: `${t('act.petitions.createdBy', { initiatorNames: petition?.initiators })}`, icon: UserLine },
+    { title: `${t('act.petitions.towards', { targetNames: petition?.targets })}`, icon: Focus2Line },
+    { title: `${t('act.petitions.signatureCount', { signatureCount: petition?.signatures })}`, icon: PencilFilled },
   ]
 
   const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
@@ -103,8 +85,8 @@ export const PetitionDetails = () => {
         },
       }}
       StickyBottomComponent={
-        petitionStatus?.status !== PetitionStatusValue.Signed &&
-        petitionStatus?.status !== PetitionStatusValue.Planned && (
+        status !== PetitionStatusValue.Signed &&
+        status !== PetitionStatusValue.Planned && (
           <Stack
             padding={{ left: 'md', right: 'md', bottom: 'lg' }}
             alignItems="center"
@@ -112,42 +94,34 @@ export const PetitionDetails = () => {
             alignSelf="center"
             width="100%"
           >
-            {petition.externalLink && (
-              <Stack width={'100%'} maxWidth="xs">
-                <ButtonTracked
-                  icon={GoodDeeds}
-                  label={t('act.petitions.cta')}
-                  onPress={() => {
-                    onPetitionStatusChange(PetitionStatusValue.Planned)
-                    Linking.openURL(petition?.externalLink as string)
-                  }}
-                  trackingEvent={TrackingEvent.PetitionDetails.findMore}
-                />
-              </Stack>
-            )}
+            <Stack width={'100%'} maxWidth="xs">
+              <ButtonTracked
+                icon={GoodDeeds}
+                label={t('act.petitions.cta')}
+                onPress={() => {
+                  onPetitionStatusChange(PetitionStatusValue.Planned)
+                  Linking.openURL(`https://innn.it/${petition.slug}`)
+                }}
+                trackingEvent={TrackingEvent.PetitionDetails.findMore}
+              />
+            </Stack>
           </Stack>
         )
       }
     >
       <DetailsScreen
-        title={petition.title}
+        title={petition.title || ''}
         bodyContent={{ content: petition.description || '' }}
         infoList={infoList}
-        coverImage={{ uri: petition.imageUrl }}
+        // TODO: coverImage={{ uri: `https://innnit-public.s3.eu-central-1.amazonaws.com/${id}${variant}.${extension}` }}
         placeholderImage={petitionId ? getPlaceholderImage(petitionId) : undefined}
-        additionalContent={
-          <FooterProgressBar
-            progressBarPercentage={petition.percentage}
-            progressBarLeft={t('act.petitions.percent', { percentage: petition.percentage })}
-          />
-        }
         progressCard={
-          rewardsPhaseTwoEnabled && petitionStatus?.status ? (
+          rewardsPhaseTwoEnabled && status ? (
             <HoliTransition.FadeDown visible>
               <PetitionProgressCard
-                status={petitionStatus?.status}
+                status={status as PetitionStatusValue}
                 onStatusChange={onPetitionStatusChange}
-                externalLink={petition?.externalLink as string}
+                externalLink={`https://innn.it/${petition.slug}`}
               />
             </HoliTransition.FadeDown>
           ) : null

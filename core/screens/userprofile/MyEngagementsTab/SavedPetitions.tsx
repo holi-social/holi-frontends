@@ -12,9 +12,9 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
-import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
+import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
 import { PetitionsEmptyState } from '@holi/core/screens/userprofile/components/PetitionsEmptyState'
-import { useSignedPetitionsQuery } from '@holi/api/graphql/graphql-codegen'
+import { useSignedPetitionsQuery, useTypesense_MultiSearchQuery } from '@holi/api/graphql/graphql-codegen'
 
 const StatusInfoHeader = () => {
   const { t } = useTranslation()
@@ -59,8 +59,25 @@ export const SavedPetitions = () => {
   const { t } = useTranslation()
 
   const { data, loading } = useSignedPetitionsQuery({ fetchPolicy: 'cache-first' })
-  const signedPetitions = data?.signedPetitions.data || []
   const totalResults = data?.signedPetitions.totalResults
+
+  const typesenseIdsToSearchFor = data?.signedPetitions.data.map((p) => p.externalPetitionId) || []
+  const typesenseSearchQuery = useTypesense_MultiSearchQuery({
+    variables: {
+      input: {
+        searches: [
+          {
+            q: '*',
+            filter_by: `type:=[petition] && id:=[${typesenseIdsToSearchFor.join(', ')}]`,
+            limit: typesenseIdsToSearchFor.length || 100,
+          },
+        ],
+      },
+    },
+  })
+  const results = typesenseSearchQuery.data?.typesense_multiSearch?.results
+  const signedPetitionsDetailed =
+    results?.[0].__typename === 'Typesense_SearchResponseSuccess' ? results?.[0].hits : undefined
 
   if (loading) {
     return (
@@ -70,7 +87,7 @@ export const SavedPetitions = () => {
     )
   }
 
-  if (!loading && totalResults === 0) {
+  if ((!loading && totalResults === 0) || !signedPetitionsDetailed) {
     return (
       <Stack padding={{ bottom: 'xs' }} gap="xxs">
         <Stack direction="row" justifyContent="space-between">
@@ -90,9 +107,9 @@ export const SavedPetitions = () => {
       </Stack>
 
       <Stack gap="xs">
-        {signedPetitions.map((item) => (
-          <ErrorBoundary key={item.externalPetitionId}>
-            <PetitionCard externalPetitionId={item.externalPetitionId} status={item.status} showCommitmentStatus />
+        {signedPetitionsDetailed.map((item) => (
+          <ErrorBoundary key={item.document?.id}>
+            <PetitionCard petition={item.document as Petition} showCommitmentStatus />
           </ErrorBoundary>
         ))}
       </Stack>
