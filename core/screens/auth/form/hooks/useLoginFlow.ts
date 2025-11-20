@@ -72,33 +72,36 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
     }
   }, [initializeFlow, flow, startedFlowId])
 
-  const performLogin = async (payload: UpdateLoginFlowBody, provider?: string) => {
-    if (!flow) return
-    try {
-      const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, provider, undefined)
-      await finalizeLogin(data)
-    } catch (error) {
-      handleFlowSubmitError(error, {
-        resetFlow: initializeFlow,
-        handleBrowserLogin: async (redirectUrl: string) => {
-          if (Platform.OS === 'web') {
-            navigate(redirectUrl)
-          } else {
-            const data = await doBrowserLogin(redirectUrl, flow)
-            return finalizeLogin(data)
-          }
-        },
-        handleEmailVerification: () => {
-          setVerificationFlowData(payload)
-          storeOnboardingState('emailVerification')
-        },
-        updateFlow: (flow: LoginFlow) => {
-          safeSetFlow(flow)
-          onFlowUpdate(flow)
-        },
-      })
-    }
-  }
+  const performLogin = useCallback(
+    async (payload: UpdateLoginFlowBody, provider?: string) => {
+      if (!flow) return
+      try {
+        const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, provider, undefined)
+        await finalizeLogin(data)
+      } catch (error) {
+        handleFlowSubmitError(error, {
+          resetFlow: initializeFlow,
+          handleBrowserLogin: async (redirectUrl: string) => {
+            if (Platform.OS === 'web') {
+              navigate(redirectUrl)
+            } else {
+              const data = await doBrowserLogin(redirectUrl, flow)
+              return finalizeLogin(data)
+            }
+          },
+          handleEmailVerification: () => {
+            setVerificationFlowData(payload)
+            storeOnboardingState('emailVerification')
+          },
+          updateFlow: (flow: LoginFlow) => {
+            safeSetFlow(flow)
+            onFlowUpdate(flow)
+          },
+        })
+      }
+    },
+    [finalizeLogin, flow, handleFlowSubmitError, initializeFlow, navigate, onFlowUpdate, safeSetFlow]
+  )
 
-  return { flow, performLogin, resetFlow: () => initializeFlow() }
+  return { flow, performLogin, resetFlow: () => initializeFlow(), usePasswordLabel: t('auth.CTA.login.emailPassword') }
 }

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type Browser, type Locator, type Page, expect } from '@playwright/test'
+import { type Browser, expect, type Locator, type Page } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
 import { test } from './testmaster'

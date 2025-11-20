@@ -11,11 +11,12 @@ describe('CodeOtpForm', () => {
         setCode={jest.fn()}
         onSubmit={jest.fn()}
         onResend={jest.fn()}
+        trackingScreenName="mainLogin"
       />
     )
 
-    expect(screen.getByText('ada@lovelace.com'))
-    expect(screen.getByLabelText('global.edit'))
+    expect(screen.getByText('ada@lovelace.com')).toBeOnTheScreen()
+    expect(screen.getByLabelText('global.edit')).toBeOnTheScreen()
   })
 
   it('should call callback to change email', async () => {
@@ -28,6 +29,7 @@ describe('CodeOtpForm', () => {
         setCode={jest.fn()}
         onSubmit={jest.fn()}
         onResend={jest.fn()}
+        trackingScreenName="mainLogin"
       />
     )
 
@@ -37,10 +39,18 @@ describe('CodeOtpForm', () => {
   })
 
   it('should render code input field and button to submit', () => {
-    render(<CodeOtpForm onChangeEmail={jest.fn()} setCode={jest.fn()} onSubmit={jest.fn()} onResend={jest.fn()} />)
+    render(
+      <CodeOtpForm
+        onChangeEmail={jest.fn()}
+        setCode={jest.fn()}
+        onSubmit={jest.fn()}
+        onResend={jest.fn()}
+        trackingScreenName="mainLogin"
+      />
+    )
 
-    expect(screen.getByLabelText('auth.login.input.label-SignInCode'))
-    expect(screen.getByLabelText('auth.login.cta.verifyEmail'))
+    expect(screen.getByLabelText('auth.login.input.label-SignInCode')).toBeOnTheScreen()
+    expect(screen.getByLabelText('auth.login.cta.verifyEmail')).toBeOnTheScreen()
   })
 
   it('should control code input', async () => {
@@ -54,6 +64,7 @@ describe('CodeOtpForm', () => {
         codeValidationError="invalid code"
         onSubmit={jest.fn()}
         onResend={jest.fn()}
+        trackingScreenName="mainLogin"
       />
     )
 
@@ -72,7 +83,14 @@ describe('CodeOtpForm', () => {
     const onSubmit = jest.fn()
     const setCode = jest.fn()
     render(
-      <CodeOtpForm onChangeEmail={jest.fn()} code="123" setCode={setCode} onSubmit={onSubmit} onResend={jest.fn()} />
+      <CodeOtpForm
+        onChangeEmail={jest.fn()}
+        code="123"
+        setCode={setCode}
+        onSubmit={onSubmit}
+        onResend={jest.fn()}
+        trackingScreenName="mainLogin"
+      />
     )
 
     await user.type(screen.getByLabelText('auth.login.input.label-SignInCode'), '4{Enter}')
@@ -84,7 +102,15 @@ describe('CodeOtpForm', () => {
   it('should submit the form on button press', async () => {
     const user = userEvent.setup()
     const onSubmit = jest.fn()
-    render(<CodeOtpForm onChangeEmail={jest.fn()} setCode={jest.fn()} onSubmit={onSubmit} onResend={jest.fn()} />)
+    render(
+      <CodeOtpForm
+        onChangeEmail={jest.fn()}
+        setCode={jest.fn()}
+        onSubmit={onSubmit}
+        onResend={jest.fn()}
+        trackingScreenName="mainLogin"
+      />
+    )
 
     await user.press(screen.getByLabelText('auth.login.cta.verifyEmail'))
 
@@ -101,6 +127,7 @@ describe('CodeOtpForm', () => {
         onSubmit={onSubmit}
         onResend={jest.fn()}
         submitDisabled
+        trackingScreenName="mainLogin"
       />
     )
 
@@ -113,16 +140,32 @@ describe('CodeOtpForm', () => {
   })
 
   it('should render text and button to resend code', () => {
-    render(<CodeOtpForm onChangeEmail={jest.fn()} setCode={jest.fn()} onSubmit={jest.fn()} onResend={jest.fn()} />)
+    render(
+      <CodeOtpForm
+        onChangeEmail={jest.fn()}
+        setCode={jest.fn()}
+        onSubmit={jest.fn()}
+        onResend={jest.fn()}
+        trackingScreenName="mainLogin"
+      />
+    )
 
-    expect(screen.getByText('registration.emailVerification.resendInstruction'))
-    expect(screen.getByLabelText('registration.emailVerification.resendEmail'))
+    expect(screen.getByText('registration.emailVerification.resendInstruction')).toBeOnTheScreen()
+    expect(screen.getByLabelText('registration.emailVerification.resendEmail')).toBeOnTheScreen()
   })
 
   it('should call callback to resend code', async () => {
     const user = userEvent.setup()
     const onResend = jest.fn()
-    render(<CodeOtpForm onChangeEmail={jest.fn()} setCode={jest.fn()} onSubmit={jest.fn()} onResend={onResend} />)
+    render(
+      <CodeOtpForm
+        onChangeEmail={jest.fn()}
+        setCode={jest.fn()}
+        onSubmit={jest.fn()}
+        onResend={onResend}
+        trackingScreenName="mainLogin"
+      />
+    )
 
     await user.press(screen.getByLabelText('registration.emailVerification.resendEmail'))
 
@@ -139,6 +182,7 @@ describe('CodeOtpForm', () => {
         onSubmit={jest.fn()}
         onResend={onResend}
         submitDisabled
+        trackingScreenName="mainLogin"
       />
     )
 

@@ -53,8 +53,8 @@ describe('Authentication', () => {
   it('should render authentication selection', () => {
     renderRouter({ index: () => <Authentication initialSelection="login" /> })
 
-    expect(screen.getByLabelText('login-button'))
-    expect(screen.getByLabelText('register-button'))
+    expect(screen.getByLabelText('login-button')).toBeOnTheScreen()
+    expect(screen.getByLabelText('register-button')).toBeOnTheScreen()
   })
 
   it('should call register callback on register', async () => {

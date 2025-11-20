@@ -7,10 +7,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const LOGIN_REDIRECT_TIMEOUT = 2000
 
-export type LoginCallbackParams = {
-  code: string
-}
-
 // Only used on android
 export const LoginCallback = () => {
   const { displayError } = useErrorHandling()

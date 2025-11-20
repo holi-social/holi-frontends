@@ -22,18 +22,15 @@ import {
   onboardingSteps,
   useOnboardingCurrentStepKey,
 } from './hooks/useOnboardingCurrentStepKey'
-import { Authentication, type AuthenticationParams } from '@holi/core/screens/auth/Authentication'
+import { Authentication } from '@holi/core/screens/auth/Authentication'
 import { EmailVerification } from './steps/EmailVerification'
 import { Intro } from './steps/Intro'
 import { NamesSelection } from './steps/NamesSelection'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useGoodDeedsIntroModalState } from './components/GoodDeedsIntroModal/helpers/useGoodDeedsIntroModalState'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
-
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
-
-export type OnboardingParams = AuthenticationParams
 
 const Onboarding = () => {
   const setScreenOptions = useSetScreenOptions()

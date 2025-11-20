@@ -18,7 +18,6 @@ import { Close } from '@holi/icons/src/generated'
 import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
-import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { getRedirectAfterSocialLogin } from '@holi/core/screens/spaces/tasks/helpers'
@@ -32,7 +31,7 @@ export interface AuthenticationProps {
   onContinueAsGuest?: () => void
 }
 
-export type AuthenticationParams = {
+type AuthenticationParams = {
   flow?: string
 }
 
@@ -82,6 +81,7 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           <HeaderBackButton
             icon={Close}
             onPress={() => {
+              // TODO(SF) step not correct
               track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
               storeGuestMode(true)
               onContinueAsGuest?.()
@@ -92,26 +92,23 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           footerShown: false,
         },
       }}
-      StickyBottomComponent={
-        <Stack padding={{ bottom: 'sm' }} gap="xs" backgroundColor="main">
+    >
+      <Stack>
+        <Stack>
+          <AuthenticationSelection
+            flowId={flowId}
+            initialSelection={initialSelection}
+            resetFlowId={resetFlowId}
+            onRegister={onRegister}
+          />
+        </Stack>
+        <Stack padding={{ top: 'sm', bottom: 'sm' }} gap="xs" backgroundColor="main">
           <HoliDivider />
           <HoliContainer>
             <DocumentsFooter />
           </HoliContainer>
         </Stack>
-      }
-      contentContainerStyle={{ flex: 0 }}
-    >
-      <AuthenticationSelection
-        flowId={flowId}
-        initialSelection={initialSelection}
-        resetFlowId={resetFlowId}
-        onRegister={() => {
-          track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
-          metaSdk.trackSignUp()
-          onRegister?.()
-        }}
-      />
+      </Stack>
     </Screen>
   )
 }

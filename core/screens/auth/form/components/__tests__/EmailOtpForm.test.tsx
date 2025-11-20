@@ -6,8 +6,8 @@ describe('EmailOtpForm', () => {
   it('should render email input field and buttons for email otp login', () => {
     render(<EmailOtpForm setEmail={jest.fn()} submitLabel="custom submit label" onSubmit={jest.fn()} />)
 
-    expect(screen.getByLabelText('auth.login.input.label-Email'))
-    expect(screen.getByLabelText('custom submit label'))
+    expect(screen.getByLabelText('auth.login.input.label-Email')).toBeOnTheScreen()
+    expect(screen.getByLabelText('custom submit label')).toBeOnTheScreen()
   })
 
   it('should control email input', async () => {

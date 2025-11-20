@@ -2,7 +2,7 @@
   "dependencies": {
     "@apollo/client": "^4.0.7",
     "@novu/client": "0.24.2",
-    "@ory/kratos-client": "v1.3.8",
+    "@ory/kratos-client": "25.4.0",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@shopify/flash-list": "^2.2.0",
     "graphql": "^16.9.0",
@@ -13,7 +13,7 @@
     "react-native-keyboard-controller": "1.19.5",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated-carousel": "^4.0.2",
-    "uuid": "^11.0.5",
+    "uuid": "^13.0.0",
     "zod": "^3.17.9"
   },
   "devDependencies": {

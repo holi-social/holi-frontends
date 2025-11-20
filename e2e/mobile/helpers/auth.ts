@@ -22,7 +22,7 @@ export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 export const testIdContinueAsGuest = 'nav-button-back'
 
 export const registerNewUser = async (): Promise<string> => {
-  const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
+  const email = `${faker.internet.username()}${faker.string.numeric(4)}@e2etest.com`
   await register({ email, password: defaultPassword })
   return email
 }
@@ -90,15 +90,15 @@ export const register = async ({
 
   // Register as new user
   await tapOnElementWithTestId('btn-to-email-password-form')
-  await waitForElementWithTestId('ory-traits-email-input')
-  await fillFieldByTestId('ory-traits-email-input', email)
-  await fillFieldByTestId('ory-password-input', password)
+  await waitForElementWithTestId('email-input')
+  await fillFieldByTestId('email-input', email)
+  await fillFieldByTestId('password-input', password)
 
   // Close the keyboard by clicking on the header
   await tapOnElementWithTestId('create-account-logo')
 
   // Submit the form
-  await tapOnElementWithTestId('ory-submit-password')
+  await tapOnElementWithTestId('submit-password')
 }
 
 export const finishAccountSetup = async ({

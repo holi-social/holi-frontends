@@ -1,6 +1,6 @@
 import React from 'react'
 import { SocialLoginForm } from '@holi/core/screens/auth/form/components/SocialLoginForm'
-import { render, userEvent, screen } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 
 describe('SocialLoginForm', () => {
   it('should render two social login buttons', () => {

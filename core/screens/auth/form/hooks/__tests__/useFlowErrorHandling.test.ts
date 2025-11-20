@@ -1,4 +1,4 @@
-import { type AxiosResponse, AxiosError } from 'axios'
+import { AxiosError, type AxiosResponse } from 'axios'
 import { HoliLoginCancelledError } from '@holi/core/errors/classes/HoliLoginCancelledError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
@@ -8,8 +8,8 @@ import {
 import type { UiText } from '@ory/kratos-client'
 import { renderHook } from '@testing-library/react-native'
 import {
-  createLoginFlowWithMessage,
-  createLoginFlowWithMessages,
+  createFlowWithMessage,
+  createFlowWithMessages,
   loginFlow,
 } from '@holi/core/screens/auth/form/hooks/__tests__/testData'
 import { OryErrorCode } from '@holi/core/auth/helpers/auth/errorCodes'
@@ -150,7 +150,7 @@ describe('useFlowErrorHandling', () => {
       const { handleFlowSubmitError, callbacks, displayError } = setupErrorHandling()
       const response = {
         status: 400,
-        data: createLoginFlowWithMessage({
+        data: createFlowWithMessage(loginFlow, {
           type: 'info',
           text: 'Duplicated account',
           id: code,
@@ -173,7 +173,7 @@ describe('useFlowErrorHandling', () => {
       const { handleFlowSubmitError, callbacks, displayError } = setupErrorHandling()
       const response = {
         status: 400,
-        data: createLoginFlowWithMessage({
+        data: createFlowWithMessage(loginFlow, {
           type: 'error',
           text: 'Account not verified',
           id: OryErrorCode.ACCOUNT_NOT_VERIFIED,
@@ -195,7 +195,7 @@ describe('useFlowErrorHandling', () => {
         text: 'Property missing',
         id: OryErrorCode.PROPERTY_MISSING,
       }
-      const flow = createLoginFlowWithMessage(messageToShow)
+      const flow = createFlowWithMessage(loginFlow, messageToShow)
       const response = {
         status: 400,
         data: flow,
@@ -219,7 +219,7 @@ describe('useFlowErrorHandling', () => {
         text: 'Property missing',
         id: OryErrorCode.PROPERTY_MISSING,
       }
-      const flow = createLoginFlowWithMessages([
+      const flow = createFlowWithMessages(loginFlow, [
         messageToShow,
         {
           type: 'error',
@@ -252,7 +252,7 @@ describe('useFlowErrorHandling', () => {
         text: 'Code sent',
         id: code,
       }
-      const flow = createLoginFlowWithMessage(messageToShow)
+      const flow = createFlowWithMessage(loginFlow, messageToShow)
       const response = {
         status: 400,
         data: flow,
@@ -271,7 +271,7 @@ describe('useFlowErrorHandling', () => {
         text: 'Some info',
         id: 123,
       }
-      const flow = createLoginFlowWithMessage(messageToShow)
+      const flow = createFlowWithMessage(loginFlow, messageToShow)
       const response = {
         status: 400,
         data: flow,
@@ -290,7 +290,7 @@ describe('useFlowErrorHandling', () => {
         text: 'Some success messages',
         id: 123,
       }
-      const flow = createLoginFlowWithMessage(messageToShow)
+      const flow = createFlowWithMessage(loginFlow, messageToShow)
       const response = {
         status: 400,
         data: flow,
@@ -340,7 +340,7 @@ describe('useFlowErrorHandling', () => {
 
 describe('flowHasDuplicatedAccountError', () => {
   it.each(errorCodesDuplicatedAccount)('should recognize flow with code %s', (code) => {
-    const flow = createLoginFlowWithMessage({
+    const flow = createFlowWithMessage(loginFlow, {
       type: 'info',
       text: 'Duplicated account',
       id: code,
