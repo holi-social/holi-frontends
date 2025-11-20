@@ -23428,8 +23428,8 @@ __metadata:
   linkType: hard
 
 "matrix-js-sdk@npm:^39.0.0":
-  version: 39.0.0
-  resolution: "matrix-js-sdk@npm:39.0.0"
+  version: 39.2.0
+  resolution: "matrix-js-sdk@npm:39.2.0"
   dependencies:
     "@babel/runtime": "npm:^7.12.5"
     "@matrix-org/matrix-sdk-crypto-wasm": "npm:^15.3.0"
@@ -23439,23 +23439,23 @@ __metadata:
     jwt-decode: "npm:^4.0.0"
     loglevel: "npm:^1.9.2"
     matrix-events-sdk: "npm:0.0.1"
-    matrix-widget-api: "npm:^1.10.0"
+    matrix-widget-api: "npm:^1.14.0"
     oidc-client-ts: "npm:^3.0.1"
     p-retry: "npm:7"
-    sdp-transform: "npm:^2.14.1"
+    sdp-transform: "npm:^3.0.0"
     unhomoglyph: "npm:^1.0.6"
     uuid: "npm:13"
-  checksum: 10c0/875f8bc369ff0dde99844fc884f7390f75d9c23906d86761ecb593c6cda49b34afe34436c2eeab75d7f7009721a6779d990d74e3c8d02bdc88d8cf420007d7f9
+  checksum: 10c0/f8b5261de2744305330ba3952821ca9303698170bfd3a0ff8a767b9286d4e8d4ed5aaf6fbaf8a1e8ff9dbd859102a2a47d882787e2da3b3078965bec00157959
   languageName: node
   linkType: hard
 
-"matrix-widget-api@npm:^1.10.0":
-  version: 1.11.0
-  resolution: "matrix-widget-api@npm:1.11.0"
+"matrix-widget-api@npm:^1.14.0":
+  version: 1.15.0
+  resolution: "matrix-widget-api@npm:1.15.0"
   dependencies:
     "@types/events": "npm:^3.0.0"
     events: "npm:^3.2.0"
-  checksum: 10c0/ac35ed8fb2b5df6d186beb64b5faf907ec113d708ad8353bdd8f9196fb3da255561b8807e2e845f39d4cf7ae6af36f90b54c230a0a100556ac7ebd8f18bee848
+  checksum: 10c0/1c08b5284cd98aed312d95594335e1391d937dfad70ef862a1f90fdbaaa27709e1c44dcda37f8045e4814779d8d5816d240aee396d52cfd9b37fbf243a6baf6a
   languageName: node
   linkType: hard
 
@@ -28597,12 +28597,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sdp-transform@npm:^2.14.1":
-  version: 2.14.2
-  resolution: "sdp-transform@npm:2.14.2"
+"sdp-transform@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "sdp-transform@npm:3.0.0"
   bin:
     sdp-verify: checker.js
-  checksum: 10c0/d4b1f3086812652c08319c41d260d91852dd8067e5fd3fb514bbb257d9f2043cd6f8ebc5ae4d4cd9f54125049cafcc160f67711900a789ec66e716ce891fdf75
+  checksum: 10c0/828a4595041ba64c86b29075aa4007ab384519b1fa29882db59ccb83b54b2b2a33b60848293f8da537fe151c52f5844fc17c8325396cac309fb19e2e81ec5bf4
   languageName: node
   linkType: hard
 
