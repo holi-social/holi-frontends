@@ -10,7 +10,7 @@
     "clean:all": "npx rimraf node_modules"
   },
   "dependencies": {
-    "cross-fetch": "^3.1.6",
+    "cross-fetch": "^4.0.0",
     "holi-bricks": "*",
     "immer": "^10.2.0",
     "jotai": "2.4.3",
