@@ -14,7 +14,6 @@ import {
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { RouteName } from '@holi/mobile/navigation/routeName'
 import { Tabs, SplashScreen } from 'expo-router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,7 +34,7 @@ export default function Layout() {
       }}
     >
       <Tabs
-        initialRouteName={RouteName.TabFeed}
+        initialRouteName="index"
         screenOptions={{
           tabBarInactiveTintColor: theme.colors.fill.default,
           tabBarActiveTintColor: theme.colors.fill.main,
@@ -50,7 +49,7 @@ export default function Layout() {
         }}
       >
         <Tabs.Screen
-          name={RouteName.TabFeed}
+          name="index"
           options={{
             tabBarButtonTestID: 'btn-to-home-view',
             tabBarLabel: t('navigation.home'),
@@ -61,7 +60,7 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name={RouteName.TabAct}
+          name="act"
           options={{
             tabBarLabel: t('navigation.act'),
             tabBarButtonTestID: 'btn-to-act',
@@ -72,7 +71,7 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name={RouteName.TabSpaces}
+          name="spaces"
           options={{
             tabBarLabel: t('navigation.organize'),
             tabBarButtonTestID: 'btn-to-spaces',
@@ -84,7 +83,7 @@ export default function Layout() {
         />
 
         <Tabs.Screen
-          name={RouteName.TabChat}
+          name="chat"
           options={{
             tabBarButtonTestID: 'btn-to-chat-view',
             headerShown: false,
@@ -96,7 +95,7 @@ export default function Layout() {
         />
 
         <Tabs.Screen
-          name={RouteName.TabProfile}
+          name="profile"
           options={{
             tabBarButtonTestID: 'btn-to-profile-view',
             headerShown: false,
