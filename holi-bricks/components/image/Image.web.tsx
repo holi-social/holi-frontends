@@ -44,6 +44,7 @@ export const Image: React.FC<MultiPlatformImage> = ({
       height={height}
       objectFit={resizeMode}
       style={{
+        objectFit: resizeMode,
         ...styles.imageStretching(stretch, aspectRatio),
         ...layoutStyle(otherProps),
       }}
