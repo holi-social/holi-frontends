@@ -215,7 +215,7 @@ const TaskCompletionFlow = () => {
           err as { response?: { data?: { ui?: { messages?: { id?: number }[] } } } }
         )?.response?.data?.ui?.messages?.find((message) => message.id === OryErrorCode.ACCOUNT_ALREADY_EXISTS)
       ) {
-        displayError(err, 'Failed to submit form', {
+        displayError(err, 'Failed to submit registration form as e-mail is already used', {
           displayMessage: t('auth.login.message.1010016'),
           location: 'TaskCompletionFlow.onSubmit',
         })
@@ -551,7 +551,6 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       justifyContent: 'center',
       gap: Spacing.xxs,
-      backgroundColor: 'red',
     },
   })
 

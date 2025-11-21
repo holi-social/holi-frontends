@@ -60,6 +60,7 @@ const FormNode = (props: Props) => {
       <FormInputField
         {...props}
         disabled={node.attributes.disabled || props.disabled}
+        autofocus={props.autofocus}
         attributes={node.attributes}
         translationPrefix={props.translationPrefix}
         onEnterPress={props.onSubmitPress}
