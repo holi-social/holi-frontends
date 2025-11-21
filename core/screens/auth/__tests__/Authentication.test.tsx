@@ -9,6 +9,7 @@ import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeS
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { AccountType } from '@holi/api/graphql/graphql-codegen'
 import { Text } from 'holi-bricks/components/text'
+import { TrackingEvent } from '@holi/core/tracking'
 
 jest.mock('@holi/core/helpers/useLogout')
 
@@ -85,6 +86,40 @@ describe('Authentication', () => {
 
     expect(mockStoreGuestMode).toHaveBeenCalledWith(true)
     expect(onContinueAsGuest).toHaveBeenCalled()
+  })
+
+  it('should track button press on close for login', async () => {
+    const user = userEvent.setup()
+
+    renderRouter({
+      index: () => (
+        <>
+          <HeaderAnimated />
+          <Authentication initialSelection="login" onContinueAsGuest={jest.fn()} />
+        </>
+      ),
+    })
+
+    await user.press(screen.getByTestId('nav-button-back'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.ExitPressed({ screen: 'login' }))
+  })
+
+  it('should track button press on close for registration', async () => {
+    const user = userEvent.setup()
+
+    renderRouter({
+      index: () => (
+        <>
+          <HeaderAnimated />
+          <Authentication initialSelection="registration" onContinueAsGuest={jest.fn()} />
+        </>
+      ),
+    })
+
+    await user.press(screen.getByTestId('nav-button-back'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.ExitPressed({ screen: 'registration' }))
   })
 
   it('should render loading if user is already logged in', async () => {

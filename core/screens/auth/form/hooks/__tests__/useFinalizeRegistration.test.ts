@@ -44,27 +44,29 @@ describe('useFinalizeRegistration', () => {
 
     const { result } = renderHook(() => useFinalizeRegistration())
 
-    await result.current(sessionData)
+    await result.current(sessionData, 'otp')
 
     expect(mockDoLogin).toHaveBeenCalledWith(mockClient, sessionData)
   })
 
-  it('should track registration', async () => {
+  const methods = ['otp', 'password', 'apple', 'google'] as TrackingEvent.AuthMethod[]
+  it.each(methods)('should track registration with %s', async (method: TrackingEvent.AuthMethod) => {
     const { result } = renderHook(() => useFinalizeRegistration())
 
-    await result.current(sessionData)
+    await result.current(sessionData, method)
 
     expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' })
+      TrackingEvent.Auth.RegistrationCompleted({
+        method,
+      })
     )
-    expect(mockTrackMetaSdkSignUp).toHaveBeenCalled()
   })
 
   it('should call onRegister callback', async () => {
     const onRegister = jest.fn()
     const { result } = renderHook(() => useFinalizeRegistration(onRegister))
 
-    await result.current(sessionData)
+    await result.current(sessionData, 'otp')
 
     expect(onRegister).toHaveBeenCalled()
   })

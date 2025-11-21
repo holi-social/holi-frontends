@@ -42,7 +42,7 @@ describe('EmailOtpForm', () => {
     await user.type(screen.getByLabelText('auth.login.input.label-Email'), 'a{Enter}')
 
     expect(setEmail).toHaveBeenCalledWith('a')
-    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit).toHaveBeenCalledWith('email')
   })
 
   it('should submit the form on button press', async () => {
@@ -52,7 +52,7 @@ describe('EmailOtpForm', () => {
 
     await user.press(screen.getByLabelText('custom submit label'))
 
-    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit).toHaveBeenCalledWith('email')
   })
 
   it('should not submit the form on button press if the button is disabled', async () => {

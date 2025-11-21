@@ -81,8 +81,11 @@ export const Authentication = ({ initialSelection, onRegister, onContinueAsGuest
           <HeaderBackButton
             icon={Close}
             onPress={() => {
-              // TODO(SF) step not correct
-              track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'continueAsGuest' }))
+              track(
+                TrackingEvent.Auth.ExitPressed({
+                  screen: initialSelection,
+                })
+              )
               storeGuestMode(true)
               onContinueAsGuest?.()
             }}

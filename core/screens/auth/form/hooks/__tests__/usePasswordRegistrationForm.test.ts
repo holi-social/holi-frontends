@@ -172,7 +172,7 @@ describe('usePasswordRegistrationForm', () => {
 
       await result.current.onSubmit()
 
-      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.LoginButtonPressed)
+      expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.RegisterButtonPressed)
     })
 
     it('should perform registration with correct payload', async () => {
@@ -188,14 +188,17 @@ describe('usePasswordRegistrationForm', () => {
 
       await result.current.onSubmit()
 
-      expect(performRegistration).toHaveBeenCalledWith({
-        method: 'password',
-        traits: {
-          email: 'ada@lovelace.com',
+      expect(performRegistration).toHaveBeenCalledWith(
+        {
+          method: 'password',
+          traits: {
+            email: 'ada@lovelace.com',
+          },
+          password: 'P4ssw0rd',
+          csrf_token: 'some token',
         },
-        password: 'P4ssw0rd',
-        csrf_token: 'some token',
-      })
+        'password'
+      )
     })
   })
 })

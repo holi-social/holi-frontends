@@ -15,14 +15,27 @@ describe('useSocialLoginForm', () => {
       expect(performLogin).not.toHaveBeenCalled()
     })
 
-    it('should track button press', async () => {
+    it('should track button press for Google', async () => {
       const { result } = renderHook(() => useSocialLoginForm({ flow: loginFlow, performLogin: jest.fn() }))
 
       await result.current.onSubmit('Google')
 
       expect(mockTrack).toHaveBeenCalledWith(
-        TrackingEvent.Auth.SocialLoginButtonPressed({
-          provider: 'Google',
+        TrackingEvent.Auth.LoginOptionSelected({
+          method: 'google',
+          screen: 'mainLogin',
+        })
+      )
+    })
+
+    it('should track button press for Apple', async () => {
+      const { result } = renderHook(() => useSocialLoginForm({ flow: loginFlow, performLogin: jest.fn() }))
+
+      await result.current.onSubmit('Apple')
+
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.LoginOptionSelected({
+          method: 'apple',
           screen: 'mainLogin',
         })
       )
@@ -34,11 +47,14 @@ describe('useSocialLoginForm', () => {
 
       await result.current.onSubmit('Apple')
 
-      expect(performLogin).toHaveBeenCalledWith({
-        method: 'oidc',
-        csrf_token: 'some token',
-        provider: 'apple-_KPH8UUU',
-      })
+      expect(performLogin).toHaveBeenCalledWith(
+        {
+          method: 'oidc',
+          csrf_token: 'some token',
+          provider: 'apple-_KPH8UUU',
+        },
+        'apple'
+      )
     })
 
     it('should perform login with correct payload for Google', async () => {
@@ -47,12 +63,15 @@ describe('useSocialLoginForm', () => {
 
       await result.current.onSubmit('Google')
 
-      expect(performLogin).toHaveBeenCalledWith({
-        method: 'oidc',
-        csrf_token: 'some token',
-        provider: 'google-SBFqZZ_v',
-        upstream_parameters: { prompt: 'select_account' },
-      })
+      expect(performLogin).toHaveBeenCalledWith(
+        {
+          method: 'oidc',
+          csrf_token: 'some token',
+          provider: 'google-SBFqZZ_v',
+          upstream_parameters: { prompt: 'select_account' },
+        },
+        'google'
+      )
     })
   })
 })

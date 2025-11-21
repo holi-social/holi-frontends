@@ -11,7 +11,7 @@ export interface EmailOtpFormProps {
   emailValidationError?: string
   autoFocusEmail?: boolean
   submitLabel: string
-  onSubmit: () => Promise<void>
+  onSubmit: (step: 'email') => Promise<void>
   submitDisabled?: boolean
 }
 
@@ -35,13 +35,13 @@ export const EmailOtpForm = ({
         validationErrorText={emailValidationError}
         onChange={setEmail}
         type="email"
-        onSubmit={onSubmit}
+        onSubmit={() => onSubmit('email')}
         autoFocus={autoFocusEmail}
       />
       <Button
         margin={{ top: '3xs' }}
         label={submitLabel}
-        onPress={onSubmit}
+        onPress={() => onSubmit('email')}
         size="lg"
         disabled={submitDisabled}
         icon={Mail}

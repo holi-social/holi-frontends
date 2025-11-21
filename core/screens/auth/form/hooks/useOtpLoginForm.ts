@@ -9,7 +9,7 @@ import type { CodeOtpFormProps } from '@holi/core/screens/auth/form/components/C
 
 interface UseOtpLoginFormProps {
   flow?: LoginFlow
-  performLogin: (payload: UpdateLoginFlowBody) => Promise<void>
+  performLogin: (payload: UpdateLoginFlowBody, method: TrackingEvent.AuthMethod) => Promise<void>
   resetFlow: () => void
 }
 
@@ -20,6 +20,7 @@ export const useOtpLoginForm = ({
 }: UseOtpLoginFormProps): EmailOtpFormProps & CodeOtpFormProps => {
   const { i18n, t } = useTranslation()
   const { track } = useTracking()
+  const trackingScreen = 'mainLogin'
 
   const emailNode = getInputNodeState(flow, i18n, 'identifier')
   const codeNode = getInputNodeState(flow, i18n, 'code')
@@ -28,39 +29,34 @@ export const useOtpLoginForm = ({
   const [email, setEmail] = useState<string | undefined>(emailNode.value)
   const [code, setCode] = useState<string | undefined>(codeNode.value)
 
-  const onSubmit = useCallback(async () => {
-    if (!flow) return
-    const payload: UpdateLoginFlowWithCodeMethod = {
-      method: 'code',
-      identifier: email ?? '',
-      csrf_token: csrfTokenNode.value ?? '',
-      code,
-    }
-    track(
-      TrackingEvent.Auth.OneTimeCodePressed({
-        step: flow?.state === 'sent_email' ? 'code' : 'email',
-        screen: 'mainLogin',
-      })
-    )
-    await performLogin(payload as UpdateLoginFlowBody)
-  }, [email, code, csrfTokenNode.value, performLogin, flow, track])
-
-  const onResend = useCallback(async () => {
-    if (!flow) return
-    const payload: UpdateLoginFlowWithCodeMethod = {
-      method: 'code',
-      identifier: email ?? '',
-      csrf_token: csrfTokenNode.value ?? '',
-      resend: 'code',
-    }
-    track(
-      TrackingEvent.Auth.OneTimeCodePressed({
-        step: 'resend',
-        screen: 'mainLogin',
-      })
-    )
-    await performLogin(payload as UpdateLoginFlowBody)
-  }, [email, csrfTokenNode.value, performLogin, flow, track])
+  const onSubmit = useCallback(
+    async (step: 'code' | 'email' | 'resend') => {
+      if (!flow) return
+      const stepPayload = step === 'resend' ? { resend: 'code' } : { code }
+      const payload: UpdateLoginFlowWithCodeMethod = {
+        method: 'code',
+        identifier: email ?? '',
+        csrf_token: csrfTokenNode.value ?? '',
+        ...stepPayload,
+      }
+      if (step === 'email') {
+        track(
+          TrackingEvent.Auth.LoginOptionSelected({
+            method: 'otp',
+            screen: trackingScreen,
+          })
+        )
+      }
+      track(
+        TrackingEvent.Auth.OneTimeCodePressed({
+          step,
+          screen: trackingScreen,
+        })
+      )
+      await performLogin(payload as UpdateLoginFlowBody, 'otp')
+    },
+    [email, code, csrfTokenNode.value, performLogin, flow, track]
+  )
 
   return {
     email,
@@ -74,7 +70,6 @@ export const useOtpLoginForm = ({
     onSubmit,
     submitLabel: t('auth.login.cta.OTPlogin'),
     submitDisabled: !flow,
-    onResend,
-    trackingScreenName: 'mainLogin',
+    trackingScreen,
   }
 }

@@ -10,10 +10,10 @@ import { Stack } from 'holi-bricks/components/stack'
 interface ChangeEmailButtonProps {
   email?: string
   onChangeEmail: () => void
-  trackingScreenName: 'mainLogin' | 'mainRegistration'
+  trackingScreen: TrackingEvent.AuthScreen
 }
 
-export const ChangeEmailButton = ({ email, onChangeEmail, trackingScreenName }: ChangeEmailButtonProps) => {
+export const ChangeEmailButton = ({ email, onChangeEmail, trackingScreen }: ChangeEmailButtonProps) => {
   const { t } = useTranslation()
 
   return (
@@ -27,7 +27,7 @@ export const ChangeEmailButton = ({ email, onChangeEmail, trackingScreenName }: 
         onPress={onChangeEmail}
         trackingEvent={TrackingEvent.Auth.OneTimeCodePressed({
           step: 'edit',
-          screen: trackingScreenName,
+          screen: trackingScreen,
         })}
       />
     </Stack>

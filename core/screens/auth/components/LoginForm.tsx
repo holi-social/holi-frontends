@@ -82,8 +82,8 @@ export const LoginForm = ({ startedFlowId, resetFlowId, step, setStep }: LoginFo
                   setStep('email-password')
                 }}
                 icon={Key2}
-                trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
-                  method: 'email',
+                trackingEvent={TrackingEvent.Auth.LoginOptionSelected({
+                  method: 'password',
                   screen: 'mainLogin',
                 })}
               />

@@ -14,6 +14,7 @@ import {
   flowHasDuplicatedAccountError,
   useFlowErrorHandling,
 } from '@holi/core/screens/auth/form/hooks/useFlowErrorHandling'
+import type { TrackingEvent } from '@holi/core/tracking'
 
 export interface UseLoginFlowProps {
   startedFlowId?: string
@@ -73,11 +74,11 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
   }, [initializeFlow, flow, startedFlowId])
 
   const performLogin = useCallback(
-    async (payload: UpdateLoginFlowBody, provider?: string) => {
+    async (payload: UpdateLoginFlowBody, method: TrackingEvent.AuthMethod, provider?: string) => {
       if (!flow) return
       try {
         const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, provider, undefined)
-        await finalizeLogin(data)
+        await finalizeLogin(data, method)
       } catch (error) {
         handleFlowSubmitError(error, {
           resetFlow: initializeFlow,
@@ -86,7 +87,7 @@ export const useLoginFlow = ({ startedFlowId, resetFlowId, onFlowUpdate }: UseLo
               navigate(redirectUrl)
             } else {
               const data = await doBrowserLogin(redirectUrl, flow)
-              return finalizeLogin(data)
+              return finalizeLogin(data, method)
             }
           },
           handleEmailVerification: () => {
