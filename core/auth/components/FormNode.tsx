@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Node.tsx
-import type { UiNode, UiNodeAttributes } from '@ory/kratos-client'
+import type { UiNode, UiNodeAttributes, UiNodeInputAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { type StyleProp, StyleSheet, type TextStyle, View, type ViewStyle } from 'react-native'
@@ -70,6 +70,7 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
+    const attributes: UiNodeInputAttributes = node.attributes
     if (getNodeProviderId(node)) {
       return (
         <FormNodeSocialLogin
@@ -96,7 +97,7 @@ const FormNode = (props: Props) => {
           <Text>{t('registration.emailVerification.resendInstruction')}</Text>
           <Button
             label={t('registration.emailVerification.resendEmail')}
-            disabled={node.attributes.disabled || props.disabled}
+            disabled={attributes.disabled || props.disabled}
             onPress={() => props.onSubmitPress({ method: 'code', resend: 'code' })}
             size="lg"
             transparent
@@ -111,11 +112,9 @@ const FormNode = (props: Props) => {
       <View style={props.style}>
         <Button
           label={t(translationKey)}
-          disabled={node.attributes.disabled || props.disabled}
+          disabled={attributes.disabled || props.disabled}
           onPress={() =>
-            props.onSubmitPress(
-              'value' in node.attributes ? { method: node.attributes.value, provider: undefined } : undefined
-            )
+            props.onSubmitPress('value' in attributes ? { method: attributes.value, provider: undefined } : undefined)
           }
           size="lg"
           testID={`ory-submit-${fieldName}`}

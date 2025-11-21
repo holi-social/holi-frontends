@@ -13,7 +13,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 
-export type AuthErrorParams = {
+type AuthErrorParams = {
   id?: string
 }
 
