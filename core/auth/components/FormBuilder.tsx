@@ -92,7 +92,7 @@ const FormBuilder = <
   }
 
   useEffect(() => {
-    if (!flow) {
+    if (!flow || !flow.ui) {
       return
     }
 
@@ -204,7 +204,7 @@ const FormBuilder = <
 
           return (
             <FormNode
-              key={`form-field-${flow?.ui.action || ''}-${name}-${index}`}
+              key={`form-field-${flow?.ui?.action || ''}-${name}-${index}`}
               textInputOverride={textInputOverride}
               translationPrefix={translationPrefix}
               value={getValue(name)}

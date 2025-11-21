@@ -145,8 +145,6 @@ const TaskCompletionFlow = () => {
   useEffect(() => {
     if (flow?.state === 'sent_email') {
       setStep('code')
-    } else if (flow?.state === 'choose_method') {
-      setStep('oidc')
     }
   }, [flow])
 
@@ -208,7 +206,7 @@ const TaskCompletionFlow = () => {
         session_token: data.session_token,
       } as OrySessionContext)
 
-      await handleCompleteTask()
+      handleCompleteTask()
     } catch (err) {
       if (
         (
@@ -250,7 +248,7 @@ const TaskCompletionFlow = () => {
 
           if (data) {
             await doLogin(client, data)
-            await handleCompleteTask()
+            handleCompleteTask()
           }
         }
       } else {
@@ -437,6 +435,7 @@ const TaskCompletionFlow = () => {
                       aria-label={t('tasks.register.unlogged.user.name')}
                       inputLabel={t('tasks.register.unlogged.user.name')}
                       onChange={setName}
+                      inputProps={{ autoFocus: true }}
                     />
                     <FormBuilder
                       flow={flow}
@@ -445,6 +444,7 @@ const TaskCompletionFlow = () => {
                       withLoader={false}
                       handleMessage={handleMessage}
                       disabled={!name}
+                      noAutofocusForEmail={true}
                     />
                   </>
                 )}

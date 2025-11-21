@@ -59,7 +59,7 @@ const FormNode = (props: Props) => {
     return (
       <FormInputField
         {...props}
-        disabled={node.attributes.disabled || props.disabled}
+        disabled={node.attributes.disabled}
         autofocus={props.autofocus}
         attributes={node.attributes}
         translationPrefix={props.translationPrefix}
