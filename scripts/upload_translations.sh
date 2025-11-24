@@ -5,11 +5,6 @@ set -eu
 LOCAL_LOCALES_DIR="core/i18n/locales"
 PATCH_FILE="local_i18n_changes.patch"
 if [[ "${1:-}" == "--force" ]]; then
-  FORCE=1
-fi
-
-
-if [ "${FORCE:-}" ]; then
   echo ""
   echo "⚠️  WARNING: This action might override changes in Localazy!"
   echo ""
@@ -32,15 +27,9 @@ if [ "${FORCE:-}" ]; then
   esac
 fi
 
-
-git add .
-git update-index --refresh
-if ! git diff-index --cached --quiet HEAD --; then
-    UNCOMMITTED_CHANGES=1
-fi
-
-if [ "${UNCOMMITTED_CHANGES:-}" ]; then
-  echo "Please commit or stash all changes before continuing."
+if ! git diff --quiet -- "${LOCAL_LOCALES_DIR}" || ! git diff --cached --quiet -- "${LOCAL_LOCALES_DIR}"; then
+  echo "You have uncommitted changes in ${LOCAL_LOCALES_DIR}⚠️"
+  echo "You need to commit your changes before the upload, so I can diff them (or stash your changes, if you don't want to apply them)."
   exit 1
 fi
 
@@ -62,15 +51,8 @@ echo "---"
 echo "Fetching newest translation snapshot..."
 yarn i18n:download -- -q
 
-git add .
-git update-index --refresh
-if ! git diff-index --cached --quiet HEAD --; then
-    REMOTE_HAS_UPDATES=1
-fi
-
-if [ "${REMOTE_HAS_UPDATES:-}" ]; then
+if ! git diff --quiet -- "${LOCAL_LOCALES_DIR}"; then
     echo "✅  Remote changes detected and downloaded"
-    git reset .
 
     echo "---"
     echo "🩹  Re-applying local changes from patch..."
