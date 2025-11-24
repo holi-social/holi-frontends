@@ -76,7 +76,7 @@
     "react-native-calendars": "^1.1306.0",
     "react-native-controlled-mentions": "^2.2.5",
     "react-native-device-info": "^14.0.4",
-    "react-native-fbsdk-next": "^13.4.1",
+    "react-native-fbsdk-next": "patch:react-native-fbsdk-next@npm%3A13.4.1#~/.yarn/patches/react-native-fbsdk-next-npm-13.4.1-9e2b341286.patch",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-get-random-values": "^1.11.0",
     "react-native-image-pan-zoom": "^2.1.12",
