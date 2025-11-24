@@ -37,8 +37,7 @@ const StatusInfoModal = () => {
         <HoliModalContentWrapper actionButtonText={t('modal.close')} onActionButtonPress={hide}>
           <Stack gap="md" padding={{ bottom: 'md', left: 'md', right: 'md' }}>
             <Stack gap="3xs">
-              <Text size="3xl">{t('profile.myVolunteer.modal.title')}</Text>
-              <Text>{t('profile.myVolunteer.modal.description')}</Text>
+              <Text size="3xl">{t('profile.myVolunteer.status.modal.engagements.title')}</Text>
             </Stack>
 
             <Stack gap="xs">

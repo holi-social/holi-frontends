@@ -979,6 +979,7 @@ export type Mutation = {
   updateFeedPost: FeedPost
   updateFeedPostReaction: FeedPost
   updateInitiativeReaction: Initiative
+  updatePetitionStatus: PetitionStatus
   /** @deprecated Comments can be added to other objects. Use updateComment mutation. */
   updatePostComment: CreatePostCommentOutput
   /** @deprecated Comment reactions can be added to other objects. Use updateCommentReaction mutation. */
@@ -1189,6 +1190,11 @@ export type MutationUpdateInitiativeReactionArgs = {
   reactionType: ReactionType
 }
 
+export type MutationUpdatePetitionStatusArgs = {
+  newStatus?: PetitionStatusValue
+  petitionId: Scalars['String']['input']
+}
+
 export type MutationUpdatePostCommentArgs = {
   input: CreatePostCommentInput
 }
@@ -1393,6 +1399,26 @@ export enum PermissionType {
   Participants = 'PARTICIPANTS',
 }
 
+/** PetitionStatus(id, external_petition_id, user, status, created_at, updated_at) */
+export type PetitionStatus = {
+  __typename?: 'PetitionStatus'
+  externalPetitionId: Scalars['String']['output']
+  status: PetitionStatusValue
+}
+
+export type PetitionStatusPaged = {
+  __typename?: 'PetitionStatusPaged'
+  /** The list of items in this pagination window. */
+  data: Array<Maybe<PetitionStatus>>
+  /** Total number of items in the filtered dataset. */
+  totalResults: Scalars['Int']['output']
+}
+
+export enum PetitionStatusValue {
+  Planned = 'PLANNED',
+  Signed = 'SIGNED',
+}
+
 /** Poll(id, question_text, created, modified, creator, is_edited, is_closed, is_deleted, status, is_public, is_multi_select, max_choices) */
 export type Poll = {
   __typename?: 'Poll'
@@ -1540,6 +1566,7 @@ export type Query = {
   mySpaces: Array<Maybe<MySpaces>>
   notifications: NotificationPaged
   notifications_preferences: Array<Maybe<Notifications_WorkflowPreferences>>
+  petitionStatus?: Maybe<PetitionStatus>
   pollById?: Maybe<Poll>
   post: FeedPost
   postById?: Maybe<Post>
@@ -1548,6 +1575,7 @@ export type Query = {
   rewards_counter: Rewards_RewardsCounter
   rewards_globalCounter: Rewards_RewardsCounter
   rewards_transactions: Rewards_PagedTransactions
+  signedPetitions: PetitionStatusPaged
   spaceById?: Maybe<Space>
   spaces: SpacePaged
   taskById?: Maybe<Task>
@@ -1758,6 +1786,10 @@ export type QueryNotificationsArgs = {
   offset?: Scalars['Int']['input']
 }
 
+export type QueryPetitionStatusArgs = {
+  petitionId: Scalars['String']['input']
+}
+
 export type QueryPollByIdArgs = {
   id: Scalars['UUID']['input']
 }
@@ -1777,6 +1809,11 @@ export type QueryPostsByUserIdArgs = {
 }
 
 export type QueryRewards_TransactionsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QuerySignedPetitionsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -1943,6 +1980,7 @@ export type Rewards_PagedTransactions = {
 
 export enum Rewards_RewardType {
   ChallengeSubmitted = 'ChallengeSubmitted',
+  ExternalPetitionSigned = 'ExternalPetitionSigned',
   ExternalVolunteeringOpportunityStarted = 'ExternalVolunteeringOpportunityStarted',
   GoodDeedPostCreated = 'GoodDeedPostCreated',
   TaskCompleted = 'TaskCompleted',
@@ -2173,6 +2211,7 @@ export type Typesense_Document = {
   commitment_duration?: Maybe<Scalars['String']['output']>
   commitment_label?: Maybe<Scalars['String']['output']>
   contact?: Maybe<Array<Maybe<Typesense_DocumentContact>>>
+  description?: Maybe<Scalars['String']['output']>
   description_de?: Maybe<Scalars['String']['output']>
   description_en?: Maybe<Scalars['String']['output']>
   donation_open_amount_in_cents?: Maybe<Scalars['Int']['output']>
@@ -2180,6 +2219,7 @@ export type Typesense_Document = {
   external_url?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   image_url?: Maybe<Scalars['String']['output']>
+  initiators?: Maybe<Array<Maybe<Scalars['String']['output']>>>
   link_locators?: Maybe<Typesense_DocumentLinkLocators>
   location?: Maybe<Scalars['String']['output']>
   location_country_de?: Maybe<Scalars['String']['output']>
@@ -2192,10 +2232,16 @@ export type Typesense_Document = {
   organizer_location_country_en?: Maybe<Scalars['String']['output']>
   organizer_name?: Maybe<Scalars['String']['output']>
   organizer_url?: Maybe<Scalars['String']['output']>
+  petitionSuccessful?: Maybe<Scalars['Boolean']['output']>
+  signatures?: Maybe<Scalars['Int']['output']>
   skills_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  slug?: Maybe<Scalars['String']['output']>
   source?: Maybe<Scalars['String']['output']>
   summary_de?: Maybe<Scalars['String']['output']>
   summary_en?: Maybe<Scalars['String']['output']>
+  tag?: Maybe<Scalars['String']['output']>
+  targets?: Maybe<Array<Maybe<Scalars['String']['output']>>>
+  title?: Maybe<Scalars['String']['output']>
   title_de?: Maybe<Scalars['String']['output']>
   title_en?: Maybe<Scalars['String']['output']>
   topics_v2?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -2228,6 +2274,7 @@ export type Typesense_DocumentLinkLocators = {
 
 export enum Typesense_DocumentType {
   Donation = 'donation',
+  Petition = 'petition',
   Profile = 'profile',
   Space = 'space',
   Task = 'task',
@@ -2955,6 +3002,39 @@ export type LinkFragmentFragment = {
   siteName: string
   origin: string
   icon?: string
+}
+
+export type UpdatePetitionStatusMutationVariables = Exact<{
+  petitionId: Scalars['String']['input']
+  newStatus: PetitionStatusValue
+}>
+
+export type UpdatePetitionStatusMutation = {
+  __typename?: 'Mutation'
+  updatePetitionStatus: { __typename?: 'PetitionStatus'; externalPetitionId: string; status: PetitionStatusValue }
+}
+
+export type SignedPetitionsQueryVariables = Exact<{
+  offset?: Scalars['Int']['input']
+  limit?: Scalars['Int']['input']
+}>
+
+export type SignedPetitionsQuery = {
+  __typename?: 'Query'
+  signedPetitions: {
+    __typename?: 'PetitionStatusPaged'
+    totalResults: number
+    data: Array<{ __typename?: 'PetitionStatus'; externalPetitionId: string; status: PetitionStatusValue }>
+  }
+}
+
+export type PetitionStatusQueryVariables = Exact<{
+  petitionId: Scalars['String']['input']
+}>
+
+export type PetitionStatusQuery = {
+  __typename?: 'Query'
+  petitionStatus?: { __typename?: 'PetitionStatus'; externalPetitionId: string; status: PetitionStatusValue }
 }
 
 export type FavoriteInsightFragment = {
@@ -5007,6 +5087,14 @@ export type FullTypesenseDocumentFragment = {
   summary_en?: string
   donation_progress_percentage?: number
   donation_open_amount_in_cents?: number
+  description?: string
+  initiators?: Array<string>
+  petitionSuccessful?: boolean
+  signatures?: number
+  slug?: string
+  tag?: string
+  targets?: Array<string>
+  title?: string
   link_locators?: {
     __typename?: 'Typesense_DocumentLinkLocators'
     volunteering?: string
@@ -5067,6 +5155,14 @@ export type Typesense_DocumentByIdQuery = {
             summary_en?: string
             donation_progress_percentage?: number
             donation_open_amount_in_cents?: number
+            description?: string
+            initiators?: Array<string>
+            petitionSuccessful?: boolean
+            signatures?: number
+            slug?: string
+            tag?: string
+            targets?: Array<string>
+            title?: string
             link_locators?: {
               __typename?: 'Typesense_DocumentLinkLocators'
               volunteering?: string
@@ -5133,6 +5229,14 @@ export type Typesense_MultiSearchQuery = {
               summary_en?: string
               donation_progress_percentage?: number
               donation_open_amount_in_cents?: number
+              description?: string
+              initiators?: Array<string>
+              petitionSuccessful?: boolean
+              signatures?: number
+              slug?: string
+              tag?: string
+              targets?: Array<string>
+              title?: string
               link_locators?: {
                 __typename?: 'Typesense_DocumentLinkLocators'
                 volunteering?: string
@@ -5156,7 +5260,6 @@ export type Typesense_MultiSearchQuery = {
               __typename?: 'Typesense_SearchResponseFacetCountsItemCounts'
               count: number
               value: string
-              highlighted: string
             }>
           }>
         }
@@ -5751,6 +5854,14 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   summary_en
   donation_progress_percentage
   donation_open_amount_in_cents
+  description
+  initiators
+  petitionSuccessful
+  signatures
+  slug
+  tag
+  targets
+  title
 }
     `
 export const FullEventFragmentDoc = gql`
@@ -5775,6 +5886,187 @@ export const FullEventFragmentDoc = gql`
   }
 }
     `
+export const UpdatePetitionStatusDocument = gql`
+    mutation UpdatePetitionStatus($petitionId: String!, $newStatus: PetitionStatusValue!) {
+  updatePetitionStatus(petitionId: $petitionId, newStatus: $newStatus) {
+    externalPetitionId
+    status
+  }
+}
+    `
+export type UpdatePetitionStatusMutationFn = ApolloReactHooks.useMutation.MutationFunction<
+  UpdatePetitionStatusMutation,
+  UpdatePetitionStatusMutationVariables
+>
+
+/**
+ * __useUpdatePetitionStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdatePetitionStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePetitionStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePetitionStatusMutation, { data, loading, error }] = useUpdatePetitionStatusMutation({
+ *   variables: {
+ *      petitionId: // value for 'petitionId'
+ *      newStatus: // value for 'newStatus'
+ *   },
+ * });
+ */
+export function useUpdatePetitionStatusMutation(
+  baseOptions?: ApolloReactHooks.useMutation.Options<
+    UpdatePetitionStatusMutation,
+    UpdatePetitionStatusMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return ApolloReactHooks.useMutation<UpdatePetitionStatusMutation, UpdatePetitionStatusMutationVariables>(
+    UpdatePetitionStatusDocument,
+    options
+  )
+}
+export type UpdatePetitionStatusMutationHookResult = ReturnType<typeof useUpdatePetitionStatusMutation>
+export type UpdatePetitionStatusMutationResult = ApolloReactHooks.useMutation.Result<UpdatePetitionStatusMutation>
+export type UpdatePetitionStatusMutationOptions = ApolloReactHooks.useMutation.Options<
+  UpdatePetitionStatusMutation,
+  UpdatePetitionStatusMutationVariables
+>
+export const SignedPetitionsDocument = gql`
+    query SignedPetitions($offset: Int! = 0, $limit: Int! = 10) {
+  signedPetitions(offset: $offset, limit: $limit) {
+    totalResults
+    data {
+      externalPetitionId
+      status
+    }
+  }
+}
+    `
+
+/**
+ * __useSignedPetitionsQuery__
+ *
+ * To run a query within a React component, call `useSignedPetitionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSignedPetitionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSignedPetitionsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSignedPetitionsQuery(
+  baseOptions?: ApolloReactHooks.useQuery.Options<SignedPetitionsQuery, SignedPetitionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return ApolloReactHooks.useQuery<SignedPetitionsQuery, SignedPetitionsQueryVariables>(
+    SignedPetitionsDocument,
+    options
+  )
+}
+export function useSignedPetitionsLazyQuery(
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<SignedPetitionsQuery, SignedPetitionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return ApolloReactHooks.useLazyQuery<SignedPetitionsQuery, SignedPetitionsQueryVariables>(
+    SignedPetitionsDocument,
+    options
+  )
+}
+export function useSignedPetitionsSuspenseQuery(
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<SignedPetitionsQueryVariables>
+) {
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<SignedPetitionsQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<SignedPetitionsQuery, SignedPetitionsQueryVariables>(
+    SignedPetitionsDocument,
+    options
+  )
+}
+export type SignedPetitionsQueryHookResult = ReturnType<typeof useSignedPetitionsQuery>
+export type SignedPetitionsLazyQueryHookResult = ReturnType<typeof useSignedPetitionsLazyQuery>
+export type SignedPetitionsSuspenseQueryHookResult = ReturnType<typeof useSignedPetitionsSuspenseQuery>
+export type SignedPetitionsQueryResult = ApolloReactHooks.useQuery.Result<
+  SignedPetitionsQuery,
+  SignedPetitionsQueryVariables
+>
+export const PetitionStatusDocument = gql`
+    query PetitionStatus($petitionId: String!) {
+  petitionStatus(petitionId: $petitionId) {
+    externalPetitionId
+    status
+  }
+}
+    `
+
+/**
+ * __usePetitionStatusQuery__
+ *
+ * To run a query within a React component, call `usePetitionStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePetitionStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePetitionStatusQuery({
+ *   variables: {
+ *      petitionId: // value for 'petitionId'
+ *   },
+ * });
+ */
+export function usePetitionStatusQuery(
+  baseOptions: ApolloReactHooks.useQuery.Options<PetitionStatusQuery, PetitionStatusQueryVariables> &
+    ({ variables: PetitionStatusQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return ApolloReactHooks.useQuery<PetitionStatusQuery, PetitionStatusQueryVariables>(PetitionStatusDocument, options)
+}
+export function usePetitionStatusLazyQuery(
+  baseOptions?: ApolloReactHooks.useLazyQuery.Options<PetitionStatusQuery, PetitionStatusQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return ApolloReactHooks.useLazyQuery<PetitionStatusQuery, PetitionStatusQueryVariables>(
+    PetitionStatusDocument,
+    options
+  )
+}
+export function usePetitionStatusSuspenseQuery(
+  baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.useSuspenseQuery.Options<PetitionStatusQueryVariables>
+) {
+  const options =
+    baseOptions === ApolloReactHooks.skipToken
+      ? baseOptions
+      : ({
+          ...defaultOptions,
+          ...baseOptions,
+        } as ApolloReactHooks.useSuspenseQuery.Options<PetitionStatusQueryVariables>)
+  return ApolloReactHooks.useSuspenseQuery<PetitionStatusQuery, PetitionStatusQueryVariables>(
+    PetitionStatusDocument,
+    options
+  )
+}
+export type PetitionStatusQueryHookResult = ReturnType<typeof usePetitionStatusQuery>
+export type PetitionStatusLazyQueryHookResult = ReturnType<typeof usePetitionStatusLazyQuery>
+export type PetitionStatusSuspenseQueryHookResult = ReturnType<typeof usePetitionStatusSuspenseQuery>
+export type PetitionStatusQueryResult = ApolloReactHooks.useQuery.Result<
+  PetitionStatusQuery,
+  PetitionStatusQueryVariables
+>
 export const FavoriteDocument = gql`
     mutation Favorite($favoritableId: UUID!, $favoritableType: FavoritableType!) {
   favorite(favoritableId: $favoritableId, favoritableType: $favoritableType) {
@@ -8619,7 +8911,6 @@ export const Typesense_MultiSearchDocument = gql`
           counts {
             count
             value
-            highlighted
           }
           field_name
         }

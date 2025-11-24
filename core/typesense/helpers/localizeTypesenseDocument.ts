@@ -14,7 +14,23 @@ const getLocalizedValue = (language: Language, field: LocalizedField, document: 
   if (document[field_en] && (language === 'en' || !document[field_de])) {
     return document[field_en].toString()
   }
-  return document[field_de]?.toString() ?? ''
+
+  if (document[field_de]) {
+    return document[field_de].toString()
+  }
+
+  return getGenericFieldValue(field, document)
+}
+
+const getGenericFieldValue = (field: LocalizedField, document: TypesenseDocument): string => {
+  switch (field) {
+    case 'title':
+      return document.title?.toString() ?? ''
+    case 'description':
+      return document.description?.toString() ?? ''
+    default:
+      return ''
+  }
 }
 
 export const localizeTypesenseDocument = (
