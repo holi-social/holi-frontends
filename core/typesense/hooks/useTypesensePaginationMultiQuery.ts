@@ -120,7 +120,7 @@ export const useTypesensePaginationMultiQuery = ({
             currentPage: results.page,
             canFetchMore,
             parameters,
-            facetCounts: transformFacetCounts(results.facet_counts as Typesense_SearchResponseFacetCounts[]),
+            facetCounts: transformFacetCounts(results.facet_counts),
           }
         }
       })

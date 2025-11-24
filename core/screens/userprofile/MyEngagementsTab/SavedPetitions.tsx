@@ -82,7 +82,7 @@ export const SavedPetitions = () => {
   if (loading) {
     return (
       <Stack padding={{ top: '3xl' }}>
-        <HoliLoader testID="initial-loader" style={styles.loader} />
+        <HoliLoader testID="petitions-initial-loader" style={styles.loader} />
       </Stack>
     )
   }

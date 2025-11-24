@@ -184,7 +184,7 @@ describe('MyEngagementsTab', () => {
     })
     await user.press(screen.getByText('profile.myVolunteer.link.status'))
 
-    expect(screen.getByText('profile.myVolunteer.modal.title')).toBeOnTheScreen()
+    expect(screen.getByText('profile.myVolunteer.status.modal.engagements.title')).toBeOnTheScreen()
     expect(screen.getByText('desc-planned')).toBeOnTheScreen()
     expect(screen.getByText('desc-connected')).toBeOnTheScreen()
     expect(screen.getByText('desc-help')).toBeOnTheScreen()
