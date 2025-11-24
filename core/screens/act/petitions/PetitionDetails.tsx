@@ -113,7 +113,6 @@ export const PetitionDetails = () => {
         title={petition.title || ''}
         bodyContent={{ content: petition.description || '' }}
         infoList={infoList}
-        // TODO: coverImage={{ uri: `https://innnit-public.s3.eu-central-1.amazonaws.com/${id}${variant}.${extension}` }}
         placeholderImage={petitionId ? getPlaceholderImage(petitionId) : undefined}
         progressCard={
           rewardsPhaseTwoEnabled && status ? (

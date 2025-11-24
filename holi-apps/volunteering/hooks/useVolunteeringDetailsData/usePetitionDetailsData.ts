@@ -34,6 +34,7 @@ export const usePetitionDetailsData = (petitionId: string) => {
     loading: isLoadingStatus,
     refetch: refetchStatus,
   } = usePetitionStatusQuery({
+    fetchPolicy: 'no-cache',
     variables: {
       petitionId: petitionId,
     },
@@ -45,7 +46,7 @@ export const usePetitionDetailsData = (petitionId: string) => {
   return {
     isLoading: isLoading || isLoadingStatus,
     document: document,
-    status: petitionStatus?.status, // TODO: format / prepare data
+    status: petitionStatus?.status,
     refetchStatus,
     refetchDocument: refresh,
   }

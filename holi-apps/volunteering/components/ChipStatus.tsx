@@ -9,7 +9,7 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { Color, LayoutProps } from 'holi-bricks/foundations'
 import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { OneOfThree, TwoOfThree, CheckboxCircleFilled } from '@holi/icons/src/generated'
+import { OneOfThree, TwoOfThree, CheckboxCircleFilled, ProgressIndicator1Of2 } from '@holi/icons/src/generated'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { type ChipSize, chipSizeToTextSize } from 'holi-bricks/components/chips/size'
@@ -38,16 +38,15 @@ const STATUS_MAP: Record<
     color: 'green',
     iconColor: 'greenDark',
   },
-  // Dummy
   [VolunteeringOpportunityStatusValue.Done]: {
     label: 'Done',
     icon: OneOfThree,
     color: 'purple',
     iconColor: 'purpleDark',
   },
-  [PetitionStatusValue.Planned]: { label: 'status.toSign', icon: OneOfThree, color: 'blue' }, // TODO: change icon
+  [PetitionStatusValue.Planned]: { label: 'status.toSign', icon: ProgressIndicator1Of2, color: 'blue' },
   [PetitionStatusValue.Signed]: {
-    label: 'status.completed',
+    label: 'status.done',
     icon: CheckboxCircleFilled,
     color: 'green',
     iconColor: 'greenDark',

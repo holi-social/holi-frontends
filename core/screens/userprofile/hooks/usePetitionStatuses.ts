@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { CheckmarkGreen, ProgressIndicator1Of3 } from '@holi/icons/src/generated'
+import { CheckmarkGreen, ProgressIndicator1Of2 } from '@holi/icons/src/generated'
 import type { ChipLabelProps } from 'holi-bricks/components/chips/ChipLabel'
 import { PetitionStatusValue } from '@holi/api/graphql/graphql-codegen'
 
@@ -25,7 +25,7 @@ export const usePetitionStatuses = (): PetitionStatuses => {
           chip: {
             color: 'blue',
             size: 'md',
-            iconLeading: ProgressIndicator1Of3, // todo: add ProgressIndicator1Of2 icon
+            iconLeading: ProgressIndicator1Of2,
             children: t('status.toSign'),
           },
         }

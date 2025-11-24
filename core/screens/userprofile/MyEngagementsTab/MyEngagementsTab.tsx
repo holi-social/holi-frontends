@@ -8,13 +8,11 @@ import { SavedPetitions } from '@holi/core/screens/userprofile/MyEngagementsTab/
 
 export const MyEngagementsTab = () => {
   const [showFavoritesSlider] = useFeatureFlag(FeatureFlagKey.FAVORITES_SLIDER)
-  // const [showPetitions] = useFeatureFlag(FeatureFlagKey.INNIT_PETITIONS)
-  const showPetitions = true // mock -> todo: enable when feature flag is ready
   return (
     <Stack gap="xs" padding={{ bottom: 'xs' }}>
       {showFavoritesSlider && <FavoritesSlider />}
       <SavedEngagements />
-      {showPetitions && <SavedPetitions />}
+      <SavedPetitions />
     </Stack>
   )
 }

@@ -53,7 +53,6 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus 
       <CompactCard
         title={petition.title}
         subtitle={petition.tag}
-        // imageSrc={petition.imageUrl} // TODO
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.petitions.thumbnail.label')}
