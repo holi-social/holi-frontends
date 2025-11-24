@@ -246,6 +246,7 @@ const getStyles = () =>
     },
     animatedContainer: {
       height: 140,
+      width: '100%',
       overflow: 'hidden',
       alignItems: 'center',
       justifyContent: 'center',
