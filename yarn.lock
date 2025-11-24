@@ -5316,7 +5316,7 @@ __metadata:
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-device-info: "npm:^14.0.4"
     react-native-edge-to-edge: "npm:1.7.0"
-    react-native-fbsdk-next: "npm:^13.4.1"
+    react-native-fbsdk-next: "patch:react-native-fbsdk-next@npm%3A13.4.1#~/.yarn/patches/react-native-fbsdk-next-npm-13.4.1-9e2b341286.patch"
     react-native-gesture-handler: "npm:~2.29.0"
     react-native-get-random-values: "npm:^1.11.0"
     react-native-image-pan-zoom: "npm:^2.1.12"
@@ -27043,7 +27043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-fbsdk-next@npm:^13.4.1":
+"react-native-fbsdk-next@npm:13.4.1":
   version: 13.4.1
   resolution: "react-native-fbsdk-next@npm:13.4.1"
   peerDependencies:
@@ -27053,6 +27053,19 @@ __metadata:
     expo:
       optional: true
   checksum: 10c0/f38b8d360986e47dede9b5bcd6166e750f93c4f6d38b85013499ce6fa7d0a181b20cc009b6a05167930df0f56ed8dc79223f9cc4bee9969c8d928405fc750576
+  languageName: node
+  linkType: hard
+
+"react-native-fbsdk-next@patch:react-native-fbsdk-next@npm%3A13.4.1#~/.yarn/patches/react-native-fbsdk-next-npm-13.4.1-9e2b341286.patch":
+  version: 13.4.1
+  resolution: "react-native-fbsdk-next@patch:react-native-fbsdk-next@npm%3A13.4.1#~/.yarn/patches/react-native-fbsdk-next-npm-13.4.1-9e2b341286.patch::version=13.4.1&hash=a5f934"
+  peerDependencies:
+    expo: ">=47.0.0"
+    react-native: ">=0.63.3"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 10c0/5055d9888663790a16cf292c15873826106bfc5beb5405f9acf1ab92e9ecbf31f3a87cc078319063074abfb0f31e1cd659993d88bcba37a6cd02e93ac2b8f345
   languageName: node
   linkType: hard
 
