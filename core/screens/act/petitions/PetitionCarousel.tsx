@@ -2,7 +2,7 @@ import React from 'react'
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
+import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
 import { PencilFilled } from '@holi/icons/src/generated'
 import { TrackingEvent } from '@holi/core/tracking'
 import { usePetitions } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/usePetitions'
@@ -23,7 +23,7 @@ const PetitionCarousel = ({ cardWidth }: PetitionCarouselProps) => {
     <>
       <RecoSlider
         name="petitions"
-        renderItem={({ item }) => <PetitionCard petition={item as Petition} maxCardWidth={cardWidth} />}
+        renderItem={({ item }) => <PetitionCard petition={item} maxCardWidth={cardWidth} />}
         data={petitions}
         loading={user.isLoading}
         icon={PencilFilled}

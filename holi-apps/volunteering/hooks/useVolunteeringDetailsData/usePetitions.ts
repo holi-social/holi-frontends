@@ -7,6 +7,7 @@ import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypes
 import { localizeTypesenseDocument } from '@holi/core/typesense/helpers/localizeTypesenseDocument'
 import type { SearchParams } from '@holi/core/typesense/types'
 import { useUserSpecificRecoParameters } from '@holi-apps/volunteering/hooks/useUserSpecificRecoParameters'
+import type { Petition } from '@holi/core/screens/act/petitions/PetitionCard'
 
 export const PETITION_PAGE_SIZE = 10
 
@@ -67,7 +68,7 @@ export const usePetitions = ({ pageSize, displayErrors }: UsePetitionsProps = {}
 
   return {
     isLoading: isLoadingParameters || (isLoading && !petitions.length),
-    petitions,
+    petitions: petitions as Petition[],
     canFetchMore: state.canFetchMore,
     fetchNextPage,
     totalResults: state.totalResults,
