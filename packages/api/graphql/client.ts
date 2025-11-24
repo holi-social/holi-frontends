@@ -151,6 +151,9 @@ export const createCache = () =>
       VolunteeringOpportunityStatus: {
         keyFields: ['externalVolunteeringOpportunityId'],
       },
+      PetitionStatus: {
+        keyFields: ['externalPetitionId'],
+      },
       Query: {
         fields: {
           appEvents_events: pagedPolicy(),
