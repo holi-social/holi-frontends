@@ -1,30 +1,48 @@
 import React from 'react'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { CalendarEventLine } from '@holi/icons/src/generated'
+import { PencilFilled } from '@holi/icons/src/generated'
 import { CompactCard } from 'holi-bricks/components/compactCard'
 import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking'
+import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
+import { usePetitionStatusQuery } from '@holi/api/graphql/graphql-codegen'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 export type Petition = {
-  id: string
-  title: string
-  category: string
-  daysLeft: number
-  percentage: number
-  imageUrl: string
-  startedBy: string
-  targetOrganisation: string
   description: string
-  externalLink?: string
+  initiators: string[]
+  petitionSuccessful: boolean
+  signatures: number
+  slug: string
+  tag: string
+  targets: string[]
+  title: string
+  id: string
 }
 
 export interface PetitionProps {
   petition: Petition
   maxCardWidth?: number
+  showCommitmentStatus?: boolean
 }
 
-const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
+const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus }: PetitionProps) => {
   const { t } = useTranslation()
+  const loginState = useLoginState()
+
+  const {
+    data: { petitionStatus } = {},
+  } = usePetitionStatusQuery({
+    variables: { petitionId: petition.id },
+    skip: !loginState.isLoggedIn,
+  })
+
+  const { getPetitionStatus } = usePetitionStatuses()
+  const statusChip = petitionStatus?.status ? getPetitionStatus(petitionStatus.status) : null
+
+  if (!petition) {
+    return null
+  }
 
   return (
     <HoliLinkTracked
@@ -35,21 +53,25 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth }: PetitionProps) => {
     >
       <CompactCard
         title={petition.title}
-        topLabel={
-          petition.daysLeft ? t('act.petitions.daysLeft', { days: petition.daysLeft }) : t('act.petitions.noDaysLeft')
-        }
-        subtitle={t(`act.petitions.category.${petition.category}`)}
-        topLabelIcon={CalendarEventLine}
-        imageSrc={petition.imageUrl}
+        subtitle={petition.tag}
         maxWidth={cardWidth}
         minHeight={131}
         imageLabel={t('act.petitions.thumbnail.label')}
         fullHeight
       >
-        <CompactCard.FooterProgressBar
-          progressBarPercentage={petition.percentage}
-          progressBarLeft={t('act.petitions.percent', { percentage: petition.percentage })}
-        />
+        {petition.signatures && !showCommitmentStatus && (
+          <CompactCard.FooterChips
+            chips={[
+              {
+                iconLeading: PencilFilled,
+                children: t('act.petitions.signatureCount', {
+                  signatureCount: petition.signatures.toLocaleString('de-DE'),
+                }),
+              },
+            ]}
+          />
+        )}
+        {showCommitmentStatus && statusChip?.chip && <CompactCard.FooterChips chips={[statusChip.chip]} />}
       </CompactCard>
     </HoliLinkTracked>
   )

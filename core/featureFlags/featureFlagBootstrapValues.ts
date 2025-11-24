@@ -37,6 +37,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED]: false,
     [FeatureFlagKey.APPCUES_BANNER]: false,
     [FeatureFlagKey.TASK_SELF_REPORTING_FLOW]: false,
+    // [FeatureFlagKey.INNIT_PETITIONS]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -61,6 +62,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED]: null,
     [FeatureFlagKey.APPCUES_BANNER]: null,
     [FeatureFlagKey.TASK_SELF_REPORTING_FLOW]: null,
+    // [FeatureFlagKey.INNIT_PETITIONS]: null,
   },
 }
 

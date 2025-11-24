@@ -9,24 +9,24 @@ import { createStyleSheet, useStyles } from 'holi-bricks/styles'
 import type { Color, LayoutProps } from 'holi-bricks/foundations'
 import { layoutStyle, Spacing } from 'holi-bricks/foundations'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { OneOfThree, TwoOfThree, CheckboxCircleFilled } from '@holi/icons/src/generated'
+import { OneOfThree, TwoOfThree, CheckboxCircleFilled, ProgressIndicator1Of2 } from '@holi/icons/src/generated'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { type ChipSize, chipSizeToTextSize } from 'holi-bricks/components/chips/size'
-import { VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
+import { PetitionStatusValue, VolunteeringOpportunityStatusValue } from '@holi/api/graphql/graphql-codegen'
 
 export type ChipColor = Color | 'white'
 
 export type ChipStatusProps = AccessibilityProps &
   LayoutProps & {
-    status: VolunteeringOpportunityStatusValue
+    status: VolunteeringOpportunityStatusValue | PetitionStatusValue
     size?: ChipSize
   }
 
 type chipStatusColor = 'blue' | 'orange' | 'purple' | 'green'
 
 const STATUS_MAP: Record<
-  VolunteeringOpportunityStatusValue,
+  VolunteeringOpportunityStatusValue | PetitionStatusValue,
   { label: string; icon: HoliIconType; color: chipStatusColor; iconColor?: FillColors }
 > = {
   [VolunteeringOpportunityStatusValue.WontDo]: { label: 'WontDo', icon: OneOfThree, color: 'blue' }, // Dummy
@@ -38,12 +38,18 @@ const STATUS_MAP: Record<
     color: 'green',
     iconColor: 'greenDark',
   },
-  // Dummy
   [VolunteeringOpportunityStatusValue.Done]: {
     label: 'Done',
     icon: OneOfThree,
     color: 'purple',
     iconColor: 'purpleDark',
+  },
+  [PetitionStatusValue.Planned]: { label: 'status.toSign', icon: ProgressIndicator1Of2, color: 'blue' },
+  [PetitionStatusValue.Signed]: {
+    label: 'status.done',
+    icon: CheckboxCircleFilled,
+    color: 'green',
+    iconColor: 'greenDark',
   },
 }
 

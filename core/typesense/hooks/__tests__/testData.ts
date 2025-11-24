@@ -45,6 +45,14 @@ export const createDocument = (id: string): Typesense_Document => ({
   organizer_location_country_en: '',
   donation_open_amount_in_cents: 0,
   donation_progress_percentage: 0,
+  description: '',
+  initiators: [],
+  petitionSuccessful: false,
+  signatures: 0,
+  slug: '',
+  tag: '',
+  targets: [],
+  title: '',
 })
 
 export const createHits = (length: number): Typesense_SearchResponseHit[] =>
