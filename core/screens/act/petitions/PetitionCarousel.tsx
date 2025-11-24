@@ -5,7 +5,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PetitionCard from '@holi/core/screens/act/petitions/PetitionCard'
 import { PencilFilled } from '@holi/icons/src/generated'
 import { TrackingEvent } from '@holi/core/tracking'
-import { usePetitions } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/usePetitions'
+import { usePetitions } from '@holi/core/screens/act/petitions/hooks/usePetitions'
 
 type PetitionCarouselProps = {
   cardWidth: number

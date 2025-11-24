@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { TrackingEvent } from '@holi/core/tracking'
 import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
 import { usePetitionStatusQuery } from '@holi/api/graphql/graphql-codegen'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 export type Petition = {
   description: string
@@ -27,13 +28,13 @@ export interface PetitionProps {
 
 const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus }: PetitionProps) => {
   const { t } = useTranslation()
+  const loginState = useLoginState()
 
   const {
     data: { petitionStatus } = {},
   } = usePetitionStatusQuery({
-    variables: {
-      petitionId: petition.id,
-    },
+    variables: { petitionId: petition.id },
+    skip: !loginState.isLoggedIn,
   })
 
   const { getPetitionStatus } = usePetitionStatuses()

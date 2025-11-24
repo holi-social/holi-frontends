@@ -21,7 +21,8 @@ import {
   useUpdatePetitionStatusMutation,
   type VolunteeringOpportunityStatusValue,
 } from '@holi/api/graphql/graphql-codegen'
-import { usePetitionDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/usePetitionDetailsData'
+import { usePetitionDetailsData } from '@holi/core/screens/act/petitions/hooks/usePetitionDetailsData'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 export type PetitionDetailsParams = {
   petitionId: string
@@ -34,6 +35,7 @@ export const PetitionDetails = () => {
   const [petitionId] = useParam('petitionId')
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const { navigate } = useRouting()
+  const loginState = useLoginState()
 
   const { document: petition, status, refetchStatus } = usePetitionDetailsData(petitionId as string)
 
@@ -99,7 +101,7 @@ export const PetitionDetails = () => {
                 icon={GoodDeeds}
                 label={t('act.petitions.cta')}
                 onPress={() => {
-                  onPetitionStatusChange(PetitionStatusValue.Planned)
+                  if (loginState.isLoggedIn) onPetitionStatusChange(PetitionStatusValue.Planned)
                   Linking.openURL(`https://innn.it/${petition.slug}`)
                 }}
                 trackingEvent={TrackingEvent.PetitionDetails.findMore}

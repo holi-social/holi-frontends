@@ -14,7 +14,7 @@ import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { usePetitionStatuses } from '@holi/core/screens/userprofile/hooks/usePetitionStatuses'
 import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
 import { PetitionsEmptyState } from '@holi/core/screens/userprofile/components/PetitionsEmptyState'
-import { useSignedPetitionsQuery, useTypesense_MultiSearchQuery } from '@holi/api/graphql/graphql-codegen'
+import { useSavedPetitions } from '@holi/core/screens/act/petitions/hooks/useSavedPetitions'
 
 const StatusInfoHeader = () => {
   const { t } = useTranslation()
@@ -58,26 +58,7 @@ export const SavedPetitions = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  const { data, loading } = useSignedPetitionsQuery({ fetchPolicy: 'cache-first' })
-  const totalResults = data?.signedPetitions.totalResults
-
-  const typesenseIdsToSearchFor = data?.signedPetitions.data.map((p) => p.externalPetitionId) || []
-  const typesenseSearchQuery = useTypesense_MultiSearchQuery({
-    variables: {
-      input: {
-        searches: [
-          {
-            q: '*',
-            filter_by: `type:=[petition] && id:=[${typesenseIdsToSearchFor.join(', ')}]`,
-            limit: typesenseIdsToSearchFor.length || 100,
-          },
-        ],
-      },
-    },
-  })
-  const results = typesenseSearchQuery.data?.typesense_multiSearch?.results
-  const signedPetitionsDetailed =
-    results?.[0].__typename === 'Typesense_SearchResponseSuccess' ? results?.[0].hits : undefined
+  const { loading, totalResults, signedPetitionsDetailed } = useSavedPetitions()
 
   if (loading) {
     return (

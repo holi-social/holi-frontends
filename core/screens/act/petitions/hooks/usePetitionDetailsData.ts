@@ -18,7 +18,7 @@ export const usePetitionDetailsData = (petitionId: string) => {
     TypesenseDocumentType.Petition,
     {
       onError: (error) => {
-        displayError(error, 'Failed to load petition opportunity', {
+        displayError(error, 'Failed to load petition', {
           location: 'usePetitionDetailsData',
           petitionId,
         })

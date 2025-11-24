@@ -8,7 +8,7 @@ import { Screen } from '@holi/core/components/Screen'
 import { Image } from 'holi-bricks/components/image'
 import InfoModal from '@holi/core/components/InfoModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { usePetitions } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/usePetitions'
+import { usePetitions } from '@holi/core/screens/act/petitions/hooks/usePetitions'
 import PetitionCard, { type Petition } from '@holi/core/screens/act/petitions/PetitionCard'
 import { Button } from 'holi-bricks/components/button'
 
