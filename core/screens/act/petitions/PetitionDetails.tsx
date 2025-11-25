@@ -42,7 +42,10 @@ export const PetitionDetails = () => {
   const infoList: DetailsScreenInfoList[] = [
     { title: `${t('act.petitions.createdBy', { initiatorNames: petition?.initiators })}`, icon: UserLine },
     { title: `${t('act.petitions.towards', { targetNames: petition?.targets })}`, icon: Focus2Line },
-    { title: `${t('act.petitions.signatureCount', { signatureCount: petition?.signatures })}`, icon: PencilFilled },
+    {
+      title: `${t('act.petitions.signatureCount', { signatureCount: petition?.signatures?.toLocaleString('de-DE') })}`,
+      icon: PencilFilled,
+    },
   ]
 
   const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
