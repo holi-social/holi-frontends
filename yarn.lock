@@ -5148,7 +5148,7 @@ __metadata:
     matrix-js-sdk: "npm:^39.0.0"
   peerDependencies:
     react: 19.1.0
-    react-native: 0.81.4
+    react-native: 0.81.5
   languageName: unknown
   linkType: soft
 
