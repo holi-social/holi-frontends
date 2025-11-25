@@ -28,8 +28,8 @@
     },
     "owner": "holistic-foundation",
     "plugins": [
+      "expo-web-browser",
       [
-        "expo-web-browser",
         "expo-font",
         {
           "fonts": [

@@ -1,11 +1,24 @@
-import { Meta } from '@storybook/blocks';
-import { SemanticColorsLight, SemanticColorsDark } from './SemanticColors.tsx'
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
+import { darkTheme } from 'holi-bricks/foundations/colors/themes/dark'
+
 
 <Meta title="Foundations/Colors/Semantic" />
 
 ## Semantic Colors Light
-<SemanticColorsLight />
+
+<ColorPalette>
+  <ColorItem title="bg" colors={lightTheme.colors.bg} subtitle="" />
+  <ColorItem title="fill" colors={lightTheme.colors.fill} subtitle="" />
+  <ColorItem title="border" colors={lightTheme.colors.border} subtitle="" />
+  <ColorItem title="decorative" colors={lightTheme.colors.decorative} subtitle="" />
+</ColorPalette>
 
 ## Semantic Colors Dark
-<SemanticColorsDark />
 
+<ColorPalette>
+  <ColorItem title="bg" colors={darkTheme.colors.bg} subtitle="" />
+  <ColorItem title="fill" colors={darkTheme.colors.fill} subtitle="" />
+  <ColorItem title="border" colors={darkTheme.colors.border} subtitle="" />
+  <ColorItem title="decorative" colors={darkTheme.colors.decorative} subtitle="" />
+</ColorPalette>
