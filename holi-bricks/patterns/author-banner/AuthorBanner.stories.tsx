@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-webpack5'
 import { AuthorBanner } from 'holi-bricks/patterns/author-banner'
 
 const meta: Meta<typeof AuthorBanner> = {

@@ -1,5 +1,5 @@
-import { useArgs } from '@storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react'
+import { useArgs } from 'storybook/preview-api'
+import type { Meta, StoryObj } from '@storybook/react-webpack5'
 import { SocialLoginButton } from 'holi-bricks/components/button'
 import { Stack } from 'holi-bricks/components/stack'
 import { accessibilityAttributes } from 'holi-bricks/foundations/accessibility'

@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react'
+import type { Preview } from '@storybook/react-webpack5'
 import { initializeBricks } from 'holi-bricks/config'
 import { storybookThemeConfig, withThemeReactNative } from 'holi-bricks/storybook/theme-switcher'
 import { withPadding } from 'holi-bricks/storybook/mobile/decorators'
