@@ -17,9 +17,11 @@ const PetitionCarousel = ({ cardWidth }: PetitionCarouselProps) => {
   const { t } = useTranslation()
   const user = useLoggedInUser()
 
-  const { petitions } = usePetitions({ displayErrors: true })
+  const { petitions, isLoading } = usePetitions({ displayErrors: true })
 
-  if (!petitions) return
+  if (isLoading || !petitions || petitions.length == 0) {
+    return null
+  }
 
   return (
     <>

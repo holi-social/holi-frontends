@@ -234,7 +234,7 @@ export const DetailsScreen = ({
                     key={`${detail?.title}-${index}`}
                   >
                     <HoliIcon size={Spacing.md} icon={detail?.icon} />
-                    <Stack>
+                    <Stack flexShrink={1}>
                       <TextComp size="md">{detail?.title}</TextComp>
                       {detail?.subtitle && (
                         <Text color={detail?.subtitleColor ?? 'support'} size="sm">
