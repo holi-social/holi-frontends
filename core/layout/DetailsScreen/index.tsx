@@ -178,12 +178,19 @@ export const DetailsScreen = ({
         >
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             {/* visibility label (public or private) */}
-            <Stack direction="row" shouldRender={!!visibility} gap="xxs" alignItems="center">
-              <HoliIcon size={14} icon={visibility == 'public' ? Global : Lock} />
-              <Text headingLevel="1" size="xs">
-                {t(`privacy.visibility.${visibility}`)}
-              </Text>
+
+            <Stack direction="row" gap="xxs" alignItems="center">
+              {visibility && (
+                <>
+                  <HoliIcon size={14} icon={visibility === 'public' ? Global : Lock} />
+                  <Text headingLevel="1" size="xs">
+                    {t(`privacy.visibility.${visibility}`)}
+                  </Text>
+                </>
+              )}
             </Stack>
+
+            {/* chip showing current user progress */}
             {status && status !== VolunteeringOpportunityStatusValue.WontDo && (
               <Stack>
                 <ChipStatus status={status} />

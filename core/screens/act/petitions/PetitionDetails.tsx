@@ -118,6 +118,7 @@ export const PetitionDetails = () => {
         title={petition.title || ''}
         bodyContent={{ content: petition.description || '' }}
         infoList={infoList}
+        status={status}
         placeholderImage={petitionId ? getPlaceholderImage(petitionId) : undefined}
         progressCard={
           rewardsPhaseTwoEnabled && status ? (
