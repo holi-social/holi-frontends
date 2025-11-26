@@ -19,6 +19,7 @@ module.exports = {
     '\\.(lottie)$': '<rootDir>/__mocks__/lottieMock.js',
     '^apollo-upload-client/UploadHttpLink\\.mjs$': '<rootDir>/__mocks__/apollo-upload-client/UploadHttpLink.js',
     '^expo-image-manipulator$': '<rootDir>/__mocks__/expo-image-manipulator/index.js',
+    '^msw/node$': '<rootDir>/node_modules/msw/lib/node/index.js',
   },
   setupFiles: [
     '<rootDir>/jest.setup.ts',
@@ -29,7 +30,7 @@ module.exports = {
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup-after-env.ts'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client|@shopify/flash-list|immer|@faker-js|uuid|p-retry|is-network-error)',
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*|apollo-upload-client|extract-files|is-plain-obj|@apollo/client|@shopify/flash-list|immer|@faker-js|uuid|p-retry|is-network-error|msw|@mswjs|until-async)',
   ],
   clearMocks: true,
   coverageReporters: ['text-summary', 'lcov'],
