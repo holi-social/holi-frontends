@@ -263,7 +263,7 @@ describe('useLoginFlow', () => {
     it('should do nothing if the flow is missing', async () => {
       const { result } = renderHook(() => useLoginFlow({ resetFlowId: jest.fn(), onFlowUpdate: jest.fn() }))
 
-      await act(() => result.current.performLogin(submitPayload))
+      await act(() => result.current.performLogin(submitPayload, 'otp'))
 
       expect(mockSubmitLoginFlow).not.toHaveBeenCalled()
     })
@@ -278,7 +278,7 @@ describe('useLoginFlow', () => {
       // Await flow initialization
       await act(() => jest.runAllTimersAsync())
 
-      await act(() => result.current.performLogin(payload, 'Google'))
+      await act(() => result.current.performLogin(payload, 'google', 'Google'))
 
       expect(mockSubmitLoginFlow).toHaveBeenCalledWith(loginFlow, payload, 'Google', undefined)
     })
@@ -292,9 +292,9 @@ describe('useLoginFlow', () => {
       // Await flow initialization
       await act(() => jest.runAllTimersAsync())
 
-      await act(() => result.current.performLogin(submitPayload))
+      await act(() => result.current.performLogin(submitPayload, 'otp'))
 
-      expect(finalizeLogin).toHaveBeenCalledWith(sessionData)
+      expect(finalizeLogin).toHaveBeenCalledWith(sessionData, 'otp')
     })
 
     describe('error handling', () => {
@@ -316,7 +316,7 @@ describe('useLoginFlow', () => {
         await act(() => jest.runAllTimersAsync())
 
         await act(async () => {
-          await result.current.performLogin(submitPayload)
+          await result.current.performLogin(submitPayload, 'otp')
         })
 
         const callbacks = handleFlowSubmitError.mock.calls[0][1] as HandleFlowErrorProps<LoginFlow>
@@ -353,7 +353,7 @@ describe('useLoginFlow', () => {
         await callbacks.handleBrowserLogin('some url')
 
         expect(doBrowserLogin).toHaveBeenCalledWith('some url', loginFlow)
-        expect(finalizeLogin).toHaveBeenCalledWith(sessionData)
+        expect(finalizeLogin).toHaveBeenCalledWith(sessionData, 'otp')
       })
 
       it('should handle email verification during error handling', async () => {

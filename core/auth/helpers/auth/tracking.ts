@@ -33,8 +33,8 @@ export const getTrackingEventForRegistrationFlowSubmit = ({
     })
   }
   if (provider) {
-    return TrackingEvent.Auth.SocialRegisterButtonPressed({
-      provider,
+    return TrackingEvent.Auth.RegistrationOptionSelected({
+      method: provider === 'Apple' ? 'apple' : 'google',
       screen,
     })
   }

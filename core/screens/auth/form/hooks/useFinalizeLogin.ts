@@ -13,10 +13,13 @@ export const useFinalizeLogin = () => {
   const redirect = useRedirect()
 
   const finalizeLogin = useCallback(
-    async (data: OrySessionContext) => {
+    async (data: OrySessionContext, method: TrackingEvent.AuthMethod) => {
       await doLogin(client, data)
-      // TODO HOLI-12294: pass step as param?
-      track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' }))
+      track(
+        TrackingEvent.Auth.LoginCompleted({
+          method,
+        })
+      )
       storeOnboardingState('finished')
       redirect(true)
     },

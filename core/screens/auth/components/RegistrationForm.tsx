@@ -84,8 +84,8 @@ export const RegistrationForm = ({ onRegister, startedFlowId, resetFlowId, step,
                   setStep('email-password')
                 }}
                 icon={Key2}
-                trackingEvent={TrackingEvent.Auth.HoliLoginPressed({
-                  method: 'email',
+                trackingEvent={TrackingEvent.Auth.RegistrationOptionSelected({
+                  method: 'password',
                   screen: 'mainRegistration',
                 })}
               />

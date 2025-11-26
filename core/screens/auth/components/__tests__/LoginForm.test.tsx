@@ -5,6 +5,7 @@ import { useOtpLoginForm } from '@holi/core/screens/auth/form/hooks/useOtpLoginF
 import { usePasswordLoginForm } from '@holi/core/screens/auth/form/hooks/usePasswordLoginForm'
 import { useSocialLoginForm } from '@holi/core/screens/auth/form/hooks/useSocialLoginForm'
 import { useLoginFlow } from '@holi/core/screens/auth/form/hooks/useLoginFlow'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const mockUseOtpLoginForm = jest.mocked(useOtpLoginForm)
 jest.mock('@holi/core/screens/auth/form/hooks/useOtpLoginForm', () => ({
@@ -49,8 +50,7 @@ describe('LoginForm', () => {
       submitLabel: 'Send code',
       onSubmit: jest.fn(),
       submitDisabled: false,
-      onResend: jest.fn(),
-      trackingScreenName: 'mainLogin',
+      trackingScreen: 'mainLogin',
     })
     mockUsePasswordLoginForm.mockReturnValue({
       setEmail: jest.fn(),
@@ -166,6 +166,21 @@ describe('LoginForm', () => {
 
     expect(setStep).toHaveBeenCalledWith('email-password')
     expect(setEmail).toHaveBeenCalledWith('test@foo.bar')
+  })
+
+  it('should track password usage on button press', async () => {
+    const user = userEvent.setup()
+
+    render(<LoginForm resetFlowId={jest.fn()} step="start" setStep={jest.fn()} />)
+
+    await user.press(screen.getByLabelText('Use password'))
+
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.Auth.LoginOptionSelected({
+        method: 'password',
+        screen: 'mainLogin',
+      })
+    )
   })
 
   it('should update step if necessary', () => {

@@ -178,12 +178,15 @@ describe('usePasswordLoginForm', () => {
 
       await result.current.onSubmit()
 
-      expect(performLogin).toHaveBeenCalledWith({
-        method: 'password',
-        identifier: 'ada@lovelace.com',
-        password: 'P4ssw0rd',
-        csrf_token: 'some token',
-      })
+      expect(performLogin).toHaveBeenCalledWith(
+        {
+          method: 'password',
+          identifier: 'ada@lovelace.com',
+          password: 'P4ssw0rd',
+          csrf_token: 'some token',
+        },
+        'password'
+      )
     })
   })
 })

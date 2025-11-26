@@ -35,6 +35,12 @@ const versionOne = {
   event_version__patch: 0,
 }
 
+const versionOneOne = {
+  event_version__major: 1,
+  event_version__minor: 1,
+  event_version__patch: 0,
+}
+
 /**
  * The `TrackingEvent` namespace contains all "custom tracking events" that can be sent to PostHog, thereby serving as
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
@@ -562,6 +568,7 @@ export namespace TrackingEvent {
   }
 
   export type AuthScreen = 'mainRegistration' | 'taskRegistration' | 'mainLogin'
+  export type AuthMethod = 'apple' | 'google' | 'otp' | 'password'
 
   export namespace Auth {
     // Others
@@ -569,28 +576,15 @@ export namespace TrackingEvent {
       name: 'registerButtonPressed',
       ...versionOne,
     }
-    export const SocialRegisterButtonPressed = (properties: {
-      provider: string
-      screen: AuthScreen
-    }): TrackingEvent => ({
-      name: 'socialRegisterButtonPressed',
-      ...versionOne,
-      properties,
-    })
-
     export const LoginButtonPressed: TrackingEvent = {
       name: 'loginButtonPressed',
       ...versionOne,
     }
-    export const SocialLoginButtonPressed = (properties: { provider: string; screen: AuthScreen }): TrackingEvent => ({
-      name: 'socialLoginButtonPressed',
-      ...versionOne,
+    export const LoginCompleted = (properties: { method: AuthMethod }): TrackingEvent => ({
+      name: 'loginCompleted',
+      ...versionOneOne,
       properties,
     })
-    export const LoginCompleted: TrackingEvent = {
-      name: 'loginCompleted',
-      ...versionOne,
-    }
     export const ContinueAsGuestButtonPressed: TrackingEvent = {
       name: 'continueAsGuestButtonPressed',
       ...versionOne,
@@ -607,6 +601,9 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
+    /**
+     * @deprecated Use `RegistrationOptionSelected` or `ExitPressed` instead
+     */
     export const HoliRegisterPressed = (properties: {
       method: 'otp' | 'email' | 'verify' | 'back'
       screen: AuthScreen
@@ -615,19 +612,48 @@ export namespace TrackingEvent {
       ...versionOne,
       properties,
     })
-    export const HoliLoginPressed = (properties: {
-      method: 'otp' | 'email' | 'back'
-      screen: AuthScreen
-    }): TrackingEvent => ({
-      name: 'holiLoginPressed',
-      ...versionOne,
-      properties,
-    })
     export const OneTimeCodePressed = (properties: {
       step: 'email' | 'code' | 'resend' | 'edit'
       screen: AuthScreen
     }): TrackingEvent => ({
       name: 'oneTimeCodePressed',
+      ...versionOne,
+      properties,
+    })
+    export const LoginOptionSelected = (properties: {
+      method: AuthMethod
+      screen: AuthScreen
+    }): TrackingEvent => ({
+      name: 'loginOptionSelected',
+      ...versionOne,
+      properties,
+    })
+    export const RegistrationOptionSelected = (properties: {
+      method: AuthMethod
+      screen: AuthScreen
+    }): TrackingEvent => ({
+      name: 'loginOptionSelected',
+      ...versionOne,
+      properties,
+    })
+    export const RegistrationCompleted = (properties: {
+      method: AuthMethod
+    }): TrackingEvent => ({
+      name: 'registrationCompleted',
+      ...versionOne,
+      properties,
+    })
+    export const AuthTabSwitched = (properties: {
+      toTab: 'login' | 'registration'
+    }): TrackingEvent => ({
+      name: 'authTabSwitched',
+      ...versionOne,
+      properties,
+    })
+    export const ExitPressed = (properties: {
+      screen: 'login' | 'registration'
+    }): TrackingEvent => ({
+      name: 'exitPressed',
       ...versionOne,
       properties,
     })

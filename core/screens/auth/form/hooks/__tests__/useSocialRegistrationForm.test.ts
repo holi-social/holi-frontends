@@ -15,7 +15,7 @@ describe('useSocialRegistrationForm', () => {
       expect(performRegistration).not.toHaveBeenCalled()
     })
 
-    it('should track button press', async () => {
+    it('should track button press for Google', async () => {
       const { result } = renderHook(() =>
         useSocialRegistrationForm({ flow: registrationFlow, performRegistration: jest.fn() })
       )
@@ -23,8 +23,23 @@ describe('useSocialRegistrationForm', () => {
       await result.current.onSubmit('Google')
 
       expect(mockTrack).toHaveBeenCalledWith(
-        TrackingEvent.Auth.SocialLoginButtonPressed({
-          provider: 'Google',
+        TrackingEvent.Auth.RegistrationOptionSelected({
+          method: 'google',
+          screen: 'mainRegistration',
+        })
+      )
+    })
+
+    it('should track button press for Apple', async () => {
+      const { result } = renderHook(() =>
+        useSocialRegistrationForm({ flow: registrationFlow, performRegistration: jest.fn() })
+      )
+
+      await result.current.onSubmit('Apple')
+
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.RegistrationOptionSelected({
+          method: 'apple',
           screen: 'mainRegistration',
         })
       )
@@ -36,11 +51,14 @@ describe('useSocialRegistrationForm', () => {
 
       await result.current.onSubmit('Apple')
 
-      expect(performRegistration).toHaveBeenCalledWith({
-        method: 'oidc',
-        csrf_token: 'some token',
-        provider: 'apple-_KPH8UUU',
-      })
+      expect(performRegistration).toHaveBeenCalledWith(
+        {
+          method: 'oidc',
+          csrf_token: 'some token',
+          provider: 'apple-_KPH8UUU',
+        },
+        'apple'
+      )
     })
 
     it('should perform registration with correct payload for Google', async () => {
@@ -49,12 +67,15 @@ describe('useSocialRegistrationForm', () => {
 
       await result.current.onSubmit('Google')
 
-      expect(performRegistration).toHaveBeenCalledWith({
-        method: 'oidc',
-        csrf_token: 'some token',
-        provider: 'google-SBFqZZ_v',
-        upstream_parameters: { prompt: 'select_account' },
-      })
+      expect(performRegistration).toHaveBeenCalledWith(
+        {
+          method: 'oidc',
+          csrf_token: 'some token',
+          provider: 'google-SBFqZZ_v',
+          upstream_parameters: { prompt: 'select_account' },
+        },
+        'google'
+      )
     })
   })
 })

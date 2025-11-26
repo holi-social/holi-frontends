@@ -1,5 +1,6 @@
 import { ChangeEmailButton } from '@holi/core/screens/auth/components/ChangeEmailButton'
 import { AuthFormInputField } from '@holi/core/screens/auth/form/components/AuthFormInputField'
+import type { TrackingEvent } from '@holi/core/tracking'
 import { Refresh } from '@holi/icons/src/generated'
 import { Button } from 'holi-bricks/components/button'
 import { Stack } from 'holi-bricks/components/stack'
@@ -13,10 +14,9 @@ export interface CodeOtpFormProps {
   code?: string
   setCode: (code?: string) => void
   codeValidationError?: string
-  onSubmit: () => Promise<void>
+  onSubmit: (step: 'code' | 'resend') => Promise<void>
   submitDisabled?: boolean
-  onResend: () => Promise<void>
-  trackingScreenName: 'mainLogin' | 'mainRegistration'
+  trackingScreen: TrackingEvent.AuthScreen
 }
 
 export const CodeOtpForm = ({
@@ -27,14 +27,13 @@ export const CodeOtpForm = ({
   codeValidationError,
   onSubmit,
   submitDisabled = false,
-  onResend,
-  trackingScreenName,
+  trackingScreen,
 }: CodeOtpFormProps) => {
   const { t } = useTranslation()
 
   return (
     <Stack gap="3xs">
-      <ChangeEmailButton email={email} onChangeEmail={onChangeEmail} trackingScreenName={trackingScreenName} />
+      <ChangeEmailButton email={email} onChangeEmail={onChangeEmail} trackingScreen={trackingScreen} />
       <AuthFormInputField
         label={t('auth.login.input.label-SignInCode')}
         placeholder={t('auth.login.input.label-SignInCode')}
@@ -42,12 +41,12 @@ export const CodeOtpForm = ({
         validationErrorText={codeValidationError}
         onChange={setCode}
         type="text"
-        onSubmit={onSubmit}
+        onSubmit={() => onSubmit('code')}
       />
       <Button
         margin={{ top: '3xs' }}
         label={t('auth.login.cta.verifyEmail')}
-        onPress={onSubmit}
+        onPress={() => onSubmit('code')}
         size="lg"
         disabled={submitDisabled}
       />
@@ -55,7 +54,7 @@ export const CodeOtpForm = ({
         <Text>{t('registration.emailVerification.resendInstruction')}</Text>
         <Button
           label={t('registration.emailVerification.resendEmail')}
-          onPress={onResend}
+          onPress={() => onSubmit('resend')}
           size="lg"
           transparent
           icon={Refresh}
