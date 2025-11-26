@@ -1,5 +1,5 @@
 import { useArgs } from 'storybook/preview-api'
-import type { Meta, StoryObj } from '@storybook/react-webpack5'
+import type { Meta, StoryObj } from '@storybook/react'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import React from 'react'
 

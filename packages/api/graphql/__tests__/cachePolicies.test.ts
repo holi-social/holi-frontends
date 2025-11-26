@@ -5,7 +5,6 @@ import {
   typesenseMultiSearchPagedPolicy,
   pagedPolicy,
 } from '@holi/api/graphql/cachePolicies'
-import type { KeyArgsFunction } from '@apollo/client/cache/inmemory/policies'
 
 const one = { id: 1, __ref: 'TestType' }
 const oneOne = { id: 11, __ref: 'TestType' }
@@ -284,7 +283,8 @@ describe('cachePolicies', () => {
   })
 
   describe('keyArgsWithoutTypesenseMultiSearchPageInfo', () => {
-    const testData: { context: Partial<Parameters<KeyArgsFunction>[1]>; expectedKey: string }[] = [
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const testData: { context: { variables?: Record<string, any> }; expectedKey: string }[] = [
       {
         context: {},
         expectedKey: '[]',
@@ -324,17 +324,7 @@ describe('cachePolicies', () => {
       },
     ]
     it.each(testData)('should create key $expectedKey for $context', ({ context, expectedKey }) => {
-      expect(
-        keyArgsWithoutTypesenseMultiSearchPageInfo(
-          {},
-          {
-            typename: '',
-            fieldName: '',
-            field: null,
-            ...context,
-          }
-        )
-      ).toEqual(expectedKey)
+      expect(keyArgsWithoutTypesenseMultiSearchPageInfo({}, context)).toEqual(expectedKey)
     })
   })
 

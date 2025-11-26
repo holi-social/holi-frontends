@@ -1,5 +1,4 @@
 import type { FieldFunctionOptions, FieldPolicy, Reference } from '@apollo/client/cache'
-import type { KeyArgsFunction } from '@apollo/client/cache/inmemory/policies'
 import type {
   Typesense_MultiSearchQueryVariables,
   Typesense_SearchResponse,
@@ -71,7 +70,8 @@ export const keyArgsWithoutLimitAndOffset = (args: Record<string, unknown> | nul
 
 export const keyArgsWithoutTypesenseMultiSearchPageInfo = (
   args: Record<string, unknown> | null,
-  context: Parameters<KeyArgsFunction>[1]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  context: { variables?: Record<string, any> }
 ) => {
   const { searches } = context.variables?.input || {}
   if (!Array.isArray(searches)) {
