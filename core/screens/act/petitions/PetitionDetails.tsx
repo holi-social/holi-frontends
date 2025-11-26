@@ -11,7 +11,6 @@ import { Stack } from 'holi-bricks/components/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform } from 'react-native'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
@@ -34,15 +33,17 @@ export const PetitionDetails = () => {
   const { t } = useTranslation()
   const [petitionId] = useParam('petitionId')
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
-  const { navigate } = useRouting()
   const loginState = useLoginState()
 
   const { document: petition, status, refetchStatus } = usePetitionDetailsData(petitionId as string)
 
   const infoList: DetailsScreenInfoList[] = [
     { title: `${t('act.petitions.createdBy', { initiatorNames: petition?.initiators })}`, icon: UserLine },
-    { title: `${t('act.petitions.towards', { targetNames: petition?.targets })}`, icon: Focus2Line },
-    { title: `${t('act.petitions.signatureCount', { signatureCount: petition?.signatures })}`, icon: PencilFilled },
+    { title: `${t('act.petitions.towards', { targetNames: petition?.targets?.join(', ') })}`, icon: Focus2Line },
+    {
+      title: `${t('act.petitions.signatureCount', { signatureCount: petition?.signatures?.toLocaleString('de-DE') })}`,
+      icon: PencilFilled,
+    },
   ]
 
   const [updatePetitionStatus] = useUpdatePetitionStatusMutation()
@@ -81,7 +82,7 @@ export const PetitionDetails = () => {
             headerTransparent: true,
           },
         }),
-        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={() => navigate('/act')} />,
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -115,6 +116,7 @@ export const PetitionDetails = () => {
         title={petition.title || ''}
         bodyContent={{ content: petition.description || '' }}
         infoList={infoList}
+        status={status}
         placeholderImage={petitionId ? getPlaceholderImage(petitionId) : undefined}
         progressCard={
           rewardsPhaseTwoEnabled && status ? (
