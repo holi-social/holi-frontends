@@ -6,17 +6,17 @@
   "scripts": {
     "eas-build-pre-install": "corepack enable",
     "web": "storybook dev -p 6006 -c storybook/web",
-    "build": "storybook build -c storybook/web",
-    "storybook-generate": "sb-rn-get-stories --config-path storybook/mobile",
-    "storybook": "expo start",
-    "build_ios": "npx eas-cli build --profile development-simulator --platform ios",
-    "build_android": "npx eas-cli build --profile development-simulator --platform android",
+    "web:build": "storybook build -c storybook/web",
+    "web:publish": "npx chromatic --ci -b web:build --storybook-config-dir storybook/web --project-token $CHROMATIC_BRICKS_PROJECT_TOKEN --exit-zero-on-changes",
+    "mobile": "expo start",
     "ios": "expo start --ios",
     "android": "expo start --android",
+    "build_ios": "npx eas-cli build --profile development-simulator --platform ios",
+    "build_android": "npx eas-cli build --profile development-simulator --platform android",
+    "storybook-generate": "sb-rn-get-stories --config-path storybook/mobile",
     "clean": "npx rimraf storybook-static",
     "clean:all": "yarn clean && npx rimraf node_modules",
-    "lint": "TIMING=1 eslint .",
-    "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook/web --project-token $CHROMATIC_BRICKS_PROJECT_TOKEN --exit-zero-on-changes"
+    "lint": "TIMING=1 eslint ."
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
