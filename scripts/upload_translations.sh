@@ -18,6 +18,8 @@ if [[ "${1:-}" == "--force" ]]; then
       echo "⬆️  Uploading translations now..."
 
       localazy upload -r $LOCALAZY_API_KEY_READ -w $LOCALAZY_API_KEY_WRITE
+
+      echo "ℹ️  Don't forget to approve new keys in Localazy!"
       exit 0
       ;;
     *)
@@ -74,3 +76,5 @@ rm "${PATCH_FILE}"
 echo "⬆️  Uploading translations now..."
 
 localazy upload -r $LOCALAZY_API_KEY_READ -w $LOCALAZY_API_KEY_WRITE
+
+echo "ℹ️  Don't forget to approve new keys in Localazy!"
