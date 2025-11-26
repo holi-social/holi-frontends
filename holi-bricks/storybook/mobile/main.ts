@@ -1,12 +1,11 @@
-import { createRequire } from 'node:module'
-import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path'
 import type { StorybookConfig } from '@storybook/react-native'
-import { stories } from 'holi-bricks/storybook/web/main'
-
-const require = createRequire(import.meta.url)
+// eslint-disable-next-line no-restricted-imports
+import { stories } from '../stories'
 
 function getAbsolutePath(value: string) {
-  return dirname(require.resolve(join(value, 'package.json')))
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
 }
 
 const main: StorybookConfig = {

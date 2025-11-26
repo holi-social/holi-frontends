@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['../.eslintrc.js', 'plugin:storybook/recommended'],
+  extends: ['../.eslintrc.js'],
   root: false,
   ignorePatterns: ['storybook-static', 'storybook/mobile/storybook.requires.ts'],
   rules: {
