@@ -1,19 +1,15 @@
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path'
 import type { StorybookConfig } from '@storybook/react-webpack5'
-import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+// eslint-disable-next-line no-restricted-imports
+import { stories } from '../stories'
 
-export const stories = [
-  '../../components/**/*.mdx',
-  '../../patterns/**/*.mdx',
-  '../../foundations/**/*.mdx',
-  '../../components/**/*.stories.@(js|jsx|ts|tsx)',
-  '../../patterns/**/*.stories.@(js|jsx|ts|tsx)',
-  '../../foundations/**/*.stories.@(js|jsx|ts|tsx)',
-]
+const require = createRequire(import.meta.url)
 
 const config: StorybookConfig = {
   stories,
-
   addons: [
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-react-native-web'),
@@ -69,8 +65,8 @@ const config: StorybookConfig = {
   docs: {},
 }
 
-function getAbsolutePath(value: string): string {
-  return dirname(require.resolve(join(value, 'package.json')))
+function getAbsolutePath(value: string) {
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
 }
 
 export default config
