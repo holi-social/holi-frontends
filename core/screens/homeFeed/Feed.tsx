@@ -16,7 +16,6 @@ import GenericPostCard from '@holi/core/screens/individualPosts/components/Gener
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import type { CombinedFeedItem } from '@holi/core/screens/homeFeed/types'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
@@ -26,7 +25,6 @@ import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
-import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
@@ -34,7 +32,6 @@ import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import { Stack } from 'holi-bricks/components/stack'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 import * as Appcues from '@appcues/react-native'
 import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
@@ -54,10 +51,8 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
-  const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const isFocused = useIsFocused()
-  const { data: globalGoodDeeds, refetch: refetchGlobalCounter } = useGlobalRewardsCounterQuery({
-    skip: !showGoodDeeds,
+
+  const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
   })
@@ -69,11 +64,6 @@ const HomeFeed = () => {
   const { track } = useTracking()
   const navigation = useNavigation()
   const ref = useRef<ScrollView>(null as unknown as ScrollView)
-
-  useEffect(() => {
-    if (!isFocused || !showGoodDeeds) return
-    refetchGlobalCounter()
-  }, [isFocused, showGoodDeeds, refetchGlobalCounter])
 
   const keyExtractor = useCallback((item: CombinedFeedItem, index: number) => {
     return (
@@ -133,17 +123,15 @@ const HomeFeed = () => {
         <View style={styles.listHeader}>
           <HomeFeedHeader />
 
-          {showGoodDeeds && (
-            <GoodDeedsBanner
-              counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
-              variant="action"
-              hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
-            />
-          )}
+          <GoodDeedsBanner
+            counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
+            variant="action"
+            hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
+          />
         </View>
       </HoliTransition.FadeDown>
     ),
-    [globalGoodDeeds?.rewards_globalCounter.counter, showGoodDeeds]
+    [globalGoodDeeds?.rewards_globalCounter.counter]
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {
@@ -206,7 +194,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeLeft visible>
           <Stack direction="row" gap="xxs" alignItems="center">
             <HoliLogo color={tintColor} />
-            {showGoodDeeds && <GoodDeedsChip />}
+            <GoodDeedsChip />
           </Stack>
         </HoliTransition.FadeLeft>
       ),
@@ -218,7 +206,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, setScreenOptions, colors.black300, bricksTheme.colors.fill.main, showGoodDeeds])
+  }, [navigate, t, setScreenOptions, colors.black300, bricksTheme.colors.fill.main])
 
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 
