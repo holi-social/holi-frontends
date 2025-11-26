@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Stack } from 'holi-bricks/components/stack'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -17,25 +17,21 @@ import {
 import { GoodDeedsEmptyState } from '@holi/core/screens/userprofile/components/GoodDeedsEmptyState'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GoodDeedsV2 } from '@holi/icons/src/generated'
-import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 
 export const GoodDeedsTab = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const isFocused = useIsFocused()
 
-  const {
-    data: personalGoodDeeds,
-    loading: personalGoodDeedsLoading,
-    refetch: refetchPersonal,
-  } = useGetRewardsCounterQuery({ fetchPolicy: 'cache-and-network', notifyOnNetworkStatusChange: true })
+  const { data: personalGoodDeeds, loading: personalGoodDeedsLoading } = useGetRewardsCounterQuery({
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
+  })
 
-  const {
-    data: globalGoodDeeds,
-    loading: globalGoodDeedsLoading,
-    refetch: refetchGlobal,
-  } = useGlobalRewardsCounterQuery({ notifyOnNetworkStatusChange: true })
-  const { data: rewardTransactions, refetch: refetchTransactions } = useRewardsTransactionsQuery({
+  const { data: globalGoodDeeds, loading: globalGoodDeedsLoading } = useGlobalRewardsCounterQuery({
+    notifyOnNetworkStatusChange: true,
+  })
+
+  const { data: rewardTransactions } = useRewardsTransactionsQuery({
     variables: {
       offset: 0,
       limit: 10,
@@ -43,13 +39,6 @@ export const GoodDeedsTab = () => {
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
   })
-
-  useEffect(() => {
-    if (!isFocused) return
-    refetchPersonal()
-    refetchGlobal()
-    refetchTransactions({ offset: 0, limit: 10 })
-  }, [isFocused, refetchPersonal, refetchGlobal, refetchTransactions])
 
   const goodDeeds = rewardTransactions?.rewards_transactions.data || []
   const personalCounter = personalGoodDeeds?.rewards_counter?.counter ?? 0

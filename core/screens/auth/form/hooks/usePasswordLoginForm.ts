@@ -8,7 +8,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 interface UsePasswordLoginFormProps {
   flow?: LoginFlow
-  performLogin: (payload: UpdateLoginFlowBody) => Promise<void>
+  performLogin: (payload: UpdateLoginFlowBody, method: TrackingEvent.AuthMethod) => Promise<void>
 }
 
 export const usePasswordLoginForm = ({ flow, performLogin }: UsePasswordLoginFormProps): EmailPasswordFormProps => {
@@ -31,7 +31,7 @@ export const usePasswordLoginForm = ({ flow, performLogin }: UsePasswordLoginFor
       csrf_token: csrfTokenNode.value ?? '',
     }
     track(TrackingEvent.Auth.LoginButtonPressed)
-    await performLogin(payload as UpdateLoginFlowBody)
+    await performLogin(payload as UpdateLoginFlowBody, 'password')
   }, [email, password, csrfTokenNode.value, performLogin, flow, track])
 
   return {

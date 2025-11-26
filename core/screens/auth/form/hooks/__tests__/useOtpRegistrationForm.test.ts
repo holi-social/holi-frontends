@@ -13,7 +13,7 @@ describe('useOtpRegistrationForm', () => {
 
       expect(result.current.autoFocusEmail).toBeTruthy()
       expect(result.current.submitLabel).toEqual('auth.login.input.label-SignUpCode')
-      expect(result.current.trackingScreenName).toEqual('mainRegistration')
+      expect(result.current.trackingScreen).toEqual('mainRegistration')
     })
   })
 
@@ -172,7 +172,7 @@ describe('useOtpRegistrationForm', () => {
 
       expect(result.current.submitDisabled).toBeTruthy()
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('email')
 
       expect(performRegistration).not.toHaveBeenCalled()
       expect(mockTrack).not.toHaveBeenCalled()
@@ -188,11 +188,17 @@ describe('useOtpRegistrationForm', () => {
         })
       )
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('email')
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Auth.OneTimeCodePressed({
           step: 'email',
+          screen: 'mainRegistration',
+        })
+      )
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.RegistrationOptionSelected({
+          method: 'otp',
           screen: 'mainRegistration',
         })
       )
@@ -208,7 +214,7 @@ describe('useOtpRegistrationForm', () => {
         })
       )
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('code')
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Auth.OneTimeCodePressed({
@@ -216,6 +222,7 @@ describe('useOtpRegistrationForm', () => {
           screen: 'mainRegistration',
         })
       )
+      expect(mockTrack).toHaveBeenCalledTimes(1)
     })
 
     it('should perform login with correct payload', async () => {
@@ -231,16 +238,19 @@ describe('useOtpRegistrationForm', () => {
         result.current.setCode('123456')
       })
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('code')
 
-      expect(performRegistration).toHaveBeenCalledWith({
-        method: 'code',
-        traits: {
-          email: 'ada@lovelace.com',
+      expect(performRegistration).toHaveBeenCalledWith(
+        {
+          method: 'code',
+          traits: {
+            email: 'ada@lovelace.com',
+          },
+          code: '123456',
+          csrf_token: 'some token',
         },
-        code: '123456',
-        csrf_token: 'some token',
-      })
+        'otp'
+      )
     })
   })
 
@@ -249,7 +259,7 @@ describe('useOtpRegistrationForm', () => {
       const performRegistration = jest.fn()
       const { result } = renderHook(() => useOtpRegistrationForm({ performRegistration, resetFlow: jest.fn() }))
 
-      await result.current.onResend()
+      await result.current.onSubmit('resend')
 
       expect(performRegistration).not.toHaveBeenCalled()
       expect(mockTrack).not.toHaveBeenCalled()
@@ -265,7 +275,7 @@ describe('useOtpRegistrationForm', () => {
         })
       )
 
-      await result.current.onResend()
+      await result.current.onSubmit('resend')
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Auth.OneTimeCodePressed({
@@ -273,6 +283,7 @@ describe('useOtpRegistrationForm', () => {
           screen: 'mainRegistration',
         })
       )
+      expect(mockTrack).toHaveBeenCalledTimes(1)
     })
 
     it('should perform login with correct payload', async () => {
@@ -285,16 +296,19 @@ describe('useOtpRegistrationForm', () => {
         result.current.setEmail('ada@lovelace.com')
       })
 
-      await result.current.onResend()
+      await result.current.onSubmit('resend')
 
-      expect(performRegistration).toHaveBeenCalledWith({
-        method: 'code',
-        traits: {
-          email: 'ada@lovelace.com',
+      expect(performRegistration).toHaveBeenCalledWith(
+        {
+          method: 'code',
+          traits: {
+            email: 'ada@lovelace.com',
+          },
+          csrf_token: 'some token',
+          resend: 'code',
         },
-        csrf_token: 'some token',
-        resend: 'code',
-      })
+        'otp'
+      )
     })
   })
 })

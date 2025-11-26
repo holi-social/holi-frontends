@@ -13,7 +13,7 @@ import type { CodeOtpFormProps } from '@holi/core/screens/auth/form/components/C
 
 interface UseOtpRegistrationFormProps {
   flow?: RegistrationFlow
-  performRegistration: (payload: UpdateRegistrationFlowBody) => Promise<void>
+  performRegistration: (payload: UpdateRegistrationFlowBody, method: TrackingEvent.AuthMethod) => Promise<void>
   resetFlow: () => void
 }
 
@@ -24,6 +24,7 @@ export const useOtpRegistrationForm = ({
 }: UseOtpRegistrationFormProps): EmailOtpFormProps & CodeOtpFormProps => {
   const { i18n, t } = useTranslation()
   const { track } = useTracking()
+  const trackingScreen = 'mainRegistration'
 
   const emailNode = getInputNodeState(flow, i18n, 'traits.email')
   const codeNode = getInputNodeState(flow, i18n, 'code')
@@ -32,43 +33,36 @@ export const useOtpRegistrationForm = ({
   const [email, setEmail] = useState<string | undefined>(emailNode.value)
   const [code, setCode] = useState<string | undefined>(codeNode.value)
 
-  const onSubmit = useCallback(async () => {
-    if (!flow) return
-    const payload: UpdateRegistrationFlowWithCodeMethod = {
-      method: 'code',
-      traits: {
-        email: email ?? '',
-      },
-      csrf_token: csrfTokenNode.value ?? '',
-      code,
-    }
-    track(
-      TrackingEvent.Auth.OneTimeCodePressed({
-        step: flow?.state === 'sent_email' ? 'code' : 'email',
-        screen: 'mainRegistration',
-      })
-    )
-    await performRegistration(payload as UpdateRegistrationFlowBody)
-  }, [email, code, csrfTokenNode.value, performRegistration, flow, track])
-
-  const onResend = useCallback(async () => {
-    if (!flow) return
-    const payload: UpdateRegistrationFlowWithCodeMethod = {
-      method: 'code',
-      traits: {
-        email: email ?? '',
-      },
-      csrf_token: csrfTokenNode.value ?? '',
-      resend: 'code',
-    }
-    track(
-      TrackingEvent.Auth.OneTimeCodePressed({
-        step: 'resend',
-        screen: 'mainRegistration',
-      })
-    )
-    await performRegistration(payload as UpdateRegistrationFlowBody)
-  }, [email, csrfTokenNode.value, performRegistration, flow, track])
+  const onSubmit = useCallback(
+    async (step: 'code' | 'email' | 'resend') => {
+      if (!flow) return
+      const stepPayload = step === 'resend' ? { resend: 'code' } : { code }
+      const payload: UpdateRegistrationFlowWithCodeMethod = {
+        method: 'code',
+        traits: {
+          email: email ?? '',
+        },
+        csrf_token: csrfTokenNode.value ?? '',
+        ...stepPayload,
+      }
+      if (step === 'email') {
+        track(
+          TrackingEvent.Auth.RegistrationOptionSelected({
+            method: 'otp',
+            screen: trackingScreen,
+          })
+        )
+      }
+      track(
+        TrackingEvent.Auth.OneTimeCodePressed({
+          step,
+          screen: trackingScreen,
+        })
+      )
+      await performRegistration(payload as UpdateRegistrationFlowBody, 'otp')
+    },
+    [email, code, csrfTokenNode.value, performRegistration, flow, track]
+  )
 
   return {
     email,
@@ -82,7 +76,6 @@ export const useOtpRegistrationForm = ({
     onSubmit,
     submitLabel: t('auth.login.input.label-SignUpCode'),
     submitDisabled: !flow,
-    onResend,
-    trackingScreenName: 'mainRegistration',
+    trackingScreen,
   }
 }

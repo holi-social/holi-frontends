@@ -11,7 +11,7 @@ describe('useOtpLoginForm', () => {
 
       expect(result.current.autoFocusEmail).toBeTruthy()
       expect(result.current.submitLabel).toEqual('auth.login.cta.OTPlogin')
-      expect(result.current.trackingScreenName).toEqual('mainLogin')
+      expect(result.current.trackingScreen).toEqual('mainLogin')
     })
   })
 
@@ -164,7 +164,7 @@ describe('useOtpLoginForm', () => {
 
       expect(result.current.submitDisabled).toBeTruthy()
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('email')
 
       expect(performLogin).not.toHaveBeenCalled()
       expect(mockTrack).not.toHaveBeenCalled()
@@ -180,11 +180,17 @@ describe('useOtpLoginForm', () => {
         })
       )
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('email')
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Auth.OneTimeCodePressed({
           step: 'email',
+          screen: 'mainLogin',
+        })
+      )
+      expect(mockTrack).toHaveBeenCalledWith(
+        TrackingEvent.Auth.LoginOptionSelected({
+          method: 'otp',
           screen: 'mainLogin',
         })
       )
@@ -200,7 +206,7 @@ describe('useOtpLoginForm', () => {
         })
       )
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('code')
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Auth.OneTimeCodePressed({
@@ -208,6 +214,7 @@ describe('useOtpLoginForm', () => {
           screen: 'mainLogin',
         })
       )
+      expect(mockTrack).toHaveBeenCalledTimes(1)
     })
 
     it('should perform login with correct payload', async () => {
@@ -221,14 +228,17 @@ describe('useOtpLoginForm', () => {
         result.current.setCode('123456')
       })
 
-      await result.current.onSubmit()
+      await result.current.onSubmit('code')
 
-      expect(performLogin).toHaveBeenCalledWith({
-        method: 'code',
-        identifier: 'ada@lovelace.com',
-        code: '123456',
-        csrf_token: 'some token',
-      })
+      expect(performLogin).toHaveBeenCalledWith(
+        {
+          method: 'code',
+          identifier: 'ada@lovelace.com',
+          code: '123456',
+          csrf_token: 'some token',
+        },
+        'otp'
+      )
     })
   })
 
@@ -237,7 +247,7 @@ describe('useOtpLoginForm', () => {
       const performLogin = jest.fn()
       const { result } = renderHook(() => useOtpLoginForm({ performLogin, resetFlow: jest.fn() }))
 
-      await result.current.onResend()
+      await result.current.onSubmit('resend')
 
       expect(performLogin).not.toHaveBeenCalled()
       expect(mockTrack).not.toHaveBeenCalled()
@@ -253,7 +263,7 @@ describe('useOtpLoginForm', () => {
         })
       )
 
-      await result.current.onResend()
+      await result.current.onSubmit('resend')
 
       expect(mockTrack).toHaveBeenCalledWith(
         TrackingEvent.Auth.OneTimeCodePressed({
@@ -261,6 +271,7 @@ describe('useOtpLoginForm', () => {
           screen: 'mainLogin',
         })
       )
+      expect(mockTrack).toHaveBeenCalledTimes(1)
     })
 
     it('should perform login with correct payload', async () => {
@@ -271,14 +282,17 @@ describe('useOtpLoginForm', () => {
         result.current.setEmail('ada@lovelace.com')
       })
 
-      await result.current.onResend()
+      await result.current.onSubmit('resend')
 
-      expect(performLogin).toHaveBeenCalledWith({
-        method: 'code',
-        identifier: 'ada@lovelace.com',
-        csrf_token: 'some token',
-        resend: 'code',
-      })
+      expect(performLogin).toHaveBeenCalledWith(
+        {
+          method: 'code',
+          identifier: 'ada@lovelace.com',
+          csrf_token: 'some token',
+          resend: 'code',
+        },
+        'otp'
+      )
     })
   })
 })

@@ -2,6 +2,7 @@ import React from 'react'
 import { AuthenticationSelection } from '@holi/core/screens/auth/components/AuthenticationSelection'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const LoginForm = ({ onLogin }: { onLogin: () => void }) => {
   return <Button onPress={onLogin} label="login-button" />
@@ -55,6 +56,20 @@ describe('AuthenticationSelection', () => {
     await user.press(screen.getByLabelText('auth.tabs.register'))
 
     expect(resetFlow).toHaveBeenCalled()
+  })
+
+  it('should track tab switch', async () => {
+    const user = userEvent.setup()
+
+    render(<AuthenticationSelection initialSelection="login" resetFlowId={jest.fn()} />)
+
+    await user.press(screen.getByLabelText('auth.tabs.register'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.AuthTabSwitched({ toTab: 'registration' }))
+
+    await user.press(screen.getByLabelText('auth.tabs.login'))
+
+    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.Auth.AuthTabSwitched({ toTab: 'login' }))
   })
 
   it('should call register callback on register', async () => {

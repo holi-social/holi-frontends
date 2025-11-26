@@ -11,10 +11,13 @@ export const useFinalizeRegistration = (onRegister?: () => void) => {
   const { track } = useTracking()
 
   const finalizeRegistration = useCallback(
-    async (data: OrySessionContext) => {
+    async (data: OrySessionContext, method: TrackingEvent.AuthMethod) => {
       await doLogin(client, data)
-
-      track(TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+      track(
+        TrackingEvent.Auth.RegistrationCompleted({
+          method,
+        })
+      )
       metaSdk.trackSignUp()
       onRegister?.()
     },

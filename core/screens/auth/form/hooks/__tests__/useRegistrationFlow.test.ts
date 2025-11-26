@@ -290,7 +290,7 @@ describe('useRegistrationFlow', () => {
     it('should do nothing if the flow is missing', async () => {
       const { result } = renderHook(() => useRegistrationFlow({ resetFlowId: jest.fn(), onFlowUpdate: jest.fn() }))
 
-      await act(() => result.current.performRegistration(submitPayload))
+      await act(() => result.current.performRegistration(submitPayload, 'otp'))
 
       expect(mockSubmitRegistrationFlow).not.toHaveBeenCalled()
     })
@@ -305,7 +305,7 @@ describe('useRegistrationFlow', () => {
       // Await flow initialization
       await act(() => jest.runAllTimersAsync())
 
-      await act(() => result.current.performRegistration(payload, 'Google'))
+      await act(() => result.current.performRegistration(payload, 'google', 'Google'))
 
       expect(mockSubmitRegistrationFlow).toHaveBeenCalledWith(registrationFlow, payload, 'Google')
     })
@@ -317,7 +317,7 @@ describe('useRegistrationFlow', () => {
       // Await flow initialization
       await act(() => jest.runAllTimersAsync())
 
-      await act(() => result.current.performRegistration(submitPayload))
+      await act(() => result.current.performRegistration(submitPayload, 'otp'))
 
       expect(mockSetVerificationFlowData).toHaveBeenCalledWith('verification-disabled')
     })
@@ -334,10 +334,10 @@ describe('useRegistrationFlow', () => {
       // Await flow initialization
       await act(() => jest.runAllTimersAsync())
 
-      await act(() => result.current.performRegistration(submitPayload))
+      await act(() => result.current.performRegistration(submitPayload, 'otp'))
 
       expect(mockUseFinalizeRegistration).toHaveBeenCalledWith(onRegister)
-      expect(finalizeRegistration).toHaveBeenCalledWith(sessionData)
+      expect(finalizeRegistration).toHaveBeenCalledWith(sessionData, 'otp')
     })
 
     describe('error handling', () => {
@@ -359,7 +359,7 @@ describe('useRegistrationFlow', () => {
         await act(() => jest.runAllTimersAsync())
 
         await act(async () => {
-          await result.current.performRegistration(submitPayload)
+          await result.current.performRegistration(submitPayload, 'otp')
         })
 
         const callbacks = handleFlowSubmitError.mock.calls[0][1] as HandleFlowErrorProps<RegistrationFlow>
@@ -396,7 +396,7 @@ describe('useRegistrationFlow', () => {
         await callbacks.handleBrowserLogin('some url')
 
         expect(doBrowserLogin).toHaveBeenCalledWith('some url', registrationFlow)
-        expect(finalizeRegistration).toHaveBeenCalledWith(sessionData)
+        expect(finalizeRegistration).toHaveBeenCalledWith(sessionData, 'otp')
       })
 
       it('should handle email verification during error handling', async () => {

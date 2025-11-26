@@ -6,7 +6,7 @@ import { render, screen, userEvent } from '@testing-library/react-native'
 describe('ChangeEmailButton', () => {
   it('should render current e-mail address', () => {
     const email = 'foo@bar.com'
-    render(<ChangeEmailButton email={email} onChangeEmail={jest.fn()} trackingScreenName="mainLogin" />)
+    render(<ChangeEmailButton email={email} onChangeEmail={jest.fn()} trackingScreen="mainLogin" />)
 
     expect(screen.getByText(email)).toBeOnTheScreen()
   })
@@ -15,7 +15,7 @@ describe('ChangeEmailButton', () => {
     const onChangeEmail = jest.fn()
     const user = userEvent.setup()
 
-    render(<ChangeEmailButton email="" onChangeEmail={onChangeEmail} trackingScreenName="mainLogin" />)
+    render(<ChangeEmailButton email="" onChangeEmail={onChangeEmail} trackingScreen="mainLogin" />)
 
     await user.press(screen.getByLabelText('global.edit'))
 
@@ -25,7 +25,7 @@ describe('ChangeEmailButton', () => {
   it('should track e-mail change request for login', async () => {
     const user = userEvent.setup()
 
-    render(<ChangeEmailButton email="" onChangeEmail={jest.fn()} trackingScreenName="mainLogin" />)
+    render(<ChangeEmailButton email="" onChangeEmail={jest.fn()} trackingScreen="mainLogin" />)
 
     await user.press(screen.getByLabelText('global.edit'))
 
@@ -40,7 +40,7 @@ describe('ChangeEmailButton', () => {
   it('should track e-mail change request for registration', async () => {
     const user = userEvent.setup()
 
-    render(<ChangeEmailButton email="" onChangeEmail={jest.fn()} trackingScreenName="mainRegistration" />)
+    render(<ChangeEmailButton email="" onChangeEmail={jest.fn()} trackingScreen="mainRegistration" />)
 
     await user.press(screen.getByLabelText('global.edit'))
 

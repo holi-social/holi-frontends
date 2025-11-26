@@ -9,6 +9,8 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { AuthenticationStep } from '@holi/core/screens/auth/types'
 import { AuthenticationHeader } from '@holi/core/screens/auth/components/AuthenticationHeader'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 export type AuthenticationType = 'login' | 'registration'
 
@@ -32,6 +34,7 @@ export const AuthenticationSelection = ({
 }: AuthenticationSelectionProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
+  const { track } = useTracking()
 
   const [selectedAuthenticationType, setSelectedAuthenticationType] = useState<AuthenticationType>(initialSelection)
   const [authenticationStep, setAuthenticationStep] = useState<AuthenticationStep>('start')
@@ -71,11 +74,16 @@ export const AuthenticationSelection = ({
       if (key === selectedAuthenticationType) {
         return
       }
+      track(
+        TrackingEvent.Auth.AuthTabSwitched({
+          toTab: key as AuthenticationType,
+        })
+      )
       setSelectedAuthenticationType(key as AuthenticationType)
       setAuthenticationStep('start')
       resetFlowId()
     },
-    [resetFlowId, selectedAuthenticationType]
+    [resetFlowId, selectedAuthenticationType, track]
   )
 
   return (

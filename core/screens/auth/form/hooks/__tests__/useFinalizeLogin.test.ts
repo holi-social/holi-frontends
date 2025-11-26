@@ -42,25 +42,28 @@ describe('useFinalizeLogin', () => {
 
     const { result } = renderHook(() => useFinalizeLogin())
 
-    await result.current(sessionData)
+    await result.current(sessionData, 'otp')
 
     expect(mockDoLogin).toHaveBeenCalledWith(mockClient, sessionData)
   })
 
-  it('should track login', async () => {
+  const methods = ['otp', 'password', 'apple', 'google'] as TrackingEvent.AuthMethod[]
+  it.each(methods)('should track login with %s', async (method: TrackingEvent.AuthMethod) => {
     const { result } = renderHook(() => useFinalizeLogin())
 
-    await result.current(sessionData)
+    await result.current(sessionData, method)
 
     expect(mockTrack).toHaveBeenCalledWith(
-      TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'login' })
+      TrackingEvent.Auth.LoginCompleted({
+        method,
+      })
     )
   })
 
   it('should finish onboarding', async () => {
     const { result } = renderHook(() => useFinalizeLogin())
 
-    await result.current(sessionData)
+    await result.current(sessionData, 'otp')
 
     expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
   })
@@ -70,7 +73,7 @@ describe('useFinalizeLogin', () => {
     mockUseRedirect.mockReturnValue(mockRedirect)
     const { result } = renderHook(() => useFinalizeLogin())
 
-    await result.current(sessionData)
+    await result.current(sessionData, 'otp')
 
     expect(mockRedirect).toHaveBeenCalledWith(true)
   })

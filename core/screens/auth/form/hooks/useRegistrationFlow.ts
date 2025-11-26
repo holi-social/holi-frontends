@@ -20,6 +20,7 @@ import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerification
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { getLogger } from '@holi/core/helpers/logging'
 import { useFinalizeRegistration } from '@holi/core/screens/auth/form/hooks/useFinalizeRegistration'
+import type { TrackingEvent } from '@holi/core/tracking'
 
 const logger = getLogger('Auth')
 
@@ -87,7 +88,7 @@ export const useRegistrationFlow = ({
   }, [initializeFlow, flow, startedFlowId])
 
   const performRegistration = useCallback(
-    async (payload: UpdateRegistrationFlowBody, provider?: string) => {
+    async (payload: UpdateRegistrationFlowBody, method: TrackingEvent.AuthMethod, provider?: string) => {
       if (!flow) {
         return
       }
@@ -99,10 +100,13 @@ export const useRegistrationFlow = ({
         logger.debug('useRegistrationForm.performRegistration', 'verification flow data', verificationFlowData)
         setVerificationFlowData(verificationFlowData)
 
-        await finalizeRegistration({
-          session: data.session!,
-          session_token: data.session_token,
-        })
+        await finalizeRegistration(
+          {
+            session: data.session!,
+            session_token: data.session_token,
+          },
+          method
+        )
         logger.debug('useRegistrationForm.performRegistration', 'login after registration was successful')
       } catch (error) {
         handleFlowSubmitError(error, {
@@ -112,7 +116,7 @@ export const useRegistrationFlow = ({
               navigate(redirectUrl)
             } else {
               const data = await doBrowserLogin(redirectUrl, flow)
-              return finalizeRegistration(data)
+              return finalizeRegistration(data, method)
             }
           },
           handleEmailVerification: () => {

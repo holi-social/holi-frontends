@@ -12,7 +12,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 interface UsePasswordRegistrationFormProps {
   flow?: RegistrationFlow
-  performRegistration: (payload: UpdateRegistrationFlowBody) => Promise<void>
+  performRegistration: (payload: UpdateRegistrationFlowBody, method: TrackingEvent.AuthMethod) => Promise<void>
 }
 
 export const usePasswordRegistrationForm = ({
@@ -39,8 +39,8 @@ export const usePasswordRegistrationForm = ({
       password: password ?? '',
       csrf_token: csrfTokenNode.value ?? '',
     }
-    track(TrackingEvent.Auth.LoginButtonPressed)
-    await performRegistration(payload as UpdateRegistrationFlowBody)
+    track(TrackingEvent.Auth.RegisterButtonPressed)
+    await performRegistration(payload as UpdateRegistrationFlowBody, 'password')
   }, [email, password, csrfTokenNode.value, performRegistration, flow, track])
 
   return {

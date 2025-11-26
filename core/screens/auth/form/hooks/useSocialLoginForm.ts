@@ -10,7 +10,7 @@ import { getSocialLoginProviderId } from '@holi/core/screens/auth/form/helpers/g
 
 interface UseSocialLoginFormProps {
   flow?: LoginFlow
-  performLogin: (payload: UpdateLoginFlowBody) => Promise<void>
+  performLogin: (payload: UpdateLoginFlowBody, method: TrackingEvent.AuthMethod) => Promise<void>
 }
 
 export const useSocialLoginForm = ({ flow, performLogin }: UseSocialLoginFormProps): SocialLoginFormProps => {
@@ -30,13 +30,14 @@ export const useSocialLoginForm = ({ flow, performLogin }: UseSocialLoginFormPro
         provider: (provider === 'Apple' ? appleProviderId : googleProviderId) ?? '',
         upstream_parameters: provider === 'Google' ? { prompt: 'select_account' } : undefined,
       }
+      const method = provider === 'Apple' ? 'apple' : 'google'
       track(
-        TrackingEvent.Auth.SocialLoginButtonPressed({
-          provider,
+        TrackingEvent.Auth.LoginOptionSelected({
+          method,
           screen: 'mainLogin',
         })
       )
-      await performLogin(payload as UpdateLoginFlowBody)
+      await performLogin(payload as UpdateLoginFlowBody, method)
     },
     [appleProviderId, googleProviderId, csrfTokenNode.value, performLogin, flow, track]
   )

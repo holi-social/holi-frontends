@@ -27,8 +27,6 @@ import {
   type PosthogCrossPlatform,
   TrackingPurpose,
 } from '@holi/core/tracking/types'
-import { TrackingEvent } from '@holi/core/tracking/events'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 
 const logger = getLogger('Tracking')
@@ -278,7 +276,6 @@ const TrackingInitializerInner = ({
   const apollo: ApolloClient = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, metaSdk, apollo), [posthog, apollo])
   const state = useReactiveVar(initializerStateVar)
-  const { track } = useTracking()
 
   useEffect(() => {
     const loginStateChangeListener: LoginStateChangeListener = (curState, prevState) => {
@@ -415,7 +412,6 @@ const TrackingInitializerInner = ({
                       state: 'loggedIn',
                       processing: null,
                     })
-                    track(TrackingEvent.Auth.LoginCompleted)
                     onUserLoggedInCompleted?.()
                   })
               })
@@ -448,7 +444,7 @@ const TrackingInitializerInner = ({
           break
       }
     }
-  }, [tracking, state, onUpdateCompleted, onUserLoggedInCompleted, onUserLoggedOutCompleted, track])
+  }, [tracking, state, onUpdateCompleted, onUserLoggedInCompleted, onUserLoggedOutCompleted])
 
   return null
 }
