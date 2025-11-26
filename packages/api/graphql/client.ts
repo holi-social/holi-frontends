@@ -274,7 +274,7 @@ export interface WebApolloClientOptions {
 }
 
 export const initializeWebApolloClient = ({ initState, headers, locale }: WebApolloClientOptions = {}) => {
-  const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers, locale })
+  const client = apolloWebClient ?? createApolloClient({ ssrMode: isSSR, headers, locale })
 
   if (initState) {
     const existingCache = client.extract() as Record<string, unknown>
