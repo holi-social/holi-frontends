@@ -1,6 +1,6 @@
 // Card.stories.tsx
 import React, { type ComponentType } from 'react'
-import type { Meta, StoryObj } from '@storybook/react-webpack5'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Card } from './Card'
 import * as Icons from '@holi/icons/src/generated'
 import { controlWithLabel, toIconName } from 'holi-bricks/storybook/icons-to-story'

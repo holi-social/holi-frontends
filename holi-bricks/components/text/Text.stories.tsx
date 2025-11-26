@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-webpack5'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text, type TextSize, type TextProps } from 'holi-bricks/components/text'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
