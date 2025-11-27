@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
 import type { StorybookConfig } from '@storybook/react-native'
 // eslint-disable-next-line no-restricted-imports
-import { stories } from '../stories'
+import { stories } from '../stories.ts'
 
 function getAbsolutePath(value: string) {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
