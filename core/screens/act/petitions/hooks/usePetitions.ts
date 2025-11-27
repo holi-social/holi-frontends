@@ -31,7 +31,6 @@ export const usePetitionParameters = ({ pageSize }: UsePetitionParametersOptions
     return {
       filter_by: 'type:=[petition]',
       per_page: pageSize,
-      // sort_by: 'signatures:desc',
     }
   }, [pageSize])
 
