@@ -17,6 +17,8 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { BadgesDocument, PetitionStatusValue } from '@holi/api/graphql/graphql-codegen'
 import { ProgressStepper, type ProgressStepperStep } from 'holi-bricks/components/progressStepper/ProgressStepper'
+import { ButtonTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
 
 interface PetitionProgressCardProps {
   onStatusChange: (status: PetitionStatusValue) => void
@@ -94,12 +96,13 @@ export const PetitionProgressCard = ({
                   Linking.openURL(externalLink)
                 }}
               />
-              <Button
+              <ButtonTracked
                 label={t('petition.progress.button.act')}
                 icon={Check}
                 onPress={() => {
                   showFinishedModal()
                 }}
+                trackingEvent={TrackingEvent.PetitionDetails.signed}
               />
             </Stack>
           )}

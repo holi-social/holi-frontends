@@ -226,8 +226,12 @@ export namespace TrackingEvent {
       },
       ...versionOne,
     }),
-    findMore: {
-      name: 'petition_findMore_pressed',
+    signOnPartnerPagePressed: {
+      name: 'petition_signOnPartnerPage_pressed',
+      ...versionOne,
+    },
+    signed: {
+      name: 'petition_I_signed_pressed',
       ...versionOne,
     },
   }
