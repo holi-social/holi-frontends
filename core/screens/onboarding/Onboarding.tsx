@@ -130,7 +130,7 @@ const Onboarding = () => {
     [finishOnboarding, setCurrentStep, track]
   )
 
-  if (!currentStep || (isLoggedIn && !['finished', 'accountSetup'].includes(onboardingState ?? ''))) {
+  if (!currentStep || (isLoggedIn && onboardingState === 'onboarding')) {
     return <HoliLoader testID="loader" />
   }
 
