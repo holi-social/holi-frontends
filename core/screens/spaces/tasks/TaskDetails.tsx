@@ -27,6 +27,7 @@ import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import { Stack } from 'holi-bricks/components/stack'
+import { Text } from 'holi-bricks/components/text'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { SaveForLaterButton } from '@holi/core/components/SaveForLaterButton'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -35,6 +36,7 @@ import { DoItLater, DoItLaterModal } from '@holi/core/screens/spaces/tasks/DoItL
 import { BookmarkLine } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import comments from '@holi/core/screens/spaces/tasks/utils/tasksComments'
 
 const isIos = Platform.OS === 'ios'
 
@@ -58,9 +60,16 @@ const TaskDetails = () => {
     totalCompletions,
     isGoodDeed,
   } = useTaskDetailsData()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { displayError } = useErrorHandling()
   const { props: doItLaterModalProps, show: showDoItLater } = useModalState()
+
+  // Get comments for current task in the proper language
+  const currentLanguage = i18n.language as 'en' | 'de'
+  const taskComments =
+    id && comments[id as keyof typeof comments]
+      ? comments[id as keyof typeof comments].map((comment: { de: string; en: string }) => comment[currentLanguage])
+      : []
   const loginState = useLoginState()
   const { isLoggedIn } = useLoggedInUser()
   const { adminUsers } = useSpaceAdminUsers(spaceName)
@@ -198,7 +207,29 @@ const TaskDetails = () => {
       >
         <DetailsScreen
           {...data}
-          _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
+          imageOverlay={
+            <Stack padding={{ left: 'md', right: 'md' }}>
+              {taskComments.length > 0 && (
+                <Text size="sm" color="greyDark" margin={{ bottom: 'xs' }}>
+                  {taskComments[0]}
+                </Text>
+              )}
+            </Stack>
+          }
+          _footer={
+            <>
+              {taskComments.length > 0 && (
+                <Stack padding={{ left: 'md', right: 'md', bottom: 'lg' }}>
+                  {taskComments.map((comment: string, index: number) => (
+                    <Text key={index} size="sm" color="greyDark" margin={{ bottom: 'xs' }}>
+                      {comment}
+                    </Text>
+                  ))}
+                </Stack>
+              )}
+              <VolunteeringSimilarRecos documentId={`task_${id}`} />
+            </>
+          }
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
           progressCard={
             rewardsPhaseTwoEnabled &&
