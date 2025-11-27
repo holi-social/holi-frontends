@@ -128,8 +128,7 @@ const Onboarding = () => {
         throw new HoliError(`Onboarding: "${key}" is not a valid step`)
     }
   }
-
-  if (!currentStep || (isLoggedIn && !['finished', 'accountSetup'].includes(onboardingState ?? ''))) {
+  if (!currentStep || (isLoggedIn && onboardingState === 'onboarding')) {
     return <HoliLoader testID="loader" />
   }
 
