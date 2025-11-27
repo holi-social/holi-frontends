@@ -31,6 +31,7 @@ export const usePetitionParameters = ({ pageSize }: UsePetitionParametersOptions
     return {
       filter_by: 'type:=[petition]',
       per_page: pageSize,
+      // sort_by: 'signatures:desc',
     }
   }, [pageSize])
 
@@ -53,8 +54,8 @@ export const usePetitions = ({ pageSize, displayErrors }: UsePetitionsProps = {}
     parameters,
     skip: isLoadingParameters,
     onError: (error) => {
-      errorHandler(error, 'Error retrieving recommendations', {
-        location: 'usePetitions.useTypesensePaginationQuery',
+      errorHandler(error, 'Error retrieving petitions', {
+        location: 'usePetitions.usePetitions',
       })
     },
   })

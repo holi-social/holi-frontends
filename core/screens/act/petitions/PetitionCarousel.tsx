@@ -35,6 +35,7 @@ const PetitionCarousel = ({ cardWidth }: PetitionCarouselProps) => {
         subline={t('act.petitions.subline')}
         seeAllPath="/petitions"
         seeMoreTrackingEvent={TrackingEvent.Petitions.seeAll}
+        headerTitleSeeMoreTrackingEvent={TrackingEvent.Petitions.seeAll}
       />
     </>
   )
