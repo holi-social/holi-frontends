@@ -4,7 +4,7 @@ import { dirname } from 'node:path'
 import type { StorybookConfig } from '@storybook/react-webpack5'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 // eslint-disable-next-line no-restricted-imports
-import { stories } from '../stories'
+import { stories } from '../stories.ts'
 
 const require = createRequire(import.meta.url)
 
