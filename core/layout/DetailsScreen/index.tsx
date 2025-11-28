@@ -23,6 +23,7 @@ import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Spacing } from 'holi-bricks/foundations'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
+import { getImageDimensions } from '@holi/core/layout/DetailsScreen/helpers'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -130,10 +131,7 @@ export const DetailsScreen = ({
 
   const _seoDescription = seoDescription || (bodyContent && !Array.isArray(bodyContent) ? bodyContent!.content : '')
 
-  // Use full width to avoid blurriness - default to 750 for SSR when width is 0
-  const imageWidth = Platform.OS === 'web' ? Math.min(width || 750, 750) : width
-  // Maintain 16:9 aspect ratio
-  const imageHeight = Math.round(imageWidth / 1.77)
+  const { imageWidth, imageHeight } = getImageDimensions(width, Platform.OS === 'web')
 
   return (
     <>
