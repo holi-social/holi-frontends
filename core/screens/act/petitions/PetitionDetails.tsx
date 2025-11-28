@@ -39,7 +39,10 @@ export const PetitionDetails = () => {
 
   const infoList: DetailsScreenInfoList[] = [
     { title: `${t('act.petitions.createdBy', { initiatorNames: petition?.initiators })}`, icon: UserLine },
-    { title: `${t('act.petitions.towards', { targetNames: petition?.targets?.join(', ') })}`, icon: Focus2Line },
+    {
+      title: `${t('act.petitions.towards', { targetNames: petition?.targets?.join(', '), interpolation: { escapeValue: false } })}`,
+      icon: Focus2Line,
+    },
     {
       title: `${t('act.petitions.signatureCount', { signatureCount: petition?.signatures?.toLocaleString('de-DE') })}`,
       icon: PencilFilled,
@@ -105,7 +108,7 @@ export const PetitionDetails = () => {
                   if (loginState.isLoggedIn) onPetitionStatusChange(PetitionStatusValue.Planned)
                   Linking.openURL(`https://innn.it/${petition.slug}`)
                 }}
-                trackingEvent={TrackingEvent.PetitionDetails.findMore}
+                trackingEvent={TrackingEvent.PetitionDetails.signOnPartnerPagePressed}
               />
             </Stack>
           </Stack>

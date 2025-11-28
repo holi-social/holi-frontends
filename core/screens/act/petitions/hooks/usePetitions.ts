@@ -53,8 +53,8 @@ export const usePetitions = ({ pageSize, displayErrors }: UsePetitionsProps = {}
     parameters,
     skip: isLoadingParameters,
     onError: (error) => {
-      errorHandler(error, 'Error retrieving recommendations', {
-        location: 'usePetitions.useTypesensePaginationQuery',
+      errorHandler(error, 'Error retrieving petitions', {
+        location: 'usePetitions.usePetitions',
       })
     },
   })

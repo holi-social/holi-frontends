@@ -80,7 +80,8 @@ const HoliModalSelect = <IDType extends string>({
   const { colors } = theme
   const { styles } = useStyles(stylesheet)
 
-  const selectedOption = options.find(({ id }) => id === selected)
+  const selectedOption = options.find(({ id, selected: optionIsSelected }) => id === selected || optionIsSelected)
+  const selectedId = selectedOption?.id ?? selected
 
   const hoverPropsForWeb = Platform.select({
     web: {
@@ -100,7 +101,7 @@ const HoliModalSelect = <IDType extends string>({
   const renderOption = useCallback(
     (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
-        contentStyle={styles.optionCardContent(option.id === selected, isDense)}
+        contentStyle={styles.optionCardContent(option.id === selectedId, isDense)}
         label={option.title}
         key={option.id}
         transparent
@@ -129,15 +130,15 @@ const HoliModalSelect = <IDType extends string>({
         </View>
         <HoliCheckbox
           shape="round"
-          checked={option.id === selected}
+          checked={option.id === selectedId}
           autofocus={false}
           disabled={option.disabled}
-          testID={`${option.id === selected ? 'checked-' : ''}${testID}`}
+          testID={`${option.id === selectedId ? 'checked-' : ''}${testID}`}
           aria-label={option.title}
         />
       </HoliButton>
     ),
-    [colors.foreground10, colors.foreground30, handleOnChange, isDense, selected, styles, testID]
+    [colors.foreground10, colors.foreground30, handleOnChange, isDense, selectedId, styles, testID]
   )
 
   return (
