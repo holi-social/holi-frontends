@@ -142,11 +142,39 @@ const comments = {
       en: 'Especially in current times, we all need to do a bit more for democracy! 💪🏼',
     },
   ],
+  // test task from staging
   'ad5d2490-97fb-4ac2-93e6-9affb4bc5971': [
-    // test task from staging
     {
-      de: 'Ich habe einfach mal ausprobiert und jetzt bin ich voll dabei! 🌱',
-      en: "I just tried it and now I'm totally into it! 🌱",
+      de: 'Gerade in der aktuellen Zeit müssen wir alle ein bisschen mehr für die Demokratie tun! 💪🏼',
+      en: 'Especially in current times, we all need to do a bit more for democracy! 💪🏼',
+    },
+    {
+      de: 'Politik war nie mein Ding, aber das Quiz hat Spaß gemacht.',
+      en: 'Politics was never my thing, but the quiz was fun.',
+    },
+    {
+      de: 'Kleiner Reality-Check, wie viel man wirklich weiß 🧐',
+      en: 'Little reality check on how much you really know 🧐',
+    },
+    {
+      de: 'Ganz ehrlich: Hab mehr geraten als gewusst… 🙈',
+      en: 'Honestly: I guessed more than I knew... 🙈',
+    },
+    {
+      de: 'Fünf Minuten Zeit und bisschen klüger als vorher 👍',
+      en: 'Five minutes of time and a bit smarter than before 👍',
+    },
+    {
+      de: 'Hab das Profi-Quiz genommen – Ergebnis peinlich, aber Erfahrung top 😅',
+      en: 'Took the pro quiz – result embarrassing, but experience great 😅',
+    },
+    {
+      de: 'Hab 10 von 10 richtig! 🥳 Und du?',
+      en: 'Got 10 out of 10 right! 🥳 And you?',
+    },
+    {
+      de: 'Puh, das versetzt mich zurück in die 11. Klasse, Politik Unterricht bei Frau Schneider 😄',
+      en: 'Phew, that takes me back to 11th grade, politics class with Mrs. Schneider 😄',
     },
     {
       de: 'Ich finde das Quiz sollte jeder mal gemacht haben, so wichtig! 🙌🏼',

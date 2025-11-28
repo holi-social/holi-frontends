@@ -207,7 +207,7 @@ const TaskDetails = () => {
       >
         <DetailsScreen
           {...data}
-          imageOverlay={taskComments.length > 0 && <TaskCommentsSpinner comments={taskComments} maxComments={3} />}
+          imageOverlay={taskComments.length > 0 && <TaskCommentsSpinner comments={taskComments} />}
           _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
           progressCard={
