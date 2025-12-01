@@ -1,26 +1,21 @@
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'node:path'
 import type { StorybookConfig } from '@storybook/react-webpack5'
-import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+// eslint-disable-next-line no-restricted-imports
+import { stories } from '../stories.ts'
 
-export const stories = [
-  '../../components/**/*.mdx',
-  '../../patterns/**/*.mdx',
-  '../../foundations/**/*.mdx',
-  '../../components/**/*.stories.@(js|jsx|ts|tsx)',
-  '../../patterns/**/*.stories.@(js|jsx|ts|tsx)',
-  '../../foundations/**/*.stories.@(js|jsx|ts|tsx)',
-]
+const require = createRequire(import.meta.url)
 
 const config: StorybookConfig = {
   stories,
-
   addons: [
     getAbsolutePath('@storybook/addon-links'),
-    getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-react-native-web'),
     getAbsolutePath('@storybook/addon-webpack5-compiler-babel'),
-    getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-a11y'),
+    getAbsolutePath('@storybook/addon-docs'),
   ],
 
   framework: {
@@ -46,6 +41,7 @@ const config: StorybookConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         console: false,
+        tty: require.resolve('tty-browserify'),
       }
     }
 
@@ -69,8 +65,8 @@ const config: StorybookConfig = {
   docs: {},
 }
 
-function getAbsolutePath(value: string): string {
-  return dirname(require.resolve(join(value, 'package.json')))
+function getAbsolutePath(value: string) {
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
 }
 
 export default config
