@@ -1,9 +1,9 @@
 import type React from 'react'
-import { type SyntheticEvent, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
-import { BorderRadius, breakpoints, IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
+import { BorderRadius, breakpoints, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -95,6 +95,7 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.bg.support,
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'relative',
     variants: {
       hovered: {
         true: {
@@ -116,7 +117,7 @@ const stylesheet = createStyleSheet((theme) => ({
       focused: {
         true: {
           outlineWidth: BorderWidth.sm,
-          outlineColor: theme.colors.border.main,
+          outlineColor: theme.colors.border.purpleDefault,
           ...Platform.select({
             web: {
               outlineOffset: 4,
@@ -128,8 +129,12 @@ const stylesheet = createStyleSheet((theme) => ({
     },
   },
   radioDot: (selected: boolean) => ({
-    width: IconSize.xs,
-    height: IconSize.xs,
+    width: 10,
+    height: 10,
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -5 }, { translateY: -5 }],
     borderRadius: BorderRadius.pill,
     variants: {
       selected: {
@@ -139,7 +144,7 @@ const stylesheet = createStyleSheet((theme) => ({
       },
       hovered: {
         true: {
-          backgroundColor: selected ? theme.colors.fill.muted : theme.colors.fill.support,
+          backgroundColor: selected ? theme.colors.fill.muted : theme.colors.fill.main,
         },
       },
       disabled: {
@@ -151,8 +156,12 @@ const stylesheet = createStyleSheet((theme) => ({
         true: {
           ...Platform.select({
             web: {
-              width: IconSize.sm,
-              height: IconSize.sm,
+              width: 10,
+              height: 10,
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: [{ translateX: -5 }, { translateY: -5 }],
             },
           }),
         },
