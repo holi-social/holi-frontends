@@ -1,4 +1,4 @@
-import { AppEventsLogger, Settings } from 'react-native-fbsdk-next'
+import { AppEventsLogger, AppLink, Settings } from 'react-native-fbsdk-next'
 import { Consent, type ConsentState, TrackingPurpose, type FacebookSdkCrossPlatform } from '@holi/core/tracking/types'
 import {
   getTrackingPermissionsAsync,
@@ -10,6 +10,7 @@ import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { getLogger } from '@holi/core/helpers/logging'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import type { MetaStandardEvent } from '@holi/core/tracking/FacebookSdkCrossPlatform.web'
+import { installAttributionStore } from '@holi/core/tracking/InstallAttributionStore'
 
 export class FacebookSdkReactNative implements FacebookSdkCrossPlatform {
   private readonly logger = getLogger('FacebookSdk')
@@ -59,6 +60,7 @@ export class FacebookSdkReactNative implements FacebookSdkCrossPlatform {
     Settings.setAdvertiserIDCollectionEnabled(true)
     Settings.setAutoLogAppEventsEnabled(true)
     await Settings.setAdvertiserTrackingEnabled(true)
+    await this.trackDeferredInstallIfNeeded()
 
     if (!user) {
       return
@@ -95,6 +97,36 @@ export class FacebookSdkReactNative implements FacebookSdkCrossPlatform {
   async trackEvent(event: MetaStandardEvent, data?: Record<string, unknown>): Promise<void> {
     // no-op for mobile, we are using this on web.
     this.logger.debug('trackEvent', 'Called on mobile, not implemented', event, data)
+  }
+
+  private async trackDeferredInstallIfNeeded(): Promise<void> {
+    try {
+      const alreadyTracked = await installAttributionStore.isInstallTracked()
+      if (alreadyTracked) {
+        this.logger.debug('trackDeferredInstallIfNeeded', 'install already tracked, skipping')
+        return
+      }
+
+      this.logger.debug('trackDeferredInstallIfNeeded', 'fetching deferred app link')
+      const deferredAppLinkUrl = await AppLink.fetchDeferredAppLink()
+      const eventData: { [key: string]: string | number } = {
+        action_source: 'app',
+      }
+
+      if (deferredAppLinkUrl) {
+        eventData.campaign_url = deferredAppLinkUrl
+        this.logger.debug('trackDeferredInstallIfNeeded', 'tracking install with campaign data', {
+          url: deferredAppLinkUrl,
+        })
+      } else {
+        this.logger.debug('trackDeferredInstallIfNeeded', 'tracking organic install (no campaign data)')
+      }
+      AppEventsLogger.logEvent('fb_mobile_activate_app', eventData)
+      await installAttributionStore.markInstallAsTracked()
+      this.logger.debug('trackDeferredInstallIfNeeded', 'successfully tracked install')
+    } catch (error) {
+      this.logger.debug('trackDeferredInstallIfNeeded', 'error tracking install', error)
+    }
   }
 }
 
