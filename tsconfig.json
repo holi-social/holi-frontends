@@ -14,7 +14,7 @@
       "ESNext"
     ],
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "noEmit": true,
     "paths": {
       "@holi-apps/challenges/*": [
