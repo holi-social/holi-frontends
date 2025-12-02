@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
-import { BorderRadius, breakpoints, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
+import { BorderRadius, breakpoints, layoutStyle, Spacing, type LayoutProps } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -23,7 +23,7 @@ export const RadioButton = ({ label, selected = false, disabled = false, onPress
   const { styles } = useStyles(stylesheet, { selected, hovered, disabled, focused, active })
   const { width } = useWindowDimensions()
   const leftAligned = width > breakpoints.lg
-  const textColor = disabled ? 'muted' : selected || hovered ? 'main' : 'support'
+  const textColor = disabled ? 'muted' : 'main'
   const handlePress = useCallback(
     (event: React.SyntheticEvent | GestureResponderEvent) => {
       setActive(true)
@@ -88,8 +88,8 @@ const stylesheet = createStyleSheet((theme) => ({
   radio: {
     color: theme.colors.bg.support,
     borderColor: theme.colors.border.support,
-    width: 24,
-    height: 24,
+    width: Spacing.md,
+    height: Spacing.md,
     borderRadius: BorderRadius.pill,
     borderWidth: BorderWidth.sm,
     backgroundColor: theme.colors.bg.support,
@@ -120,7 +120,7 @@ const stylesheet = createStyleSheet((theme) => ({
           outlineColor: theme.colors.border.purpleDefault,
           ...Platform.select({
             web: {
-              outlineOffset: 4,
+              outlineOffset: Spacing['4xs'],
               outlineStyle: 'solid',
             },
           }),

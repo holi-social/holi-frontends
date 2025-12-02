@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Easing, Platform, Pressable, useWindowDimensions, View, type GestureResponderEvent } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import { Text } from 'holi-bricks/components/text'
-import { BorderRadius, breakpoints, IconSize, layoutStyle, type LayoutProps } from 'holi-bricks/foundations'
+import { BorderRadius, breakpoints, IconSize, layoutStyle, Spacing, type LayoutProps } from 'holi-bricks/foundations'
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import { createStyleSheet, useStyles } from 'holi-bricks/styles'
@@ -25,7 +25,7 @@ export const Switch = ({ label, selected = false, disabled = false, onPress, ...
   const { styles } = useStyles(stylesheet, { selected, hovered, disabled, focused })
   const { width } = useWindowDimensions()
   const leftAligned = width > breakpoints.lg
-  const textColor = disabled ? 'muted' : selected || hovered ? 'main' : 'support'
+  const textColor = disabled ? 'muted' : 'main'
   const translateX = useRef(new Animated.Value(selected ? 24 : 0)).current
 
   const handlePress = useCallback(
@@ -108,12 +108,11 @@ const stylesheet = createStyleSheet((theme) => ({
   switch: {
     color: theme.colors.bg.support,
     borderColor: theme.colors.border.support,
-    width: 48,
-    height: 24,
+    width: Spacing.xxl,
+    height: Spacing.md,
     borderRadius: BorderRadius.xl,
     borderWidth: BorderWidth.sm,
     backgroundColor: theme.colors.bg.main,
-    // alignItems: 'flex-start',
     justifyContent: 'center',
     variants: {
       hovered: {
@@ -125,7 +124,6 @@ const stylesheet = createStyleSheet((theme) => ({
         true: {
           backgroundColor: theme.colors.bg.selected,
           borderColor: theme.colors.border.main,
-          // alignItems: 'flex-end',
         },
       },
       disabled: {
@@ -140,7 +138,7 @@ const stylesheet = createStyleSheet((theme) => ({
           outlineColor: theme.colors.border.purpleDefault,
           ...Platform.select({
             web: {
-              outlineOffset: 4,
+              outlineOffset: Spacing['4xs'],
               outlineStyle: 'solid',
             },
           }),
@@ -158,17 +156,6 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.bg.support,
     alignItems: 'center',
     justifyContent: 'center',
-    // boxshadow: '0 3px 0 0 rgba(38, 36, 36, 0.12)',
-    // position: 'relative',
-    shadowColor: 'rgba(38, 36, 36, 0.12)',
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 0,
-    shadowOpacity: 1, // use full opacity because the RGBA already carries alpha
-    elevation: 3,
-    ...Platform.select({
-      web: {
-        boxShadow: '0 3px 0 0 rgba(38, 36, 36, 0.12)',
-      },
-    }),
+    ...theme.shadows[300],
   },
 }))
