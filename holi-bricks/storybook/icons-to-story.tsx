@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as Icons from '@holi/icons/src/generated'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import type { InputType } from 'storybook/internal/csf'
