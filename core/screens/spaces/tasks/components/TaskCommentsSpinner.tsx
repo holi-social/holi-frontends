@@ -51,7 +51,7 @@ export const TaskCommentsSpinner: React.FC<TaskCommentsSpinnerProps> = ({ commen
   const scrollViewRef = useRef<ScrollView>(null)
 
   const [currentIndex, setCurrentIndex] = useState(-1)
-  const [containerHeight, setContainerHeight] = useState(0)
+  const [containerHeight, setContainerHeight] = useState(999)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const getOffset = (index: number) => {
