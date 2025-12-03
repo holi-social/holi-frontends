@@ -155,7 +155,9 @@ export const DetailsScreen = ({
               resizeMode="cover"
               stretch={Platform.OS === 'web'}
             />
-            {imageOverlay && <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>{imageOverlay}</View>}
+            {imageOverlay && (
+              <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>{imageOverlay}</View>
+            )}
           </View>
           {date && (
             <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>
