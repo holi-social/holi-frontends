@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { View, StyleSheet, Platform, useWindowDimensions } from 'react-native'
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  cancelAnimation,
-  type SharedValue,
-} from 'react-native-reanimated'
+import type React from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
+import { View, StyleSheet, Platform, useWindowDimensions, type ViewProps, ScrollView } from 'react-native'
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { Spacing } from 'holi-bricks/foundations'
 import GradientBackground from '@holi/core/components/GradientBackground'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -20,24 +15,20 @@ interface TaskCommentsSpinnerProps {
 interface CommentItemProps {
   comment: string
   index: number
-  currentIndexAnimated: SharedValue<number>
+  currentIndex: number
   styles: ReturnType<typeof createStyles>
+  onLayout: ViewProps['onLayout']
 }
 
-const CommentItem: React.FC<CommentItemProps> = ({ comment, index, currentIndexAnimated, styles }) => {
+const CommentItem: React.FC<CommentItemProps> = ({ comment, index, currentIndex, styles, onLayout }) => {
   const animatedTextStyle = useAnimatedStyle(() => {
-    const diff = currentIndexAnimated.value - index
+    const diff = currentIndex - index
     let opacity = 0.3
 
     if (diff === 0) {
       opacity = 1
-    } else if (diff === 1) {
-      opacity = 0.3
     } else if (diff > 1) {
       opacity = 0.1
-    } else {
-      // For items after currentIndex (diff < 0), use default opacity
-      opacity = 0.3
     }
 
     return {
@@ -46,7 +37,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, index, currentIndexA
   })
 
   return (
-    <View style={styles.commentContainer}>
+    <View style={styles.commentContainer} onLayout={onLayout}>
       <View style={styles.commentBubble}>
         <Animated.View style={animatedTextStyle}>
           <HoliIcon icon={GoodDeedsIcon} size={16} />
@@ -60,34 +51,33 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, index, currentIndexA
 }
 
 export const TaskCommentsSpinner: React.FC<TaskCommentsSpinnerProps> = ({ comments }) => {
-  const displayComments = comments
   const { width } = useWindowDimensions()
+  const scrollPositions = useRef<number[]>([])
+  const scrollViewRef = useRef<ScrollView>(null)
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setCurrentIndex] = useState(0)
-  const translateY = useSharedValue(0)
-  const currentIndexAnimated = useSharedValue(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const { imageHeight: containerHeight } = getImageDimensions(width, Platform.OS === 'web')
-  const COMMENT_HEIGHT = 50 // approximate fixed height for the comment bubble
-  const commentsHeight =
-    Platform.OS === 'web' ? containerHeight + COMMENT_HEIGHT / 2 : COMMENT_HEIGHT * (displayComments.length - 1)
 
-  const styles = useMemo(() => createStyles(commentsHeight, containerHeight), [commentsHeight, containerHeight])
+  const styles = useMemo(() => createStyles(containerHeight), [containerHeight])
+
+  const getOffset = (index: number) => {
+    const offset = scrollPositions.current.slice(0, index).reduce((prev, curr) => {
+      return prev + curr
+    }, 0)
+    return offset
+  }
 
   useEffect(() => {
-    if (displayComments.length <= 1) return
+    if (comments.length <= 1) return
 
-    // Start with first comment visible (translateY = 0)
-    translateY.value = 0
-    currentIndexAnimated.value = 0
     setCurrentIndex(0)
 
     // Set up interval to scroll every 5 seconds
     intervalRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) => {
         // Stop if we're at the second-to-last comment (animate through n-1 comments)
-        if (prevIndex >= displayComments.length - 2) {
+        if (prevIndex >= comments.length - 1) {
           if (intervalRef.current) {
             clearInterval(intervalRef.current)
             intervalRef.current = null
@@ -97,9 +87,6 @@ export const TaskCommentsSpinner: React.FC<TaskCommentsSpinnerProps> = ({ commen
 
         // Scroll up to show next comment
         const nextIndex = prevIndex + 1
-        const scrollAmount = -COMMENT_HEIGHT * nextIndex
-        translateY.value = withTiming(scrollAmount, { duration: 500 })
-        currentIndexAnimated.value = nextIndex
         return nextIndex
       })
     }, 5000)
@@ -108,53 +95,48 @@ export const TaskCommentsSpinner: React.FC<TaskCommentsSpinnerProps> = ({ commen
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
       }
-      cancelAnimation(translateY)
     }
-  }, [displayComments.length, translateY, currentIndexAnimated])
+  }, [comments.length])
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: translateY.value }],
-    }
-  })
+  useEffect(() => {
+    scrollViewRef.current?.scrollTo({
+      y: getOffset(currentIndex + 1),
+      animated: true,
+    })
+  }, [currentIndex])
 
-  if (displayComments.length === 0) return null
+  if (comments.length === 0) return null
 
   return (
     <View style={[styles.container, { height: containerHeight }]}>
       <View style={styles.gradient}>
         <GradientBackground colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.6)']} />
       </View>
-      <View style={[styles.absoluteContainer]}>
-        <Animated.View style={[styles.animatedContainer, animatedStyle]}>
-          {displayComments.map((comment, index) => (
-            <CommentItem
-              key={`${comment}-${index}`}
-              comment={comment}
-              index={index}
-              currentIndexAnimated={currentIndexAnimated}
-              styles={styles}
-            />
-          ))}
-        </Animated.View>
-      </View>
+      <ScrollView ref={scrollViewRef} scrollEnabled={false}>
+        <View style={[{ height: containerHeight }]} />
+        {comments.map((comment, index) => (
+          <CommentItem
+            key={`${comment}-${index}`}
+            comment={comment}
+            index={index}
+            currentIndex={currentIndex}
+            styles={styles}
+            onLayout={(e) => (scrollPositions.current[index] = e.nativeEvent.layout.height)}
+          />
+        ))}
+        <View style={[{ height: containerHeight * 2 }]} />
+      </ScrollView>
     </View>
   )
 }
 
-const createStyles = (commentsHeight: number, containerHeight: number) =>
+const createStyles = (containerHeight: number) =>
   StyleSheet.create({
     container: {
       justifyContent: 'flex-end',
       minHeight: 120,
       overflow: 'hidden',
       position: 'relative',
-    },
-    absoluteContainer: {
-      position: 'absolute',
-      bottom: -commentsHeight,
-      left: 0,
-      right: 0,
     },
     animatedContainer: {
       justifyContent: 'flex-end',
