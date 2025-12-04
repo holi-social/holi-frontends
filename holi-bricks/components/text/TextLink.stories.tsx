@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { action } from 'storybook/actions'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Stack } from 'holi-bricks/components/stack'
