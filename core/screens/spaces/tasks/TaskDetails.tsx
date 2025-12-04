@@ -75,6 +75,8 @@ const TaskDetails = () => {
   const { adminUsers } = useSpaceAdminUsers(spaceName)
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const [taskSelfReportingFlow] = useFeatureFlag(FeatureFlagKey.TASK_SELF_REPORTING_FLOW)
+  const [shoutoutsTestGroup] = useFeatureFlag(FeatureFlagKey.TASK_SHOUTOUTS)
+
   const chatRoomContent = {
     taskName: data?.title,
     taskId: id || '',
@@ -207,7 +209,9 @@ const TaskDetails = () => {
       >
         <DetailsScreen
           {...data}
-          imageOverlay={taskComments.length > 0 && <TaskCommentsSpinner comments={taskComments} />}
+          imageOverlay={
+            shoutoutsTestGroup === 'test' && taskComments.length > 0 && <TaskCommentsSpinner comments={taskComments} />
+          }
           _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
           progressCard={
