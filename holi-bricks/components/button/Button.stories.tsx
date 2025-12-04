@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useArgs } from 'storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from 'holi-bricks/components/button'
