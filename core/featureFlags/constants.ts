@@ -21,4 +21,5 @@ export enum FeatureFlagKey {
   GOOD_DEEDS_INTRO_PHASE_1__USER_TRACKED_FIRST_GOOD_DEED = 'good-deeds-intro_phase_1--user-tracked-first-good-deed', // boolean
   APPCUES_BANNER = 'appcues-banner', // boolean
   TASK_SELF_REPORTING_FLOW = 'self-reporting-flow-for-tasks', // boolean
+  TASK_SHOUTOUTS = 'task-shoutouts', // multivariate ('control', 'test')
 }

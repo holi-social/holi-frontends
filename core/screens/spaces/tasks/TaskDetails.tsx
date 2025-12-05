@@ -35,6 +35,8 @@ import { DoItLater, DoItLaterModal } from '@holi/core/screens/spaces/tasks/DoItL
 import { BookmarkLine } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import comments from '@holi/core/screens/spaces/tasks/utils/tasksComments'
+import { TaskCommentsSpinner } from '@holi/core/screens/spaces/tasks/components/TaskCommentsSpinner'
 
 const isIos = Platform.OS === 'ios'
 
@@ -58,14 +60,23 @@ const TaskDetails = () => {
     totalCompletions,
     isGoodDeed,
   } = useTaskDetailsData()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { displayError } = useErrorHandling()
   const { props: doItLaterModalProps, show: showDoItLater } = useModalState()
+
+  // Get comments for current task in the proper language
+  const currentLanguage = i18n.language as 'en' | 'de'
+  const taskComments =
+    id && comments[id as keyof typeof comments]
+      ? comments[id as keyof typeof comments].map((comment: { de: string; en: string }) => comment[currentLanguage])
+      : []
   const loginState = useLoginState()
   const { isLoggedIn } = useLoggedInUser()
   const { adminUsers } = useSpaceAdminUsers(spaceName)
   const [rewardsPhaseTwoEnabled] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_2)
   const [taskSelfReportingFlow] = useFeatureFlag(FeatureFlagKey.TASK_SELF_REPORTING_FLOW)
+  const [shoutoutsTestGroup] = useFeatureFlag(FeatureFlagKey.TASK_SHOUTOUTS)
+
   const chatRoomContent = {
     taskName: data?.title,
     taskId: id || '',
@@ -198,6 +209,9 @@ const TaskDetails = () => {
       >
         <DetailsScreen
           {...data}
+          imageOverlay={
+            shoutoutsTestGroup === 'test' && taskComments.length > 0 && <TaskCommentsSpinner comments={taskComments} />
+          }
           _footer={<VolunteeringSimilarRecos documentId={`task_${id}`} />}
           placeholderImage={id ? getPlaceholderImage(`task_${id}`) : undefined}
           progressCard={
