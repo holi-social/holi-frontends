@@ -23,6 +23,7 @@ import { getPlaceholderImage } from 'holi-bricks/components/image/helpers'
 import { Spacing } from 'holi-bricks/foundations'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
+import { getImageDimensions } from '@holi/core/layout/DetailsScreen/helpers'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -75,6 +76,7 @@ export type DetailsScreenData = {
   status?: VolunteeringOpportunityStatusValue | PetitionStatusValue | null
   location?: string
   locationType?: string
+  imageOverlay?: ReactNode
 }
 
 type DetailsScreenProps = DetailsScreenData
@@ -115,6 +117,7 @@ export const DetailsScreen = ({
   placeholderImage,
   additionalContent,
   progressCard,
+  imageOverlay,
   status,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
@@ -128,10 +131,7 @@ export const DetailsScreen = ({
 
   const _seoDescription = seoDescription || (bodyContent && !Array.isArray(bodyContent) ? bodyContent!.content : '')
 
-  // Use full width to avoid blurriness - default to 750 for SSR when width is 0
-  const imageWidth = Platform.OS === 'web' ? Math.min(width || 750, 750) : width
-  // Maintain 16:9 aspect ratio
-  const imageHeight = Math.round(imageWidth / 1.77)
+  const { imageWidth, imageHeight } = getImageDimensions(width, Platform.OS === 'web')
 
   return (
     <>
@@ -145,15 +145,20 @@ export const DetailsScreen = ({
       <Stack direction="column" flex={1} padding={{ bottom: '4xl' }}>
         {/* image */}
         <Stack>
-          <Image
-            source={!imageFailed && coverImage?.uri ? coverImage.uri : randomPlaceholderImage}
-            width={imageWidth}
-            height={imageHeight}
-            alt={t('act.events.thumbnail.label')}
-            onError={() => setImageFailed(true)}
-            resizeMode="cover"
-            stretch={Platform.OS === 'web'}
-          />
+          <View style={{ position: 'relative' }}>
+            <Image
+              source={!imageFailed && coverImage?.uri ? coverImage.uri : randomPlaceholderImage}
+              width={imageWidth}
+              height={imageHeight}
+              alt={t('act.events.thumbnail.label')}
+              onError={() => setImageFailed(true)}
+              resizeMode="cover"
+              stretch={Platform.OS === 'web'}
+            />
+            {imageOverlay && (
+              <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>{imageOverlay}</View>
+            )}
+          </View>
           {date && (
             <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>
               <CalendarIcon
