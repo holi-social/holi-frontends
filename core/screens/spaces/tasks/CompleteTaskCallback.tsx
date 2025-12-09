@@ -25,7 +25,7 @@ export type CompleteTaskCallbackParams = {
 const CompleteTaskCallback = () => {
   const { theme } = useTheme()
   const styles = getStyles(theme)
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn, isLoggedOut } = useLoginState()
   const { navigate } = useRouting()
   const { id, spaceId } = useTaskDetailsData()
   const [completeTask] = useCompleteReadyToGoTaskMutation()
@@ -59,13 +59,17 @@ const CompleteTaskCallback = () => {
   }, [id, spaceId, completeTask, navigate, isLoggedIn, refetchRewardsCounter, refetchGlobalRewardsCounter])
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      // go back to the complete task screen with the authentication flow
-      navigate(`/spaces/${spaceId}/tasks/${id}/complete`)
-    } else if (id) {
+    if (isLoggedIn) {
       handleCompleteTask()
     }
-  }, [isLoggedIn, spaceId, id, navigate, handleCompleteTask])
+  }, [isLoggedIn, handleCompleteTask])
+
+  useEffect(() => {
+    if (isLoggedOut && spaceId && id) {
+      // Somehow arrived here and we're not signed in :/ Go back to the complete task screen with the authentication flow
+      navigate(`/spaces/${spaceId}/tasks/${id}/complete`)
+    }
+  }, [isLoggedOut, navigate, spaceId, id])
 
   return (
     <Screen
