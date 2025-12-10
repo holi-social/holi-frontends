@@ -48,6 +48,7 @@ fragment FullTypesenseDocument on Typesense_Document {
   tag
   targets
   title
+  featuredImage
 }
 
 query typesense_documentById($id: String!, $documentType: String!) {

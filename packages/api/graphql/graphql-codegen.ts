@@ -2217,6 +2217,7 @@ export type Typesense_Document = {
   donation_open_amount_in_cents?: Maybe<Scalars['Int']['output']>
   donation_progress_percentage?: Maybe<Scalars['Int']['output']>
   external_url?: Maybe<Scalars['String']['output']>
+  featuredImage?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   image_url?: Maybe<Scalars['String']['output']>
   initiators?: Maybe<Array<Maybe<Scalars['String']['output']>>>
@@ -5095,6 +5096,7 @@ export type FullTypesenseDocumentFragment = {
   tag?: string
   targets?: Array<string>
   title?: string
+  featuredImage?: string
   link_locators?: {
     __typename?: 'Typesense_DocumentLinkLocators'
     volunteering?: string
@@ -5163,6 +5165,7 @@ export type Typesense_DocumentByIdQuery = {
             tag?: string
             targets?: Array<string>
             title?: string
+            featuredImage?: string
             link_locators?: {
               __typename?: 'Typesense_DocumentLinkLocators'
               volunteering?: string
@@ -5237,6 +5240,7 @@ export type Typesense_MultiSearchQuery = {
               tag?: string
               targets?: Array<string>
               title?: string
+              featuredImage?: string
               link_locators?: {
                 __typename?: 'Typesense_DocumentLinkLocators'
                 volunteering?: string
@@ -5862,6 +5866,7 @@ export const FullTypesenseDocumentFragmentDoc = gql`
   tag
   targets
   title
+  featuredImage
 }
     `
 export const FullEventFragmentDoc = gql`

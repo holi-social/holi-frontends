@@ -18,6 +18,7 @@ export type Petition = {
   targets: string[]
   title: string
   id: string
+  featuredImage: string
 }
 
 export interface PetitionProps {
@@ -43,7 +44,6 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus 
   if (!petition) {
     return null
   }
-
   return (
     <HoliLinkTracked
       trackingEvent={TrackingEvent.Petitions.pressed(petition.id)}
@@ -52,6 +52,7 @@ const PetitionCard = ({ petition, maxCardWidth: cardWidth, showCommitmentStatus 
       isFullHeight
     >
       <CompactCard
+        imageSrc={`https://innnit-public.s3.eu-central-1.amazonaws.com/${petition.featuredImage}_xl.webp`}
         title={petition.title}
         subtitle={petition.tag}
         maxWidth={cardWidth}
