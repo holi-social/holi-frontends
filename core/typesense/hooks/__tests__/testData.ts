@@ -49,6 +49,7 @@ export const createDocument = (id: string): Typesense_Document => ({
   initiators: [],
   petitionSuccessful: false,
   signatures: 0,
+  featuredImage: '',
   slug: '',
   tag: '',
   targets: [],
