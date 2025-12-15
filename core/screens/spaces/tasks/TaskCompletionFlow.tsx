@@ -132,15 +132,12 @@ const TaskCompletionFlow = () => {
 
   // When the component is mounted, we initialize a new use login flow:
   useIsomorphicLayoutEffect(() => {
-    initializeFlow()
-  }, [initializeFlow])
-
-  useEffect(() => {
     if (spaceId && id) {
       setPathToRedirect(`/spaces/${spaceId}/tasks/${id}/callback`)
       setRedirectAfterSocialLogin(`/spaces/${spaceId}/tasks/${id}/callback`)
+      initializeFlow()
     }
-  }, [spaceId, id])
+  }, [initializeFlow, spaceId, id])
 
   useEffect(() => {
     if (flow?.state === 'sent_email') {
