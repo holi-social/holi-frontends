@@ -36,7 +36,7 @@ it('should display truncated and full text from children', async () => {
   render(<NotificationContentText testID={containerTestId}>{fullText}</NotificationContentText>)
 
   const el = screen.queryByTestId(containerTestId)
-  fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
+  if (el) fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
 
   const textView = screen.queryByTestId(notificationContentTextTestId)
   const [text] = textView?.children ?? ''

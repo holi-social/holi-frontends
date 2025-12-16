@@ -40,7 +40,7 @@ it('should display truncated and full text from children', async () => {
   )
 
   const el = screen.queryByTestId(containerTestId)
-  fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
+  if (el) fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
 
   const readMoreBtn = await screen.findByText('component.readMore.readMore')
   expect(readMoreBtn).toBeTruthy()
@@ -54,7 +54,7 @@ it('should display truncated and full text from children', async () => {
 
   fireEvent.press(readMoreBtn)
   const readLessBtn = await screen.findByText('component.readMore.readLess')
-  fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
+  if (el) fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
   expect(readLessBtn).toBeTruthy()
 
   const textViewFull = screen.queryByTestId(textViewTestId)

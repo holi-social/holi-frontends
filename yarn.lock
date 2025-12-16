@@ -5450,6 +5450,7 @@ __metadata:
     "@holi/icons": "npm:^1.0.0"
     "@react-native-community/datetimepicker": "npm:8.5.1"
     "@storybook/react": "npm:^7.6.10"
+    "@types/react-test-renderer": "npm:^19"
     "@types/tinycolor2": "npm:1.4.6"
     eslint: "npm:^8.33.0"
     eslint-plugin-react: "npm:^7.32.2"
@@ -8462,25 +8463,6 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: 10c0/4e6478a3dfc8862f93dd47790d1357082966c59bc6624f58a2281f3de4e7dfd57a4655e16f6c0310e46924eac654558b88fb726187c19ed3fc47c67235a1ae07
-  languageName: node
-  linkType: hard
-
-"@react-native-community/datetimepicker@npm:8.5.0":
-  version: 8.5.0
-  resolution: "@react-native-community/datetimepicker@npm:8.5.0"
-  dependencies:
-    invariant: "npm:^2.2.4"
-  peerDependencies:
-    expo: ">=52.0.0"
-    react: "*"
-    react-native: "*"
-    react-native-windows: "*"
-  peerDependenciesMeta:
-    expo:
-      optional: true
-    react-native-windows:
-      optional: true
-  checksum: 10c0/bff2032d1335ed20f342efa90b4d25a659e141ef9a99749c8bc53a6839f7f3f62a2fd0a3a12b6ff66b45d478ff78b2da8cde687406ead5d20813c89e4be9cd7c
   languageName: node
   linkType: hard
 
@@ -12159,6 +12141,15 @@ __metadata:
   version: 1.8.2
   resolution: "@types/react-native-get-random-values@npm:1.8.2"
   checksum: 10c0/66c0268151d0673bff88828d82d4087aeabbe29a8ffe433f50e2593cd04872fc890f0d2660203435d13412b10d866d24a3ab72981cf481e5676ccf88de12c235
+  languageName: node
+  linkType: hard
+
+"@types/react-test-renderer@npm:^19":
+  version: 19.1.0
+  resolution: "@types/react-test-renderer@npm:19.1.0"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/799654e430df10aeaf267d71507fb64ec151359ead7e3774111bfd4abce7e0911dba461811195c06c22a6d17496ea92537d3185320ff4112fe29954cad1b9152
   languageName: node
   linkType: hard
 
@@ -20528,7 +20519,7 @@ __metadata:
     "@holi/icons": "npm:*"
     "@holi/ui": "npm:*"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
-    "@react-native-community/datetimepicker": "npm:8.5.0"
+    "@react-native-community/datetimepicker": "npm:8.5.1"
     "@react-native-community/slider": "npm:5.1.1"
     "@storybook/addon-a11y": "npm:10.0.8"
     "@storybook/addon-docs": "npm:10.0.8"

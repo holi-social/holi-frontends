@@ -169,11 +169,11 @@ describe('VolunteeringDetailsScreen', () => {
     renderComponent()
     await act(jest.runAllTimersAsync)
 
-    expect(screen.getAllByRole('img').at(0).props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 848))
+    expect(screen.getAllByRole('img').at(0)?.props.source).toBe(imageProxyPrefixed(document.image_url!, 1500, 848))
     expect(screen.getByText(document.title_en!)).toBeVisible()
     expect(screen.getByText(document.description_en!)).toBeVisible()
     expect(screen.getByText(document.organizer_name!)).toBeVisible()
-    expect(screen.getAllByRole('img').at(1).props.source).toBe(imageProxyPrefixed(document.organizer_image_url!))
+    expect(screen.getAllByRole('img').at(1)?.props.source).toBe(imageProxyPrefixed(document.organizer_image_url!))
     expect(screen.getByText(document.location!)).toBeVisible()
     document.topics_v2?.forEach((topic) => expect(screen.getByText(`topic.${topic}`)).toBeVisible())
     document.skills_v2?.forEach((skill) => expect(screen.getByText(`skill.${skill}`)).toBeVisible())
