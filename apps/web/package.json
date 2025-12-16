@@ -39,7 +39,7 @@
     "react-multi-carousel": "^2.8.5",
     "react-native-gesture-handler": "~2.29.0",
     "react-native-media-query": "^2.0.1",
-    "react-native-reanimated": "~4.2.0",
+    "react-native-reanimated": "~4.1.6",
     "react-native-svg-web": "^1.0.9",
     "react-native-web": "^0.21.2",
     "react-transition-group": "^4.4.5",
