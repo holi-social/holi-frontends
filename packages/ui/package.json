@@ -46,7 +46,7 @@
     "react-native": "0.83.0",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-controlled-mentions": "^2.2.5",
-    "react-native-reanimated": "~4.1.1",
+    "react-native-reanimated": "~4.2.0",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-svg": "15.15.0",
