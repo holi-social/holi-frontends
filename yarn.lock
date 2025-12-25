@@ -5316,7 +5316,7 @@ __metadata:
     react-native-screens: "npm:~4.18.0"
     react-native-svg: "npm:15.15.0"
     react-native-swiper: "npm:^1.6.0"
-    react-native-unistyles: "npm:^2.11.0"
+    react-native-unistyles: "npm:^2.43.0"
     react-native-webview: "npm:13.16.0"
     react-native-worklets: "npm:0.6.1"
     react-spring: "npm:^9.7.4"
@@ -5359,7 +5359,7 @@ __metadata:
     raf: "npm:^3.4.1"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
-    react-native-unistyles: "npm:^2.11.0"
+    react-native-unistyles: "npm:^2.43.0"
     react-native-web: "npm:^0.21.2"
     sass: "npm:^1.56.2"
     sass-loader: "npm:^14.0.0"
@@ -20476,7 +20476,7 @@ __metadata:
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:~5.6.0"
     react-native-svg: "npm:15.15.0"
-    react-native-unistyles: "npm:^2.11.0"
+    react-native-unistyles: "npm:^2.43.0"
     react-native-web: "npm:^0.21.2"
     storybook: "npm:10.0.8"
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
@@ -27473,9 +27473,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-unistyles@npm:^2.11.0":
-  version: 2.32.0
-  resolution: "react-native-unistyles@npm:2.32.0"
+"react-native-unistyles@npm:^2.43.0":
+  version: 2.43.0
+  resolution: "react-native-unistyles@npm:2.43.0"
   peerDependencies:
     "@react-native/normalize-colors": "*"
     react: "*"
@@ -27490,7 +27490,7 @@ __metadata:
       optional: true
     react-native-windows:
       optional: true
-  checksum: 10c0/01d27e42fdaa08ff382ec8e77f11e8a08c1b43141fd3f69e7a94c14efc19475b72d37270993640e16d92ac0ad672ba2c4135872b927119971d4b4d80352f66dd
+  checksum: 10c0/4ca908993749ab780ff1df483f85c8711643e76d772fbbbad40c60ad5dde0facbd185ed14fd1aab6c624dedaf7d1e87e89caba0aadeafa409330916810b78658
   languageName: node
   linkType: hard
 
