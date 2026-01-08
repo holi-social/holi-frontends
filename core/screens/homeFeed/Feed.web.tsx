@@ -35,8 +35,6 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { Stack } from 'holi-bricks/components/stack'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
-import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useStyles } from 'holi-bricks/styles'
 
 const FeedListItem = memo(
@@ -108,11 +106,6 @@ const HomeFeed = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
-  const { data: globalGoodDeeds, refetch: refetchGlobalCounter } = useGlobalRewardsCounterQuery({
-    skip: !showGoodDeeds,
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  })
   const { theme: bricksTheme } = useStyles()
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
@@ -207,25 +200,6 @@ const HomeFeed = () => {
     }
   }, [getFeedStats])
 
-  // Refetch global counter when page becomes visible or flag toggles
-  useEffect(() => {
-    if (!showGoodDeeds) return
-
-    const handleVisibility = () => {
-      if (document.visibilityState === 'visible') {
-        refetchGlobalCounter()
-      }
-    }
-
-    document.addEventListener('visibilitychange', handleVisibility)
-    // Also do an immediate refetch on mount/flag enable for freshness
-    refetchGlobalCounter()
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [showGoodDeeds, refetchGlobalCounter])
-
   const updateLastViewedIndex = (index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }
@@ -237,14 +211,6 @@ const HomeFeed = () => {
           <HoliContainer>
             <HoliTransition.FadeDown visible>
               <HomeFeedHeader />
-
-              {showGoodDeeds && (
-                <GoodDeedsBanner
-                  counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
-                  variant="action"
-                  hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
-                />
-              )}
             </HoliTransition.FadeDown>
 
             <ErrorBoundary>
