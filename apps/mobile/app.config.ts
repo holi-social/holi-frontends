@@ -228,6 +228,7 @@ const config: ExpoConfig = {
           targetSdkVersion: 35,
           buildToolsVersion: '35.0.0',
           enableMinifyInReleaseBuilds: true,
+          extraProguardRules: '-keep class com.unistyles.** { *; }\n-keepclassmembers class com.unistyles.** { *; }',
         },
         ios: {
           deploymentTarget: '16.0',
