@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router'
-import posthog, { type BootstrapConfig, CaptureResult, PostHog } from 'posthog-js'
+'use client'
+import posthog, { type BootstrapConfig, CaptureResult } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
-import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
+import React, { type PropsWithChildren, useEffect } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
-import { isSSR } from '@holi/core/helpers/isSSR'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { ConsentState } from '@holi/core/tracking/types'
@@ -31,53 +30,29 @@ const withConsentProperties = (cr: CaptureResult | null) => {
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
-  const client = useMemo(() => {
-    // Create new instances for SSR, re-use global one on the client side
-    const client = isSSR ? new PostHog() : posthog
-    client.init(posthogKey, {
-      api_host: POSTHOG_API_HOST,
-      ui_host: posthogHost,
-      persistence: 'localStorage',
-      disable_compression: isDevEnv,
-      opt_out_capturing_by_default: true,
-      loaded: (posthog) => {
-        // Suppressing logging during SSR as some browser API (localStorage, navigator) is missing and leads to error logs
-        if (debugOutput && !isSSR) {
-          posthog.debug()
-        }
-      },
-      before_send: (cr) => withConsentProperties(cr),
-      bootstrap: {
-        ...featureFlagBootstrapValues,
-        ...bootstrapState,
-      },
-    })
-
-    return client
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      posthog.init(posthogKey, {
+        api_host: POSTHOG_API_HOST,
+        ui_host: posthogHost,
+        persistence: 'localStorage',
+        disable_compression: isDevEnv,
+        opt_out_capturing_by_default: true,
+        loaded: (posthog) => {
+          if (debugOutput) {
+            posthog.debug()
+          }
+        },
+        before_send: (cr) => withConsentProperties(cr),
+        bootstrap: {
+          ...featureFlagBootstrapValues,
+          ...bootstrapState,
+        },
+      })
+    }
   }, [bootstrapState])
 
-  return (
-    <PostHogProvider client={client}>
-      {isSSR ? null : <RouteChangeHandler />}
-      {children}
-    </PostHogProvider>
-  )
-}
-
-const RouteChangeHandler = () => {
-  const router = useRouter()
-
-  useEffect(() => {
-    // Track page views
-    const handleRouteChange = () => posthog.capture('$pageview')
-    router.events.on('routeChangeComplete', handleRouteChange)
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-  }, [router.events])
-
-  return null
+  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
 
 export default PosthogProvider
