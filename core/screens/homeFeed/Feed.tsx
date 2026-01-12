@@ -34,8 +34,6 @@ import { Stack } from 'holi-bricks/components/stack'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
 import { useNotificationsInit } from '@holi/mobile/notifications/useNotificationsInit'
 import * as Appcues from '@appcues/react-native'
-import { GoodDeedsBanner } from '@holi/core/screens/userprofile/components/GoodDeedsBanner'
-import { useGlobalRewardsCounterQuery } from '@holi/api/graphql/graphql-codegen'
 import { useStyles } from 'holi-bricks/styles'
 import { useScrollToTop } from '@react-navigation/native'
 
@@ -51,11 +49,6 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
-
-  const { data: globalGoodDeeds } = useGlobalRewardsCounterQuery({
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
-  })
 
   const { refreshControlProps } = useRefreshContext()
 
@@ -122,16 +115,10 @@ const HomeFeed = () => {
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
           <HomeFeedHeader />
-
-          <GoodDeedsBanner
-            counter={globalGoodDeeds?.rewards_globalCounter.counter ?? 0}
-            variant="action"
-            hashtag={{ position: 'top', backgroundColor: 'pinkDefault' }}
-          />
         </View>
       </HoliTransition.FadeDown>
     ),
-    [globalGoodDeeds?.rewards_globalCounter.counter]
+    []
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<CombinedFeedItem> = (item) => {
