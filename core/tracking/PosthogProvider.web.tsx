@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import posthog, { type BootstrapConfig, CaptureResult, PostHog } from 'posthog-js'
+import posthog, { type BootstrapConfig, PostHog, type Properties as PosthogProperties } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
 
@@ -21,13 +21,11 @@ interface PosthogProviderProps {
   bootstrapState: BootstrapConfig
 }
 
-const withConsentProperties = (cr: CaptureResult | null) => {
-  if (!cr) return cr
-  cr.properties = {
-    ...cr.properties,
+const withConsentProperties = (properties: PosthogProperties) => {
+  return {
+    ...properties,
     ...ConsentState.toEventProperties(getConsentState()),
   }
-  return cr
 }
 
 const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
@@ -46,7 +44,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
           posthog.debug()
         }
       },
-      before_send: (cr) => withConsentProperties(cr),
+      sanitize_properties: (properties) => withConsentProperties(withConsentProperties(properties)),
       bootstrap: {
         ...featureFlagBootstrapValues,
         ...bootstrapState,
