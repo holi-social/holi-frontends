@@ -1,8 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { getLogger } from '@holi/core/helpers/logging'
+
+const logger = getLogger('health')
 
 const handler = (_req: NextApiRequest, res: NextApiResponse) => {
   const uptime = process.uptime()
   const maxUptime = parseInt(process.env.NEXT_PUBLIC_MAX_UPTIME_SEC)
+  logger.debug('HEALTH', `HEALTH - Uptime: ${uptime}; Max: ${maxUptime}`)
   if (!isNaN(maxUptime) && uptime > maxUptime) {
     return res.status(500).json({ ok: false })
   }
