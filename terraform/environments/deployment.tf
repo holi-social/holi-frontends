@@ -97,6 +97,10 @@ resource "google_cloud_run_service" "mvp_web" {
             }
           }
         }
+        env {
+          name  = "NEXT_PUBLIC_MAX_UPTIME_SEC"
+          value = local.environment == "production" ? "86400" : "none"
+        }
 
         resources {
           limits = {
