@@ -7,7 +7,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 const LOGIN_REDIRECT_TIMEOUT = 2000
 
-// Only used on android
+// Required on Android: openAuthSessionAsync often returns dismiss/null when
+// the app is reopened via deep link, so we need this screen to call
+// maybeCompleteAuthSession() and complete the OIDC flow. On iOS the promise
+// in doBrowserLogin usually resolves and this screen is not needed.
 export const LoginCallback = () => {
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
