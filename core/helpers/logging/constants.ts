@@ -12,6 +12,7 @@ export const DEBUG_LOG_COMPONENTS = {
   Tracking: false,
   Other: false,
   RandomizationState: false,
+  RootProvider: true,
 }
 
 export const IS_IN_TESTING_ENV = process.env.JEST_WORKER_ID !== undefined
