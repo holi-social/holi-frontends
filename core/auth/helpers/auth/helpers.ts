@@ -104,7 +104,6 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
       throw new Error('Can not sign in with google: Play services not available')
     }
     const response = await GoogleSignin.signIn()
-    console.debug('DEBUG', 'doGoogleLogin', 'GoogleSignin response', response)
 
     if (response.type === 'success') {
       const idToken = response.data.idToken
@@ -181,7 +180,6 @@ export const retrieveSubmitFlowBody = async <
   switch (supportedProvider) {
     case AccountType.Google:
       partialBody = await doGoogleLogin()
-      console.debug('DEBUG', 'retrieveSubmitFlowBody', 'partialBody', partialBody)
       break
     case AccountType.Apple:
       partialBody = await doAppleLogin()
@@ -214,15 +212,12 @@ export const submitRegistrationFlow = async (
   payload: UpdateRegistrationFlowBody,
   provider?: string
 ): AxiosPromise<SuccessfulNativeRegistration> => {
-  console.debug('DEBUG', 'submitRegistrationFlow', 'payload', payload, 'provider', provider)
   const updateRegistrationFlowBody = await retrieveSubmitFlowBody(payload, provider)
-  console.debug('DEBUG', 'submitRegistrationFlow', 'updateRegistrationFlowBody', updateRegistrationFlowBody)
   logger.debug('retrieveSubmitFlowBody', 'registration flow body', updateRegistrationFlowBody)
   const response = await newKratosSdk()
     .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody }, { withCredentials: false })
     .catch(handleKratosSdkError('updateRegistrationFlow'))
 
-  console.debug('DEBUG', 'submitRegistrationFlow', 'response', response)
   if (!response.data.session_token) {
     throw new HoliOryRegistrationConfigError()
   }

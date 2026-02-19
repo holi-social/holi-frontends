@@ -1,7 +1,7 @@
 import type { ApolloClient } from '@apollo/client'
 import { ApolloProvider } from '@apollo/client/react'
 import { withProfiler } from '@sentry/react'
-import React, { useEffect, type PropsWithChildren } from 'react'
+import React, { type PropsWithChildren } from 'react'
 import { Platform } from 'react-native'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
@@ -25,7 +25,6 @@ import { GoodDeedsIntroModal } from '@holi/core/screens/onboarding/components/Go
 import { EarnedBadgesGlobalModal } from '@holi-apps/volunteering/components/VolunteeringProgressCard/EarnedBadgesGlobalModal'
 import FeatureFlagGuard from '@holi/core/featureFlags/components/FeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { usePathname } from 'expo-router'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -40,12 +39,6 @@ interface RootProviderProps {
 const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWithChildren<RootProviderProps>) => {
   const isWeb = Platform.OS === 'web'
   const isMobile = !isWeb
-
-  const pathname = usePathname()
-
-  useEffect(() => {
-    console.debug('RootProvider', 'useEffect', 'pathname', pathname)
-  }, [pathname])
 
   return (
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
