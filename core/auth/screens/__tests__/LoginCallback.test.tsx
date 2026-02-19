@@ -4,7 +4,7 @@ import { screen, waitFor } from '@testing-library/react-native'
 import { renderRouter } from 'expo-router/testing-library'
 
 import * as WebBrowser from 'expo-web-browser'
-import { Text } from 'react-native'
+import { Platform, Text } from 'react-native'
 
 const mockMaybeCompleteAuthSession = jest.mocked(WebBrowser.maybeCompleteAuthSession)
 jest.mock('expo-web-browser', () => ({
@@ -36,6 +36,7 @@ describe('LoginCallback', () => {
   })
 
   it('should complete browser auth session', () => {
+    Platform.OS = 'web'
     renderRouter({ index: () => <LoginCallback /> })
 
     expect(mockMaybeCompleteAuthSession).toHaveBeenCalledWith({
@@ -44,6 +45,7 @@ describe('LoginCallback', () => {
   })
 
   it('should display error and navigate to login eventually if completing the auth session failed', async () => {
+    Platform.OS = 'web'
     const response: WebBrowser.WebBrowserCompleteAuthSessionResult = { type: 'failed', message: 'some message' }
     mockMaybeCompleteAuthSession.mockReturnValue(response)
 
