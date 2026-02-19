@@ -14,7 +14,11 @@ import { getSocialLoginProviderId } from '@holi/core/screens/auth/form/helpers/g
 
 interface UseSocialRegistrationFormProps {
   flow?: RegistrationFlow
-  performRegistration: (payload: UpdateRegistrationFlowBody, method: TrackingEvent.AuthMethod) => Promise<void>
+  performRegistration: (
+    payload: UpdateRegistrationFlowBody,
+    method: TrackingEvent.AuthMethod,
+    provider?: string
+  ) => Promise<void>
 }
 
 export const useSocialRegistrationForm = ({
@@ -44,7 +48,7 @@ export const useSocialRegistrationForm = ({
           screen: 'mainRegistration',
         })
       )
-      await performRegistration(payload as UpdateRegistrationFlowBody, method)
+      await performRegistration(payload as UpdateRegistrationFlowBody, method, provider)
     },
     [appleProviderId, googleProviderId, csrfTokenNode.value, performRegistration, flow, track]
   )
