@@ -26,9 +26,6 @@ import { EarnedBadgesGlobalModal } from '@holi-apps/volunteering/components/Volu
 import FeatureFlagGuard from '@holi/core/featureFlags/components/FeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { usePathname } from 'expo-router'
-import { getLogger } from '@holi/core/helpers/logging'
-
-const logger = getLogger('RootProvider')
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -47,7 +44,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
   const pathname = usePathname()
 
   useEffect(() => {
-    logger.debug('useEffect', 'pathname', pathname)
+    console.debug('RootProvider', 'useEffect', 'pathname', pathname)
   }, [pathname])
 
   return (
