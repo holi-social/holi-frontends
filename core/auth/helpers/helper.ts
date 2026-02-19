@@ -16,6 +16,7 @@ export const extractValue = (flow: LoginFlow | SettingsFlow | VerificationFlow, 
 export const handleKratosSdkError =
   (method: string) =>
   (error: GenericAxiosError): never => {
+    console.debug('DEBUG', 'handleKratosSdkError', 'method:', method, 'error:', error)
     throw handleKratosSdkErrorIgnoringCodes(method)(error)
   }
 

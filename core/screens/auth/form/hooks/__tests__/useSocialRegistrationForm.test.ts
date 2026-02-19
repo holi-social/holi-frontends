@@ -57,7 +57,8 @@ describe('useSocialRegistrationForm', () => {
           csrf_token: 'some token',
           provider: 'apple-_KPH8UUU',
         },
-        'apple'
+        'apple',
+        'Apple'
       )
     })
 
@@ -74,7 +75,8 @@ describe('useSocialRegistrationForm', () => {
           provider: 'google-SBFqZZ_v',
           upstream_parameters: { prompt: 'select_account' },
         },
-        'google'
+        'google',
+        'Google'
       )
     })
   })
