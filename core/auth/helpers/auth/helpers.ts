@@ -41,8 +41,6 @@ const logger = getLogger('Auth')
 
 const userSessionName = 'user_session'
 
-// When parsing this URL, the first section is interpreted as a host and is removed.
-// So we add a second login and have pages for /login/login/callback and /login/callback
 const NATIVE_RETURN_TO = 'holi://login/callback'
 
 export const initSocialLogin = () => {
