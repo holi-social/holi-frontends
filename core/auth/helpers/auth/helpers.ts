@@ -14,8 +14,6 @@ import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
-import * as AppleAuthentication from 'expo-apple-authentication'
-import * as ExpoCrypto from 'expo-crypto'
 import { LoginManager } from 'react-native-fbsdk-next'
 
 import { handleKratosSdkError } from '@holi/core/auth/helpers/helper'
@@ -128,42 +126,42 @@ const doGoogleLogin = async (): Promise<PartialUpdateFlowBody> => {
   }
 }
 
-const buildAppleTraits = (credential: AppleAuthentication.AppleAuthenticationCredential) => {
-  const { givenName, familyName } = credential.fullName ?? {}
-  // Default to undefined if values are null
-  return {
-    given_name: givenName || undefined,
-    family_name: familyName || undefined,
-    name: givenName && familyName ? `${givenName} ${familyName}` : givenName || familyName || undefined,
-  }
-}
-
-const doAppleLogin = async () => {
-  try {
-    const digest = await ExpoCrypto.digestStringAsync(
-      ExpoCrypto.CryptoDigestAlgorithm.SHA256,
-      ExpoCrypto.getRandomBytes(16).toString()
-    )
-    const credential = await AppleAuthentication.signInAsync({
-      requestedScopes: [
-        AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-      ],
-      nonce: digest,
-    })
-    return {
-      id_token: credential.identityToken || '',
-      id_token_nonce: digest,
-      traits: buildAppleTraits(credential),
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error?.code === 'ERR_REQUEST_CANCELED') {
-      throw new HoliLoginCancelledError('Apple Sign-In was cancelled by the user')
-    }
-    throw Error(`Apple Sign-In failed ${error}`)
-  }
-}
+// const buildAppleTraits = (credential: AppleAuthentication.AppleAuthenticationCredential) => {
+//   const { givenName, familyName } = credential.fullName ?? {}
+//   // Default to undefined if values are null
+//   return {
+//     given_name: givenName || undefined,
+//     family_name: familyName || undefined,
+//     name: givenName && familyName ? `${givenName} ${familyName}` : givenName || familyName || undefined,
+//   }
+// }
+//
+// const doAppleLogin = async () => {
+//   try {
+//     const digest = await ExpoCrypto.digestStringAsync(
+//       ExpoCrypto.CryptoDigestAlgorithm.SHA256,
+//       ExpoCrypto.getRandomBytes(16).toString()
+//     )
+//     const credential = await AppleAuthentication.signInAsync({
+//       requestedScopes: [
+//         AppleAuthentication.AppleAuthenticationScope.EMAIL,
+//         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+//       ],
+//       nonce: digest,
+//     })
+//     return {
+//       id_token: credential.identityToken || '',
+//       id_token_nonce: digest,
+//       traits: buildAppleTraits(credential),
+//     }
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   } catch (error: any) {
+//     if (error?.code === 'ERR_REQUEST_CANCELED') {
+//       throw new HoliLoginCancelledError('Apple Sign-In was cancelled by the user')
+//     }
+//     throw Error(`Apple Sign-In failed ${error}`)
+//   }
+// }
 
 export const retrieveSubmitFlowBody = async <
   T extends (UpdateLoginFlowBody & { xSessionToken?: string }) | UpdateRegistrationFlowBody,
@@ -182,8 +180,10 @@ export const retrieveSubmitFlowBody = async <
       partialBody = await doGoogleLogin()
       break
     case AccountType.Apple:
-      partialBody = await doAppleLogin()
-      break
+      return payload
+    // We deliberately do not use the Apple native ogin, because it crashes the iOS app when you sign in with a not yet registered apple account.
+    // partialBody = await doAppleLogin()
+    // break
     case AccountType.Facebook:
       // Facebook uses regular browser login, since it doesn't return an id_token from the native SDK
       // https://www.ory.sh/docs/kratos/social-signin/facebook
