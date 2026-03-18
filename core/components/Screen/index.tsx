@@ -122,6 +122,7 @@ const BottomComponentWrapper = ({
   footerHidden,
 }: BottomComponentWrapperProps) => {
   const { styles } = useStyles(stylesheet)
+  const { bottom: bottomInset } = useSafeAreaInsets()
   const { bottomDistance } = useGradualAnimation()
   const bottomBar = footerHidden ? 0 : dimensions.bottomBarHeight
   const bottomInputStyle = useAnimatedStyle(
@@ -132,7 +133,16 @@ const BottomComponentWrapper = ({
   )
 
   return (
-    <Animated.View style={[styles.stickyBottom, bottomInputStyle, styles.padding(padding)]} onLayout={onLayout}>
+    <Animated.View
+      style={[
+        styles.stickyBottom,
+        bottomInputStyle,
+        styles.padding(padding),
+        // With footer hidden (e.g. chat), sticky sits at physical screen bottom — pad for Android nav / home indicator.
+        { paddingBottom: footerHidden ? bottomInset : 0 },
+      ]}
+      onLayout={onLayout}
+    >
       {StickyBottomComponent}
     </Animated.View>
   )
