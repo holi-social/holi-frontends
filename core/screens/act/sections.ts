@@ -14,7 +14,7 @@ export const orderedSections = (selectedContentType?: string) => {
     ActSectionType.PETITIONS,
     ActSectionType.EVENTS,
     ActSectionType.DONATIONS,
-    ActSectionType.CHALLENGES,
+    // ActSectionType.CHALLENGES,
   ]
 
   if (selectedContentType) {
