@@ -1,13 +1,12 @@
 {
   "build": {
     "base": {
-      "node": "20.16.0",
       "env": {
         "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       },
       "ios": {
         "resourceClass": "m-medium",
-        "image": "macos-sequoia-15.6-xcode-26.0"
+        "image": "sdk-54"
       },
       "android": {
         "resourceClass": "large"
