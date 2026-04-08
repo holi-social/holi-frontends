@@ -60,23 +60,19 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 const cases = [
   {
     section: undefined,
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS', 'CHALLENGES'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'],
   },
   {
     section: 'SPACE',
-    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS', 'CHALLENGES'],
+    order: ['STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'],
   },
   {
     section: 'DONATIONS',
-    order: ['DONATIONS', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'CHALLENGES'],
+    order: ['DONATIONS', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS'],
   },
   {
     section: 'VOLUNTEERING',
-    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'DONATIONS', 'CHALLENGES'],
-  },
-  {
-    section: 'CHALLENGES',
-    order: ['CHALLENGES', 'STARTSMALL', 'VOLUNTEERING', 'PETITIONS', 'EVENTS', 'DONATIONS'],
+    order: ['VOLUNTEERING', 'STARTSMALL', 'PETITIONS', 'EVENTS', 'DONATIONS'],
   },
 ]
 
