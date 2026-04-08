@@ -6,7 +6,8 @@
         "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       },
       "ios": {
-        "resourceClass": "m-medium"
+        "resourceClass": "m-medium",
+        "image": "macos-sequoia-15.6-xcode-26.0"
       },
       "android": {
         "resourceClass": "large"
@@ -115,9 +116,6 @@
         "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-3ptsrg9569mtifu336sicmqf5305ajmh.apps.googleusercontent.com",
         "APPCUES_ACCOUNT_ID": "220783",
         "APPCUES_APP_ID": "b0ac2183-6ac8-4377-8147-44971a37586e"
-      },
-      "ios": {
-        "image": "macos-sonoma-14.6-xcode-16.1"
       }
     },
     "production": {
@@ -150,9 +148,6 @@
         "SOCIAL_LOGIN_GOOGLE_WEB_CLIENT_ID": "984061681268-jjgj6dt5dbmofgu50u4bc12fcrd9qbar.apps.googleusercontent.com",
         "APPCUES_ACCOUNT_ID": "220783",
         "APPCUES_APP_ID": "2ab0262f-b17c-450c-b21b-3cd8f7a052bb"
-      },
-      "ios": {
-        "image": "macos-sonoma-14.6-xcode-16.1"
       }
     },
     "production-apk": {
