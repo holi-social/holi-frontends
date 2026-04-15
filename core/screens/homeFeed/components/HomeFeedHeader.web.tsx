@@ -6,7 +6,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { Stack } from 'holi-bricks/components/stack'
 
 const HomeFeedHeader = () => {
@@ -34,8 +33,6 @@ const HomeFeedHeader = () => {
           </AnnouncementBanner>
         </>
       )}
-
-      <AttendingChallengeEvents />
     </Stack>
   )
 }
