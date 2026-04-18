@@ -9637,13 +9637,13 @@ __metadata:
   linkType: hard
 
 "@shopify/flash-list@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@shopify/flash-list@npm:2.2.0"
+  version: 2.3.1
+  resolution: "@shopify/flash-list@npm:2.3.1"
   peerDependencies:
     "@babel/runtime": "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/ce6bb2096abf1b826e716804106013955c145c0c37d3a277ce294eb0044047af1aeea410fd7c297cc1352b6029b853de5fca2503340f116ccd0281049290625e
+  checksum: 10c0/abe921b93aeb6bf35efb4cd16163ca0126eec1513a40f1b88e370eb646e8bece5daa245e889300aa7ace2a4a81a9ffbd765c1ce2c3f2346611e94cc66c97c6e3
   languageName: node
   linkType: hard
 
