@@ -63,7 +63,7 @@
     "i18n:download": "localazy download -r $LOCALAZY_API_KEY_READ -q"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.4.14",
     "@faker-js/faker": "^10.0.0",
     "@graphql-codegen/cli": "^6.0.1",
     "@graphql-codegen/typescript": "^5.0.2",
