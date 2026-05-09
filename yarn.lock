@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 9
   cacheKey: 10c0
 
 "@0no-co/graphql.web@npm:^1.0.5, @0no-co/graphql.web@npm:^1.0.8":
@@ -4005,8 +4005,8 @@ __metadata:
   linkType: hard
 
 "@gorhom/bottom-sheet@npm:^5.2.7":
-  version: 5.2.9
-  resolution: "@gorhom/bottom-sheet@npm:5.2.9"
+  version: 5.2.14
+  resolution: "@gorhom/bottom-sheet@npm:5.2.14"
   dependencies:
     "@gorhom/portal": "npm:1.0.14"
     invariant: "npm:^2.2.4"
@@ -4022,7 +4022,7 @@ __metadata:
       optional: true
     "@types/react-native":
       optional: true
-  checksum: 10c0/306a81b4d19010e1347581c3902c0b3de295545bc523eb9350a26c1743a9fb09c689ec5d2ceb56827e9f984e856e08f1d9fc6eb36b2cd6aeaaaceb56ca33d84b
+  checksum: 10c0/744c718aaa4e66989043378932ea31d8ff510cff289b5561115530ff49218af080d28dbe409191b33ab7d87b1cfab4e7c16cfb0015cf2b6917b26c61f033bc05
   languageName: node
   linkType: hard
 
