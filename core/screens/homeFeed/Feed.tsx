@@ -24,7 +24,6 @@ import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
-import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
@@ -52,7 +51,7 @@ const HomeFeed = () => {
 
   const { refreshControlProps } = useRefreshContext()
 
-  const { initialLoading, canLoadMore, combinedFeedData, fetchMore, insightsCreators } = useFeedQuery()
+  const { initialLoading, canLoadMore, combinedFeedData, fetchMore } = useFeedQuery()
 
   const { track } = useTracking()
   const navigation = useNavigation()
@@ -62,7 +61,6 @@ const HomeFeed = () => {
     return (
       item.feedPost?.id ||
       item.spacePost?.id ||
-      item.insight?.id ||
       item.goodNewsArticle?.id ||
       item.volunteeringReco?.id ||
       index.toString()
@@ -81,13 +79,12 @@ const HomeFeed = () => {
         <>
           {item.feedPost && <GenericPostCard post={item.feedPost} />}
           {item.spacePost && <GenericPostCard post={item.spacePost} />}
-          {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
           {item.volunteeringReco && <VolunteeringCard engagement={item.volunteeringReco} index={index} />}
         </>
       )
     },
-    [insightsCreators]
+    []
   )
 
   const renderFooter = useCallback(
@@ -133,8 +130,6 @@ const HomeFeed = () => {
       })
     } else if (item.spacePost) {
       return TrackingEvent.SpacePosts.read(item.spacePost.id, item.spacePost.title)
-    } else if (item.insight) {
-      return TrackingEvent.InsightCard.CardViewed(item.insight.id, item.insight.title)
     } else if (item.volunteeringReco) {
       return TrackingEvent.RecommendationViewed(
         item.volunteeringReco.type === 'task' ? 'space_task' : 'volunteering_opportunity',
@@ -160,7 +155,6 @@ const HomeFeed = () => {
     return (
       item.feedPost?.id ||
       item.spacePost?.id ||
-      item.insight?.id ||
       item.goodNewsArticle?.id ||
       item.volunteeringReco?.id ||
       Math.random().toString()

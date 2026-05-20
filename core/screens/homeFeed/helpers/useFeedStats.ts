@@ -15,7 +15,7 @@ export const useFeedStats = (
       (acc, item) => ({
         feedPosts: acc.feedPosts + (item.feedPost ? 1 : 0),
         spacePosts: acc.spacePosts + (item.spacePost ? 1 : 0),
-        insights: acc.insights + (item.insight ? 1 : 0),
+        insights: acc.insights + 0,
         goodNews: acc.goodNews + (item.goodNewsArticle ? 1 : 0),
         volunteering: acc.volunteering + (item.volunteeringReco ? 1 : 0),
         total: acc.total + 1,

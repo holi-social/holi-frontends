@@ -27,10 +27,8 @@ import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
-import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
-import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import { Stack } from 'holi-bricks/components/stack'
 import { GoodDeedsChip } from '@holi/core/screens/homeFeed/components/GoodDeedsChip'
@@ -42,14 +40,12 @@ const FeedListItem = memo(
     item,
     index,
     columnIndex,
-    insightsCreators,
     onItemView,
     loadMoreRef,
   }: {
     item: CombinedFeedItem & { loader?: boolean }
     index: number
     columnIndex: number
-    insightsCreators: User[]
     onItemView: (index: number) => void
     loadMoreRef?: ((node?: Element | null | undefined) => void) | undefined
   }) => {
@@ -64,20 +60,9 @@ const FeedListItem = memo(
 
     return (
       <div ref={ref}>
-        <View
-          key={
-            item.feedPost?.id ||
-            item.goodNewsArticle?.id ||
-            item.volunteeringReco?.id ||
-            item.insight?.id ||
-            `${index}-${columnIndex}`
-          }
-        >
+        <View key={item.feedPost?.id || item.goodNewsArticle?.id || item.volunteeringReco?.id}>
           {item.feedPost && <GenericPostCard key={item.feedPost.id} post={item.feedPost} />}
           {item.spacePost && <GenericPostCard key={item.spacePost.id} post={item.spacePost} />}
-          {item.insight && insightsCreators && (
-            <InsightCard key={item.insight.id} insight={item.insight} creators={insightsCreators} />
-          )}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />}
           {item.volunteeringReco && (
             <VolunteeringCard key={item.volunteeringReco?.id} engagement={item.volunteeringReco} index={index} />
@@ -108,7 +93,7 @@ const HomeFeed = () => {
   const [showGoodDeeds] = useFeatureFlag(FeatureFlagKey.REWARDS_PHASE_1)
   const { theme: bricksTheme } = useStyles()
 
-  const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
+  const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
   const { track } = useTracking()
 
@@ -230,7 +215,6 @@ const HomeFeed = () => {
                               item={item}
                               index={numberOfColumns === 1 ? index : index * numberOfColumns + columnIndex}
                               columnIndex={columnIndex}
-                              insightsCreators={insightsCreators}
                               onItemView={updateLastViewedIndex}
                               loadMoreRef={item.loader ? (columnIndex === 0 ? loadMoreRef1 : loadMoreRef2) : undefined}
                             />
