@@ -167,8 +167,7 @@ const HomeFeed = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
-      headerBackVisible: true,
-      headerTransparent: false,
+      headerBackVisible: false,
       headerTitle: () => null,
       headerTintColor: bricksTheme.colors.fill.main,
       headerLeft: ({ tintColor }) => (
