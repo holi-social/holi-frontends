@@ -5,9 +5,6 @@ import { feedQuery, type FeedResponse } from '@holi/core/screens/homeFeed/querie
 import { goodNewsArticlesQuery, type GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
 import { logError } from '@holi/core/errors/helpers'
 import type { CombinedFeedItem, FeedItem } from '@holi/core/screens/homeFeed/types'
-import { feedInsightsQuery, type FeedInsightsResponse } from '@holi/core/screens/insights/queries'
-import type { InsightPreview } from '@holi/core/screens/insights/types'
-import type { User } from '@holi/core/domain/shared/types'
 import { useRandomizedVolunteeringRecos } from '@holi-apps/volunteering/hooks/useRandomizedVolunteeringRecos'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
@@ -44,27 +41,11 @@ export const useFeedQuery = () => {
       })
     }
   }, [goodNewsError])
-
-  const {
-    data: dataInsights,
-    loading: loadingInsights,
-    refetch: refetchInsights,
-  } = useQuery<FeedInsightsResponse>(feedInsightsQuery, {
-    variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
-  })
-
-  const insightsCreators = useMemo(() => {
-    const creators = dataInsights?.feedInsights?.data
-      .map((insight: InsightPreview) => insight.creator)
-      .filter((creator?: User) => !!creator)
-    return creators ?? []
-  }, [dataInsights?.feedInsights?.data])
-
   useEffect(() => {
-    if (!loading && !loadingInsights) {
+    if (!loading) {
       setInitialLoading(false)
     }
-  }, [loading, loadingInsights])
+  }, [loading])
 
   // Get randomized engagements
   const randomizedEngagements = useRandomizedVolunteeringRecos({ pageSize: PAGE_SIZE_EXTERNAL_DATA })
@@ -72,7 +53,6 @@ export const useFeedQuery = () => {
   const combinedFeedData = useMemo<CombinedFeedItem[]>(() => {
     const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
-    const insights = dataInsights?.feedInsights?.data || []
 
     // Pre-calculate total length to avoid array resizing
     const totalExternalItems = Math.floor(feedData.length / POST_FREQUENCY) * 3
@@ -88,12 +68,6 @@ export const useFeedQuery = () => {
       // Insert external content every POST_FREQUENCY items
       if ((i + 1) % POST_FREQUENCY === 0) {
         const externalIndex = Math.floor(i / POST_FREQUENCY)
-
-        // Insert insight
-        if (insights[externalIndex]) {
-          result[resultIndex] = { insight: insights[externalIndex] }
-          resultIndex++
-        }
 
         // Insert good news
         if (articles[externalIndex]) {
@@ -113,12 +87,7 @@ export const useFeedQuery = () => {
 
     // Remove any null entries and return
     return result.filter(Boolean)
-  }, [
-    data?.feed?.data,
-    dataInsights?.feedInsights?.data,
-    dataGoodNews?.appGoodNews_articles?.articles,
-    randomizedEngagements,
-  ])
+  }, [data?.feed?.data, dataGoodNews?.appGoodNews_articles?.articles, randomizedEngagements])
 
   const handleFetchMore = useCallback(async () => {
     if (isLoadingMore) return
@@ -159,7 +128,6 @@ export const useFeedQuery = () => {
 
   useOnRefresh(refetch)
   useOnRefresh(refetchGoodNews)
-  useOnRefresh(refetchInsights)
 
   return {
     initialLoading,
@@ -167,6 +135,5 @@ export const useFeedQuery = () => {
     canLoadMore,
     combinedFeedData,
     fetchMore: handleFetchMore,
-    insightsCreators,
   }
 }
