@@ -81,7 +81,7 @@
     "babel-preset-expo": "~54.0.6",
     "eslint": "^8.33.0",
     "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-native": "^5.0.0",
     "graphql-codegen-typescript-react-apollo-4": "^1.0.2",
     "graphql-tag": "^2.12.6",
@@ -103,7 +103,7 @@
     "react-native-web": "^0.21.2"
   },
   "resolutions": {
-    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "mime-db": "1.54.0",
     "expo-dev-menu": "7.0.16",
