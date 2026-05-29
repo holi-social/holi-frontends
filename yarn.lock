@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 10
   cacheKey: 10c0
 
 "@0no-co/graphql.web@npm:^1.0.5, @0no-co/graphql.web@npm:^1.0.8":
@@ -5544,7 +5544,7 @@ __metadata:
     react-native-web: "npm:^0.21.2"
     react-transition-group: "npm:^4.4.5"
     react-zoom-pan-pinch: "npm:^2.1.3"
-    swiper: "npm:^11.1.0"
+    swiper: "npm:^12.0.0"
     typescript: "npm:~5.9.2"
     xss: "npm:^1.0.14"
   languageName: unknown
@@ -30335,10 +30335,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:^11.1.0":
-  version: 11.1.14
-  resolution: "swiper@npm:11.1.14"
-  checksum: 10c0/a1075cbd2254aedd22b411ea03cbd7a91ba1cc79d7c2dc41f215e987811e449a2915a26b39fdfc1d7c08250fa2cfbe51d28476f834e75033c73ea357a4ac9f8d
+"swiper@npm:^12.0.0":
+  version: 12.2.0
+  resolution: "swiper@npm:12.2.0"
+  checksum: 10c0/459c9621e170130c0a6874b05e24fefd0411529600a17b2d8afc4987dc2e803ab18d42983081b723423819d464568fdb541b6c3f517e558c60888c644dc4ead1
   languageName: node
   linkType: hard
 
