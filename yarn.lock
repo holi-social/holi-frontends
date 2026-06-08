@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 10
   cacheKey: 10c0
 
 "@0no-co/graphql.web@npm:^1.0.5, @0no-co/graphql.web@npm:^1.0.8":
@@ -43,8 +43,8 @@ __metadata:
   linkType: hard
 
 "@apollo/client@npm:^4.0.0, @apollo/client@npm:^4.0.7":
-  version: 4.1.7
-  resolution: "@apollo/client@npm:4.1.7"
+  version: 4.2.2
+  resolution: "@apollo/client@npm:4.2.2"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.1.1"
     "@wry/caches": "npm:^1.0.0"
@@ -69,7 +69,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 10c0/bf5b4e47abb7c24ffa31d18fb20f660fea3f48dee7030e7f35bbc28543c1ec3f3292f835ed12747c56cb9e4615c777db05fd9cd8fd82468622624259a37de99d
+  checksum: 10c0/2b894f83602979649d7fd9cd3ff7bf084d78218cf5c8ab58689f6ee0658d5806cb3b4b79e2f0ae40d6d050e7d469db466619e0ea2b1055468ff9d43fa5358e09
   languageName: node
   linkType: hard
 
